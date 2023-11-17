@@ -14,9 +14,22 @@ class plantifeedcontroller extends Controller
         return response()->json($plantifeeds);
     }
 
-    public function store(Request $request)
+    public function create(Request $request)
     {
-        $plantifeed = Plantifeed::create($request->all());
+        $data = $request->validate([
+            'post_title'  => 'required|string|max:55',
+            'body'  => 'required|string|max:55',
+            'image' => 'required|string|max:55',
+            'createdby' => 'required|string|max:55',
+        ]);
+        $plantifeed = Plantifeed::create([
+            'post_title'  => $data['post_title'],
+            'body'  => $data['body'],
+            'image' => $data['image'],
+            'createdby' => $data['createdby'],
+            'status' => 1
+        ]);
+
         return response()->json($plantifeed, 201);
     }
 
@@ -33,10 +46,22 @@ class plantifeedcontroller extends Controller
         return response()->json($plantifeed, 200);
     }
 
-    public function destroy($id)
+    public function archive(Request $request, $id)
     {
+
         $plantifeed = Plantifeed::findOrFail($id);
-        $plantifeed->update($request->status("0"));
-        return response()->json(null, 204);
+
+        $data = $request->validate([
+            'post_title'  => 'required|string|max:55',
+            'body'  => 'required|string|max:55',
+            'image' => 'required|string|max:55',
+            'createdby' => 'required|string|max:55',
+            
+        ]);
+        $plantifeed->update([
+            'status' => 0
+        ]);
+
+        return response()->json($plantifeed, 202);
     }
 }

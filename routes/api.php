@@ -18,7 +18,7 @@ Route::post('/signup', [AuthController::class, "signup"]);
 Route::post('login', [AuthController::class, "login"]);
 
 
-Route::post('/store', [plantifeedcontroller::class, "store"]);
+Route::post('/create', [plantifeedcontroller::class, "create"]);
 Route::post('/update/{id}', [plantifeedcontroller::class, "update"]);
-Route::post('/destroy/{id}', [plantifeedcontroller::class, "destroy"]);
+Route::post('/archive/{id}', [plantifeedcontroller::class, "archive"]);
 

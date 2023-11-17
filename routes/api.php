@@ -3,7 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\farmcontroller;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -26,9 +26,3 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::post('/signup', [AuthController::class, "signup"]);
 Route::post('login', [AuthController::class, "login"]);
-
-Route::get('/index', [farmcontroller::class, "index"]);
-Route::post('/index', [farmcontroller::class, "create"]);
-Route::put('/index/{id}', [farmcontroller::class, "update"]);
-Route::patch('/index/{id}', [farmcontroller::class, "update"]);
-Route::delete('/index/{id}', [farmcontroller::class, "delete"]);

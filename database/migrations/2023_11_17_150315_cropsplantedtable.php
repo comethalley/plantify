@@ -13,17 +13,19 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('farmmodels', function (Blueprint $table) {
+        Schema::create('cropsplanteds', function (Blueprint $table) {
             $table->id();
-            $table->string('farm_name');
-            $table->string('area');
-            $table->string('address');
-            $table->string('createdBy');
-            $table->string('status');
+            $table->string("farm_id");
+            $table->string("crops");
+            $table->string("area");
+            $table->date("date_planted");
+            $table->date("target_harvest");
+            $table->date("harvest_date");
+            $table->string("farm_status_id");
+            $table->string("status");
             $table->timestamps();
         });
     }
-
 
     /**
      * Reverse the migrations.
@@ -32,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('farmmodels');
+        Schema::dropIfExists('cropsplanted');
     }
 };

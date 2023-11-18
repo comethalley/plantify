@@ -31,3 +31,5 @@ Route::post('login', [AuthController::class, "login"]);
 Route::post('/create-crops', [CropsInfoController::class, "create"]);
 Route::post('/create-events', [eventcontroller::class, "create"]);
 Route::post('/update-events/{id}', [eventcontroller::class, "update"]);
+Route::post('/update-crops/{id}', [CropsInfoController::class, "update"]);
+Route::post('/archive-crops/{id}', [CropsInfoController::class, "archive"]);

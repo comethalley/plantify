@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Api\plantifeedcontroller;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,3 +16,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::post('/create', [plantifeedcontroller::class, "create"]);
+Route::get('/index', [plantifeedcontroller::class, "index"]);
+Route::get('/show/{id}',[plantifeedcontroller::class, "show"]);
+Route::post('/update/{id}', [plantifeedcontroller::class, "update"]);

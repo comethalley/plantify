@@ -1,6 +1,13 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+<<<<<<< Updated upstream
+=======
+use App\Http\Controllers\CropsInfoController;
+use App\Http\Controllers\eventcontroller;
+use App\Http\Controllers\Api\plantifeedcontroller;
+use App\Http\Controllers\Api\ChatController;
+>>>>>>> Stashed changes
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,3 +33,23 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::post('/signup', [AuthController::class, "signup"]);
 Route::post('login', [AuthController::class, "login"]);
+<<<<<<< Updated upstream
+=======
+Route::post('/create-crops', [CropsInfoController::class, "create"]);
+Route::post('/create-events', [eventcontroller::class, "create"]);
+Route::post('/update-events/{id}', [eventcontroller::class, "update"]);
+Route::post('/update-crops/{id}', [CropsInfoController::class, "update"]);
+Route::post('/archive-crops/{id}', [CropsInfoController::class, "archive"]);
+
+Route::post('/view-crops', [cropsplantedcontroller::class, "index"]);
+Route::post('/create-crops', [cropsplantedcontroller::class, "create"]);
+Route::post('/update-crops/{id}', [cropsplantedcontroller::class, "update"]);
+Route::post('/archive-crops/{id}', [cropsplantedcontroller::class, "archive"]);
+
+Route::post('/create', [plantifeedcontroller::class, "create"]);
+Route::post('/update/{id}', [plantifeedcontroller::class, "update"]);
+Route::post('/archive/{id}', [plantifeedcontroller::class, "archive"]);
+
+Route::get('/index', [ChatController::class, "index"]);
+Route::post('/chat', [ChatController::class, "send"]);
+>>>>>>> Stashed changes

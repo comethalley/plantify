@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\plantifeedcontroller;
 /*
@@ -13,11 +14,10 @@ use App\Http\Controllers\Api\plantifeedcontroller;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('email.email');
+// });
 
-Route::post('/create', [plantifeedcontroller::class, "create"]);
-Route::get('/index', [plantifeedcontroller::class, "index"]);
-Route::get('/show/{id}',[plantifeedcontroller::class, "show"]);
-Route::post('/update/{id}', [plantifeedcontroller::class, "update"]);
+Route::get('/', [AuthController::class, 'test']);
+
+// Route::get('/sendmail', [AuthController::class, 'emailInvitation']);

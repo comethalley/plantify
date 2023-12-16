@@ -3,36 +3,110 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Mail\MailInvitation;
 use App\Models\User;
 use App\Models\PlantifeedModel;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rules\Password;
 
 
 class AuthController extends Controller
 {
+
+    public function index()
+    {
+        $users = DB::table('users')->where('status', 1)->select(
+            "id",
+            "email",
+            'firstname',
+            "lastname",
+        )->get();
+        return response()->json($users);
+    }
+
+    public function farmLeaders()
+    {
+        $farmLeaders = DB::table('users')
+            ->where('status', 1)
+            ->where('role_id', 3)
+            ->select(
+                "id",
+                'firstname',
+                "lastname",
+            )
+            ->get();
+        return response()->json($farmLeaders);
+    }
     public function signup(Request $request)
     {
         $data = $request->validate([
-            'name'  => 'required|string|max:55',
+            'firstname'  => 'required|string|max:55',
+            'lastname'  => 'required|string|max:55',
             'email' => 'required|email|unique:users,email',
-            'password' => [
-                'required',
-                'confirmed',
-                Password::min(8)
-                    ->letters()
-                    ->symbols()
-            ]
-        ]);
-        $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
+            'role_id' => 'required|integer|digits:1'
         ]);
 
+        $generate_password = $this->generate_password(10);
+
+        $email = $data['email'];
+        $firstname = $data['firstname'];
+        $this->emailInvitation($email, $firstname, $generate_password);
+
+        $user = User::create([
+            'firstname' => $data['firstname'],
+            'lastname' => $data['lastname'],
+            'email' => $data['email'],
+            'password' =>  Hash::make($generate_password),
+            'role_id' => $data['role_id'],
+            'status' => 1,
+        ]);
+
+
+
         $token = $user->createToken('main')->plainTextToken;
-        return response(compact('user', 'token'));
+        return response(compact('user', 'token', 'email'));
+    }
+
+    public function generate_password($length = 10)
+    {
+        // Define a character set for the password
+        $charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+        // Generate a random password
+        $password = "";
+        for ($i = 0; $i < $length; $i++) {
+            $randomIndex = mt_rand(0, strlen($charset) - 1);
+            $password .= $charset[$randomIndex];
+        }
+
+        return $password;
+    }
+
+    public function emailInvitation($email, $firstname, $generate_password)
+    {
+        $data = [
+            "subject" => "Plantify Invitation Mail",
+            "firstname" => $firstname,
+            "email" => $email,
+            "password" => $generate_password,
+            "body" => "Join the urban green revolution !"
+        ];
+        // return json_encode($data);
+
+        try {
+            Mail::to($email)->send(new MailInvitation($data));
+            return response()->json(['Great! Successfully sent in your mail']);
+        } catch (Exception $e) {
+            $error = Log::error($e->getMessage());
+            return response()->json($error);
+        }
+        // return $email;
     }
 
     public function login(Request $request)
@@ -61,4 +135,43 @@ class AuthController extends Controller
         return response('', 204);
     }
 
+
+
+    public function update(Request $request, $id)
+    {
+
+        $user = User::findOrFail($id);
+
+        $data = $request->validate([
+            'firstname'  => 'required|string|max:55',
+            'lastname'  => 'required|string|max:55',
+            'email' => 'required|email',
+            'role_id' => 'required|integer|digits:1'
+        ]);
+        $user->update([
+            'firstname'  => $data['firstname'],
+            'lastname'  => $data['lastname'],
+            'email' => $data['email'],
+            'role_id' => $data['role_id']
+        ]);
+
+        return response(compact('user'));
+    }
+
+    public function archive(Request $request, $id)
+    {
+
+        $user = User::findOrFail($id);
+
+        $user->update([
+            'status'  => 0
+        ]);
+
+        return response(compact('user'));
+    }
+
+    public function test()
+    {
+        return view('pages.index');
+    }
 }

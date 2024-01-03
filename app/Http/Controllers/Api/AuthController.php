@@ -21,13 +21,23 @@ class AuthController extends Controller
 
     public function index()
     {
-        $users = DB::table('users')->where('status', 1)->select(
-            "id",
-            "email",
-            'firstname',
-            "lastname",
-        )->get();
-        return response()->json($users);
+        // $users = DB::table('users')->where('status', 1)->select(
+        //     "id",
+        //     "email",
+        //     'firstname',
+        //     "lastname",
+        // )->get();
+        // return response()->json($users);
+        return view('pages.index');
+    }
+
+    public function viewLogin()
+    {
+        return view('pages.login');
+    }
+    public function viewSignup()
+    {
+        return view('pages.signup');
     }
 
     public function farmLeaders()
@@ -43,34 +53,35 @@ class AuthController extends Controller
             ->get();
         return response()->json($farmLeaders);
     }
+
     public function signup(Request $request)
     {
         $data = $request->validate([
             'firstname'  => 'required|string|max:55',
             'lastname'  => 'required|string|max:55',
             'email' => 'required|email|unique:users,email',
-            'role_id' => 'required|integer|digits:1'
+            'password' => 'required|confirmed|min:6',
+            // 'role_id' => 'required|integer|digits:1'
         ]);
 
-        $generate_password = $this->generate_password(10);
+        // $generate_password = $this->generate_password(10);
 
         $email = $data['email'];
         $firstname = $data['firstname'];
-        $this->emailInvitation($email, $firstname, $generate_password);
+        // $this->emailInvitation($email, $firstname, $generate_password);
 
         $user = User::create([
             'firstname' => $data['firstname'],
             'lastname' => $data['lastname'],
             'email' => $data['email'],
-            'password' =>  Hash::make($generate_password),
-            'role_id' => $data['role_id'],
+            'password' =>  Hash::make($data['password']),
+            'role_id' => 1,
             'status' => 1,
         ]);
 
+        auth()->login($user);
 
-
-        $token = $user->createToken('main')->plainTextToken;
-        return response(compact('user', 'token', 'email'));
+        return redirect("/");
     }
 
     public function generate_password($length = 10)
@@ -111,28 +122,37 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $credentials = $request->validate([
-            'email' => 'required|email|exists:users,email',
+        $validated = $request->validate([
+            "email" => ['required', 'email'],
             'password' => 'required'
         ]);
-        if (!Auth::attempt($credentials)) {
-            return response([
-                'message' => 'Provided email or password is incorrect'
-            ], 422);
+
+        if (auth()->attempt($validated)) {
+            $request->session()->regenerate();
+
+            return redirect('/')->with('message', 'Welcome back!');
         }
 
-        /** @var \App\Models\User $user */
-        $user = Auth::user();
-        $token = $user->createToken('main')->plainTextToken;
-        return response(compact('user', 'token'));
+        return back()->withErrors(['email' => 'Login failed'])->onlyInput('email');
+        // /** @var \App\Models\User $user */
+        // $user = Auth::user();
+        // $token = $user->createToken('main')->plainTextToken;
+        // return response(compact('user', 'token'));
     }
 
     public function logout(Request $request)
     {
-        /** @var \App\Models\User $user */
-        $user = $request->user();
-        $user->currentAccessToken()->delete();
-        return response('', 204);
+        // /** @var \App\Models\User $user */
+        // $user = $request->user();
+        // $user->currentAccessToken()->delete();
+        // return response('', 204);
+
+        auth()->logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/login');
     }
 
 

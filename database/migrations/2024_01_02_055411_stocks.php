@@ -13,16 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('cropsplanteds', function (Blueprint $table) {
+        Schema::create('stocks', function (Blueprint $table) {
             $table->id();
-            $table->string("farm_id");
-            $table->string("crops");
-            $table->string("area");
-            $table->date("date_planted");
-            $table->date("target_harvest");
-            $table->date("harvest_date");
-            $table->string("farm_status_id");
-            $table->string("status");
+            $table->integer('supplier_seeds_id');
+            $table->integer('available_seed');
+            $table->integer('used_seed');
+            $table->integer('total');
+            $table->string('status');
             $table->timestamps();
         });
     }
@@ -34,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cropsplanted');
+        //
     }
 };

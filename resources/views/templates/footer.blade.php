@@ -9,7 +9,7 @@
             </div>
             <div class="col-sm-6">
                 <div class="text-sm-end d-none d-sm-block">
-                    Design & Develop by Themesbrand
+                    Design & Develop by John Vida
                 </div>
             </div>
         </div>
@@ -53,6 +53,12 @@
 
 <!-- App js -->
 <script src="{{ asset('assets/js/app.js') }}"></script>
+
+
+<!-- calendar -->
+<script src="{{ asset('assets/js/pages/calendar.init.js') }}"></script>
+
+<script src="{{ asset('assets/libs/fullcalendar/index.global.min.js') }}"></script>
 
 </body>
 

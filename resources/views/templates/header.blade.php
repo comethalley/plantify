@@ -654,7 +654,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="calendar.html" role="button">
+                            <a class="nav-link" href="/planting" role="button">
                                 <i class="ri-calendar-2-line"></i>
                                 <span data-key="t-calendar">Calendar</span>
                             </a>
@@ -670,14 +670,14 @@
                         <li class="nav-item">
                             <a class="nav-link" href="task.html" role="button">
                                 <i class="ri-task-line"></i>
-                                <span data-key="t-faqs">Task</span>
+                                <span data-key="t-task">Task</span>
                             </a>
                         </li>
 
                         <li class="nav-item">
                             <a class="nav-link" href="chat.html" role="button">
                                 <i class="ri-wechat-line"></i>
-                                <span data-key="t-faqs">Chat</span>
+                                <span data-key="t-chat">Chat</span>
                             </a>
                         </li>
                     </ul>

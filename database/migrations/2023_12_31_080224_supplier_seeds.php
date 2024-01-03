@@ -13,11 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('crops_infos', function (Blueprint $table) {
+        Schema::create('supplier_seeds', function (Blueprint $table) {
             $table->id();
-            $table->string('plant_name');
-            $table->string('information');
-            $table->string('companion');
+            $table->integer('supplier_id');
+            $table->integer('uom_id');
+            $table->integer('seed_id');
+            $table->integer('qty');
+            $table->string('qr_code');
             $table->string('status');
             $table->timestamps();
         });
@@ -30,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('crops_infos');
+        Schema::dropIfExists('supplier_seeds');
     }
 };

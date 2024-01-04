@@ -40,3 +40,4 @@ Route::post('/remove-stock', [InventoryController::class, 'usingStock']);
 Route::get('/getSupplier/{id}', [InventoryController::class, 'getSupplier']);
 Route::get('/getSupplierSeeds/{id}', [InventoryController::class, 'getSupplierSeed']);
 Route::get('/download-qrCode/{filename}', [InventoryController::class, 'downloadQR'])->name('download.image');
+Route::get('/getLogs/{id}', [InventoryController::class, 'logs']);

@@ -247,6 +247,39 @@
                             </div>
                             <!--End Log Modal-->
 
+                            <!--Login Modal-->
+                            <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-light p-3">
+                                            <h5 class="modal-title" id="exampleModalLabel">Login</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+                                        </div>
+                                        <form method="post" action="/add-supplier">
+                                            @csrf
+                                            <div class="modal-body">
+                                                <input type="text" class="form-control" id="logs-id" placeholder="Enter your email">
+                                                <h5 class="mb-3">Please Input Your Credentials</h5>
+                                                <div class="mb-2">
+                                                    <input type="email" class="form-control" id="logs-email" placeholder="Enter your email">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <input type="password" class="form-control" id="logs-password" placeholder="Enter your password">
+                                                </div>
+                                                <button type="button" class="btn btn-primary w-100" id="void-btn">Submit</button>
+                                            </div>
+                                            <!-- <div class="modal-footer">
+                                                <div class="hstack gap-2 justify-content-end">
+                                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-success" id="receive-scan">Scan</button>
+                                                </div>
+                                            </div> -->
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--End of Login Modal-->
+
                             <!--View Supplier Modal-->
                             <!--  -->
                             <!--End Supplier Modal-->

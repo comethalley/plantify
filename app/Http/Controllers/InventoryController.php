@@ -355,6 +355,7 @@ class InventoryController extends Controller
                 'logs.category as category',
                 'logs.qty as quantity',
                 'logs.created_at as date',
+                'logs.status as status',
                 'users.id as userID',
                 'users.firstname as firstname',
                 'users.lastname as lastname',
@@ -364,5 +365,74 @@ class InventoryController extends Controller
             ->get();
 
         return view("pages.inventory.logs", ['logs' => $logs]);
+    }
+
+    public function voidStock(Request $request)
+    {
+        $data = $request->validate([
+            'logID' => 'required|string|max:55',
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+
+        $logID = $data['logID'];
+        $email = $data['email'];
+        $password = $data['password'];
+
+        $credentials = [
+            'email' => $email,
+            'password' => $password,
+            'status' => '1',
+        ];
+
+        //Check if the user is existing and authenticated
+        if (Auth::attempt($credentials)) {
+            $logDetails = Log::where('id', $logID)->where('status', '1')->first();
+
+
+            //Check whether the log history is made
+            if ($logDetails) {
+
+                $stockID = $logDetails->stocks_id;
+                $category = $logDetails->category;
+                $quantity = $logDetails->qty;
+
+                $stock = Stock::where('id', $stockID)->first();
+                // dd($stock);
+                if ($category == "Received") {
+                    $newQuantity = $stock->available_seed - $quantity;
+
+                    $stock->update([
+                        'available_seed' => $newQuantity,
+                    ]);
+                } else {
+                    $availableSeed = $stock->available_seed + $quantity;
+                    $newQuantity = $stock->used_seed - $quantity;
+                    $stock->update([
+                        'available_seed' => $availableSeed,
+                        'used_seed' => $newQuantity,
+                    ]);
+                }
+
+                $logDetails->update(['status' => '0']);
+
+                $updatedRecord = Stock::find($stockID);
+
+                $availableQty = $updatedRecord->available_seed;
+                $usedQty = $updatedRecord->used_seed;
+
+                $total = $availableQty + $usedQty;
+
+                $updatedRecord->update([
+                    'total' => $total,
+                ]);
+
+                return response()->json(['success' => 'Transaction voided successfully'], 200);
+            } else {
+                return response()->json(['message' => 'Log History Not Found'], 404);
+            }
+        } else {
+            return response()->json(['message' => 'Invalid Credentials or Inactive User'], 401);
+        }
     }
 }

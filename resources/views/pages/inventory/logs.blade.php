@@ -25,10 +25,26 @@
             <td>{{$per_logs->date}}</td>
             <td>{{$per_logs->userID}}-{{$per_logs->lastname}}, &nbsp;{{$per_logs->firstname}}</td>
             <td>
-                <button type="button" class="btn btn-danger waves-effect waves-light">Void</button>
+                @if($per_logs->status == 1)
+                <button type="button" class="btn btn-danger waves-effect waves-light history" data-bs-toggle="modal" data-bs-target="#loginModal" data-history-id="{{$per_logs->logsID}}">Void</button>
+
+                @else
+                <p>Voided</p>
+                @endif
             </td>
         </tr>
         @endforeach
     </tbody>
     @endif
 </table>
+
+<script>
+    $(document).ready(function() {
+        $(".history").click(function() {
+            console.log("history-btn is clicked");
+            var logID = $(this).data('history-id');
+            console.log("log id is " + logID);
+            $('#logs-id').val(logID);
+        });
+    });
+</script>

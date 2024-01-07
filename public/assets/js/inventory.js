@@ -178,11 +178,57 @@ $(document).ready(function() {
         });
     }
 
+    function voidItem(){
+
+        var logID = $("#logs-id").val();
+        var email = $("#logs-email").val();
+        var password = $("#logs-password").val();
+        $.ajax({
+            url:"/void-item",
+            method: "POST",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: {
+                'logID': logID,
+                'email' : email,
+                'password' : password,
+             },
+             success: function(data, textStatus, xhr){
+                console.log(data)
+                if (xhr.status === 200) {
+                    alert("Success:" + data.success);
+                }
+             },
+             error: function(xhr, status, error) {
+                console.error("Error:", status, error);
+
+                var statusCode = xhr.status;
+
+                if (statusCode === 401) {
+                    alert(error);
+                } else if (statusCode === 404) {
+                    alert(error);
+                } else {
+                    alert("Internal Server Error", error);
+                }
+            }
+        })
+    }
+
 
     $('.logs-btn').on('click', function() {
         var stockID = $(this).data('logs-id');
         getLogs(stockID);
     });
+
+    $('#void-btn').on('click', function() {
+        console.log("void-btn is clicked")
+        voidItem();
+    });
+
+
+    
 });
 
 //for using scanner
@@ -265,5 +311,6 @@ $(document).ready(function() {
         stopUsedScanner();
         lastUsedScannedContent = ""
     });
+
 
 });

@@ -36,6 +36,7 @@ Route::post('/generate-qr', [InventoryController::class, 'generateqr']);
 Route::post('/add-supplier', [InventoryController::class, 'createSupplier']);
 Route::post('/add-seed', [InventoryController::class, 'addSeedSupplier']);
 Route::post('/add-stock', [InventoryController::class, 'receivingStock']);
+Route::post('/void-item', [InventoryController::class, 'voidStock']);
 Route::post('/remove-stock', [InventoryController::class, 'usingStock']);
 Route::get('/getSupplier/{id}', [InventoryController::class, 'getSupplier']);
 Route::get('/getSupplierSeeds/{id}', [InventoryController::class, 'getSupplierSeed']);

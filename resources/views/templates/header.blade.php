@@ -709,6 +709,13 @@
                                 <span data-key="t-faqs">Chat</span>
                             </a>
                         </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/plantifeed" role="button">
+                                <i class="ri-question-line"></i>
+                                <span>Plantifeed</span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
                 <!-- Sidebar -->

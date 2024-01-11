@@ -3,7 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\plantifeedcontroller;
-use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\ForumController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,12 +20,8 @@ use App\Http\Controllers\InventoryController;
 //     return view('email.email');
 // });
 
-Route::get('/', [AuthController::class, 'index'])->middleware('auth');
-Route::get('/login', [AuthController::class, 'viewLogin'])->name('login')->middleware('guest');
-Route::get('/signup', [AuthController::class, 'viewSignup']);
-Route::post('/login/process', [AuthController::class, 'login']);
-Route::post('/logout', [AuthController::class, 'logout']);
-Route::post('/register', [AuthController::class, 'signup']);
+Route::get('/', [AuthController::class, 'test']);
+Route::get('/plantifeed', [ForumController::class, 'index']);
 
 // Route::get('/sendmail', [AuthController::class, 'emailInvitation']);
 

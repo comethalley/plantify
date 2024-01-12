@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\plantifeedcontroller;
 use App\Http\Controllers\ForumController;
+use App\Http\Controllers\InventoryController;
 
 /*
 |--------------------------------------------------------------------------

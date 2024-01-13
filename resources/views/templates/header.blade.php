@@ -669,16 +669,25 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="calendar.html" role="button">
-                                <i class="ri-calendar-2-line"></i>
-                                <span data-key="t-calendar">Calendar</span>
+                            <a class="nav-link menu-link" href="#sidebarDashboards" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                                <i class="ri-dashboard-2-line"></i> <span>Calendar</span>
                             </a>
+                            <div class="collapse menu-dropdown" id="sidebarDashboards">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="/" class="nav-link">Planting Calendar</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/eventcalendar" class="nav-link"> Event Calendar </a>
+                                    </li>
+                                </ul>
+                            </div>
                         </li>
 
                         <li class="nav-item">
                             <a class="nav-link" href="faq.html" role="button">
                                 <i class="ri-question-line"></i>
-                                <span data-key="t-faqs">FaQs</span>
+                                <span data-key="">FaQs</span>
                             </a>
                         </li>
 

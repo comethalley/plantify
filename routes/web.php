@@ -5,6 +5,7 @@ use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ThreadController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\plantifeedcontroller;
+use App\Http\Controllers\ForumController;
 use App\Http\Controllers\InventoryController;
 
 /*
@@ -40,10 +41,14 @@ Route::post('/generate-qr', [InventoryController::class, 'generateqr']);
 Route::post('/add-supplier', [InventoryController::class, 'createSupplier']);
 Route::post('/add-seed', [InventoryController::class, 'addSeedSupplier']);
 Route::post('/add-stock', [InventoryController::class, 'receivingStock']);
+Route::post('/void-item', [InventoryController::class, 'voidStock']);
 Route::post('/remove-stock', [InventoryController::class, 'usingStock']);
 Route::get('/getSupplier/{id}', [InventoryController::class, 'getSupplier']);
 Route::get('/getSupplierSeeds/{id}', [InventoryController::class, 'getSupplierSeed']);
 Route::get('/download-qrCode/{filename}', [InventoryController::class, 'downloadQR'])->name('download.image');
+Route::get('/getLogs/{id}', [InventoryController::class, 'logs']);
+
+Route::get('/plantifeed', [ForumController::class, 'index']);
 
 // Example route for displaying the chat threads
 Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');

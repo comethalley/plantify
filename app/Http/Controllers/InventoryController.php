@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Log;
 use App\Models\Stock;
 use App\Models\Supplier;
 use App\Models\SupplierSeed;
@@ -13,6 +14,7 @@ use Endroid\QrCode\Label\Label;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Auth;
 
 class InventoryController extends Controller
 {
@@ -209,9 +211,11 @@ class InventoryController extends Controller
     {
         $data = $request->validate([
             'qrcode' => 'required|string|max:55',
+            'multiplier' => 'required|integer|max:999999'
         ]);
 
         $qrCode = $data['qrcode'];
+        $multiplier = $data['multiplier'];
 
         try {
             $supplierSeeds = DB::table('supplier_seeds')
@@ -220,7 +224,7 @@ class InventoryController extends Controller
                 ->first();
 
             $supplier_seedsID = $supplierSeeds->id;
-            $quantity = $supplierSeeds->qty;
+            $quantity = $supplierSeeds->qty * $multiplier;
 
             $record = Stock::where('supplier_seeds_id', $supplier_seedsID)->first();
 
@@ -238,14 +242,34 @@ class InventoryController extends Controller
                 $updatedRecord->update([
                     'available_seed' => $availableQty,
                 ]);
+                $userID = Auth::user()->id;
+
+                Log::create([
+                    'stocks_id' => $record->id,
+                    'user_id' => $userID,
+                    'category' => "Received",
+                    'qty' => $quantity,
+                    'status' => 1
+                ]);
 
                 return response()->json(['message' => 'Data updated successfully'], 200);
             } else {
-                Stock::create([
+
+                $stocks = Stock::create([
                     'supplier_seeds_id' => $supplier_seedsID,
                     'available_seed' => $quantity,
                     'used_seed' => 0,
                     'total' => $quantity,
+                    'status' => 1
+                ]);
+
+                $userID = Auth::user()->id;
+
+                Log::create([
+                    'stocks_id' => $stocks->id,
+                    'user_id' => $userID,
+                    'category' => "Received",
+                    'qty' => $quantity,
                     'status' => 1
                 ]);
 
@@ -261,9 +285,13 @@ class InventoryController extends Controller
     {
         $data = $request->validate([
             'qrcode' => 'required|string|max:55',
+            'multiplier' => 'required|integer|max:999999',
+            'mode' => 'required|integer|max:999999'
         ]);
 
         $qrCode = $data['qrcode'];
+        $multiplier = $data['multiplier'];
+        $mode = $data['mode'];
 
         try {
             $supplierSeeds = DB::table('supplier_seeds')
@@ -272,7 +300,13 @@ class InventoryController extends Controller
                 ->first();
 
             $supplier_seedsID = $supplierSeeds->id;
-            $quantity = $supplierSeeds->qty;
+            $quantity = "";
+            if ($mode == 1) {
+                $quantity = $supplierSeeds->qty * $multiplier;
+            } else {
+                $quantity = $multiplier;
+            }
+
 
             $record = Stock::where('supplier_seeds_id', $supplier_seedsID)->first();
 
@@ -291,13 +325,114 @@ class InventoryController extends Controller
                     'available_seed' => $availableQty,
                 ]);
 
+                $userID = Auth::user()->id;
+
+                Log::create([
+                    'stocks_id' => $record->id,
+                    'user_id' => $userID,
+                    'category' => "Used",
+                    'qty' => $quantity,
+                    'status' => 1
+                ]);
+
+
                 return response()->json(['message' => 'Data updated successfully'], 200);
             } else {
                 return response()->json(['message' => 'Record Not Found'], 500);
             }
         } catch (ModelNotFoundException $e) {
 
-            return response()->json(['message' => 'Failed to save data'], 500);
+            return response()->json(['message' => 'Failed to save data' . $e], 500);
+        }
+    }
+
+    public function logs($id)
+    {
+        $logs = DB::table('logs')
+            ->leftJoin('users', 'users.id', '=', 'logs.user_id')
+            ->select(
+                'logs.id as logsID',
+                'logs.category as category',
+                'logs.qty as quantity',
+                'logs.created_at as date',
+                'logs.status as status',
+                'users.id as userID',
+                'users.firstname as firstname',
+                'users.lastname as lastname',
+            )
+            ->where('stocks_id', $id)
+            ->orderBy('logs.id', 'DESC')
+            ->get();
+
+        return view("pages.inventory.logs", ['logs' => $logs]);
+    }
+
+    public function voidStock(Request $request)
+    {
+        $data = $request->validate([
+            'logID' => 'required|string|max:55',
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+
+        $logID = $data['logID'];
+        $email = $data['email'];
+        $password = $data['password'];
+
+        $credentials = [
+            'email' => $email,
+            'password' => $password,
+            'status' => '1',
+        ];
+
+        //Check if the user is existing and authenticated
+        if (Auth::attempt($credentials)) {
+            $logDetails = Log::where('id', $logID)->where('status', '1')->first();
+
+
+            //Check whether the log history is made
+            if ($logDetails) {
+
+                $stockID = $logDetails->stocks_id;
+                $category = $logDetails->category;
+                $quantity = $logDetails->qty;
+
+                $stock = Stock::where('id', $stockID)->first();
+                // dd($stock);
+                if ($category == "Received") {
+                    $newQuantity = $stock->available_seed - $quantity;
+
+                    $stock->update([
+                        'available_seed' => $newQuantity,
+                    ]);
+                } else {
+                    $availableSeed = $stock->available_seed + $quantity;
+                    $newQuantity = $stock->used_seed - $quantity;
+                    $stock->update([
+                        'available_seed' => $availableSeed,
+                        'used_seed' => $newQuantity,
+                    ]);
+                }
+
+                $logDetails->update(['status' => '0']);
+
+                $updatedRecord = Stock::find($stockID);
+
+                $availableQty = $updatedRecord->available_seed;
+                $usedQty = $updatedRecord->used_seed;
+
+                $total = $availableQty + $usedQty;
+
+                $updatedRecord->update([
+                    'total' => $total,
+                ]);
+
+                return response()->json(['success' => 'Transaction voided successfully'], 200);
+            } else {
+                return response()->json(['message' => 'Log History Not Found'], 404);
+            }
+        } else {
+            return response()->json(['message' => 'Invalid Credentials or Inactive User'], 401);
         }
     }
 }

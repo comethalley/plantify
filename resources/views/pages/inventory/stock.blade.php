@@ -44,7 +44,7 @@
                         <div class="card-header border-0">
                             <div class="row align-items-center gy-3">
                                 <div class="col-sm">
-                                    <h5 class="card-title mb-0">Stokcs List</h5>
+                                    <h5 class="card-title mb-0">Stocks List</h5>
                                 </div>
                                 <div class="col-sm-auto">
                                     <div class="d-flex gap-1 flex-wrap">
@@ -112,13 +112,13 @@
                                                 <td class="payment">{{ $per_stocks->total }}</td>
                                                 </td>
                                                 <td>
-                                                    <button type="button" class="btn btn-info waves-effect waves-light w-xs">Logs</button>
+                                                    <button type="button" class="btn btn-info waves-effect waves-light w-xs logs-btn" data-bs-toggle="modal" data-bs-target="#logModal" data-logs-id="{{ $per_stocks->stocksID }}">Logs</button>
                                                 </td>
                                             </tr>
                                             @endforeach
                                         </tbody>
                                     </table>
-                                    <div class="noresult" style="display: none">
+                                    <div class=" noresult" style="display: none">
                                         <div class="text-center">
                                             <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="loop" colors="primary:#405189,secondary:#0ab39c" style="width:75px;height:75px"></lord-icon>
                                             <h5 class="mt-2">Sorry! No Result Found</h5>
@@ -150,7 +150,13 @@
                                             @csrf
                                             <div class="modal-body">
                                                 <video id="preview" style="width: 100%;"></video>
-
+                                                <center>
+                                                    <p class="lead text-danger" id="received-qr"></p>
+                                                </center><br>
+                                                <div class="mb-3">
+                                                    <label for="multiple-receive" class="form-label">Multiple Items</label>
+                                                    <input type="text" id="multiple-receive" class="form-control" value="1" />
+                                                </div>
                                             </div>
                                             <div class="modal-footer">
                                                 <div class="hstack gap-2 justify-content-end">
@@ -177,8 +183,30 @@
                                             @csrf
                                             <div class="modal-body">
                                                 <video id="using-preview" style="width: 100%;"></video>
+                                                <center>
+                                                    <p class="lead text-danger" id="used-qr"></p>
+                                                </center><br>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label for="multiple-used" class="form-label">Multiple Items</label>
+                                                            <input type="text" id="multiple-used" class="form-control" value="1" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="mode">Mode</label>
+                                                            <select class="form-select" id="mode">
+                                                                <option value="1">Per pack/box</option>
+                                                                <option value="2">Per pieces</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
 
                                             </div>
+
                                             <div class="modal-footer">
                                                 <div class="hstack gap-2 justify-content-end">
                                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
@@ -191,6 +219,66 @@
                                 </div>
                             </div>
                             <!--End Using Modal-->
+
+                            <!--Logs Modal-->
+                            <div class="modal fade" id="logModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-light p-3">
+                                            <h5 class="modal-title" id="exampleModalLabel">Logs</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+                                        </div>
+                                        <form method="post" action="/add-supplier">
+                                            @csrf
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="col-md-12" id="log-table"></div>
+                                                </div>
+                                            </div>
+                                            <!-- <div class="modal-footer">
+                                                <div class="hstack gap-2 justify-content-end">
+                                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-success" id="receive-scan">Scan</button>
+                                                </div>
+                                            </div> -->
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--End Log Modal-->
+
+                            <!--Login Modal-->
+                            <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-light p-3">
+                                            <h5 class="modal-title" id="exampleModalLabel">Login</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+                                        </div>
+                                        <form method="post" action="/add-supplier">
+                                            @csrf
+                                            <div class="modal-body">
+                                                <input type="text" class="form-control" id="logs-id" placeholder="Enter your email">
+                                                <h5 class="mb-3">Please Input Your Credentials</h5>
+                                                <div class="mb-2">
+                                                    <input type="email" class="form-control" id="logs-email" placeholder="Enter your email">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <input type="password" class="form-control" id="logs-password" placeholder="Enter your password">
+                                                </div>
+                                                <button type="button" class="btn btn-primary w-100" id="void-btn">Submit</button>
+                                            </div>
+                                            <!-- <div class="modal-footer">
+                                                <div class="hstack gap-2 justify-content-end">
+                                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-success" id="receive-scan">Scan</button>
+                                                </div>
+                                            </div> -->
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--End of Login Modal-->
 
                             <!--View Supplier Modal-->
                             <!--  -->

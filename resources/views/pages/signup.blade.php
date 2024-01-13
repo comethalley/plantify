@@ -4,7 +4,7 @@
 <head>
 
     <meta charset="utf-8" />
-    <title>Sign Up | Velzon - Admin & Dashboard Template</title>
+    <title>Sign Up | Plantify</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
@@ -49,7 +49,7 @@
                                     <img src="assets/images/logo-light.png" alt="" height="20">
                                 </a>
                             </div>
-                            <p class="mt-3 fs-15 fw-medium">Premium Admin & Dashboard Template</p>
+                            <p class="mt-3 fs-15 fw-medium"></p>
                         </div>
                     </div>
                 </div>
@@ -62,7 +62,7 @@
                             <div class="card-body p-4">
                                 <div class="text-center mt-2">
                                     <h5 class="text-primary">Create New Account</h5>
-                                    <p class="text-muted">Get your free velzon account now</p>
+                                    <p class="text-muted"></p>
                                 </div>
                                 <div class="p-2 mt-4">
                                     <form action="/register" method="POST">
@@ -126,7 +126,7 @@
                         <!-- end card -->
 
                         <div class="mt-4 text-center">
-                            <p class="mb-0">Already have an account ? <a href="auth-signin-basic.html" class="fw-semibold text-primary text-decoration-underline"> Signin </a> </p>
+                            <p class="mb-0">Already have an account ? <a href="/login" class="fw-semibold text-primary text-decoration-underline"> Sign in </a> </p>
                         </div>
 
                     </div>
@@ -143,11 +143,6 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="text-center">
-                            <p class="mb-0 text-muted">&copy;
-                                <script>
-                                    document.write(new Date().getFullYear())
-                                </script> Velzon. Crafted with <i class="mdi mdi-heart text-danger"></i> by Themesbrand
-                            </p>
                         </div>
                     </div>
                 </div>

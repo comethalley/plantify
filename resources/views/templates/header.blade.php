@@ -554,6 +554,7 @@
                         </div>
 
                         <div class="dropdown ms-sm-3 header-item topbar-user">
+
                             <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="d-flex align-items-center">
                                     <img class="rounded-circle header-profile-user" src="assets/images/users/avatar-1.jpg" alt="Header Avatar" />
@@ -563,6 +564,7 @@
                                     </span>
                                 </span>
                             </button>
+
                             <div class="dropdown-menu dropdown-menu-end">
                                 <!-- item-->
                                 <h6 class="dropdown-header">Welcome Anna!</h6>
@@ -707,6 +709,13 @@
                             <a class="nav-link" href="{{ route('chat.index') }}" role="button">
                                 <i class="ri-wechat-line"></i>
                                 <span data-key="t-chat">Chat</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/plantifeed" role="button">
+                                <i class="ri-question-line"></i>
+                                <span>Plantifeed</span>
                             </a>
                         </li>
                     </ul>

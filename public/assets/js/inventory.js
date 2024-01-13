@@ -89,7 +89,8 @@ $(document).ready(function() {
     let scanner;
     let modal = document.getElementById('receiveModal');
 
-    function receiveItem(lastScannedContent) {
+
+    function receiveItem(lastScannedContent, parsedMultipleReceive) {
         if (lastScannedContent == "") {
             alert("QR code is empty!");
         } else {
@@ -103,10 +104,14 @@ $(document).ready(function() {
                 },
                 data: {
                     'qrcode': lastScannedContent,
+                    'multiplier' : parsedMultipleReceive
                  },
                 success: function(data) {
                     console.log(data)
+                    console.log("multiplier is "+ parsedMultipleReceive)
                     lastScannedContent = ""
+                    $("#multiple-receive").val("1");
+                    $("#received-qr").text(' ')
                     startScanner()
                 },
                 error: function(xhr, status, error) {
@@ -121,14 +126,18 @@ $(document).ready(function() {
         scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
         
         var lastScannedContent = "";
+
     
         scanner.addListener('scan', function (content) {
             console.log(content);
             lastScannedContent = content;
+            $("#received-qr").text(lastScannedContent)
         });
     
         $('#receive-scan').on('click', function () {
-            receiveItem(lastScannedContent);
+            var multipleReceive = $("#multiple-receive").val();
+            var parsedMultipleReceive = parseInt(multipleReceive);
+            receiveItem(lastScannedContent, parsedMultipleReceive);
             lastScannedContent = "";
         });
     
@@ -155,6 +164,71 @@ $(document).ready(function() {
         stopScanner();
         lastScannedContent = ""
     });
+
+    function getLogs(stockID){
+        $.ajax({
+            url: "/getLogs/" + stockID,
+            method: "GET",
+            success: function(data) {
+                $('#log-table').html(data)
+            },
+            error: function(xhr, status, error) {
+                console.error("Error:", status, error);
+            }
+        });
+    }
+
+    function voidItem(){
+
+        var logID = $("#logs-id").val();
+        var email = $("#logs-email").val();
+        var password = $("#logs-password").val();
+        $.ajax({
+            url:"/void-item",
+            method: "POST",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: {
+                'logID': logID,
+                'email' : email,
+                'password' : password,
+             },
+             success: function(data, textStatus, xhr){
+                console.log(data)
+                if (xhr.status === 200) {
+                    alert("Success:" + data.success);
+                }
+             },
+             error: function(xhr, status, error) {
+                console.error("Error:", status, error);
+
+                var statusCode = xhr.status;
+
+                if (statusCode === 401) {
+                    alert(error);
+                } else if (statusCode === 404) {
+                    alert(error);
+                } else {
+                    alert("Internal Server Error", error);
+                }
+            }
+        })
+    }
+
+
+    $('.logs-btn').on('click', function() {
+        var stockID = $(this).data('logs-id');
+        getLogs(stockID);
+    });
+
+    $('#void-btn').on('click', function() {
+        console.log("void-btn is clicked")
+        voidItem();
+    });
+
+
+    
 });
 
 //for using scanner
@@ -163,7 +237,7 @@ $(document).ready(function() {
     let usingScanner;
     let usingModal = document.getElementById('usingModal');
 
-    function usedItem(lastUsedScannedContent) {
+    function usedItem(lastUsedScannedContent, parsedMultipleUsed, mode) {
         if (lastUsedScannedContent == "") {
             alert("QR code is empty!");
         } else {
@@ -177,10 +251,14 @@ $(document).ready(function() {
                 },
                 data: {
                     'qrcode': lastUsedScannedContent,
+                    'multiplier': parsedMultipleUsed,
+                    'mode': mode,
                  },
                 success: function(data) {
                     console.log(data)
                     lastUsedScannedContent = ""
+                    $("#multiple-used").val('1')
+                    $("#used-qr").text(' ')
                     startUsedScanner()
                 },
                 error: function(xhr, status, error) {
@@ -199,10 +277,14 @@ $(document).ready(function() {
         usingScanner.addListener('scan', function (content) {
             console.log(content);
             lastUsedScannedContent = content;
+            $("#used-qr").text(lastUsedScannedContent)
         });
     
         $('#using-scan').on('click', function () {
-            usedItem(lastUsedScannedContent);
+            var multipleUsed = $("#multiple-used").val();
+            var parsedMultipleUsed = parseInt(multipleUsed);
+            var mode = $("#mode").val();
+            usedItem(lastUsedScannedContent, parsedMultipleUsed, mode);
             lastUsedScannedContent = "";
         });
     
@@ -229,5 +311,6 @@ $(document).ready(function() {
         stopUsedScanner();
         lastUsedScannedContent = ""
     });
+
 
 });

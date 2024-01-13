@@ -6,24 +6,30 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
     public function up()
     {
-        Schema::create('plantings', function (Blueprint $table) {
+        Schema::create('calendars', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('start_date');
-            $table->string('end_date');
-            $table->string('type');
-            $table->string('location');
-            $table->string('description');
-            // Add other columns as needed
-
+            $table->dateTime('start');
+            $table->dateTime('end');
             $table->timestamps();
         });
     }
 
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
     public function down()
     {
-        Schema::dropIfExists('plantings');
+        Schema::dropIfExists('calendars');
     }
-};
+}
+?>

@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Planting extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'title',
         'start_date',

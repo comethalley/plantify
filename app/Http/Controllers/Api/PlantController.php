@@ -9,26 +9,67 @@ use Illuminate\Http\Request;
 class PlantController extends Controller
 {
     public function index()
-    {
-        // Retrieve events from your database and return as JSON
-        $plantings = Planting::all();
-        return view("pages.plantingcalendar", ['plantings' => $plantings]);
+{
+    // Retrieve events from your database
+    $plantings = Planting::select(['id', 'title', 'start_date as start', 'end_date as end'])->get();
+
+    // If the request expects JSON, return a JSON response
+    if (request()->expectsJson()) {
+        return response()->json($plantings, 200);
     }
 
-    public function store(Request $request)
-    {
-        // Create a new event in your database
-        $planting = Planting::create($request->all());
-        return response()->json($planting);
-    }
+    // If it's a regular request, render the Blade view
+    return view("pages.plantingcalendar", ['plantings' => $plantings]);
+}
+
+    
+    public function create(Request $request)
+{
+    $data = $request->validate([
+        'title' => 'required|string|max:55',
+        'start_date' => 'required|string|max:55',
+        'type' => 'required|string|max:55',
+        'location' => 'required|string|max:55',
+        'description' => 'required|string|max:55',
+    ]);
+
+    $planting = Planting::create([
+        'title' => $data['title'],
+        'start_date' => $data['start_date'],
+        'end_date' => 1,
+        'type' => $data['type'],
+        'location' => $data['location'],
+        'description' => $data['description'],
+        'status' => 1
+    ]);
+
+    return response()->json(['planting' => $planting], 200);
+}
+
 
     public function update(Request $request, $id)
     {
-        // Update an existing event in your database
+
         $planting = Planting::findOrFail($id);
-        $planting->update($request->all());
-        return response()->json($planting);
+
+        $data = $request->validate([
+            'title' => 'required|string|max:55',
+            'start_date' => 'required|string|max:55',
+            'type' => 'required|string|max:55',
+            'location' => 'required|string|max:55',
+            'description' => 'required|string|max:55',
+        ]);
+        $planting->update([
+            'title' => $data['title'],
+            'start_date' => $data['start_date'],
+            'type' => $data['type'],
+            'location' => $data['location'],
+            'description' => $data['description'],
+        ]);
+
+        return response()->json(['planting' => $planting], 200);
     }
+
 
     public function destroy($id)
     {
@@ -37,4 +78,7 @@ class PlantController extends Controller
         $planting->delete();
         return response()->json(null, 204);
     }
+
+  
+
 }

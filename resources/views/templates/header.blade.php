@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
-    <meta name="csrf-token" content="{{ csrf_token() }}" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{asset('assets/images/favicon.icon')}}" />
 
@@ -699,14 +699,14 @@
                         <li class="nav-item">
                             <a class="nav-link" href="task.html" role="button">
                                 <i class="ri-task-line"></i>
-                                <span data-key="t-faqs">Task</span>
+                                <span data-key="t-task">Task</span>
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="chat.html" role="button">
+                            <a class="nav-link" href="{{ route('chat.index') }}" role="button">
                                 <i class="ri-wechat-line"></i>
-                                <span data-key="t-faqs">Chat</span>
+                                <span data-key="t-chat">Chat</span>
                             </a>
                         </li>
                     </ul>

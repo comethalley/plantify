@@ -676,9 +676,9 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="faq.html" role="button">
+                            <a class="nav-link" href="/farms" role="button">
                                 <i class="ri-question-line"></i>
-                                <span data-key="t-faqs">FaQs</span>
+                                <span data-key="t-farms">Farm Management</span>
                             </a>
                         </li>
 

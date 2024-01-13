@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\plantifeedcontroller;
 use App\Http\Controllers\ForumController;
 use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\WeatherController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,3 +46,4 @@ Route::get('/download-qrCode/{filename}', [InventoryController::class, 'download
 Route::get('/getLogs/{id}', [InventoryController::class, 'logs']);
 
 Route::get('/plantifeed', [ForumController::class, 'index']);
+Route::get('/weather', [WeatherController::class, 'index']);

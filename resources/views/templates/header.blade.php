@@ -11,6 +11,8 @@
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{asset('assets/images/favicon.icon')}}" />
 
+    <!-- Weather config -->
+    
     <!-- Layout config Js -->
     <script src="{{ asset('assets/js/layout.js') }}"></script>
     <!-- Bootstrap Css -->
@@ -679,6 +681,13 @@
                             <a class="nav-link" href="faq.html" role="button">
                                 <i class="ri-question-line"></i>
                                 <span data-key="t-faqs">FaQs</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/weather" role="button">
+                                <i class="ri-question-line"></i>
+                                <span data-key="t-faqs">Weather</span>
                             </a>
                         </li>
 

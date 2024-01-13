@@ -1,4 +1,5 @@
 @include('templates.header')
+
 <!-- <form action="/generate-qr" method="post">
     @csrf
     <label for="">Enter Supplier Name</label>

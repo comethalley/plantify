@@ -694,6 +694,9 @@
                                     <li class="nav-item">
                                         <a href="/inventory/stocks" class="nav-link"> Stocks </a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a href="/inventory/measurement" class="nav-link"> Unit of Measurement </a>
+                                    </li>
                                 </ul>
                             </div>
                         </li> <!-- end Dashboard Menu -->

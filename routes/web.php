@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\plantifeedcontroller;
 use App\Http\Controllers\ForumController;
 use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\AccountController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +31,9 @@ Route::post('/register', [AuthController::class, 'signup']);
 
 // Route::get('/sendmail', [AuthController::class, 'emailInvitation']);
 
+
+
+
 Route::get('/inventory/supplier', [InventoryController::class, 'index']);
 Route::get('/inventory/stocks', [InventoryController::class, 'stocks']);
 
@@ -45,3 +49,7 @@ Route::get('/download-qrCode/{filename}', [InventoryController::class, 'download
 Route::get('/getLogs/{id}', [InventoryController::class, 'logs']);
 
 Route::get('/plantifeed', [ForumController::class, 'index']);
+
+Route::get ('/accounts/admin', [AccountController::class, 'index']);
+Route::get ('/accounts/farmleaders', [AccountController::class, 'farmleaders']);
+Route::get ('/accounts/farmers', [AccountController::class, 'farmers']);

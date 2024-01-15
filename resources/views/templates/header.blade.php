@@ -680,6 +680,29 @@
                             </a>
                         </li>
 
+
+
+                      <li class="nav-item">
+                            <a class="nav-link menu-link" href="#sidebarDashboards" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                                <i class="ri-dashboard-2-line"></i> <span>Accounts</span>
+                            </a>
+                            <div class="collapse menu-dropdown" id="sidebarDashboards">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="/accounts/admin" class="nav-link"> Admin</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/accounts/farmleaders" class="nav-link"> Farm Leaders</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/accounts/farmers" class="nav-link"> Farmers </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>  
+                        
+                        <!-- end Dashboard Menu -->
+
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="#sidebarDashboards" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                                 <i class="ri-dashboard-2-line"></i> <span>Inventory</span>

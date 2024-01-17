@@ -1,8 +1,9 @@
 
 <script src="https://kit.fontawesome.com/8ff31c595e.js" crossorigin="anonymous"></script>
-    <script src="{{ asset('assets/js/weather.js') }}"> </script>
+ 
     <link href="{{ asset('assets/css/weather.css') }}" rel="stylesheet" type="text/css" />
-<div class="wrapper">
+
+    <div class="wrapper">
       <div class="sidebar">
         <div>
           <form class="search" id="search">
@@ -66,7 +67,7 @@
               <h4 class="card-heading">Wind Status</h4>
               <div class="content">
                 <p class="wind-speed">0</p>
-                <p>km/h</p>
+                <p class="">Low</p>
               </div>
             </div>
             <div class="card2">
@@ -100,6 +101,8 @@
           </div>
         </div>
       </div>
-      
+      <script src="{{ asset('assets/js/weather.js') }}"> </script>
+    <script src="https://cdn.db-ip.com/js/dbip.js"
+              data-api-key="p6bcac47ae71f0285cb6343d9697e56e41a2cb92"> </script>
     </div>
 

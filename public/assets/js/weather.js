@@ -1,35 +1,33 @@
 const temp = document.getElementById("temp"),
 date = document.getElementById("date-time"),
-  condition = document.getElementById("condition"),
-  rain = document.getElementById("rain"),
-  mainIcon = document.getElementById("icon"),
-  currentLocation = document.getElementById("location"),
-  uvIndex = document.querySelector(".uv-index"),
-  uvText = document.querySelector(".uv-text"),
-  windSpeed = document.querySelector(".wind-speed"),
-  sunRise = document.querySelector(".sun-rise"),
-  sunSet = document.querySelector(".sun-set"),
-  humidity = document.querySelector(".humidity"),
-  visibilty = document.querySelector(".visibilty"),
-  humidityStatus = document.querySelector(".humidity-status"),
-  airQuality = document.querySelector(".air-quality"),
-  airQualityStatus = document.querySelector(".air-quality-status"),
-  visibilityStatus = document.querySelector(".visibilty-status"),
-  // searchForm = document.querySelector("#search"),
-  // search = document.querySelector("#query"),
-  celciusBtn = document.querySelector(".celcius"),
-  fahrenheitBtn = document.querySelector(".fahrenheit"),
-  tempUnit = document.querySelectorAll(".temp-unit"),
-  hourlyBtn = document.querySelector(".hourly"),
-  weekBtn = document.querySelector(".week"),
-  weatherCards = document.querySelector("#weather-cards");
+currentLocation = document.getElementById("location"),
+condition = document.getElementById("condition"),
+rain = document.getElementById("rain"),
+mainIcon = document.getElementById("icon"),
+uvIndex = document.querySelector(".uv-index"),
+uvText = document.querySelector(".uv-text"),
+windSpeed = document.querySelector(".wind-speed"),
+sunRise = document.querySelector(".sun-rise"),
+sunSet = document.querySelector(".sun-set"),
+humidity = document.querySelector(".humidity"),
+visibilty = document.querySelector(".visibilty"),
+humidityStatus = document.querySelector(".humidity-status"),
+airQuality = document.querySelector(".air-quality"),
+airQualityStatus = document.querySelector(".air-quality-status"),
+visibilityStatus = document.querySelector(".visibilty-status"),
+weatherCards = document.querySelector("#weather-cards"),
+celciusBtn = document.querySelector(".celcius"),
+fahrenheitBtn = document.querySelector(".fahrenheit"),
+hourlyBtn = document.querySelector(".hourly"),
+weekBtn = document.querySelector(".week"),
+tempUnit = document.querySelectorAll(".temp-unit");
 
-  document.addEventListener("DOMContentLoaded", function() {
-    const temp = document.getElementById("temp");
-    const date = document.getElementById("date-time");
+
+
+
     let currentCity = "";
     let currentUnit = "c";
-    let hourlyorWeek = "week";
+    let hourlyorWeek = "Week";
 
     // function to get date and time
     function getDateTime() {
@@ -57,40 +55,57 @@ date = document.getElementById("date-time"),
       let dayString = days[now.getDay()];
       return `${dayString}, ${hour}:${minute}`;
     }
+    date.innerText = getDateTime();
 
     // Updating date and time
     date.innerText = getDateTime();
     setInterval(() => {
       date.innerText = getDateTime();
     }, 1000);
-  });
+
 
 // function to get public ip address
 function getPublicIp() {
   fetch("https://geolocation-db.com/json/", {
     method: "GET",
-    headers: {},
+ 
   })
     .then((response) => response.json())
     .then((data) => {
-      currentCity = data.city;
-      getWeatherData(data.city, currentUnit, hourlyorWeek);
-    })
-    .catch((err) => {
-      console.error(err);
+     console.log(data);
+     currentCity = data.city;
+     getWeatherData(data.city, currentCity, hourlyorWeek);
     });
 }
 
 getPublicIp();
 
+// function getPublicIp() {
+// function showVisitorInfo(info) {
+//   document.getElementById("location").innerHTML = info.location;
+
+//   })
+//     .then((response) => response.json())
+//     .then((data) => {
+//      console.log(data);
+//      currentCity = data.city;
+//      getWeatherData(data.city, currentCity, hourlyorWeek);
+//     });
+// }
+
+// getPublicIp();
+
+
+
+
 // function to get weather data
 function getWeatherData(city, unit, hourlyorWeek) {
-  const apiKey = "UQCDAHREW2AP33F6RGNT3X2Z9"
+  const apiKey = "UQCDAHREW2AP33F6RGNT3X2Z9";
   fetch(
     `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?unitGroup=metric&key=${apiKey}&contentType=json`,
     {
       method: "GET",
-      headers: {},
+      
     }
   )
     .then((response) => response.json())
@@ -168,8 +183,8 @@ function updateForecast(data, unit, type) {
     weatherCards.appendChild(card);
     day++;
   }
-}
-
+} 
+  
 // function to change weather icons
 function getIcon(condition) {
   if (condition === "partly-cloudy-day") {
@@ -177,7 +192,7 @@ function getIcon(condition) {
   } else if (condition === "partly-cloudy-night") {
     return "https://i.ibb.co/Kzkk59k/15.png";
   } else if (condition === "rain") {
-    return "https://i.ibb.co/kBd2NTS/39.png";
+    return "https://i.ibb.co/vqBCT93/rain-removebg-preview.png";
   } else if (condition === "clear-day") {
     return "https://i.ibb.co/rb4rrJL/26.png";
   } else if (condition === "clear-night") {
@@ -327,96 +342,96 @@ function celciusToFahrenheit(temp) {
 }
 
 
-var currentFocus;
-search.addEventListener("input", function (e) {
-  removeSuggestions();
-  var a,
-    b,
-    i,
-    val = this.value;
-  if (!val) {
-    return false;
-  }
-  currentFocus = -1;
+// var currentFocus;
+// search.addEventListener("input", function (e) {
+//   removeSuggestions();
+//   var a,
+//     b,
+//     i,
+//     val = this.value;
+//   if (!val) {
+//     return false;
+//   }
+//   currentFocus = -1;
 
-  a = document.createElement("ul");
-  a.setAttribute("id", "suggestions");
+//   a = document.createElement("ul");
+//   a.setAttribute("id", "suggestions");
 
-  this.parentNode.appendChild(a);
+//   this.parentNode.appendChild(a);
 
-  for (i = 0; i < cities.length; i++) {
-    /*check if the item starts with the same letters as the text field value:*/
-    if (
-      cities[i].name.substr(0, val.length).toUpperCase() == val.toUpperCase()
-    ) {
-      /*create a li element for each matching element:*/
-      b = document.createElement("li");
-      /*make the matching letters bold:*/
-      b.innerHTML =
-        "<strong>" + cities[i].name.substr(0, val.length) + "</strong>";
-      b.innerHTML += cities[i].name.substr(val.length);
-      /*insert a input field that will hold the current array item's value:*/
-      b.innerHTML += "<input type='hidden' value='" + cities[i].name + "'>";
-      /*execute a function when someone clicks on the item value (DIV element):*/
-      b.addEventListener("click", function (e) {
-        /*insert the value for the autocomplete text field:*/
-        search.value = this.getElementsByTagName("input")[0].value;
-        removeSuggestions();
-      });
+//   for (i = 0; i < cities.length; i++) {
+//     /*check if the item starts with the same letters as the text field value:*/
+//     if (
+//       cities[i].name.substr(0, val.length).toUpperCase() == val.toUpperCase()
+//     ) {
+//       /*create a li element for each matching element:*/
+//       b = document.createElement("li");
+//       /*make the matching letters bold:*/
+//       b.innerHTML =
+//         "<strong>" + cities[i].name.substr(0, val.length) + "</strong>";
+//       b.innerHTML += cities[i].name.substr(val.length);
+//       /*insert a input field that will hold the current array item's value:*/
+//       b.innerHTML += "<input type='hidden' value='" + cities[i].name + "'>";
+//       /*execute a function when someone clicks on the item value (DIV element):*/
+//       b.addEventListener("click", function (e) {
+//         /*insert the value for the autocomplete text field:*/
+//         search.value = this.getElementsByTagName("input")[0].value;
+//         removeSuggestions();
+//       });
 
-      a.appendChild(b);
-    }
-  }
-});
-/*execute a function presses a key on the keyboard:*/
-search.addEventListener("keydown", function (e) {
-  var x = document.getElementById("suggestions");
-  if (x) x = x.getElementsByTagName("li");
-  if (e.keyCode == 40) {
-    /*If the arrow DOWN key
-      is pressed,
-      increase the currentFocus variable:*/
-    currentFocus++;
-    /*and and make the current item more visible:*/
-    addActive(x);
-  } else if (e.keyCode == 38) {
-    /*If the arrow UP key
-      is pressed,
-      decrease the currentFocus variable:*/
-    currentFocus--;
-    /*and and make the current item more visible:*/
-    addActive(x);
-  }
-  if (e.keyCode == 13) {
-    /*If the ENTER key is pressed, prevent the form from being submitted,*/
-    e.preventDefault();
-    if (currentFocus > -1) {
-      /*and simulate a click on the "active" item:*/
-      if (x) x[currentFocus].click();
-    }
-  }
-});
-function addActive(x) {
-  /*a function to classify an item as "active":*/
-  if (!x) return false;
-  /*start by removing the "active" class on all items:*/
-  removeActive(x);
-  if (currentFocus >= x.length) currentFocus = 0;
-  if (currentFocus < 0) currentFocus = x.length - 1;
-  /*add class "autocomplete-active":*/
-  x[currentFocus].classList.add("active");
-}
-function removeActive(x) {
-  /*a function to remove the "active" class from all autocomplete items:*/
-  for (var i = 0; i < x.length; i++) {
-    x[i].classList.remove("active");
-  }
-}
+//       a.appendChild(b);
+//     }
+//   }
+// });
+// /*execute a function presses a key on the keyboard:*/
+// search.addEventListener("keydown", function (e) {
+//   var x = document.getElementById("suggestions");
+//   if (x) x = x.getElementsByTagName("li");
+//   if (e.keyCode == 40) {
+//     /*If the arrow DOWN key
+//       is pressed,
+//       increase the currentFocus variable:*/
+//     currentFocus++;
+//     /*and and make the current item more visible:*/
+//     addActive(x);
+//   } else if (e.keyCode == 38) {
+//     /*If the arrow UP key
+//       is pressed,
+//       decrease the currentFocus variable:*/
+//     currentFocus--;
+//     /*and and make the current item more visible:*/
+//     addActive(x);
+//   }
+//   if (e.keyCode == 13) {
+//     /*If the ENTER key is pressed, prevent the form from being submitted,*/
+//     e.preventDefault();
+//     if (currentFocus > -1) {
+//       /*and simulate a click on the "active" item:*/
+//       if (x) x[currentFocus].click();
+//     }
+//   }
+// });
+// function addActive(x) {
+//   /*a function to classify an item as "active":*/
+//   if (!x) return false;
+//   /*start by removing the "active" class on all items:*/
+//   removeActive(x);
+//   if (currentFocus >= x.length) currentFocus = 0;
+//   if (currentFocus < 0) currentFocus = x.length - 1;
+//   /*add class "autocomplete-active":*/
+//   x[currentFocus].classList.add("active");
+// }
+// function removeActive(x) {
+//   /*a function to remove the "active" class from all autocomplete items:*/
+//   for (var i = 0; i < x.length; i++) {
+//     x[i].classList.remove("active");
+//   }
+// }
 
-function removeSuggestions() {
-  var x = document.getElementById("suggestions");
-  if (x) x.parentNode.removeChild(x);
-}
+// function removeSuggestions() {
+//   var x = document.getElementById("suggestions");
+//   if (x) x.parentNode.removeChild(x);
+// }
 
 fahrenheitBtn.addEventListener("click", () => {
   changeUnit("f");
@@ -425,7 +440,7 @@ celciusBtn.addEventListener("click", () => {
   changeUnit("c");
 });
 
-// function to change unit
+// // function to change unit
 function changeUnit(unit) {
   if (currentUnit !== unit) {
     currentUnit = unit;
@@ -450,7 +465,7 @@ weekBtn.addEventListener("click", () => {
   changeTimeSpan("week");
 });
 
-// function to change hourly to weekly or vice versa
+// // function to change hourly to weekly or vice versa
 function changeTimeSpan(unit) {
   if (hourlyorWeek !== unit) {
     hourlyorWeek = unit;
@@ -469,26 +484,26 @@ function changeTimeSpan(unit) {
 
 // Cities add your own to get in search
 
-cities = [
-  {
-    country: "PK",
-    name: "Abbottabad",
-    lat: "34.1463",
-    lng: "73.21168",
-  },
-  {
-    country: "PK",
-    name: "Adilpur",
-    lat: "27.93677",
-    lng: "69.31941",
-  },
-  {
-    country: "PK",
-    name: "Ahmadpur East",
-    lat: "29.14269",
-    lng: "71.25771",
-  },
+// cities = [
+//   {
+//     country: "PK",
+//     name: "Abbottabad",
+//     lat: "34.1463",
+//     lng: "73.21168",
+//   },
+//   {
+//     country: "PK",
+//     name: "Adilpur",
+//     lat: "27.93677",
+//     lng: "69.31941",
+//   },
+//   {
+//     country: "PK",
+//     name: "Ahmadpur East",
+//     lat: "29.14269",
+//     lng: "71.25771",
+//   },
   
-];
+// ];
 
 

@@ -677,7 +677,7 @@
 
                         <li class="nav-item">
                             <a class="nav-link" href="/farms" role="button">
-                                <i class="ri-question-line"></i>
+                                <i class="las la-campground"></i>
                                 <span data-key="t-farms">Farm Management</span>
                             </a>
                         </li>

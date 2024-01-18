@@ -12,6 +12,7 @@ class FarmController extends Controller
 
     public function index()
     {
-        return view("pages.farm");
+        $farms = Farm::all();
+    return view('pages.farms.index')->with('farms', $farms);
     }
 }

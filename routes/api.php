@@ -62,6 +62,8 @@ Route::post('/create-crops', [CropsPlantedController::class, "create"]);
 Route::post('/edit-crops/{id}', [CropsPlantedController::class, "update"]);
 Route::post('/archive-crops/{id}', [CropsPlantedController::class, "archive"]);
 
+
+
 // Route::get('/farm', function () {
 //     return "hello";
 // });

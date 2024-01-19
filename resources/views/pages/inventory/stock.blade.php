@@ -149,19 +149,20 @@
                                         <form method="post" action="/add-supplier">
                                             @csrf
                                             <div class="modal-body">
-                                                <video id="preview" style="width: 100%;"></video>
-                                                <center>
-                                                    <p class="lead text-danger" id="received-qr"></p>
-                                                </center><br>
                                                 <div class="mb-3">
                                                     <label for="multiple-receive" class="form-label">Multiple Items</label>
                                                     <input type="text" id="multiple-receive" class="form-control" value="1" />
                                                 </div>
+                                                <video id="preview" style="width: 100%;"></video>
+                                                <center>
+                                                    <p class="lead text-danger" id="received-qr"></p>
+                                                </center><br>
+
                                             </div>
                                             <div class="modal-footer">
                                                 <div class="hstack gap-2 justify-content-end">
                                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                                                    <button type="button" class="btn btn-success" id="receive-scan">Scan</button>
+                                                    <!-- <button type="button" class="btn btn-success" id="receive-scan">Scan</button> -->
                                                     <!-- <button type="button" class="btn btn-success" id="edit-btn">Update</button> -->
                                                 </div>
                                             </div>
@@ -182,10 +183,6 @@
                                         <form method="post" action="/add-supplier">
                                             @csrf
                                             <div class="modal-body">
-                                                <video id="using-preview" style="width: 100%;"></video>
-                                                <center>
-                                                    <p class="lead text-danger" id="used-qr"></p>
-                                                </center><br>
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="mb-3">
@@ -202,15 +199,19 @@
                                                             </select>
                                                         </div>
                                                     </div>
-
                                                 </div>
+                                                <video id="using-preview" style="width: 100%;"></video>
+                                                <center>
+                                                    <p class="lead text-danger" id="used-qr"></p>
+                                                </center><br>
+
 
                                             </div>
 
                                             <div class="modal-footer">
                                                 <div class="hstack gap-2 justify-content-end">
                                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                                                    <button type="button" class="btn btn-success" id="using-scan">Scan</button>
+                                                    <!-- <button type="button" class="btn btn-success" id="using-scan">Scan</button> -->
                                                     <!-- <button type="button" class="btn btn-success" id="edit-btn">Update</button> -->
                                                 </div>
                                             </div>

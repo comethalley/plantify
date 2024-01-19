@@ -6,6 +6,7 @@ use App\Models\Log;
 use App\Models\Stock;
 use App\Models\Supplier;
 use App\Models\SupplierSeed;
+use App\Models\Uom;
 use Illuminate\Http\Request;
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
@@ -15,6 +16,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
+// use Illuminate\Support\Facades\Log;
 
 class InventoryController extends Controller
 {
@@ -26,6 +30,14 @@ class InventoryController extends Controller
         $uom = DB::table('uoms')->where('status', '1')->get();
         $seeds = DB::table('seeds')->where('status', '1')->get();
         return view("pages.inventory.inventory", ['supplier' => $supplier, 'uom' => $uom, 'seeds' => $seeds]);
+    }
+
+    public function getAllSupplier()
+    {
+        $supplier = DB::table('suppliers')->where('status', '1')->orderBy('id', 'DESC')->get();
+        $uom = DB::table('uoms')->where('status', '1')->get();
+        $seeds = DB::table('seeds')->where('status', '1')->get();
+        return view("pages.inventory.suppliertable", ['supplier' => $supplier, 'uom' => $uom, 'seeds' => $seeds]);
     }
 
     public function getSupplier($id)
@@ -77,15 +89,14 @@ class InventoryController extends Controller
     public function addSeedSupplier(Request $request)
     {
         $data = $request->validate([
-            'supplier_id' => 'required|string|max:55',
-            'seed_id' => 'required|string|max:55',
-            'uom_id' => 'required|string|max:55',
-            'quantity' => 'required|string|max:55',
+            'supplier_id' => 'required',
+            'seed_id' => 'required',
+            'uom_id' => 'required',
+            'quantity' => 'required',
         ]);
 
-        $qrText = $this->generateCode();
-
         try {
+            $qrText = $this->generateCode();
             $supplierSeed = SupplierSeed::create([
                 'supplier_id' => $data['supplier_id'],
                 'uom_id' => $data['uom_id'],
@@ -95,28 +106,46 @@ class InventoryController extends Controller
                 'status' => 1,
             ]);
 
-            $qrText = $supplierSeed->qr_code;
+            // Log values for debugging
+            // Log::info("Seed ID: " . $data['seed_id']);
+            // Log::info("Supplier Seed ID: " . $supplierSeed->id);
 
-            $this->generateqr($qrText);
+            $seedID = $supplierSeed->seed_id;
+            $seed = DB::table('seeds')->where('id', $seedID)->first();
+            // dd($seed);
+
+            if ($seed) {
+                $seedName = $seed->name;
+                $qrCode = $supplierSeed->qr_code;
+                $quantity = $supplierSeed->qty;
+
+                $qrLabel = $qrCode . "-" . $seedName . "(" . $quantity . ")";
+
+                $generate = $this->generateqr($qrLabel, $qrCode);
+
+                if (!$generate) {
+                    return response()->json(['message' => 'Qr Failed to Generate'], 500);
+                }
+            } else {
+                // Handle the case where $seed is null
+                return response()->json(['message' => 'Seed not found'], 404);
+            }
 
             return response()->json(['message' => 'Data successfully saved'], 200);
         } catch (\Exception $e) {
-
-            return response()->json(['message' => 'Failed to save data'], 500);
+            // Log::error($e);
+            return response()->json(['message' => $e->getMessage()], 500);
         }
     }
 
 
-    public function generateqr($qrText)
+
+    public function generateqr($qrLabel, $qrCodeNum)
     {
 
-        // $data = $request->validate([
-        //     'qr-code' => 'required|string|max:55'
-        // ]);
+        $label = Label::create($qrLabel);
 
-        $label = Label::create($qrText);
-
-        $qrCode = QrCode::create($qrText);
+        $qrCode = QrCode::create($qrCodeNum);
 
         $writer = new PngWriter;
 
@@ -135,38 +164,112 @@ class InventoryController extends Controller
 
         // $filename = $qrText . time() . '.png';
 
-        $result->saveToFile($directory . '/' . $qrText . ".png");
+        $result->saveToFile($directory . '/' . $qrCodeNum . ".png");
+
+        if ($result) {
+            return true;
+        } else {
+            return false;
+        }
 
         // return redirect('/inventory');
     }
 
     public function createSupplier(Request $request)
     {
-        $data = $request->validate([
+        $validator = Validator::make($request->all(), [
             'supplier-name' => 'required|string|max:55',
-            'description' => 'required|string|max:55',
+            'description' => 'required|string|max:100',
             'address' => 'required|string|max:55',
             'contact' => 'required|string|max:55',
             'email' => 'required|email|unique:suppliers,email'
         ]);
 
-        // if ($validator->fails()) {
-        //     return redirect('/inventory')
-        //         ->withErrors($validator)
-        //         ->withInput();
-        // }
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
 
         Supplier::create([
-            'name' => $data['supplier-name'],
-            'description' => $data['description'],
-            'address' => $data['address'],
-            'contact' => $data['contact'],
-            'email' => $data['email'],
+            'name' => $request['supplier-name'],
+            'description' => $request['description'],
+            'address' => $request['address'],
+            'contact' => $request['contact'],
+            'email' => $request['email'],
             'status' => 1
         ]);
 
-        return redirect('/inventory');
+        return response()->json(['message' => 'Supplier created successfully']);
     }
+
+    public function editSupplier(Request $request, $id)
+    {
+        $supplier = Supplier::findOrFail($id);
+
+        $validator = Validator::make($request->all(), [
+            'supplier-name' => 'required|string|max:55',
+            'description' => 'required|string|max:100',
+            'address' => 'required|string|max:55',
+            'contact' => 'required|string|max:55',
+            'email' => 'required|email|', Rule::unique('suppliers')->ignore($supplier->id),
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $supplier->update([
+            'name' => $request['supplier-name'],
+            'description' => $request['description'],
+            'address' => $request['address'],
+            'contact' => $request['contact'],
+            'email' => $request['email'],
+        ]);
+
+        return response()->json(['message' => 'Supplier edited successfully']);
+    }
+
+    public function archiveSupplier(Request $request, $id)
+    {
+        $supplier = Supplier::findOrFail($id);
+
+        $validator = Validator::make($request->all(), [
+            'supplier-name' => 'required|string|max:55',
+            'description' => 'required|string|max:100',
+            'address' => 'required|string|max:55',
+            'contact' => 'required|string|max:55',
+            'email' => 'required|email|', Rule::unique('suppliers')->ignore($supplier->id),
+        ]);
+
+        if (!$supplier) {
+            return response()->json(['message' => 'The supplier does not exist'], 422);
+        }
+
+        $supplier->update([
+            'status' => 0,
+        ]);
+
+        return response()->json(['message' => 'Supplier Archive successfully']);
+    }
+
+    public function editQtySeed(Request $request, $id)
+    {
+        $supplier_seeds = SupplierSeed::findOrFail($id);
+
+        $validator = Validator::make($request->all(), [
+            'qty' => 'required|string|max:55',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $supplier_seeds->update([
+            'qty' => $request['qty'],
+        ]);
+
+        return response()->json(['message' => 'Qty Updated Successfully']);
+    }
+
 
     public function downloadQR($qrCode)
     {
@@ -433,6 +536,44 @@ class InventoryController extends Controller
             }
         } else {
             return response()->json(['message' => 'Invalid Credentials or Inactive User'], 401);
+        }
+    }
+
+    public function uom()
+    {
+        $uoms = DB::table('uoms')->where('status', '1')->orderBy('id', 'DESC')->get();
+
+        return view('pages.inventory.uom', ['uoms' => $uoms]);
+    }
+
+    public function getUom()
+    {
+        $uoms = DB::table('uoms')->where('status', '1')->orderBy('id', 'DESC')->get();
+
+        return response()->json(['uoms' => $uoms], 200);
+    }
+
+    public function addUom(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            "unitName" => "required|string|max:55"
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $data = $validator->validated();
+
+        $uoms = Uom::create([
+            'description' => $data['unitName'],
+            'status' => 1
+        ]);
+
+        if ($uoms) {
+            return response()->json(['message' => 'Measurement added successfully'], 200);
+        } else {
+            return response()->json(['error' => 'Failed to save in the database'], 500);
         }
     }
 }

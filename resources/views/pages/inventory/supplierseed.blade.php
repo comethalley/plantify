@@ -34,15 +34,10 @@
             <td>{{$per_Seeds->qr_code}}</td>
             <td>{{$per_Seeds->seedName}}</td>
             <td>{{$per_Seeds->umoName}}</td>
-            <td>{{$per_Seeds->qty}}</td>
+            <td><input class="form-control form-control-sm update-qty" type="text" name="quantity" data-supplierseed-id="{{$per_Seeds->suppliers_seedsID}}" id="quantity_{{$per_Seeds->suppliers_seedsID}}" value="{{$per_Seeds->qty}}"> </td>
             <td><a href="{{ route('download.image', ['filename' => $per_Seeds->qr_code . '.png']) }}"><i class="ri-download-2-line"></i>&nbsp;Download</a></td>
             <td>
                 <ul class="list-inline hstack gap-2 mb-0">
-                    <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Edit">
-                        <a href="#showModal" data-bs-toggle="modal" class="text-primary d-inline-block edit-item-btn">
-                            <i class="ri-pencil-fill fs-16"></i>
-                        </a>
-                    </li>
                     <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Remove">
                         <a class="text-danger d-inline-block remove-item-btn" data-bs-toggle="modal" href="#deleteOrder">
                             <i class="ri-delete-bin-5-fill fs-16"></i>
@@ -55,3 +50,39 @@
     </tbody>
     @endif
 </table>
+
+<script>
+    $(document).ready(function() {
+
+        $('.update-qty').on('change', function() {
+            var supplierSeedID = $(this).data('supplierseed-id');
+            var qty = $("#quantity_" + supplierSeedID).val();
+
+            console.log("The supplierSeedID is " + supplierSeedID)
+            console.log("The quantity is " + qty)
+
+            $.ajax({
+                url: "/edit-qty/" + supplierSeedID,
+                method: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: {
+                    'qty': qty
+                },
+                success: function(data) {
+                    console.log(data)
+                },
+                error: function(xhr, status, error) {
+                    if (xhr.status === 422) {
+                        var errors = JSON.parse(xhr.responseText);
+                        console.error("Validation Error:", errors);
+                    } else {
+                        console.error("Error:", error);
+                    }
+                }
+            });
+            //getLogs(stockID);
+        });
+    })
+</script>

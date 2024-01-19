@@ -36,10 +36,13 @@ Route::middleware(['auth'])->get('/authenticated-route', 'AuthController@index')
 
 Route::get('/inventory/supplier', [InventoryController::class, 'index']);
 Route::get('/inventory/stocks', [InventoryController::class, 'stocks']);
-
+Route::get('/all-supplier', [InventoryController::class, 'getAllSupplier']);
 Route::post('/generate-qr', [InventoryController::class, 'generateqr']);
 Route::post('/add-supplier', [InventoryController::class, 'createSupplier']);
+Route::post('/edit-supplier/{id}', [InventoryController::class, 'editSupplier']);
+Route::post('/archive-supplier/{id}', [InventoryController::class, 'archiveSupplier']);
 Route::post('/add-seed', [InventoryController::class, 'addSeedSupplier']);
+Route::post('/edit-qty/{id}', [InventoryController::class, 'editQtySeed']);
 Route::post('/add-stock', [InventoryController::class, 'receivingStock']);
 Route::post('/void-item', [InventoryController::class, 'voidStock']);
 Route::post('/remove-stock', [InventoryController::class, 'usingStock']);
@@ -47,11 +50,14 @@ Route::get('/getSupplier/{id}', [InventoryController::class, 'getSupplier']);
 Route::get('/getSupplierSeeds/{id}', [InventoryController::class, 'getSupplierSeed']);
 Route::get('/download-qrCode/{filename}', [InventoryController::class, 'downloadQR'])->name('download.image');
 Route::get('/getLogs/{id}', [InventoryController::class, 'logs']);
+Route::get('/inventory/uom', [InventoryController::class, 'uom']);
+Route::post('/add-uom', [InventoryController::class, 'addUom']);
+Route::get('/getUom', [InventoryController::class, 'getUom']);
 
 Route::get('/plantifeed', [ForumController::class, 'index']);
 
 // Example route for displaying the chat threads
-Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
+Route::get('/chat', [ChatController::class, 'index']);
 
 // Example route for displaying the messages in a specific thread
 Route::get('/chat/{userId}', [ChatController::class, 'show'])->name('chat.user');
@@ -71,13 +77,3 @@ Route::get('/thread/{threadId}', [ThreadController::class, 'showThread'])->name(
 Route::post('/thread/{threadId}/store-message', [ThreadController::class, 'storeMessage'])->name('store.message');
 
 Route::post('/mark-messages-as-read/{userId}', [ChatController::class, 'markMessagesAsRead']);
-
-
-
-
-
-
-
-
-
-

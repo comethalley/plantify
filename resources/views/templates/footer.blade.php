@@ -1,18 +1,6 @@
 <footer class="footer">
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-sm-6">
-                <script>
-                    document.write(new Date().getFullYear());
-                </script>
-                © Velzon.
-            </div>
-            <div class="col-sm-6">
-                <div class="text-sm-end d-none d-sm-block">
-                    Design & Develop by John Vida
-                </div>
-            </div>
-        </div>
+
     </div>
 </footer>
 </div>
@@ -45,11 +33,20 @@
 <script src="{{ asset('assets/js/pages/plugins/lord-icon-2.1.0.js') }}"></script>
 <script src="{{ asset('assets/js/plugins.js') }}"></script>
 
-<!-- apexcharts -->
-<script src="{{ asset('assets/libs/apexcharts/apexcharts.min.js') }}"></script>
+<!-- list.js min js -->
+<script src="{{ asset('assets/libs/list.js/list.min.js') }}"></script>
 
-<!-- projects js -->
-<script src="{{ asset('assets/js/pages/dashboard-projects.init.js') }}"></script>
+<!--list pagination js-->
+<script src="{{ asset('assets/libs/list.pagination.js/list.pagination.min.js') }}"></script>
+
+<!-- ecommerce-order init js -->
+<script src="{{ asset('assets/js/pages/ecommerce-order.init.js') }}"></script>
+
+<!-- Sweet Alerts js -->
+<script src="{{ asset('assets/libs/sweetalert2/sweetalert2.min.js') }}"></script>
+
+<!-- App js -->
+<script src="{{ asset('assets/js/app.js') }}"></script>
 
 <!-- App js -->
 <script src="{{ asset('assets/js/app.js') }}"></script>
@@ -59,6 +56,7 @@
 <!-- <script src="{{ asset('assets/js/pages/calendar.init.js') }}"></script>
 
 <script src="{{ asset('assets/libs/fullcalendar/index.global.min.js') }}"></script> -->
+
 
 </body>
 

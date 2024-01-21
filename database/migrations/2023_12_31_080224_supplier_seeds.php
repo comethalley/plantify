@@ -13,17 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('supplier_seeds', function (Blueprint $table) {
             $table->id();
-            $table->string('firstname');
-            $table->string('lastname');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->string('role_id');
+            $table->integer('supplier_id');
+            $table->integer('uom_id');
+            $table->integer('seed_id');
+            $table->integer('qty');
+            $table->string('qr_code');
             $table->string('status');
-            $table->boolean('isOnline')->default(false);
-            $table->rememberToken();
             $table->timestamps();
         });
     }
@@ -35,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('supplier_seeds');
     }
 };

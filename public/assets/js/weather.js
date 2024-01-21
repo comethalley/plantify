@@ -65,25 +65,106 @@ tempUnit = document.querySelectorAll(".temp-unit");
 
 
 // function to get public ip address
-function getPublicIp() {
-  fetch("https://geolocation-db.com/json/", {
-    method: "GET",
- 
-  })
-    .then((response) => response.json())
-    .then((data) => {
-     console.log(data);
-     currentCity = data.city;
-     getWeatherData(data.city, currentCity, hourlyorWeek);
+document.addEventListener("DOMContentLoaded", function() {
+  getLocation();
+});
+
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      getLocationDetails,
+      showError
+    );
+  } else {
+    document.getElementById("location").innerHTML = "Geolocation is not supported by this browser.";
+  }
+}
+
+function getLocationDetails(position) {
+  const latitude = position.coords.latitude;
+  const longitude = position.coords.longitude;
+
+  // Use OpenCage Geocoding API to get location details
+  const apiKey = '64a339cd7d3748e38976be505208ecb7';
+  const apiUrl = `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${apiKey}`;
+
+  fetch(apiUrl)
+    .then(response => response.json())
+    .then(data => {
+      const city = data.results[0].components.city || data.results[0].components.town;
+      const country = data.results[0].components.country;
+
+      // Log the entire response data
+      console.log(data);
+
+      // Assuming you have the getWeatherData function defined somewhere
+      currentCity = city;
+      getWeatherData(city);
+      
+      document.getElementById("location").innerHTML = `${city},  ${country}`;
+    })
+    .catch(error => {
+      console.error('Error fetching location details:', error);
+      document.getElementById("location").innerHTML = "Error fetching location details.";
     });
 }
 
-getPublicIp();
+function showError(error) {
+  const errorMessage = {
+    1: "User denied the request for Geolocation.",
+    2: "Location information is unavailable.",
+    3: "The request to get user location timed out.",
+    default: "An unknown error occurred."
+  };
+
+  document.getElementById("location").innerHTML = errorMessage[error.code] || errorMessage.default;
+}
+
+
+function getWeatherData(city, unit, hourlyorWeek) {
+  const apiKey = "UQCDAHREW2AP33F6RGNT3X2Z9";
+  fetch(
+    `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?unitGroup=metric&key=${apiKey}&contentType=json`,
+    {
+      method: "GET",
+    }
+  )
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`Unable to fetch weather data. HTTP status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      const today = data.currentConditions;
+
+      // Update temperature based on the unit
+      const tempElement = document.getElementById("temperature");
+      tempElement.innerText = unit === "c" ? today.temp : celciusToFahrenheit(today.temp);
+
+      // Update other UI elements based on weather data
+      updateWeatherUI(today, data, unit, hourlyorWeek);
+    })
+    .catch(err => {
+      console.error('Error fetching weather data:', err);
+      alert("City not found in our database or weather data unavailable.");
+    });
+}
+
+function updateWeatherUI(today, data, unit, hourlyorWeek) {
+  // Other UI updates based on weather data
+  
+  // ... other element updates ...
+
+  temp.innerText = unit === "c" ? today.temp : celciusToFahrenheit(today.temp);
+  currentLocation.innerText = data.resolvedAddress;
+  // ... update other elements ...
+}
 
 // function getPublicIp() {
-// function showVisitorInfo(info) {
-//   document.getElementById("location").innerHTML = info.location;
-
+//   fetch("https://geolocation-db.com/json/", {
+//     method: "GET",
+ 
 //   })
 //     .then((response) => response.json())
 //     .then((data) => {
@@ -98,7 +179,9 @@ getPublicIp();
 
 
 
-// function to get weather data
+
+
+
 function getWeatherData(city, unit, hourlyorWeek) {
   const apiKey = "UQCDAHREW2AP33F6RGNT3X2Z9";
   fetch(
@@ -142,6 +225,9 @@ function getWeatherData(city, unit, hourlyorWeek) {
       alert("City not found in our database");
     });
 }
+
+
+
 
 //function to update Forecast
 function updateForecast(data, unit, type) {

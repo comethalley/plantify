@@ -657,7 +657,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="/planting" role="button">
+                            <a class="nav-link" href="/fullcalendar" role="button">
                                 <i class="ri-calendar-2-line"></i>
                                 <span data-key="t-calendar">Calendar</span>
                             </a>

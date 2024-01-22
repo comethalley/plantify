@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Farm;
+use App\Models\Barangay;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -13,41 +14,23 @@ class FarmController extends Controller
 
     public function index()
     {
-        $farms = Farm::all();
-    return view('pages.farms.index')->with('farms', $farms);
+        $barangays = Barangay::all();
+    return view('pages.farms.index')->with('barangays', $barangays);
     }
 
-    public function getFarms(Request $request)
+    public function viewFarms(Request $request)
 {
-    $farms = Farm::all();
+    $barangayName = $request->input('barangay_name');
 
-    return response('pages.farms.index')->json(['farms' => $farms]);
+    // Fetch farms based on barangay_name
+    $farms = DB::table('farms')
+        ->join('barangays', 'farms.barangay_name', '=', 'barangays.barangay_name')
+        ->where('farms.barangay_name', '=', $barangayName)
+        ->select('farms.*')
+        ->get();
+
+    return view('pages.farms.view', compact('farms', 'barangayName'));
 }
 
-public function saveFarms(Request $request)
-    {
-        $data = $request->validate([
-            'farm_name' => 'required|string|max:255',
-            'area' => 'required|string|max:255',
-            'area' => 'required|string|max:255',
-            'address'=> 'required|string|max:255',
-            'farm_leader'=> 'required|string|max:255',
-            'createdBy'=> 'required|string|max:255',
-            'status'=> 'required|string|max:255',
-            // Add more validation rules if needed
-        ]);
-
-        Farm::create([
-            'farm_name' => $data['farm_name'],
-            'area' => $data['area'],
-            'address' => $data['address'],
-            'farm_leader' => $data['farm_leader'],
-            'createdBy' => $data['createdBy'],
-            'status' => $data['status'],
-            // Add more fields as needed
-        ]);
-
-        return redirect('/')->with('success', 'Farm added successfully');
-    }
 }
 

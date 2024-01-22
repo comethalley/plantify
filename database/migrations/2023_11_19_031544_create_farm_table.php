@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('farms', function (Blueprint $table) {
             $table->id();
+            $table->string('barangay_name');
+            $table->string('category_id');
             $table->string('farm_name');
             $table->string('area');
             $table->string('address');

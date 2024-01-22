@@ -44,6 +44,11 @@
 <script src="{{ asset('assets/libs/feather-icons/feather.min.js') }}"></script>
 <script src="{{ asset('assets/js/pages/plugins/lord-icon-2.1.0.js') }}"></script>
 <script src="{{ asset('assets/js/plugins.js') }}"></script>
+<script src="{{ asset('vendor/toastify-js/toastify.min.js') }}"></script>
+<script src="{{ asset('assets/libs/choices.js/public/assets/scripts/choices.min.js') }}"></script>
+<script src="{{ asset('assets/libs/flatpickr/flatpickr.min.js') }}"></script>
+
+
 
 <!-- list.js min js -->
 <script src="{{ asset('assets/libs/list.js/list.min.js') }}"></script>
@@ -63,7 +68,8 @@
 <!-- App js -->
 <script src="{{ asset('assets/js/app.js') }}"></script>
 
-<!-- JAVASCRIPT Farm Management  -->
+
+
 
 
 

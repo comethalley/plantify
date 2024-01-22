@@ -48,5 +48,8 @@ Route::get('/getLogs/{id}', [InventoryController::class, 'logs']);
 Route::get('/plantifeed', [ForumController::class, 'index']);
 
 Route::get('/farms', [FarmController::class, 'index']);
+Route::get('/view-farms', [FarmController::class, 'viewFarms'])->name('farms.view');
 
-Route::post('/save-farms', [FarmController::class, 'saveFarms'])->name('saveFarms');
+
+
+

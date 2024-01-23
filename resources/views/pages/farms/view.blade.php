@@ -1,4 +1,6 @@
 @include('templates.header')
+
+
 <div class="main-content">
 
     <div class="page-content">
@@ -23,11 +25,14 @@
             <!-- end page title -->
 
             <div class="row">
+            @if(isset($farms) && count($farms) > 0)
+                    @foreach($farms as $farm)
                         <div class="col-lg-12">
                             <div class="card" id="tasksList">
                                 <div class="card-header border-0">
                                     <div class="d-flex align-items-center">
-                                        <h5 class="card-title mb-0 flex-grow-1">Farm list</h5>
+                                    <h5 class="card-title mb-0 flex-grow-1">Farm: &nbsp; {{ $farm->barangay_name }}</h5>
+
                                         <div class="flex-shrink-0">
                                            <div class="d-flex flex-wrap gap-2">
                                                 <button class="btn btn-danger add-btn" data-bs-toggle="modal" data-bs-target="#showModal"><i class="ri-add-line align-bottom me-1"></i> Create Farm</button>
@@ -109,12 +114,14 @@
                     <th class="sort" data-sort="area">Area</th>
                     <th class="sort" data-sort="address">Address</th>
                     <th class="sort" data-sort="farm_leader">Farm Leader</th>
+                    <th class="sort" data-sort="status">Status</th>
+                    <th class="sort" data-sort="actions">Actions</th>
                 </tr>
             </thead>
             <tbody class="list form-check-all">
-                @if(isset($farms) && count($farms) > 0)
-                    @foreach($farms as $farm)
-                        <tr>
+            
+            <tr>
+                
                             <th scope="row">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="checkAll" value="option1">
@@ -126,6 +133,8 @@
                             <td class="area">{{ $farm->area }}</td>
                             <td class="address">{{ $farm->address }}</td>
                             <td class="farm_leader">{{ $farm->farm_leader }}</td>
+                            <td class="status status-{{ strtolower(str_replace(' ', '-', $farm->status)) }}">{{ $farm->status }}</td>
+                            <td class="actions">{{ $farm->farm_leader }}</td>
                             <td>
                                
                             </td>
@@ -161,4 +170,22 @@
     </div>
 </div>
 
+<style>
+.status {
+        border-radius: 10px;
+        padding: 15px;
+        width: 200px;
+        text-align: center;
+        text-color
+    }
+
+    .status-created { background-color: gray; color: black; }
+    .status-investigation { background-color: gray; color: white; }
+    .status-visiting { background-color: gray; color: red; }
+    .status-waiting { background-color: lightblue; color: white; }
+    .status-approved { background-color: green; color: white; }
+    .status-disapproved { background-color: red; color: white; }
+    .status-cancelled { background-color: red; color: white; }
+    .status-non-compliant { background-color: red; color: white; }
+    </style>
 @include('templates.footer')

@@ -11,7 +11,7 @@ class CreateBarangaysTable extends Migration
         Schema::create('barangays', function (Blueprint $table) {
             $table->id();
             $table->string('barangay_name');
-            $table->string('category_id');
+            
             // Add more columns as needed
             $table->timestamps();
         });

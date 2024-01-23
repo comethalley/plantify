@@ -16,13 +16,12 @@ return new class extends Migration
         Schema::create('farms', function (Blueprint $table) {
             $table->id();
             $table->string('barangay_name');
-            $table->string('category_id');
             $table->string('farm_name');
-            $table->string('area');
             $table->string('address');
+            $table->string('area');
             $table->string('farm_leader');
-            $table->string('createdBy');
             $table->string('status');
+            $table->string('actions');
             $table->timestamps();
         });
     }

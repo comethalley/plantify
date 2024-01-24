@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\plantifeedcontroller;
 use App\Http\Controllers\ForumController;
 use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\TaskController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,3 +46,12 @@ Route::get('/download-qrCode/{filename}', [InventoryController::class, 'download
 Route::get('/getLogs/{id}', [InventoryController::class, 'logs']);
 
 Route::get('/plantifeed', [ForumController::class, 'index']);
+Route::get('/tasks',[TaskController::class,'index'])->name('tasks.monitoring');
+Route::get('/tasks/create',[TaskController::class,'create'])->name('tasks.create');
+Route::post('/tasks',[TaskController::class,'store'])->name('tasks.store');
+Route::get('/tasks/{task}',[TaskController::class,'edit'])->name('tasks.edit');
+Route::put('/tasks/{task}',[TaskController::class,'update'])->name('tasks.update');
+Route::delete('/tasks/{task}',[TaskController::class,'destroy'])->name('tasks.destroy');
+Route::post('/tasks/{task}/complete',[TaskController::class,'complete'])->name('tasks.complete');
+Route::get('taskshow',[TaskController::class,'showCompleted'])->name('taskshow');
+    

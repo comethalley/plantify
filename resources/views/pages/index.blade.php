@@ -558,7 +558,7 @@
                                     <div class="dropdown-menu dropdown-menu-end">
                                         <a class="dropdown-item" href="#">All Tasks</a>
                                         <a class="dropdown-item" href="#">Completed </a>
-                                        <a class="dropdown-item" href="#">Inprogress</a>
+                                        <a class="dropdown-item" href="#">In progress</a>
                                         <a class="dropdown-item" href="#">Pending</a>
                                     </div>
                                 </div>
@@ -571,7 +571,7 @@
                                     <thead class="table-light text-muted">
                                         <tr>
                                             <th scope="col">Name</th>
-                                            <th scope="col">Dedline</th>
+                                            <th scope="col">Deadline</th>
                                             <th scope="col">Status</th>
                                             <th scope="col">Assignee</th>
                                         </tr>

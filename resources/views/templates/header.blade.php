@@ -699,11 +699,20 @@
                         </li> <!-- end Dashboard Menu -->
 
                         <li class="nav-item">
-                            <a class="nav-link" href="task.html" role="button">
-                                <i class="ri-task-line"></i>
-                                <span data-key="t-faqs">Task</span>
+                            <a class="nav-link menu-link" href="#sidebarDashboards1" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                                <i class="ri-dashboard-2-line"></i> <span>Tasks</span>
                             </a>
-                        </li>
+                            <div class="collapse menu-dropdown" id="sidebarDashboards1">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="/tasks" class="nav-link"> List Viewed </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/inventory/kanban" class="nav-link"> Kanban Board </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li> 
 
                         <li class="nav-item">
                             <a class="nav-link" href="chat.html" role="button">

@@ -3,7 +3,7 @@
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
 
 <head>
-    
+
     <meta charset="utf-8" />
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <title>Plantify</title>
@@ -29,6 +29,7 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
     <script src="{{ asset('assets/js/inventory.js') }}"></script>
+    <script src="{{ asset('assets/js/uom.js') }}"></script>
 
     <!--Scanner JS-->
     <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
@@ -571,7 +572,7 @@
         </div>
         <!-- /.modal -->
         <!-- ========== App Menu ========== -->
-        <div class="app-menu navbar-menu">
+        <div class="app-menu navbar-menu" style="background-color:#8BE262;">
             <!-- LOGO -->
             <div class="navbar-brand-box">
                 <!-- Dark Logo-->
@@ -611,18 +612,18 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="calendar.html" role="button" style="color:white">
+                            <a class="nav-link" href="/fullcalendar" role="button" style="color:white">
                                 <i class="ri-calendar-2-line"></i>
                                 <span data-key="t-calendar">Calendar</span>
                             </a>
                         </li>
 
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a class="nav-link" href="faq.html" role="button" style="color:white">
                                 <i class="ri-question-line"></i>
                                 <span data-key="t-faqs">FaQs</span>
                             </a>
-                        </li>
+                        </li> -->
 
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="#sidebarDashboards" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards" style="color:white">

@@ -231,7 +231,7 @@
                                                     Add Seeds from this Supplier
                                                 </h5>
                                                 <div class="row">
-                                                    <input type="text" name="supplier-id" id="supplier-id" class="form-control" readonly />
+                                                    <input type="hidden" name="supplier-id" id="supplier-id" class="form-control" readonly />
                                                     <div class="col-lg-4">
                                                         <div class="input-group">
                                                             <select class="form-select" id="seed">

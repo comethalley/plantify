@@ -177,7 +177,7 @@
                             <td class="area">{{ $farm->area }}</td>
                             <td class="address">{{ $farm->address }}</td>
                             <td class="farm_leader">{{ $farm->farm_leader }}</td>
-                            <td class="text-center">
+                            <td class="text-center status">
                 @switch(strtolower(str_replace(' ', '-', $farm->status)))
                     @case('created')
                         <button class="btn btn-primary btn-border">{{ $farm->status }}</button>
@@ -204,19 +204,116 @@
             </td>
                             
                             <td>
-    <ul class="list-inline hstack gap-2 mb-0">
+                            <ul class="list-inline hstack gap-2 mb-0">
         <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="View Application">
-            <a href="#showModal" data-bs-toggle="modal" class="text-primary d-inline-block edit-item-btn">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#viewModal" class="text-primary d-inline-block edit-item-btn" onclick="showFarmDetails('{{ $farm->id }}', '{{ $farm->farm_name }}', '{{ $farm->barangay_name }}', '{{ $farm->area }}', '{{ $farm->address }}', '{{ $farm->farm_leader }}', '{{ $farm->status }}')">
                 <i class="ri-profile-line fs-3"></i>
             </a>
         </li>
-        <ul class="list-inline hstack gap-2 mb-0">
-                    <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Edit">
-                        <a href="#showModal" data-bs-toggle="modal" class="text-primary d-inline-block edit-item-btn">
-                            <i class="ri-pencil-fill fs-16"></i>
-                        </a>
-                    </li>
     </ul>
+
+    <!-- Modal -->
+    <div class="modal fade modal-lg" id="viewModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-light p-3">
+                <h5 class="modal-title" id="exampleModalLabel">Farm Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <label for="status_modal" class="form-label custom-label">Status:</label>
+                        <button id="status_modal" class="btn btn-primary btn-border"></button>
+                        <br>
+                        <br>
+                        <label for="farm_name_modal" class="form-label custom-label">Farm Name:</label>
+                        <input type="text" id="farm_name_modal" class="form-control" disabled>
+                        <br>
+                        <label for="barangay_name_modal" class="form-label custom-label">Barangay Name:</label>
+                        <input type="text" id="barangay_name_modal" class="form-control" disabled>
+                        <br>
+                        <label for="area_modal" class="form-label custom-label">Area:</label>
+                        <input type="text" id="area_modal" class="form-control" disabled>
+                        <br>
+                        <label for="address_modal" class="form-label custom-label">Address:</label>
+                        <input type="text" id="address_modal" class="form-control" disabled>
+                        <br>
+                        <label for="farm_leader_modal" class="form-label custom-label">Farm Leader:</label>
+                        <input type="text" id="farm_leader_modal" class="form-control" disabled>
+                        <br>
+                    </div>
+                </div>
+                
+                <!-- Additional row with buttons -->
+                <div class="row mt-3">
+                    <div class="col-md-3">
+                        <button class="btn rounded-pill btn-secondary">For Investigation</button>
+                    </div>
+                    <div class="col-md-3">
+                        <button class="btn rounded-pill btn-secondary">For Visiting</button>
+                    </div>
+                    <div class="col-md-3">
+                        <button class="btn rounded-pill btn-success">Approved</button>
+                    </div>
+                    <div class="col-md-3">
+                        <button class="btn rounded-pill btn-danger">Disapproved</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function showFarmDetails(id, farmName, barangayName, area, address, farmLeader, status) {
+        switch (status.toLowerCase().replace(/\s+/g, '-')) {
+            case 'created':
+                $('#status_modal').html(status + '<i class="fas fa-check-double label-icon align-middle rounded-pill fs-16 ms-2"></i> ' )
+                    .removeClass().addClass('btn btn-primary btn-label waves-effect right waves-light rounded-pill');
+                break;
+            case 'for-investigation':
+            case 'for-visiting':
+                $('#status_modal').html('<i class="fas fa-info-circle label-icon align-middle rounded-pill fs-16 ms-2"></i> ' + status)
+                    .removeClass().addClass('btn btn-secondary btn-label waves-effect right waves-light rounded-pill');
+                break;
+            case 'waiting-for-approval':
+                $('#status_modal').html('<i class="fas fa-hourglass-half label-icon align-middle rounded-pill fs-16 ms-2"></i> ' + status)
+                    .removeClass().addClass('btn btn-warning btn-label waves-effect right waves-light rounded-pill');
+                break;
+            case 'approved':
+                $('#status_modal').html('<i class="fas fa-check-circle label-icon align-middle rounded-pill fs-16 ms-2"></i> ' + status)
+                    .removeClass().addClass('btn btn-success btn-label waves-effect right waves-light rounded-pill');
+                break;
+            case 'disapproved':
+            case 'cancelled':
+                $('#status_modal').html('<i class="fas fa-times-circle label-icon align-middle rounded-pill fs-16 ms-2"></i> ' + status)
+                    .removeClass().addClass('btn btn-danger btn-label waves-effect right waves-light rounded-pill');
+                break;
+            default:
+                $('#status_modal').text(status).removeClass().addClass('status status-' + status.toLowerCase().replace(/\s+/g, '-') + ' btn btn-no-shadow');
+        }
+
+        $('#farm_name_modal').val(farmName);
+        $('#barangay_name_modal').val(barangayName);
+        $('#area_modal').val(area);
+        $('#address_modal').val(address);
+        $('#farm_leader_modal').val(farmLeader);
+    }
+</script>
+
+
+
+
+<style>
+    .custom-label {
+        font-size: 1rem; /* Adjust the font size as needed */
+    }
+</style>
+
+
 </td>
 
                             </td>

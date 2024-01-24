@@ -47,5 +47,6 @@ public function filterByStatus(Request $request)
         return response()->json(['farms' => $farms]);
     }
 
+
 }
 

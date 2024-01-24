@@ -22,7 +22,7 @@ class FarmController extends Controller
 {
     $barangayName = $request->input('barangay_name');
 
-    // Fetch farms based on barangay_name
+
     $farms = DB::table('farms')
         ->join('barangays', 'farms.barangay_name', '=', 'barangays.barangay_name')
         ->where('farms.barangay_name', '=', $barangayName)
@@ -31,6 +31,21 @@ class FarmController extends Controller
 
     return view('pages.farms.view', compact('farms', 'barangayName'));
 }
+
+public function filterByStatus(Request $request)
+    {
+        $status = $request->input('status');
+
+      
+        if ($status == 'All') {
+            $farms = Farm::all();
+        } else {
+            
+            $farms = Farm::where('status', $status)->get();
+        }
+
+        return response()->json(['farms' => $farms]);
+    }
 
 }
 

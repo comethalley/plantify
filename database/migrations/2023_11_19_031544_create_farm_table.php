@@ -21,7 +21,6 @@ return new class extends Migration
             $table->string('area');
             $table->string('farm_leader');
             $table->string('status');
-            $table->string('actions');
             $table->timestamps();
         });
     }

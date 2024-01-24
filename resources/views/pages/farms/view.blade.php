@@ -25,78 +25,121 @@
             <!-- end page title -->
 
             <div class="row">
-            @if(isset($farms) && count($farms) > 0)
-                    @foreach($farms as $farm)
-                        <div class="col-lg-12">
-                            <div class="card" id="tasksList">
-                                <div class="card-header border-0">
-                                    <div class="d-flex align-items-center">
-                                    <h5 class="card-title mb-0 flex-grow-1">Farm: &nbsp; {{ $farm->barangay_name }}</h5>
-
-                                        <div class="flex-shrink-0">
-                                           <div class="d-flex flex-wrap gap-2">
-                                                <button class="btn btn-danger add-btn" data-bs-toggle="modal" data-bs-target="#showModal"><i class="ri-add-line align-bottom me-1"></i> Create Farm</button>
-                                                
-                                           </div>
-                                        </div>
+    @if(isset($farms) && count($farms) > 0)
+        @foreach($farms as $key => $farm)
+            @if($key == 0 || $farm->barangay_name != $farms[$key - 1]->barangay_name)
+                <div class="col-lg-12">
+                    <div class="card" id="tasksList">
+                        <div class="card-header border-0">
+                            <div class="d-flex align-items-center">
+                                <h5 class="card-title mb-0 flex-grow-1">Farm: &nbsp; {{ $farm->barangay_name }}</h5>
+                                <div class="flex-shrink-0">
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <button class="btn btn-danger add-btn" data-bs-toggle="modal" data-bs-target="#showModal"><i class="ri-add-line align-bottom me-1"></i> Create Farm</button>
                                     </div>
                                 </div>
-                                <div class="card-body border border-dashed border-end-0 border-start-0">
-                                    <form>
-                                        <div class="row g-3">
-                                            <div class="col-xxl-5 col-sm-12">
-                                                <div class="search-box">
-                                                    
-                                                </div>
-                                            </div>
-                                            <!--end col-->
-
-                                            <div class="col-xxl-3 col-sm-4">
-                                            <div class="search-box">
-                                        <input type="text" class="form-control search bg-light border-light" placeholder="Search for tasks or something...">
-                                        <i class="ri-search-line search-icon"></i>
-                                        </div>
-                                                    
-                                            </div>
-                                            <!--end col-->
-
-                                            <div class="col-xxl-3 col-sm-4">
-    <div class="input-light">
-        <div class="choices" data-type="select-one" tabindex="0" role="listbox" aria-haspopup="true" aria-expanded="false">
-            <div class="choices__inner">
-                <select class="form-control choices__input" data-choices="" data-choices-search-false="" name="choices-single-default" id="idStatus" hidden="" tabindex="-1" data-choice="active">
-                    <option value="Completed" data-custom-properties="[object Object]">Completed</option>
-                </select>
-                <div class="choices__list choices__list--single">
-                    <div class="choices__item choices__item--selectable" data-item="" data-id="2" data-value="Completed" data-custom-properties="[object Object]" aria-selected="true">Completed</div>
+                            </div>
+                        </div>
+                        
+                        <form>
+    <div class="card-body border border-dashed border-end-0 border-start-0">
+        <div class="row g-3">
+            <div class="col-xxl-5 col-sm-12">
+                <div class="search-box">
+                    <!-- Your search box content here -->
                 </div>
             </div>
-            <div class="choices__list choices__list--dropdown" aria-expanded="false">
-                <div class="choices__list" role="listbox">
-                    <div id="choices--idStatus-item-choice-6" class="choices__item choices__item--choice choices__placeholder choices__item--selectable is-highlighted" role="option" data-choice="" data-id="6" data-value="" data-select-text="Press to select" data-choice-selectable="" aria-selected="true">Status</div>
-                    <div id="choices--idStatus-item-choice-1" class="choices__item choices__item--choice choices__item--selectable" role="option" data-choice="" data-id="1" data-value="all" data-select-text="Press to select" data-choice-selectable="" aria-selected="false">All</div>
-                    <div id="choices--idStatus-item-choice-2" class="choices__item choices__item--choice is-selected choices__item--selectable" role="option" data-choice="" data-id="2" data-value="Completed" data-select-text="Press to select" data-choice-selectable="" aria-selected="false">Completed</div>
-                    <div id="choices--idStatus-item-choice-3" class="choices__item choices__item--choice choices__item--selectable" role="option" data-choice="" data-id="3" data-value="Inprogress" data-select-text="Press to select" data-choice-selectable="" aria-selected="false">Inprogress</div>
-                    <div id="choices--idStatus-item-choice-4" class="choices__item choices__item--choice choices__item--selectable" role="option" data-choice="" data-id="4" data-value="New" data-select-text="Press to select" data-choice-selectable="">New</div>
-                    <div id="choices--idStatus-item-choice-5" class="choices__item choices__item--choice choices__item--selectable" role="option" data-choice="" data-id="5" data-value="Pending" data-select-text="Press to select" data-choice-selectable="">Pending</div>
+            <!--end col-->
+
+            <div class="col-xxl-2 col-sm-4">
+                <div class="search-box">
+                    <input type="text" class="form-control search bg-light border-light" placeholder="Search for application or something...">
+                    <i class="ri-search-line search-icon"></i>
                 </div>
             </div>
-        </div>
+            <!--end col-->
+
+            <div class="col-xxl-2 col-sm-3 ms-auto">
+    <div class="btn-group" style="width: 200px;">
+        <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuClickableOutside" data-bs-toggle="dropdown" data-bs-auto-close="inside" aria-expanded="false">
+            All
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuClickableOutside">
+            <li><a class="dropdown-item" href="javascript:void(0);">All</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">Created</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">For investigation</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">For visiting</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">Waiting-for-approval</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">Approved</a></li>
+        </ul>
     </div>
 </div>
-<!--end col-->
 
-<div class="col-xxl-1 col-sm-4">
-    <button type="button" class="btn btn-primary w-100" onclick="SearchData();">
-        <i class="ri-equalizer-fill me-1 align-bottom"></i> Filters
-    </button>
-</div>
 
-                                            <!--end col-->
-                                        </div>
-                                        <!--end row-->
-                                    </form>
-                                </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+    $('.dropdown-item').click(function () {
+        var status = $(this).text();
+
+        
+        if (status.toLowerCase() === 'all') {
+            $('.farm-row').show();
+        } else {
+            
+            $('.farm-row').hide();
+
+            
+            $('.farm-row.' + status.toLowerCase().replace(' ', '-')).show();
+        }
+
+        $.ajax({
+            url: '/farms/filterByStatus',
+            type: 'GET',
+            data: { status: status },
+            success: function (data) {
+                
+                console.log(data.farms);
+
+                
+                $('#dropdownMenuClickableOutside').text(status);
+
+                
+                if (data.farms.length === 0) {
+                    $('#tableContainer').html('<p>No farms found.</p>');
+                } else {
+                    
+                    $('#tableContainer').html(data.farms);
+                }
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    });
+});
+
+
+</script>
+
+
+
+
+            <!--end col-->
+
+            <div class="col-xxl-3 col-sm-4 d-flex align-items-center justify-content-end">
+                <button type="button" class="btn btn-primary w-100" onclick="SearchData();">
+                    <i class="ri-equalizer-fill me-1 align-bottom"></i> Filters
+                </button>
+            </div>
+            <!--end col-->
+        </div>
+        <!--end row-->
+    </div>
+</form>
+
+
+
                                 <!--end card-body-->
                                 <div class="card-body">
     <div class="table-responsive table-card mb-4">
@@ -114,13 +157,14 @@
                     <th class="sort" data-sort="area">Area</th>
                     <th class="sort" data-sort="address">Address</th>
                     <th class="sort" data-sort="farm_leader">Farm Leader</th>
-                    <th class="sort" data-sort="status">Status</th>
-                    <th class="sort" data-sort="actions">Actions</th>
+                    <th class="sort text-center" data-sort="status">Status</th>
+                    <th class="sort text-center" data-sort="actions">Actions </th>
                 </tr>
             </thead>
-            <tbody class="list form-check-all">
-            
-            <tr>
+            @endif
+            <tbody id="farmTableBody" class="list form-check-all">
+           
+            <tr class="farm-row {{ strtolower(str_replace(' ', '-', $farm->status)) }}">
                 
                             <th scope="row">
                                 <div class="form-check">
@@ -133,8 +177,49 @@
                             <td class="area">{{ $farm->area }}</td>
                             <td class="address">{{ $farm->address }}</td>
                             <td class="farm_leader">{{ $farm->farm_leader }}</td>
-                            <td class="status status-{{ strtolower(str_replace(' ', '-', $farm->status)) }}">{{ $farm->status }}</td>
-                            <td class="actions">{{ $farm->farm_leader }}</td>
+                            <td class="text-center">
+                @switch(strtolower(str_replace(' ', '-', $farm->status)))
+                    @case('created')
+                        <button class="btn btn-primary btn-border">{{ $farm->status }}</button>
+                        @break
+                    @case('for-investigation')
+                    @case('for-visiting')
+                        <button class="btn btn-secondary btn-border">{{ $farm->status }}</button>
+                        @break
+                    @case('waiting-for-approval')
+                        <button class="btn btn-warning btn-border">{{ $farm->status }}</button>
+                        @break
+                    @case('approved')
+                        <button class="btn btn-success btn-border">{{ $farm->status }}</button>
+                        @break
+                    @case('disapproved')
+		            @case('cancelled')
+                        <button class="btn btn-danger btn-border">{{ $farm->status }}</button>
+                        @break
+                    @default
+                        <button class="status status-{{ strtolower(str_replace(' ', '-', $farm->status)) }} btn btn-no-shadow">
+                            {{ $farm->status }}
+                        </button>
+                @endswitch
+            </td>
+                            
+                            <td>
+    <ul class="list-inline hstack gap-2 mb-0">
+        <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="View Application">
+            <a href="#showModal" data-bs-toggle="modal" class="text-primary d-inline-block edit-item-btn">
+                <i class="ri-profile-line fs-3"></i>
+            </a>
+        </li>
+        <ul class="list-inline hstack gap-2 mb-0">
+                    <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Edit">
+                        <a href="#showModal" data-bs-toggle="modal" class="text-primary d-inline-block edit-item-btn">
+                            <i class="ri-pencil-fill fs-16"></i>
+                        </a>
+                    </li>
+    </ul>
+</td>
+
+                            </td>
                             <td>
                                
                             </td>
@@ -176,16 +261,11 @@
         padding: 15px;
         width: 200px;
         text-align: center;
-        text-color
     }
 
-    .status-created { background-color: gray; color: black; }
-    .status-investigation { background-color: gray; color: white; }
-    .status-visiting { background-color: gray; color: red; }
-    .status-waiting { background-color: lightblue; color: white; }
-    .status-approved { background-color: green; color: white; }
-    .status-disapproved { background-color: red; color: white; }
-    .status-cancelled { background-color: red; color: white; }
-    .status-non-compliant { background-color: red; color: white; }
+
+
     </style>
+
+    
 @include('templates.footer')

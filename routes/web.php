@@ -49,6 +49,7 @@ Route::get('/plantifeed', [ForumController::class, 'index']);
 
 Route::get('/farms', [FarmController::class, 'index']);
 Route::get('/view-farms', [FarmController::class, 'viewFarms'])->name('farms.view');
+Route::get('/farms/filterByStatus', [FarmController::class, 'filterByStatus']);
 
 
 

@@ -684,12 +684,31 @@
                             </a>
                         </li>
 
+
                         <li class="nav-item">
+                            <a class="nav-link menu-link" href="#weather" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                                <i class="ri-sun-foggy-fill"></i> <span>Weather</span>
+                            </a>
+                            <div class="collapse menu-dropdown" id="weather">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="/weather" class="nav-link"> Weather Today </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/pastweather" class="nav-link"> Past Weather </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li> <!-- end Dashboard Menu -->
+
+
+                        <!-- <li class="nav-item">
                             <a class="nav-link" href="/weather" role="button">
-                                <i class="ri-question-line"></i>
+                                <i class=" ri-sun-foggy-fill"></i>
                                 <span data-key="t-faqs">Weather</span>
                             </a>
-                        </li>
+                            
+                        </li> -->
 
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="#sidebarDashboards" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards">

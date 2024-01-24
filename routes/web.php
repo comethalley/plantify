@@ -47,3 +47,5 @@ Route::get('/getLogs/{id}', [InventoryController::class, 'logs']);
 
 Route::get('/plantifeed', [ForumController::class, 'index']);
 Route::get('/weather', [WeatherController::class, 'index']);
+Route::get('/pastweather', [WeatherController::class, 'pastweather']);
+

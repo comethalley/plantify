@@ -3,6 +3,8 @@
 <!-- ============================================================== -->
 <!-- Start right Content here -->
 <!-- ============================================================== -->
+
+<!-- ============================================================== -->
 <div class="main-content">
     <div class="page-content">
         <div class="container-fluid">
@@ -24,6 +26,28 @@
                 </div>
             </div>
             <!-- end page title -->
+
+            <br>
+                        <div class="col-xl-2">
+                            <div class="card card-animate">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-grow-1 overflow-hidden ms-3">
+                                            <p class="text-uppercase fw-medium text-muted text-truncate mb-3">
+                                                Active Projects
+                                            </p>
+                                        </div>
+                                         
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end card body -->
+                            </div>
+                        </div>
+
+
+
+            <hr>
 
             <div class="row project-wrapper">
                 <div class="col-xxl-8">

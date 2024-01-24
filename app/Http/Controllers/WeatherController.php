@@ -13,5 +13,12 @@ class WeatherController extends Controller
         return view('pages.weather.index');
     }
 
+    public function pastweather()
+    {
+        return view('pages.weather.pastweather');
+    }
+
+
+
 
 }

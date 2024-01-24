@@ -1,15 +1,22 @@
 
+@include('templates.header')
+
 <script src="https://kit.fontawesome.com/8ff31c595e.js" crossorigin="anonymous"></script>
  
     <link href="{{ asset('assets/css/weather.css') }}" rel="stylesheet" type="text/css" />
 
+    <div class="main-content">
+
+
     <div class="wrapper">
       <div class="sidebar">
         <div>
-          <form class="search" id="search">
+          <br>
+          <br>
+          <!-- <form class="search" id="search">
             <input type="text" id="query" placeholder="Search..." />
             <button><i class="fas fa-search"></i></button>
-          </form>
+          </form> -->
           <div class="weather-icon">
             <img id="icon" src="assets/weather-icon/icons/sun/27.png" alt="" />
           </div>
@@ -105,4 +112,7 @@
     <script src="https://cdn.db-ip.com/js/dbip.js"
               data-api-key="p6bcac47ae71f0285cb6343d9697e56e41a2cb92"> </script>
     </div>
+    </div>
+    </div>
+    @include('templates.footer')
 

@@ -1,8 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
 
 <head>
+    
     <meta charset="utf-8" />
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <title>Plantify</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
@@ -650,14 +653,7 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/chat" role="button" style="color:white">
                                 <i class="ri-wechat-line"></i>
-                                <span data-key="t-chat">Chat</span>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="/plantifeed" role="button" style="color:white">
-                                <i class="ri-question-line"></i>
-                                <span>Plantifeed</span>
+                                <span data-key="t-faqs">Chat</span>
                             </a>
                         </li>
                     </ul>

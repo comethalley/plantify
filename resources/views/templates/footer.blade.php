@@ -52,6 +52,12 @@
 <script src="{{ asset('assets/js/app.js') }}"></script>
 
 
+<!-- calendar -->
+<!-- <script src="{{ asset('assets/js/pages/calendar.init.js') }}"></script>
+
+<script src="{{ asset('assets/libs/fullcalendar/index.global.min.js') }}"></script> -->
+
+
 </body>
 
 </html>

@@ -5,7 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class event extends Model
+class Calendar extends Model
 {
-    use HasFactory;
+	use HasFactory;
+
+	protected $fillable = [
+		'title', 'start', 'end'
+	];
 }
+
+?>

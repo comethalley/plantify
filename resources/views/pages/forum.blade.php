@@ -1,7 +1,7 @@
 @include('templates.header')
 
 <head>
-    <link rel="shortcut icon" href="{{ asset('assets/images/plantifeedpics/feedcover.png') }}" />
+    <link rel="shortcut icon" href="{{ asset('assets/images/plantifeedpics/bg-velzon.png') }}" />
 
 </head>
 
@@ -414,15 +414,6 @@
                     </div>
                 </div>
             </div>
-
-
-
-
-
-
-
-
-
 
 </body>
 

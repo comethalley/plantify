@@ -9,6 +9,7 @@ use App\Http\Controllers\ForumController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ThreadController;
+use App\Http\Controllers\WeatherController;
 
 /*
 |--------------------------------------------------------------------------
@@ -86,3 +87,6 @@ Route::get('/thread/{threadId}', [ThreadController::class, 'showThread'])->name(
 Route::post('/thread/{threadId}/store-message', [ThreadController::class, 'storeMessage'])->name('store.message');
 
 Route::post('/mark-messages-as-read/{userId}', [ChatController::class, 'markMessagesAsRead']);
+
+Route::get('/weather', [WeatherController::class, 'index']);
+Route::get('/pastweather', [WeatherController::class, 'pastweather']);

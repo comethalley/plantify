@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\plantifeedcontroller;
 use App\Http\Controllers\ForumController;
 use App\Http\Controllers\InventoryController;
-
+use App\Http\Controllers\TeamController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -77,3 +77,7 @@ Route::get('/thread/{threadId}', [ThreadController::class, 'showThread'])->name(
 Route::post('/thread/{threadId}/store-message', [ThreadController::class, 'storeMessage'])->name('store.message');
 
 Route::post('/mark-messages-as-read/{userId}', [ChatController::class, 'markMessagesAsRead']);
+
+Route::get('/team', [TeamController::class, 'index']);
+Route::get('/privacy', [TeamController::class, 'privacy']);
+Route::get('/teamv2', [TeamController::class, 'team2']);

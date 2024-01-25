@@ -660,6 +660,29 @@
                                 <span>Plantifeed</span>
                             </a>
                         </li>
+
+                        
+                        <li class="nav-item">
+                            <a class="nav-link" href="/team" role="button" style="color:white">
+                                <i class="ri-question-line"></i>
+                                <span>Team</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/privacy" role="button" style="color:white">
+                                <i class="ri-question-line"></i>
+                                <span>Privacy</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/teamv2" role="button" style="color:white">
+                                <i class="ri-question-line"></i>
+                                <span>Team2</span>
+                            </a>
+                        </li>
+
                     </ul>
                 </div>
                 <!-- Sidebar -->

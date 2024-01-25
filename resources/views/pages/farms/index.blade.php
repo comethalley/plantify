@@ -25,31 +25,98 @@
                             <div class="row g-2">
                                 <div class="col-sm-4">
                                     <div class="search-box">
-                                        <input type="text" class="form-control" id="searchMemberList" placeholder="Search for districs or designation...">
+                                        <input type="text" class="form-control" id="searchMemberList" placeholder="Search for farms or designation...">
                                         <i class="ri-search-line search-icon"></i>
                                     </div>
                                 </div>
                                 <!--end col-->
                                 <div class="col-sm-auto ms-auto">
                                     <div class="list-grid-nav hstack gap-1">
-                                        <button type="button" id="grid-view-button" class="btn btn-soft-info nav-link btn-icon fs-14 active filter-button"><i class="ri-grid-fill"></i></button>
-                                        <button type="button" id="list-view-button" class="btn btn-soft-info nav-link  btn-icon fs-14 filter-button"><i class="ri-list-unordered"></i></button>
-                                        <button type="button" id="dropdownMenuLink1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-soft-info btn-icon fs-14"><i class="ri-more-2-fill"></i></button>
+                                    <button type="button" id="dropdownMenuLink1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-soft-info btn-icon fs-14"><i class="ri-more-2-fill"></i></button>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink1">
                                             <li><a class="dropdown-item" href="#">All</a></li>
                                             <li><a class="dropdown-item" href="#">Last Week</a></li>
                                             <li><a class="dropdown-item" href="#">Last Month</a></li>
                                             <li><a class="dropdown-item" href="#">Last Year</a></li>
                                         </ul>
-                                        <button class="btn btn-success addMembers-modal" data-bs-toggle="modal" data-bs-target="#addmemberModal"><i class="ri-add-fill me-1 align-bottom"></i> Add District</button>
+                                        <button type="button" id="grid-view-button" class="btn btn-soft-info nav-link btn-icon fs-14 active filter-button"><i class="ri-archive-fill"></i></button>
+                                        
+                                        <button class="btn btn-success addFarms-modal" data-bs-toggle="modal" data-bs-target="#addfarmModal">
+    <i class="ri-add-fill me-1 align-bottom"></i> Add Farms
+</button>
+
                                     </div>
                                 </div>
+                                
                                 <!--end col-->
                             </div>
                             <!--end row-->
                         </div>
                         </div>
                         
+                        <div class="modal fade" id="addfarmModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-light p-3">
+                <h5 class="modal-title" id="exampleModalLabel">Create Farms&nbsp;</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+            </div>
+            <form id="addFarmForm" data-action="/add-farms" method="post"> <!-- Correct the action attribute -->
+                @csrf
+                <div class="modal-body">
+                    <input type="hidden" id="id-field" />
+                    <input type="text" id="orderId" class="form-control" placeholder="ID" readonly hidden />
+                    <div class="mb-3">
+                        <label for="customername-field" class="form-label">Barangay Name</label>
+                        <input type="text" name="barangay-name" id="customername-field" class="form-control" placeholder="Enter Barangay name" required /> <!-- Correct the input name attribute -->
+                    </div>
+                    <div class="alert alert-danger" style="display:none" id="error-messages"></div>
+                </div>
+                <div class="modal-footer">
+                    <div class="hstack gap-2 justify-content-end">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-success" onclick="submitForm()">Add Barangay</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function submitForm() {
+        // Clear previous error messages
+        document.getElementById('error-messages').style.display = 'none';
+        document.getElementById('error-messages').innerHTML = '';
+
+        // Perform asynchronous form submission
+        var form = document.getElementById('addFarmForm');
+        var formData = new FormData(form);
+
+        fetch(form.getAttribute('data-action'), {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRF-Token': '{{ csrf_token() }}',
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // If success, reload the page
+                location.reload();
+            } else {
+                // If errors, display error messages
+                document.getElementById('error-messages').style.display = 'block';
+                for (var key in data.errors) {
+                    document.getElementById('error-messages').innerHTML += '<p>' + data.errors[key][0] + '</p>';
+                }
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+</script>
+
                         <div class="row">
     <div class="col-lg-12">
         <div id="teamlist">
@@ -83,9 +150,11 @@
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a class="dropdown-item remove-list" href="#removeMemberModal" data-bs-toggle="modal" data-remove-id="12">
-                                                                <i class="ri-delete-bin-5-line me-2 align-bottom text-muted"></i>Remove
+                                                            
+                                                            <a class="dropdown-item" href="{{ route('archive.barangay', ['id' => $barangay->id]) }}">
+                                                                <i class="ri-archive-line me-2 align-bottom text-muted"></i>Archive
                                                             </a>
+
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -139,3 +208,10 @@
     </div>
     
 </div>
+
+
+
+
+
+
+@include('templates.footer')

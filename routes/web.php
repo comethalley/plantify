@@ -51,6 +51,10 @@ Route::get('/farms', [FarmController::class, 'index']);
 Route::get('/view-farms', [FarmController::class, 'viewFarms'])->name('farms.view');
 Route::get('/farms/filterByStatus', [FarmController::class, 'filterByStatus']);
 
+Route::post('/add-farms', [FarmController::class, 'createFarms'])->name('add.farms');
+Route::get('/archive-barangay/{id}', [FarmController::class, 'archiveBarangay'])
+    ->name('archive.barangay');
+
 
 
 

@@ -23,7 +23,8 @@ class User extends Authenticatable
         'email',
         'password',
         'role_id',
-        'status'
+        'status',
+        'isOnline'
     ];
 
     /**
@@ -44,4 +45,23 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function threads()
+{
+    return $this->belongsToMany(Thread::class, 'threads', 'user_id_1', 'user_id_2')
+        ->withTimestamps()
+        ->withPivot('id', 'create_date');
+}
+
+public function getUnreadMessageCountAttribute()
+{
+    return $this->messages()->where('isRead', false)->count();
+}
+
+// Add this relationship to define the messages relation
+public function messages()
+{
+    return $this->hasMany(Message::class, 'sender_id');
+}
+
 }

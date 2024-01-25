@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('role_id');
             $table->string('status');
+            $table->boolean('isOnline')->default(false);
             $table->rememberToken();
             $table->timestamps();
         });

@@ -1,20 +1,8 @@
-<!-- <footer class="footer">
+<footer class="footer">
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-sm-6">
-                <script>
-                    document.write(new Date().getFullYear());
-                </script>
-                © Velzon.
-            </div>
-            <div class="col-sm-6">
-                <div class="text-sm-end d-none d-sm-block">
-                    Design & Develop by Themesbrand
-                </div>
-            </div>
-        </div>
+
     </div>
-</footer> -->
+</footer>
 </div>
 <!-- end main content-->
 </div>
@@ -62,6 +50,12 @@
 
 <!-- App js -->
 <script src="{{ asset('assets/js/app.js') }}"></script>
+
+
+<!-- calendar -->
+<!-- <script src="{{ asset('assets/js/pages/calendar.init.js') }}"></script>
+
+<script src="{{ asset('assets/libs/fullcalendar/index.global.min.js') }}"></script> -->
 
 
 </body>

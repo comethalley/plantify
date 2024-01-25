@@ -13,14 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('stocks', function (Blueprint $table) {
+        Schema::create('threads', function (Blueprint $table) {
             $table->id();
-            $table->integer('supplier_seeds_id');
-            $table->integer('available_seed');
-            $table->integer('used_seed');
-            $table->integer('total');
-            $table->string('status');
+            $table->unsignedBigInteger('user_id_1');
+            $table->unsignedBigInteger('user_id_2');
+            $table->date('create_date');
             $table->timestamps();
+
+            $table->foreign('user_id_1')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id_2')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -31,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('stocks');
+        Schema::dropIfExists('threads');
     }
 };

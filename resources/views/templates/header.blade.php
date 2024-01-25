@@ -1,13 +1,16 @@
 <!DOCTYPE html>
+
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
 
 <head>
+
     <meta charset="utf-8" />
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <title>Plantify</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
-    <meta name="csrf-token" content="{{ csrf_token() }}" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{asset('assets/images/favicon.icon')}}" />
 
@@ -28,6 +31,7 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
     <script src="{{ asset('assets/js/inventory.js') }}"></script>
+    <script src="{{ asset('assets/js/uom.js') }}"></script>
 
     <!--Scanner JS-->
     <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
@@ -174,61 +178,6 @@
                                         </div>
                                     </div>
                                 </form>
-                            </div>
-                        </div>
-
-                        <div class="dropdown ms-1 topbar-head-dropdown header-item">
-                            <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img id="header-lang-img" src="assets/images/flags/us.svg" alt="Header Language" height="20" class="rounded" />
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-end">
-                                <!-- item-->
-                                <a href="javascript:void(0);" class="dropdown-item notify-item language py-2" data-lang="en" title="English">
-                                    <img src="assets/images/flags/us.svg" alt="user-image" class="me-2 rounded" height="18" />
-                                    <span class="align-middle">English</span>
-                                </a>
-
-                                <!-- item-->
-                                <a href="javascript:void(0);" class="dropdown-item notify-item language" data-lang="sp" title="Spanish">
-                                    <img src="assets/images/flags/spain.svg" alt="user-image" class="me-2 rounded" height="18" />
-                                    <span class="align-middle">Española</span>
-                                </a>
-
-                                <!-- item-->
-                                <a href="javascript:void(0);" class="dropdown-item notify-item language" data-lang="gr" title="German">
-                                    <img src="assets/images/flags/germany.svg" alt="user-image" class="me-2 rounded" height="18" />
-                                    <span class="align-middle">Deutsche</span>
-                                </a>
-
-                                <!-- item-->
-                                <a href="javascript:void(0);" class="dropdown-item notify-item language" data-lang="it" title="Italian">
-                                    <img src="assets/images/flags/italy.svg" alt="user-image" class="me-2 rounded" height="18" />
-                                    <span class="align-middle">Italiana</span>
-                                </a>
-
-                                <!-- item-->
-                                <a href="javascript:void(0);" class="dropdown-item notify-item language" data-lang="ru" title="Russian">
-                                    <img src="assets/images/flags/russia.svg" alt="user-image" class="me-2 rounded" height="18" />
-                                    <span class="align-middle">русский</span>
-                                </a>
-
-                                <!-- item-->
-                                <a href="javascript:void(0);" class="dropdown-item notify-item language" data-lang="ch" title="Chinese">
-                                    <img src="assets/images/flags/china.svg" alt="user-image" class="me-2 rounded" height="18" />
-                                    <span class="align-middle">中国人</span>
-                                </a>
-
-                                <!-- item-->
-                                <a href="javascript:void(0);" class="dropdown-item notify-item language" data-lang="fr" title="French">
-                                    <img src="assets/images/flags/french.svg" alt="user-image" class="me-2 rounded" height="18" />
-                                    <span class="align-middle">français</span>
-                                </a>
-
-                                <!-- item-->
-                                <a href="javascript:void(0);" class="dropdown-item notify-item language" data-lang="ar" title="Arabic">
-                                    <img src="assets/images/flags/ae.svg" alt="user-image" class="me-2 rounded" height="18" />
-                                    <span class="align-middle">Arabic</span>
-                                </a>
                             </div>
                         </div>
 
@@ -559,32 +508,26 @@
 
                             <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="d-flex align-items-center">
-                                    <img class="rounded-circle header-profile-user" src="assets/images/users/avatar-1.jpg" alt="Header Avatar" />
+                                    <img class="rounded-circle header-profile-user" src="{{asset('assets/images/plantifeedpics/rounded.png')}}" alt="Header Avatar" />
                                     <span class="text-start ms-xl-2">
                                         <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">{{ Auth::user()->firstname }}</span>
-                                        <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text">Founder</span>
+                                        <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text">Admin</span>
                                     </span>
                                 </span>
                             </button>
 
                             <div class="dropdown-menu dropdown-menu-end">
                                 <!-- item-->
-                                <h6 class="dropdown-header">Welcome Anna!</h6>
+                                <h6 class="dropdown-header">Welcome {{ Auth::user()->firstname }}</h6>
                                 <a class="dropdown-item" href="pages-profile.html"><i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i>
                                     <span class="align-middle">Profile</span></a>
-                                <a class="dropdown-item" href="apps-chat.html"><i class="mdi mdi-message-text-outline text-muted fs-16 align-middle me-1"></i>
-                                    <span class="align-middle">Messages</span></a>
                                 <a class="dropdown-item" href="apps-tasks-kanban.html"><i class="mdi mdi-calendar-check-outline text-muted fs-16 align-middle me-1"></i>
                                     <span class="align-middle">Taskboard</span></a>
                                 <a class="dropdown-item" href="pages-faqs.html"><i class="mdi mdi-lifebuoy text-muted fs-16 align-middle me-1"></i>
                                     <span class="align-middle">Help</span></a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="pages-profile.html"><i class="mdi mdi-wallet text-muted fs-16 align-middle me-1"></i>
-                                    <span class="align-middle">Balance : <b>$5971.67</b></span></a>
                                 <a class="dropdown-item" href="pages-profile-settings.html"><span class="badge bg-success-subtle text-success mt-1 float-end">New</span><i class="mdi mdi-cog-outline text-muted fs-16 align-middle me-1"></i>
                                     <span class="align-middle">Settings</span></a>
-                                <a class="dropdown-item" href="auth-lockscreen-basic.html"><i class="mdi mdi-lock text-muted fs-16 align-middle me-1"></i>
-                                    <span class="align-middle">Lock screen</span></a>
                                 <form action="/logout" method="POST">
                                     @csrf
                                     <button type="submit" class="dropdown-item" href="#"><i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i>
@@ -631,25 +574,25 @@
         </div>
         <!-- /.modal -->
         <!-- ========== App Menu ========== -->
-        <div class="app-menu navbar-menu">
+        <div class="app-menu navbar-menu" style="background-color:#8BE262;">
             <!-- LOGO -->
             <div class="navbar-brand-box">
                 <!-- Dark Logo-->
                 <a href="index.html" class="logo logo-dark">
                     <span class="logo-sm">
-                        <img src="assets/images/logo-sm.png" alt="" height="22" />
+                        <img src="{{ asset('assets/images/p-white.png') }}" alt="" height="22" />
                     </span>
                     <span class="logo-lg">
-                        <img src="assets/images/logo-dark.png" alt="" height="17" />
+                        <img src="{{ asset('assets/images/p-white.png') }}" alt="" height="17" />
                     </span>
                 </a>
                 <!-- Light Logo-->
                 <a href="index.html" class="logo logo-light">
                     <span class="logo-sm">
-                        <img src="assets/images/logo-sm.png" alt="" height="22" />
+                        <img src="{{ asset('assets/images/p-white.png') }}" alt="" height="22" />
                     </span>
                     <span class="logo-lg">
-                        <img src="assets/images/logo-light.png" alt="" height="17" />
+                        <img src="{{ asset('assets/images/p-white.png') }}" alt="" height="40" />
                     </span>
                 </a>
                 <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover" id="vertical-hover">
@@ -661,28 +604,28 @@
                 <div class="container-fluid">
                     <div id="two-column-menu"></div>
                     <ul class="navbar-nav" id="navbar-nav">
-                        <li class="menu-title"><span data-key="t-menu">Menu</span></li>
+                        <li class="menu-title"><span style="color:white;">Menu</span></li>
 
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="dashboard.html" role="button">
+                            <a class="nav-link menu-link" href="/" role="button" style="color:white">
                                 <i class="ri-dashboard-2-line"></i>
                                 <span data-key="t-dashboards">Dashboards</span>
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="calendar.html" role="button">
+                            <a class="nav-link" href="/fullcalendar" role="button" style="color:white">
                                 <i class="ri-calendar-2-line"></i>
                                 <span data-key="t-calendar">Calendar</span>
                             </a>
                         </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="faq.html" role="button">
+                        <!-- <li class="nav-item">
+                            <a class="nav-link" href="faq.html" role="button" style="color:white">
                                 <i class="ri-question-line"></i>
                                 <span data-key="t-faqs">FaQs</span>
                             </a>
-                        </li>
+                        </li> -->
 
 
                         <li class="nav-item">
@@ -711,39 +654,35 @@
                         </li> -->
 
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="#sidebarDashboards" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                            <a class="nav-link menu-link" href="#sidebarDashboards" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards" style="color:white">
                                 <i class="ri-dashboard-2-line"></i> <span>Inventory</span>
                             </a>
                             <div class="collapse menu-dropdown" id="sidebarDashboards">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item">
-                                        <a href="/inventory/supplier" class="nav-link"> Supplier </a>
+                                        <a href="/inventory/supplier" class="nav-link" style="color:white"> Supplier </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="/inventory/stocks" class="nav-link"> Stocks </a>
+                                        <a href="/inventory/stocks" class="nav-link" style="color:white"> Stocks </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/inventory/uom" class="nav-link" style="color:white"> Unit of Measurements </a>
                                     </li>
                                 </ul>
                             </div>
                         </li> <!-- end Dashboard Menu -->
 
                         <li class="nav-item">
-                            <a class="nav-link" href="task.html" role="button">
+                            <a class="nav-link" href="task.html" role="button" style="color:white">
                                 <i class="ri-task-line"></i>
-                                <span data-key="t-faqs">Task</span>
+                                <span data-key="t-task">Task</span>
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="chat.html" role="button">
+                            <a class="nav-link" href="/chat" role="button" style="color:white">
                                 <i class="ri-wechat-line"></i>
                                 <span data-key="t-faqs">Chat</span>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="/plantifeed" role="button">
-                                <i class="ri-question-line"></i>
-                                <span>Plantifeed</span>
                             </a>
                         </li>
                     </ul>
@@ -751,9 +690,9 @@
                 <!-- Sidebar -->
             </div>
 
-            <div class="sidebar-background"></div>
+            <div class="sidebar-background" style="background-color:#0ab39c;"></div>
         </div>
         <!-- Left Sidebar End -->
         <!-- Vertical Overlay-->
-        <div class="vertical-overlay"></div>
+        <div class="vertical-overlay" style="background-color:#0ab39c;"></div>
     </div>

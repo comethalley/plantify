@@ -14,6 +14,8 @@
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{asset('assets/images/favicon.icon')}}" />
 
+    <!-- Weather config -->
+
     <!-- Layout config Js -->
     <script src="{{ asset('assets/js/layout.js') }}"></script>
     <!-- Bootstrap Css -->
@@ -623,6 +625,32 @@
                                 <i class="ri-question-line"></i>
                                 <span data-key="t-faqs">FaQs</span>
                             </a>
+                        </li> -->
+
+
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="#weather" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards" style="color:white">
+                                <i class="ri-sun-foggy-fill"></i> <span>Weather</span>
+                            </a>
+                            <div class="collapse menu-dropdown" id="weather">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="/weather" class="nav-link" style="color:white"> Weather Today </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/pastweather" class="nav-link" style="color:white"> Past Weather </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li> <!-- end Dashboard Menu -->
+
+
+                        <!-- <li class="nav-item">
+                            <a class="nav-link" href="/weather" role="button">
+                                <i class=" ri-sun-foggy-fill"></i>
+                                <span data-key="t-faqs">Weather</span>
+                            </a>
+                            
                         </li> -->
 
                         <li class="nav-item">

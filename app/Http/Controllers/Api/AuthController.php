@@ -194,4 +194,19 @@ class AuthController extends Controller
     {
         return view('pages.index');
     }
+
+    public function getAdmin()
+    {
+        return view('pages.users.admin');
+    }
+
+    public function getFarmerLeader()
+    {
+        return view('pages.users.farmleaders');
+    }
+
+    public function getFarmers()
+    {
+        return view('pages.users.farms');
+    }
 }

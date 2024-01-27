@@ -17,8 +17,4 @@ class WeatherController extends Controller
     {
         return view('pages.weather.pastweather');
     }
-
-
-
-
 }

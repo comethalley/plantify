@@ -90,3 +90,7 @@ Route::post('/mark-messages-as-read/{userId}', [ChatController::class, 'markMess
 
 Route::get('/weather', [WeatherController::class, 'index']);
 Route::get('/pastweather', [WeatherController::class, 'pastweather']);
+
+Route::get('/users/admin', [AuthController::class, 'getAdmin']);
+Route::get('/users/farm-leader', [AuthController::class, 'getFarmerLeader']);
+Route::get('/users/farmers', [AuthController::class, 'getFarmer']);

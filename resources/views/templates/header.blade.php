@@ -510,7 +510,9 @@
                                 <span class="d-flex align-items-center">
                                     <img class="rounded-circle header-profile-user" src="{{asset('assets/images/plantifeedpics/rounded.png')}}" alt="Header Avatar" />
                                     <span class="text-start ms-xl-2">
+                                        @if (Auth::check())
                                         <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">{{ Auth::user()->firstname }}</span>
+                                        @endif
                                         <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text">Admin</span>
                                     </span>
                                 </span>
@@ -518,7 +520,10 @@
 
                             <div class="dropdown-menu dropdown-menu-end">
                                 <!-- item-->
+                                @if (Auth::check())
                                 <h6 class="dropdown-header">Welcome {{ Auth::user()->firstname }}</h6>
+                                @endif
+
                                 <a class="dropdown-item" href="pages-profile.html"><i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i>
                                     <span class="align-middle">Profile</span></a>
                                 <a class="dropdown-item" href="apps-tasks-kanban.html"><i class="mdi mdi-calendar-check-outline text-muted fs-16 align-middle me-1"></i>
@@ -614,6 +619,25 @@
                         </li>
 
                         <li class="nav-item">
+                            <a class="nav-link menu-link" href="#UsersDropDown" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="UsersDropDown" style="color:white">
+                                <i class="ri-account-circle-line"></i> <span>Users</span>
+                            </a>
+                            <div class="collapse menu-dropdown" id="UsersDropDown">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="/users/admin" class="nav-link" style="color:white"> Admin </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/users/farm-leader" class="nav-link" style="color:white"> Farm Leaders </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/users/farmers" class="nav-link" style="color:white"> Farmers </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="nav-item">
                             <a class="nav-link" href="/fullcalendar" role="button" style="color:white">
                                 <i class="ri-calendar-2-line"></i>
                                 <span data-key="t-calendar">Calendar</span>
@@ -655,7 +679,7 @@
 
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="#sidebarDashboards" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards" style="color:white">
-                                <i class="ri-dashboard-2-line"></i> <span>Inventory</span>
+                                <i class="ri-archive-line"></i> <span>Inventory</span>
                             </a>
                             <div class="collapse menu-dropdown" id="sidebarDashboards">
                                 <ul class="nav nav-sm flex-column">
@@ -672,17 +696,24 @@
                             </div>
                         </li> <!-- end Dashboard Menu -->
 
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a class="nav-link" href="task.html" role="button" style="color:white">
                                 <i class="ri-task-line"></i>
                                 <span data-key="t-task">Task</span>
                             </a>
-                        </li>
+                        </li> -->
 
                         <li class="nav-item">
                             <a class="nav-link" href="/chat" role="button" style="color:white">
                                 <i class="ri-wechat-line"></i>
                                 <span data-key="t-faqs">Chat</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/plantifeed" role="button" style="color:white">
+                                <i class="ri-plant-line"></i>
+                                <span data-key="t-faqs">Plantifeed</span>
                             </a>
                         </li>
                     </ul>

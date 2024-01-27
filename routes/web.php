@@ -10,7 +10,7 @@ use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ThreadController;
 use App\Http\Controllers\WeatherController;
-
+use App\Http\Controllers\eventcontroller;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -94,3 +94,15 @@ Route::get('/pastweather', [WeatherController::class, 'pastweather']);
 Route::get('/users/admin', [AuthController::class, 'getAdmin']);
 Route::get('/users/farm-leader', [AuthController::class, 'getFarmerLeader']);
 Route::get('/users/farmers', [AuthController::class, 'getFarmer']);
+// Start Full Calender=================================================================
+Route::get('/fullcalendar', [eventcontroller::class, 'index']);
+Route::get('/fullcalendars', [eventcontroller::class, 'getEvents']);
+Route::get('/fullcalendars/{id}', [eventcontroller::class, 'getdata']);
+Route::delete('/schedule/{id}', [eventcontroller::class, 'deleteEvent']);
+Route::put('/schedule/{id}', [eventcontroller::class, 'update']);
+Route::put('/schedule/{id}/resize', [eventcontroller::class, 'resize']);
+Route::get('/events/search', [eventcontroller::class, 'search']);
+
+Route::view('add-schedule', 'pages.add');
+Route::post('create-schedule', [eventcontroller::class, 'create']);
+// End Full Calender=================================================================

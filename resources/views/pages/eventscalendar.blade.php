@@ -60,13 +60,13 @@
                             </div>
                             
                      </div>
-                      <!----> @foreach ($schedules as $schedule) 
+                      <!----> @foreach ($events as $event) 
                       <div class="card bg-light mb-3" style="max-width: 18rem;">
-  <div class="card-header">{{ $schedule->title}}</div>
+  <div class="card-header">{{ $event->title}}</div>
   <div class="card-body">
-    <h5 class="card-title">{{ $schedule->start}} to {{ $schedule->end}}</h5>
-    <p class="card-text">{{ $schedule->location}}</p>
-    <p class="card-text">{{ $schedule->description}}</p>
+    <h5 class="card-title">{{ $event->start}} to {{ $event->end}}</h5>
+    <p class="card-text">{{ $event->location}}</p>
+    <p class="card-text">{{ $event->description}}</p>
   </div>
 </div>@endforeach
                     </div> <!-- end col-->

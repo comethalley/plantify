@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Models\event;
+use Illuminate\Support\Facades\DB;
+use App\Models\Event;
 use Illuminate\Http\Request;
 
 class eventcontroller extends Controller
@@ -16,7 +16,7 @@ class eventcontroller extends Controller
   
       public function create(Request $request)
       {
-          $item = new event();
+          $item = new Event();
           $item->title = $request->title;
           $item->start = $request->start;
           $item->end = $request->end;
@@ -24,13 +24,13 @@ class eventcontroller extends Controller
           $item->description = $request->description;
           $item->save();
   
-          return redirect('/fullcalendar');
+          return redirect('/fullcalendarss');
       }
       
       
       public function getEvents()
       {
-          $event = event::all();
+          $event = Event::all();
           return response()->json($event);
           
       }
@@ -38,13 +38,13 @@ class eventcontroller extends Controller
     
       public function deleteEvent(Request $request, $id)
       {
-          $event = event::find($request->id)->delete();
+          $event = Event::find($request->id)->delete();
           return response()->json($event);
       }
   
       public function update(Request $request, $id)
       {
-          $event = Schedule::findOrFail($id);
+          $event = Event::findOrFail($id);
   
           $event->update([
               'start' => Carbon::parse($request->input('start_date'))->setTimezone('UTC'),
@@ -56,7 +56,7 @@ class eventcontroller extends Controller
   
       public function resize(Request $request, $id)
       {
-          $event = event::findOrFail($id);
+          $event = Event::findOrFail($id);
   
           $newEndDate = Carbon::parse($request->input('end_date'))->setTimezone('UTC');
           $event->update(['end' => $newEndDate]);
@@ -68,7 +68,7 @@ class eventcontroller extends Controller
       {
           $searchKeywords = $request->input('title');
   
-          $matchingEvents = Schedule::where('title', 'like', '%' . $searchKeywords . '%')->get();
+          $matchingEvents = Event::where('title', 'like', '%' . $searchKeywords . '%')->get();
   
           return response()->json($matchingEvents);
       }

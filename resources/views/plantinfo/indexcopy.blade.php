@@ -1,7 +1,3 @@
-@include('templates.header')
-@section('content')
-@extends('plantinfo.layout')
-
 <div class="main-content">
     <div class="row" style="margin:100px;">
         <div class="col-12">
@@ -56,4 +52,3 @@
         </div>
     </div>
 </div>
-@endsection

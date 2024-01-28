@@ -674,9 +674,9 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="faq.html" role="button">
+                            <a class="nav-link" href="/plantinfo/plantinfos/" role="button">
                                 <i class="ri-question-line"></i>
-                                <span data-key="t-faqs">FaQs</span>
+                                <span data-key="t-faqs">Plant Information</span>
                             </a>
                         </li>
 

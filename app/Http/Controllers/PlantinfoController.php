@@ -15,7 +15,9 @@ class PlantinfoController extends Controller
     public function index()
     {
         $plantinfo = Plantinfo::all();
-        return view ('plantinfo.index')->with('plantinfo',$plantinfo);
+        //return view('plantinfo.index')->with('plantinfo', $plantinfo);
+        //dd($plantinfo);
+        return view("plantinfo.index", ['plantinfo' => $plantinfo]);
     }
 
     /**
@@ -36,12 +38,10 @@ class PlantinfoController extends Controller
      */
     public function store(Request $request)
     {
-        
-            $input = $request->all();
-            plantinfo::create($input);
-            return redirect('plantinfo')->with('flash_message', 'Plant Addedd!');  
-        
-     
+
+        $input = $request->all();
+        plantinfo::create($input);
+        return redirect('plantinfo')->with('flash_message', 'Plant Addedd!');
     }
 
     /**
@@ -80,7 +80,7 @@ class PlantinfoController extends Controller
         $plantinfo = Plantinfo::find($id);
         $input = $request->all();
         $plantinfo->update($input);
-        return redirect('plantinfo')->with('flash_message', 'Plant Updated!');  
+        return redirect('plantinfo')->with('flash_message', 'Plant Updated!');
     }
 
     /**
@@ -92,6 +92,6 @@ class PlantinfoController extends Controller
     public function destroy($id)
     {
         Plantinfo::destroy($id);
-        return redirect('plantinfo')->with('flash_message', 'Plant deleted!');  
+        return redirect('plantinfo')->with('flash_message', 'Plant deleted!');
     }
 }

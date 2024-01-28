@@ -1201,7 +1201,7 @@
                                         <a class="dropdown-item" href="#">Last 90 Days</a>
                                     </div>
                                 </div>
-                            </div>
+                            </div> 
                         </div>
                         <!-- end card header -->
 
@@ -1277,4 +1277,4 @@
     </div>
     <!-- End Page-content -->
 
-    @include('templates.footer')
+    @include('templates.footer')   

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\plantifeedcontroller;
 use App\Http\Controllers\ForumController;
 use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\AboutUsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,6 +54,8 @@ Route::get('/getLogs/{id}', [InventoryController::class, 'logs']);
 Route::get('/inventory/uom', [InventoryController::class, 'uom']);
 Route::post('/add-uom', [InventoryController::class, 'addUom']);
 Route::get('/getUom', [InventoryController::class, 'getUom']);
+Route::get ('/about-us',[AboutUsController::class,'index']);
+
 
 Route::get('/plantifeed', [ForumController::class, 'index']);
 

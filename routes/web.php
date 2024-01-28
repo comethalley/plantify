@@ -47,13 +47,23 @@ Route::get('/getLogs/{id}', [InventoryController::class, 'logs']);
 
 Route::get('/plantifeed', [ForumController::class, 'index']);
 
-Route::get('/farms', [FarmController::class, 'index']);
+//view farm-management//
 Route::get('/view-farms', [FarmController::class, 'viewFarms'])->name('farms.view');
 Route::get('/farms/filterByStatus', [FarmController::class, 'filterByStatus']);
+Route::get('/update-status/{id}/{status}', [FarmController::class, 'updateStatus'])->name('update.status');
 
-Route::post('/add-farms', [FarmController::class, 'createFarms'])->name('add.farms');
-Route::get('/archive-barangay/{id}', [FarmController::class, 'archiveBarangay'])
-    ->name('archive.barangay');
+//xfarms farm-management//
+Route::get('/view-archivefarms', [FarmController::class, 'viewArchiveFarms'])->name('archivefarms.xfarms');
+
+
+//index farm-mamangement//
+
+
+Route::get('/farms', [FarmController::class, 'index']);
+Route::post('/add-farms', [FarmController::class, 'addFarms'])->name('add.farms');
+Route::get('/archive-farm/{id}', [FarmController::class, 'archiveFarm'])
+    ->name('archive.farm');
+
 
 
 

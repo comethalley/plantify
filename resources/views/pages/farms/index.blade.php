@@ -25,25 +25,23 @@
                             <div class="row g-2">
                                 <div class="col-sm-4">
                                     <div class="search-box">
-                                        <input type="text" class="form-control" id="searchMemberList" placeholder="Search for farms or designation...">
+                                        <input type="text" class="form-control" id="searchMemberList" placeholder="Search for farms or status....">
                                         <i class="ri-search-line search-icon"></i>
                                     </div>
                                 </div>
                                 <!--end col-->
                                 <div class="col-sm-auto ms-auto">
                                     <div class="list-grid-nav hstack gap-1">
-                                    <button type="button" id="dropdownMenuLink1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-soft-info btn-icon fs-14"><i class="ri-more-2-fill"></i></button>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink1">
-                                            <li><a class="dropdown-item" href="#">All</a></li>
-                                            <li><a class="dropdown-item" href="#">Last Week</a></li>
-                                            <li><a class="dropdown-item" href="#">Last Month</a></li>
-                                            <li><a class="dropdown-item" href="#">Last Year</a></li>
-                                        </ul>
-                                        <button type="button" id="grid-view-button" class="btn btn-soft-info nav-link btn-icon fs-14 active filter-button"><i class="ri-archive-fill"></i></button>
-                                        
-                                        <button class="btn btn-success addFarms-modal" data-bs-toggle="modal" data-bs-target="#addfarmModal">
-    <i class="ri-add-fill me-1 align-bottom"></i> Add Farms
+
+                                    <button class="btn btn-primary btn-label waves-effect waves-light" onclick="openTestPage()">
+    <i class="ri-inbox-archive-line label-icon align-middle fs-16 me-2"></i> View Archive Farm
 </button>
+
+
+
+    <button class="btn btn-danger addFarms-modal" data-bs-toggle="modal" data-bs-target="#addfarmModal">
+        <i class="ri-add-line align-bottom me-1"></i> Create Farm
+    </button>
 
                                     </div>
                                 </div>
@@ -53,76 +51,14 @@
                             <!--end row-->
                         </div>
                         </div>
-                        
-                        <div class="modal fade" id="addfarmModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header bg-light p-3">
-                <h5 class="modal-title" id="exampleModalLabel">Create Farms&nbsp;</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
-            </div>
-            <form id="addFarmForm" data-action="/add-farms" method="post"> <!-- Correct the action attribute -->
-                @csrf
-                <div class="modal-body">
-                    <input type="hidden" id="id-field" />
-                    <input type="text" id="orderId" class="form-control" placeholder="ID" readonly hidden />
-                    <div class="mb-3">
-                        <label for="customername-field" class="form-label">Barangay Name</label>
-                        <input type="text" name="barangay-name" id="customername-field" class="form-control" placeholder="Enter Barangay name" required /> <!-- Correct the input name attribute -->
-                    </div>
-                    <div class="alert alert-danger" style="display:none" id="error-messages"></div>
-                </div>
-                <div class="modal-footer">
-                    <div class="hstack gap-2 justify-content-end">
-                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-success" onclick="submitForm()">Add Barangay</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<script>
-    function submitForm() {
-        // Clear previous error messages
-        document.getElementById('error-messages').style.display = 'none';
-        document.getElementById('error-messages').innerHTML = '';
-
-        // Perform asynchronous form submission
-        var form = document.getElementById('addFarmForm');
-        var formData = new FormData(form);
-
-        fetch(form.getAttribute('data-action'), {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-CSRF-Token': '{{ csrf_token() }}',
-            },
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // If success, reload the page
-                location.reload();
-            } else {
-                // If errors, display error messages
-                document.getElementById('error-messages').style.display = 'block';
-                for (var key in data.errors) {
-                    document.getElementById('error-messages').innerHTML += '<p>' + data.errors[key][0] + '</p>';
-                }
-            }
-        })
-        .catch(error => console.error('Error:', error));
-    }
-</script>
-
-                        <div class="row">
+                  
+<div class="row">          
     <div class="col-lg-12">
+   
         <div id="teamlist">
             <div class="team-list grid-view-filter row" id="team-member-list">
             @if(isset($barangays) && count($barangays) > 0)
-                 @foreach($barangays as $barangay)
+                 @foreach($barangays as $barangay)      
                         <div class="col">
                             <div class="card team-box">
                                 <div class="team-cover">
@@ -144,16 +80,13 @@
                                                         <i class="ri-more-fill fs-17"></i>
                                                     </a>
                                                     <ul class="dropdown-menu dropdown-menu-end">
-                                                        <li>
-                                                            <a class="dropdown-item edit-list" href="#addmemberModal" data-bs-toggle="modal" data-edit-id="12">
-                                                                <i class="ri-pencil-line me-2 align-bottom text-muted"></i>Edit
-                                                            </a>
-                                                        </li>
-                                                        <li>
+                                                    <li>
+    <a class="dropdown-item edit-list" href="javascript:void(0);" onclick="openEditModal('{{ $barangay->id }}', '{{ $barangay->barangay_name }}')" data-bs-toggle="modal" data-bs-target="#editFarmModal">
+        <i class="ri-pencil-line me-2 align-bottom text-muted"></i>Edit
+    </a>
+</li>
                                                             
-                                                            <a class="dropdown-item" href="{{ route('archive.barangay', ['id' => $barangay->id]) }}">
-                                                                <i class="ri-archive-line me-2 align-bottom text-muted"></i>Archive
-                                                            </a>
+
 
                                                         </li>
                                                     </ul>
@@ -191,13 +124,16 @@
 
 
 </div>
+
                                             
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        
                     @endforeach
+                    
                 @else
                     <p>No farms found.</p>
                 @endif
@@ -211,7 +147,130 @@
 
 
 
+<div class="modal fade" id="addfarmModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-light p-3">
+                <h5 class="modal-title" id="exampleModalLabel">Create Farms &nbsp;</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+            </div>
+            <form id="addFarmForm" data-action="/add-farms" method="post">
+                @csrf
+                <div class="modal-body">
+                    <label for="barangay-name" class="form-label">Barangay: &nbsp;</label>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="selectedBarangayBtn">Please select barangay</button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#" onclick="selectBarangay('BagBag')">BagBag</a>
+                            <a class="dropdown-item" href="#" onclick="selectBarangay('Capri')">Capri</a>
+                            <a class="dropdown-item" href="#" onclick="selectBarangay('Fairview')">Fairview</a>
+                            <a class="dropdown-item" href="#" onclick="selectBarangay('Gulod')">Gulod</a>
+                            <a class="dropdown-item" href="#" onclick="selectBarangay('Greater Lagro')">Greater Lagro</a>
+                            <a class="dropdown-item" href="#" onclick="selectBarangay('Kaligayahan')">Kaligayahan</a>
+                            <a class="dropdown-item" href="#" onclick="selectBarangay('Nagkaisang Nayon')">Nagkaisang Nayon</a>
+                            <a class="dropdown-item" href="#" onclick="selectBarangay('North Fairview')">North Fairview</a>
+                            <a class="dropdown-item" href="#" onclick="selectBarangay('Novaliches Proper')">Novaliches Proper</a>
+                            <a class="dropdown-item" href="#" onclick="selectBarangay('Pasong Putik Proper')">Pasong Putik Proper</a>
+                            <a class="dropdown-item" href="#" onclick="selectBarangay('San Agustin')">San Agustin</a>
+                            <a class="dropdown-item" href="#" onclick="selectBarangay('San Bartolome')">San Bartolome</a>
+                            <a class="dropdown-item" href="#" onclick="selectBarangay('Sta. Lucia')">Sta. Lucia</a>
+                            <a class="dropdown-item" href="#" onclick="selectBarangay('Sta. Monica')">Sta. Monica</a>
+                        </div>
+                        <input type="hidden" name="barangay_name" id="selectedBarangay" required>
+                    </div>
+                    <br>
+                    <br>
+                    <label for="farm_name" class="form-label">Farm Name</label>
+                    <input type="text" name="farm_name" class="form-control" placeholder="Enter Farm Name" required />
+                    <br>
+                    <label for="address" class="form-label">Address</label>
+                    <input type="text" name="address" class="form-control" placeholder="Enter Address" required />
+                    <br>
+                    <label for="area" class="form-label">Area</label>
+                    <input type="text" name="area" class="form-control" placeholder="Enter Area" required />
+                    <br>
+                    <label for="farm_leader" class="form-label">Farm Leader</label>
+                    <input type="text" name="farm_leader" class="form-control" placeholder="Enter Farm Leader" required />
+                    <br>
+                </div>
+                <div class="alert alert-danger" style="display:none" id="error-messages"></div>
+                <div class="modal-footer">
+                    <div class="hstack gap-2 justify-content-end">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-success" onclick="submitForm()">Add Farm</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+ 
 
 
+
+
+<script>
+   
+   function openTestPage() {
+        window.location.href = '{{ route('archivefarms.xfarms') }}';
+    }
+    
+
+    function selectBarangay(barangay) {
+        document.getElementById('selectedBarangayBtn').innerHTML = barangay;
+        document.getElementById('selectedBarangay').value = barangay;
+    }
+
+    function submitForm() {
+        // Clear previous error messages
+        document.getElementById('error-messages').style.display = 'none';
+
+
+        // Perform asynchronous form submission
+        var form = document.getElementById('addFarmForm');
+        var formData = new FormData(form);
+
+        fetch(form.getAttribute('data-action'), {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRF-Token': '{{ csrf_token() }}',
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // If success, reload the page
+                location.reload();
+            } else {
+                // If errors, display error messages
+                document.getElementById('error-messages').style.display = 'block';
+                for (var key in data.errors) {
+                    document.getElementById('error-messages').innerHTML += '<p>' + data.errors[key][0] + '</p>';
+                }
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+    
+
+ 
+</script>
+
+<footer class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <script>document.write(new Date().getFullYear())</script> © Casas.
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="text-sm-end d-none d-sm-block">
+                                Design &amp; Develop by SBIT-4C
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
 
 @include('templates.footer')

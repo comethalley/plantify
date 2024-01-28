@@ -10,6 +10,7 @@ class Barangay extends Model
     use HasFactory;
 
     protected $fillable = [
+        'id',
         'barangay_name',
         
     ];

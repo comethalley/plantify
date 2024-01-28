@@ -6,11 +6,11 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between bg-galaxy-transparent">
-                        <h4 class="mb-sm-0">Farm Maps</h4>
+                        <h4 class="mb-sm-0">Farm Map</h4>
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 
-                                <li class="breadcrumb-item active">Farm Maps</li>
+                                <li class="breadcrumb-item active">Farm Map</li>
                             </ol>
                         </div>
                     </div>
@@ -27,7 +27,7 @@
                     </div><!-- end card header -->
 
                     <div class="card-body" >
-                        <div id="leaflet-map" class="leaflet-map" style="height: 445px;"></div>
+                        <div id="leaflet-map" class="leaflet-map" style="height: 73vh; width: 100%"></div>
                     </div><!-- end card-body -->
                 </div><!-- end card -->
             </div>
@@ -50,7 +50,7 @@
 
     <script>
         // Initialize the map
-        var map = L.map('leaflet-map').setView([14.717499241909843, 121.04829782475622], 12.75);
+        var map = L.map('leaflet-map').setView([14.717499241909843, 121.04829782475622], 14);
          
         var redIcon = new L.Icon({
         iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',

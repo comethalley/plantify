@@ -98,7 +98,7 @@ Route::get('/users/farmers', [AuthController::class, 'getFarmer']);
 Route::get('/fullcalendarss', [EventController::class, 'index']);
 Route::get('/fullcalendars', [EventController::class, 'getEvents']);
 Route::get('/fullcalendars/{id}', [EventController::class, 'getdata']);
-Route::delete('/schedule/{id}', [EventController::class, 'deleteEvent']);
+Route::delete('/scheduledelete/{id}', [EventController::class, 'deleteEvent']);
 Route::put('/schedule/{id}', [EventController::class, 'update']);
 Route::put('/schedule/{id}/resize', [EventController::class, 'resize']);
 Route::get('/events/search', [EventController::class, 'search']);

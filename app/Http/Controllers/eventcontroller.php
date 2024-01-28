@@ -11,6 +11,7 @@ class eventcontroller extends Controller
       public function index()
       {
           $events = DB::table('events')->orderBy('id', 'DESC')->get();
+          //dd($events);
           return view('pages.eventscalendar',['events'=>$events]);
       }
   
@@ -33,6 +34,14 @@ class eventcontroller extends Controller
           $event = Event::all();
           return response()->json($event);
           
+      }
+      
+      public function getdata($id)
+      {
+            $data = DB::table('events')->where('id', $id)->orderBy('id', 'DESC')->get();
+            //return view('pages.eventscalendar',['data'=>$data]);
+            //dd($data);
+            return response()->json($data);    
       }
       
     

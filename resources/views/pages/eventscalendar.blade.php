@@ -157,21 +157,30 @@
                                         </div>
                                         <div class="modal-body p-4">
                                         <form class="needs-validation view-event" name="event-form" id="form-event" novalidate="">
-                                            
+                                      
                                                 <div class="event-details">
                                                     <div class="d-flex mb-2">
                                                         <div class="flex-grow-1 d-flex align-items-center">
                                                             <div class="flex-shrink-0 me-3">
                                                                 <i class="ri-calendar-event-line text-muted fs-16"></i>
                                                             </div>
+
                                                             <div class="flex-grow-1">
-                                                            <h6 class="d-block fw-semibold mb-0"><span id="eventtitle"></span></h6>
-                                                        </div>
-                                                            <div class="flex-grow-1">
-                                                                <h6 class="d-block fw-semibold mb-0" ><span id="eventstart"></span></h6>
+                                                            <h6 class="d-block - fw-semibold semibold mb-0"><span id="eventtitle"></span></h6>
+                                        
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    
+                                                    <div class="d-flex align-items-center mb-2">
+                                                        <div class="flex-shrink-0 me-3">
+                                                            <i class="ri-time-line text-muted fs-16"></i>
+                                                        </div>
+                                                        <div class="flex-grow-1">
+                                                            <h6 class="d-block fw-semibold mb-0"><span id="eventstart"></span></h6>
+                                                        </div>
+                                                    </div>
+
                                                     <div class="d-flex align-items-center mb-2">
                                                         <div class="flex-shrink-0 me-3">
                                                             <i class="ri-time-line text-muted fs-16"></i>
@@ -182,7 +191,7 @@
                                                     </div>
                                                     <div class="d-flex align-items-center mb-2">
                                                         <div class="flex-shrink-0 me-3">
-                                                            <i class="ri-map-pin-line text-muted fs-16"></i>
+                                                            <i class="ri-map-pin-line text fs-16"></i>
                                                         </div>
                                                         <div class="flex-grow-1">
                                                             <h6 class="d-block fw-semibold mb-0"><span id="eventlocation"></span></h6>
@@ -193,7 +202,7 @@
                                                             <i class="ri-discuss-line text-muted fs-16"></i>
                                                         </div>
                                                         <div class="flex-grow-1">
-                                                            <p class="d-block text-muted mb-0" id="eventdescription"></p>
+                                                            <p class="d-block  fw-semibold mb-0" id="eventdescription"></p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -214,7 +223,7 @@
                                         </div>
                                     </div> <!-- end modal-content-->
                                 </div> <!-- end modal dialog-->
-                                
+                               
                             </div>
 <!-- Update and Delete Event Modal -->
 <div class="modal fade" id="editexampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -285,6 +294,10 @@
             }
         });
 
+        function getEvent(){
+
+        }
+
         var calendarEl = document.getElementById('calendar');
         var events = [];
         var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -303,23 +316,72 @@
                // Close Update/Delete Event Modal if open
                $('#EventdetailModal').modal('hide');
 
+               
                 // Open Add Event Modal
             $('#showModalExample').modal('show');
                 },
                
-                eventClick: function (event) {
-               // Close Update/Delete Event Modal if open
-               $('#EventdetailModal').modal('show');
-               
-                // Display event details in the Update/Delete Event Modal
-                $('#updateEventTitle').val(event.title);
-                $('#Eventstart-datepicker').val(moment(event.start).format("YYYY-MM-DDTHH:mm"));
-                $('#Eventend-datepicker').val(moment(event.end).format("YYYY-MM-DDTHH:mm"));
-                $('#eventlocation').val(event.location);
-                $('#eventdescription').val(event.description);
+                eventClick: function (info) {
+                  //  console.log(info.event)
+                  //  console.log("Event is", info.event._def.extendedProps);
+                    var eventTitle = info.event._def.title
+                    var eventID = info.event._def.publicId
+                    var event = info.event._def.extendedProps
+                    var date = info.event._instance.range
+                 //   console.log("Variable event is" + event.location)
+                  //  console.log("Date is" + date.start)
+                    // Close Update/Delete Event Modal if open
+                    $('#EventdetailModal').modal('show');
+                    
+                    // Display event details in the Update/Delete Event Modal
+                    
+                    $('#eventtitle').text(eventTitle);
+                    $('#eventstart').text(date.start);
+                    //$('#Eventend-datepicker').text(event.updatedAt);
+                    $('#eventend').text(date.end); // Adjusted property access
+                    $('#eventlocation').text(event.location); // Adjusted property access
+                    $('#eventdescription').text(event.description); // Adjusted property access
 
-                
-            },
+                    // Store event ID for update and delete
+                    var eventId = event.id;
+                    $('#updateEventBtn').data('event-id', eventId);
+                    $('#deleteEventBtn').data('event-id', eventId);
+
+                                    // When the user clicks the delete button in the modal
+                    $('#deleteEventBtn').on('click', function () {
+                        var eventId = info.event.id;
+                        
+                        // Make an AJAX delete request
+                        $.ajax({
+                            url: `/scheduledelete/${eventId}`, // Adjust the URL according to your server-side route
+                            type: 'DELETE',
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            success: function(response) {
+                                console.log('Event deleted successfully.');
+
+                                // Close the confirmation modal
+                                $('#EventdetailModal').modal('hide');
+
+                                // Remove the event from the calendar
+                                info.event.remove();
+                            },
+                            error: function(error) {
+                                console.error('Error deleting event:', error);
+
+                                // Close the confirmation modal
+                                $('#EventdetailModal').modal('hide');
+                            }
+                        });
+                    });
+
+                    // When the user closes the modal without confirming the delete
+                    $('#cancelDeleteEventBtn').on('click', function () {
+                        // Close the confirmation modal
+                        $('#EventdetailModal').modal('hide');
+                    });
+                },
 
 
             // Drag And Drop
@@ -401,7 +463,7 @@
             var eventId = $(this).data('event-id');
             if (confirm("Are you sure you want to delete this event?")) {
                 $.ajax({
-                    url: `/schedule/${eventId}`,
+                    url: `/scheduledelete/${eventId}`,
                     type: "delete",
                     headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                     data: {

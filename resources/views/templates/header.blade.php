@@ -717,7 +717,7 @@
                             </a>
                         </li>
 
-                        <li class="nav-item">
+                        <li class="nav-item">   
                             <a class="nav-link" href="/qcmaps" role="button" style="color:white">
                                 <i class="ri-plant-line"></i>
                                 <span data-key="t-faqs">Maps</span>

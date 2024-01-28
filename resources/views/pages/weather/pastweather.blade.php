@@ -238,6 +238,8 @@
     </table> -->
 
             <br>
+            @include('templates.footer')
 </body>
+
 
 </html>

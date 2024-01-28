@@ -66,7 +66,7 @@
                             </a>
                         </div>
 
-                        <button type="button" class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger" id="topnav-hamburger-icon">
+                        <button class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger" id="topnav-hamburger-icon">
                             <span class="hamburger-icon">
                                 <span></span>
                                 <span></span>
@@ -714,6 +714,13 @@
                             <a class="nav-link" href="/plantifeed" role="button" style="color:white">
                                 <i class="ri-plant-line"></i>
                                 <span data-key="t-faqs">Plantifeed</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">   
+                            <a class="nav-link" href="/qcmaps" role="button" style="color:white">
+                                <i class="ri-plant-line"></i>
+                                <span data-key="t-faqs">Maps</span>
                             </a>
                         </li>
                     </ul>

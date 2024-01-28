@@ -95,9 +95,9 @@ Route::get('/users/admin', [AuthController::class, 'getAdmin']);
 Route::get('/users/farm-leader', [AuthController::class, 'getFarmerLeader']);
 Route::get('/users/farmers', [AuthController::class, 'getFarmer']);
 // Start Full Calender=================================================================
-Route::get('/fullcalendarss', [EventController::class, 'index']);
-Route::get('/fullcalendars', [EventController::class, 'getEvents']);
-Route::get('/fullcalendars/{id}', [EventController::class, 'getdata']);
+Route::get('/schedules', [EventController::class, 'index']);
+Route::get('/schedulesget', [EventController::class, 'getEvents']);
+Route::get('/schedulesdata/{id}', [EventController::class, 'getdata']);
 Route::delete('/scheduledelete/{id}', [EventController::class, 'deleteEvent']);
 Route::put('/schedule/{id}', [EventController::class, 'update']);
 Route::put('/schedule/{id}/resize', [EventController::class, 'resize']);

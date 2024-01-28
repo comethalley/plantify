@@ -25,7 +25,7 @@ class eventcontroller extends Controller
           $item->description = $request->description;
           $item->save();
   
-          return redirect('/fullcalendarss');
+          return redirect('/schedules');
       }
       
       

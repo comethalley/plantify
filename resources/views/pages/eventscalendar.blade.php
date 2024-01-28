@@ -308,7 +308,7 @@
             },
             initialView: 'dayGridMonth',
             timeZone: 'UTC',
-            events: '/fullcalendars',
+            events: '/schedulesget',
             editable: true,
             selectable: true,
             selectHelper: true,

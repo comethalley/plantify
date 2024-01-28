@@ -10,6 +10,7 @@ use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ThreadController;
 use App\Http\Controllers\WeatherController;
+use App\Http\Controllers\qcmaps;
 
 /*
 |--------------------------------------------------------------------------
@@ -94,3 +95,5 @@ Route::get('/pastweather', [WeatherController::class, 'pastweather']);
 Route::get('/users/admin', [AuthController::class, 'getAdmin']);
 Route::get('/users/farm-leader', [AuthController::class, 'getFarmerLeader']);
 Route::get('/users/farmers', [AuthController::class, 'getFarmer']);
+
+Route::get('/qcmaps', [qcmaps::class, 'index']);

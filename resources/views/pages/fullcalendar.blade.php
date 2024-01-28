@@ -56,12 +56,14 @@
                         <div style='clear:both'></div>
 
                         <!-- Add New Event MODAL -->
-                        <div class="modal fade" id="addEventModal" tabindex="-1" role="dialog" aria-labelledby="addEventModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="addEventModal" tabindex="-1" role="dialog" aria-labelledby="addEventModalLabel"
+                            aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="addEventModalLabel">Add Plant</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
                                         <div class="form-group">
@@ -85,13 +87,46 @@
                             </div>
                         </div>
 
+                        <!-- Event Details Modal -->
+                        <div class="modal fade" id="eventDetailsModal" tabindex="-1" role="dialog"
+                            aria-labelledby="eventDetailsModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content border-0">
+                                    <div class="modal-header p-3 bg-ssubtle">
+                                        <h5 class="modal-title" id="">Planting Details</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body p-4">
+                                        <!-- Content of your event details will be dynamically inserted here using JavaScript -->
+                                        <div class="text-end">
+                                            <a href="#" class="btn btn-sm btn-primary" id="edit-event-btn"
+                                                data-id="edit-event" onclick="editEvent(this)"
+                                                role="button">Edit</a>
+                                        </div>
+                                        <div class="event-details">
+                                        <h5 class="modal-title" id="eventDetailsModalLabel"></h5>
+                                            <!-- Event details will be dynamically inserted here -->
+                                        </div>
+                                        <div class="text-end">
+                                            <a href="#" class="btn btn-sm btn-primary" id="edit-event-btn"
+                                                data-id="edit-event" onclick="editEvent(this)"
+                                                role="button">Delete</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- Update and Delete Event Modal -->
-                        <div class="modal fade" id="updateDeleteEventModal" tabindex="-1" role="dialog" aria-labelledby="updateDeleteEventModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="updateDeleteEventModal" tabindex="-1" role="dialog"
+                            aria-labelledby="updateDeleteEventModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="updateDeleteEventModalLabel">Update/Delete Plant</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
                                         <div class="form-group">
@@ -110,15 +145,13 @@
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-danger" id="deleteEventBtn">Delete</button>
                                         <button type="button" class="btn btn-primary" id="updateEventBtn">Update</button>
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                       
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-
-
-                    </div>
+                     </div>
                 </div> <!-- end row-->
 
             </div>
@@ -155,27 +188,98 @@
                     // Open Add Event Modal
                     $('#addEventModal').modal('show');
                 },
+
+                eventRender: function(event, element) {
+                    // Customize the way events are rendered
+                    var eventTitle = event.title;
+
+                    // Create a new element with the title and append it to the event element
+                    var titleElement = $('<div class="fc-title"></div>').text(eventTitle);
+                    element.find('.fc-content').empty().append(titleElement);
+                },
+
                 eventClick: function(event) {
                     // Close Add Event Modal if open
                     $('#addEventModal').modal('hide');
 
-                    // Display event details in the Update/Delete Event Modal
+                    // Populate Event Details Modal with the clicked event's data
+                    $('#eventDetailsModalLabel').text(event.title);
+
+                    // You can customize this part based on your event data structure
+                    var eventDetailsHtml = `
+                        <div class="text-end">
+                            <a href="#" class="btn btn-sm btn-primary" id="edit-event-btn" data-id="edit-event" onclick="openUpdateDeleteModal(${event.id})" role="button">Edit</a>
+                        </div>
+                        <div class="event-details">
+                        
+                            <div class="mb-2">
+
+                            <div class="flex-grow-1 d-flex align-items-center">
+                                    <div class="flex-shrink-0 me-3">
+                                        <i class="ri-hand-heart-line fs-16"></i>
+                                    </div>
+                                    
+                                    <div class="flex-grow-1">
+                                    <h5 class="modal-title" >Seed Name: ${(event.title)}</h5>
+                                    </div>
+                                </div>
+
+                            
+                                <div class="flex-grow-1 d-flex align-items-center">
+                                    <div class="flex-shrink-0 me-3">
+                                        <i class="ri-calendar-event-line  fs-16"></i>
+                                    </div>
+                                    
+                                    <div class="flex-grow-1">
+                                        <p class="d-block fw-semibold mb-0" id="event-start-date-tag">Date Start: ${moment(event.start).format("MMMM D, YYYY")}</p>
+                                        
+                                    </div>
+                                </div>
+
+                                <div class="flex-grow-1 d-flex align-items-center">
+                                    <div class="flex-shrink-0 me-3">
+                                        <i class="ri-calendar-check-line  fs-16"></i>
+                                    </div>
+                                    
+                                    <div class="flex-grow-1">
+                                        
+                                        <p class="d-block fw-semibold mb-0" id="event-start-date-tag">Date End: ${moment(event.end).format("MMMM D, YYYY")}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    `;
+
+                    // Set the content of the modal body
+                    $('#eventDetailsModal .modal-body').html(eventDetailsHtml);
+
+                    // Show the Event Details Modal
+                    $('#eventDetailsModal').modal('show');
+
+                    // Close Add Event Modal if open
+                    $('#addEventModal').modal('hide');
                     $('#updateEventTitle').val(event.title);
-                    $('#updateEventStart').val(moment(event.start).format("YYYY-MM-DDTHH:mm"));
-                    $('#updateEventEnd').val(moment(event.end).format("YYYY-MM-DDTHH:mm"));
+                    $('#updateEventStart').val(moment(event.start).format("YYYY-MM-DD"));
+                    $('#updateEventEnd').val(moment(event.end).format("YYYY-MM-DD"));
 
                     // Store event ID for update and delete
                     var eventId = event.id;
                     $('#updateEventBtn').data('event-id', eventId);
                     $('#deleteEventBtn').data('event-id', eventId);
-
-                    // Show the modal
-                    $('#updateDeleteEventModal').modal('show');
                 }
             });
 
+            function openUpdateDeleteModal() {
+                // Close Event Details Modal
+                $('#eventDetailsModal').modal('hide');
+
+                // Open Update/Delete Event Modal
+                $('#updateDeleteEventModal').modal('show');
+            }
+
             // Open Add Event Modal when clicking on a day or time
-            $('#calendar').on('click', '.fc-day, .fc-time', function() {
+            $('#calendar').on('click', '.fc-day', function() {
                 // Close Update/Delete Event Modal if open
                 $('#updateDeleteEventModal').modal('hide');
 
@@ -184,8 +288,9 @@
             });
 
             // Save Event
-            $('#saveEventBtn').on('click', function() {
-                // Close Add Event Modal
+            $('#saveEventBtn').on('click', function () {
+            // Close Add Event Modal
+
                 $('#addEventModal').modal('hide');
 
                 var title = $('#eventTitle').val();
@@ -193,6 +298,10 @@
                 var end = $('#eventEnd').val();
 
                 if (title && start && end) {
+                    // Convert start and end dates to UTC
+                    var startUTC = moment.utc(start).format('YYYY-MM-DD');
+                    var endUTC = moment.utc(end).format('YYYY-MM-DD');
+
                     $.ajax({
                         url: "/fullcalendar/action",
                         type: "POST",
@@ -201,16 +310,16 @@
                         },
                         data: {
                             title: title,
-                            start: start,
-                            end: end,
+                            start: startUTC,
+                            end: endUTC,
                             type: 'add'
                         },
-                        success: function(data) {
+                        success: function (data) {
                             calendar.fullCalendar('refetchEvents');
                             $('#addEventModal').modal('hide');
                             alert("Event Created Successfully");
                         },
-                        error: function(error) {
+                        error: function (error) {
                             console.error("Error saving event:", error);
                             alert("Error saving event. Please try again.");
                         }
@@ -219,8 +328,16 @@
             });
 
             // Update Event Button Click
-            $('#updateEventBtn').on('click', function() {
+            $(document).on('click', '#edit-event-btn', function () {
+            openUpdateDeleteModal();
+            });
 
+            function openUpdateDeleteModal() {
+                $('#eventDetailsModal').modal('hide');
+                $('#updateDeleteEventModal').modal('show');
+            }
+
+            $('#updateEventBtn').on('click', function() {
                 // Close Update/Delete Event Modal
                 $('#updateDeleteEventModal').modal('hide');
 
@@ -258,7 +375,6 @@
 
             // Delete Event Button Click
             $('#deleteEventBtn').on('click', function() {
-
                 // Close Update/Delete Event Modal
                 $('#updateDeleteEventModal').modal('hide');
 
@@ -286,11 +402,11 @@
                     });
                 }
             });
-            $('#eventStart, #eventEnd, #updateEventStart, #updateEventEnd').attr('min', moment().format("YYYY-MM-DDTHH:mm"));
+
+            $('#eventStart, #eventEnd, #updateEventStart, #updateEventEnd').attr('min', moment().format("YYYY-MM-DD"));
         });
+
     </script>
-
-
 </body>
 
 </html>

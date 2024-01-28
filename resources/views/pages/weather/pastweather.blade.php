@@ -29,82 +29,7 @@
             padding: 10px;
         }
     </style>
-    <script>
-        let isCelsius = true; // Global variable to track temperature unit
-        let currentWeatherData = []; // Store the fetched data
 
-        async function fetchWeatherDataForDate(date) {
-            const api_key = "UQCDAHREW2AP33F6RGNT3X2Z9"; // Replace with your API key
-            const location = "Quezon City";
-            const startDate = new Date(date);
-            const endDate = new Date(startDate);
-            endDate.setDate(endDate.getDate() + 1); // Add one day
-
-            const startDateTime = `${startDate.toISOString().split('T')[0]}T00:00:00`;
-            const endDateTime = `${endDate.toISOString().split('T')[0]}T00:00:00`;
-
-            const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/weatherdata/history?aggregateHours=1&startDateTime=${startDateTime}&endDateTime=${endDateTime}&location=${location}&unitGroup=us&contentType=json&key=${api_key}`;
-
-            try {
-                const response = await fetch(url);
-                const data = await response.json();
-                currentWeatherData = data.locations[location].values; // Store fetched data
-                displayWeatherData(); // Display the data
-            } catch (error) {
-                console.error('Error fetching weather data:', error);
-            }
-        }
-
-        function displayWeatherData() {
-            const weatherTableBody = document.getElementById('weatherTableBody');
-            weatherTableBody.innerHTML = ''; // Clear previous data
-
-            // Populate table with each hour's weather data
-            currentWeatherData.forEach(day => {
-                const dateTime = new Date(day.datetime);
-                const formattedTime = formatAMPM(dateTime);
-                const temp = isCelsius ? convertFtoC(day.temp) : day.temp;
-                const tempUnit = isCelsius ? '°C' : '°F';
-
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${formattedTime}</td>
-                    <td>${temp.toFixed(1)} ${tempUnit}</td>
-                    <td>${day.wspd} mph</td>
-                    <td>${day.humidity} %</td>
-                    <td>${day.uvindex || 'N/A'}</td>
-                    <td>${day.conditions || 'N/A'}</td>
-                    <td>${day.visibility || 'N/A'} mi</td>
-                `;
-                weatherTableBody.appendChild(row);
-            });
-        }
-
-        function convertFtoC(fahrenheit) {
-            return (fahrenheit - 32) * 5 / 9;
-        }
-
-        function formatAMPM(date) {
-            let hours = date.getHours();
-            let minutes = date.getMinutes();
-            let ampm = hours >= 12 ? 'PM' : 'AM';
-            hours = hours % 12;
-            hours = hours ? hours : 12;
-            minutes = minutes < 10 ? '0' + minutes : minutes;
-            let strTime = hours + ':' + minutes + ' ' + ampm;
-            return strTime;
-        }
-
-        function toggleTemperatureUnit() {
-            isCelsius = !isCelsius;
-            displayWeatherData(); // Redisplay data with new unit
-        }
-
-        function searchWeather() {
-            const dateInput = document.getElementById('dateInput').value;
-            fetchWeatherDataForDate(dateInput);
-        }
-    </script>
 </head>
 
 <body>
@@ -155,7 +80,7 @@
                                             <div class="mt-3">
                                                 <label class="form-label mb-0">Search Date</label>
                                                 <div class="d-flex align-items-center ">
-                                                    <input type="text" id="dateInput" class="form-control flatpickr-input me-2" data-provider="flatpickr" data-date-format="d M, Y" data-deafult-date="25 12,2021" readonly="readonly">
+                                                    <input type="text" id="dateInput" class="form-control flatpickr-input me-2" data-provider="flatpickr" data-date-format="d M, Y" data-default-date="25 12,2021" readonly="readonly">
                                                     <button onclick="searchWeather()" type="button" class="btn btn-primary bg-gradient
                                              waves-effect waves-light mdi mdi-magnify search-widget-icon"></button>
                                                 </div>
@@ -238,8 +163,88 @@
     </table> -->
 
             <br>
-            @include('templates.footer')
-</body>
+            <script>
+                flatpickr('#dateInput', {
+                    dateFormat: 'd M, Y',
+                    defaultDate: 'today',
+                    readOnly: true
+                });
 
+                let isCelsius = true; // Global variable to track temperature unit
+                let currentWeatherData = []; // Store the fetched data
+
+                async function fetchWeatherDataForDate(date) {
+                    const api_key = "UQCDAHREW2AP33F6RGNT3X2Z9"; // Replace with your API key
+                    const location = "Quezon City";
+                    const startDate = new Date(date);
+                    const endDate = new Date(startDate);
+                    endDate.setDate(endDate.getDate() + 1); // Add one day
+
+                    const startDateTime = `${startDate.toISOString().split('T')[0]}T00:00:00`;
+                    const endDateTime = `${endDate.toISOString().split('T')[0]}T00:00:00`;
+
+                    const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/weatherdata/history?aggregateHours=1&startDateTime=${startDateTime}&endDateTime=${endDateTime}&location=${location}&unitGroup=us&contentType=json&key=${api_key}`;
+
+                    try {
+                        const response = await fetch(url);
+                        const data = await response.json();
+                        currentWeatherData = data.locations[location].values; // Store fetched data
+                        displayWeatherData(); // Display the data
+                    } catch (error) {
+                        console.error('Error fetching weather data:', error);
+                    }
+                }
+
+                function displayWeatherData() {
+                    const weatherTableBody = document.getElementById('weatherTableBody');
+                    weatherTableBody.innerHTML = ''; // Clear previous data
+
+                    // Populate table with each hour's weather data
+                    currentWeatherData.forEach(day => {
+                        const dateTime = new Date(day.datetime);
+                        const formattedTime = formatAMPM(dateTime);
+                        const temp = isCelsius ? convertFtoC(day.temp) : day.temp;
+                        const tempUnit = isCelsius ? '°C' : '°F';
+
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                    <td>${formattedTime}</td>
+                    <td>${temp.toFixed(1)} ${tempUnit}</td>
+                    <td>${day.wspd} mph</td>
+                    <td>${day.humidity} %</td>
+                    <td>${day.uvindex || 'N/A'}</td>
+                    <td>${day.conditions || 'N/A'}</td>
+                    <td>${day.visibility || 'N/A'} mi</td>
+                `;
+                        weatherTableBody.appendChild(row);
+                    });
+                }
+
+                function convertFtoC(fahrenheit) {
+                    return (fahrenheit - 32) * 5 / 9;
+                }
+
+                function formatAMPM(date) {
+                    let hours = date.getHours();
+                    let minutes = date.getMinutes();
+                    let ampm = hours >= 12 ? 'PM' : 'AM';
+                    hours = hours % 12;
+                    hours = hours ? hours : 12;
+                    minutes = minutes < 10 ? '0' + minutes : minutes;
+                    let strTime = hours + ':' + minutes + ' ' + ampm;
+                    return strTime;
+                }
+
+                function toggleTemperatureUnit() {
+                    isCelsius = !isCelsius;
+                    displayWeatherData(); // Redisplay data with new unit
+                }
+
+                function searchWeather() {
+                    const dateInput = document.getElementById('dateInput').value;
+                    fetchWeatherDataForDate(dateInput);
+                }
+            </script>
+</body>
 
 </html>

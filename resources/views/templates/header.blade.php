@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
 
@@ -36,14 +35,18 @@
     <!--Scanner JS-->
     <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
 
-    
+    <!--Weather JS-->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+
+
 </head>
 
 <body>
 
     <!-- Begin page -->
     <div id="layout-wrapper">
-    <header id="page-topbar">
+        <header id="page-topbar">
             <div class="layout-width">
                 <div class="navbar-header">
                     <div class="d-flex">
@@ -77,11 +80,11 @@
                         </button>
 
                         <!-- App Search-->
-                        
+
                     </div>
 
                     <div class="d-flex align-items-center">
-                       
+
 
                         <div class="ms-1 header-item d-none d-sm-flex">
                             <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" data-toggle="fullscreen">
@@ -111,7 +114,7 @@
                                             </div>
                                             <div class="col-auto dropdown-tabs">
                                                 <span class="badge bg-light-subtle text-body fs-13">
-                                                    </span>
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
@@ -139,11 +142,11 @@
 
                                 <div class="tab-content position-relative" id="notificationItemsTabContent">
                                     <div class="tab-pane fade show active py-2 ps-2" id="all-noti-tab" role="tabpanel">
-                                        
+
                                     </div>
 
                                     <div class="tab-pane fade py-2 ps-2" id="messages-tab" role="tabpanel" aria-labelledby="messages-tab">
-                                        
+
                                     </div>
                                     <div class="tab-pane fade p-4" id="alerts-tab" role="tabpanel" aria-labelledby="alerts-tab"></div>
 
@@ -205,30 +208,30 @@
             </div>
         </header>
 
-<!-- removeNotificationModal -->
-<div id="removeNotificationModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="NotificationModalbtn-close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="mt-2 text-center">
-                    <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop" colors="primary:#f7b84b,secondary:#f06548" style="width:100px;height:100px"></lord-icon>
-                    <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
-                        <h4>Are you sure ?</h4>
-                        <p class="text-muted mx-4 mb-0">Are you sure you want to remove this Notification ?</p>
+        <!-- removeNotificationModal -->
+        <div id="removeNotificationModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="NotificationModalbtn-close"></button>
                     </div>
-                </div>
-                <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
-                    <button type="button" class="btn w-sm btn-light" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn w-sm btn-danger" id="delete-notification">Yes, Delete It!</button>
-                </div>
-            </div>
+                    <div class="modal-body">
+                        <div class="mt-2 text-center">
+                            <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop" colors="primary:#f7b84b,secondary:#f06548" style="width:100px;height:100px"></lord-icon>
+                            <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
+                                <h4>Are you sure ?</h4>
+                                <p class="text-muted mx-4 mb-0">Are you sure you want to remove this Notification ?</p>
+                            </div>
+                        </div>
+                        <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+                            <button type="button" class="btn w-sm btn-light" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn w-sm btn-danger" id="delete-notification">Yes, Delete It!</button>
+                        </div>
+                    </div>
 
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
         <!-- ========== App Menu ========== -->
         <div class="app-menu navbar-menu" style="background-color:#57aa2c;">
             <!-- LOGO -->
@@ -368,7 +371,7 @@
                             </a>
                         </li>
 
-                        <li class="nav-item">   
+                        <li class="nav-item">
                             <a class="nav-link" href="/qcmaps" role="button" style="color:white">
                                 <i class="ri-map-pin-line"></i>
                                 <span data-key="t-faqs">Maps</span>
@@ -380,21 +383,23 @@
                 <div class="sidebar-background" style="background-color:#228B22;"></div>
             </div>
 
-           
-        </div> 
+
+        </div>
         <!-- Left Sidebar End -->
         <!-- Vertical Overlay-->
         <div class="vertical-overlay"></div>
         <div class="main-content">
 
-            
+
             <!-- End Page-content -->
 
             <footer class="footer">
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-sm-6">
-                            <script>document.write(new Date().getFullYear())</script> © Plantify.
+                            <script>
+                                document.write(new Date().getFullYear())
+                            </script> © Plantify.
                         </div>
                         <div class="col-sm-6">
                             <div class="text-sm-end d-none d-sm-block">
@@ -436,6 +441,3 @@
 
     <!-- Sweet Alerts js -->
     <script src="{{ asset('assets/libs/sweetalert2/sweetalert2.min.js') }}"></script>
-
-
-

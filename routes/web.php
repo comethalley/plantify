@@ -94,6 +94,6 @@ Route::get('/pastweather', [WeatherController::class, 'pastweather']);
 
 Route::get('/users/admin', [AuthController::class, 'getAdmin']);
 Route::get('/users/farm-leader', [AuthController::class, 'getFarmerLeader']);
-Route::get('/users/farmers', [AuthController::class, 'getFarmer']);
+Route::get('/users/farmers', [AuthController::class, 'getFarmers']);
 
 Route::get('/qcmaps', [qcmaps::class, 'index']);

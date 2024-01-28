@@ -207,6 +207,6 @@ class AuthController extends Controller
 
     public function getFarmers()
     {
-        return view('pages.users.farms');
+        return view('pages.users.farmers');
     }
 }

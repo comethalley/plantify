@@ -107,8 +107,8 @@
     <div class="engage-container" style="background-color:white;  ">
 
         <div class="title-container" style="text-align: center; font-family: Montserrat, sans-serif;">
-            <h1>Engage in the community using</h1>
-            <h3 style="letter-spacing: 5px">PLANTIFEED</h3>
+            <h1>Engage in the community using Plantifeed</h1>
+
         </div>
 
 
@@ -258,6 +258,7 @@
             }
         }
     </script>
+
 
 
 

@@ -11,7 +11,8 @@ use App\Http\Controllers\Api\plantifeedcontroller;
 use App\Http\Controllers\ForumController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\LandingpageController;
-
+use App\Http\Controllers\ProfileController;
+use Symfony\Component\HttpKernel\Profiler\Profile;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,6 +56,8 @@ Route::post('/archive-uom/{id}', [InventoryController::class, 'archiveUom']);
 Route::get('/plantifeed', [ForumController::class, 'index']);
 
 Route::get('landingpage', [LandingpageController::class, 'landingpage']);
+
+Route::get('profile', [ProfileController::class, 'profile']);
 
 // Example route for displaying the chat threads
 Route::get('/chat', [ChatController::class, 'index']);

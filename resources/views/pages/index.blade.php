@@ -254,40 +254,7 @@
                             </div>
                         </div>
                         <!-- end -->
-                        <div class="mini-stats-wid d-flex align-items-center mt-3">
-                            <div class="flex-shrink-0 avatar-sm">
-                                <span class="mini-stat-icon avatar-title rounded-circle text-success bg-success-subtle fs-4">
-                                    25
-                                </span>
-                            </div>
-                            <div class="flex-grow-1 ms-3">
-                                <h6 class="mb-1">Weekly catch-up</h6>
-                                <p class="text-muted mb-0">Nesta Technologies</p>
-                            </div>
-                            <div class="flex-shrink-0">
-                                <p class="text-muted mb-0">
-                                    02:00 <span class="text-uppercase">pm</span>
-                                </p>
-                            </div>
-                        </div>
-                        <!-- end -->
-                        <div class="mini-stats-wid d-flex align-items-center mt-3">
-                            <div class="flex-shrink-0 avatar-sm">
-                                <span class="mini-stat-icon avatar-title rounded-circle text-success bg-success-subtle fs-4">
-                                    27
-                                </span>
-                            </div>
-                            <div class="flex-grow-1 ms-3">
-                                <h6 class="mb-1">James Bangs (Client) Meeting</h6>
-                                <p class="text-muted mb-0">Nesta Technologies</p>
-                            </div>
-                            <div class="flex-shrink-0">
-                                <p class="text-muted mb-0">
-                                    03:45 <span class="text-uppercase">pm</span>
-                                </p>
-                            </div>
-                        </div>
-                        <!-- end -->
+                        
 
                         <div class="mt-3 text-center">
                             <a href="javascript:void(0);" class="text-muted text-decoration-underline">View all Events</a>
@@ -723,7 +690,7 @@
         <!-- end row -->
 
         <div class="row">
-            <div class="col-xxl-4">
+            <div class="col-xxl-6">
                 <div class="card card-height-100">
                     <div class="card-header align-items-center d-flex">
                         <h4 class="card-title mb-0 flex-grow-1">Team Members</h4>
@@ -941,7 +908,7 @@
                     </div> -->
             <!-- end card header -->
 
-            <div class="col-xxl-4 col-lg-6">
+            <div class=" col-lg-6">
                 <div class="card card-height-100">
                     <div class="card-header align-items-center d-flex">
                         <h4 class="card-title mb-0 flex-grow-1">Projects Status</h4>

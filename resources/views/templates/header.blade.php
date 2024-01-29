@@ -291,13 +291,22 @@
                             </div>
                         </li>
 
+                       
                         <li class="nav-item">
-                            <a class="nav-link" href="/fullcalendar" role="button" style="color:white">
-                                <i class="ri-calendar-2-line"></i>
-                                <span data-key="t-calendar">Calendar</span>
+                            <a class="nav-link menu-link" href="#sidebarDashboards" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                                <i class="ri-dashboard-2-line"></i> <span>Calendar</span>
                             </a>
+                            <div class="collapse menu-dropdown" id="sidebarDashboards">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="/fullcalendar" class="nav-link">Planting Calendar</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/schedules" class="nav-link"> Event Calendar </a>
+                                    </li>
+                                </ul>
+                            </div>
                         </li>
-
                         <!-- <li class="nav-item">
                             <a class="nav-link" href="faq.html" role="button" style="color:white">
                                 <i class="ri-question-line"></i>

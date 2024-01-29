@@ -1,59 +1,86 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Models\events;
+use Illuminate\Support\Facades\DB;
+use App\Models\Event;
 use Illuminate\Http\Request;
 
 class eventcontroller extends Controller
 {
-    public function create (Request $request){
-        $data = $request->validate([
-            'events_title'  => 'required|string|max:55',
-            'body' => 'required|string|max:55',
-            'createdBy' => 'required|string|max:55',
-        ]);
-
-        $events = events::create([
-            'events_title' => $data['events_title'],
-            'body' => $data['body'],
-            'createdBy' => $data['createdBy'],
-            'status' => 1
-        ]);
-
-        return response(compact('events'));
-    }
- 
-    public function edit($id)
-    {
-        $events = events::findOrFail($id);
-        return view('events.edit', compact('events'));
-    }
-
-    public function update(Request $request, $id)
-    {
-        $events = events::findorfail($id);
-
-        if (!$events) {
-            return response()->json(['message' => 'event not found'], 404);
-             }
-
-             $validatedData = $request->validate([
-            'event_title'  => 'required|string|max:55',
-            'body' => 'required|string|max:55',
-            'createdBy' => 'required|string|max:55',
-            
-         ]);
-
-        $events->update($validatedData);
-
-        return redirect()->route('events.index')->with('success', 'events updated successfully');
-    }
-   
-   
-
-    // Update the plant with the validated data
+      //
+      public function index()
+      {
+          $events = DB::table('events')->orderBy('id', 'DESC')->get();
+          //dd($events);
+          return view('pages.eventscalendar',['events'=>$events]);
+      }
   
-
+      public function create(Request $request)
+      {
+          $item = new Event();
+          $item->title = $request->title;
+          $item->start = $request->start;
+          $item->end = $request->end;
+          $item->location = $request->location;
+          $item->description = $request->description;
+          $item->save();
+  
+          return redirect('/schedules');
+      }
+      
+      
+      public function getEvents()
+      {
+          $event = Event::all();
+          return response()->json($event);
+          
+      }
+      
+      public function getdata($id)
+      {
+            $data = DB::table('events')->where('id', $id)->orderBy('id', 'DESC')->get();
+            //return view('pages.eventscalendar',['data'=>$data]);
+            //dd($data);
+            return response()->json($data);    
+      }
+      
     
+      public function deleteEvent(Request $request, $id)
+      {
+          $event = Event::find($request->id)->delete();
+          return response()->json($event);
+      }
+  
+      public function update(Request $request, $id)
+      {
+          $event = Event::findOrFail($id);
+  
+          $event->update([
+              'start' => Carbon::parse($request->input('start_date'))->setTimezone('UTC'),
+              'end' => Carbon::parse($request->input('end_date'))->setTimezone('UTC'),
+          ]);
+  
+          return response()->json(['message' => 'Event moved successfully']);
+      }
+  
+      public function resize(Request $request, $id)
+      {
+          $event = Event::findOrFail($id);
+  
+          $newEndDate = Carbon::parse($request->input('end_date'))->setTimezone('UTC');
+          $event->update(['end' => $newEndDate]);
+  
+          return response()->json(['message' => 'Event resized successfully.']);
+      }
+  
+      public function search(Request $request)
+      {
+          $searchKeywords = $request->input('title');
+  
+          $matchingEvents = Event::where('title', 'like', '%' . $searchKeywords . '%')->get();
+  
+          return response()->json($matchingEvents);
+      }
+  
+      
 }

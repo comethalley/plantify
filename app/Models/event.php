@@ -5,13 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class events extends Model
+class Event extends Model
 {
     use HasFactory;
+
     protected $fillable = [
-        'events_title',
-        'body',
-        'createdBy',
-        'status'
+        'title',
+        'start', // Add this line
+        'end',
+        'location',
+        'description',
+    
     ];
 }

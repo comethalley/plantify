@@ -137,14 +137,12 @@
                     </div>
     
                     <!-- Start User chat -->
-                    <div class="user-chat w-100 overflow-hidden">
-                        <div class="chat-content d-lg-flex" style="background-image: url('{{ asset('assets/images/chat_bg.png') }}'); background-size: cover; ">
+                    <div class="user-chat w-100 overflow-hidden" style="background-image: url('{{ asset('assets/images/chat_bg.png') }}'); background-size: cover; ">
+                        <div class="chat-content d-lg-flex">
                             <!-- start chat conversation section -->
                             <div class="w-100 overflow-hidden position-relative">
                                 <!-- conversation user -->
                                 <div class="position-relative">
-                                    
-
                                     <div class="position-relative" id="users-chat">
                                         <div class="p-3 user-chat-topbar">
                                             <div class="row align-items-center">
@@ -160,7 +158,7 @@
                                                                     <!-- <span class="user-status"></span> -->
                                                                 </div>
                                                                 <div class="flex-grow-1 overflow-hidden">
-                                                                    <h5  class="text-truncate mb-0 fs-16"><a class="text-reset username" data-bs-toggle="offcanvas" href="#userProfileCanvasExample" aria-controls="userProfileCanvasExample"></a></h5>
+                                                                    <h5 class="text-truncate mb-0 fs-16"><a class="text-reset username" data-bs-toggle="offcanvas" href="#userProfileCanvasExample" aria-controls="userProfileCanvasExample"></a></h5>
                                                                     <p class="text-truncate text-muted fs-14 mb-0 userStatus">
                                                                         <small>
                                                                             @if($user->isOnline)
@@ -175,6 +173,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
+
                                                 <div class="col-sm-8 col-4">
                                                     <ul class="list-inline user-chat-nav text-end mb-0">
                                                         <li class="list-inline-item m-0">
@@ -215,61 +214,52 @@
                                                     </ul>
                                                 </div>
                                             </div>
+                                            <!-- end chat user head -->
 
-                                        </div>
-                                        <!-- end chat user head -->
-                                    </div>
-
-                                    <!-- end chat user head -->
-                                        
-                                    
-                                    <!-- Your chat conversation section -->
-                                    <div class="chat-conversation p-3 p-lg-4" id="chat-conversation" data-simplebar>
-                                        <ul class="list-unstyled chat-conversation-list" id="users-conversation">
-                                            @foreach($messages as $message)
-                                                @if($message->sender_id == auth()->user()->id)
-                                                    {{-- Sender's message (right) --}}
-                                                    <li class="chat-list right">
-                                                @else
-                                                    {{-- Reply (left) --}}
-                                                    <li class="chat-list left">
-                                                @endif
-                                                    <div class="conversation-list">
-                                                        <div class="user-chat-content">
-                                                            <div class="ctext-wrap">
-                                                                <div class="ctext-wrap-content">
-                                                                    <div class="message-dropdown">
-                                                                        <p class="mb-0 ctext-content" onclick="toggleDropdown(this)">{{ $message->content }}</p>
-                                                                        <div class="dropdown-menu">
-                                                                            <a class="dropdown-item" href="#" onclick="deleteMessage(this)">Delete</a>
-                                                                            <a class="dropdown-item" href="#" onclick="replyToMessage(this)">Reply</a>
+                                            <!-- Your chat conversation section -->
+                                            <div class="chat-conversation p-3 p-lg-4" id="chat-conversation" data-simplebar>
+                                                <ul class="list-unstyled chat-conversation-list" id="group-conversation">
+                                                    @foreach($messages as $message)
+                                                        @if($message->sender_id == auth()->user()->id)
+                                                            {{-- Sender's message (right) --}}
+                                                            <li class="chat-list right">
+                                                        @else
+                                                            {{-- Reply (left) --}}
+                                                            <li class="chat-list left">
+                                                        @endif
+                                                            <div class="conversation-list">
+                                                                <div class="user-chat-content">
+                                                                    <div class="ctext-wrap">
+                                                                        <div class="ctext-wrap-content">
+                                                                            <div class="message-dropdown">
+                                                                                <p class="mb-0 ctext-content" onclick="toggleDropdown(this)">{{ $message->content }}</p>
+                                                                                <div class="dropdown-menu">
+                                                                                    <a class="dropdown-item" href="#" onclick="deleteMessage(this)">Delete</a>
+                                                                                    <a class="dropdown-item" href="#" onclick="replyToMessage(this)">Reply</a>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="conversation-name">
+                                                                            <br>
+                                                                            <small class="text-muted time">{{ $message->created_at->format('H:i') }}</small>
+                                                                            <span class="text-success check-message-icon">
+                                                                                <i class="ri-check-double-line align-bottom"></i>
+                                                                            </span>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="conversation-name">
-                                                                    <br>
-                                                                    <small class="text-muted time">{{ $message->created_at->format('H:i') }}</small>
-                                                                    <span class="text-success check-message-icon">
-                                                                        <i class="ri-check-double-line align-bottom"></i>
-                                                                    </span>
-                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                        <!-- end chat-conversation-list -->
-                                    </div>
-
-
-                                        <div class="alert alert-warning alert-dismissible copyclipboard-alert px-4 fade show " id="copyClipBoardChannel" role="alert">
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                                <!-- end chat-conversation-list -->
+                                            </div>
+                                            <!-- end chat-conversation -->
+                                        </div>
+                                        <div class="alert alert-warning alert-dismissible copyclipboard-alert px-4 fade show " id="copyClipBoard" role="alert">
                                             Message copied
                                         </div>
                                     </div>
-
-                                    <!-- end chat-conversation -->
-
                                     <div class="chat-input-section p-3 p-lg-4">
                                         <form id="chatinput-form" enctype="multipart/form-data">
                                             <div class="row g-0 align-items-center">
@@ -322,6 +312,7 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
             <!-- end chat-wrapper -->

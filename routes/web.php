@@ -98,8 +98,6 @@ Route::get('/users/farmers', [AuthController::class, 'getFarmers']);
 
 Route::get('/qcmaps', [qcmaps::class, 'index']);
 
-
-Route::get('/users/farmers', [AuthController::class, 'getFarmer']);
 // Start Full Calender=================================================================
 Route::get('/schedules', [EventController::class, 'index']);
 Route::get('/schedulesget', [EventController::class, 'getEvents']);

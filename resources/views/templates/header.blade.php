@@ -291,18 +291,18 @@
                             </div>
                         </li>
 
-                       
+
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="#sidebarDashboards" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                            <a class="nav-link menu-link" href="#sidebarDashboards" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards" style="color:white">
                                 <i class="ri-dashboard-2-line"></i> <span>Calendar</span>
                             </a>
                             <div class="collapse menu-dropdown" id="sidebarDashboards">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item">
-                                        <a href="/fullcalendar" class="nav-link">Planting Calendar</a>
+                                        <a href="/fullcalendar" class="nav-link" style="color:white">Planting Calendar</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="/schedules" class="nav-link"> Event Calendar </a>
+                                        <a href="/schedules" class="nav-link" style="color:white"> Event Calendar </a>
                                     </li>
                                 </ul>
                             </div>
@@ -341,10 +341,10 @@
                         </li> -->
 
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="#sidebarDashboards" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards" style="color:white">
+                            <a class="nav-link menu-link" href="#inventoryDashboard" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="inventoryDashboard" style="color:white">
                                 <i class="ri-archive-line"></i> <span>Inventory</span>
                             </a>
-                            <div class="collapse menu-dropdown" id="sidebarDashboards">
+                            <div class="collapse menu-dropdown" id="inventoryDashboard">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item">
                                         <a href="/inventory/supplier" class="nav-link" style="color:white"> Supplier </a>

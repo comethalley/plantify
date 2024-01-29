@@ -52,6 +52,8 @@ Route::get('/view-farms', [FarmController::class, 'viewFarms'])->name('farms.vie
 Route::get('/farms/filterByStatus', [FarmController::class, 'filterByStatus']);
 Route::get('/update-status/{id}/{status}', [FarmController::class, 'updateStatus'])->name('update.status');
 
+
+
 //xfarms farm-management//
 Route::get('/view-archivefarms', [FarmController::class, 'viewArchiveFarms'])->name('archivefarms.xfarms');
 

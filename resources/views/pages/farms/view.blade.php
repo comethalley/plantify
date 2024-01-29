@@ -169,7 +169,7 @@
                             <td>
                             <ul class="list-inline hstack gap-2 mb-0">
         <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="View Application">
-            <a href="#" data-bs-toggle="modal" data-bs-target="#viewModal" class="text-primary d-inline-block edit-item-btn" onclick="showFarmDetails('{{ $farm->id }}', '{{ $farm->farm_name }}', '{{ $farm->barangay_name }}', '{{ $farm->area }}', '{{ $farm->address }}', '{{ $farm->farm_leader }}', '{{ $farm->status }}')">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#viewModals" class="text-primary d-inline-block edit-item-btn" onclick="showFarmDetails('{{ $farm->id }}', '{{ $farm->farm_name }}', '{{ $farm->barangay_name }}', '{{ $farm->area }}', '{{ $farm->address }}', '{{ $farm->farm_leader }}', '{{ $farm->status }}')">
                 <i class="ri-profile-line fs-3"></i>
             </a>
             &nbsp;
@@ -203,29 +203,12 @@
         </table>
   
 </div>
-
-    <!-- Modal -->
-
-<div class="modal fade" id="archiveConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="archiveConfirmationModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="archiveConfirmationModalLabel">Archive Confirmation</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                Are you sure you want to archive this farm?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" id="archiveFarmBtn">Archive</button>
-            </div>
-        </div>
-    </div>
+</div>
 </div>
 
-
-<div class="modal fade modal-lg" id="viewModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- Modal -->
+    
+    <div class="modal fade modal-lg" id="viewModals" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header bg-light p-3">
@@ -259,33 +242,58 @@
                     </div>
                 </div>
 
-                <!-- Additional row with buttons -->
+                <!-- Additional row with buttons -->@foreach($farms as $farm)
                 <div class="row mt-3">
-                    <div class="col-md-3">
-                        <a href="{{ route('update.status', ['id' => $farm->id, 'status' => 'For-Investigation']) }}" class="text-primary d-inline-block edit-item-btn">
-                            <button class="btn btn-secondary btn-border">For Investigation</button>
-                        </a>
-                    </div>
-                    <div class="col-md-3">
-                        <a href="{{ route('update.status', ['id' => $farm->id, 'status' => 'For-Visiting']) }}" class="text-primary d-inline-block edit-item-btn">
-                            <button class="btn btn-secondary btn-border">For Visiting</button>
-                        </a>
-                    </div>
-                    <div class="col-md-3">
-                        <a href="{{ route('update.status', ['id' => $farm->id, 'status' => 'Approved']) }}" class="text-primary d-inline-block edit-item-btn">
-                            <button class="btn btn-success btn-border">Approved</button>
-                        </a>
-                    </div>
-                    <div class="col-md-3">
-                        <a href="{{ route('update.status', ['id' => $farm->id, 'status' => 'Disapproved']) }}" class="text-primary d-inline-block edit-item-btn">
-                            <button class="btn btn-danger btn-border">Disapproved</button>
-                        </a>
-                    </div>
-                </div>
+    
+        <div class="col-md-3">
+                <a href="{{ route('update.status', ['id' => $farm->id, 'status' => 'For-Investigation']) }}" class="text-primary d-inline-block edit-item-btn">
+                    <button class="btn btn-secondary btn-border">For Investigation</button>
+                </a>
+        </div>
+        <div class="col-md-3">
+                <a href="{{ route('update.status', ['id' => $farm->id, 'status' => 'For-Visiting']) }}" class="text-primary d-inline-block edit-item-btn">
+                    <button class="btn btn-secondary btn-border">For Visiting</button>
+                </a>
+        </div>
+        <div class="col-md-3">
+                <a href="{{ route('update.status', ['id' => $farm->id, 'status' => 'Approved']) }}" class="text-primary d-inline-block edit-item-btn">
+                    <button class="btn btn-success btn-border">Approved</button>
+                </a>
+
+        </div>
+        <div class="col-md-3">
+                <a href="{{ route('update.status', ['id' => $farm->id, 'status' => 'Disapproved']) }}" class="text-primary d-inline-block edit-item-btn">
+                    <button class="btn btn-danger btn-border">Disapproved</button>
+                </a>
+        </div>
+    @endforeach
+</div>
+
             </div>
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="archiveConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="archiveConfirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="archiveConfirmationModalLabel">Archive Confirmation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to archive this farm?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="archiveFarmBtn">Archive</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 
 
 <!-- Add this modal at the end of your Blade file -->
@@ -356,6 +364,7 @@ $(document).ready(function () {
 
 
     function showFarmDetails(id, farmName, barangayName, area, address, farmLeader, status) {
+        
         switch (status.toLowerCase().replace(/\s+/g, '-')) {
             case 'created':
                 $('#status_modal').html(status + '<i class="fas fa-check-double label-icon align-middle rounded-pill fs-16 ms-2"></i> ' )

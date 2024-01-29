@@ -84,6 +84,8 @@
             <li><a class="dropdown-item" href="javascript:void(0);">For visiting</a></li>
             <li><a class="dropdown-item" href="javascript:void(0);">Waiting-for-approval</a></li>
             <li><a class="dropdown-item" href="javascript:void(0);">Approved</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">Disapproved</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">Cancelled</a></li>
         </ul>
     </div>
 </div>

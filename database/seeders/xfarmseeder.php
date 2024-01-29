@@ -10,7 +10,7 @@ class xfarmseeder extends Seeder
 {
     public function run()
     {
-        $barangayNames = ['Bag Bag', 'Capri', 'Fairview', 'Gulod', 'Greater Lagro', 'Kaligayahan', 
+        $barangayNames = ['BagBag', 'Capri', 'Fairview', 'Gulod', 'Greater Lagro', 'Kaligayahan', 
         'Nagkaisang Nayon', 'North Fairview', 'Novaliches Proper', 'Pasong Putik Proper', 'San Agustin'
         , 'San Bartolome', 'Sta. Lucia', 'Sta. Monica' ];
 

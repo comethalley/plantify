@@ -52,22 +52,29 @@ public function archiveFarm(Request $request, $id)
     }
 
 
-    public function updateStatus($id, $status)
+    public function updateStatus(Request $request, $id)
     {
+        // Validate the request if needed
+        $request->validate([
+            'status' => 'required|in:For-Investigation,For-Visiting,Approved,Disapproved',
+        ]);
+
+        // Find the farm by ID
         $farms = Farm::find($id);
-    
+
         if (!$farms) {
-            // Handle error, farm not found
-            return redirect()->back()->with('error', 'Farm not found.');
+            // Handle the case when the farm is not found
+            return response()->json(['error' => 'Farm not found'], 404);
         }
-    
+
         // Update the status
-        $farms->status = $status;
+        $farms->status = $request->input('status');
         $farms->save();
-    
-        // Redirect back or wherever you want
-        return redirect()->back()->with('success', 'Status updated successfully.');
+
+        // You can return a response as needed
+        return response()->json(['message' => 'Status updated successfully']);
     }
+
     
     
 

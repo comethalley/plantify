@@ -170,14 +170,14 @@
                             <ul class="list-inline hstack gap-2 mb-0">
         <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="View Application">
             <a href="#" data-bs-toggle="modal" data-bs-target="#viewModals" class="text-primary d-inline-block edit-item-btn" onclick="showFarmDetails('{{ $farm->id }}', '{{ $farm->farm_name }}', '{{ $farm->barangay_name }}', '{{ $farm->area }}', '{{ $farm->address }}', '{{ $farm->farm_leader }}', '{{ $farm->status }}')">
-                <i class="ri-profile-line fs-3"></i>
-            </a>
+    <i class="ri-profile-line fs-3"></i>
+</a>
             &nbsp;
             <!-- Update the "Archive Application" button in your Blade file -->
 <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Archive Application">
-    <a href="#" class="text-primary d-inline-block edit-item-btn" onclick="confirmArchive({{ $farm->id }})">
-        <i class="ri-archive-line fs-3"></i>
-    </a>
+    <a href="#" class="text-primary d-inline-block edit-item-btn" onclick="confirmArchive('{{ $farm->id }}')">
+    <i class="ri-archive-line fs-3"></i>
+</a>
 </li>
 
 
@@ -242,31 +242,31 @@
                     </div>
                 </div>
 
-                <!-- Additional row with buttons -->@foreach($farms as $farm)
+                <!-- Additional row with buttons -->
                 <div class="row mt-3">
     
         <div class="col-md-3">
-                <a href="{{ route('update.status', ['id' => $farm->id, 'status' => 'For-Investigation']) }}" class="text-primary d-inline-block edit-item-btn">
-                    <button class="btn btn-secondary btn-border">For Investigation</button>
-                </a>
-        </div>
-        <div class="col-md-3">
-                <a href="{{ route('update.status', ['id' => $farm->id, 'status' => 'For-Visiting']) }}" class="text-primary d-inline-block edit-item-btn">
-                    <button class="btn btn-secondary btn-border">For Visiting</button>
-                </a>
-        </div>
-        <div class="col-md-3">
-                <a href="{{ route('update.status', ['id' => $farm->id, 'status' => 'Approved']) }}" class="text-primary d-inline-block edit-item-btn">
-                    <button class="btn btn-success btn-border">Approved</button>
-                </a>
+    <a href="#" class="text-primary d-inline-block edit-item-btn" id="forInvestigationBtn" data-bs-dismiss="modal" onclick="updateStatus('For-Investigation')">
+        <button class="btn btn-secondary btn-border">For Investigation</button>
+    </a>
+</div>
+<div class="col-md-3">
+    <a href="#" class="text-primary d-inline-block edit-item-btn" id="forVisitingBtn" data-bs-dismiss="modal" onclick="updateStatus('For-Visiting')">
+        <button class="btn btn-secondary btn-border">For Visiting</button>
+    </a>
+</div>
+<div class="col-md-3">
+    <a href="#" class="text-primary d-inline-block edit-item-btn" id="approvedBtn" data-bs-dismiss="modal" onclick="updateStatus('Approved')">
+        <button class="btn btn-success btn-border">Approved</button>
+    </a>
+</div>
+<div class="col-md-3">
+    <a href="#" class="text-primary d-inline-block edit-item-btn" id="disapprovedBtn" data-bs-dismiss="modal" onclick="updateStatus('Disapproved')">
+        <button class="btn btn-danger btn-border">Disapproved</button>
+    </a>
+</div>
 
-        </div>
-        <div class="col-md-3">
-                <a href="{{ route('update.status', ['id' => $farm->id, 'status' => 'Disapproved']) }}" class="text-primary d-inline-block edit-item-btn">
-                    <button class="btn btn-danger btn-border">Disapproved</button>
-                </a>
-        </div>
-    @endforeach
+    
 </div>
 
             </div>
@@ -300,7 +300,73 @@
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
+
+function showFarmDetails(id, farmName, barangayName, area, address, farmLeader, status) {
+    switch (status.toLowerCase().replace(/\s+/g, '-')) {
+        case 'created':
+            $('#status_modal').html(status + '<i class="fas fa-check-double label-icon align-middle rounded-pill fs-16 ms-2"></i> ')
+                .removeClass().addClass('btn btn-primary btn-label waves-effect right waves-light rounded-pill');
+            break;
+        case 'for-investigation':
+        case 'for-visiting':
+            $('#status_modal').html('<i class="fas fa-info-circle label-icon align-middle rounded-pill fs-16 ms-2"></i> ' + status)
+                .removeClass().addClass('btn btn-secondary btn-label waves-effect right waves-light rounded-pill');
+            break;
+        case 'waiting-for-approval':
+            $('#status_modal').html('<i class="fas fa-hourglass-half label-icon align-middle rounded-pill fs-16 ms-2"></i> ' + status)
+                .removeClass().addClass('btn btn-warning btn-label waves-effect right waves-light rounded-pill');
+            break;
+        case 'approved':
+            $('#status_modal').html('<i class="fas fa-check-circle label-icon align-middle rounded-pill fs-16 ms-2"></i> ' + status)
+                .removeClass().addClass('btn btn-success btn-label waves-effect right waves-light rounded-pill');
+            break;
+        case 'disapproved':
+        case 'cancelled':
+            $('#status_modal').html('<i class="fas fa-times-circle label-icon align-middle rounded-pill fs-16 ms-2"></i> ' + status)
+                .removeClass().addClass('btn btn-danger btn-label waves-effect right waves-light rounded-pill');
+            break;
+        default:
+            $('#status_modal').text(status).removeClass().addClass('status status-' + status.toLowerCase().replace(/\s+/g, '-') + ' btn btn-no-shadow');
+    }
+
+    $('#farm_name_modal').val(farmName);
+    $('#barangay_name_modal').val(barangayName);
+    $('#area_modal').val(area);
+    $('#address_modal').val(address);
+    $('#farm_leader_modal').val(farmLeader);
+
+    // Update the status buttons in the modal to include the correct farm ID
+    $('#forInvestigationBtn').data('farm-id', id);
+    $('#forVisitingBtn').data('farm-id', id);
+    $('#approvedBtn').data('farm-id', id);
+    $('#disapprovedBtn').data('farm-id', id);
+}
+
+function updateStatus(newStatus) {
+    // Get the farm ID from the data attribute
+    var id = $('#forInvestigationBtn').data('farm-id');
+
+    // Perform an AJAX request to update the status
+    $.ajax({
+        url: '/update-status/' + id,
+        type: 'POST', // Adjust the HTTP method if needed
+        data: {
+            _token: '{{ csrf_token() }}', // Add CSRF token if not using X-CSRF-Token header
+            status: newStatus
+        },
+        success: function (data) {
+            // Handle success response
+            console.log('Status updated successfully');
+            location.reload();
+        },
+        error: function (error) {
+            // Handle error response
+            console.log('Error updating status:', error);
+        }
+    });
+}
 
 
 
@@ -362,42 +428,6 @@ $(document).ready(function () {
     
 });
 
-
-    function showFarmDetails(id, farmName, barangayName, area, address, farmLeader, status) {
-        
-        switch (status.toLowerCase().replace(/\s+/g, '-')) {
-            case 'created':
-                $('#status_modal').html(status + '<i class="fas fa-check-double label-icon align-middle rounded-pill fs-16 ms-2"></i> ' )
-                    .removeClass().addClass('btn btn-primary btn-label waves-effect right waves-light rounded-pill');
-                break;
-            case 'for-investigation':
-            case 'for-visiting':
-                $('#status_modal').html('<i class="fas fa-info-circle label-icon align-middle rounded-pill fs-16 ms-2"></i> ' + status)
-                    .removeClass().addClass('btn btn-secondary btn-label waves-effect right waves-light rounded-pill');
-                break;
-            case 'waiting-for-approval':
-                $('#status_modal').html('<i class="fas fa-hourglass-half label-icon align-middle rounded-pill fs-16 ms-2"></i> ' + status)
-                    .removeClass().addClass('btn btn-warning btn-label waves-effect right waves-light rounded-pill');
-                break;
-            case 'approved':
-                $('#status_modal').html('<i class="fas fa-check-circle label-icon align-middle rounded-pill fs-16 ms-2"></i> ' + status)
-                    .removeClass().addClass('btn btn-success btn-label waves-effect right waves-light rounded-pill');
-                break;
-            case 'disapproved':
-            case 'cancelled':
-                $('#status_modal').html('<i class="fas fa-times-circle label-icon align-middle rounded-pill fs-16 ms-2"></i> ' + status)
-                    .removeClass().addClass('btn btn-danger btn-label waves-effect right waves-light rounded-pill');
-                break;
-            default:
-                $('#status_modal').text(status).removeClass().addClass('status status-' + status.toLowerCase().replace(/\s+/g, '-') + ' btn btn-no-shadow');
-        }
-
-        $('#farm_name_modal').val(farmName);
-        $('#barangay_name_modal').val(barangayName);
-        $('#area_modal').val(area);
-        $('#address_modal').val(address);
-        $('#farm_leader_modal').val(farmLeader);
-    }
 </script>
 <style>
 .status {

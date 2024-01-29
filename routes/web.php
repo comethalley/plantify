@@ -50,7 +50,7 @@ Route::get('/plantifeed', [ForumController::class, 'index']);
 //view farm-management//
 Route::get('/view-farms', [FarmController::class, 'viewFarms'])->name('farms.view');
 Route::get('/farms/filterByStatus', [FarmController::class, 'filterByStatus']);
-Route::get('/update-status/{id}/{status}', [FarmController::class, 'updateStatus'])->name('update.status');
+Route::post('/update-status/{id}', [FarmController::class, 'updateStatus'])->name('update.status');
 
 
 

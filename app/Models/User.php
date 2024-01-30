@@ -63,5 +63,10 @@ public function messages()
 {
     return $this->hasMany(Message::class, 'sender_id');
 }
+public function farm()
+{
+    return $this->hasOne(Farm::class);
+}
+
 
 }

@@ -86,15 +86,15 @@
                                         </div>
 
                                         <!-- Display the thread messages -->
-                                        <div class="chat-conversation">
+                                        <!-- <div class="chat-conversation"> -->
                                             <!-- Loop through $thread messages and display them -->
-                                            @foreach($thread->messages as $message)
+                                            <!-- @foreach($thread->messages as $message) -->
                                                 <!-- Your message display content -->
-                                                <div class="message">
+                                                <!-- <div class="message"> -->
                                                     <!-- Display message content, sender, etc. -->
-                                                </div>
+                                                <!-- </div>
                                             @endforeach
-                                        </div>
+                                        </div> -->
 
 
 
@@ -118,8 +118,39 @@
                                         </div>
         
                                         <div class="chat-message-list">
-        
                                             <ul class="list-unstyled chat-list chat-user-list mb-0" id="channelList">
+                                                @forelse($groups as $group)
+                                                    @if(auth()->user()->role_id == 2 && $group->group_name == 'Admin and Farm Leaders')
+                                                        {{-- Display only for role_id 2 (Admin and Farm Leaders) --}}
+                                                        <button type="button" class="btn channel-button" data-group-id="{{ $group->id }}">
+                                                            <div class="d-flex align-items-center">
+                                                                <div class="ms-2">
+                                                                    <h6 class="mb-0">{{ $group->group_name }}</h6>
+                                                                </div>
+                                                            </div>
+                                                        </button>
+                                                    @elseif(auth()->user()->role_id == 3)
+                                                        {{-- Display for role_id 3 (both Admin and Farm Leaders, Farm Leader and Farmers) --}}
+                                                        <button type="button" class="btn channel-button" data-group-id="{{ $group->id }}">
+                                                            <div class="d-flex align-items-center">
+                                                                <div class="ms-2">
+                                                                    <h6 class="mb-0">{{ $group->group_name }}</h6>
+                                                                </div>
+                                                            </div>
+                                                        </button>
+                                                    @elseif(auth()->user()->role_id == 4 && $group->group_name == 'Farm Leader and Farmers')
+                                                        {{-- Display only for role_id 4 (Farm Leader and Farmers) --}}
+                                                        <button type="button" class="btn channel-button" data-group-id="{{ $group->id }}">
+                                                            <div class="d-flex align-items-center">
+                                                                <div class="ms-2">
+                                                                    <h6 class="mb-0">{{ $group->group_name }}</h6>
+                                                                </div>
+                                                            </div>
+                                                        </button>
+                                                    @endif
+                                                @empty
+                                                    <p>No groups found.</p>
+                                                @endforelse
                                             </ul>
                                         </div>
                                         <!-- End chat-message-list -->
@@ -392,11 +423,6 @@ document.getElementById("chatinput-form").addEventListener("submit", function (e
     }
 });
 
-// Other functions (getCurrentTime, toggleDropdown, deleteMessage, replyToMessage, deleteMember) remain unchanged
-
-
-
-
 function getCurrentTime() {
     var now = new Date();
     var hours = now.getHours().toString().padStart(2, "0");
@@ -441,9 +467,43 @@ function deleteMember(memberId) {
     });
 }
 
-
-
 $(document).ready(function () {
+       // Attach a click event handler to each user button
+       $('.member-button').on('click', function () {
+           // Get the user ID and thread ID from the data attributes
+           var userId = $(this).data('member-id');
+           var threadId = $(this).data('thread-id');
+
+           // If there's no thread ID, create a new thread
+           if (!threadId) {
+               // Get the CSRF token from the meta tag
+               var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+               // Make an AJAX request to create a thread
+               $.ajax({
+                   type: 'POST',
+                   url: '/create-thread/' + userId,
+                   dataType: 'json',
+                   headers: {
+                       'X-CSRF-TOKEN': csrfToken
+                   },
+                   success: function (response) {
+                       // Redirect to the newly created thread
+                       window.location.href = '/thread/' + response.thread_id;
+                   },
+                   error: function (error) {
+                       console.error('Error creating thread:', error);
+                       // Handle the error as needed
+                   }
+               });
+           } else {
+               // Redirect to the existing thread
+               window.location.href = '/thread/' + threadId;
+           }
+       });
+   });
+
+   $(document).ready(function () {
         // Attach click event to member buttons
         $('.member-button').on('click', function () {
             // Get the member's name and ID from the clicked button
@@ -471,6 +531,7 @@ $(document).ready(function () {
     }
 
 
+
     $(document).ready(function () {
         // Attach click event to member buttons
         $('.member-button').on('click', function () {
@@ -496,4 +557,19 @@ $(document).ready(function () {
             });
         });
     });
+
+
+    $(document).ready(function () {
+    // Attach a click event handler to each group button
+    $('.channel-button').on('click', function () {
+        // Get the group ID from the data attribute
+        var groupId = $(this).data('group-id');
+
+        // Redirect to the group details page
+        window.location.href = '/groups/' + groupId;
+    });
+});
+
+
+
 </script>

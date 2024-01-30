@@ -9,6 +9,7 @@ use App\Http\Controllers\ForumController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ThreadController;
+use App\Http\Controllers\GroupController;
 use App\Http\Controllers\WeatherController;
 use App\Http\Controllers\qcmaps;
 use App\Http\Controllers\EventController;
@@ -67,27 +68,22 @@ Route::post('/archive-uom/{id}', [InventoryController::class, 'archiveUom']);
 
 Route::get('/plantifeed', [ForumController::class, 'index']);
 
-// Example route for displaying the chat threads
-Route::get('/chat', [ChatController::class, 'index']);
-
-// Example route for displaying the messages in a specific thread
-Route::get('/chat/{userId}', [ChatController::class, 'show'])->name('chat.user');
-
-// Example route for storing a new message in a thread
-Route::post('/chat/{threadId}/message', [ChatController::class, 'storeMessage'])->name('chat.storeMessage');
-
-// Example route for storing a reply to a message
+// Direct Messages
+Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
+Route::get('/chat/{userId}', [ChatController::class, 'show'])->name('chat.show');
 Route::post('/chat/{messageId}/reply', [ChatController::class, 'storeReply'])->name('chat.storeReply');
-
 Route::get('/chat/users', [ChatController::class, 'displayChatUsers'])->name('chat.displayUsers');
-
 Route::post('/create-thread/{userId}', [ThreadController::class, 'createThread'])->name('create.thread');
-
 Route::get('/thread/{threadId}', [ThreadController::class, 'showThread'])->name('show.thread');
-
 Route::post('/thread/{threadId}/store-message', [ThreadController::class, 'storeMessage'])->name('store.message');
-
 Route::post('/mark-messages-as-read/{userId}', [ChatController::class, 'markMessagesAsRead']);
+
+// Group Chats
+Route::get('/groups', [GroupController::class, 'index'])->name('groups.index');
+Route::get('/groups/{group}/{farm}', [GroupController::class, 'show'])->name('groups.show');
+Route::post('/groups/{group}/join', [GroupController::class, 'join'])->name('groups.join');
+Route::get('/groups/create', [GroupController::class, 'create'])->name('groups.create');
+Route::post('/group/{groupId}/store-group-message', [GroupController::class, 'storeGroupMessage'])->name('store.group.message');
 
 Route::get('/weather', [WeatherController::class, 'index']);
 Route::get('/pastweather', [WeatherController::class, 'pastweather']);

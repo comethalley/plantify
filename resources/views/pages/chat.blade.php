@@ -107,36 +107,36 @@
                                         <div class="chat-message-list">
                                             <ul class="list-unstyled chat-list chat-user-list mb-0" id="channelList">
                                                 @forelse($groups as $group)
-                                                    @if(auth()->user()->role_id == 2 && $group->group_name == 'Admin and Farm Leaders')
-                                                        {{-- Display only for role_id 2 (Admin and Farm Leaders) --}}
-                                                        <button type="button" class="btn channel-button" data-group-id="{{ $group->id }}">
-                                                            <div class="d-flex align-items-center">
-                                                                <div class="ms-2">
-                                                                    <h6 class="mb-0">{{ $group->group_name }}</h6>
-                                                                </div>
-                                                            </div>
-                                                        </button>
-                                                    @elseif(auth()->user()->role_id == 3)
-                                                        {{-- Display for role_id 3 (both Admin and Farm Leaders, Farm Leader and Farmers) --}}
-                                                        <button type="button" class="btn channel-button" data-group-id="{{ $group->id }}">
-                                                            <div class="d-flex align-items-center">
-                                                                <div class="ms-2">
-                                                                    <h6 class="mb-0">{{ $group->group_name }}</h6>
-                                                                </div>
-                                                            </div>
-                                                        </button>
-                                                    @elseif(auth()->user()->role_id == 4 && $group->group_name == 'Farm Leader and Farmers')
-                                                        {{-- Display only for role_id 4 (Farm Leader and Farmers) --}}
-                                                        <button type="button" class="btn channel-button" data-group-id="{{ $group->id }}">
-                                                            <div class="d-flex align-items-center">
-                                                                <div class="ms-2">
-                                                                    <h6 class="mb-0">{{ $group->group_name }}</h6>
-                                                                </div>
-                                                            </div>
-                                                        </button>
-                                                    @endif
+                                                @if(auth()->user()->role_id == 2 && $group->group_name == 'Admin and Farm Leaders')
+                                                {{-- Display only for role_id 2 (Admin and Farm Leaders) --}}
+                                                <button type="button" class="btn channel-button" data-group-id="{{ $group->id }}" data-farm-id="{{ $farmLeaders->id }}">
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="ms-2">
+                                                            <h6 class="mb-0">{{ $group->group_name }}</h6>
+                                                        </div>
+                                                    </div>
+                                                </button>
+                                                @elseif(auth()->user()->role_id == 3)
+                                                {{-- Display for role_id 3 (both Admin and Farm Leaders, Farm Leader and Farmers) --}}
+                                                <button type="button" class="btn channel-button" data-group-id="{{ $group->id }}" data-farm-id="{{ $farmLeaders->id }}">
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="ms-2">
+                                                            <h6 class="mb-0">{{ $group->group_name }}</h6>
+                                                        </div>
+                                                    </div>
+                                                </button>
+                                                @elseif(auth()->user()->role_id == 4 && $group->group_name == 'Farm Leader and Farmers')
+                                                {{-- Display only for role_id 4 (Farm Leader and Farmers) --}}
+                                                <button type="button" class="btn channel-button" data-group-id="{{ $group->id }}" data-farm-id="{{ $farmLeaders->id }}">
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="ms-2">
+                                                            <h6 class="mb-0">{{ $group->group_name }}</h6>
+                                                        </div>
+                                                    </div>
+                                                </button>
+                                                @endif
                                                 @empty
-                                                    <p>No groups found.</p>
+                                                <p>No groups found.</p>
                                                 @endforelse
                                             </ul>
                                         </div>
@@ -320,13 +320,15 @@
     $(document).ready(function () {
     // Attach a click event handler to each group button
     $('.channel-button').on('click', function () {
-        // Get the group ID from the data attribute
+        // Get the group ID and farm ID from the data attributes
         var groupId = $(this).data('group-id');
+        var farmId = $(this).data('farm-id'); // Adjust this based on how you get the farm ID in your HTML
 
-        // Redirect to the group details page
-        window.location.href = '/groups/' + groupId;
+        // Redirect to the group details page with both IDs
+        window.location.href = '/groups/' + groupId + '/' + farmId;
     });
 });
+
 
 
 

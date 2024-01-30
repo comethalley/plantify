@@ -31,8 +31,16 @@ class ChatController extends Controller
 
         // Get a list of groups
         $groups = Group::all();
+
+        $id = Auth::user()->id; 
+        $farmLeaders = DB::table('farms')
+            ->where('status', 1)
+            ->where('farm_leader', $id)
+            ->select("*")
+            ->first();
+            
     
-        return view('pages.chat', compact('users', 'threads', 'groups'));
+        return view('pages.chat', compact('users', 'threads', 'groups', 'farmLeaders'));
     }
 
     /**

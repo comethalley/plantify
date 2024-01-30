@@ -366,33 +366,6 @@
    });
 
 
-       $(document).ready(function () {
-        // Attach click event to member buttons
-        $('.member-button').on('click', function () {
-            // Get the member's name and ID from the clicked button
-            var memberName = $(this).find('.ms-2 h6').text();
-            var memberId = $(this).data('member-id');
-
-            // Store the selected member's name and ID in sessionStorage
-            sessionStorage.setItem('selectedMemberName', memberName);
-            sessionStorage.setItem('selectedMemberId', memberId);
-
-            // Update the chat head with the selected member's name
-            updateChatHead(memberName);
-        });
-
-        // Check if there is a selected member in sessionStorage and update the top bar
-        var selectedMemberName = sessionStorage.getItem('selectedMemberName');
-        if (selectedMemberName) {
-            updateChatHead(selectedMemberName);
-        }
-    });
-
-    function updateChatHead(memberName) {
-        // Update the chat head with the selected member's name
-        $('.username').text(memberName);
-    }
-
 
     $(document).ready(function () {
         // Attach click event to member buttons

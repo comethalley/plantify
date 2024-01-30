@@ -18,7 +18,7 @@ class GroupThread extends Model
     {
         return $this->belongsTo(Group::class, 'group_id');
     }
-
+    
     public function farm()
     {
         return $this->belongsTo(Farm::class, 'farm_id');

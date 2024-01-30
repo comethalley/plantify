@@ -80,11 +80,10 @@ Route::post('/mark-messages-as-read/{userId}', [ChatController::class, 'markMess
 
 // Group Chats
 Route::get('/groups', [GroupController::class, 'index'])->name('groups.index');
-Route::get('/groups/{group}', [GroupController::class, 'show'])->name('groups.show');
+Route::get('/groups/{group}/{farm}', [GroupController::class, 'show'])->name('groups.show');
 Route::post('/groups/{group}/join', [GroupController::class, 'join'])->name('groups.join');
 Route::get('/groups/create', [GroupController::class, 'create'])->name('groups.create');
 Route::post('/group/{groupId}/store-group-message', [GroupController::class, 'storeGroupMessage'])->name('store.group.message');
-Route::get('/group-chat/{farmId}/{groupId}', [GroupController::class, 'redirectToGroupChat']);
 
 Route::get('/weather', [WeatherController::class, 'index']);
 Route::get('/pastweather', [WeatherController::class, 'pastweather']);

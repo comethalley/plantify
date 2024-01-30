@@ -10,6 +10,7 @@ use App\Models\GroupThread;
 use App\Models\GroupMessage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class GroupController extends Controller
 {
@@ -30,28 +31,42 @@ class GroupController extends Controller
      * @param  int  $groupId
      * @return \Illuminate\View\View
      */
-    public function show($groupId)
+    public function show($groupId, $farmId)
     {
-        // Retrieve the group thread and related messages
-        $groupThread = GroupThread::with('messages.sender')->findOrFail($groupId);
-
-        //dd($groupThread);
+        try {
+            // Retrieve the group
+            $group = Group::findOrFail($groupId);
     
-        // Get the currently logged-in user
-        $currentUser = Auth::user();
+            // Check if there is a group thread for the specified group and farm
+            $groupThread = GroupThread::where('group_id', $groupId)
+                ->where('farm_id', $farmId)
+                ->first();
     
-        // Retrieve all other users for the chat list (excluding the logged-in user)
-        $users = User::where('id', '!=', $currentUser->id)->get();
+            if (!$groupThread) {
+                // If no group thread is found, return a 404 response
+                abort(404);
+            }
     
-        // Retrieve messages for the current group thread
-        $messages = $groupThread->messages;
+            // Get the currently logged-in user
+            $currentUser = Auth::user();
     
-        // Get a list of groups
-        $groups = Group::all();
+            // Retrieve all other users for the chat list (excluding the logged-in user)
+            $users = User::where('id', '!=', $currentUser->id)->get();
     
-        // Return to the view with the updated data
-        return view('pages.groups', compact('groupThread', 'users', 'messages', 'groups'));
+            // Retrieve messages for the current group thread
+            $messages = $groupThread->messages;
+    
+            // Get a list of groups
+            $groups = Group::all();
+    
+            // Return to the view with the updated data
+            return view('pages.groups', compact('groupThread', 'users', 'messages', 'groups'));
+        } catch (ModelNotFoundException $e) {
+            // If the group or farm is not found, return a 404 response
+            abort(404);
+        }
     }
+    
     
 
     /**

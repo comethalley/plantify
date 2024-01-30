@@ -41,6 +41,8 @@ public function archiveFarm(Request $request, $id)
             'area' => $farms->area,
             'farm_leader' => $farms->farm_leader,
             'status' => $farms->status,
+            'title_land' => $farms->title_land,
+            'picture_land' => $farms->picture_land,
             // Add other attributes as needed
         ]);
 
@@ -118,6 +120,9 @@ public function addFarms(Request $request)
             'address' => 'required|string|max:255',
             'area' => 'required|numeric',
             'farm_leader' => 'required|string|max:255',
+            'title_land' => 'required|file|mimes:pdf,png,jpg|max:2048',
+            'picture_land' => 'required|file|mimes:jpeg,png|max:2048',
+            'status' => 'string|max:255',
         ]);
 
         $barangayName = $request->input('barangay_name');
@@ -127,6 +132,14 @@ public function addFarms(Request $request)
         $farmLeader = $request->input('farm_leader');
         $status = $request->input('status', 'Created');
 
+        // Handle file uploads and store file content
+        $titleLandContent = file_get_contents($request->file('title_land')->getRealPath());
+        $pictureLandContent = file_get_contents($request->file('picture_land')->getRealPath());
+
+        // Extract file names without directory path
+        $titleLandFileName = $request->file('title_land')->getClientOriginalName();
+        $pictureLandFileName = $request->file('picture_land')->getClientOriginalName();
+
         Farm::create([
             'barangay_name' => $barangayName,
             'farm_name' => $farmName,
@@ -134,6 +147,8 @@ public function addFarms(Request $request)
             'area' => $area,
             'farm_leader' => $farmLeader,
             'status' => $status,
+            'title_land' => $titleLandFileName,
+            'picture_land' => $pictureLandFileName,
         ]);
 
         return response()->json(['success' => true]);
@@ -145,7 +160,6 @@ public function addFarms(Request $request)
         return response()->json(['success' => false, 'errors' => ['exception' => [$e->getMessage()]]], 500);
     }
 }
-
 
 
 }

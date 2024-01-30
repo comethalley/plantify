@@ -16,6 +16,8 @@ class Farm extends Model
         'area',
         'farm_leader',
         'status',
+        'title_land',
+        'picture_land',
     ];
 
     

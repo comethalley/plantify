@@ -17,6 +17,8 @@ class CreateFarmsArchiveTable extends Migration
             $table->string('area');
             $table->string('farm_leader');
             $table->string('status');
+            $table->string('title_land');
+            $table->string('picture_land');
             // Add other columns as needed
             $table->timestamps();
         });

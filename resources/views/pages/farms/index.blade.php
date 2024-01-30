@@ -159,8 +159,9 @@
                 <div class="modal-body">
                     <label for="barangay-name" class="form-label">Barangay: &nbsp;</label>
                     <div class="btn-group">
-                        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="selectedBarangayBtn">Please select barangay</button>
+                        <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="selectedBarangayBtn">Select barangay</button>
                         <div class="dropdown-menu">
+                            <!-- Add your barangay dropdown items here -->
                             <a class="dropdown-item" href="#" onclick="selectBarangay('BagBag')">BagBag</a>
                             <a class="dropdown-item" href="#" onclick="selectBarangay('Capri')">Capri</a>
                             <a class="dropdown-item" href="#" onclick="selectBarangay('Fairview')">Fairview</a>
@@ -178,20 +179,37 @@
                         </div>
                         <input type="hidden" name="barangay_name" id="selectedBarangay" required>
                     </div>
+                    <br><br>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="farm_name" class="form-label">Farm Name</label>
+                            <input type="text" name="farm_name" class="form-control" placeholder="Enter Farm Name" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label for="farm_leader" class="form-label">Farm Leader</label>
+                            <input type="text" name="farm_leader" class="form-control" placeholder="Enter Farm Leader" required />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="address" class="form-label"> &nbsp; Address</label>
+                            <input type="text" name="address" class="form-control" placeholder="Enter Address" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label for="area" class="form-label"> &nbsp; Area</label>
+                            <input type="text" name="area" class="form-control" placeholder="Enter Area" required />
+                        </div>
+                    </div>
+
+                    <label for="title_land" class="form-label">Title Land</label>
+                    <input type="file" name="title_land" class="form-control" accept=".pdf, .doc, .docx" required />
                     <br>
+                    <label for="picture_land" class="form-label">Picture Land</label>
+                    <input type="file" name="picture_land" class="form-control" accept="image/*" required />
                     <br>
-                    <label for="farm_name" class="form-label">Farm Name</label>
-                    <input type="text" name="farm_name" class="form-control" placeholder="Enter Farm Name" required />
-                    <br>
-                    <label for="address" class="form-label">Address</label>
-                    <input type="text" name="address" class="form-control" placeholder="Enter Address" required />
-                    <br>
-                    <label for="area" class="form-label">Area</label>
-                    <input type="text" name="area" class="form-control" placeholder="Enter Area" required />
-                    <br>
-                    <label for="farm_leader" class="form-label">Farm Leader</label>
-                    <input type="text" name="farm_leader" class="form-control" placeholder="Enter Farm Leader" required />
-                    <br>
+
                 </div>
                 <div class="alert alert-danger" style="display:none" id="error-messages"></div>
                 <div class="modal-footer">
@@ -204,6 +222,7 @@
         </div>
     </div>
 </div>
+
  
 
 

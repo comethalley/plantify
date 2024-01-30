@@ -23,20 +23,7 @@
                 </div>
             </div>
             <!-- end page title -->
- <div class="card">
-    <div class="card-body">
-        <div class="row g-2">
-            <div class="col-sm-4">
-                <div class="search-box">
-                    <input type="text" class="form-control" id="searchMemberList" placeholder="Search for farms or status....">
-                    <i class="ri-search-line search-icon"></i>
-                </div>
-            </div>
 
-
-        </div>
-    </div>
-</div>
 
 
 <div class="row">
@@ -110,12 +97,7 @@
     <div class="table-responsive table-card mb-4">
         <table class="table align-middle table-nowrap mb-0" id="tasksTable">
             <thead class="table-light text-muted">
-                <tr>
-                    <th scope="col" style="width: 40px;">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="checkAll" value="option">
-                        </div>
-                    </th>
+                <tr>  
                     <th class="sort" data-sort="id">Farm ID</th>
                     <th class="sort" data-sort="farm_name">Farm Name</th>
                     <th class="sort" data-sort="barangay_name">Barangay</th>
@@ -130,12 +112,6 @@
             <tbody id="farmTableBody" class="list form-check-all">
            
             <tr class="farm-row {{ strtolower(str_replace(' ', '-', $farm->status)) }}">
-                
-                            <th scope="row">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="checkAll" value="option1">
-                                </div>
-                            </th>
                             <td class="id">#{{ $farm->id }}</td>
                             <td class="farm_name">{{ $farm->farm_name }}</td>
                             <td class="barangay_name">{{ $farm->barangay_name }}</td>
@@ -169,7 +145,7 @@
                             <td>
                             <ul class="list-inline hstack gap-2 mb-0">
         <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="View Application">
-            <a href="#" data-bs-toggle="modal" data-bs-target="#viewModals" class="text-primary d-inline-block edit-item-btn" onclick="showFarmDetails('{{ $farm->id }}', '{{ $farm->farm_name }}', '{{ $farm->barangay_name }}', '{{ $farm->area }}', '{{ $farm->address }}', '{{ $farm->farm_leader }}', '{{ $farm->status }}')">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#viewModals" class="text-primary d-inline-block edit-item-btn" onclick="showFarmDetails('{{ $farm->id }}', '{{ $farm->farm_name }}', '{{ $farm->barangay_name }}', '{{ $farm->area }}', '{{ $farm->address }}', '{{ $farm->farm_leader }}', '{{ $farm->status }}', '{{ $farm->title_land }}', '{{ $farm->picture_land }}')">
     <i class="ri-profile-line fs-3"></i>
 </a>
             &nbsp;
@@ -218,56 +194,69 @@
 
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-12">
-                        <!-- Form fields -->
-                        <label for="status_modal" class="form-label custom-label">Status:</label>
-                        <button id="status_modal" class="btn btn-primary btn-border">Active</button>
-                        <br>
-                        <br>
-                        <label for="farm_name_modal" class="form-label custom-label">Farm Name:</label>
-                        <input type="text" id="farm_name_modal" class="form-control" disabled placeholder="Farm Name">
-                        <br>
-                        <label for="barangay_name_modal" class="form-label custom-label">Barangay Name:</label>
-                        <input type="text" id="barangay_name_modal" class="form-control" disabled placeholder="Barangay Name">
-                        <br>
-                        <label for="area_modal" class="form-label custom-label">Area:</label>
-                        <input type="text" id="area_modal" class="form-control" disabled placeholder="Area">
-                        <br>
-                        <label for="address_modal" class="form-label custom-label">Address:</label>
-                        <input type="text" id="address_modal" class="form-control" disabled placeholder="Address">
-                        <br>
-                        <label for="farm_leader_modal" class="form-label custom-label">Farm Leader:</label>
-                        <input type="text" id="farm_leader_modal" class="form-control" disabled placeholder="Farm Leader">
-                        <br>
-                    </div>
+                <div class="col-md-12">
+    <!-- Status -->
+    <label for="status_modal" class="form-label custom-label">Status:</label>
+    <button id="status_modal" class="btn btn-primary btn-border">Active</button>
+    <br>
+    <br>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <!-- Farm Information -->
+        <label for="farm_name_modal" class="form-label custom-label">Farm Name:</label>
+        <input type="text" id="farm_name_modal" class="form-control" disabled placeholder="Farm Name">
+        <br>
+        <label for="barangay_name_modal" class="form-label custom-label">Barangay Name:</label>
+        <input type="text" id="barangay_name_modal" class="form-control" disabled placeholder="Barangay Name">
+        <br>
+        <label for="area_modal" class="form-label custom-label">Area:</label>
+        <input type="text" id="area_modal" class="form-control" disabled placeholder="Area">
+    </div>
+
+    <div class="col-md-6">
+        <!-- Additional Information -->
+        <label for="farm_leader_modal" class="form-label custom-label">Farm Leader:</label>
+        <input type="text" id="farm_leader_modal" class="form-control" disabled placeholder="Farm Leader">
+        <br>
+        <label for="title_land_modal" class="form-label custom-label">Title of land:</label>
+        <input type="text" id="title_land_modal" class="form-control" disabled placeholder="Title of Land">
+        <br>
+        <label for="picture_land_modal" class="form-label custom-label">Picture of land:</label>
+        <input type="text" id="picture_land_modal" class="form-control" disabled placeholder="Picture of Land">
+    </div>
+</div>
+        <div class="row">
+                <div class="col-md-12"><label for="address_modal" class="form-label custom-label">Address:</label>
+                    <input type="text" id="address_modal" class="form-control" disabled placeholder="Address">
+                </div>
+        </div>
                 </div>
 
                 <!-- Additional row with buttons -->
                 <div class="row mt-3">
-    
-        <div class="col-md-3">
-    <a href="#" class="text-primary d-inline-block edit-item-btn" id="forInvestigationBtn" data-bs-dismiss="modal" onclick="updateStatus('For-Investigation')">
-        <button class="btn btn-secondary btn-border">For Investigation</button>
-    </a>
-</div>
-<div class="col-md-3">
-    <a href="#" class="text-primary d-inline-block edit-item-btn" id="forVisitingBtn" data-bs-dismiss="modal" onclick="updateStatus('For-Visiting')">
-        <button class="btn btn-secondary btn-border">For Visiting</button>
-    </a>
-</div>
-<div class="col-md-3">
-    <a href="#" class="text-primary d-inline-block edit-item-btn" id="approvedBtn" data-bs-dismiss="modal" onclick="updateStatus('Approved')">
-        <button class="btn btn-success btn-border">Approved</button>
-    </a>
-</div>
-<div class="col-md-3">
-    <a href="#" class="text-primary d-inline-block edit-item-btn" id="disapprovedBtn" data-bs-dismiss="modal" onclick="updateStatus('Disapproved')">
-        <button class="btn btn-danger btn-border">Disapproved</button>
-    </a>
-</div>
+    <!-- For Investigation and For Visiting buttons -->
+    <div class="col-md-6">
+        <a href="#" class="text-primary d-inline-block edit-item-btn text-start" id="forInvestigationBtn" data-bs-dismiss="modal" onclick="updateStatus('For-Investigation')">
+        <button class="btn btn-primary btn-label waves-effect waves-light equal-width-btn equal-height-btn"><i class="ri-search-eye-line label-icon align-middle fs-16 me-2"></i>For Investigation</button>
+    </a></div>
+        <div class="col-md-6">
+        <a href="#" class="text-primary d-inline-block edit-item-btn" id="forVisitingBtn" data-bs-dismiss="modal" onclick="updateStatus('For-Visiting')">
+            <button class="btn btn-secondary btn-label waves-effect waves-light equal-width-btn1 equal-height-btn"><i class="ri-gps-fill label-icon align-middle fs-16 me-2"></i>For Visiting</button>
+        </a>
+    </div>
 
-    
-</div>
+    <div class="col-md-6">
+        <a href="#" class="text-primary d-inline-block edit-item-btn" id="approvedBtn" data-bs-dismiss="modal" onclick="updateStatus('Approved')">
+            <button class="btn btn-success btn-label waves-effect waves-light equal-width-btn1 equal-height-btn"><i class="ri-check-line label-icon align-middle fs-16 me-2"></i>Approved</button>
+        </a></div>
+        <div class="col-md-6">
+        <a href="#" class="text-primary d-inline-block edit-item-btn" id="disapprovedBtn" data-bs-dismiss="modal" onclick="updateStatus('Disapproved')">
+            <button class="btn btn-danger btn-label waves-effect waves-light equal-width-btn3 equal-height-btn"><i class="ri-close-line label-icon align-middle fs-16 me-2"></i>Disapproved</button>
+        </a>
+    </div>
+</div>  
 
             </div>
         </div>
@@ -303,7 +292,7 @@
 
 <script>
 
-function showFarmDetails(id, farmName, barangayName, area, address, farmLeader, status) {
+function showFarmDetails(id, farmName, barangayName, area, address, farmLeader, status, titleLand, pictureLand) {
     switch (status.toLowerCase().replace(/\s+/g, '-')) {
         case 'created':
             $('#status_modal').html(status + '<i class="fas fa-check-double label-icon align-middle rounded-pill fs-16 ms-2"></i> ')
@@ -336,6 +325,8 @@ function showFarmDetails(id, farmName, barangayName, area, address, farmLeader, 
     $('#area_modal').val(area);
     $('#address_modal').val(address);
     $('#farm_leader_modal').val(farmLeader);
+    $('#title_land_modal').val(titleLand);
+    $('#picture_land_modal').val(pictureLand);
 
     // Update the status buttons in the modal to include the correct farm ID
     $('#forInvestigationBtn').data('farm-id', id);
@@ -430,6 +421,24 @@ $(document).ready(function () {
 
 </script>
 <style>
+
+.equal-width-btn {
+    width: 112%;
+}
+.equal-width-btn1 {
+    width: 150%;
+}
+.equal-width-btn2 {
+    width: 150%;
+}
+.equal-width-btn3 {
+    width: 137%;
+}
+
+.equal-height-btn {
+    height: 100%;
+}
+
 .status {
         border-radius: 10px;
         padding: 15px;
@@ -439,5 +448,5 @@ $(document).ready(function () {
 .custom-label {
         font-size: 1rem; 
     }
-    </style>   
+    </style> 
 @include('templates.footer')

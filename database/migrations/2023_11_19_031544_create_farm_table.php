@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('area');
             $table->string('farm_leader');
             $table->string('status');
+            $table->string('title_land');
+            $table->string('picture_land');
             $table->timestamps();
         });
     }

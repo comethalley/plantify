@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Farm;
+use App\Models\User;
 use App\Models\Barangay;
 use App\Models\FarmArchive;
 use Illuminate\Http\Request;
@@ -15,11 +16,21 @@ class FarmController extends Controller
 {
 
 // index farm-management//
+
 public function index()
-    {
-        $barangays = Barangay::all();
-    return view('pages.farms.index')->with('barangays', $barangays);
-    }
+{
+    $barangays = Barangay::all();
+
+    $farmLeaders = User::where('status', 1)
+                       ->where('role_id', 3)
+                       ->select('id', 'firstname', 'lastname')
+                       ->get();
+
+    return view('pages.farms.index', [
+        'barangays' => $barangays,
+        'farmLeaders' => $farmLeaders,
+    ]);
+}
 
     public function viewArchiveFarms()
     {
@@ -169,6 +180,7 @@ public function addFarms(Request $request)
         // Return a response indicating a failure
         return response()->json(['success' => false, 'errors' => ['exception' => [$e->getMessage()]]], 500);
     }
+    
 }
 
 

@@ -22,20 +22,7 @@
                 </div>
             </div>
             <!-- end page title -->
- <div class="card">
-    <div class="card-body">
-        <div class="row g-2">
-            <div class="col-sm-4">
-                <div class="search-box">
-                    <input type="text" class="form-control" id="searchMemberList" placeholder="Search for farms or status...">
-                    <i class="ri-search-line search-icon"></i>
-                </div>
-            </div>
 
-
-        </div>
-    </div>
-</div>
 
 
 <div class="row">
@@ -66,7 +53,7 @@
 
             <div class="col-xxl-2 col-sm-4">
                 <div class="search-box">
-                    <input type="text" class="form-control search bg-light border-light" placeholder="Search for application or something...">
+                    <input type="text" class="form-control search bg-light border-light" placeholder="Search for id or old id...">
                     <i class="ri-search-line search-icon"></i>
                 </div>
             </div>

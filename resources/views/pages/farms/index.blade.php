@@ -188,8 +188,15 @@
                         </div>
                         <div class="col-md-6">
                             <label for="farm_leader" class="form-label">Farm Leader</label>
-                            <input type="text" name="farm_leader" class="form-control" title="This field is required to fill up" placeholder="Enter Farm Leader" required />
+                                <select name="farm_leader" id="farmLeaderDropdown" class="form-select" title="This field is required to select">
+                                    <option disabled selected>Select Farm Leader</option>
+                                        @foreach ($farmLeaders as $user)
+                                            <option value="{{ $user->id }}">{{ $user->firstname }} {{ $user->lastname }}</option>
+                                        @endforeach
+                                </select>
                         </div>
+
+
                     </div>
 
                     <div class="row mb-3">

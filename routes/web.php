@@ -13,6 +13,7 @@ use App\Http\Controllers\GroupController;
 use App\Http\Controllers\WeatherController;
 use App\Http\Controllers\qcmaps;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\PlantCalendar;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -106,3 +107,14 @@ Route::get('/events/search', [EventController::class, 'search']);
 Route::view('add-schedule', 'pages.add');
 Route::post('create-schedule', [EventController::class, 'create']);
 // End Full Calender=================================================================
+
+Route::get('/plantcalendar', [PlantCalendar::class, 'index']);
+Route::get('/plantcalendarget', [PlantCalendar::class, 'getEvents']);
+Route::get('/plantcalendardata/{id}', [PlantCalendar::class, 'getdata']);
+Route::delete('/plantcalendardelete/{id}', [PlantCalendar::class, 'deleteEvent']);
+Route::put('/plantcalendar/{id}', [PlantCalendar::class, 'update']);
+Route::put('/plantcalendar/{id}/resize', [PlantCalendar::class, 'resize']);
+Route::get('/plantcalendar/search', [PlantCalendar::class, 'search']);
+
+Route::view('add-plantcalendar', 'pages.add');
+Route::post('create-plantcalendar', [PlantCalendar::class, 'create']);

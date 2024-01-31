@@ -33,17 +33,14 @@
                  <!--start row-->
 
                 <div class="row">
-                 <!-- end col-->
+                
                     <div class="col-xl-3">
                         <div class="card card-h-100">
                             <div class="card-body" style="display:flex; justify-content:center; align-items:center;">
-                            <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModalExample"><i class="mdi mdi-plus"></i>Create New Events</button>
+                               <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModalExample"><i class="mdi mdi-plus"></i>Create New Events</button>
                             
                                         <button class="btn btn-soft-danger" id="remove-actions" onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button>
-                             </div>
-
-
-                             
+                             </div>       
                         </div>
                         <div class="card">
                             <div class="card-body bg-info-subtle">
@@ -58,24 +55,23 @@
                                  
                                 </div>
                             </div>
+                        </div>
+                                  
+                                                    <!----> @foreach ($events as $event)   
                             
-                     </div>
-                      <!----> @foreach ($events as $event) 
-                      <div class="card bg-light mb-3" style="max-width: 18rem;">
-  <div class="card-header">{{ $event->title}}</div>
-  <div class="card-body">
-  <div class="card-title">
-    {{ date('F j, Y', strtotime($event->start)) }} to {{ date('F j, Y', strtotime($event->end)) }}
-</div>
-    <p class="card-text">Location: {{ $event->location}}</p>
-    <p class="card-text">Description: {{ $event->description}}</p>
-  </div>
-</div>@endforeach
-                    </div> <!-- end col-->
-
-
+                              <div class="card border-success pe-2 me-n1 mb-3 simplebar-scrollable-y" style="max-width: 18rem;">
+                                <div class="card-header bg-transparent border-success">{{ $event->title}}</div>
+                                <div class="card-body">
+                                    <h6 class="card-title">{{ date('F j, Y', strtotime($event->start)) }} to {{ date('F j, Y', strtotime($event->end)) }}</h6>
+                                    <p class="card-text">Location: {{ $event->location}}</p>
+                                    <p class="card-text">Description: {{ $event->description}}</p>
+                                  
+                                </div>
+                                </div>@endforeach
+                                
+                        </div> <!-- end col-->
 <!-- ============================================================ -->
-                    <div class="col-xl-9">
+                <div class="col-xl-9">
                         
                     <div class="input-group mb-3">
                         <input type="text" id="searchInput" class="form-control" placeholder="Search events">
@@ -89,10 +85,12 @@
                                 <div id="calendar"></div>
                             </div>
                         </div>
-                    </div><!-- end col -->
-                </div>
-                <!--end row-->
-
+                    </div>
+                </div><!-- end col -->
+                
+            </div> <!--end row-->
+    </div>
+        </div> <!-- end row-->
 <!-- ============================================================ -->
                 <div style='clear:both'></div>
 
@@ -241,26 +239,26 @@
      
       @csrf
     @method('post')
-    @foreach ($data as $base) 
+    
                     <label for="updateEventTitle">Event Name: </label>
-                    <input type="text" class="form-control" id="updateEventTitle" value="{{ $base->title}}">
+                    <input type="text" class="form-control" id="updateEventTitle" >
                 </div>
                 <div class="form-group">
                     <label for="Eventstart-datepicker">Start:</label>
-                    <input type="text" class="form-control" id="Eventstart-datepicker" value="{{ $base->title}}">
+                    <input type="text" class="form-control" id="Eventstart-datepicker" >
                 </div>
                 <div class="form-group">
                     <label for="Eventend-datepicker">End:</label>
-                    <input type="text" class="form-control" id="Eventend-datepicker" value="{{ $base->title}}">
+                    <input type="text" class="form-control" id="Eventend-datepicker" >
                 </div>
                 <div class="form-group">
                     <label for="updateLocation">Location:</label>
-                    <input type="text" class="form-control" id="updateLocation" value="{{ $base->title}}">
+                    <input type="text" class="form-control" id="updateLocation" >
                 </div>
                 <div class="form-group">
                     <label for="updateDescription">Description:</label>
-                    <input type="text" class="form-control" id="updateDescription" value="{{ $base->title}}">
-</div>>@endforeach
+                    <input type="text" class="form-control" id="updateDescription">
+</div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -273,8 +271,7 @@
 
 
                 <!-- end modal-->
-            </div>
-        </div> <!-- end row-->
+        
 
     </div>
     <!-- container-fluid -->
@@ -341,17 +338,19 @@
                     
                     // Display event details in the Update/Delete Event Modal
                     
-                                            $('#eventtitle').text(eventTitle);
-
+                        $('#eventtitle').text(eventTitle);
+                        $('#updateEventTitle').val(eventTitle);
                         // Format start date
                         $('#eventstart').text(moment(date.start).format('MMMM D, YYYY'));
-
+                        $('#Eventstart').val(moment(date.start).format('MMMM D, YYYY'));
                         // Format end date
                         $('#eventend').text(moment(date.end).format('MMMM D, YYYY'));
-
+                        $('#Eventend').val(moment(date.end).format('MMMM D, YYYY'));
                         // Display other event details
                         $('#eventlocation').text(event.location);
                         $('#eventdescription').text(event.description);
+                        $('#updateLocation').val(event.location);
+                        $('#updateDescription').val(event.description);
                     // Store event ID for update and delete
                     var eventId = event.id;
                     $('#updateEventBtn').data('event-id', eventId);

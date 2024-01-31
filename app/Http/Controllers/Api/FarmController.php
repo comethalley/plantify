@@ -69,7 +69,7 @@ public function archiveFarm(Request $request, $id)
     {
         // Validate the request if needed
         $request->validate([
-            'status' => 'required|in:For-Investigation,For-Visiting,Approved,Disapproved',
+            'status' => 'required|in:For-Investigation,For-Visiting,Approved,Disapproved,Waiting-for-Approval,Resubmit,',
         ]);
 
         // Find the farm by ID

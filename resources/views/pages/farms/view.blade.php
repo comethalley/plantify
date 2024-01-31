@@ -145,7 +145,7 @@
                             <td>
                             <ul class="list-inline hstack gap-2 mb-0">
         <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="View Application">
-            <a href="#" data-bs-toggle="modal" data-bs-target="#viewModals" class="text-primary d-inline-block edit-item-btn" onclick="showFarmDetails('{{ $farm->id }}', '{{ $farm->farm_name }}', '{{ $farm->barangay_name }}', '{{ $farm->area }}', '{{ $farm->address }}', '{{ $farm->farm_leader }}', '{{ $farm->status }}', '{{ $farm->title_land }}', '{{ $farm->picture_land }}')">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#viewModals" class="text-primary d-inline-block edit-item-btn" onclick="showFarmDetails('{{ $farm->id }}', '{{ $farm->farm_name }}', '{{ $farm->barangay_name }}', '{{ $farm->area }}', '{{ $farm->address }}', '{{ $farm->farm_leader }}', '{{ $farm->status }}', '{{ $farm->title_land }}', '{{ $farm->picture_land }}', '{{ $farm->picture_land1 }}', '{{ $farm->picture_land2 }}')">
     <i class="ri-profile-line fs-3"></i>
 </a>
             &nbsp;
@@ -211,8 +211,9 @@
         <label for="barangay_name_modal" class="form-label custom-label">Barangay Name:</label>
         <input type="text" id="barangay_name_modal" class="form-control" disabled placeholder="Barangay Name">
         <br>
-        <label for="area_modal" class="form-label custom-label">Area:</label>
-        <input type="text" id="area_modal" class="form-control" disabled placeholder="Area">
+        <label for="title_land_modal" class="form-label custom-label">Title of land:</label>
+        <input type="text" id="title_land_modal" class="form-control" disabled placeholder="Title of Land">
+        <br>
     </div>
 
     <div class="col-md-6">
@@ -220,16 +221,17 @@
         <label for="farm_leader_modal" class="form-label custom-label">Farm Leader:</label>
         <input type="text" id="farm_leader_modal" class="form-control" disabled placeholder="Farm Leader">
         <br>
-        <label for="title_land_modal" class="form-label custom-label">Title of land:</label>
-        <input type="text" id="title_land_modal" class="form-control" disabled placeholder="Title of Land">
+        <label for="address_modal" class="form-label custom-label">Address:</label>
+        <input type="text" id="address_modal" class="form-control" disabled placeholder="Title of Land">
         <br>
-        <label for="picture_land_modal" class="form-label custom-label">Picture of land:</label>
-        <input type="text" id="picture_land_modal" class="form-control" disabled placeholder="Picture of Land">
+        <label for="area_modal" class="form-label custom-label">Area:</label>
+        <input type="text" id="area_modal" class="form-control" disabled placeholder="Area">
+
     </div>
 </div>
         <div class="row">
-                <div class="col-md-12"><label for="address_modal" class="form-label custom-label">Address:</label>
-                    <input type="text" id="address_modal" class="form-control" disabled placeholder="Address">
+                <div class="col-md-12"><label for="picture_land_modal" class="form-label custom-label">Picture of land:</label>
+                    <p="text" id="picture_land_modal" class="form-control" disabled placeholder="Picture of Land">
                 </div>
         </div>
                 </div>
@@ -237,26 +239,46 @@
                 <!-- Additional row with buttons -->
                 <div class="row mt-3">
     <!-- For Investigation and For Visiting buttons -->
-    <div class="col-md-6">
+    <div class="col-md-4">
         <a href="#" class="text-primary d-inline-block edit-item-btn text-start" id="forInvestigationBtn" data-bs-dismiss="modal" onclick="updateStatus('For-Investigation')">
-        <button class="btn btn-primary btn-label waves-effect waves-light equal-width-btn equal-height-btn"><i class="ri-search-eye-line label-icon align-middle fs-16 me-2"></i>For Investigation</button>
-    </a></div>
-        <div class="col-md-6">
+            <button class="btn btn-primary btn-label waves-effect waves-light equal-width-btn equal-height-btn"><i class="ri-search-eye-line label-icon align-middle fs-16 me-2"></i>For Investigation</button>
+        </a>
+    </div>
+    <div class="col-md-4">
         <a href="#" class="text-primary d-inline-block edit-item-btn" id="forVisitingBtn" data-bs-dismiss="modal" onclick="updateStatus('For-Visiting')">
             <button class="btn btn-secondary btn-label waves-effect waves-light equal-width-btn1 equal-height-btn"><i class="ri-gps-fill label-icon align-middle fs-16 me-2"></i>For Visiting</button>
         </a>
     </div>
 
-    <div class="col-md-6">
+    <!-- Approved and Disapproved buttons -->
+    <div class="col-md-4">
         <a href="#" class="text-primary d-inline-block edit-item-btn" id="approvedBtn" data-bs-dismiss="modal" onclick="updateStatus('Approved')">
             <button class="btn btn-success btn-label waves-effect waves-light equal-width-btn1 equal-height-btn"><i class="ri-check-line label-icon align-middle fs-16 me-2"></i>Approved</button>
-        </a></div>
-        <div class="col-md-6">
+        </a>
+    </div>
+</div>
+
+<div class="row mt-3">
+    <!-- Disapproved and Waiting-for-approval buttons -->
+    <div class="col-md-4">
         <a href="#" class="text-primary d-inline-block edit-item-btn" id="disapprovedBtn" data-bs-dismiss="modal" onclick="updateStatus('Disapproved')">
             <button class="btn btn-danger btn-label waves-effect waves-light equal-width-btn3 equal-height-btn"><i class="ri-close-line label-icon align-middle fs-16 me-2"></i>Disapproved</button>
         </a>
     </div>
-</div>  
+    <div class="col-md-4">
+        <a href="#" class="text-primary d-inline-block edit-item-btn" id="waitingForApprovalBtn" data-bs-dismiss="modal" onclick="updateStatus('Waiting-for-approval')">
+            <button class="btn btn-warning btn-label waves-effect waves-light equal-width-btn4 equal-height-btn"><i class="ri-time-fill label-icon align-middle fs-16 me-2"></i>Waiting for Approval</button>
+        </a>
+    </div>
+
+    <!-- Resubmit button -->
+    <div class="col-md-4">
+        <a href="#" class="text-primary d-inline-block edit-item-btn" id="resubmitBtn" data-bs-dismiss="modal" onclick="updateStatus('Resubmit')">
+            <button class="btn btn-info btn-label waves-effect waves-light equal-width-btn5 equal-height-btn"><i class="ri-refresh-line label-icon align-middle fs-16 me-2"></i>Resubmit</button>
+        </a>
+    </div>
+</div>
+
 
             </div>
         </div>
@@ -292,7 +314,7 @@
 
 <script>
 
-function showFarmDetails(id, farmName, barangayName, area, address, farmLeader, status, titleLand, pictureLand) {
+function showFarmDetails(id, farmName, barangayName, area, address, farmLeader, status, titleLand, pictureLand, pictureLand1, pictureLand2) {
     switch (status.toLowerCase().replace(/\s+/g, '-')) {
         case 'created':
             $('#status_modal').html(status + '<i class="fas fa-check-double label-icon align-middle rounded-pill fs-16 ms-2"></i> ')
@@ -326,8 +348,10 @@ function showFarmDetails(id, farmName, barangayName, area, address, farmLeader, 
     $('#address_modal').val(address);
     $('#farm_leader_modal').val(farmLeader);
     $('#title_land_modal').val(titleLand);
-    $('#picture_land_modal').val(pictureLand);
+    var concatenatedPictures = [pictureLand, pictureLand1, pictureLand2].filter(Boolean).join('<br>');
 
+// Set the concatenated pictures to the #picture_land_modal input
+$('#picture_land_modal').html(concatenatedPictures);
     // Update the status buttons in the modal to include the correct farm ID
     $('#forInvestigationBtn').data('farm-id', id);
     $('#forVisitingBtn').data('farm-id', id);
@@ -432,9 +456,14 @@ $(document).ready(function () {
     width: 150%;
 }
 .equal-width-btn3 {
-    width: 137%;
+    width: 130%;
 }
-
+.equal-width-btn4 {
+    width: 102%;
+}
+.equal-width-btn5 {
+    width: 155%;
+}
 .equal-height-btn {
     height: 100%;
 }
@@ -449,4 +478,5 @@ $(document).ready(function () {
         font-size: 1rem; 
     }
     </style> 
+
 @include('templates.footer')

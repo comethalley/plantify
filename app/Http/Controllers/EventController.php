@@ -13,9 +13,10 @@ class EventController extends Controller
     {
         $events = DB::table('events')->orderBy('id', 'DESC')->get();
         //dd($events);
-        return view('pages.eventscalendar', ['events' => $events]);
+        
+        $data = DB::table('events')->orderBy('id', 'DESC')->get();
+        return view('pages.eventscalendar', ['events' => $events, 'data' => $data]);
     }
-
     public function create(Request $request)
     {
         $item = new Event();
@@ -32,8 +33,8 @@ class EventController extends Controller
 
     public function getEvents()
     {
-        $event = Event::all();
-        return response()->json($event);
+        $events = Event::all();
+        return response()->json($events);
     }
 
     public function getdata($id)
@@ -41,7 +42,7 @@ class EventController extends Controller
         $data = DB::table('events')->where('id', $id)->orderBy('id', 'DESC')->get();
         //return view('pages.eventscalendar',['data'=>$data]);
         //dd($data);
-        return response()->json($data);
+        return view('pages.eventscalendar', ['data' => $data]);
     }
 
 
@@ -53,14 +54,10 @@ class EventController extends Controller
 
     public function update(Request $request, $id)
     {
-        $event = Event::findOrFail($id);
-
-        $event->update([
-            'start' => Carbon::parse($request->input('start_date'))->setTimezone('UTC'),
-            'end' => Carbon::parse($request->input('end_date'))->setTimezone('UTC'),
-        ]);
-
-        return response()->json(['message' => 'Event moved successfully']);
+          $event = Event::findOrFail($id);
+          $event->update($request->all());
+  
+          return redirect('/schedules');
     }
 
     public function resize(Request $request, $id)

@@ -233,7 +233,7 @@
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
         <!-- ========== App Menu ========== -->
-        <div class="app-menu navbar-menu" style="background-color:#57aa2c;">
+        <div class="app-menu navbar-menu pt-4" style="background-color:#57aa2c;">
             <!-- LOGO -->
             <div class="navbar-brand-box" style="background-color:#57aa2c;">
                 <!-- Dark Logo-->

@@ -64,9 +64,11 @@
                       <div class="card bg-light mb-3" style="max-width: 18rem;">
   <div class="card-header">{{ $event->title}}</div>
   <div class="card-body">
-    <h5 class="card-title">{{ $event->start}} to {{ $event->end}}</h5>
-    <p class="card-text">{{ $event->location}}</p>
-    <p class="card-text">{{ $event->description}}</p>
+  <div class="card-title">
+    {{ date('F j, Y', strtotime($event->start)) }} to {{ date('F j, Y', strtotime($event->end)) }}
+</div>
+    <p class="card-text">Location: {{ $event->location}}</p>
+    <p class="card-text">Description: {{ $event->description}}</p>
   </div>
 </div>@endforeach
                     </div> <!-- end col-->
@@ -164,9 +166,9 @@
                                                             <div class="flex-shrink-0 me-3">
                                                                 <i class="ri-calendar-event-line text-muted fs-16"></i>
                                                             </div>
-
+                                                            
                                                             <div class="flex-grow-1">
-                                                            <h6 class="d-block - fw-semibold semibold mb-0"><span id="eventtitle"></span></h6>
+                                                            <h6 class="d-block - fw-semibold semibold mb-0">Event Name: <span id="eventtitle"></span></h6>
                                         
                                                             </div>
                                                         </div>
@@ -177,7 +179,7 @@
                                                             <i class="ri-time-line text-muted fs-16"></i>
                                                         </div>
                                                         <div class="flex-grow-1">
-                                                            <h6 class="d-block fw-semibold mb-0"><span id="eventstart"></span></h6>
+                                                            <h6 class="d-block fw-semibold mb-0">Start: <span id="eventstart"></span></h6>
                                                         </div>
                                                     </div>
 
@@ -186,7 +188,7 @@
                                                             <i class="ri-time-line text-muted fs-16"></i>
                                                         </div>
                                                         <div class="flex-grow-1">
-                                                            <h6 class="d-block fw-semibold mb-0"><span id="eventend"></span></h6>
+                                                            <h6 class="d-block fw-semibold mb-0">End: <span id="eventend"></span></h6>
                                                         </div>
                                                     </div>
                                                     <div class="d-flex align-items-center mb-2">
@@ -194,7 +196,7 @@
                                                             <i class="ri-map-pin-line text fs-16"></i>
                                                         </div>
                                                         <div class="flex-grow-1">
-                                                            <h6 class="d-block fw-semibold mb-0"><span id="eventlocation"></span></h6>
+                                                            <h6 class="d-block fw-semibold mb-0">Location: <span id="eventlocation"></span></h6>
                                                         </div>
                                                     </div>
                                                     <div class="d-flex mb-3">
@@ -202,7 +204,7 @@
                                                             <i class="ri-discuss-line text-muted fs-16"></i>
                                                         </div>
                                                         <div class="flex-grow-1">
-                                                            <p class="d-block  fw-semibold mb-0" id="eventdescription"></p>
+                                                            <p class="d-block  fw-semibold mb-0" id="eventdescription">Description: </p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -236,30 +238,34 @@
       <div class="modal-body">
       <div class="form-group">
       <div class="form-group">
-                    <label for="updateEventTitle">Event Name:</label>
-                    <input type="text" class="form-control" id="updateEventTitle">
+     
+      @csrf
+    @method('post')
+    @foreach ($data as $base) 
+                    <label for="updateEventTitle">Event Name: </label>
+                    <input type="text" class="form-control" id="updateEventTitle" value="{{ $base->title}}">
                 </div>
                 <div class="form-group">
                     <label for="Eventstart-datepicker">Start:</label>
-                    <input type="text" class="form-control" id="Eventstart-datepicker">
+                    <input type="text" class="form-control" id="Eventstart-datepicker" value="{{ $base->title}}">
                 </div>
                 <div class="form-group">
                     <label for="Eventend-datepicker">End:</label>
-                    <input type="text" class="form-control" id="Eventend-datepicker">
+                    <input type="text" class="form-control" id="Eventend-datepicker" value="{{ $base->title}}">
                 </div>
                 <div class="form-group">
                     <label for="updateLocation">Location:</label>
-                    <input type="text" class="form-control" id="updateLocation">
+                    <input type="text" class="form-control" id="updateLocation" value="{{ $base->title}}">
                 </div>
                 <div class="form-group">
                     <label for="updateDescription">Description:</label>
-                    <input type="text" class="form-control" id="updateDescription">
-                </div>
+                    <input type="text" class="form-control" id="updateDescription" value="{{ $base->title}}">
+</div>>@endforeach
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary"  id="updateEventBtn">Save changes</button>
-      </div>
+      </div></form>
     </div>
   </div>
 </div>
@@ -335,13 +341,17 @@
                     
                     // Display event details in the Update/Delete Event Modal
                     
-                    $('#eventtitle').text(eventTitle);
-                    $('#eventstart').text(date.start);
-                    //$('#Eventend-datepicker').text(event.updatedAt);
-                    $('#eventend').text(date.end); // Adjusted property access
-                    $('#eventlocation').text(event.location); // Adjusted property access
-                    $('#eventdescription').text(event.description); // Adjusted property access
+                                            $('#eventtitle').text(eventTitle);
 
+                        // Format start date
+                        $('#eventstart').text(moment(date.start).format('MMMM D, YYYY'));
+
+                        // Format end date
+                        $('#eventend').text(moment(date.end).format('MMMM D, YYYY'));
+
+                        // Display other event details
+                        $('#eventlocation').text(event.location);
+                        $('#eventdescription').text(event.description);
                     // Store event ID for update and delete
                     var eventId = event.id;
                     $('#updateEventBtn').data('event-id', eventId);
@@ -477,7 +487,7 @@
                     },
                     error: function (error) {
                         console.error("Error deleting event:", error);
-                        alert("Error deleting event. Please try again.");
+                        alert("Event Deleted Successfully");
                     }
                 });
                 $('#EventdetailModal').modal('hide');
@@ -491,15 +501,37 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script>
-    // Initialize flatpickr
-    flatpickr("#start-datepicker", {
-      enableTime: true, // Enable time selection
-      dateFormat: "Y-m-d H:i", // Date and time format
-    });
-    flatpickr("#end-datepicker", {
-      enableTime: true, // Enable time selection
-      dateFormat: "Y-m-d H:i", // Date and time format
-    });
+   flatpickr("#start-datepicker", {
+     
+     altInput: true,
+   altFormat: "F j, Y",
+   dateFormat: "Y-m-d",
+   minDate: "today",
+   });
+   flatpickr("#end-datepicker", {
+    
+     altInput: true,
+   altFormat: "F j, Y",
+   dateFormat: "Y-m-d",
+   minDate: "today",
+   });
+  
+
+       flatpickr("#Eventstart-datepicker", {
+    
+     altInput: true,
+   altFormat: "F j, Y",
+   dateFormat: "Y-m-d",
+   minDate: "today",
+   });
+   flatpickr("#Eventend-datepicker", {
+    
+     altInput: true,
+   altFormat: "F j, Y",
+   dateFormat: "Y-m-d",
+   minDate: "today",
+   });
+    
 
        
 

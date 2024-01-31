@@ -674,7 +674,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="/plantinfo/plantinfos/" role="button">
+                            <a class="nav-link" href="/inventory/plantinfo" role="button">
                                 <i class="ri-question-line"></i>
                                 <span data-key="t-faqs">Plant Information</span>
                             </a>

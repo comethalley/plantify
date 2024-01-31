@@ -10,7 +10,9 @@
         @method("PATCH")
         <input type="hidden" name="id" id="id" value="{{$plantinfo->id}}" id="id" />
         <label>Plant Name</label></br>
-        <input type="text" name="plant_name" id="plant_name" value="{{$plantinfo->name}}" class="form-control"></br>
+        <input type="text" name="plant_name" id="plant_name" value="{{$plantinfo->plant_name}}" class="form-control"></br>
+        <label>Date</label></br>
+        <input type="date" name="plant_date" id="plant_date" value="{{$plantinfo->plant_date}}" class="form-control"></br>
         <label>Information</label></br>
         <input type="text" name="information" id="information" value="{{$plantinfo->information}}" class="form-control"></br>
         <label>Companion</label></br>

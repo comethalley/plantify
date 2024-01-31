@@ -63,19 +63,24 @@
                                                
                                                 <th class="sort" data-sort="">#</th>
                                                 <th class="sort" data-sort="">Plant Name</th>
+                                                <th class="sort" data-sort="">Plant Date</th>
                                                 <th class="sort" data-sort="">Information</th>
                                                 <th class="sort" data-sort="">Companion</th>
+                                                <th class="sort" data-sort="">Status</th>
                                                 <th class="sort" data-sort="">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody class="">
 
-                                        @foreach($plantinfo as $item)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $item->plant_name }}</td>
-                                    <td>{{ $item->information }}</td>
-                                    <td>{{ $item->companion }}</td>
+                                            @foreach($plantinfo as $item)
+                                            <tr>
+                                                <td>{{ $loop->iteration }}</td>
+                                                <td>{{ $item->plant_name }}</td>
+                                                <td>{{ $item->planting_date }}</td>
+                                                <td>{{ $item->information }}</td>
+                                                <td>{{ $item->companion }}</td>
+                                                <td>{{ $item->status }}</td>
+                                                
                                     
                                     <td>
                                         <ul class="list-inline hstack gap-2 mb-0">
@@ -142,7 +147,7 @@
                                             <h5 class="modal-title" id="exampleModalLabel">Add Plant Information</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
                                         </div>
-                                        <form method="post" action="/add-supplier">
+                                        <form action="{{ url('plantinfo') }}" method="post">
                                             @csrf
                                             <div class="modal-body">
                                                 <input type="hidden" id="id-field" />
@@ -151,18 +156,25 @@
 
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Plant Name</label>
-                                                    <input type="text" name="supplier-name" id="customername-field" class="form-control" placeholder="Plant Name" required />
+                                                    <input type="text" name="plant_name" id="plant_name" class="form-control" placeholder="Plant Name" required />
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label for="customername-field" class="form-label">Planting Date</label>
+                                                    <input type="date" name="planting_date" id="planting_date" class="form-control" required />
                                                 </div>
 
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Information</label>
-                                                    <input type="text" name="description" id="customername-field" class="form-control" placeholder="Plant Information" required />
+                                                    <input type="text" name="information" id="information" class="form-control" placeholder="Plant Information" required />
                                                 </div>
 
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Companion</label>
-                                                    <input type="text" name="address" id="customername-field" class="form-control" placeholder="Companion" required />
+                                                    <input type="text" name="companion" id="companion" class="form-control" placeholder="Companion" required />
                                                 </div>
+
+                                    
 
                                               
 
@@ -201,6 +213,11 @@
                                                     <label for="customername-field" class="form-label">Plant Name</label>
                                                     <input type="text" name="supplier-name" id="customername-field" class="form-control" placeholder="Plant Name" required />
                                                 </div>
+                                                
+                                                <div class="mb-3">
+                                                    <label for="customername-field" class="form-label">Date</label>
+                                                    <input type="date" name="date" id="customername-field" class="form-control" placeholder="Plant Information" required />
+                                                </div>
 
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Information</label>
@@ -218,7 +235,7 @@
                                             <div class="modal-footer">
                                                 <div class="hstack gap-2 justify-content-end">
                                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
-                                                    <button type="submit" class="btn btn-success">Save</button>
+                                                    <button type="submit" class="btn btn-success">Update</button>
                                                     <!-- <button type="button" class="btn btn-success" id="edit-btn">Update</button> -->
                                                 </div>
                                             </div>
@@ -238,7 +255,11 @@
                                                 <p class="text-muted fs-15 mb-4">Deleting your order will remove all of your information from our database.</p>
                                                 <div class="hstack gap-2 justify-content-center remove">
                                                     <button class="btn btn-link link-success fw-medium text-decoration-none" id="deleteRecord-close" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i> Close</button>
+                                                    <form method="POST" action="{{ url('/plantinfo' . '/' . $item->id) }}" accept-charset="UTF-8" style="display:inline">
+                                                        {{ method_field('DELETE') }}
+                                                        {{ csrf_field() }}
                                                     <button class="btn btn-danger" id="delete-record">Yes, Delete It</button>
+                                                </form>
                                                 </div>
                                             </div>
                                         </div>

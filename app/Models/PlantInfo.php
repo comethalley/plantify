@@ -15,4 +15,12 @@ class PlantInfo extends Model
         'companion',
         'status',
     ];
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        // Set the default status to 1 when creating a new instance
+        $this->attributes['status'] = 1;
+    }
 }

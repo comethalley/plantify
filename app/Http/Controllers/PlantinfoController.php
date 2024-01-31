@@ -94,4 +94,6 @@ class PlantinfoController extends Controller
         Plantinfo::destroy($id);
         return redirect('plantinfo')->with('flash_message', 'Plant deleted!');
     }
+
+    
 }

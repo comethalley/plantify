@@ -122,6 +122,8 @@ public function addFarms(Request $request)
             'farm_leader' => 'required|string|max:255',
             'title_land' => 'required|file|mimes:pdf,png,jpg|max:2048',
             'picture_land' => 'required|file|mimes:jpeg,png|max:2048',
+            'picture_land1' => 'nullable|file|mimes:jpeg,png|max:2048',
+            'picture_land2' => 'nullable|file|mimes:jpeg,png|max:2048',
             'status' => 'string|max:255',
         ]);
 
@@ -135,10 +137,16 @@ public function addFarms(Request $request)
         // Handle file uploads and store file content
         $titleLandContent = file_get_contents($request->file('title_land')->getRealPath());
         $pictureLandContent = file_get_contents($request->file('picture_land')->getRealPath());
+        
+        // Check if picture_land1 and picture_land2 are present before trying to get their content
+        $pictureLandContent1 = $request->hasFile('picture_land1') ? file_get_contents($request->file('picture_land1')->getRealPath()) : null;
+        $pictureLandContent2 = $request->hasFile('picture_land2') ? file_get_contents($request->file('picture_land2')->getRealPath()) : null;
 
         // Extract file names without directory path
         $titleLandFileName = $request->file('title_land')->getClientOriginalName();
         $pictureLandFileName = $request->file('picture_land')->getClientOriginalName();
+        $pictureLandFileName1 = $request->hasFile('picture_land1') ? $request->file('picture_land1')->getClientOriginalName() : null;
+        $pictureLandFileName2 = $request->hasFile('picture_land2') ? $request->file('picture_land2')->getClientOriginalName() : null;
 
         Farm::create([
             'barangay_name' => $barangayName,
@@ -149,6 +157,8 @@ public function addFarms(Request $request)
             'status' => $status,
             'title_land' => $titleLandFileName,
             'picture_land' => $pictureLandFileName,
+            'picture_land1' => $pictureLandFileName1,
+            'picture_land2' => $pictureLandFileName2,
         ]);
 
         return response()->json(['success' => true]);
@@ -160,6 +170,9 @@ public function addFarms(Request $request)
         return response()->json(['success' => false, 'errors' => ['exception' => [$e->getMessage()]]], 500);
     }
 }
+
+
+
 
 
 }

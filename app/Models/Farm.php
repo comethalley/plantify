@@ -18,6 +18,8 @@ class Farm extends Model
         'status',
         'title_land',
         'picture_land',
+        'picture_land1',
+        'picture_land2',
     ];
 
     

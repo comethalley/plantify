@@ -19,6 +19,8 @@ class CreateFarmsArchiveTable extends Migration
             $table->string('status');
             $table->string('title_land');
             $table->string('picture_land');
+            $table->string('picture_land1')->nullable();
+            $table->string('picture_land2')->nullable();
             // Add other columns as needed
             $table->timestamps();
         });

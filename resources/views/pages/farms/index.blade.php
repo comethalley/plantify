@@ -159,7 +159,7 @@
                 <div class="modal-body">
                     <label for="barangay-name" class="form-label">Barangay: &nbsp;</label>
                     <div class="btn-group">
-                        <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="selectedBarangayBtn">Select barangay</button>
+                        <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="selectedBarangayBtn" title="This field is required to select" >Select barangay</button>
                         <div class="dropdown-menu">
                             <!-- Add your barangay dropdown items here -->
                             <a class="dropdown-item" href="#" onclick="selectBarangay('BagBag')">BagBag</a>
@@ -184,30 +184,45 @@
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label for="farm_name" class="form-label">Farm Name</label>
-                            <input type="text" name="farm_name" class="form-control" placeholder="Enter Farm Name" required />
+                            <input type="text" name="farm_name" class="form-control" title="This field is required to fill up" placeholder="Enter Farm Name" required />
                         </div>
                         <div class="col-md-6">
                             <label for="farm_leader" class="form-label">Farm Leader</label>
-                            <input type="text" name="farm_leader" class="form-control" placeholder="Enter Farm Leader" required />
+                            <input type="text" name="farm_leader" class="form-control" title="This field is required to fill up" placeholder="Enter Farm Leader" required />
                         </div>
                     </div>
 
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label for="address" class="form-label"> &nbsp; Address</label>
-                            <input type="text" name="address" class="form-control" placeholder="Enter Address" required />
+                            <input type="text" name="address" class="form-control"  title="This field is required to fill up" placeholder="Enter Address" required />
                         </div>
                         <div class="col-md-6">
                             <label for="area" class="form-label"> &nbsp; Area</label>
-                            <input type="text" name="area" class="form-control" placeholder="Enter Area" required />
+                            <input type="text" name="area" class="form-control" title="This field is required to fill up" placeholder="Enter Area" required />
                         </div>
                     </div>
 
                     <label for="title_land" class="form-label">Title Land</label>
-                    <input type="file" name="title_land" class="form-control" accept=".pdf, .doc, .docx" required />
+                    <input type="file" name="title_land" class="form-control" title="This field is required to fill up" accept=".pdf, .doc, .docx" required />
                     <br>
                     <label for="picture_land" class="form-label">Picture Land</label>
-                    <input type="file" name="picture_land" class="form-control" accept="image/*" required />
+                    <input type="file" name="picture_land" class="form-control" title="This field is required to fill up" accept="image/*" required />
+                    <br>
+                    <div class="file-input-container">
+        <div class="file-input-wrapper">
+            <input type="file" name="picture_land1" class="form-control file-input" accept="image/*">
+            <button type="button" class="btn btn-danger cancel-btn" onclick="cancelUpload('picture_land1')">Cancel</button>
+        </div>
+    </div>
+
+    <div class="file-input-container">
+        <div class="file-input-wrapper">
+            <input type="file" name="picture_land2" class="form-control file-input" accept="image/*">
+            <button type="button" class="btn btn-danger cancel-btn" onclick="cancelUpload('picture_land2')">Cancel</button>
+        </div>
+    </div>
+
                     <br>
 
                 </div>
@@ -230,6 +245,11 @@
 
 <script>
    
+
+   function cancelUpload(inputName) {
+        // Clear the selected file for the specified input
+        $('input[name="' + inputName + '"]').val(null);
+    }
    function openTestPage() {
         window.location.href = '{{ route('archivefarms.xfarms') }}';
     }
@@ -276,6 +296,30 @@
  
 </script>
 
+<style>
+     .file-input-container {
+        margin-bottom: 10px;
+    }
+
+    .file-label {
+        display: inline-block;
+        margin-bottom: 5px;
+    }
+
+    .file-input-wrapper {
+        position: relative;
+    }
+
+    .file-input {
+        width: calc(100% - 78px); /* Adjust width based on button width and margins */
+        display: inline-block;
+    }
+
+    .cancel-btn {
+        position: absolute;
+        right: 0;
+    }
+    </style>
 <footer class="footer">
                 <div class="container-fluid">
                     <div class="row">

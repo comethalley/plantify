@@ -21,6 +21,8 @@ class FarmArchive extends Model
         'status',
         'title_land',
         'picture_land',
+        'picture_land1',
+        'picture_land2',
         // Add any additional columns if needed
     ];
 }

@@ -9,12 +9,13 @@ class CalendarPlanting extends Model
 {
     use HasFactory;
 
+    protected $table = 'createplantings'; // Specify the correct table name
+
     protected $fillable = [
         'title',
-        'start', // Add this line
+        'start',
         'end',
         'status',
         'description',
-    
     ];
 }

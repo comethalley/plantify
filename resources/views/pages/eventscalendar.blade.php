@@ -37,7 +37,7 @@
                     <div class="col-xl-3">
                         <div class="card card-h-100">
                             <div class="card-body" style="display:flex; justify-content:center; align-items:center;">
-                               <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModalExample"><i class="mdi mdi-plus"></i>Create New Events</button>
+                               <button type="button" class="btn btn-success w-100" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModalExample"><i class="mdi mdi-plus"></i>Create New Events</button>
                             
                                         <button class="btn btn-soft-danger" id="remove-actions" onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button>
                              </div>       
@@ -62,7 +62,7 @@
                               <div class="card border-success pe-2 me-n1 mb-3 simplebar-scrollable-y" style="max-width: 18rem;">
                                 <div class="card-header bg-transparent border-success">{{ $event->title}}</div>
                                 <div class="card-body">
-                                    <h6 class="card-title">{{ date('F j, Y', strtotime($event->start)) }} to {{ date('F j, Y', strtotime($event->end)) }}</h6>
+                                    <h6 class="card-text">{{ date('F j, Y', strtotime($event->start)) }} to {{ date('F j, Y', strtotime($event->end)) }}</h6>
                                     <p class="card-text">Location: {{ $event->location}}</p>
                                     <p class="card-text">Description: {{ $event->description}}</p>
                                   
@@ -76,7 +76,7 @@
                     <div class="input-group mb-3">
                         <input type="text" id="searchInput" class="form-control" placeholder="Search events">
                             <div class="input-group-append">
-                                <button id="searchButton" class="btn btn-primary">{{__('Search')}}</button>
+                                <button id="searchButton" class="btn btn-success">{{__('Search')}}</button>
                             </div>
                     </div>
 
@@ -202,7 +202,7 @@
                                                             <i class="ri-discuss-line text-muted fs-16"></i>
                                                         </div>
                                                         <div class="flex-grow-1">
-                                                            <p class="d-block  fw-semibold mb-0" id="eventdescription">Description: </p>
+                                                        <h6 class="d-block fw-semibold mb-0">Description: <span id="eventdescription"></span></h6>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -312,7 +312,6 @@
             initialView: 'dayGridMonth',
             timeZone: 'UTC',
             events: '/schedulesget',
-            editable: true,
             selectable: true,
             selectHelper: true,
             select: function (start, end, allDay) {
@@ -385,62 +384,14 @@
                         });
                     });
 
-                    // When the user closes the modal without confirming the delete
-                    $('#cancelDeleteEventBtn').on('click', function () {
-                        // Close the confirmation modal
-                        $('#EventdetailModal').modal('hide');
-                    });
                 },
 
 
             // Drag And Drop
 
-            eventDrop: function(info) {
-                var eventId = info.event.id;
-                var newStartDate = info.event.start;
-                var newEndDate = info.event.end || newStartDate;
-                var newStartDateUTC = newStartDate.toISOString().slice(0, 10);
-                var newEndDateUTC = newEndDate.toISOString().slice(0, 10);
-
-                $.ajax({
-                    method: 'PUT',
-                    url: `/schedule/${eventId}`,
-                    data: {
-                        start_date: newStartDateUTC,
-                        end_date: newEndDateUTC,
-                    },
-                    success: function() {
-                        console.log('Event moved successfully.');
-                    },
-                    error: function(error) {
-                        console.error('Error moving event:', error);
-                    }
-                });
-            },
-
+        
             // Event Resizing
-            eventResize: function(info) {
-                var eventId = info.event.id;
-                var newEndDate = info.event.end;
-                var newEndDateUTC = newEndDate.toISOString().slice(0, 10);
 
-                $.ajax({
-                    method: 'PUT',
-                    url: `/schedule/${eventId}/resize`,
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    data: {
-                        end_date: newEndDateUTC
-                    },
-                    success: function() {
-                        console.log('Event resized successfully.');
-                    },
-                    error: function(error) {
-                        console.error('Error resizing event:', error);
-                    }
-                });
-            },
         });
 
         calendar.render();
@@ -492,6 +443,70 @@
                 $('#EventdetailModal').modal('hide');
             }
             });
+
+    $('#updateEventBtn').on('click', function() {
+    $('#EventdetailModal').modal('hide');
+
+    var eventId = $(this).data('event-id');
+    var title = $('#updateEventTitle').val();
+    var location = $('#updateLocation').val();
+    var description = $('#updateDescription').val();
+
+    if (confirm("Are you sure you want to update this event?")) {
+        $.ajax({
+            url: `/scheduleupdate/${eventId}`,
+            type: "POST", // Use POST method
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: {
+                _method: 'PUT', // Specify the HTTP method as PUT
+                id: eventId,
+                title: title,
+                location: location,
+                description: description,
+                type: 'PUT'
+            },
+            success: function(data) {
+                calendar.fullCalendar('refetchEvents');
+                $('#editexampleModal').modal('hide');
+                alert("Event Updated Successfully");
+            },
+            error: function(error) {
+                console.error("Error updating event:", error);
+                alert("Error updating event. Please try again.");
+            }
+        });
+        $('#editexampleModal').modal('hide');
+    }
+});
+
+function updateEvent(eventId, title, location, description) {
+    $.ajax({
+        url: `/scheduleupdate/${eventId}`,
+        type: 'PUT',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        data: {
+            id: eventId,
+            title: title,
+            location: location,
+            description: description,
+        },
+        success: function(response) {
+            console.log('Event updated successfully.');
+            $('#EventdetailModal').modal('hide');
+            info.event.setProp('title', title);
+            info.event.setExtendedProp('location', location);
+            info.event.setExtendedProp('description', description);
+        },
+        error: function(error) {
+            console.error('Error updating event:', error);
+            $('#EventdetailModal').modal('hide');
+        }
+    });
+}
        
         flatpickr("#datepicker", {
       enableTime: true, // Enable time selection

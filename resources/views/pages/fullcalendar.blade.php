@@ -342,7 +342,7 @@
                 $('#updateDeleteEventModal').modal('hide');
 
                 var eventId = $(this).data('event-id');
-                var title = $('#updateEventTitle').val();
+                var title = $('#updateEventTitle').text();
                 var start = $('#updateEventStart').val();
                 var end = $('#updateEventEnd').val();
 

@@ -99,10 +99,9 @@ Route::get('/schedules', [EventController::class, 'index']);
 Route::get('/schedulesget', [EventController::class, 'getEvents']);
 Route::get('/schedulesdata/{id}', [EventController::class, 'getdata']);
 Route::delete('/scheduledelete/{id}', [EventController::class, 'deleteEvent']);
-Route::put('/schedule/{id}', [EventController::class, 'update']);
 Route::put('/schedule/{id}/resize', [EventController::class, 'resize']);
-Route::get('/events/search', [EventController::class, 'search']);
-Route::post('/scheduleupdate/{id}', [EventController::class, 'update'])->name('events.update');
+Route::post('/events/search', [EventController::class, 'search']);
+Route::put('/scheduleupdate/{id}', [EventController::class, 'update']);
 Route::view('add-schedule', 'pages.add');
 Route::post('create-schedule', [EventController::class, 'create']);
 // End Full Calender=================================================================

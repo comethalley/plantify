@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Models\Event;
 use Illuminate\Http\Request;
@@ -54,17 +54,27 @@ class EventController extends Controller
 
     public function update(Request $request, $id)
     {
-          $event = Event::findOrFail($id);
-          $event->update($request->all());
-  
-          return redirect('/schedules');
+        $event = Event::find($request->id);
+    
+        if (!$event) {
+            return response()->json(['error' => 'Event not found'], 404);
+        }
+    
+        $event->update([
+            'title' => $request->title,
+            'location' => $request->location,
+            'description' => $request->description,
+            
+        ]);
+    
+        return response()->json(['message' => 'Event updated successfully', 'event' => $event]);
     }
 
     public function resize(Request $request, $id)
     {
         $event = Event::findOrFail($id);
 
-        $newEndDate = Carbon::parse($request->input('end_date'))->setTimezone('UTC');
+        $newEndDate = Carbon::parse($request->input('end'))->setTimezone('UTC');
         $event->update(['end' => $newEndDate]);
 
         return response()->json(['message' => 'Event resized successfully.']);

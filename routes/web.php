@@ -77,6 +77,8 @@ Route::post('/create-thread/{userId}', [ThreadController::class, 'createThread']
 Route::get('/thread/{threadId}', [ThreadController::class, 'showThread'])->name('show.thread');
 Route::post('/thread/{threadId}/store-message', [ThreadController::class, 'storeMessage'])->name('store.message');
 Route::post('/mark-messages-as-read/{userId}', [ChatController::class, 'markMessagesAsRead']);
+Route::get('/search-users', [ChatController::class, 'searchUsers']);
+
 
 // Group Chats
 Route::get('/groups', [GroupController::class, 'index'])->name('groups.index');
@@ -84,6 +86,7 @@ Route::get('/groups/{group}/{farm}', [GroupController::class, 'show'])->name('gr
 Route::post('/groups/{group}/join', [GroupController::class, 'join'])->name('groups.join');
 Route::get('/groups/create', [GroupController::class, 'create'])->name('groups.create');
 Route::post('/group/{groupId}/store-group-message', [GroupController::class, 'storeGroupMessage'])->name('store.group.message');
+Route::post('/mark-group-messages-as-read/{groupId}', [GroupController::class, 'markGroupMessagesAsRead']);
 
 Route::get('/weather', [WeatherController::class, 'index']);
 Route::get('/pastweather', [WeatherController::class, 'pastweather']);

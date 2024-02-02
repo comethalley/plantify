@@ -25,7 +25,7 @@
                                     </div>
                                 </div>
                                 <div class="search-box">
-                                    <input type="text" class="form-control bg-light border-light" placeholder="Search here...">
+                                    <input type="text" class="form-control bg-light border-light" id="searchInput" placeholder="Search here...">
                                     <i class="ri-search-2-line search-icon"></i>
                                 </div>
                             </div> <!-- .p-4 -->
@@ -66,19 +66,26 @@
                                         <div class="chat-message-list">
                                             <ul class="list-unstyled chat-list chat-user-list" id="userList">
                                                 @forelse($users as $user)
-                                                    <button type="button" class="btn member-button" data-member-id="{{ $user->id }}" data-thread-id="{{ $user->thread_id }}">
-                                                        <!-- Your user display content -->
-                                                        <div class="d-flex align-items-center">
-                                                        <div class="avatar-sm">
-                                                            @if ($user->unread_message_count > 0)
-                                                                <span class="position-absolute topbar-badge fs-10 translate-end badge rounded-pill bg-danger">{{ $user->unread_message_count }}</span>
-                                                            @endif
-                                                        </div>
-                                                            <div class="ms-2">
-                                                                <h6 class="mb-0">{{ $user->firstname }} {{ $user->lastname }}</h6>
+                                                    @php
+                                                        // Check if the user has any messages
+                                                        $hasMessages = $user->messages->isNotEmpty();
+                                                    @endphp
+
+                                                    @if($hasMessages)
+                                                        <button type="button" class="btn member-button" data-member-id="{{ $user->id }}" data-thread-id="{{ $user->thread_id }}">
+                                                            <!-- Your user display content -->
+                                                            <div class="d-flex align-items-center">
+                                                                <div class="avatar-sm">
+                                                                    @if ($user->unread_message_count > 0)
+                                                                        <span class="position-absolute topbar-badge fs-10 translate-end badge rounded-pill bg-danger">{{ $user->unread_message_count }}</span>
+                                                                    @endif
+                                                                </div>
+                                                                <div class="ms-2">
+                                                                    <h6 class="mb-0">{{ $user->firstname }} {{ $user->lastname }}</h6>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </button>
+                                                        </button>
+                                                    @endif
                                                 @empty
                                                     <p>No other users found.</p>
                                                 @endforelse
@@ -120,36 +127,45 @@
                                         <div class="chat-message-list">
                                             <ul class="list-unstyled chat-list chat-user-list mb-0" id="channelList">
                                                 @forelse($groups as $group)
-                                                    @if(auth()->user()->role_id == 2 && $group->group_name == 'Admin and Farm Leaders')
-                                                        {{-- Display only for role_id 2 (Admin and Farm Leaders) --}}
-                                                        <button type="button" class="btn channel-button" data-group-id="{{ $group->id }}">
-                                                            <div class="d-flex align-items-center">
-                                                                <div class="ms-2">
-                                                                    <h6 class="mb-0">{{ $group->group_name }}</h6>
-                                                                </div>
-                                                            </div>
-                                                        </button>
-                                                    @elseif(auth()->user()->role_id == 3)
-                                                        {{-- Display for role_id 3 (both Admin and Farm Leaders, Farm Leader and Farmers) --}}
-                                                        <button type="button" class="btn channel-button" data-group-id="{{ $group->id }}">
-                                                            <div class="d-flex align-items-center">
-                                                                <div class="ms-2">
-                                                                    <h6 class="mb-0">{{ $group->group_name }}</h6>
-                                                                </div>
-                                                            </div>
-                                                        </button>
-                                                    @elseif(auth()->user()->role_id == 4 && $group->group_name == 'Farm Leader and Farmers')
-                                                        {{-- Display only for role_id 4 (Farm Leader and Farmers) --}}
-                                                        <button type="button" class="btn channel-button" data-group-id="{{ $group->id }}">
-                                                            <div class="d-flex align-items-center">
-                                                                <div class="ms-2">
-                                                                    <h6 class="mb-0">{{ $group->group_name }}</h6>
-                                                                </div>
-                                                            </div>
-                                                        </button>
-                                                    @endif
+                                                @if(auth()->user()->role_id == 2 && $group->group_name == 'Admin and Farm Leaders')
+                                                {{-- Display only for role_id 2 (Admin and Farm Leaders) --}}
+                                                <button type="button" class="btn channel-button" data-group-id="{{ $group->id }}" data-farm-id="{{ optional($farmLeaders)->id }}">
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="ms-2">
+                                                            <h6 class="mb-0">{{ $group->group_name }}</h6>
+                                                            @if ($group->unread_message_count > 0)
+                                                                <span class="position-absolute topbar-badge fs-10 translate-end badge rounded-pill bg-danger">{{ $group->unread_message_count }}</span>
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                </button>
+                                                @elseif(auth()->user()->role_id == 3)
+                                                {{-- Display for role_id 3 (both Admin and Farm Leaders, Farm Leader and Farmers) --}}
+                                                <button type="button" class="btn channel-button" data-group-id="{{ $group->id }}" data-farm-id="{{ optional($farmLeaders)->id }}">
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="ms-2">
+                                                            <h6 class="mb-0">{{ $group->group_name }}</h6>
+                                                            @if ($group->unread_message_count > 0)
+                                                                <span class="position-absolute topbar-badge fs-10 translate-end badge rounded-pill bg-danger">{{ $group->unread_message_count }}</span>
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                </button>
+                                                @elseif(auth()->user()->role_id == 4 && $group->group_name == 'Farm Leader and Farmers')
+                                                {{-- Display only for role_id 4 (Farm Leader and Farmers) --}}
+                                                <button type="button" class="btn channel-button" data-group-id="{{ $group->id }}" data-farm-id="{{ optional($farmLeaders)->id }}">
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="ms-2">
+                                                            <h6 class="mb-0">{{ $group->group_name }}</h6>
+                                                            @if ($group->unread_message_count > 0)
+                                                                <span class="position-absolute topbar-badge fs-10 translate-end badge rounded-pill bg-danger">{{ $group->unread_message_count }}</span>
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                </button>
+                                                @endif
                                                 @empty
-                                                    <p>No groups found.</p>
+                                                <p>No groups found.</p>
                                                 @endforelse
                                             </ul>
                                         </div>
@@ -562,14 +578,93 @@ $(document).ready(function () {
     $(document).ready(function () {
     // Attach a click event handler to each group button
     $('.channel-button').on('click', function () {
-        // Get the group ID from the data attribute
+        // Get the group ID and farm ID from the data attributes
         var groupId = $(this).data('group-id');
+        var farmId = $(this).data('farm-id'); // Adjust this based on how you get the farm ID in your HTML
 
-        // Redirect to the group details page
-        window.location.href = '/groups/' + groupId;
+        // Redirect to the group details page with both IDs
+        window.location.href = '/groups/' + groupId + '/' + farmId;
     });
 });
 
+
+
+$(document).ready(function () {
+        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+        $('#searchInput').on('input', function () {
+            var searchTerm = $(this).val().trim();
+
+            // If the search term is empty, clear the user list and return
+            if (searchTerm === '') {
+                $('#userList').empty();
+                return;
+            }
+
+            // Make an AJAX request to the server for user search
+            $.ajax({
+                url: '/search-users',
+                method: 'GET',
+                data: { term: searchTerm },
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                success: function (response) {
+                    // Update the user list with the search results
+                    updateSearchResults(response);
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+        });
+
+        function updateSearchResults(users) {
+            $('#userList').empty();
+
+            users.forEach(function (user) {
+                var userItem = '<li>' +
+                    '<button type="button" class="btn member-button" data-member-id="' + user.id + '" data-thread-id="' + (user.thread_id || '') + '">' +
+                    '<div class="d-flex align-items-center">' +
+                    '<div class="avatar-sm"></div>' +
+                    '<div class="ms-2">' +
+                    '<h6 class="mb-0">' + user.firstname + ' ' + user.lastname + '</h6>' +
+                    '</div>' +
+                    '</div>' +
+                    '</button>' +
+                    '</li>';
+                $('#userList').append(userItem);
+            });
+
+            // Attach a click event handler to each user button
+            $('.member-button').on('click', function () {
+                var userId = $(this).data('member-id');
+                var threadId = $(this).data('thread-id');
+
+                if (!threadId) {
+                    // Create a new thread
+                    $.ajax({
+                        type: 'POST',
+                        url: '/create-thread/' + userId,
+                        dataType: 'json',
+                        headers: {
+                            'X-CSRF-TOKEN': csrfToken
+                        },
+                        success: function (response) {
+                            window.location.href = '/thread/' + response.thread_id;
+                        },
+                        error: function (error) {
+                            console.error('Error creating thread:', error);
+                            // Handle the error as needed
+                        }
+                    });
+                } else {
+                    // Redirect to the existing thread
+                    window.location.href = '/thread/' + threadId;
+                }
+            });
+        }
+    });
 
 
 </script>

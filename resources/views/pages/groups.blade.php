@@ -19,7 +19,7 @@
                                 </div>
                             </div>
                             <div class="search-box">
-                                <input type="text" class="form-control bg-light border-light" placeholder="Search here...">
+                                <input type="text" class="form-control bg-light border-light" id="searchInput" placeholder="Search here...">
                                 <i class="ri-search-2-line search-icon"></i>
                             </div>
                         </div> <!-- .p-4 -->
@@ -54,26 +54,33 @@
                                     </div>
     
                                     <div class="chat-message-list">
-                                        <ul class="list-unstyled chat-list chat-user-list" id="userList">
-                                            @forelse($users as $user)
-                                                <button type="button" class="btn member-button" data-member-id="{{ $user->id }}" data-thread-id="{{ $user->thread_id }}" >
-                                                    <!-- Your user display content -->
-                                                    <div class="d-flex align-items-center">
-                                                    <div class="avatar-sm">
-                                                        @if ($user->unread_message_count > 0)
-                                                            <span class="position-absolute topbar-badge fs-10 translate-end badge rounded-pill bg-danger">{{ $user->unread_message_count }}</span>
-                                                        @endif
-                                                    </div>
-                                                        <div class="ms-2">
-                                                            <h6 class="mb-0">{{ $user->firstname }} {{ $user->lastname }}</h6>
-                                                        </div>
-                                                    </div>
-                                                </button>
-                                            @empty
-                                                <p>No other users found.</p>
-                                            @endforelse
-                                        </ul>
-                                    </div>
+                                            <ul class="list-unstyled chat-list chat-user-list" id="userList">
+                                                @forelse($users as $user)
+                                                    @php
+                                                        // Check if the user has any messages
+                                                        $hasMessages = $user->messages->isNotEmpty();
+                                                    @endphp
+
+                                                    @if($hasMessages)
+                                                        <button type="button" class="btn member-button" data-member-id="{{ $user->id }}" data-thread-id="{{ $user->thread_id }}">
+                                                            <!-- Your user display content -->
+                                                            <div class="d-flex align-items-center">
+                                                                <div class="avatar-sm">
+                                                                    @if ($user->unread_message_count > 0)
+                                                                        <span class="position-absolute topbar-badge fs-10 translate-end badge rounded-pill bg-danger">{{ $user->unread_message_count }}</span>
+                                                                    @endif
+                                                                </div>
+                                                                <div class="ms-2">
+                                                                    <h6 class="mb-0">{{ $user->firstname }} {{ $user->lastname }}</h6>
+                                                                </div>
+                                                            </div>
+                                                        </button>
+                                                    @endif
+                                                @empty
+                                                    <p>No other users found.</p>
+                                                @endforelse
+                                            </ul>
+                                        </div>
                                 </div>
     
                                 <div class="d-flex align-items-center px-4 mt-4 pt-2 mb-2">
@@ -537,5 +544,84 @@ function deleteMember(memberId) {
         }
     });
 }
+
+
+
+$(document).ready(function () {
+        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+        $('#searchInput').on('input', function () {
+            var searchTerm = $(this).val().trim();
+
+            // If the search term is empty, clear the user list and return
+            if (searchTerm === '') {
+                $('#userList').empty();
+                return;
+            }
+
+            // Make an AJAX request to the server for user search
+            $.ajax({
+                url: '/search-users',
+                method: 'GET',
+                data: { term: searchTerm },
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                success: function (response) {
+                    // Update the user list with the search results
+                    updateSearchResults(response);
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+        });
+
+        function updateSearchResults(users) {
+            $('#userList').empty();
+
+            users.forEach(function (user) {
+                var userItem = '<li>' +
+                    '<button type="button" class="btn member-button" data-member-id="' + user.id + '" data-thread-id="' + (user.thread_id || '') + '">' +
+                    '<div class="d-flex align-items-center">' +
+                    '<div class="avatar-sm"></div>' +
+                    '<div class="ms-2">' +
+                    '<h6 class="mb-0">' + user.firstname + ' ' + user.lastname + '</h6>' +
+                    '</div>' +
+                    '</div>' +
+                    '</button>' +
+                    '</li>';
+                $('#userList').append(userItem);
+            });
+
+            // Attach a click event handler to each user button
+            $('.member-button').on('click', function () {
+                var userId = $(this).data('member-id');
+                var threadId = $(this).data('thread-id');
+
+                if (!threadId) {
+                    // Create a new thread
+                    $.ajax({
+                        type: 'POST',
+                        url: '/create-thread/' + userId,
+                        dataType: 'json',
+                        headers: {
+                            'X-CSRF-TOKEN': csrfToken
+                        },
+                        success: function (response) {
+                            window.location.href = '/thread/' + response.thread_id;
+                        },
+                        error: function (error) {
+                            console.error('Error creating thread:', error);
+                            // Handle the error as needed
+                        }
+                    });
+                } else {
+                    // Redirect to the existing thread
+                    window.location.href = '/thread/' + threadId;
+                }
+            });
+        }
+    });
 
 </script>

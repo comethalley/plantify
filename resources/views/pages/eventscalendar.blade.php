@@ -233,46 +233,48 @@
         <h5 class="modal-title" id="exampleModalLabel">Edit Event</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
+  
+       
       <div class="modal-body">
-      <div class="form-group">
-      <div class="form-group">
-     
+      <form method="post" action="{{ URL('scheduleupdate/'.$event->id) }}" method="POST"  id="form-event">
       @csrf
-    @method('post')
-    
-                    <label for="updateEventTitle">Event Name: </label>
-                    <input type="text" class="form-control" id="updateEventTitle" >
-                </div>
-                <div class="form-group">
-                    <label for="Eventstart-datepicker">Start:</label>
-                    <input type="text" class="form-control" id="Eventstart-datepicker" >
-                </div>
-                <div class="form-group">
-                    <label for="Eventend-datepicker">End:</label>
-                    <input type="text" class="form-control" id="Eventend-datepicker" >
-                </div>
-                <div class="form-group">
-                    <label for="updateLocation">Location:</label>
-                    <input type="text" class="form-control" id="updateLocation" >
-                </div>
-                <div class="form-group">
-                    <label for="updateDescription">Description:</label>
-                    <input type="text" class="form-control" id="updateDescription">
-</div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary"  id="updateEventBtn">Save changes</button>
-      </div></form>
+        @method('PUT')
+          <div class="form-group">
+                     <div class="form-group">
+                        <label for="updateEventTitle">Event Name: </label>
+                        <input type="text" class="form-control" name="updatetitle" id="updateEventTitle" >
+                    </div>
+                    <div class="form-group">
+                        <label for="Eventstart-datepicker">Start:</label>
+                        <input type="text" class="form-control" name="updatestart" id="Eventstart-datepicker" >
+                    </div>
+                    <div class="form-group">
+                        <label for="Eventend-datepicker">End:</label>
+                        <input type="text" class="form-control" name="updateend" id="Eventend-datepicker" >
+                    </div>
+                    <div class="form-group">
+                        <label for="updateLocation">Location:</label>
+                        <input type="text" class="form-control" name="updatelocation" id="updateLocation" >
+                    </div>
+                    <div class="form-group">
+                        <label for="updateDescription">Description:</label>
+                        <input type="text" class="form-control" name="updatedescription" id="updateDescription">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary"  id="updateEventBtn">Save changes</button>
+                        </div>
+              </div>
+          </div>
+        </form>
     </div>
-  </div>
-</div>
- <!-- end modal-->
+            <!-- end modal-->
 
 
-                <!-- end modal-->
+                
         
-
+        
     </div>
     <!-- container-fluid -->
 </div>
@@ -341,10 +343,10 @@
                         $('#updateEventTitle').val(eventTitle);
                         // Format start date
                         $('#eventstart').text(moment(date.start).format('MMMM D, YYYY'));
-                        $('#Eventstart').val(moment(date.start).format('MMMM D, YYYY'));
+                        $('#Eventstart-datepicker').val(moment(date.start).format('MMMM D, YYYY'));
                         // Format end date
                         $('#eventend').text(moment(date.end).format('MMMM D, YYYY'));
-                        $('#Eventend').val(moment(date.end).format('MMMM D, YYYY'));
+                        $('#Eventend-datepicker').val(moment(date.end).format('MMMM D, YYYY'));
                         // Display other event details
                         $('#eventlocation').text(event.location);
                         $('#eventdescription').text(event.description);
@@ -384,6 +386,7 @@
                         });
                     });
 
+                  
                 },
 
 
@@ -444,76 +447,17 @@
             }
             });
 
-    $('#updateEventBtn').on('click', function() {
-    $('#EventdetailModal').modal('hide');
-
-    var eventId = $(this).data('event-id');
-    var title = $('#updateEventTitle').val();
-    var location = $('#updateLocation').val();
-    var description = $('#updateDescription').val();
-
-    if (confirm("Are you sure you want to update this event?")) {
-        $.ajax({
-            url: `/scheduleupdate/${eventId}`,
-            type: "POST", // Use POST method
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            data: {
-                _method: 'PUT', // Specify the HTTP method as PUT
-                id: eventId,
-                title: title,
-                location: location,
-                description: description,
-                type: 'PUT'
-            },
-            success: function(data) {
-                calendar.fullCalendar('refetchEvents');
-                $('#editexampleModal').modal('hide');
-                alert("Event Updated Successfully");
-            },
-            error: function(error) {
-                console.error("Error updating event:", error);
-                alert("Error updating event. Please try again.");
-            }
-        });
-        $('#editexampleModal').modal('hide');
-    }
-});
-
-function updateEvent(eventId, title, location, description) {
-    $.ajax({
-        url: `/scheduleupdate/${eventId}`,
-        type: 'PUT',
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        data: {
-            id: eventId,
-            title: title,
-            location: location,
-            description: description,
-        },
-        success: function(response) {
-            console.log('Event updated successfully.');
-            $('#EventdetailModal').modal('hide');
-            info.event.setProp('title', title);
-            info.event.setExtendedProp('location', location);
-            info.event.setExtendedProp('description', description);
-        },
-        error: function(error) {
-            console.error('Error updating event:', error);
-            $('#EventdetailModal').modal('hide');
-        }
-    });
-}
+         
+  
        
         flatpickr("#datepicker", {
       enableTime: true, // Enable time selection
       dateFormat: "Y-m-d H:i", // Date and time format
     });
     </script>
+
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    
   <script>
    flatpickr("#start-datepicker", {
      
@@ -546,7 +490,14 @@ function updateEvent(eventId, title, location, description) {
    minDate: "today",
    });
     
+   $(document).ready(function (){
+        $(document).on('click', '.editbtn', function() {
 
+          var eventid = $(this).val();
+          alert(eventid);  
+        });
+
+   });
        
 
   </script>

@@ -53,23 +53,18 @@ class EventController extends Controller
     }
 
     public function update(Request $request, $id)
-    {
-        $event = Event::find($request->id);
-    
-        if (!$event) {
-            return response()->json(['error' => 'Event not found'], 404);
-        }
-    
-        $event->update([
-            'title' => $request->title,
-            'location' => $request->location,
-            'description' => $request->description,
-            
-        ]);
-    
-        return response()->json(['message' => 'Event updated successfully', 'event' => $event]);
-    }
+    { 
+        $event = Event::find($id);
+        $event->title = $request->input('updatetitle');
+        $event->start = $request->input('updatestart');
+        $event->end = $request->input('updateend');
+        $event->location = $request->input('updatelocation');
+        $event->description = $request->input('updatedescription');
+        $event->update();
 
+        return redirect('/schedules')->with('status',"Event updated ");
+
+    }
     public function resize(Request $request, $id)
     {
         $event = Event::findOrFail($id);

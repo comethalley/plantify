@@ -65,7 +65,7 @@ class PlantinfoController extends Controller
     public function edit($id)
     {
         $plantinfo = Plantinfo::find($id);
-        return view('plantinfo.index')->with('plantinfo', $plantinfo);
+        return view('plantinfo.edit')->with('plantinfo', $plantinfo);
     }
 
     /**
@@ -80,7 +80,7 @@ class PlantinfoController extends Controller
         $plantinfo = Plantinfo::find($id);
         $input = $request->all();
         $plantinfo->update($input);
-        return redirect('plantinfo.index')->with('flash_message', 'Plant Updated!');
+        return redirect('/plantinfo')->with('flash_message', 'Plant Updated!');
     }
 
     /**

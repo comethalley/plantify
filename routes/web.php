@@ -25,7 +25,7 @@ Route::get('/', function () {
     return view('welcome');
 });
  
-Route::resource("/student", StudentController::class);
+Route::resource("/plantinfo", PlantinfoController::class);
 
 Route::get('/', [AuthController::class, 'index'])->middleware('auth');
 Route::get('/login', [AuthController::class, 'viewLogin'])->name('login')->middleware('guest');
@@ -49,3 +49,5 @@ Route::get('/getSupplier/{id}', [InventoryController::class, 'getSupplier']);
 Route::get('/getSupplierSeeds/{id}', [InventoryController::class, 'getSupplierSeed']);
 Route::get('/download-qrCode/{filename}', [InventoryController::class, 'downloadQR'])->name('download.image');
 Route::get('/getLogs/{id}', [InventoryController::class, 'logs']);
+
+Route::get('/edit/{id}', [PlantinfoController::class, 'edit']);

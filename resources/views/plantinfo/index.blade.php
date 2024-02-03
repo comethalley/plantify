@@ -90,7 +90,7 @@
                                                             </a>
                                                         </li>
                                                         <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Edit">
-                                                            <a href="{{ url('/plantinfo/' . $item->id . '#updateModal') }}" data-bs-toggle="modal" class="text-primary d-inline-block edit-item-btn">
+                                                            <a href="/edit/{{$item->id}}"  class="text-primary d-inline-block edit-item-btn">
                                                                 <i class="ri-pencil-fill fs-16"></i>
                                                             </a>
                                                         </li>
@@ -202,9 +202,8 @@
                                             <h5 class="modal-title" id="exampleModalLabel">Edit Plant Information</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
                                         </div>
-                                        <form action="{{ url('plantinfo/' .$plantinfo->id) }}" method="post">
-        {!! csrf_field() !!}
-        @method("UPDATE")
+                                        <form action="{{ url('plantinfo/') }}" method="post">
+                                                @csrf
                                             <div class="modal-body">
                                                 <input type="hidden" id="id-field" />
 

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\PlantInfo;
-
+use Illuminate\Support\Facades\DB;
 class PlantinfoController extends Controller
 {
     /**
@@ -14,7 +14,12 @@ class PlantinfoController extends Controller
      */
     public function index()
     {
-        $plantinfo = Plantinfo::all();
+        $plantinfo= DB::table('plant_infos')
+            ->where('status', 1)
+            ->select(
+                "*"
+            )
+            ->get();
         //return view('plantinfo.index')->with('plantinfo', $plantinfo);
         //dd($plantinfo);
         return view("plantinfo.index", ['plantinfo' => $plantinfo]);

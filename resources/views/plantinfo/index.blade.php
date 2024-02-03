@@ -66,7 +66,6 @@
                                                 <th class="sort" data-sort="">Plant Date</th>
                                                 <th class="sort" data-sort="">Information</th>
                                                 <th class="sort" data-sort="">Companion</th>
-                                                <th class="sort" data-sort="">Status</th>
                                                 <th class="sort" data-sort="">Action</th>
                                             </tr>
                                         </thead>
@@ -79,7 +78,7 @@
                                                 <td>{{ $item->planting_date }}</td>
                                                 <td>{{ $item->information }}</td>
                                                 <td>{{ $item->companion }}</td>
-                                                <td>{{ $item->status }}</td>
+
                                                 
                                     
                                     <td>
@@ -256,7 +255,7 @@
                                                 <div class="hstack gap-2 justify-content-center remove">
                                                     <button class="btn btn-link link-success fw-medium text-decoration-none" id="deleteRecord-close" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i> Close</button>
                                                     <form method="POST" action="{{ url('/plantinfo' . '/' . $item->id) }}" accept-charset="UTF-8" style="display:inline">
-                                                        {{ method_field('DELETE') }}
+                                                        {{ method_field('DELETE') }}    
                                                         {{ csrf_field() }}
                                                     <button class="btn btn-danger" id="delete-record">Yes, Delete It</button>
                                                 </form>

@@ -27,7 +27,7 @@ class PlantinfoController extends Controller
      */
     public function create()
     {
-        return view('plantinfo.create');
+        return view('plantinfo.index');
     }
 
     /**
@@ -65,7 +65,7 @@ class PlantinfoController extends Controller
     public function edit($id)
     {
         $plantinfo = Plantinfo::find($id);
-        return view('plantinfo.edit')->with('plantinfo', $plantinfo);
+        return view('plantinfo.index')->with('plantinfo', $plantinfo);
     }
 
     /**

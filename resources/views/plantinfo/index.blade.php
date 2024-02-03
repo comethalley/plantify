@@ -202,8 +202,9 @@
                                             <h5 class="modal-title" id="exampleModalLabel">Edit Plant Information</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
                                         </div>
-                                        <form method="post" action="/add-supplier">
-                                            @csrf
+                                        <form action="{{ url('plantinfo/' .$plantinfo->id) }}" method="post">
+        {!! csrf_field() !!}
+        @method("PATCH")
                                             <div class="modal-body">
                                                 <input type="hidden" id="id-field" />
 
@@ -211,22 +212,22 @@
 
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Plant Name</label>
-                                                    <input type="text" name="supplier-name" id="customername-field" class="form-control" placeholder="Plant Name" required />
+                                                    <input type="text" name="plant_name" id="plant_name" value="{{$plantinfo->plant_name}}" class="form-control" placeholder="Plant Name" required />
                                                 </div>
                                                 
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Date</label>
-                                                    <input type="date" name="date" id="customername-field" class="form-control" placeholder="Plant Information" required />
+                                                    <input  type="date" name="plant_date" id="plant_date" value="{{$plantinfo->plant_date}}" class="form-control" placeholder="Plant Information" required />
                                                 </div>
 
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Information</label>
-                                                    <input type="text" name="description" id="customername-field" class="form-control" placeholder="Plant Information" required />
+                                                    <input type="text" name="information" id="information" value="{{$plantinfo->information}}" class="form-control" placeholder="Plant Information" required />
                                                 </div>
 
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Companion</label>
-                                                    <input type="text" name="address" id="customername-field" class="form-control" placeholder="Companion" required />
+                                                    <input type="text" name="companion" id="companion" value="{{$plantinfo->companion}}" class="form-control" placeholder="Companion" required />
                                                 </div>
 
                                               

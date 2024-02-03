@@ -126,12 +126,12 @@
 
                                                 <div class="mb-3">
                                                     <label for="location" class="form-label">Location</label>
-                                                    <input type="text" name="location" id="customername-field" class="form-control" placeholder="Enter Location" required />
+                                                    <input type="text" name="location" id="customername-field" class="form-control" placeholder="Enter Location" />
                                                 </div>
 
                                                 <div class="mb-3">
                                                     <label for="description" class="form-label">Description</label>
-                                                    <input type="text" name="description" id="description" class="form-control" placeholder="Enter description" required />
+                                                    <input type="text" name="description" id="description" class="form-control" placeholder="Enter description" />
                                                 </div>
 
                                             </div>

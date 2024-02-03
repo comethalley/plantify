@@ -237,6 +237,7 @@
             <!-- LOGO -->
             <div class="navbar-brand-box" style="background-color:#57aa2c;">
                 <!-- Dark Logo-->
+                </br>
                 <a href="/" class="logo logo-dark">
                     <span class="logo-sm">
                         <img src="{{ asset('assets/images/p-white.png') }}" alt="" height="22" />
@@ -259,12 +260,12 @@
                 </button>
             </div>
 
-            <div id="scrollbar">
+            <div id="scrollbar" >
                 <div class="container-fluid">
                     <div id="two-column-menu"></div>
                     <ul class="navbar-nav" id="navbar-nav">
-                        <li class="menu-title"><span data-key="t-menu" style="color:white;">Menu</span></li>
-
+                        <li class="menu-title"><span data-key="t-menu" style="color:white;"></span></li>
+                        </br>
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="/" role="button" style="color:white">
                                 <i class="ri-dashboard-2-line"></i>
@@ -273,7 +274,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="#UsersDropDown" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="UsersDropDown" style="color:white">
+                            <a class="nav-link menu-link" href="#UsersDropDown" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="UsersDropDown" style="color:white" >
                                 <i class="ri-account-circle-line"></i> <span>Users</span>
                             </a>
                             <div class="collapse menu-dropdown" id="UsersDropDown">
@@ -299,7 +300,7 @@
                             <div class="collapse menu-dropdown" id="sidebarDashboards">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item">
-                                        <a href="/fullcalendar" class="nav-link" style="color:white">Planting Calendar</a>
+                                        <a href="/plantcalendar" class="nav-link" style="color:white">Planting Calendar</a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="/schedules" class="nav-link" style="color:white"> Event Calendar </a>
@@ -367,21 +368,21 @@
                         </li> -->
 
                         <li class="nav-item">
-                            <a class="nav-link" href="/chat" role="button" style="color:white">
+                            <a class="nav-link menu-link" href="/chat" role="button" style="color:white">
                                 <i class="ri-wechat-line"></i>
                                 <span data-key="t-faqs">Chat</span>
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="/plantifeed" role="button" style="color:white">
+                            <a class="nav-link menu-link" href="/plantifeed" role="button" style="color:white">
                                 <i class="ri-plant-line"></i>
                                 <span data-key="t-faqs">Plantifeed</span>
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="/qcmaps" role="button" style="color:white">
+                            <a class="nav-link menu-link" href="/farm_locations" role="button" style="color:white">
                                 <i class="ri-map-pin-line"></i>
                                 <span data-key="t-faqs">Maps</span>
                             </a>
@@ -389,7 +390,7 @@
                     </ul>
                 </div>
                 <!-- Sidebar -->
-                <div class="sidebar-background" style="background-color:#228B22;"></div>
+                <div class="sidebar-background" style="background-color:#57aa2c;"></div>
             </div>
 
 

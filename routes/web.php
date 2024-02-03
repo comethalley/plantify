@@ -13,6 +13,8 @@ use App\Http\Controllers\GroupController;
 use App\Http\Controllers\WeatherController;
 use App\Http\Controllers\qcmaps;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\PlantCalendar;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -92,7 +94,8 @@ Route::get('/users/admin', [AuthController::class, 'getAdmin']);
 Route::get('/users/farm-leader', [AuthController::class, 'getFarmerLeader']);
 Route::get('/users/farmers', [AuthController::class, 'getFarmers']);
 
-Route::get('/qcmaps', [qcmaps::class, 'index']);
+Route::get('/farm_locations', [qcmaps::class, 'index']);
+Route::post('/farm_locations', [qcmaps::class, 'store']);
 
 // Start Full Calender=================================================================
 Route::get('/schedules', [EventController::class, 'index']);
@@ -106,3 +109,16 @@ Route::get('/events/search', [EventController::class, 'search']);
 Route::view('add-schedule', 'pages.add');
 Route::post('create-schedule', [EventController::class, 'create']);
 // End Full Calender=================================================================
+
+Route::get('/plantcalendar', [PlantCalendar::class, 'index']);
+Route::get('/plantcalendarget', [PlantCalendar::class, 'getEvents']);
+Route::get('/plantcalendardata/{eventId}', [PlantCalendar::class, 'getdata']);
+Route::delete('/plantcalendardelete/{eventId}', [PlantCalendar::class, 'deleteEvent']);
+Route::put('/plantcalendar/{id}', [PlantCalendar::class, 'update']);
+Route::put('/plantcalendar/{eventId}/resize', [PlantCalendar::class, 'resize']);
+Route::get('/plantcalendar/search', [PlantCalendar::class, 'search']);
+
+Route::view('add-plantcalendar', 'pages.add');
+Route::post('create-plantcalendar', [PlantCalendar::class, 'create']);
+
+

@@ -21,8 +21,11 @@ use App\Http\Controllers\InventoryController;
 // Route::get('/', function () {
 //     return view('email.email');
 // });
-Route::resource('/plantinfo', PlantinfoController::class);
-Route::get('/plantinfo', [PlantinfoController::class, 'index']);
+Route::get('/', function () {
+    return view('welcome');
+});
+ 
+Route::resource("/student", StudentController::class);
 
 Route::get('/', [AuthController::class, 'index'])->middleware('auth');
 Route::get('/login', [AuthController::class, 'viewLogin'])->name('login')->middleware('guest');

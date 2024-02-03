@@ -90,7 +90,7 @@
                                                             </a>
                                                         </li>
                                                         <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Edit">
-                                                            <a href="#updateModal" data-bs-toggle="modal" class="text-primary d-inline-block edit-item-btn">
+                                                            <a href="{{ url('/plantinfo/' . $item->id . '#updateModal') }}" data-bs-toggle="modal" class="text-primary d-inline-block edit-item-btn">
                                                                 <i class="ri-pencil-fill fs-16"></i>
                                                             </a>
                                                         </li>
@@ -204,7 +204,7 @@
                                         </div>
                                         <form action="{{ url('plantinfo/' .$plantinfo->id) }}" method="post">
         {!! csrf_field() !!}
-        @method("PATCH")
+        @method("UPDATE")
                                             <div class="modal-body">
                                                 <input type="hidden" id="id-field" />
 
@@ -212,22 +212,22 @@
 
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Plant Name</label>
-                                                    <input type="text" name="plant_name" id="plant_name" value="{{$plantinfo->plant_name}}" class="form-control" placeholder="Plant Name" required />
+                                                    <input type="text" name="plant_name" id="plant_name" value="" class="form-control" placeholder="Plant Name" required />
                                                 </div>
-                                                
+
                                                 <div class="mb-3">
-                                                    <label for="customername-field" class="form-label">Date</label>
-                                                    <input  type="date" name="plant_date" id="plant_date" value="{{$plantinfo->plant_date}}" class="form-control" placeholder="Plant Information" required />
+                                                    <label for="customername-field" class="form-label">Planting Date</label>
+                                                    <input type="date" name="supplier-name" id="customername-field" class="form-control" placeholder="Plant Name" required />
                                                 </div>
 
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Information</label>
-                                                    <input type="text" name="information" id="information" value="{{$plantinfo->information}}" class="form-control" placeholder="Plant Information" required />
+                                                    <input type="text" name="description" id="customername-field" class="form-control" placeholder="Plant Information" required />
                                                 </div>
 
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Companion</label>
-                                                    <input type="text" name="companion" id="companion" value="{{$plantinfo->companion}}" class="form-control" placeholder="Companion" required />
+                                                    <input type="text" name="address" id="customername-field" class="form-control" placeholder="Companion" required />
                                                 </div>
 
                                               
@@ -236,7 +236,7 @@
                                             <div class="modal-footer">
                                                 <div class="hstack gap-2 justify-content-end">
                                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
-                                                    <button type="submit" class="btn btn-success">Update</button>
+                                                    <button type="submit" class="btn btn-success">Save</button>
                                                     <!-- <button type="button" class="btn btn-success" id="edit-btn">Update</button> -->
                                                 </div>
                                             </div>

@@ -27,7 +27,7 @@ class PlantinfoController extends Controller
      */
     public function create()
     {
-        return view('plantinfo.index');
+        return view('plantinfo.create');
     }
 
     /**
@@ -53,7 +53,7 @@ class PlantinfoController extends Controller
     public function show($id)
     {
         $plantinfo = Plantinfo::find($id);
-        return view('plantinfo.show')->with('plantinfo', $plantinfo);
+        return view('plantinfo.index')->with('plantinfo', $plantinfo);
     }
 
     /**
@@ -80,7 +80,7 @@ class PlantinfoController extends Controller
         $plantinfo = Plantinfo::find($id);
         $input = $request->all();
         $plantinfo->update($input);
-        return redirect('plantinfo')->with('flash_message', 'Plant Updated!');
+        return redirect('plantinfo.index')->with('flash_message', 'Plant Updated!');
     }
 
     /**

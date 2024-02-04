@@ -26,6 +26,7 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
     <script src="{{ asset('assets/js/inventory.js') }}"></script>
+    <script src="{{ asset('assets/js/plantinfo.js') }}"></script>
 
     <!--Scanner JS-->
     <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>

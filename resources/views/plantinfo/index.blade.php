@@ -89,12 +89,12 @@
                                                             </a>
                                                         </li>
                                                         <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Edit">
-                                                            <a href="/edit/{{$item->id}}"  class="text-primary d-inline-block edit-item-btn">
+                                                            <a href=""  class="text-primary d-inline-block edit-item-btn" data-plantinfo-id="{{$item->id}}">
                                                                 <i class="ri-pencil-fill fs-16"></i>
                                                             </a>
                                                         </li>
                                                         <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Remove">
-                                                            <a class="text-danger d-inline-block remove-item-btn" data-bs-toggle="modal" href="#deleteOrder">
+                                                            <a class="text-danger d-inline-block remove-item-btn" data-bs-toggle="modal" href="#deleteOrder" data-plantinfo-id="{{$item->id}}">
                                                                 <i class="ri-delete-bin-5-fill fs-16"></i>
                                                             </a>
                                                         </li>
@@ -206,26 +206,26 @@
                                             <div class="modal-body">
                                                 <input type="hidden" id="id-field" />
 
-                                                <input type="text" id="orderId" class="form-control" placeholder="ID" readonly hidden />
+                                                <input type="hidden" id="plantID" class="form-control" placeholder="ID" />
 
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Plant Name</label>
-                                                    <input type="text" name="plant_name" id="plant_name" value="" class="form-control" placeholder="Plant Name" required />
+                                                    <input type="text" name="plant_name" id="edit_plant_name"  class="form-control" placeholder="Plant Name" required />
                                                 </div>
 
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Planting Date</label>
-                                                    <input type="date" name="supplier-name" id="customername-field" class="form-control" placeholder="Plant Name" required />
+                                                    <input type="date" name="supplier-name" id="edit_plant_date" class="form-control" placeholder="Plant Name" required />
                                                 </div>
 
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Information</label>
-                                                    <input type="text" name="description" id="customername-field" class="form-control" placeholder="Plant Information" required />
+                                                    <input type="text" name="description" id="edit_information" class="form-control" placeholder="Plant Information" required />
                                                 </div>
 
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Companion</label>
-                                                    <input type="text" name="address" id="customername-field" class="form-control" placeholder="Companion" required />
+                                                    <input type="text" name="address" id="edit_companion" class="form-control" placeholder="Companion" required />
                                                 </div>
 
                                               
@@ -234,7 +234,7 @@
                                             <div class="modal-footer">
                                                 <div class="hstack gap-2 justify-content-end">
                                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
-                                                    <button type="submit" class="btn btn-success">Save</button>
+                                                    <button type="button" class="btn btn-success" id="plantinfo-update">Save</button>
                                                     <!-- <button type="button" class="btn btn-success" id="edit-btn">Update</button> -->
                                                 </div>
                                             </div>
@@ -254,10 +254,9 @@
                                                 <p class="text-muted fs-15 mb-4">Deleting your order will remove all of your information from our database.</p>
                                                 <div class="hstack gap-2 justify-content-center remove">
                                                     <button class="btn btn-link link-success fw-medium text-decoration-none" id="deleteRecord-close" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i> Close</button>
-                                                    <form method="POST" action="{{ url('/plantinfo' . '/' . $item->id) }}" accept-charset="UTF-8" style="display:inline">
-                                                        {{ method_field('DELETE') }}    
-                                                        {{ csrf_field() }}
-                                                    <button class="btn btn-danger" id="delete-record">Yes, Delete It</button>
+                                                    <form method="POST" action="" style="display:inline">
+                                                    <input type="hidden" id="archiveID">
+                                                    <button type="button" class="btn btn-danger" id="plantinfo-archive">Yes, Delete It</button>
                                                 </form>
                                                 </div>
                                             </div>

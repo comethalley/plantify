@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\PlantInfo;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+
 class PlantinfoController extends Controller
 {
     /**
@@ -61,6 +63,8 @@ class PlantinfoController extends Controller
         return view('plantinfo.index')->with('plantinfo', $plantinfo);
     }
 
+    
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -70,7 +74,8 @@ class PlantinfoController extends Controller
     public function edit($id)
     {
         $plantinfo = Plantinfo::find($id);
-        return view('plantinfo.edit')->with('plantinfo', $plantinfo);
+        // return view('plantinfo.edit')->with('plantinfo', $plantinfo);
+        return response()->json(['plantinfo' => $plantinfo], 200);
     }
 
     /**
@@ -82,10 +87,34 @@ class PlantinfoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $plantinfo = Plantinfo::find($id);
-        $input = $request->all();
-        $plantinfo->update($input);
-        return redirect('/plantinfo')->with('flash_message', 'Plant Updated!');
+        // $plantinfo = Plantinfo::find($id);
+        // $input = $request->all();
+        // $plantinfo->update($input);
+        // return redirect('/plantinfo')->with('flash_message', 'Plant Updated!');
+
+        $plantinfo = PlantInfo::where('id', $id)->where('status', 1);
+
+        $validator = Validator::make($request->all(), [
+            'edit_plant_name' => 'required|string|max:55',
+            'edit_planting_date' => 'required|string|max:55',
+            'edit_information' => 'required|string|max:55',
+            'edit_companion' => 'required|string|max:55'
+        ]);
+
+        if($validator->fails()){
+            return response()->json(['errors' => $validator->errors()], 422);
+        };
+
+        $data = $validator->validate();
+
+        $plantinfo->update([
+            "plant_name" => $data['edit_plant_name'],
+            "planting_date" => $data['edit_planting_date'],
+            "information" => $data['edit_information'],
+            "companion" => $data['edit_companion']
+        ]);
+        return response()->json(['plantinfo' => $plantinfo], 200);
+
     }
 
     /**
@@ -98,6 +127,26 @@ class PlantinfoController extends Controller
     {
         Plantinfo::destroy($id);
         return redirect('plantinfo')->with('flash_message', 'Plant deleted!');
+    }
+
+
+    public function archive(Request $request, $id)
+    {
+        // $plantinfo = Plantinfo::find($id);
+        // $input = $request->all();
+        // $plantinfo->update($input);
+        // return redirect('/plantinfo')->with('flash_message', 'Plant Updated!');
+
+        $plantinfo = PlantInfo::where('id', $id)->where('status', 1);
+
+    
+
+        $plantinfo->update([
+            "status" => 0
+
+        ]);
+        return response()->json(['plantinfo' => $plantinfo], 200);
+
     }
 
     

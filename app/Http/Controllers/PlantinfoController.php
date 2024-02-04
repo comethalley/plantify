@@ -37,6 +37,8 @@ class PlantinfoController extends Controller
         return view('plantinfo.create');
     }
 
+
+
     /**
      * Store a newly created resource in storage.
      *
@@ -149,5 +151,16 @@ class PlantinfoController extends Controller
 
     }
 
-    
+    public function restore() 
+    {
+        $plantinfo= DB::table('plant_infos')
+            ->where('status', 0)
+            ->select(
+                "*"
+            )
+            ->get();
+        //return view('plantinfo.index')->with('plantinfo', $plantinfo);
+        //dd($plantinfo);
+        return view("plantinfo.restore", ['plantinfo' => $plantinfo]);
+    }
 }

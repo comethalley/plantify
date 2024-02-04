@@ -53,3 +53,4 @@ Route::get('/getLogs/{id}', [InventoryController::class, 'logs']);
 Route::get('/edit/{id}', [PlantinfoController::class, 'edit']);
 Route::post('/update/{id}', [PlantinfoController::class, 'update']);
 Route::post('/archive/{id}', [PlantinfoController::class, 'archive']);
+Route::get('/restore', [PlantinfoController::class, 'restore']);

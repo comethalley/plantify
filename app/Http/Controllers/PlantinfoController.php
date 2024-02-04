@@ -163,4 +163,23 @@ class PlantinfoController extends Controller
         //dd($plantinfo);
         return view("plantinfo.restore", ['plantinfo' => $plantinfo]);
     }
+
+    public function unarchive(Request $request, $id)
+    {
+        // $plantinfo = Plantinfo::find($id);
+        // $input = $request->all();
+        // $plantinfo->update($input);
+        // return redirect('/plantinfo')->with('flash_message', 'Plant Updated!');
+
+        $plantinfo = PlantInfo::where('id', $id)->where('status', 0);
+
+    
+
+        $plantinfo->update([
+            "status" => 1
+
+        ]);
+        return response()->json(['plantinfo' => $plantinfo], 200);
+
+}
 }

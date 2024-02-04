@@ -87,8 +87,8 @@
                                                                 <i class="ri-pencil-fill fs-16"></i>
                                                             </a>
                                                         </li> -->
-                                                        <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="restore">
-                                                            <a class="text-primary d-inline-block remove-item-btn" data-bs-toggle="modal" href="#deleteOrder" data-plantinfo-id="{{$item->id}}">
+                                                        <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Restore">
+                                                            <a class="text-primary d-inline-block restore-item-btn" data-bs-toggle="modal" href="#deleteOrder" data-plantinfo-id="{{$item->id}}">
                                                                 <i class="ri-arrow-go-back-line"></i>
                                                             </a>
                                                         </li>
@@ -249,8 +249,8 @@
                                                 <div class="hstack gap-2 justify-content-center remove">
                                                     <button class="btn btn-link link-success fw-medium text-decoration-none" id="deleteRecord-close" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i> Close</button>
                                                     <form method="POST" action="" style="display:inline">
-                                                    <input type="hidden" id="archiveID">
-                                                    <button type="button" class="btn btn-primary" id="plantinfo-archive">Yes, Restore It</button>
+                                                    <input type="hidden" id="unarchiveID">
+                                                    <button type="button" class="btn btn-primary" id="plantinfo-unarchive">Yes, Restore It</button>
                                                 </form>
                                                 </div>
                                             </div>

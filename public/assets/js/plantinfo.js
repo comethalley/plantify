@@ -124,9 +124,45 @@ $(document).ready(function() {
             }
         });
     }
+    
+    $(document).on('click', '.restore-item-btn', function(event){
+        event.preventDefault()
+
+        var plantID = $(this).data('plantinfo-id');
+        console.log(plantID)
+        //$('#supplier-id').val(plantID)
+        //getPlant(supplierId);
+        $('#unarchiveID').val(plantID)
+
+    })
 
     $('#plantinfo-archive').on('click', function() {
         archivePlantInfo();
+    });
+
+    function unarchivePlantInfo(){
+        var plantID = $('#unarchiveID').val()
+        
+
+        $.ajax({
+            url: "/unarchive/"+plantID,
+            method: "POST",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+
+            success: function(data) {
+                location.reload();
+
+            },
+            error: function(xhr, status, error) {
+                console.error("Error:", status, error);
+            }
+        });
+    }
+
+    $('#plantinfo-unarchive').on('click', function() {
+        unarchivePlantInfo();
     });
 
     

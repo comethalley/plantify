@@ -61,7 +61,8 @@ Route::get('/view-archivefarms', [FarmController::class, 'viewArchiveFarms'])->n
 //index farm-mamangement//
 
 
-Route::get('/farms', [FarmController::class, 'index']);
+Route::get('/farms1', [FarmController::class, 'index']);
+Route::get('/farms3', [FarmController::class, 'index1']);
 Route::post('/add-farms', [FarmController::class, 'addFarms'])->name('add.farms');
 Route::get('/archive-farm/{id}', [FarmController::class, 'archiveFarm'])
     ->name('archive.farm');

@@ -676,12 +676,22 @@
                             </a>
                         </li>
 
+                    @if(Auth::check() && Auth::user()->role_id == 3)
                         <li class="nav-item">
-                            <a class="nav-link" href="/farms" role="button">
+                            <a class="nav-link" href="/farms3" role="button">
                                 <i class="las la-campground"></i>
-                                <span data-key="t-farms">Farm Management</span>
+                                    <span data-key="t-farms">Farm Management</span>
                             </a>
                         </li>
+                    @elseif(Auth::check() && Auth::user()->role_id == 1)
+                        <li class="nav-item">
+                            <a class="nav-link" href="/farms1" role="button">
+                                 <i class="las la-campground"></i>
+                                    <span data-key="t-farms">Farm Management</span>
+                            </a>
+                         </li>
+                    @endif
+
 
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="#sidebarDashboards" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards">

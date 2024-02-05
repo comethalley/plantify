@@ -16,21 +16,26 @@ class FarmController extends Controller
 {
 
 // index farm-management//
+    public function index1()
+    {
+        return view('pages.farms.index1');
+    }
 
-public function index()
-{
-    $barangays = Barangay::all();
+    public function index()
+    {
+        $barangays = Barangay::all();
+    
+        $farmLeaders = User::where('status', 1)
+                           ->where('role_id', 3)
+                           ->select('id', 'firstname', 'lastname')
+                           ->get();
+    
+        return view('pages.farms.index', [
+            'barangays' => $barangays,
+            'farmLeaders' => $farmLeaders,
+        ]);
+    }
 
-    $farmLeaders = User::where('status', 1)
-                       ->where('role_id', 3)
-                       ->select('id', 'firstname', 'lastname')
-                       ->get();
-
-    return view('pages.farms.index', [
-        'barangays' => $barangays,
-        'farmLeaders' => $farmLeaders,
-    ]);
-}
 
     public function viewArchiveFarms()
     {

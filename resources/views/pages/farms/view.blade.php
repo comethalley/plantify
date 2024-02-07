@@ -209,7 +209,7 @@
 </div>
     <!-- Modal -->
     
-    <div class="modal fade modal-lg" id="viewModals" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade modal-lg" id="viewModals" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header bg-light p-3">
@@ -236,9 +236,16 @@
         <label for="barangay_name_modal" class="form-label custom-label">Barangay Name:</label>
         <input type="text" id="barangay_name_modal" class="form-control" disabled placeholder="Barangay Name">
         <br>
+        
         <label for="title_land_modal" class="form-label custom-label">Title of land:</label>
-        <input type="text" id="title_land_modal" class="form-control" disabled placeholder="Title of Land">
-        <br>
+    <div>
+        <a id="title_land_modal" href="#" target="_blank" class="pdf-link">
+            View PDF for Farm <span id="farm_id_placeholder"></span> - <span id="title_land_placeholder"></span>
+        </a>
+    </div>
+
+<br>
+
     </div>
 
     <div class="col-md-6">
@@ -256,7 +263,11 @@
 </div>
         <div class="row">
                 <div class="col-md-12"><label for="picture_land_modal" class="form-label custom-label">Picture of land:</label>
-                    <p="text" id="picture_land_modal" class="form-control" disabled placeholder="Picture of Land">
+                <div>
+                    <a id="picture_land_modal" href="#" target="_blank" class="pdf-link">
+            View IMG for Farm <span id="farm_id_placeholder"></span> - <span id="picture_land_placeholder"></span>
+        </a>
+</div>
                 </div>
         </div>
                 </div>
@@ -404,11 +415,18 @@ function showFarmDetails(id, farmName, barangayName, area, address, farmLeader, 
     $('#area_modal').val(area);
     $('#address_modal').val(address);
     $('#farm_leader_modal').val(farmLeader);
-    $('#title_land_modal').val(titleLand);
-
+    
+    $('#title_land_modal')
+    .attr('href', "/view-pdf/" + id)
+    .attr('target', '_blank')
+    .text('View PDF for Farm ' + id); 
+    
+    $('#picture_land_modal')
+    .attr('href', "/view-image/" + id)
+    .attr('target', '_blank')
+    .text('View IMG for Farm ' + id); // You can customize the text as needed
     // Concatenate pictures and set them to the #picture_land_modal input
-    var concatenatedPictures = [pictureLand, pictureLand1, pictureLand2].filter(Boolean).join('<br>');
-    $('#picture_land_modal').html(concatenatedPictures);
+    
 
     // Update the status buttons in the modal to include the correct farm ID
     $('#forInvestigationBtn').data('farm-id', id);
@@ -421,9 +439,6 @@ function showFarmDetails(id, farmName, barangayName, area, address, farmLeader, 
     // Call the function to disable buttons based on status
     updateButtonVisibility(status);
 }
-
-
-
 
    function confirmArchive(id) {
         // Set the farm ID to be archived

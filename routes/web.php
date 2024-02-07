@@ -7,6 +7,7 @@ use App\Http\Controllers\ForumController;
 use App\Http\Controllers\Api\FarmController;
 use App\Http\Controllers\InventoryController;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -52,15 +53,14 @@ Route::get('/view-farms', [FarmController::class, 'viewFarms'])->name('farms.vie
 Route::get('/farms/filterByStatus', [FarmController::class, 'filterByStatus']);
 Route::post('/update-status/{id}', [FarmController::class, 'updateStatus'])->name('update.status');
 
-
+//view pdf/img farm-management//
+Route::get('/view-pdf/{id}/{title?}', [FarmController::class, 'viewPdf'])->name('view.pdf');
+Route::get('/view-image/{id}', [FarmController::class, 'viewImage'])->name('view.image');
 
 //xfarms farm-management//
 Route::get('/view-archivefarms', [FarmController::class, 'viewArchiveFarms'])->name('archivefarms.xfarms');
 
-
 //index farm-mamangement//
-
-
 Route::get('/farms1', [FarmController::class, 'index']);
 Route::get('/farms3', [FarmController::class, 'index1']);
 Route::post('/add-farms', [FarmController::class, 'addFarms'])->name('add.farms');

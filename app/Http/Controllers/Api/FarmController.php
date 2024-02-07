@@ -11,9 +11,92 @@ use App\Models\FarmArchive;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Log;
 
 class FarmController extends Controller
 {
+//View PDF - IMG ///
+    public function viewImage($id)  
+    {
+        try {
+            // Find the farm by ID
+            $farms = Farm::findOrFail($id); 
+    
+            // Assuming the 'picture_land' attribute contains the file path for the image
+            $imagePath = $farms->picture_land;
+    
+            // Construct the full path to the image file in your storage
+            $imageFullPath = storage_path('app/public/' . rtrim($imagePath, '/'));
+    
+            // Log the image full path
+            Log::info('Image Full Path:', compact('imageFullPath'));
+    
+            // Check if the file exists in storage
+            if (File::exists($imageFullPath)) {
+                // Read the content of the image file
+                $imageData = File::get($imageFullPath);
+    
+                // Determine the image mime type (e.g., 'image/png', 'image/jpeg', etc.)
+                $imageMimeType = File::mimeType($imageFullPath);
+    
+                // Log the detected MIME type
+                Log::info('Detected MIME type:', ['imageMimeType' => $imageMimeType]);
+    
+                // Set appropriate headers for image response
+                $headers = [
+                    'Content-Type' => $imageMimeType,
+                    'Content-Disposition' => 'inline; filename="farm_image"',
+                ];
+    
+                // Send the image data as a response using the Response facade
+                return Response::make($imageData, 200, $headers);
+            } else {
+                // Handle the case where the image file is not found
+                return response()->json(['error' => 'Image file not found'], 404);
+            }
+        } catch (\Exception $e) {
+            // Handle any other exceptions that might occur
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function viewPdf($id)
+{
+    
+    try {
+        
+        $farms = Farm::findOrFail($id);
+
+        // Assuming the 'title_land' attribute contains the file path
+        $pdfPath = $farms->title_land;
+
+        // Construct the full path to the PDF file in your storage
+        $pdfFullPath = storage_path('app/public/' . $pdfPath);
+
+        // Check if the file exists in storage
+        if (file_exists($pdfFullPath)) {
+            // Read the content of the PDF file
+            $pdfData = file_get_contents($pdfFullPath);
+
+            // Set appropriate headers for PDF response
+            $headers = [
+                'Content-Type' => 'application/pdf',
+                'Content-Disposition' => 'inline; filename="farm_document.pdf"',
+            ];
+
+            // Send the PDF data as a response using the response() helper function
+            return response($pdfData, 200, $headers);
+        } else {
+            // Handle the case where the PDF file is not found
+            return response()->json(['error' => 'PDF file not found'], 404);
+        }
+    } catch (\Exception $e) {
+        // Handle any other exceptions that might occur
+        return response()->json(['error' => $e->getMessage()], 500);
+    }
+}
 
 // index farm-management//
     public function index1()
@@ -93,10 +176,6 @@ public function archiveFarm(Request $request, $id)
         return response()->json(['message' => 'Status updated successfully']);
     }
 
-    
-    
-
-
 
 //view farm-management//
 
@@ -128,69 +207,62 @@ public function viewFarms(Request $request)
 }
 
 public function addFarms(Request $request)
-{
-    try {
-        $request->validate([
-            'barangay_name' => 'required|string|max:255',
-            'farm_name' => 'required|string|max:255',
-            'address' => 'required|string|max:255',
-            'area' => 'required|numeric',
-            'farm_leader' => 'required|string|max:255',
-            'title_land' => 'required|file|mimes:pdf,png,jpg|max:2048',
-            'picture_land' => 'required|file|mimes:jpeg,png|max:2048',
-            'picture_land1' => 'nullable|file|mimes:jpeg,png|max:2048',
-            'picture_land2' => 'nullable|file|mimes:jpeg,png|max:2048',
-            'status' => 'string|max:255',
-        ]);
+    {
+        try {
+            $request->validate([
+                'barangay_name' => 'required|string|max:255',
+                'farm_name' => 'required|string|max:255',
+                'address' => 'required|string|max:255',
+                'area' => 'required|numeric',
+                'farm_leader' => 'required|exists:users,id',
+                'title_land' => 'required|file|mimes:pdf,png,jpg|max:2048',
+                'picture_land' => 'required|file|mimes:jpeg,png|max:2048',
+                'picture_land1' => 'nullable|file|mimes:jpeg,png|max:2048',
+                'picture_land2' => 'nullable|file|mimes:jpeg,png|max:2048',
+                'status' => 'string|max:255',
+            ]);
 
-        $barangayName = $request->input('barangay_name');
-        $farmName = $request->input('farm_name');
-        $address = $request->input('address');
-        $area = $request->input('area');
-        $farmLeader = $request->input('farm_leader');
-        $status = $request->input('status', 'Created');
+            // Retrieve user details based on the selected farm_leader
+            $selectedUser = User::findOrFail($request->input('farm_leader'));
 
-        // Handle file uploads and store file content
-        $titleLandContent = file_get_contents($request->file('title_land')->getRealPath());
-        $pictureLandContent = file_get_contents($request->file('picture_land')->getRealPath());
-        
-        // Check if picture_land1 and picture_land2 are present before trying to get their content
-        $pictureLandContent1 = $request->hasFile('picture_land1') ? file_get_contents($request->file('picture_land1')->getRealPath()) : null;
-        $pictureLandContent2 = $request->hasFile('picture_land2') ? file_get_contents($request->file('picture_land2')->getRealPath()) : null;
+            // Extract first name and last name from the user details
+            $farmLeaderFirstName = $selectedUser->firstname;
+            $farmLeaderLastName = $selectedUser->lastname;
 
-        // Extract file names without directory path
-        $titleLandFileName = $request->file('title_land')->getClientOriginalName();
-        $pictureLandFileName = $request->file('picture_land')->getClientOriginalName();
-        $pictureLandFileName1 = $request->hasFile('picture_land1') ? $request->file('picture_land1')->getClientOriginalName() : null;
-        $pictureLandFileName2 = $request->hasFile('picture_land2') ? $request->file('picture_land2')->getClientOriginalName() : null;
+            $barangayName = $request->input('barangay_name');
+            $farmName = $request->input('farm_name');
+            $address = $request->input('address');
+            $area = $request->input('area');
+            $status = $request->input('status', 'Created');
+
+            $titleLandContent = file_get_contents($request->file('title_land')->getRealPath());
+            $pictureLandContent = file_get_contents($request->file('picture_land')->getRealPath());
+
+            $titleLandPath = $request->file('title_land')->store('pdfs', 'public');
+            $pictureLandPath = $request->file('picture_land')->store('images', 'public');
+
+            $pictureLandPath1 = $request->hasFile('picture_land1') ? $request->file('picture_land1')->store('images', 'public') : null;
+            $pictureLandPath2 = $request->hasFile('picture_land2') ? $request->file('picture_land2')->store('images', 'public') : null;
 
         Farm::create([
-            'barangay_name' => $barangayName,
-            'farm_name' => $farmName,
-            'address' => $address,
-            'area' => $area,
-            'farm_leader' => $farmLeader,
-            'status' => $status,
-            'title_land' => $titleLandFileName,
-            'picture_land' => $pictureLandFileName,
-            'picture_land1' => $pictureLandFileName1,
-            'picture_land2' => $pictureLandFileName2,
+            'barangay_name' => $request->input('barangay_name'),
+            'farm_name' => $request->input('farm_name'),
+            'address' => $request->input('address'),
+            'area' => $request->input('area'),
+            'farm_leader' => $farmLeaderFirstName . ' ' . $farmLeaderLastName,
+            'status' => $request->input('status', 'Created'),
+            'title_land' => $titleLandPath,
+            'picture_land' => $pictureLandPath,
+            'picture_land1' => $pictureLandPath1,
+            'picture_land2' => $pictureLandPath2,
         ]);
 
         return response()->json(['success' => true]);
     } catch (\Exception $e) {
-        // Log the exception for debugging
         \Log::error($e);
-
-        // Return a response indicating a failure
         return response()->json(['success' => false, 'errors' => ['exception' => [$e->getMessage()]]], 500);
     }
-    
 }
-
-
-
-
 
 }
 

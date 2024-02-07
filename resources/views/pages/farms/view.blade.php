@@ -261,16 +261,26 @@
 
     </div>
 </div>
-        <div class="row">
-                <div class="col-md-12"><label for="picture_land_modal" class="form-label custom-label">Picture of land:</label>
-                <div>
-                    <a id="picture_land_modal" href="#" target="_blank" class="pdf-link">
-            View IMG for Farm <span id="farm_id_placeholder"></span> - <span id="picture_land_placeholder"></span>
-        </a>
+<div class="row">
+    <div class="col-md-12">
+        <label for="picture_land_modal" class="form-label custom-label">Picture of land:</label>
+            <div>
+                <a id="picture_land_modal" href="#" target="_blank" class="pdf-link">
+                    View IMG for Farm 
+                </a>
+            </div>
+            <div>
+                <a id="picture_land_modal1" href="#" target="_blank" class="pdf-link">
+                    View IMG for Farm 
+                </a>
+            </div>
+            <div>
+                <a id="picture_land_modal2" href="#" target="_blank" class="pdf-link">
+                    View IMG for Farm
+                </a>
+            </div>
+    </div>
 </div>
-                </div>
-        </div>
-                </div>
 
                 <!-- Additional row with buttons -->
                 <div class="row mt-3">
@@ -424,7 +434,30 @@ function showFarmDetails(id, farmName, barangayName, area, address, farmLeader, 
     $('#picture_land_modal')
     .attr('href', "/view-image/" + id)
     .attr('target', '_blank')
-    .text('View IMG for Farm ' + id); // You can customize the text as needed
+    .text('View IMG for Farm ' + id);
+    
+    if (pictureLand1) {
+    $('#picture_land_modal1')
+        .attr('href', "/view-image1/" + id)
+        .attr('target', '_blank')
+        .text('View IMG for Farm ' + id)
+        .show(); // Ensure the link is visible
+} else {
+    // Hide the link if pictureLand1 has no value
+    $('#picture_land_modal1').hide();
+}
+
+// Check if pictureLand2 has a value before setting the link
+if (pictureLand2) {
+    $('#picture_land_modal2')
+        .attr('href', "/view-image2/" + id)
+        .attr('target', '_blank')
+        .text('View IMG for Farm ' + id)
+        .show(); // Ensure the link is visible
+} else {
+    // Hide the link if pictureLand2 has no value
+    $('#picture_land_modal2').hide();
+} // You can customize the text as needed
     // Concatenate pictures and set them to the #picture_land_modal input
     
 

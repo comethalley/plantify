@@ -56,6 +56,8 @@ Route::post('/update-status/{id}', [FarmController::class, 'updateStatus'])->nam
 //view pdf/img farm-management//
 Route::get('/view-pdf/{id}/{title?}', [FarmController::class, 'viewPdf'])->name('view.pdf');
 Route::get('/view-image/{id}', [FarmController::class, 'viewImage'])->name('view.image');
+Route::get('/view-image1/{id}', [FarmController::class, 'viewImage1'])->name('view.image');
+Route::get('/view-image2/{id}', [FarmController::class, 'viewImage2'])->name('view.image');
 
 //xfarms farm-management//
 Route::get('/view-archivefarms', [FarmController::class, 'viewArchiveFarms'])->name('archivefarms.xfarms');

@@ -18,6 +18,96 @@ use Illuminate\Support\Facades\Log;
 class FarmController extends Controller
 {
 //View PDF - IMG ///
+
+public function viewImage2($id)  
+    {
+        try {
+            // Find the farm by ID
+            $farms = Farm::findOrFail($id); 
+    
+            // Assuming the 'picture_land' attribute contains the file path for the image
+            $imagePath = $farms->picture_land2;
+    
+            // Construct the full path to the image file in your storage
+            $imageFullPath = storage_path('app/public/' . rtrim($imagePath, '/'));
+    
+            // Log the image full path
+            Log::info('Image Full Path:', compact('imageFullPath'));
+    
+            // Check if the file exists in storage
+            if (File::exists($imageFullPath)) {
+                // Read the content of the image file
+                $imageData = File::get($imageFullPath);
+    
+                // Determine the image mime type (e.g., 'image/png', 'image/jpeg', etc.)
+                $imageMimeType = File::mimeType($imageFullPath);
+    
+                // Log the detected MIME type
+                Log::info('Detected MIME type:', ['imageMimeType' => $imageMimeType]);
+    
+                // Set appropriate headers for image response
+                $headers = [
+                    'Content-Type' => $imageMimeType,
+                    'Content-Disposition' => 'inline; filename="farm_image"',
+                ];
+    
+                // Send the image data as a response using the Response facade
+                return Response::make($imageData, 200, $headers);
+            } else {
+                // Handle the case where the image file is not found
+                return response()->json(['error' => 'Image file not found'], 404);
+            }
+        } catch (\Exception $e) {
+            // Handle any other exceptions that might occur
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+public function viewImage1($id)  
+    {
+        try {
+            // Find the farm by ID
+            $farms = Farm::findOrFail($id); 
+    
+            // Assuming the 'picture_land' attribute contains the file path for the image
+            $imagePath = $farms->picture_land1;
+    
+            // Construct the full path to the image file in your storage
+            $imageFullPath = storage_path('app/public/' . rtrim($imagePath, '/'));
+    
+            // Log the image full path
+            Log::info('Image Full Path:', compact('imageFullPath'));
+    
+            // Check if the file exists in storage
+            if (File::exists($imageFullPath)) {
+                // Read the content of the image file
+                $imageData = File::get($imageFullPath);
+    
+                // Determine the image mime type (e.g., 'image/png', 'image/jpeg', etc.)
+                $imageMimeType = File::mimeType($imageFullPath);
+    
+                // Log the detected MIME type
+                Log::info('Detected MIME type:', ['imageMimeType' => $imageMimeType]);
+    
+                // Set appropriate headers for image response
+                $headers = [
+                    'Content-Type' => $imageMimeType,
+                    'Content-Disposition' => 'inline; filename="farm_image"',
+                ];
+    
+                // Send the image data as a response using the Response facade
+                return Response::make($imageData, 200, $headers);
+            } else {
+                // Handle the case where the image file is not found
+                return response()->json(['error' => 'Image file not found'], 404);
+            }
+        } catch (\Exception $e) {
+            // Handle any other exceptions that might occur
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+
     public function viewImage($id)  
     {
         try {
@@ -142,6 +232,8 @@ public function archiveFarm(Request $request, $id)
             'status' => $farms->status,
             'title_land' => $farms->title_land,
             'picture_land' => $farms->picture_land,
+            'picture_land1' => $farms->picture_land1,
+            'picture_land2' => $farms->picture_land2,
             // Add other attributes as needed
         ]);
 

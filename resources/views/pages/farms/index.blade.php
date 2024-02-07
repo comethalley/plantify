@@ -182,7 +182,7 @@
                     <br><br>
 
                     <div class="row mb-3">
-                        <div class="col-md-6">
+                        <div class="form-floating col-md-6">
                             <label for="farm_name" class="form-label">Farm Name</label>
                             <input type="text" name="farm_name" class="form-control" title="This field is required to fill up" placeholder="Enter Farm Name" required />
                         </div>

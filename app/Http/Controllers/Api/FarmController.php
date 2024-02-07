@@ -284,6 +284,19 @@ public function filterByStatus(Request $request)
     return response()->json(['farms' => $farms]);
 }
 
+public function filterByStatus1(Request $request)
+{
+    $barangay_name = $request->input('barangay_name');
+
+    if (strtolower($barangay_name) == 'all') {
+        $farms = Farm::all();
+    } else {
+        $farms = Farm::where('barangay_name', $barangay_name)->get();
+    }
+
+    return response()->json(['farms' => $farms]);
+}
+
 public function viewFarms(Request $request)
 {
     $barangayName = $request->input('barangay_name');

@@ -61,6 +61,7 @@ Route::get('/view-image2/{id}', [FarmController::class, 'viewImage2'])->name('vi
 
 //xfarms farm-management//
 Route::get('/view-archivefarms', [FarmController::class, 'viewArchiveFarms'])->name('archivefarms.xfarms');
+Route::get('/farms/filterByStatus1', [FarmController::class, 'filterByStatus1']);
 
 //index farm-mamangement//
 Route::get('/farms1', [FarmController::class, 'index']);

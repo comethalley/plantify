@@ -50,6 +50,7 @@ Route::get('/plantifeed', [ForumController::class, 'index']);
 
 //view farm-management//
 Route::get('/view-farms', [FarmController::class, 'viewFarms'])->name('farms.view');
+Route::get('/view-farms3', [FarmController::class, 'viewFarms3'])->name('farms.view3');
 Route::get('/farms/filterByStatus', [FarmController::class, 'filterByStatus']);
 Route::post('/update-status/{id}', [FarmController::class, 'updateStatus'])->name('update.status');
 
@@ -64,8 +65,7 @@ Route::get('/view-archivefarms', [FarmController::class, 'viewArchiveFarms'])->n
 Route::get('/farms/filterByStatus1', [FarmController::class, 'filterByStatus1']);
 
 //index farm-mamangement//
-Route::get('/farms1', [FarmController::class, 'index']);
-Route::get('/farms3', [FarmController::class, 'index1']);
+Route::get('/farms3', [FarmController::class, 'index']);
 Route::post('/add-farms', [FarmController::class, 'addFarms'])->name('add.farms');
 Route::get('/archive-farm/{id}', [FarmController::class, 'archiveFarm'])
     ->name('archive.farm');

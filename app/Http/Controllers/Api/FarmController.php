@@ -14,6 +14,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class FarmController extends Controller
 {
@@ -189,11 +190,6 @@ public function viewImage1($id)
 }
 
 // index farm-management//
-    public function index1()
-    {
-        return view('pages.farms.index1');
-    }
-
     public function index()
     {
         $barangays = Barangay::all();
@@ -309,6 +305,35 @@ public function viewFarms(Request $request)
         ->get();
 
     return view('pages.farms.view', compact('farms', 'barangayName'));
+}
+
+public function viewFarms3(Request $request)
+{
+    // Get the barangay_name from the request
+    $barangayName = $request->input('barangay_name');
+
+    // Get the authenticated user
+    $user = Auth::user();
+
+    if ($user) {
+        // If the user is a farm leader, retrieve farms based on their farm_leader value and barangay_name
+        $farms = DB::table('farms')
+            ->join('barangays', 'farms.barangay_name', '=', 'barangays.barangay_name')
+            ->where('farms.farm_leader', '=', $user->firstname . ' ' . $user->lastname)
+            ->where('farms.barangay_name', '=', $barangayName)
+            ->select('farms.*')
+            ->get();
+    } else {
+        // If the user is not authenticated, you may want to handle this case accordingly
+        // For now, let's assume there's a default behavior, like fetching all farms for a specific barangay
+        $farms = DB::table('farms')
+            ->join('barangays', 'farms.barangay_name', '=', 'barangays.barangay_name')
+            ->where('farms.barangay_name', '=', $barangayName)
+            ->select('farms.*')
+            ->get();
+    }
+
+    return view('pages.farms.view1', compact('farms', 'barangayName'));
 }
 
 public function addFarms(Request $request)

@@ -10,7 +10,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Farms</h4>
+                        <h4 class="mb-sm-0"></h4>
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
@@ -23,18 +23,15 @@
                 </div>
             </div>
             <!-- end page title -->
-
-
-
 <div class="row">
     @if(isset($farms) && count($farms) > 0)
         @foreach($farms as $key => $farm)
             @if($key == 0 || $farm->barangay_name != $farms[$key - 1]->barangay_name)
-                <div class="col-lg-12">
+                <div class="col-lg-12 main-container">
                     <div class="card" id="tasksList">
-                        <div class="card-header border-0">
+                        <div class="card-header">
                             <div class="d-flex align-items-center">
-                                <h5 class="card-title mb-0 flex-grow-1">Farms of :&nbsp; {{ $farm->barangay_name }}</h5>
+                                <h5 class="card-title mb-0 title">&nbsp; Farms of :&nbsp; {{ $farm->barangay_name }} &nbsp;</h5>
                                 <div class="flex-shrink-0">
                                     <div class="d-flex flex-wrap gap-2">
                                    
@@ -44,7 +41,7 @@
                         </div>
 
                         <form>
-    <div class="card-body border border-dashed border-end-0 border-start-0">
+    <div class="card-body">
         <div class="row g-3">
             <div class="col-xxl-5 col-sm-12">
                 <div class="search-box">
@@ -96,7 +93,7 @@
 
                                 <!--end card-body-->
                                 <div class="card-body">
-    <div class="table-responsive table-card mb-4">
+    <div class="table-responsive table-card mb-4 rounded">
         <table class="table align-middle table-nowrap mb-0" id="tasksTable">
             <thead class="table-light text-muted">
                 <tr>  
@@ -563,7 +560,35 @@ function updateStatus(newStatus) {
 
 </script>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;500;600&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,500&display=swap');    body{
+        background-color:#fff;
+        font-family: "Roboto",sans-serif;
+    }
+    .title{
+        translate: 10px -30px;
+        background-color:#fff;
+        border-radius:5px;
+        font-size:2em;
+        text-transform:uppercase;
+        font-weight:700;
+    }
+    .main-container{
+        box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+        border-radius:10px;
+    }
 
+    .card-header{
+        margin-bottom:3em;
+        border:none !important;
+    }
+    .card{
+        border:1px solid #fff;
+        box-shadow:none !important;
+    }
+    table{
+        border:2px solid #FFF3CF;
+        border-radius:10px !important;
+    }
 
 .equal-width-btn {
     width: 112%;

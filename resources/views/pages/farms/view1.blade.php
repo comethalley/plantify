@@ -10,11 +10,11 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Farms</h4>
+                        <h4 class="mb-sm-0">Farm Management</h4>
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">Districts</a></li>
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Barangays</a></li>
                                 <li class="breadcrumb-item active">Farms</li>
                             </ol>
                         </div>
@@ -23,178 +23,219 @@
                 </div>
             </div>
             <!-- end page title -->
-
-
-
 <div class="row">
     @if(isset($farms) && count($farms) > 0)
         @foreach($farms as $key => $farm)
             @if($key == 0 || $farm->barangay_name != $farms[$key - 1]->barangay_name)
-                <div class="col-lg-12">
+                <div class="col-lg-12 main-container">
                     <div class="card" id="tasksList">
-                        <div class="card-header border-0">
+                        <div class="card-header">
                             <div class="d-flex align-items-center">
-                                <h5 class="card-title mb-0 flex-grow-1">QC FARMS DASHBOARD OF: &nbsp; {{ $farm->barangay_name }}</h5>
+                                <h5 class="card-title mb-0 title">&nbsp; qc dashboard of :&nbsp; {{ $farm->barangay_name }} &nbsp;</h5>
                                 <div class="flex-shrink-0">
                                     <div class="d-flex flex-wrap gap-2">
-                                   
+                                        
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <form>
-    <div class="card-body border border-dashed border-end-0 border-start-0">
-        <div class="row g-3">
-            <div class="col-xxl-5 col-sm-12">
-                <div class="search-box">
-                    <!-- Your search box content here -->
-                </div>
+                        <h4 style="font-size: 16px;"><em><strong>You will receive an email when the status of your application changes. You may also check back here to see the status of your application.</strong></em></h4>
+                        <div class="card-body">
+<div class="card-body">
+    <div class="row g-3 align-items-center justify-content-between">
+        <div class="col-xxl-5 col-sm-12">
+            <div class="search-box">
+                <!-- Your first search box content here -->
+                <!-- Placeholder: Your first search box content here -->
             </div>
-            <!--end col-->
+        </div>
+        <!--end col-->
 
-            <div class="col-xxl-2 col-sm-4">
-                <div class="search-box">
-                    <input type="text" class="form-control search bg-light border-light" placeholder="Search for application or something...">
-                    <i class="ri-search-line search-icon"></i>
-                </div>
+        <div class="col-xxl-2 col-sm-4">
+            <div class="search-box">
+                <input type="text" class="form-control search bg-light border-light" placeholder="Search for application or something...">
+                <i class="ri-search-line search-icon"></i>
             </div>
-            <!--end col-->
+        </div>
+        <!--end col-->
 
-            <div class="col-xxl-2 col-sm-3 ms-auto">
-    <div class="btn-group" style="width: 200px;">
-        <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuClickableOutside" data-bs-toggle="dropdown" data-bs-auto-close="inside" aria-expanded="false">
-            All
-        </button>
-        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuClickableOutside">
-            <li><a class="dropdown-item" href="javascript:void(0);">All</a></li>
-            <li><a class="dropdown-item" href="javascript:void(0);">Created</a></li>
-            <li><a class="dropdown-item" href="javascript:void(0);">For investigation</a></li>
-            <li><a class="dropdown-item" href="javascript:void(0);">For visiting</a></li>
-            <li><a class="dropdown-item" href="javascript:void(0);">Waiting-for-approval</a></li>
-            <li><a class="dropdown-item" href="javascript:void(0);">Approved</a></li>
-            <li><a class="dropdown-item" href="javascript:void(0);">Resubmit</a></li>
-            <li><a class="dropdown-item" href="javascript:void(0);">Disapproved</a></li>
-        </ul>
+        <div class="col-xxl-3 col-sm-6 d-flex justify-content-end">
+            <div class="btn-group" style="width: 200px;">
+                <!-- Your dropdown content here -->
+                <button class="btn btn-light dropdown-toggle me-2" type="button" id="dropdownMenuClickableOutside" data-bs-toggle="dropdown" data-bs-auto-close="inside" aria-expanded="false">
+                    All
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuClickableOutside">
+                    <li><a class="dropdown-item" href="javascript:void(0);">All</a></li>
+                    <li><a class="dropdown-item" href="javascript:void(0);">Created</a></li>
+                    <li><a class="dropdown-item" href="javascript:void(0);">For investigation</a></li>
+                    <li><a class="dropdown-item" href="javascript:void(0);">For visiting</a></li>
+                    <li><a class="dropdown-item" href="javascript:void(0);">Waiting-for-approval</a></li>
+                    <li><a class="dropdown-item" href="javascript:void(0);">Approved</a></li>
+                    <li><a class="dropdown-item" href="javascript:void(0);">Resubmit</a></li>
+                    <li><a class="dropdown-item" href="javascript:void(0);">Disapproved</a></li>
+                </ul>
+            </div>
+
+            <div class="hstack flex-wrap gap-2 mb-3 mb-lg-0">
+                <button type="button" class="btn btn-soft-dark btn-border refresh-button custom-width" onclick="location.reload()">
+                    <span class="icon-on"><i class="ri-refresh-line align-bottom"></i> Refresh</span>
+                </button>
+            </div>
+        </div>
+        <!--end col-->
     </div>
+    <!--end row-->
 </div>
 
-            <!--end col-->
 
-            
-            <!--end col-->
-        </div>
-        <!--end row-->
-    </div>
 </form>
-
-
-
                                 <!--end card-body-->
-                                <div class="card-body">
-    <div class="table-responsive table-card mb-4">
-        <table class="table align-middle table-nowrap mb-0" id="tasksTable">
-            <thead class="table-light text-muted">
-                <tr>  
-                    <th class="sort" data-sort="id">Farm ID</th>
-                    <th class="sort" data-sort="farm_name">Farm Name</th>
-                    <th class="sort" data-sort="barangay_name">Barangay</th>
-                    <th class="sort" data-sort="area">Area</th>
-                    <th class="sort" data-sort="address">Address</th>
-                    <th class="sort" data-sort="farm_leader">Farm Leader</th>
-                    <th class="sort text-center" data-sort="status">Status</th>
-                    <th class="sort text-center" data-sort="actions">Actions </th>
-                </tr>
-            </thead>
-            @endif
-            <tbody id="farmTableBody" class="list form-check-all">
-           
-            <tr class="farm-row {{ strtolower(str_replace(' ', '-', $farm->status)) }}">
-                            <td class="id">#{{ $farm->id }}</td>
-                            <td class="farm_name">{{ $farm->farm_name }}</td>
-                            <td class="barangay_name">{{ $farm->barangay_name }}</td>
-                            <td class="area">{{ $farm->area }}</td>
-                            <td class="address">{{ $farm->address }}</td>
-                            <td class="farm_leader">{{ $farm->farm_leader }}</td>
-                            <td class="text-center status">
-                @switch(strtolower(str_replace(' ', '-', $farm->status)))
-                    @case('created')
-                        <button class="btn btn-primary btn-border">{{ $farm->status }}</button>
-                        @break
-                    @case('for-investigation')
-                    <button class="btn btn-primary btn-border">{{ $farm->status }}</button>
-                        @break
-                    @case('for-visiting')
-                    @case('resubmit')
-                        <button class="btn btn-secondary btn-border">{{ $farm->status }}</button>
-                        @break
-                    @case('waiting-for-approval')
-                        <button class="btn btn-warning btn-border">{{ $farm->status }}</button>
-                        @break
-                    @case('approved')
-                        <button class="btn btn-success btn-border">{{ $farm->status }}</button>
-                        @break
-                    @case('disapproved')
-		            @case('cancelled')
-                        <button class="btn btn-danger btn-border">{{ $farm->status }}</button>
-                        @break
-                    @default
-                    
-                @endswitch
-            </td>
-                            
-                            <td>
-                            <ul class="list-inline hstack gap-2 mb-0">
-                            <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="View Application">
-    <a href="#" data-bs-toggle="modal" data-bs-target="#viewModals" class="text-primary d-inline-block edit-item-btn" onclick="showFarmDetails('{{ $farm->id }}', '{{ $farm->farm_name }}', '{{ $farm->barangay_name }}', '{{ $farm->area }}', '{{ $farm->address }}', '{{ $farm->farm_leader }}', '{{ $farm->status }}', '{{ $farm->title_land }}', '{{ $farm->picture_land }}', '{{ $farm->picture_land1 }}', '{{ $farm->picture_land2 }}'); updateButtonVisibility('{{ $farm->status }}');">
-        <i class="ri-profile-line fs-3"></i>
-    </a>
-</li>
+
+<div class="card-body">
+  <div class="table-responsive table-card mb-4 rounded">
+    <table class="table align-middle table-nowrap mb-0 table-bordered" id="tasksTable">
+      <thead class="table-light text-muted">
+        <tr>
+        <th class="text-center vertical-line" data-sort="id" style="font-weight: bold; color: black;">Reference Number</th>
+<th class="text-center vertical-line" style="font-weight: bold; color: black;">Details</th>
+<th class="text-center vertical-line" data-sort="status" style="font-weight: bold; color: black;">Status</th>
+<th class="text-center vertical-line" data-sort="actions" style="font-weight: bold; color: black;">Actions</th>
+
+        </tr>
+      </thead>
+      @endif
+      <tbody id="farmTableBody" class="list form-check-all">
+        <tr class="farm-row {{ strtolower(str_replace(' ', '-', $farm->status)) }}">
+          <td class="id" style="text-align: left;">
+            <div style="margin-bottom: 5px;">#{{ $farm->id }}</div>
+            <hr style="margin: 10px 0;">
+            <b style="font-size: 14px;">Date Filled: </b><br>
+            <div>{{ \Carbon\Carbon::parse($farm->created_at)->format('Y-m-d') }}</div>
+          </td>
+
+          <td class="details vertical-line">
+            <b style="color: blue; font-size: 16px;">FARM APPLICANTS</b><br>
+            <b style="font-family: 'Bahnschrift', sans-serif; font-size: 15px;">Farm Leader :</b> &nbsp;{{ strtoupper($farm->farm_leader) }}<br>
+            <b style="font-family: 'Bahnschrift', sans-serif; font-size: 15px;">Farm Name :</b> &nbsp;{{ strtoupper($farm->farm_name) }}<br>
+            <b style="font-family: 'Bahnschrift', sans-serif; font-size: 15px;">Area :</b> &nbsp;{{ strtoupper($farm->area) }}<br>
+            <b style="font-family: 'Bahnschrift', sans-serif; font-size: 15px;">Address :</b> &nbsp;{{ strtoupper($farm->address) }}, {{ strtoupper($farm->barangay_name) }}<br>
+          </td>
+
+          <td class="status vertical-line">
+    @switch(strtolower(str_replace(' ', '-', $farm->status)))
+    @case('created')
+        <button class="btn btn-primary btn-border btn-sm mx-auto mb-1" onclick="return false;">{{ $farm->status }}</button>
+        <button type="button" class="btn btn-light btn-icon waves-effect btn-sm" style="margin-bottom: 5px; padding: 4px;" onclick="return false;">
+            <i class="ri-question-line" style="font-size: 15px;"></i>
+        </button>
+        @break
+    @case('for-investigation')
+        <button class="btn btn-primary btn-border btn-sm" style="margin-bottom: 5px;" onclick="return false;">{{ $farm->status }}</button>
+        <button type="button" class="btn btn-light btn-icon waves-effect btn-sm" style="margin-bottom: 5px; padding: 4px;" onclick="return false;">
+            <i class="ri-question-line" style="font-size: 15px;"></i>
+        </button>
+        @break
+    @case('for-visiting')
+    @case('resubmit')
+        <button class="btn btn-secondary btn-border btn-sm" style="margin-bottom: 5px;" onclick="return false;">{{ $farm->status }}</button>
+        <button type="button" class="btn btn-light btn-icon waves-effect btn-sm" style="margin-bottom: 5px; padding: 4px;" onclick="return false;">
+            <i class="ri-question-line" style="font-size: 15px;"></i>
+        </button>
+        @break
+    @case('waiting-for-approval')
+        <button class="btn btn-warning btn-border btn-sm" style="margin-bottom: 5px;" onclick="return false;">{{ $farm->status }}</button>
+        <button type="button" class="btn btn-light btn-icon waves-effect btn-sm" style="margin-bottom: 5px; padding: 4px;" onclick="return false;">
+            <i class="ri-question-line" style="font-size: 15px;"></i>
+        </button>
+        @break
+    @case('approved')
+        <button class="btn btn-success btn-border btn-sm" style="margin-bottom: 5px;" onclick="return false;">{{ $farm->status }}</button>
+        <button type="button" class="btn btn-light btn-icon waves-effect btn-sm" style="margin-bottom: 5px; padding: 4px;" onclick="return false;">
+            <i class="ri-question-line" style="font-size: 15px;"></i>
+        </button>
+        @break
+    @case('disapproved')
+    @case('cancelled')
+        <button class="btn btn-danger btn-border btn-sm" style="margin-bottom: 5px;" onclick="return false;">{{ $farm->status }}</button>
+        <button type="button" class="btn btn-light btn-icon waves-effect btn-sm" style="margin-bottom: 5px; padding: 4px;" onclick="return false;">
+            <i class="ri-question-line" style="font-size: 15px;"></i>
+        </button>
+        @break
+    @default
+    @endswitch
+
+
+            <br>
+            <button class="btn btn-primary btn-border" style="font-weight: bold;">Validation Remarks</button>
+            <br>
+            <i style="font-size: 12px;">Click "Validation Remarks" for more specific updates</i>
+          </td>
+
+          <td class="actions vertical-line">
+          <div class="centered-container times-new-roman-bold">
+    <ul class="list-inline hstack gap-2 mb-0">
+        <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="View Application">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#viewModals" class="btn btn-outline-secondary text-primary d-inline-block edit-item-btn d-flex align-items-center justify-content-center custom-btn mt-2" onclick="showFarmDetails('{{ $farm->id }}', '{{ $farm->farm_name }}', '{{ $farm->barangay_name }}', '{{ $farm->area }}', '{{ $farm->address }}', '{{ $farm->farm_leader }}', '{{ $farm->status }}', '{{ $farm->title_land }}', '{{ $farm->picture_land }}', '{{ $farm->picture_land1 }}', '{{ $farm->picture_land2 }}'); updateButtonVisibility('{{ $farm->status }}');">
+                <div class="d-flex align-items-center">
+                    <i class="ri-profile-line fs-3 me-2 black"></i>
+                    <span class="black">View Application</span>
+                </div>
+            </a>
         </li>
     </ul>
-    
+</div>
+
+<div class="centered-container times-new-roman-bold">
+    <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Cancel Application">
+        <a href="#" class="btn btn-outline-danger waves-effect waves-light text-primary d-inline-block edit-item-btn d-flex align-items-center justify-content-center custom-btn1 mt-2" onclick="confirmArchive('{{ $farm->id }}')">
+            <div class="d-flex align-items-center">
+                <i class="mdi mdi-cancel fs-3 me-2 black"></i>
+                <span class="black">Cancel Application</span>
+            </div>
+        </a>
+    </li>
+</div>
+
 </td>
-
-                            </td>
-                            <td>
-                               
-                            </td>
-                        </tr>
-                    @endforeach
-                @else
-                    <tr>
-                        <td colspan="7">
-                            <p>No farms found.</p>
-                        </td>
-                    </tr>
-                @endif
-            </tbody>
-        </table>
-  
-</div>
+          </td>
+        </tr>
+        @endforeach
+        @else
+        <tr>
+          <td colspan="7">
+            <p>No farms found.</p>
+          </td>
+        </tr>
+        @endif
+      </tbody>
+    </table>
+  </div>
 </div>
 </div>
 
-
+    <!-- Modal -->
 <div class="modal fade" id="archiveConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="archiveConfirmationModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="archiveConfirmationModalLabel">Archive Confirmation</h5>
+                <h5 class="modal-title" id="archiveConfirmationModalLabel">Cancel Confirmation</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Are you sure you want to archive this farm?
+                Are you sure you want to Cancel your application?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" id="archiveFarmBtn">Archive</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                <button type="button" class="btn btn-primary" id="archiveFarmBtn">Yes</button>
             </div>
         </div>
     </div>
 </div>
-    <!-- Modal -->
     
+
 <div class="modal fade modal-lg" id="viewModals" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -269,7 +310,6 @@
 </div>
 
                 <!-- Additional row with buttons -->
-
             </div>
         </div>
     </div>
@@ -288,7 +328,6 @@
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 <script>
-
 // Function to show farm details in the modal
 function showFarmDetails(id, farmName, barangayName, area, address, farmLeader, status, titleLand, pictureLand, pictureLand1, pictureLand2) {
     // Switch based on the lowercased, hyphenated status
@@ -358,12 +397,35 @@ if (pictureLand2) {
 } else {
     // Hide the link if pictureLand2 has no value
     $('#picture_land_modal2').hide();
-} 
+} // You can customize the text as needed
+    // Concatenate pictures and set them to the #picture_land_modal input
+    
+
+    // Update the status buttons in the modal to include the correct farm ID
+    $('#forInvestigationBtn').data('farm-id', id);
+    $('#forVisitingBtn').data('farm-id', id);
+    $('#approvedBtn').data('farm-id', id);
+    $('#disapprovedBtn').data('farm-id', id);
+    $('#waitingForApprovalBtn').data('farm-id', id);
+    $('#resubmitBtn').data('farm-id', id);
+
+    // Call the function to disable buttons based on status
     updateButtonVisibility(status);
 }
+function confirmArchive(id) {
+        // Set the farm ID to be archived
+        $("#archiveFarmBtn").data("farm-id", id);
+        // Show the confirmation modal
+        $("#archiveConfirmationModal").modal("show");
+    }
 
-
-
+    // Attach click event to archive button
+    $("#archiveFarmBtn").click(function () {
+        // Get the farm ID from the data attribute
+        var id = $(this).data("farm-id");
+        // Redirect to the archive route
+        window.location.href = "/archive-farm/" + id;
+    });
 $(document).ready(function () {
     $('.dropdown-item').click(function () {
         var status = $(this).text();
@@ -407,10 +469,85 @@ $(document).ready(function () {
 });
 
 
-
-
 </script>
 <style>
+
+.black{
+    color: black;
+}
+
+    .centered-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+    }
+
+    .custom-btn {
+        width:170px;
+    }
+ .custom-width {
+    width: 200px; /* Adjust the width as per your requirement */
+}                           
+  .table-bordered th,
+  .table-bordered td {
+    border: 1px solid #ddd; /* Add border for better visibility */
+  }
+  .vertical-line {
+    border-left: 2px solid #ddd; /* Adjust color and size as needed */
+  }
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;500;600&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,500&display=swap');    body{
+        background-color:#fff;
+        font-family: "Roboto",sans-serif;
+    }
+    .title{
+        translate: 10px -30px;
+        background-color:#fff;
+        border-radius:5px;
+        font-size:2em;
+        text-transform:uppercase;
+        font-weight:700;
+    }
+    .main-container{
+        box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+        border-radius:10px;
+    }
+
+    .card-header{
+        margin-bottom:3em;
+        border:none !important;
+    }
+    .card{
+        border:1px solid #fff;
+        box-shadow:none !important;
+    }
+    table{
+        border:2px solid #FFF3CF;
+        border-radius:10px !important;
+    }
+
+.equal-width-btn {
+    width: 112%;
+}
+.equal-width-btn1 {
+    width: 150%;
+}
+.equal-width-btn2 {
+    width: 150%;
+}
+.equal-width-btn3 {
+    width: 130%;
+}
+.equal-width-btn4 {
+    width: 102%;
+}
+.equal-width-btn5 {
+    width: 155%;
+}
+.equal-height-btn {
+    height: 100%;
+}
+
 .status {
         border-radius: 10px;
         padding: 15px;

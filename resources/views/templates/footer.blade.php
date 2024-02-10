@@ -1,17 +1,19 @@
 <footer class="footer">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <script>document.write(new Date().getFullYear())</script> © Plantify.
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="text-sm-end d-none d-sm-block">
-                                Plantify
-                            </div>
-                        </div>
-                    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
+                <script>
+                    document.write(new Date().getFullYear())
+                </script> © Plantify.
+            </div>
+            <div class="col-sm-6">
+                <div class="text-sm-end d-none d-sm-block">
+                    Plantify
                 </div>
-            </footer>
+            </div>
+        </div>
+    </div>
+</footer>
 </div>
 <!-- end main content-->
 </div>
@@ -31,6 +33,7 @@
         </div>
     </div>
 </div>
+<script src="https://cdn.lordicon.com/lordicon.js"></script>
 
 
 <!-- <script src="{{ asset('assets/js/pages/calendar.init.js') }}"></script>

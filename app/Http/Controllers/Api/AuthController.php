@@ -13,7 +13,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 
 class AuthController extends Controller
@@ -49,9 +51,205 @@ class AuthController extends Controller
                 "id",
                 'firstname',
                 "lastname",
+                "email"
             )
             ->get();
-        return response()->json($farmLeaders);
+        return response()->json(['farmLeaders' => $farmLeaders], 200);
+    }
+
+    public function getAllAdmin()
+    {
+        $admins = DB::table('users')
+            ->where('status', 1)
+            ->where('role_id', 2)
+            ->select(
+                "id",
+                'firstname',
+                "lastname",
+                "email",
+            )
+            ->get();
+        return response()->json(['admins' => $admins], 200);
+    }
+
+    public function viewAdmin($id)
+    {
+        try {
+            User::findOrFail($id);
+
+            $admins = DB::table('users')
+                ->where('status', 1)
+                ->where('role_id', 2)
+                ->where('id', $id)
+                ->select(
+                    "id",
+                    'firstname',
+                    "lastname",
+                    "email",
+                )
+                ->first();
+            return response()->json(['admin' => $admins], 200);
+        } catch (ModelNotFoundException $e) {
+
+            return response()->json(['error' => 'UOM not found'], 404);
+        } catch (\Exception $e) {
+
+            return response()->json(['error' => 'Internal Server Error'], 500);
+        }
+    }
+
+    public function viewfarmLeaders($id)
+    {
+        try {
+            User::findOrFail($id);
+
+            $farmLeaders = DB::table('users')
+                ->where('status', 1)
+                ->where('role_id', 3)
+                ->where('id', $id)
+                ->select(
+                    "id",
+                    'firstname',
+                    "lastname",
+                    "email",
+                )
+                ->first();
+            return response()->json(['farmLeaders' => $farmLeaders], 200);
+        } catch (ModelNotFoundException $e) {
+
+            return response()->json(['error' => 'UOM not found'], 404);
+        } catch (\Exception $e) {
+
+            return response()->json(['error' => 'Internal Server Error'], 500);
+        }
+    }
+
+    public function updateAdmin(Request $request, $id)
+    {
+        try {
+            $user = User::where('id', $id)
+                ->where('status', 1)
+                ->firstOrFail();
+
+            $validator = Validator::make($request->all(), [
+                'firstname'  => 'required|string|max:55',
+                'lastname'  => 'required|string|max:55',
+                'email' => 'required|email|unique:users,email,' . $user->id
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json(['errors' => $validator->errors()], 422);
+            }
+
+            $data = $validator->validated();
+
+            $user->update([
+                'firstname' => $data['firstname'],
+                'lastname' => $data['lastname'],
+                'email' => $data['email'],
+            ]);
+
+            if ($user) {
+                return response()->json(['message' => 'Measurement Updated Successfully'], 200);
+            } else {
+                return response()->json(['error' => 'Internal Server Error'], 500);
+            }
+        } catch (ModelNotFoundException $e) {
+
+            return response()->json(['error' => 'Admin not found'], 404);
+        } catch (\Exception $e) {
+
+            return response()->json(['error' => 'Internal Server Error'], 500);
+        }
+    }
+
+    public function updateFarmLeader(Request $request, $id)
+    {
+        try {
+            $user = User::where('id', $id)
+                ->where('status', 1)
+                ->firstOrFail();
+
+            $validator = Validator::make($request->all(), [
+                'firstname'  => 'required|string|max:55',
+                'lastname'  => 'required|string|max:55',
+                'email' => 'required|email|unique:users,email,' . $user->id
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json(['errors' => $validator->errors()], 422);
+            }
+
+            $data = $validator->validated();
+
+            $user->update([
+                'firstname' => $data['firstname'],
+                'lastname' => $data['lastname'],
+                'email' => $data['email'],
+            ]);
+
+            if ($user) {
+                return response()->json(['message' => 'Measurement Updated Successfully'], 200);
+            } else {
+                return response()->json(['error' => 'Internal Server Error'], 500);
+            }
+        } catch (ModelNotFoundException $e) {
+
+            return response()->json(['error' => 'Admin not found'], 404);
+        } catch (\Exception $e) {
+
+            return response()->json(['error' => 'Internal Server Error'], 500);
+        }
+    }
+
+    public function archiveAdmin(Request $request, $id)
+    {
+        try {
+            $user = User::where('id', $id)
+                ->where('status', 1)
+                ->firstOrFail();
+
+            $user->update([
+                'status' => 0,
+            ]);
+
+            if ($user) {
+                return response()->json(['message' => 'Admin Archive Successfully'], 200);
+            } else {
+                return response()->json(['error' => 'Internal Server Error'], 500);
+            }
+        } catch (ModelNotFoundException $e) {
+
+            return response()->json(['error' => 'Admin not found'], 404);
+        } catch (\Exception $e) {
+
+            return response()->json(['error' => 'Internal Server Error'], 500);
+        }
+    }
+
+    public function archiveFarmLeader(Request $request, $id)
+    {
+        try {
+            $user = User::where('id', $id)
+                ->where('status', 1)
+                ->firstOrFail();
+
+            $user->update([
+                'status' => 0,
+            ]);
+
+            if ($user) {
+                return response()->json(['message' => 'Farm Leader Archive Successfully'], 200);
+            } else {
+                return response()->json(['error' => 'Internal Server Error'], 500);
+            }
+        } catch (ModelNotFoundException $e) {
+
+            return response()->json(['error' => 'Admin not found'], 404);
+        } catch (\Exception $e) {
+
+            return response()->json(['error' => 'Internal Server Error'], 500);
+        }
     }
 
     public function signup(Request $request)
@@ -82,6 +280,78 @@ class AuthController extends Controller
         auth()->login($user);
 
         return redirect("/");
+    }
+
+    public function createAdmin(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'firstname'  => 'required|string|max:55',
+                'lastname'  => 'required|string|max:55',
+                'email' => 'required|email|unique:users,email',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json(['errors' => $validator->errors()], 422);
+            }
+
+            $data = $validator->validated();
+            $generate_password = $this->generate_password(10);
+
+            $admins = User::create([
+                'firstname'  => $data['firstname'],
+                'lastname'  => $data['lastname'],
+                'email' => $data['email'],
+                'password' => Hash::make($generate_password),
+                'role_id' => 2,
+                'status' => 1
+            ]);
+
+            if ($admins) {
+                return response()->json(['message' => 'Admin Invited Successfully', 'data' => $admins], 200);
+            } else {
+                return response()->json(['error' => 'Admin cant add Internal Server Error'], 500);
+            }
+        } catch (\Exception $e) {
+
+            return response()->json(['error' => 'Internal Server Error'], 500);
+        }
+    }
+
+    public function createFarmLeader(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'firstname'  => 'required|string|max:55',
+                'lastname'  => 'required|string|max:55',
+                'email' => 'required|email|unique:users,email',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json(['errors' => $validator->errors()], 422);
+            }
+
+            $data = $validator->validated();
+            $generate_password = $this->generate_password(10);
+
+            $farmLeaders = User::create([
+                'firstname'  => $data['firstname'],
+                'lastname'  => $data['lastname'],
+                'email' => $data['email'],
+                'password' => Hash::make($generate_password),
+                'role_id' => 3,
+                'status' => 1
+            ]);
+
+            if ($farmLeaders) {
+                return response()->json(['message' => 'Admin Invited Successfully', 'data' => $farmLeaders], 200);
+            } else {
+                return response()->json(['error' => 'Admin cant add Internal Server Error'], 500);
+            }
+        } catch (\Exception $e) {
+
+            return response()->json(['error' => 'Internal Server Error'], 500);
+        }
     }
 
     public function generate_password($length = 10)

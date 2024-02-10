@@ -31,6 +31,10 @@
 
     <script src="{{ asset('assets/js/inventory.js') }}"></script>
     <script src="{{ asset('assets/js/uom.js') }}"></script>
+    <script src="{{ asset('assets/js/admin.js') }}"></script>
+    <script src="{{ asset('assets/js/farmleader.js') }}"></script>
+    <script src="{{ asset('assets/js/plantinfo.js') }}"></script>
+
 
     <!--Scanner JS-->
     <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
@@ -183,7 +187,7 @@
                             <div class="dropdown-menu dropdown-menu-end">
                                 <!-- item-->
                                 @if (Auth::check())
-                                <h6 class="dropdown-header">Welcome {{ Auth::user()->firstname }}</h6>
+                                <h6 class="dropdown-header">Welcome {{ Auth::user()->role }}</h6>
                                 @endif
 
                                 <a class="dropdown-item" href="pages-profile.html"><i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i>
@@ -260,7 +264,7 @@
                 </button>
             </div>
 
-            <div id="scrollbar" >
+            <div id="scrollbar">
                 <div class="container-fluid">
                     <div id="two-column-menu"></div>
                     <ul class="navbar-nav" id="navbar-nav">
@@ -274,7 +278,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="#UsersDropDown" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="UsersDropDown" style="color:white" >
+                            <a class="nav-link menu-link" href="#UsersDropDown" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="UsersDropDown" style="color:white">
                                 <i class="ri-account-circle-line"></i> <span>Users</span>
                             </a>
                             <div class="collapse menu-dropdown" id="UsersDropDown">
@@ -292,10 +296,17 @@
                             </div>
                         </li>
 
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="/farms" role="button" style="color:white">
+                                <i class="ri-home-4-line"></i>
+                                <span data-key="t-dashboards">Farms</span>
+                            </a>
+                        </li>
+
 
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="#sidebarDashboards" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards" style="color:white">
-                                <i class="ri-dashboard-2-line"></i> <span>Calendar</span>
+                                <i class="ri-calendar-2-line"></i> <span>Calendar</span>
                             </a>
                             <div class="collapse menu-dropdown" id="sidebarDashboards">
                                 <ul class="nav nav-sm flex-column">
@@ -375,6 +386,13 @@
                         </li>
 
                         <li class="nav-item">
+                            <a class="nav-link menu-link" href="/plant-info" role="button" style="color:white">
+                                <i class="ri-leaf-line"></i>
+                                <span data-key="t-faqs">Plant Information</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
                             <a class="nav-link menu-link" href="/plantifeed" role="button" style="color:white">
                                 <i class="ri-plant-line"></i>
                                 <span data-key="t-faqs">Plantifeed</span>
@@ -385,6 +403,13 @@
                             <a class="nav-link menu-link" href="/farm_locations" role="button" style="color:white">
                                 <i class="ri-map-pin-line"></i>
                                 <span data-key="t-faqs">Maps</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="{{ route('tasks.monitoring') }}" role="button" style="color:white">
+                                <i class="ri-task-line"></i>
+                                <span data-key="t-faqs">Task</span>
                             </a>
                         </li>
                     </ul>

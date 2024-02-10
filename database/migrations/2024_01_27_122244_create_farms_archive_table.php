@@ -4,17 +4,13 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateFarmsArchiveTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
-        Schema::create('farms', function (Blueprint $table) {
+        Schema::create('archivefarms', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('old_id');
             $table->string('barangay_name');
             $table->string('farm_name');
             $table->string('address');
@@ -25,17 +21,13 @@ return new class extends Migration
             $table->string('picture_land');
             $table->string('picture_land1')->nullable();
             $table->string('picture_land2')->nullable();
+            // Add other columns as needed
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
-        Schema::dropIfExists('farms');
+        Schema::dropIfExists('archivefarms');
     }
-};
+}

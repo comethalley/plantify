@@ -2,105 +2,183 @@
 
 namespace App\Http\Controllers\Api;
 
+
 use App\Http\Controllers\Controller;
 use App\Models\Farm;
+use App\Models\User;
+use App\Models\Barangay;
+use App\Models\FarmArchive;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\QueryException;
 
 class FarmController extends Controller
 {
 
+    // index farm-management//
+
     public function index()
     {
-        $farm = DB::table('farms')
-            ->leftJoin('users', 'users.id', '=', 'farms.farm_leader')
-            ->where('farms.status', 1)
-            ->orderBy('farms.id', 'desc')
-            ->select(
-                'farms.id as farm_id',
-                'farms.farm_name as farm_name',
-                'users.id as user_id',
-                'users.firstname',
-                "users.lastname",
-                'farms.area',
-                'farms.address',
-                'farms.farm_leader'
-            )
+        $barangays = Barangay::all();
+
+        $farmLeaders = User::where('status', 1)
+            ->where('role_id', 3)
+            ->select('id', 'firstname', 'lastname')
             ->get();
 
-        return response()->json($farm);
+        return view('pages.farms.index', [
+            'barangays' => $barangays,
+            'farmLeaders' => $farmLeaders,
+        ]);
     }
 
-    public function farmInfo($id)
+    public function viewArchiveFarms()
     {
-        $farm = DB::table('farms')
-            ->leftJoin('users', 'users.id', '=', 'farms.farm_leader')
-            ->where('farms.status', 1)
-            ->where('farms.id', $id)
-            ->orderBy('farms.id', 'desc')
-            ->select(
-                'farms.id as farm_id',
-                'farms.farm_name as farm_name',
-                'users.id as user_id',
-                'users.firstname',
-                "users.lastname",
-                'farms.area',
-                'farms.address',
-                'farms.farm_leader'
-            )
+        $archivefarms = FarmArchive::all();
+        return view('pages.farms.xfarms')->with('archivefarms', $archivefarms);
+    }
+
+    public function archiveFarm(Request $request, $id)
+    {
+        // Find the Barangay to be archived
+        $farms = Farm::findOrFail($id);
+
+        // Create a new entry in the "barangays_archive" table
+        FarmArchive::create([
+            'old_id' => $farms->id,
+            'barangay_name' => $farms->barangay_name,
+            'farm_name' => $farms->farm_name,
+            'address' => $farms->address,
+            'area' => $farms->area,
+            'farm_leader' => $farms->farm_leader,
+            'status' => $farms->status,
+            'title_land' => $farms->title_land,
+            'picture_land' => $farms->picture_land,
+            // Add other attributes as needed
+        ]);
+
+        // Delete the Barangay from the "barangays" table
+        $farms->delete();
+
+        // Redirect back with a success message
+        return redirect()->back()->with('success', 'Barangay archived successfully.');
+    }
+
+
+    public function updateStatus(Request $request, $id)
+    {
+        // Validate the request if needed
+        $request->validate([
+            'status' => 'required|in:For-Investigation,For-Visiting,Approved,Disapproved,Waiting-for-Approval,Resubmit,',
+        ]);
+
+        // Find the farm by ID
+        $farms = Farm::find($id);
+
+        if (!$farms) {
+            // Handle the case when the farm is not found
+            return response()->json(['error' => 'Farm not found'], 404);
+        }
+
+        // Update the status
+        $farms->status = $request->input('status');
+        $farms->save();
+
+        // You can return a response as needed
+        return response()->json(['message' => 'Status updated successfully']);
+    }
+
+
+
+
+
+
+    //view farm-management//
+
+    public function filterByStatus(Request $request)
+    {
+        $status = $request->input('status');
+
+        if (strtolower($status) == 'all') {
+            $farms = Farm::all();
+        } else {
+            $farms = Farm::where('status', $status)->get();
+        }
+
+        return response()->json(['farms' => $farms]);
+    }
+
+    public function viewFarms(Request $request)
+    {
+        $barangayName = $request->input('barangay_name');
+
+
+        $farms = DB::table('farms')
+            ->join('barangays', 'farms.barangay_name', '=', 'barangays.barangay_name')
+            ->where('farms.barangay_name', '=', $barangayName)
+            ->select('farms.*')
             ->get();
 
-        return response()->json($farm);
+        return view('pages.farms.view', compact('farms', 'barangayName'));
     }
 
-
-    public function create(Request $request)
+    public function addFarms(Request $request)
     {
-        $data = $request->validate([
-            'farm_name' => 'required|string|max:55',
-            'area' => 'required|string|max:55',
-            'address' => 'required|string|max:55',
-            'farm_leader' => 'required|string|max:55',
-            'createdBy' => 'required|string|max:55'
-        ]);
-        $farm = Farm::create([
-            'farm_name' => $data['farm_name'],
-            'area' => $data['area'],
-            'address' => $data['address'],
-            'farm_leader' => $data['farm_leader'],
-            'createdBy' => $data['createdBy'],
-            'status' => 1
-        ]);
+        try {
+            $request->validate([
+                'barangay_name' => 'required|string|max:255',
+                'farm_name' => 'required|string|max:255',
+                'address' => 'required|string|max:255',
+                'area' => 'required|numeric',
+                'farm_leader' => 'required|string|max:255',
+                'title_land' => 'required|file|mimes:pdf,png,jpg|max:2048',
+                'picture_land' => 'required|file|mimes:jpeg,png|max:2048',
+                'picture_land1' => 'nullable|file|mimes:jpeg,png|max:2048',
+                'picture_land2' => 'nullable|file|mimes:jpeg,png|max:2048',
+                'status' => 'string|max:255',
+            ]);
 
-        return response(compact('farm'));
-    }
+            $barangayName = $request->input('barangay_name');
+            $farmName = $request->input('farm_name');
+            $address = $request->input('address');
+            $area = $request->input('area');
+            $farmLeader = $request->input('farm_leader');
+            $status = $request->input('status', 'Created');
 
-    public function update(Request $request, $id)
-    {
-        $farm = Farm::findOrFail($id);
-        $data = $request->validate([
-            'farm_name' => 'required|string|max:55',
-            'area' => 'required|string|max:55',
-            'address' => 'required|string|max:55',
-            'farm_leader' => 'required|int',
-        ]);
-        $farm->update([
-            'farm_name' => $data['farm_name'],
-            'area' => $data['area'],
-            'address' => $data['address'],
-            'farm_leader' => $data['farm_leader'],
-        ]);
+            // Handle file uploads and store file content
+            $titleLandContent = file_get_contents($request->file('title_land')->getRealPath());
+            $pictureLandContent = file_get_contents($request->file('picture_land')->getRealPath());
 
-        return response(compact('farm'));
-    }
+            // Check if picture_land1 and picture_land2 are present before trying to get their content
+            $pictureLandContent1 = $request->hasFile('picture_land1') ? file_get_contents($request->file('picture_land1')->getRealPath()) : null;
+            $pictureLandContent2 = $request->hasFile('picture_land2') ? file_get_contents($request->file('picture_land2')->getRealPath()) : null;
 
-    public function archive(Request $request, $id)
-    {
-        $farm = Farm::findOrFail($id);
-        $farm->update([
-            'status' => 0
-        ]);
+            // Extract file names without directory path
+            $titleLandFileName = $request->file('title_land')->getClientOriginalName();
+            $pictureLandFileName = $request->file('picture_land')->getClientOriginalName();
+            $pictureLandFileName1 = $request->hasFile('picture_land1') ? $request->file('picture_land1')->getClientOriginalName() : null;
+            $pictureLandFileName2 = $request->hasFile('picture_land2') ? $request->file('picture_land2')->getClientOriginalName() : null;
 
-        return response(compact('farm'));
+            Farm::create([
+                'barangay_name' => $barangayName,
+                'farm_name' => $farmName,
+                'address' => $address,
+                'area' => $area,
+                'farm_leader' => $farmLeader,
+                'status' => $status,
+                'title_land' => $titleLandFileName,
+                'picture_land' => $pictureLandFileName,
+                'picture_land1' => $pictureLandFileName1,
+                'picture_land2' => $pictureLandFileName2,
+            ]);
+
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            // Log the exception for debugging
+            // \Log::error($e);
+
+            // Return a response indicating a failure
+            return response()->json(['success' => false, 'errors' => ['exception' => [$e->getMessage()]]], 500);
+        }
     }
 }

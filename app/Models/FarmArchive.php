@@ -5,11 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Farm extends Model
+class FarmArchive extends Model
 {
     use HasFactory;
 
+    protected $table = 'archivefarms';
+
     protected $fillable = [
+        'old_id',
         'barangay_name',
         'farm_name',
         'address',
@@ -20,5 +23,6 @@ class Farm extends Model
         'picture_land',
         'picture_land1',
         'picture_land2',
+        // Add any additional columns if needed
     ];
 }

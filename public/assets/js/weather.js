@@ -70,14 +70,15 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 function getLocation() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-      getLocationDetails,
-      showError
-    );
-  } else {
-    document.getElementById("location").innerHTML = "Geolocation is not supported by this browser.";
-  }
+  const latitude = 14.6760;
+  const longitude = 121.0437;
+
+  getLocationDetails({
+    coords: {
+      latitude: latitude,
+      longitude: longitude
+    }
+  });
 }
 
 function getLocationDetails(position) {
@@ -89,13 +90,11 @@ function getLocationDetails(position) {
   const apiUrl = `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${apiKey}`;
 
   fetch(apiUrl)
-    .then(response => response.json())
-    .then(data => {
-      const city = data.results[0].components.city || data.results[0].components.town;
-      const country = data.results[0].components.country;
-
-      // Log the entire response data
-      console.log(data);
+  fetch(apiUrl)
+  .then(response => response.json())
+  .then(data => {
+    const city = "Quezon City"; // Manually setting the city
+    const country = "Philippines"; // Manually setting the country
 
       // Assuming you have the getWeatherData function defined somewhere
       currentCity = city;
@@ -233,18 +232,19 @@ function getWeatherData(city, unit, hourlyorWeek) {
 function updateForecast(data, unit, type) {
   weatherCards.innerHTML = "";
   let day = 0;
-  let numCards = 0;
+  let numCards = 6;
+  let startIndex = 1;
   if (type === "day") {
     numCards = 24;
   } else {
     numCards = 7;
   }
-  for (let i = 0; i < numCards; i++) {
+  for (let i = startIndex; i < numCards; i++) {
     let card = document.createElement("div");
     card.classList.add("card");
     let dayName = getHour(data[day].datetime);
     if (type === "week") {
-      dayName = getDayName(data[day].datetime);
+      dayName = getDayName(data[i].datetime);
     }
     let dayTemp = data[day].temp;
     if (unit === "f") {

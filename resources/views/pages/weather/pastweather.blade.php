@@ -112,7 +112,7 @@
                                                     <th class="sort" data-sort="temperature">Temperature</th>
                                                     <th class="sort" data-sort="windspeed">Wind Speed</th>
                                                     <th class="sort" data-sort="humidity">Humidity</th>
-                                                    <th class="sort" data-sort="uvindex">UV Index</th>
+
                                                     <th class="sort" data-sort="condition">Condition</th>
                                                     <th class="sort" data-sort="visibility">Visibility (mi)</th>
                                                 </tr>
@@ -212,7 +212,7 @@
                     <td>${temp.toFixed(1)} ${tempUnit}</td>
                     <td>${day.wspd} mph</td>
                     <td>${day.humidity} %</td>
-                    <td>${day.uvindex || 'N/A'}</td>
+                   
                     <td>${day.conditions || 'N/A'}</td>
                     <td>${day.visibility || 'N/A'} mi</td>
                 `;

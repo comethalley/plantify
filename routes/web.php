@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\FarmController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\PlantController;
 use App\Http\Controllers\Api\FullCalendarController;
 use App\Http\Controllers\Api\plantifeedcontroller;
+use App\Http\Controllers\Api\PlantInfoController;
 use App\Http\Controllers\ForumController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\ChatController;
@@ -14,6 +16,7 @@ use App\Http\Controllers\WeatherController;
 use App\Http\Controllers\qcmaps;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\PlantCalendar;
+use App\Http\Controllers\TaskController;
 
 /*
 |--------------------------------------------------------------------------
@@ -91,7 +94,17 @@ Route::get('/weather', [WeatherController::class, 'index']);
 Route::get('/pastweather', [WeatherController::class, 'pastweather']);
 
 Route::get('/users/admin', [AuthController::class, 'getAdmin']);
+Route::get('/getAllAdmin', [AuthController::class, 'getAllAdmin']);
+Route::post('/addAdmin', [AuthController::class, 'createAdmin']);
+Route::post('/editAdmin/{id}', [AuthController::class, 'updateAdmin']);
+Route::post('/archiveAdmin/{id}', [AuthController::class, 'archiveAdmin']);
+Route::get('/getAdmin/{id}', [AuthController::class, 'viewAdmin']);
 Route::get('/users/farm-leader', [AuthController::class, 'getFarmerLeader']);
+Route::get('/getAllFarmLeaders', [AuthController::class, 'farmLeaders']);
+Route::get('/getFL/{id}', [AuthController::class, 'viewfarmLeaders']);
+Route::post('/addFarmLeader', [AuthController::class, 'createFarmLeader']);
+Route::post('/editFarmLeader/{id}', [AuthController::class, 'updateFarmLeader']);
+Route::post('/archiveFL/{id}', [AuthController::class, 'archiveFarmLeader']);
 Route::get('/users/farmers', [AuthController::class, 'getFarmers']);
 
 Route::get('/farm_locations', [qcmaps::class, 'index']);
@@ -121,4 +134,46 @@ Route::get('/plantcalendar/search', [PlantCalendar::class, 'search']);
 Route::view('add-plantcalendar', 'pages.add');
 Route::post('create-plantcalendar', [PlantCalendar::class, 'create']);
 
+//FOR PLANT INFO ROUTES===========================================
+Route::get('/plant-info', [PlantInfoController::class, 'index']);
+Route::get('/edit/{id}', [PlantInfoController::class, 'edit']);
+Route::post('/update/{id}', [PlantInfoController::class, 'update']);
+Route::post('/plantinfo', [PlantInfoController::class, 'store']);
+Route::post('/archive/{id}', [PlantInfoController::class, 'archive']);
+Route::get('/restore', [PlantInfoController::class, 'restore']);
+Route::post('/unarchive/{id}', [PlantInfoController::class, 'unarchive']);
+//==========================================================================
 
+//for farm management =======================================================
+//view farm-management//
+Route::get('/view-farms', [FarmController::class, 'viewFarms'])->name('farms.view');
+Route::get('/farms/filterByStatus', [FarmController::class, 'filterByStatus']);
+Route::post('/update-status/{id}', [FarmController::class, 'updateStatus'])->name('update.status');
+
+
+
+//xfarms farm-management//
+Route::get('/view-archivefarms', [FarmController::class, 'viewArchiveFarms'])->name('archivefarms.xfarms');
+
+
+//index farm-mamangement//
+
+
+Route::get('/farms', [FarmController::class, 'index']);
+Route::post('/add-farms', [FarmController::class, 'addFarms'])->name('add.farms');
+Route::get('/archive-farm/{id}', [FarmController::class, 'archiveFarm'])
+    ->name('archive.farm');
+//=============================================================================================    
+
+//TASK MANAGEMENT ============================================================================
+Route::get('/tasks', [TaskController::class, 'index'])->name('tasks.monitoring');
+Route::get('/tasks/create', [TaskController::class, 'create'])->name('tasks.create');
+Route::post('/tasks', [TaskController::class, 'store'])->name('tasks.store');
+Route::get('/tasks/{task}', [TaskController::class, 'edit'])->name('tasks.edit');
+Route::put('/tasks/{task}', [TaskController::class, 'update'])->name('tasks.update');
+Route::delete('/tasks/{task}', [TaskController::class, 'destroy'])->name('tasks.destroy');
+Route::post('/tasks/{task}/complete', [TaskController::class, 'complete'])->name('tasks.complete');
+Route::get('taskshow', [TaskController::class, 'showCompleted'])->name('taskshow');
+Route::get('/missingtasks', [TaskController::class, 'missingTasks']);
+Route::get('/taskassign', [TaskController::class, 'tasksAssignedToMe']);
+//============================================================================================       

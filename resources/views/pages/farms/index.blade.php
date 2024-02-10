@@ -33,9 +33,14 @@
                                 <div class="col-sm-auto ms-auto">
                                     <div class="list-grid-nav hstack gap-1">
 
-                                    <button class="btn btn-primary btn-label waves-effect waves-light" onclick="openTestPage()">
-    <i class="ri-inbox-archive-line label-icon align-middle fs-16 me-2"></i> View Archive Farm
-</button>
+                                    @if(Auth::check())
+                                        @if(Auth::user()->role_id == 1)
+                                            <button class="btn btn-primary btn-label waves-effect waves-light" onclick="openTestPage()">
+                                                <i class="ri-inbox-archive-line label-icon align-middle fs-16 me-2"></i> View Archive Farm
+                                            </button>
+                                        @endif
+                                    @endif
+
 
 
 
@@ -119,11 +124,17 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-2 col">
-                                        <div class="text-end">
-<a href="{{ route('farms.view', ['barangay_name' => $barangay->barangay_name]) }}" class="btn btn-light view-btn">View Farms</a>
-
-
-</div>
+                                        @if(Auth::check() && Auth::user()->role_id == 3)
+    
+    <div class="text-end">
+        <a href="{{ route('farms.view3', ['barangay_name' => $barangay->barangay_name]) }}" class="btn btn-light view-btn">View Farms 3</a>
+    </div>
+   
+@elseif(Auth::check() && Auth::user()->role_id == 1)
+    <div class="text-end">
+        <a href="{{ route('farms.view', ['barangay_name' => $barangay->barangay_name]) }}" class="btn btn-light view-btn">View Farms 1</a>
+    </div>
+@endif
 
                                             
                                         </div>

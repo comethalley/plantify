@@ -66,9 +66,9 @@
         </button>
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuClickableOutside">
             <li><a class="dropdown-item" href="javascript:void(0);">All</a></li>
-            <li><a class="dropdown-item" href="javascript:void(0);">Created</a></li>
-            <li><a class="dropdown-item" href="javascript:void(0);">For investigation</a></li>
-            <li><a class="dropdown-item" href="javascript:void(0);">For visiting</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">Bagbag</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">Capri</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">Fairview</a></li>
             <li><a class="dropdown-item" href="javascript:void(0);">Waiting-for-approval</a></li>
             <li><a class="dropdown-item" href="javascript:void(0);">Approved</a></li>
             <li><a class="dropdown-item" href="javascript:void(0);">Disapproved</a></li>
@@ -114,7 +114,7 @@
         @foreach($archivefarms as $key => $archivefarm)
             <tbody id="farmTableBody" class="list form-check-all">
            
-            <tr class="farm-row {{ strtolower(str_replace(' ', '-', $archivefarm->status)) }}">
+            <tr class="farm-row {{ strtolower(str_replace(' ', '-', $archivefarm->barangay_name)) }}">
                 
                             
                             <td class="id text-center">#{{ $archivefarm->id }}</td>
@@ -141,6 +141,12 @@
         </table>
   
 </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 
 
 
@@ -157,29 +163,29 @@ $(document).ready(function() {
 
 $(document).ready(function () {
     $('.dropdown-item').click(function () {
-        var status = $(this).text();
+        var barangay_name = $(this).text();
 
         
-        if (status.toLowerCase() === 'all') {
+        if (barangay_name.toLowerCase() === 'all') {
             $('.farm-row').show();
         } else {
             
             $('.farm-row').hide();
 
             
-            $('.farm-row.' + status.toLowerCase().replace(' ', '-')).show();
+            $('.farm-row.' + barangay_name.toLowerCase().replace(' ', '-')).show();
         }
 
         $.ajax({
-            url: '/farms/filterByStatus',
+            url: '/farms/filterByStatus1',
             type: 'GET',
-            data: { status: status },
+            data: { barangay_name: barangay_name },
             success: function (data) {
                 
-                console.log(status);
+                console.log(barangay_name);
 
                 
-                $('#dropdownMenuClickableOutside').text(status);
+                $('#dropdownMenuClickableOutside').text(barangay_name);
 
                 
                 if (data.farms.length === 0) {

@@ -297,12 +297,11 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="/farms" role="button" style="color:white">
+                            <a class="nav-link menu-link" href="/farms3" role="button" style="color:white">
                                 <i class="ri-home-4-line"></i>
                                 <span data-key="t-dashboards">Farms</span>
                             </a>
                         </li>
-
 
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="#sidebarDashboards" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards" style="color:white">

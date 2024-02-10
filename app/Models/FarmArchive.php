@@ -26,3 +26,4 @@ class FarmArchive extends Model
         // Add any additional columns if needed
     ];
 }
+

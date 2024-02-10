@@ -1,11 +1,17 @@
+
 <?php
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFarmsArchiveTable extends Migration
+return new class extends Migration
 {
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
     public function up()
     {
         Schema::create('archivefarms', function (Blueprint $table) {
@@ -17,10 +23,16 @@ class CreateFarmsArchiveTable extends Migration
             $table->string('area');
             $table->string('farm_leader');
             $table->string('status');
-            $table->string('title_land');
-            $table->string('picture_land');
-            $table->string('picture_land1')->nullable();
-            $table->string('picture_land2')->nullable();
+            $table->binary('title_land');
+            
+            // Change 'picture_land' to use BLOB
+            $table->binary('picture_land');
+            
+            // Change 'picture_land1' to use BLOB and allow nullable
+            $table->binary('picture_land1')->nullable();
+            
+            // Change 'picture_land2' to use BLOB and allow nullable
+            $table->binary('picture_land2')->nullable();
             // Add other columns as needed
             $table->timestamps();
         });
@@ -30,4 +42,4 @@ class CreateFarmsArchiveTable extends Migration
     {
         Schema::dropIfExists('archivefarms');
     }
-}
+};

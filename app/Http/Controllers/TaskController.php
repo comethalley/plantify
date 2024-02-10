@@ -101,7 +101,7 @@ class TaskController extends Controller
     {
         $completedTasks = Task::where('completed', true)->orderBy('completed_at', 'desc')->get();
 
-        return view('pages.task.taskshow', compact('completedTasks'));
+        return view('pages.tasks.taskshow', compact('completedTasks'));
     }
 
     // app/Http/Controllers/TaskController.php

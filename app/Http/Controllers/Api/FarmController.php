@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Farm;
 use App\Models\User;
+use App\Models\Remark;
 use App\Models\Barangay;
 use App\Models\FarmArchive;
 use Illuminate\Http\Request;

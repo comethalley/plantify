@@ -548,80 +548,96 @@ function deleteMember(memberId) {
 
 
 $(document).ready(function () {
-        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+    var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
-        $('#searchInput').on('input', function () {
-            var searchTerm = $(this).val().trim();
+    $('#searchInput').on('input', function () {
+        var searchTerm = $(this).val().trim();
 
-            // If the search term is empty, clear the user list and return
-            if (searchTerm === '') {
-                $('#userList').empty();
-                return;
+        // If the search term is empty, clear the user list and return
+        if (searchTerm === '') {
+            $('#userList').empty();
+            return;
+        }
+
+        // Make an AJAX request to the server for user search
+        $.ajax({
+            url: '/search-users',
+            method: 'GET',
+            data: { term: searchTerm },
+            headers: {
+                'X-CSRF-TOKEN': csrfToken
+            },
+            success: function (response) {
+                // Update the user list with the search results
+                updateSearchResults(response);
+            },
+            error: function (xhr, status, error) {
+                console.error('Error:', error);
             }
+        });
+    });
 
-            // Make an AJAX request to the server for user search
+    function updateSearchResults(users) {
+        $('#userList').empty();
+
+        users.forEach(function (user) {
+            var userItem = '<li>' +
+                '<button type="button" class="btn member-button" data-member-id="' + user.id + '" data-thread-id="' + (user.thread_id || '') + '">' +
+                '<div class="d-flex align-items-center">' +
+                '<div class="avatar-sm"></div>' +
+                '<div class="ms-2">' +
+                '<h6 class="mb-0">' + user.firstname + ' ' + user.lastname + '</h6>' +
+                '</div>' +
+                '</div>' +
+                '</button>' +
+                '</li>';
+            $('#userList').append(userItem);
+        });
+    }
+
+    // Attach a click event handler to dynamically added member buttons
+    $(document).on('click', '.member-button', function (event) {
+        event.preventDefault(); // Prevent the default behavior of links
+
+        var memberName = $(this).find('.ms-2 h6').text();
+        sessionStorage.setItem('selectedMemberName', memberName); // Store the selected member's name
+
+        var userId = $(this).data('member-id');
+        var threadId = $(this).data('thread-id');
+
+        if (!threadId) {
+            // Create a new thread
             $.ajax({
-                url: '/search-users',
-                method: 'GET',
-                data: { term: searchTerm },
+                type: 'POST',
+                url: '/create-thread/' + userId,
+                dataType: 'json',
                 headers: {
                     'X-CSRF-TOKEN': csrfToken
                 },
                 success: function (response) {
-                    // Update the user list with the search results
-                    updateSearchResults(response);
+                    window.location.href = '/thread/' + response.thread_id;
                 },
-                error: function (xhr, status, error) {
-                    console.error('Error:', error);
+                error: function (error) {
+                    console.error('Error creating thread:', error);
+                    // Handle the error as needed
                 }
             });
-        });
-
-        function updateSearchResults(users) {
-            $('#userList').empty();
-
-            users.forEach(function (user) {
-                var userItem = '<li>' +
-                    '<button type="button" class="btn member-button" data-member-id="' + user.id + '" data-thread-id="' + (user.thread_id || '') + '">' +
-                    '<div class="d-flex align-items-center">' +
-                    '<div class="avatar-sm"></div>' +
-                    '<div class="ms-2">' +
-                    '<h6 class="mb-0">' + user.firstname + ' ' + user.lastname + '</h6>' +
-                    '</div>' +
-                    '</div>' +
-                    '</button>' +
-                    '</li>';
-                $('#userList').append(userItem);
-            });
-
-            // Attach a click event handler to each user button
-            $('.member-button').on('click', function () {
-                var userId = $(this).data('member-id');
-                var threadId = $(this).data('thread-id');
-
-                if (!threadId) {
-                    // Create a new thread
-                    $.ajax({
-                        type: 'POST',
-                        url: '/create-thread/' + userId,
-                        dataType: 'json',
-                        headers: {
-                            'X-CSRF-TOKEN': csrfToken
-                        },
-                        success: function (response) {
-                            window.location.href = '/thread/' + response.thread_id;
-                        },
-                        error: function (error) {
-                            console.error('Error creating thread:', error);
-                            // Handle the error as needed
-                        }
-                    });
-                } else {
-                    // Redirect to the existing thread
-                    window.location.href = '/thread/' + threadId;
-                }
-            });
+        } else {
+            // Redirect to the existing thread
+            window.location.href = '/thread/' + threadId;
         }
     });
+
+    // Check if there's a stored selected member's name and update the chat head
+    var selectedMemberName = sessionStorage.getItem('selectedMemberName');
+    if (selectedMemberName) {
+        updateChatHead(selectedMemberName);
+    }
+
+    function updateChatHead(memberName) {
+        // Update the chat head with the selected member's name
+        $('.username').text(memberName);
+    }
+});
 
 </script>

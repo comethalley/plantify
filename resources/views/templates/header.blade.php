@@ -581,7 +581,7 @@
         </div>
         <!-- /.modal -->
         <!-- ========== App Menu ========== -->
-        <div class="app-menu navbar-menu" style="background-color:#8BE262;">
+        <div class="app-menu navbar-menu" style="background-color:#3b8132;">
             <!-- LOGO -->
             <div class="navbar-brand-box">
                 <!-- Dark Logo-->

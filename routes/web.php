@@ -152,6 +152,9 @@ Route::get('/view-farms3', [FarmController::class, 'viewFarms3'])->name('farms.v
 Route::get('/farms/filterByStatus', [FarmController::class, 'filterByStatus']);
 Route::post('/update-status/{id}', [FarmController::class, 'updateStatus'])->name('update.status');
 
+
+
+
 //view pdf/img farm-management//
 Route::get('/view-pdf/{id}/{title?}', [FarmController::class, 'viewPdf'])->name('view.pdf');
 Route::get('/view-image/{id}', [FarmController::class, 'viewImage'])->name('view.image');

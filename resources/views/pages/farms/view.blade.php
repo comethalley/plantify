@@ -204,7 +204,33 @@
     </div>
 </div>
     <!-- Modal -->
-    
+
+<div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bgtitle">
+                <h5 class="modal-title" id="confirmationModalLabel">Confirmation Update and Remarks</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            <h5>Type your remarks update below</h5>
+                <div class="form-floating">
+                    <textarea class="form-control" id="remarkstext" rows="3" style="height: 150px;" placeholder="Enter your remarks..."></textarea>
+                    <label for="remarkstext">-Required-</label>
+                </div>
+<br>
+                <h5>Are you sure you want to update the status?</h5>
+            </div>
+            <div class="modal-footer vstack gap-2">
+                <button type="button" class="btn btn-primary wider-btn" id="confirmUpdateBtn">Confirm</button>
+                <button type="button" class="btn btn-outline-secondary wider-btn" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
     <div class="modal fade modal-lg" id="viewModals" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -279,44 +305,61 @@
                     </div>
 
                     <!-- Additional row with buttons -->
-                    <div class="row mt-3">
+                                        <div class="row mt-3">
                         <!-- For Investigation and For Visiting buttons -->
                         <div class="col-md-4">
-                            <a href="#" class="text-primary d-inline-block edit-item-btn text-start" id="forInvestigationBtn" data-bs-dismiss="modal" onclick="updateStatus('For-Investigation')">
-                                <button id="forInvestigationBtn" class="farm-btn btn btn-primary btn-label waves-effect waves-light equal-width-btn equal-height-btn"><i class="ri-search-eye-line label-icon align-middle fs-16 me-2"></i>For Investigation</button>
-                            </a>
-                        </div>
-                        <div class="col-md-4">
-                            <a href="#" class="text-primary d-inline-block edit-item-btn" id="forVisitingBtn" data-bs-dismiss="modal" onclick="updateStatus('For-Visiting')">
-                                <button id="forVisitingBtn" class="farm-btn btn btn-secondary btn-label waves-effect waves-light equal-width-btn1 equal-height-btn"><i class="ri-gps-fill label-icon align-middle fs-16 me-2"></i>For Visiting</button>
+                            <a href="#" class="text-primary d-inline-block edit-item-btn text-start" id="forInvestigationBtn" data-bs-toggle="modal" data-bs-target="#confirmationModal" data-farm-id="your-farm-id" data-status="For-Investigation" onclick="updateStatus('For-Investigation')">
+                                <button id="forInvestigationBtn" class="farm-btn btn btn-primary btn-label waves-effect waves-light equal-width-btn equal-height-btn">
+                                    <i class="ri-search-eye-line label-icon align-middle fs-16 me-2"></i>For Investigation
+                                </button>
                             </a>
                         </div>
 
-                        <!-- Approved and Disapproved buttons -->
+                        <!-- For Visiting button -->
                         <div class="col-md-4">
-                            <a href="#" class="text-primary d-inline-block edit-item-btn" id="approvedBtn" data-bs-dismiss="modal" onclick="updateStatus('Approved')">
-                                <button id="approvedBtn" class="farm-btn btn btn-success btn-label waves-effect waves-light equal-width-btn6 equal-height-btn"><i class="ri-check-line label-icon align-middle fs-16 me-2"></i>Approved</button>
+                            <a href="#" class="text-primary d-inline-block edit-item-btn" id="forVisitingBtn" data-bs-toggle="modal" data-bs-target="#confirmationModal" data-farm-id="your-farm-id" data-status="For-Visiting" onclick="updateStatus('For-Visiting')">
+                                <button id="forVisitingBtn" class="farm-btn btn btn-secondary btn-label waves-effect waves-light equal-width-btn1 equal-height-btn">
+                                    <i class="ri-gps-fill label-icon align-middle fs-16 me-2"></i>For Visiting
+                                </button>
+                            </a>
+                        </div>
+
+                        <!-- Approved button -->
+                        <div class="col-md-4">
+                            <a href="#" class="text-primary d-inline-block edit-item-btn" id="approvedBtn" data-bs-toggle="modal" data-bs-target="#confirmationModal" data-farm-id="your-farm-id" data-status="Approved" onclick="updateStatus('Approved')">
+                                <button id="approvedBtn" class="farm-btn btn btn-success btn-label waves-effect waves-light equal-width-btn6 equal-height-btn">
+                                    <i class="ri-check-line label-icon align-middle fs-16 me-2"></i>Approved
+                                </button>
                             </a>
                         </div>
                     </div>
 
+                    <!-- Additional row for other buttons -->
                     <div class="row mt-3">
-                        <!-- Disapproved and Waiting-for-approval buttons -->
+                        <!-- Disapproved button -->
                         <div class="col-md-4">
-                            <a href="#" class="text-primary d-inline-block edit-item-btn" id="disapprovedBtn" data-bs-dismiss="modal" onclick="updateStatus('Disapproved')">
-                                <button id="disapprovedBtn" class="farm-btn btn btn-danger btn-label waves-effect waves-light equal-width-btn3 equal-height-btn"><i class="ri-close-line label-icon align-middle fs-16 me-2"></i>Disapproved</button>
+                            <a href="#" class="text-primary d-inline-block edit-item-btn" id="disapprovedBtn" data-bs-toggle="modal" data-bs-target="#confirmationModal" data-farm-id="your-farm-id" data-status="Disapproved" onclick="updateStatus('Disapproved')">
+                                <button id="disapprovedBtn" class="farm-btn btn btn-danger btn-label waves-effect waves-light equal-width-btn3 equal-height-btn">
+                                    <i class="ri-close-line label-icon align-middle fs-16 me-2"></i>Disapproved
+                                </button>
                             </a>
                         </div>
+
+                        <!-- Waiting-for-approval button -->
                         <div class="col-md-4">
-                            <a href="#" class="text-primary d-inline-block edit-item-btn" id="waitingForApprovalBtn" data-bs-dismiss="modal" onclick="updateStatus('Waiting-for-Approval')">
-                                <button id="waitingForApprovalBtn" class="farm-btn btn btn-warning btn-label waves-effect waves-light equal-width-btn4 equal-height-btn"><i class="ri-time-fill label-icon align-middle fs-16 me-2"></i>Waiting for Approval</button>
+                            <a href="#" class="text-primary d-inline-block edit-item-btn" id="waitingForApprovalBtn" data-bs-toggle="modal" data-bs-target="#confirmationModal" data-farm-id="your-farm-id" data-status="Waiting-for-Approval" onclick="updateStatus('Waiting-for-Approval')">
+                                <button id="waitingForApprovalBtn" class="farm-btn btn btn-warning btn-label waves-effect waves-light equal-width-btn4 equal-height-btn">
+                                    <i class="ri-time-fill label-icon align-middle fs-16 me-2"></i>Waiting for Approval
+                                </button>
                             </a>
                         </div>
 
                         <!-- Resubmit button -->
                         <div class="col-md-4">
-                            <a href="#" class="text-primary d-inline-block edit-item-btn" id="resubmitBtn" data-bs-dismiss="modal" onclick="updateStatus('Resubmit')">
-                                <button id="resubmitBtn" class="farm-btn btn btn-info btn-label waves-effect waves-light equal-width-btn5 equal-height-btn"><i class="ri-refresh-line label-icon align-middle fs-16 me-2"></i>Resubmit</button>
+                            <a href="#" class="text-primary d-inline-block edit-item-btn" id="resubmitBtn" data-bs-toggle="modal" data-bs-target="#confirmationModal" data-farm-id="your-farm-id" data-status="Resubmit" onclick="updateStatus('Resubmit')">
+                                <button id="resubmitBtn" class="farm-btn btn btn-info btn-label waves-effect waves-light equal-width-btn5 equal-height-btn">
+                                    <i class="ri-refresh-line label-icon align-middle fs-16 me-2"></i>Resubmit
+                                </button>
                             </a>
                         </div>
                     </div>
@@ -329,10 +372,10 @@
 </div>
 
 
+
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 <script>
-// Function to update the status buttons visibility in the modal
 // Function to update the status buttons visibility in the modal
 function updateButtonVisibility(status) {
     console.log('Updating button visibility for status:', status);
@@ -369,12 +412,15 @@ function updateButtonVisibility(status) {
                 // Hide only the "Resubmit" button
                 $(' #resubmitBtn').hide();
                 break;
+            case 'waiting-for-approval':
+                // Hide only the "Resubmit" button
+                $(' #waitingForApprovalBtn').hide();
+                break;
         }
     } else {
         console.error('Status is undefined.');
     }
 }
-
 
 // Function to show farm details in the modal
 function showFarmDetails(id, farmName, barangayName, area, address, farmLeader, status, titleLand, pictureLand, pictureLand1, pictureLand2) {
@@ -476,6 +522,49 @@ if (pictureLand2) {
         window.location.href = "/archive-farm/" + id;
     });
 
+    var statusToUpdate;
+    var farmIdToUpdate;
+
+    function updateStatus(newStatus) {
+        // Show confirmation modal before updating status
+        $('#confirmationModal').modal('show');
+
+        // Store the newStatus in a variable to use it later
+        statusToUpdate = newStatus;
+
+        // Get the farm ID from the data attribute
+        farmIdToUpdate = $('#forInvestigationBtn').data('farm-id');
+    }
+
+    // Confirm update status when user clicks the "Confirm" button in the modal
+    $('#confirmUpdateBtn').on('click', function() {
+        // Perform an AJAX request to update the status
+        $.ajax({
+            url: '/update-status/' + farmIdToUpdate,
+            type: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}',
+                status: statusToUpdate
+            },
+            success: function (data) {
+                // Handle success response
+                console.log('Status updated successfully');
+                location.reload();
+            },
+            error: function (error) {
+                // Handle error response
+                console.log('Error updating status:', error);
+            }
+        });
+
+        var statusModal = document.getElementById('status_modal');
+        statusModal.textContent = statusToUpdate;
+        updateButtonVisibility(statusToUpdate.toLowerCase().replace(/\s/g, '-'));
+
+        // Close the confirmation modal after processing
+        $('#confirmationModal').modal('hide');
+    });
+
 
 $(document).ready(function () {
     $('.dropdown-item').click(function () {
@@ -519,36 +608,6 @@ $(document).ready(function () {
     
 });
 
-function updateStatus(newStatus) {
-    
-    // Get the farm ID from the data attribute
-    var id = $('#forInvestigationBtn').data('farm-id');
-
-    // Perform an AJAX request to update the status
-    $.ajax({
-        url: '/update-status/' + id,
-        type: 'POST', // Adjust the HTTP method if needed
-        data: {
-            _token: '{{ csrf_token() }}', // Add CSRF token if not using X-CSRF-Token header
-            status: newStatus
-        },
-        success: function (data) {
-            // Handle success response
-            console.log('Status updated successfully');
-            location.reload();
-        },
-        error: function (error) {
-            // Handle error response
-            console.log('Error updating status:', error);
-        }
-    });
-    var statusModal = document.getElementById('status_modal');
-    statusModal.textContent = newStatus;
-    updateButtonVisibility(newStatus.toLowerCase().replace(/\s/g, '-'));
-}
-
-
-
 </script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;500;600&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,500&display=swap');    body{
@@ -580,7 +639,9 @@ function updateStatus(newStatus) {
         border:2px solid #FFF3CF;
         border-radius:10px !important;
     }
-
+.bgtitle {
+        background-color: #E8C872;
+}
 .equal-width-btn {
     width: 112%;
 }
@@ -611,10 +672,13 @@ function updateStatus(newStatus) {
         padding: 15px;
         width: 200px;
         text-align: center;
-    }
+}
 .custom-label {
         font-size: 1rem; 
-    }
+}
+.wider-btn {
+        width: 400px;
+}
     </style> 
 
 @include('templates.footer')

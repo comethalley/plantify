@@ -56,7 +56,7 @@
                             <!--end row-->
                         </div>
                         </div>
-                  
+          
 <div class="row">          
     <div class="col-lg-12">
    
@@ -67,7 +67,8 @@
                         <div class="col">
                             <div class="card team-box">
                                 <div class="team-cover">
-                                    <img src="{{ asset('assets/images/small/img-9.jpg') }}" alt="" class="img-fluid">
+                                <img src="https://cdn.dribbble.com/users/1162077/screenshots/4008153/city-skyline.gif" alt="CSS3 Pattern" class="img-fluid">
+
                                 </div>
                                 <div class="card-body p-4">
                                     <div class="row align-items-center team-row">
@@ -76,25 +77,9 @@
                                                 <div class="col">
                                                     <div class="flex-shrink-0 me-2">
                                                         <button type="button" class="btn btn-light btn-icon rounded-circle btn-sm favourite-btn">
-                                                            <i class="ri-star-fill fs-14"></i>
+                                                            <i class=" ri-folder-5-line fs-14"></i>
                                                         </button>
                                                     </div>
-                                                </div>
-                                                <div class="col text-end dropdown">
-                                                    <a href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        <i class="ri-more-fill fs-17"></i>
-                                                    </a>
-                                                    <ul class="dropdown-menu dropdown-menu-end">
-                                                    <li>
-    <a class="dropdown-item edit-list" href="javascript:void(0);" onclick="openEditModal('{{ $barangay->id }}', '{{ $barangay->barangay_name }}')" data-bs-toggle="modal" data-bs-target="#editFarmModal">
-        <i class="ri-pencil-line me-2 align-bottom text-muted"></i>Edit
-    </a>
-</li>
-                                                            
-
-
-                                                        </li>
-                                                    </ul>
                                                 </div>
                                             </div>
                                         </div>
@@ -115,7 +100,7 @@
                                             <div class="row text-muted text-center">
                                                 <div class="col-6 border-end border-end-dashed">
                                                     <h5 class="mb-1 projects-num">225</h5>
-                                                    <p class="text-muted mb-0">Projects</p>
+                                                    <p class="text-muted mb-0">Farms</p>
                                                 </div>
                                                 <div class="col-6">
                                                     <h5 class="mb-1 tasks-num">197</h5>
@@ -127,12 +112,12 @@
                                         @if(Auth::check() && Auth::user()->role_id == 3)
     
     <div class="text-end">
-        <a href="{{ route('farms.view3', ['barangay_name' => $barangay->barangay_name]) }}" class="btn btn-light view-btn">View Farms 3</a>
+        <a href="{{ route('farms.view3', ['barangay_name' => $barangay->barangay_name]) }}" class="button-89">View Farms</a>
     </div>
    
 @elseif(Auth::check() && Auth::user()->role_id == 1)
     <div class="text-end">
-        <a href="{{ route('farms.view', ['barangay_name' => $barangay->barangay_name]) }}" class="btn btn-light view-btn">View Farms 1</a>
+        <a href="{{ route('farms.view', ['barangay_name' => $barangay->barangay_name]) }}" class="button-89">View Farms</a>
     </div>
 @endif
 
@@ -315,6 +300,62 @@
 </script>
 
 <style>
+
+.team-box {
+        border: 1px solid #e5e5e5; /* Add a border to the card */
+        border-radius: 10px; /* Adjust the border-radius to your preference */
+        box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+        /* Add the box-shadow with your specified values */
+        transition: box-shadow 0.3s ease; /* Optional: Add a transition for a smooth effect */
+    }
+
+    .team-box:hover {
+        box-shadow: rgba(0, 0, 0, 0.4) 0px 4px 8px, rgba(0, 0, 0, 0.3) 0px 14px 26px -3px, rgba(0, 0, 0, 0.2) 0px -6px 0px inset;
+        /* Adjust the box-shadow for the hover effect */
+    }
+    .text-end {
+        display: flex;
+        justify-content: center; /* Center the content horizontally */
+        align-items: center; /* Center the content vertically */
+        height: 100%; /* Ensure the container takes the full height */
+    }
+
+    .button-89 {
+        --b: 3px;   /* border thickness */
+        --s: .45em; /* size of the corner */
+        --color: #373B44;
+        
+        padding: calc(.5em + var(--s)) calc(.9em + var(--s));
+        color: var(--color);
+        --_p: var(--s);
+        background:
+            conic-gradient(from 90deg at var(--b) var(--b),#0000 90deg,var(--color) 0)
+            var(--_p) var(--_p)/calc(100% - var(--b) - 2*var(--_p)) calc(100% - var(--b) - 2*var(--_p));
+        transition: .3s linear, color 0s, background-color 0s;
+        outline: var(--b) solid #0000;
+        outline-offset: .6em;
+        font-size: 16px;
+
+        border: 0;
+
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        text-decoration: none; /* Add this line to remove underlines from anchor tags */
+        display: inline-block; /* Add this line to remove anchor tags' default styles */
+    }
+
+    .button-89:hover,
+    .button-89:focus-visible {
+        --_p: 0px;
+        outline-color: var(--color);
+        outline-offset: .05em;
+    }
+
+    .button-89:active {
+        background: var(--color);
+        color: #fff;
+    }
      .file-input-container {
         margin-bottom: 10px;
     }

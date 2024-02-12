@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('remarkfarms', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('farm_id');
-            $table->string('remarks');
+            $table->string('remarks')->nullable();
             $table->string('remark_status');
             $table->timestamps();
         });

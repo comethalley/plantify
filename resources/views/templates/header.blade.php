@@ -393,6 +393,16 @@
                         </li>
 
                         <li class="nav-item">
+                            <a class="nav-link menu-link" href="/piu" role="button" style="color:white">
+                                <i class="ri-leaf-line"></i>
+                                <span data-key="t-faqs">PIU</span>
+                            </a>
+                        </li>
+
+                      
+
+
+                        <li class="nav-item">
                             <a class="nav-link menu-link" href="/plantifeed" role="button" style="color:white">
                                 <i class="ri-plant-line"></i>
                                 <span data-key="t-faqs">Plantifeed</span>

@@ -75,11 +75,11 @@
                                     <table class="table table-nowrap align-middle" id="orderTable">
                                         <thead class="text-muted table-light">
                                             <tr class="text-uppercase">
-                                                <th scope="col" style="width: 25px;">
+                                                <!-- <th scope="col" style="width: 25px;">
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="checkbox" id="checkAll" value="option">
                                                     </div>
-                                                </th>
+                                                </th> -->
                                                 <th class="sort" data-sort="id">ID</th>
                                                 <th class="sort" data-sort="customer_name">Code</th>
                                                 <th class="sort" data-sort="date">Seed Name</th>

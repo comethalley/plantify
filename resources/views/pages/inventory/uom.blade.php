@@ -75,9 +75,9 @@
                                         <thead class="text-muted table-light">
                                             <tr class="text-uppercase">
                                                 <th scope="col" style="width: 25px;">
-                                                    <div class="form-check">
+                                                    <!-- <div class="form-check">
                                                         <input class="form-check-input" type="checkbox" id="checkAll" value="option">
-                                                    </div>
+                                                    </div> -->
                                                 </th>
                                                 <th class="sort" data-sort="id">ID</th>
                                                 <th class="sort" data-sort="customer_name">Measurement Name</th>

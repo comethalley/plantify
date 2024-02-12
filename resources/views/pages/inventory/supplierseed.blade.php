@@ -26,9 +26,9 @@
         @foreach ($supplierSeeds as $per_Seeds)
         <tr>
             <th scope="row">
-                <div class="form-check">
+                <!-- <div class="form-check">
                     <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option1" checked>
-                </div>
+                </div> -->
             </th>
             <td>{{$per_Seeds->suppliers_seedsID}}</td>
             <td>{{$per_Seeds->qr_code}}</td>

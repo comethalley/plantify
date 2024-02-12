@@ -17,6 +17,7 @@ use App\Http\Controllers\qcmaps;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\PlantCalendar;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\PiuController;
 
 /*
 |--------------------------------------------------------------------------
@@ -177,3 +178,7 @@ Route::get('taskshow', [TaskController::class, 'showCompleted'])->name('taskshow
 Route::get('/missingtasks', [TaskController::class, 'missingTasks']);
 Route::get('/taskassign', [TaskController::class, 'tasksAssignedToMe']);
 //============================================================================================       
+
+
+Route::get('/piu', [PiuController::class, 'index']);
+Route::get('/show/{id}', [PiuController::class, 'show']);

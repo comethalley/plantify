@@ -75,7 +75,7 @@
                                                 <td>{{ $item->plant_name }}</td>
                                                 <td>{{ $item->planting_date }}</td>
                                                 <td>{{ $item->companion }}</td>
-                                                <td>{{ $item->plant_image }}</td>
+                                                
 
 
 
@@ -158,7 +158,7 @@
 
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Planting Season</label>
-                                                    <input type="text" name="planting_date" id="planting_date" class="form-control" required />
+                                                    <input type="text" name="planting_date" id="planting_date" class="form-control" placeholder="Planting Season" required />
                                                 </div>
 
                                                 <div class="mb-3">
@@ -173,7 +173,7 @@
 
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Plant Image</label>
-                                                    <input type="text" name="plant_image" id="plant_image" class="form-control" placeholder="Companion" required />
+                                                    <input type="file" name="plant_image" id="plant_image" class="form-control" placeholder="Image" required />
                                                 </div>
 
 
@@ -224,6 +224,11 @@
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Information</label>
                                                     <textarea type="textarea" name="description" id="edit_information" class="form-control" placeholder="Plant Information" required> </textarea>
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label for="customername-field" class="form-label">Plant Image</label>
+                                                    <input type="text" name="address" id="edit_plant_image" class="form-control" placeholder="Image" required />
                                                 </div>
 
                                                 <div class="mb-3">

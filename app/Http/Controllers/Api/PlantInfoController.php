@@ -95,7 +95,7 @@ class PlantinfoController extends Controller
         $validator = Validator::make($request->all(), [
             'edit_plant_name' => 'required|string|max:55',
             'edit_planting_date' => 'required|string|max:55',
-            'edit_information' => 'required|string|max:55',
+            'edit_information' => 'required|string|max:500',
             'edit_companion' => 'required|string|max:55'
         ]);
 

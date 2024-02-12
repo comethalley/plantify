@@ -11,10 +11,10 @@ class EventController extends Controller
     //
     public function index()
     {
-        $events = DB::table('events')->orderBy('id', 'DESC')->get();
+        $events = DB::table('events')->where('status', '1')->orderBy('id', 'DESC')->get();
         //dd($events);
         
-        $data = DB::table('events')->orderBy('id', 'DESC')->get();
+        $data = DB::table('events')->where('status', '1')->orderBy('id', 'DESC')->get();
         return view('pages.eventscalendar', ['events' => $events, 'data' => $data]);
     }
     public function create(Request $request)
@@ -25,6 +25,7 @@ class EventController extends Controller
         $item->end = $request->end;
         $item->location = $request->location;
         $item->description = $request->description;
+        $item->status = 1;
         $item->save();
 
         return redirect('/schedules');
@@ -33,7 +34,8 @@ class EventController extends Controller
 
     public function getEvents()
     {
-        $events = Event::all();
+       $events = Event::where('status', '!=', 0)->get();
+        
         return response()->json($events);
     }
 
@@ -48,22 +50,30 @@ class EventController extends Controller
 
     public function deleteEvent(Request $request, $id)
     {
-        $event = Event::find($request->id)->delete();
-        return response()->json($event);
+        $event = Event::findOrFail($id);
+        if (!$event) {
+            return response()->json(['message' => 'The supplier does not exist'], 422);
+        }
+
+        $event->update([
+            'status' => 0,
+        ]);
+        return response()->json(['message' => 'Supplier Archive successfully']);
     }
 
     public function update(Request $request, $id)
     { 
-        $event = Event::find($id);
-        $event->title = $request->input('updatetitle');
-        $event->start = $request->input('updatestart');
-        $event->end = $request->input('updateend');
-        $event->location = $request->input('updatelocation');
-        $event->description = $request->input('updatedescription');
-        $event->update();
+        $events = Event::find($request->id);
+        $events->title = $request->input('updatetitle');
+        $events->start = $request->input('updatestart');
+        $events->end = $request->input('updateend');
+        $events->location = $request->input('updatelocation');
+        $events->description = $request->input('updatedescription');
+        $events->update();
 
-        return redirect('/schedules')->with('status',"Event updated ");
+       return response()->json(['events' => $events]);
 
+      
     }
     public function resize(Request $request, $id)
     {

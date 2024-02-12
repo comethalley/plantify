@@ -236,7 +236,7 @@
   
        
       <div class="modal-body">
-      <form method="post" action="{{ URL('scheduleupdate/'.$event->id) }}" method="POST"  id="form-event">
+      <form method="post" action="{{ URL('scheduleupdate/'.$events) }}" method="POST"  id="form-event">
       @csrf
         @method('PUT')
           <div class="form-group">

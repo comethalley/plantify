@@ -115,7 +115,9 @@
 
                                                 <div class="mb-3">
                                                     <label for="status" class="form-label">Status</label>
-                                                    <input type="text" name="status" id="customername-field" class="form-control" placeholder="Enter Status" value="0" required disabled/>
+                                                    
+                                                    <input type="text" name="status" id="customername-field" class="form-control" value="Status" required readonly/>
+                                                    
                                                 </div>
 
                                                 <div class="mb-3">
@@ -195,8 +197,6 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                
-
                                                         <div class="modal-footer">
                                                         <div class="hstack gap-2 justify-content-end">
                                                         <button type="button" class="btn btn-danger" id="deleteEventBtn" id="deleteEventBtn">Delete</button>
@@ -246,8 +246,8 @@
 
                                             <div class="form-group mb-3">
                                                 <label for="updatestatus">Status:</label>
-                                                <select name="updatestatus" id="updatestatus" class="form-control" value="Status">
-                                                    
+                                                <select name="updatestatus" id="updatestatus" class="form-control">
+                                                    <option value="Status" readonly selected>Status</option>    
                                                     <option value="Harvested">Harvested</option>
                                                     <option value="Destroyed">Destroyed</option>
                                                 </select>
@@ -292,6 +292,8 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+    
+    
 
     
     document.addEventListener('DOMContentLoaded', function () {
@@ -537,6 +539,8 @@
             enableTime: false,
             dateFormat: "Y-m-d",
         });
+
+        document.getElementById("updatestatus").selectedIndex = 0;
 
     });
 </script>

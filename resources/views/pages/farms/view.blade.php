@@ -186,6 +186,30 @@
 </div>
 </div>
 
+<div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bgtitle">
+                <h5 class="modal-title" id="confirmationModalLabel">Confirmation Update and Remarks</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            <h5>Type your remarks update below</h5>
+            <div class="form-floating">
+                    <textarea class="form-control" name="remarks" rows="3" style="height: 150px;" placeholder="Enter your remarks..."></textarea>
+                    <label for="remarkstext">-Required-</label>
+                </div>
+<br>
+                <h5>Are you sure you want to update the status?</h5>
+            </div>
+            <div class="modal-footer vstack gap-2">
+                <button type="button" class="btn btn-primary wider-btn" id="confirmUpdateBtn">Confirm</button>
+                <button type="button" class="btn btn-outline-secondary wider-btn" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="archiveConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="archiveConfirmationModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -204,32 +228,6 @@
     </div>
 </div>
     <!-- Modal -->
-
-<div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header bgtitle">
-                <h5 class="modal-title" id="confirmationModalLabel">Confirmation Update and Remarks</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-            <h5>Type your remarks update below</h5>
-                <div class="form-floating">
-                    <textarea class="form-control" id="remarkstext" rows="3" style="height: 150px;" placeholder="Enter your remarks..."></textarea>
-                    <label for="remarkstext">-Required-</label>
-                </div>
-<br>
-                <h5>Are you sure you want to update the status?</h5>
-            </div>
-            <div class="modal-footer vstack gap-2">
-                <button type="button" class="btn btn-primary wider-btn" id="confirmUpdateBtn">Confirm</button>
-                <button type="button" class="btn btn-outline-secondary wider-btn" data-bs-dismiss="modal">Cancel</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
 
     <div class="modal fade modal-lg" id="viewModals" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -507,7 +505,55 @@ if (pictureLand2) {
     updateButtonVisibility(status);
 }
 
-   function confirmArchive(id) {
+    var statusToUpdate;
+var farmIdToUpdate;
+
+function updateStatus(newStatus) {
+    // Show confirmation modal before updating status
+    $('#confirmationModal').modal('show');
+
+    // Store the newStatus in a variable to use it later
+    statusToUpdate = newStatus;
+
+    // Get the farm ID from the data attribute
+    farmIdToUpdate = $('#forInvestigationBtn').data('farm-id');
+}
+
+// Confirm update status when the user clicks the "Confirm" button in the modal
+$('#confirmUpdateBtn').on('click', function() {
+    // Get the remarks value from the input field
+    var remarks = $('textarea[name="remarks"]').val();
+
+    // Perform an AJAX request to update the status and create a new entry in RemarkFarm
+    $.ajax({
+        url: '/update-status/' + farmIdToUpdate,
+        type: 'POST',
+        data: {
+            _token: '{{ csrf_token() }}',
+            status: statusToUpdate,
+            remarks: remarks // Include remarks in the data sent to the server
+        },
+        success: function (data) {
+            // Handle success response
+            console.log('Status updated successfully');
+            location.reload();
+        },
+        error: function (error) {
+            // Handle error response
+            console.log('Error updating status:', error);
+        }
+    });
+
+    var statusModal = document.getElementById('status_modal');
+    statusModal.textContent = statusToUpdate;
+    updateButtonVisibility(statusToUpdate.toLowerCase().replace(/\s/g, '-'));
+
+    // Close the confirmation modal after processing
+    $('#confirmationModal').modal('hide');
+});
+
+
+function confirmArchive(id) {
         // Set the farm ID to be archived
         $("#archiveFarmBtn").data("farm-id", id);
         // Show the confirmation modal
@@ -521,50 +567,6 @@ if (pictureLand2) {
         // Redirect to the archive route
         window.location.href = "/archive-farm/" + id;
     });
-
-    var statusToUpdate;
-    var farmIdToUpdate;
-
-    function updateStatus(newStatus) {
-        // Show confirmation modal before updating status
-        $('#confirmationModal').modal('show');
-
-        // Store the newStatus in a variable to use it later
-        statusToUpdate = newStatus;
-
-        // Get the farm ID from the data attribute
-        farmIdToUpdate = $('#forInvestigationBtn').data('farm-id');
-    }
-
-    // Confirm update status when user clicks the "Confirm" button in the modal
-    $('#confirmUpdateBtn').on('click', function() {
-        // Perform an AJAX request to update the status
-        $.ajax({
-            url: '/update-status/' + farmIdToUpdate,
-            type: 'POST',
-            data: {
-                _token: '{{ csrf_token() }}',
-                status: statusToUpdate
-            },
-            success: function (data) {
-                // Handle success response
-                console.log('Status updated successfully');
-                location.reload();
-            },
-            error: function (error) {
-                // Handle error response
-                console.log('Error updating status:', error);
-            }
-        });
-
-        var statusModal = document.getElementById('status_modal');
-        statusModal.textContent = statusToUpdate;
-        updateButtonVisibility(statusToUpdate.toLowerCase().replace(/\s/g, '-'));
-
-        // Close the confirmation modal after processing
-        $('#confirmationModal').modal('hide');
-    });
-
 
 $(document).ready(function () {
     $('.dropdown-item').click(function () {

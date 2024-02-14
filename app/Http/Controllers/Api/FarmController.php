@@ -6,7 +6,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Farm;
 use App\Models\User;
-use App\Models\Remark;
+use App\Models\RemarkFarm;
 use App\Models\Barangay;
 use App\Models\FarmArchive;
 use Illuminate\Http\Request;
@@ -246,23 +246,25 @@ public function archiveFarm(Request $request, $id)
     {
         // Validate the request if needed
         $request->validate([
-            'status' => 'required|in:For-Investigation,For-Visiting,Approved,Disapproved,Waiting-for-Approval,Resubmit,',
+            'status' => 'required|in:For-Investigation,For-Visiting,Approved,Disapproved,Waiting-for-Approval,Resubmit',
+            'remarks' => 'nullable|string|max:255',
         ]);
-
+    
         // Find the farm by ID
-        $farms = Farm::find($id);
-
-        if (!$farms) {
-            // Handle the case when the farm is not found
-            return response()->json(['error' => 'Farm not found'], 404);
-        }
-
-        // Update the status
+        $farms = Farm::findOrFail($id);
+    
+        // Update the status in the farms table
         $farms->status = $request->input('status');
         $farms->save();
-
-        // You can return a response as needed
-        return response()->json(['message' => 'Status updated successfully']);
+    
+        // Create a new entry in the RemarkFarm table
+        RemarkFarm::create([
+            'farm_id' => $farms->id,
+            'remarks' => $request->input('remarks'),
+            'remark_status' => $request->input('status'),
+        ]);
+    
+        return response()->json(['success' => 'Updated successfully']); // Assuming you want to handle success in JavaScript
     }
 
 

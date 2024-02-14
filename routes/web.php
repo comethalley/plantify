@@ -144,15 +144,13 @@ Route::get('/restore', [PlantInfoController::class, 'restore']);
 Route::post('/unarchive/{id}', [PlantInfoController::class, 'unarchive']);
 //==========================================================================
 
-//for farm management =======================================================
+//For farm management =======================================================
 
 //view farm-management//
 Route::get('/view-farms', [FarmController::class, 'viewFarms'])->name('farms.view');
 Route::get('/view-farms3', [FarmController::class, 'viewFarms3'])->name('farms.view3');
 Route::get('/farms/filterByStatus', [FarmController::class, 'filterByStatus']);
 Route::post('/update-status/{id}', [FarmController::class, 'updateStatus'])->name('update.status');
-
-
 
 
 //view pdf/img farm-management//

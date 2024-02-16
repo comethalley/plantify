@@ -15,6 +15,7 @@ use App\Http\Controllers\GroupController;
 use App\Http\Controllers\WeatherController;
 use App\Http\Controllers\qcmaps;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\PlantCalendar;
 use App\Http\Controllers\TaskController;
 
@@ -181,4 +182,14 @@ Route::post('/tasks/{task}/complete', [TaskController::class, 'complete'])->name
 Route::get('taskshow', [TaskController::class, 'showCompleted'])->name('taskshow');
 Route::get('/missingtasks', [TaskController::class, 'missingTasks']);
 Route::get('/taskassign', [TaskController::class, 'tasksAssignedToMe']);
-//============================================================================================       
+//============================================================================================
+
+//EXPENSES MANAGEMENT ====================================================================================
+Route::get('/expense', [ExpenseController::class, 'index']);
+Route::post('/expenses/add-budget', [ExpenseController::class, 'addBudget']);
+Route::get('/dashboard', 'ExpenseController@showDashboard')->name('dashboard');
+Route::post('/expenses/save-expense', [ExpenseController::class, 'saveExpense']);
+Route::get('/compute-total-expenses', [ExpenseController::class, 'computeTotalExpenses'])->name('compute-total-expenses');
+Route::get('/expenses/get-dashboard-data', [ExpenseController::class, 'getDashboardData']);
+// Route::get('/expenses', [ExpenseController::class, 'getExpenses']);
+//===========================================================================================================

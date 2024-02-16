@@ -34,6 +34,7 @@
     <script src="{{ asset('assets/js/admin.js') }}"></script>
     <script src="{{ asset('assets/js/farmleader.js') }}"></script>
     <script src="{{ asset('assets/js/plantinfo.js') }}"></script>
+    <script src="{{ asset('assets/js/forum.js') }}"></script>
 
 
     <!--Scanner JS-->
@@ -376,6 +377,13 @@
                                 <span data-key="t-task">Task</span>
                             </a>
                         </li> -->
+
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="/expense" role="button" style="color:white">
+                                <i class="ri-coins-line "></i>
+                                <span data-key="t-dashboards">Expenses</span>
+                            </a>
+                        </li>
 
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="/chat" role="button" style="color:white">

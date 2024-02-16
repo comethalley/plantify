@@ -144,22 +144,27 @@ Route::get('/restore', [PlantInfoController::class, 'restore']);
 Route::post('/unarchive/{id}', [PlantInfoController::class, 'unarchive']);
 //==========================================================================
 
-//for farm management =======================================================
+//For farm management =======================================================
+
 //view farm-management//
 Route::get('/view-farms', [FarmController::class, 'viewFarms'])->name('farms.view');
+Route::get('/view-farms3', [FarmController::class, 'viewFarms3'])->name('farms.view3');
 Route::get('/farms/filterByStatus', [FarmController::class, 'filterByStatus']);
 Route::post('/update-status/{id}', [FarmController::class, 'updateStatus'])->name('update.status');
 
 
+//view pdf/img farm-management//
+Route::get('/view-pdf/{id}/{title?}', [FarmController::class, 'viewPdf'])->name('view.pdf');
+Route::get('/view-image/{id}', [FarmController::class, 'viewImage'])->name('view.image');
+Route::get('/view-image1/{id}', [FarmController::class, 'viewImage1'])->name('view.image');
+Route::get('/view-image2/{id}', [FarmController::class, 'viewImage2'])->name('view.image');
 
 //xfarms farm-management//
 Route::get('/view-archivefarms', [FarmController::class, 'viewArchiveFarms'])->name('archivefarms.xfarms');
-
+Route::get('/farms/filterByStatus1', [FarmController::class, 'filterByStatus1']);
 
 //index farm-mamangement//
-
-
-Route::get('/farms', [FarmController::class, 'index']);
+Route::get('/farms3', [FarmController::class, 'index']);
 Route::post('/add-farms', [FarmController::class, 'addFarms'])->name('add.farms');
 Route::get('/archive-farm/{id}', [FarmController::class, 'archiveFarm'])
     ->name('archive.farm');

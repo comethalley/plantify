@@ -90,21 +90,20 @@
 </form>
 
 
-
                                 <!--end card-body-->
                                 <div class="card-body">
     <div class="table-responsive table-card mb-4 rounded">
         <table class="table align-middle table-nowrap mb-0" id="tasksTable">
             <thead class="table-light text-muted">
                 <tr>  
-                    <th class="sort" data-sort="id">Farm ID</th>
-                    <th class="sort" data-sort="farm_name">Farm Name</th>
-                    <th class="sort" data-sort="barangay_name">Barangay</th>
-                    <th class="sort" data-sort="area">Area</th>
-                    <th class="sort" data-sort="address">Address</th>
-                    <th class="sort" data-sort="farm_leader">Farm Leader</th>
-                    <th class="sort text-center" data-sort="status">Status</th>
-                    <th class="sort text-center" data-sort="actions">Actions </th>
+                    <th data-sort="id" style="font-weight: bold; color: black;">Farm ID</th>
+                    <th data-sort="farm_name" style="font-weight: bold; color: black;">Farm Name</th>
+                    <th data-sort="barangay_name" style="font-weight: bold; color: black;">Barangay</th>
+                    <th data-sort="area" style="font-weight: bold; color: black;">Area</th>
+                    <th data-sort="address" style="font-weight: bold; color: black;">Address</th>
+                    <th data-sort="farm_leader" style="font-weight: bold; color: black;">Farm Leader</th>
+                    <th class=" text-center" data-sort="status" style="font-weight: bold; color: black;">Status</th>
+                    <th class="text-center" data-sort="actions" style="font-weight: bold; color: black;">Actions </th>
                 </tr>
             </thead>
             @endif
@@ -118,30 +117,30 @@
                             <td class="address">{{ $farm->address }}</td>
                             <td class="farm_leader">{{ $farm->farm_leader }}</td>
                             <td class="text-center status">
-                @switch(strtolower(str_replace(' ', '-', $farm->status)))
-                    @case('created')
-                        <button class="btn btn-primary btn-border">{{ $farm->status }}</button>
-                        @break
-                    @case('for-investigation')
-                    <button class="btn btn-primary btn-border">{{ $farm->status }}</button>
-                        @break
-                    @case('for-visiting')
-                    @case('resubmit')
-                        <button class="btn btn-secondary btn-border">{{ $farm->status }}</button>
-                        @break
-                    @case('waiting-for-approval')
-                        <button class="btn btn-warning btn-border">{{ $farm->status }}</button>
-                        @break
-                    @case('approved')
-                        <button class="btn btn-success btn-border">{{ $farm->status }}</button>
-                        @break
-                    @case('disapproved')
-		            @case('cancelled')
-                        <button class="btn btn-danger btn-border">{{ $farm->status }}</button>
-                        @break
-                    @default
-                    
-                @endswitch
+                            @switch(strtolower(str_replace(' ', '-', $farm->status)))
+                                @case('created')
+                                    <span class="badge bg-primary fs-5">{{ $farm->status }}</span>
+                                    @break
+                                @case('for-investigation')
+                                    <span class="badge bg-primary fs-5" >{{ $farm->status }}</span>
+                                    @break
+                                @case('for-visiting')
+                                @case('resubmit')
+                                    <span class="badge bg-secondary fs-5" >{{ $farm->status }}</span>
+                                    @break
+                                @case('waiting-for-approval')
+                                    <span class="badge bg-warning fs-5">{{ $farm->status }}</span>
+                                    @break
+                                @case('approved')
+                                    <span class="badge bg-success fs-5">{{ $farm->status }}</span>
+                                    @break
+                                @case('disapproved')
+                                @case('cancelled')
+                                    <span class="badge bg-danger fs-5">{{ $farm->status }}</span>
+                                    @break
+                                @default
+                            @endswitch
+
             </td>
                             
                             <td>
@@ -167,9 +166,7 @@
 </td>
 
                             </td>
-                            <td>
-                               
-                            </td>
+
                         </tr>
                     @endforeach
                 @else
@@ -197,7 +194,7 @@
             <h5>Type your remarks update below</h5>
             <div class="form-floating">
                     <textarea class="form-control" name="remarks" rows="3" style="height: 150px;" placeholder="Enter your remarks..."></textarea>
-                    <label for="remarkstext">-Required-</label>
+                    <label for="remarkstext">-Optional-</label>
                 </div>
 <br>
                 <h5>Are you sure you want to update the status?</h5>
@@ -505,7 +502,7 @@ if (pictureLand2) {
     updateButtonVisibility(status);
 }
 
-    var statusToUpdate;
+var statusToUpdate;
 var farmIdToUpdate;
 
 function updateStatus(newStatus) {
@@ -517,12 +514,26 @@ function updateStatus(newStatus) {
 
     // Get the farm ID from the data attribute
     farmIdToUpdate = $('#forInvestigationBtn').data('farm-id');
+
+    // Update the label for remarks based on the status
+    if (newStatus === 'Resubmit' || newStatus === 'Disapproved') {
+        $('label[for="remarkstext"]').text('-Required-');
+    } else {
+        $('label[for="remarkstext"]').text('-Optional-');
+    }
 }
 
 // Confirm update status when the user clicks the "Confirm" button in the modal
 $('#confirmUpdateBtn').on('click', function() {
     // Get the remarks value from the input field
     var remarks = $('textarea[name="remarks"]').val();
+
+    // Check if remarks is required and if it's empty
+    if ($('label[for="remarkstext"]').text() === '-Required-' && remarks.trim() === '') {
+        // Display a validation error below the text box
+        showValidationError('This field is required to select');
+        return;
+    }
 
     // Perform an AJAX request to update the status and create a new entry in RemarkFarm
     $.ajax({
@@ -541,6 +552,8 @@ $('#confirmUpdateBtn').on('click', function() {
         error: function (error) {
             // Handle error response
             console.log('Error updating status:', error);
+            // Display a generic error message or handle it accordingly
+            showValidationError('An error occurred while updating status.');
         }
     });
 
@@ -551,6 +564,22 @@ $('#confirmUpdateBtn').on('click', function() {
     // Close the confirmation modal after processing
     $('#confirmationModal').modal('hide');
 });
+
+// Function to display a validation error below the text box
+function showValidationError(message) {
+    // Create a span element for the error message
+    var errorElement = $('<span class="text-danger">' + message + '</span>');
+
+    // Check if the error element already exists and remove it
+    if ($('#remarksError').length) {
+        $('#remarksError').remove();
+    }
+
+    // Append the error element below the text box
+    $('.form-floating').append(errorElement.attr('id', 'remarksError'));
+}
+
+
 
 
 function confirmArchive(id) {
@@ -680,6 +709,16 @@ $(document).ready(function () {
 }
 .wider-btn {
         width: 400px;
+}
+
+#tasksTable th,
+#tasksTable td {
+        border-right: 1px solid #dee2e6; /* Adjust the color as needed */
+}
+
+#tasksTable th:last-child,
+#tasksTable td:last-child {
+        border-right: none; /* Remove right border for the last column */
 }
     </style> 
 

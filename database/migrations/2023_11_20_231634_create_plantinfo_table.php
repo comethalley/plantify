@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string("planting_date");
             $table->string("information");
             $table->string("companion");
+            $table->string("plant_image");
             $table->string("status");
             $table->timestamps();
         });

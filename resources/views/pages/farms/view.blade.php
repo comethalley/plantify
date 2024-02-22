@@ -148,7 +148,7 @@
         &nbsp;
         <!-- Update the "Archive Application" button in your Blade file -->
         <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Delete Application">
-            <a href="#" class="text-primary d-inline-block edit-item-btn" onclick="confirmArchive('{{ $farm->id }}')">
+            <a href="#" class="text-danger d-inline-block edit-item-btn" onclick="confirmArchive('{{ $farm->id }}')">
                 <i class="ri-archive-line fs-3"></i>
             </a>
         </li>
@@ -505,9 +505,6 @@ if (pictureLand2) {
     // Hide the entire div if pictureLand2 has no value
     $('#picture_land_modal2').parent().hide();
 }
-
-
-    
 
     // Update the status buttons in the modal to include the correct farm ID
     $('#forInvestigationBtn').data('farm-id', id);

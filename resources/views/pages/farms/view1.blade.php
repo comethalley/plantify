@@ -76,6 +76,7 @@
                     <li><a class="dropdown-item" href="javascript:void(0);">Approved</a></li>
                     <li><a class="dropdown-item" href="javascript:void(0);">Resubmit</a></li>
                     <li><a class="dropdown-item" href="javascript:void(0);">Disapproved</a></li>
+                    <li><a class="dropdown-item" href="javascript:void(0);">Cancelled</a></li>
                 </ul>
             </div>
 
@@ -163,7 +164,7 @@
 @endswitch
 
             <br>
-            <button class="btn btn-success btn-border equal-width-validation" style="font-weight: bold;">Validation Remarks</button>
+            <a href="javascript:void(0);" class="btn btn-success btn-border equal-width-validation" style="font-weight: bold;" onclick="showFarmRemarks('{{ $farm->id }}');">Validation Remarks</a>
             <br>
             <i style="font-size: 13px;">Click "Validation Remarks" for more specific updates</i>
           </td>
@@ -172,7 +173,7 @@
           <div class="centered-container times-new-roman-bold">
     <ul class="list-inline hstack gap-2 mb-0">
         <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="View Application">
-            <a href="#" data-bs-toggle="modal" data-bs-target="#viewModals" class="btn btn-outline-secondary text-primary d-inline-block edit-item-btn d-flex align-items-center justify-content-center custom-btn mt-2" onclick="showFarmDetails('{{ $farm->id }}', '{{ $farm->farm_name }}', '{{ $farm->barangay_name }}', '{{ $farm->area }}', '{{ $farm->address }}', '{{ $farm->farm_leader }}', '{{ $farm->status }}', '{{ $farm->title_land }}', '{{ $farm->picture_land }}', '{{ $farm->picture_land1 }}', '{{ $farm->picture_land2 }}'); updateButtonVisibility('{{ $farm->status }}');">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#viewModals" class="btn btn-outline-secondary text-primary d-inline-block edit-item-btn d-flex align-items-center justify-content-center custom-btn mt-2" onclick="showFarmDetails('{{ $farm->id }}', '{{ $farm->farm_name }}', '{{ $farm->barangay_name }}', '{{ $farm->area }}', '{{ $farm->address }}', '{{ $farm->farm_leader }}', '{{ $farm->status }}', '{{ $farm->title_land }}', '{{ $farm->picture_land }}', '{{ $farm->picture_land1 }}', '{{ $farm->picture_land2 }}');">
                 <div class="d-flex align-items-center">
                     <i class="ri-profile-line fs-3 me-2 black"></i>
                     <span class="black">View Application</span>
@@ -210,6 +211,23 @@
 </div>
 </div>
 
+<div class="modal fade" id="remarkModals" tabindex="-1" aria-labelledby="remarkModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-light p-3">
+                <h5 class="modal-title text-danger font-weight-bold" id="remarkModalLabel">Application Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- Content will be dynamically updated here using JavaScript -->
+                <h5 class="font-weight-bold">Farmer's Evaluation Thread</h6>
+                <p id="remarks_modal"></p>
+                <p id="remark_status_modal"></p>
+                <p id="validated_by_modal"></p>
+            </div>
+        </div>
+    </div>
+</div>
 
     <!-- Modal -->
 <div class="modal fade" id="archiveConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="archiveConfirmationModalLabel" aria-hidden="true">
@@ -377,6 +395,53 @@
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 <script>
+function showFarmRemarks(id) {
+    // Fetch farm details from the server
+    fetch(`/farm/${id}/details`)
+        .then(response => response.json())
+        .then(data => {
+            // Update modal content
+            var modalBody = document.getElementById('modal-body');
+
+            // Clear existing content
+            modalBody.innerHTML = '';
+
+            // Add a header
+            var header = document.createElement('h5');
+            header.className = 'font-weight-bold';
+            header.innerText = "Farmer's Evaluation Thread";
+            modalBody.appendChild(header);
+
+            // Loop through each record and create <p> elements
+            data.remarks.forEach((remark, index) => {
+                var remarksParagraph = document.createElement('p');
+                remarksParagraph.innerText = 'Remarks: ' + remark;
+                modalBody.appendChild(remarksParagraph);
+
+                var statusParagraph = document.createElement('p');
+                statusParagraph.innerText = 'Remark Status: ' + data.remark_status[index];
+                modalBody.appendChild(statusParagraph);
+
+                var validatedByParagraph = document.createElement('p');
+                validatedByParagraph.innerText = 'Validated By: ' + data.validated_by[index];
+                modalBody.appendChild(validatedByParagraph);
+                
+                // Add a horizontal line to separate records
+                if (index < data.remarks.length - 1) {
+                    var hr = document.createElement('hr');
+                    modalBody.appendChild(hr);
+                }
+            });
+
+            // Show the modal
+            var myModal = new bootstrap.Modal(document.getElementById('remarkModals'));
+            myModal.show();
+        })
+        .catch(error => {
+            console.error('Error fetching farm details:', error);
+        });
+}
+
     
     function openStatusModal() {
         $('#statusModal').modal('show');
@@ -462,9 +527,6 @@ if (pictureLand2) {
     $('#disapprovedBtn').data('farm-id', id);
     $('#waitingForApprovalBtn').data('farm-id', id);
     $('#resubmitBtn').data('farm-id', id);
-
-    // Call the function to disable buttons based on status
-    updateButtonVisibility(status);
 }
 function confirmArchive(id) {
         // Set the farm ID to be archived

@@ -34,7 +34,7 @@
                                     <div class="list-grid-nav hstack gap-1">
 
                                     @if(Auth::check())
-                                        @if(Auth::user()->role_id == 1)
+                                    @if(Auth::check() && (Auth::user()->role_id == 1 || Auth::user()->role_id == 2))
                                             <button class="btn btn-primary btn-label waves-effect waves-light" onclick="openTestPage()">
                                                 <i class="ri-inbox-archive-line label-icon align-middle fs-16 me-2"></i> View Archive Farm
                                             </button>
@@ -111,15 +111,17 @@
                                         <div class="col-lg-2 col">
                                         @if(Auth::check() && Auth::user()->role_id == 3)
     
-    <div class="text-end">
-        <a href="{{ route('farms.view3', ['barangay_name' => $barangay->barangay_name]) }}" class="button-89">View Farms</a>
-    </div>
-   
-@elseif(Auth::check() && Auth::user()->role_id == 1)
-    <div class="text-end">
-        <a href="{{ route('farms.view', ['barangay_name' => $barangay->barangay_name]) }}" class="button-89">View Farms</a>
-    </div>
-@endif
+                                            <div class="text-end">
+                                                <a href="{{ route('farms.view3', ['barangay_name' => $barangay->barangay_name]) }}" class="button-89">View Farms</a>
+                                            </div>
+                                        
+                                        @elseif(Auth::check() && (Auth::user()->role_id == 1 || Auth::user()->role_id == 2))
+                                        
+                                            <div class="text-end">
+                                                <a href="{{ route('farms.view', ['barangay_name' => $barangay->barangay_name]) }}" class="button-89">View Farms</a>
+                                            </div>
+                                        
+                                        @endif
 
                                             
                                         </div>

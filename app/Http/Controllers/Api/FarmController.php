@@ -243,30 +243,33 @@ public function archiveFarm(Request $request, $id)
 
 
     public function updateStatus(Request $request, $id)
-    {
-        // Validate the request if needed
-        $request->validate([
-            'status' => 'required|in:For-Investigation,For-Visiting,Approved,Disapproved,Waiting-for-Approval,Resubmit',
-            'remarks' => 'nullable|string|max:255',
-        ]);
-    
-        // Find the farm by ID
-        $farms = Farm::findOrFail($id);
-    
-        // Update the status in the farms table
-        $farms->status = $request->input('status');
-        $farms->save();
-    
-        // Create a new entry in the RemarkFarm table
-        RemarkFarm::create([
-            'farm_id' => $farms->id,
-            'remarks' => $request->input('remarks'),
-            'remark_status' => $request->input('status'),
-        ]);
-    
-        return response()->json(['success' => 'Updated successfully']); // Assuming you want to handle success in JavaScript
-    }
+{
+    // Validate the request if needed
+    $request->validate([
+        'status' => 'required|in:For-Investigation,For-Visiting,Approved,Disapproved,Waiting-for-Approval,Resubmit',
+        'remarks' => 'nullable|string|max:255',
+    ]);
 
+    // Find the farm by ID
+    $farm = Farm::findOrFail($id);
+
+    // Get the authenticated user (admin)
+    $admin = Auth::user();
+
+    // Update the status in the farms table
+    $farm->status = $request->input('status');
+    $farm->save();
+
+    // Create a new entry in the RemarkFarm table
+    RemarkFarm::create([
+        'farm_id' => $farm->id,
+        'remarks' => $request->input('remarks'),
+        'remark_status' => $request->input('status'),
+        'validated_by' => $admin->firstname . ' ' . $admin->lastname,
+    ]);
+
+    return response()->json(['success' => 'Updated successfully']);
+}
 
 //view farm-management//
 
@@ -396,6 +399,23 @@ public function addFarms(Request $request)
         return response()->json(['success' => false, 'errors' => ['exception' => [$e->getMessage()]]], 500);
     }
 }
+public function getFarmDetails($id)
+{
+    // Fetch farm details from the "farms" table
+    $farm = Farm::findOrFail($id);
+
+    // Now, use the obtained farm_id to fetch all records from the "remarkfarms" table
+    $remarkFarms = RemarkFarm::where('farm_id', $farm->id)->get();
+
+    // Return response with combined data
+    return response()->json([
+        'farm_id' => $farm->id,
+        'remarks' => $remarkFarms->pluck('remarks'),
+        'remark_status' => $remarkFarms->pluck('remark_status'),
+        'validated_by' => $remarkFarms->pluck('validated_by'),
+    ]);
+}
+
 
 }
 

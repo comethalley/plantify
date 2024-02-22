@@ -416,6 +416,29 @@ public function getFarmDetails($id)
     ]);
 }
 
+public function updateStatusCancel($id)
+{
+   try {
+       // Find the farm by ID
+       $farm = Farm::findOrFail($id);
+
+       // Update the status to "Cancel" (adjust this based on your actual status field)
+       $farm->status = 'Cancelled';
+       
+       // Save the changes
+       $farm->save();
+
+       // You can return a success response if needed
+       return response()->json(['success' => true, 'message' => 'Farm status updated to "Cancel" successfully']);
+
+   } catch (\Exception $e) {
+       // Log the error for debugging purposes
+       \Log::error('Error updating farm status to "Cancel" for farm ID ' . $id . ': ' . $e->getMessage());
+
+       // Handle any errors that occur during the update
+       return response()->json(['success' => false, 'message' => 'Error updating farm status to "Cancel"']);
+   }
+}
 
 }
 

@@ -163,6 +163,7 @@ Route::get('/view-image2/{id}', [FarmController::class, 'viewImage2'])->name('vi
 Route::get('/view-archivefarms', [FarmController::class, 'viewArchiveFarms'])->name('archivefarms.xfarms');
 Route::get('/farms/filterByStatus1', [FarmController::class, 'filterByStatus1']);
 Route::get('/farm/{id}/details', [FarmController::class, 'getFarmDetails']);
+Route::post('/update-farm-status-cancel/{id}', [FarmController::class, 'updateStatusCancel']);
 
 
 //index farm-mamangement//

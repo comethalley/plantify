@@ -170,7 +170,7 @@
           </td>
 
           <td class="actions vertical-line">
-          <div class="centered-container times-new-roman-bold">
+<div class="centered-container times-new-roman-bold">
     <ul class="list-inline hstack gap-2 mb-0">
         <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="View Application">
             <a href="#" data-bs-toggle="modal" data-bs-target="#viewModals" class="btn btn-outline-secondary text-primary d-inline-block edit-item-btn d-flex align-items-center justify-content-center custom-btn mt-2" onclick="showFarmDetails('{{ $farm->id }}', '{{ $farm->farm_name }}', '{{ $farm->barangay_name }}', '{{ $farm->area }}', '{{ $farm->address }}', '{{ $farm->farm_leader }}', '{{ $farm->status }}', '{{ $farm->title_land }}', '{{ $farm->picture_land }}', '{{ $farm->picture_land1 }}', '{{ $farm->picture_land2 }}');">
@@ -184,15 +184,19 @@
 </div>
 
 <div class="centered-container times-new-roman-bold">
-    <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Cancel Application">
-        <a href="#" class="btn btn-outline-danger waves-effect waves-light text-primary d-inline-block edit-item-btn d-flex align-items-center justify-content-center custom-btn1 mt-2" onclick="confirmArchive('{{ $farm->id }}')">
-            <div class="d-flex align-items-center">
-                <i class="mdi mdi-cancel fs-3 me-2 black"></i>
-                <span class="black">Cancel Application</span>
-            </div>
-        </a>
-    </li>
+    @unless($farm->status == 'Cancelled')
+        <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Cancel Application">
+            <a href="#" class="btn btn-outline-danger waves-effect waves-light text-primary d-inline-block edit-item-btn d-flex align-items-center justify-content-center custom-btn1 mt-2" onclick="updateCancel('{{ $farm->id }}')">
+                <div class="d-flex align-items-center">
+                    <i class="mdi mdi-cancel fs-3 me-2 black"></i>
+                    <span class="black">Cancel Application</span>
+                </div>
+            </a>
+        </li>
+    @endunless
 </div>
+
+
 
 </td>
           </td>
@@ -229,25 +233,6 @@
     </div>
 </div>
 
-    <!-- Modal -->
-<div class="modal fade" id="archiveConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="archiveConfirmationModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="archiveConfirmationModalLabel">Cancel Confirmation</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                Are you sure you want to Cancel your application?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                <button type="button" class="btn btn-primary" id="archiveFarmBtn">Yes</button>
-            </div>
-        </div>
-    </div>
-</div>
- 
 <!-- Your modified modal code -->
 <div class="modal fade" id="statusModal" tabindex="-1" role="dialog" aria-labelledby="statusModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -381,6 +366,34 @@
 </div>
 </div>
 
+    <!-- Modal -->
+<div class="modal fade" id="updateCancelModal" tabindex="-1" role="dialog" aria-labelledby="updateCancelModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-light p-3">
+                <h5 class="modal-title" id="updateCancelModalLabel">Cancellation of Application</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="card-body border border-dashed border-end-0 border-start-0">
+
+                    <div class="modal-body" style="color: red; text-align: center;">
+                        Are you sure you want to Cancel your Application?
+                    </div>
+
+            <div class="modal-footer">
+                    <!-- No Button with custom text -->
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+
+                    <!-- Yes Button with custom text -->
+                    <button type="button" class="btn btn-danger" id="updateStatusBtn">Confirm</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 
 
 
@@ -393,6 +406,7 @@
 
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdn.lordicon.com/lordicon.js"></script>
 
 <script>
 function showFarmRemarks(id) {
@@ -528,20 +542,70 @@ if (pictureLand2) {
     $('#waitingForApprovalBtn').data('farm-id', id);
     $('#resubmitBtn').data('farm-id', id);
 }
-function confirmArchive(id) {
-        // Set the farm ID to be archived
-        $("#archiveFarmBtn").data("farm-id", id);
-        // Show the confirmation modal
-        $("#archiveConfirmationModal").modal("show");
-    }
+function updateCancel(id) {
+    // Set the farm ID to be canceled
+    $("#updateStatusBtn").data("farm-id", id);
 
-    // Attach click event to archive button
-    $("#archiveFarmBtn").click(function () {
-        // Get the farm ID from the data attribute
-        var id = $(this).data("farm-id");
-        // Redirect to the archive route
-        window.location.href = "/archive-farm/" + id;
+    // Show the confirmation modal
+    $("#updateCancelModal").modal("show");
+
+    // Clear the modal body content for the specific modal
+    $("#updateCancelModal .modal-body").empty();
+
+    // Create lord-icon element
+    var lordIcon = document.createElement("lord-icon");
+    lordIcon.setAttribute("src", "https://cdn.lordicon.com/usownftb.json");
+    lordIcon.setAttribute("trigger", "loop");
+    lordIcon.setAttribute("state", "loop");
+    lordIcon.setAttribute("colors", "primary:#121331,secondary:#c71f16");
+    lordIcon.setAttribute("style", "width:170px;height:170px"); // Adjust size as needed
+
+    // Append the lord-icon to a new row in the modal body
+    $("#updateCancelModal .modal-body").append("<div class='row'><div class='col text-center'></div></div>");
+    $("#updateCancelModal .modal-body .col").append(lordIcon);
+
+
+    // Append the first message below the icon with red font
+    $("#updateCancelModal .modal-body").append("<div class='row'><div class='col text-center'><p style='color: red; font-weight: bold; font-size: 15px;'>Are you sure you want to cancel your application?</p></div></div>");
+
+
+    // Append the second message below the first message with black font
+    $("#updateCancelModal .modal-body").append("<div class='row'><div class='col text-center'><p style='color: black; font-size: 18px;'>Pressing 'Yes' will cancel your application, and you will no longer be able to proceed with the application.</p></div></div>");
+
+}
+
+
+
+// Attach click event to update status button
+$("#updateStatusBtn").click(function () {
+    // Get the farm ID from the data attribute
+    var id = $(this).data("farm-id");
+
+    // Send an AJAX request to update the status in the database
+    $.ajax({
+        url: "/update-farm-status-cancel/" + id,
+        type: "POST",
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        data: { status: "Cancel" },
+        success: function (response) {
+            // Handle the response as needed
+            console.log(response);
+            
+            // Reload the current page after updating the status
+            location.reload();
+        },
+        error: function (error) {
+            console.error("Error updating farm status:", error);
+        }
     });
+
+    // Close the modal after processing
+    $("#updateCancelModal").modal("hide");
+});
+
+
 $(document).ready(function () {
     $('.dropdown-item').click(function () {
         var status = $(this).text();

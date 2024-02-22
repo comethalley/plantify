@@ -64,7 +64,7 @@
                                                 <th class="sort" data-sort="">Plant Name</th>
                                                 <th class="sort" data-sort="">Planting Season</th>
                                                 <th class="sort" data-sort="">Companion</th>
-                                                <th class="sort" data-sort="">Action</th>
+                                                <th class="sort" data-sort="">Plant Image</th>
                                             </tr>
                                         </thead>
                                         <tbody class="">
@@ -75,6 +75,7 @@
                                                 <td>{{ $item->plant_name }}</td>
                                                 <td>{{ $item->planting_date }}</td>
                                                 <td>{{ $item->companion }}</td>
+                                                <td>{{ $item->plant_image }}</td>
                                                 
 
 

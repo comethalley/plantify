@@ -119,7 +119,7 @@
           </td>
 
           <td class="details vertical-line">
-            <b style="color: blue; font-size: 16px;">FARM APPLICANTS</b><br>
+            <b style="color: blue; font-size: 16px;">FARM APPLICATION</b><br>
             <b style="font-family: 'Bahnschrift', sans-serif; font-size: 15px;">Farm Leader :</b> &nbsp;{{ strtoupper($farm->farm_leader) }}<br>
             <b style="font-family: 'Bahnschrift', sans-serif; font-size: 15px;">Farm Name :</b> &nbsp;{{ strtoupper($farm->farm_name) }}<br>
             <b style="font-family: 'Bahnschrift', sans-serif; font-size: 15px;">Area :</b> &nbsp;{{ strtoupper($farm->area) }}<br>
@@ -214,9 +214,8 @@
   </div>
 </div>
 </div>
-
 <div class="modal fade" id="remarkModals" tabindex="-1" aria-labelledby="remarkModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-lg"> <!-- Add the modal-lg class here -->
         <div class="modal-content">
             <div class="modal-header bg-light p-3">
                 <h5 class="modal-title text-danger font-weight-bold" id="remarkModalLabel">Application Details</h5>
@@ -224,14 +223,14 @@
             </div>
             <div class="modal-body" id="modal-body">
                 <!-- Content will be dynamically updated here using JavaScript -->
-                <h5 class="font-weight-bold">Farmer's Evaluation Thread</h6>
-                <p id="remarks_modal"></p>
-                <p id="remark_status_modal"></p>
-                <p id="validated_by_modal"></p>
+                <h5 class="font-weight-bold">Farmer's Evaluation Thread</h5>
+                <br>
+                <div id="records-container"></div>
             </div>
         </div>
     </div>
 </div>
+
 
 <!-- Your modified modal code -->
 <div class="modal fade" id="statusModal" tabindex="-1" role="dialog" aria-labelledby="statusModalLabel" aria-hidden="true">
@@ -393,70 +392,135 @@
 </div>
 
 
-
-
-
-
-
-
-
 <!-- Add this modal at the end of your Blade file -->
-
-
 
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://cdn.lordicon.com/lordicon.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,800;1,800&display=swap" rel="stylesheet">
 
 <script>
 function showFarmRemarks(id) {
-    // Fetch farm details from the server
-    fetch(`/farm/${id}/details`)
-        .then(response => response.json())
-        .then(data => {
-            // Update modal content
-            var modalBody = document.getElementById('modal-body');
+        // Fetch farm details from the server
+        fetch(`/farm/${id}/details`)
+            .then(response => response.json())
+            .then(data => {
+                // Update modal content
+                var modalBody = document.getElementById('modal-body');
 
-            // Clear existing content
-            modalBody.innerHTML = '';
+                // Clear existing content
+                modalBody.innerHTML = '';
 
-            // Add a header
-            var header = document.createElement('h5');
-            header.className = 'font-weight-bold';
-            header.innerText = "Farmer's Evaluation Thread";
-            modalBody.appendChild(header);
+                // Add a header
+                var header = document.createElement('h5');
+                header.className = 'font-weight-bold';
+                header.innerText = "Farmer's Evaluation Thread";
+                modalBody.appendChild(header);
 
-            // Loop through each record and create <p> elements
-            data.remarks.forEach((remark, index) => {
-                var remarksParagraph = document.createElement('p');
-                remarksParagraph.innerText = 'Remarks: ' + remark;
-                modalBody.appendChild(remarksParagraph);
+                // Loop through each record and create separate containers for each type of data
+                data.remarks.forEach((remark, index) => {
+                    // Create a wrapper container with border, padding, and box-shadow
+                    var containerWrapper = createContainerWrapper();
 
-                var statusParagraph = document.createElement('p');
-                statusParagraph.innerText = 'Remark Status: ' + data.remark_status[index];
-                modalBody.appendChild(statusParagraph);
+                    // For bold text (remark_status)
+                    var date = new Date(data.created_at[index]);
+                    var formattedDate = date.toLocaleDateString('en-US', { year: 'numeric', month: 'numeric', day: 'numeric' });
+                    var formattedTime = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
 
-                var validatedByParagraph = document.createElement('p');
-                validatedByParagraph.innerText = 'Validated By: ' + data.validated_by[index];
-                modalBody.appendChild(validatedByParagraph);
-                
-                // Add a horizontal line to separate records
-                if (index < data.remarks.length - 1) {
-                    var hr = document.createElement('hr');
-                    modalBody.appendChild(hr);
-                }
+                    var statusAndValidatedText = 'Status: <strong style="font-family: \'Roboto Condensed\', sans-serif;">' + data.remark_status[index] + '</strong><br> Processed By: <span style="font-family: \'Roboto \', sans-serif; font-weight: 200;">' + data.validated_by[index] + '</span><span style="float: right;">' + formattedDate + ' / ' + formattedTime + '</span>';
+                    var statusAndValidatedParagraph = createParagraphss(statusAndValidatedText, true, '17px'); // Specify the font size
+                    containerWrapper.appendChild(statusAndValidatedParagraph);
+
+
+
+
+                    // Create a container for "Remarks" with border, padding, light gray background, light black font color, and updated box-shadow
+                    var remarksContainer = createContainer();
+
+                    // Create a paragraph for "Validated By"
+                    var validatedByParagraph = createParagraphs(data.validated_by[index], true);
+
+                    // Create a paragraph for "Remarks" without bold font
+                    var remarksParagraph = createParagraph(remark);
+
+                    // Append both paragraphs to the remarksContainer
+                    remarksContainer.appendChild(validatedByParagraph);
+                    remarksContainer.appendChild(remarksParagraph);
+
+                    // Add the remarksContainer to the containerWrapper
+                    containerWrapper.appendChild(remarksContainer);
+
+
+                    // Add the containerWrapper to the modal body
+                    modalBody.appendChild(containerWrapper);
+                });
+
+                // Show the modal
+                var myModal = new bootstrap.Modal(document.getElementById('remarkModals'));
+                myModal.show();
+            })
+            .catch(error => {
+                console.error('Error fetching farm details:', error);
             });
 
-            // Show the modal
-            var myModal = new bootstrap.Modal(document.getElementById('remarkModals'));
-            myModal.show();
-        })
-        .catch(error => {
-            console.error('Error fetching farm details:', error);
-        });
+        // Function to create a wrapper container
+        function createContainerWrapper() {
+            var containerWrapper = document.createElement('div');
+            containerWrapper.classList.add('rounded-border', 'status-validated-container'); // Add classes for rounded border and box-shadow
+            return containerWrapper;
+        }
+
+        // Function to create a container for "Remarks"
+        function createContainer() {
+            var remarksContainer = document.createElement('div');
+            remarksContainer.classList.add('inner-container'); // Add a class for styling inner container
+            return remarksContainer;
+        }
+
+        // Function to create a paragraph element
+        function createParagraph(text) {
+            var paragraph = document.createElement('p');
+            paragraph.innerText = text;
+            return paragraph;
+        }
+        // Function to create a paragraph element
+        function createParagraphs(text, isBold) {
+            var paragraph = document.createElement('p');
+            paragraph.innerText = text;
+            if (isBold) {
+                paragraph.style.fontWeight = 'bold';
+            }
+            return paragraph;
+        }
+function createParagraphss(htmlContent, isBold, fontSize) {
+    var paragraph = document.createElement('p');
+    paragraph.innerHTML = htmlContent;
+
+    if (isBold) {
+        paragraph.classList.add('roboto-condensed-font', 'bold');
+    } else {
+        paragraph.classList.add('roboto-condensed-font');
+    }
+
+    if (fontSize) {
+        paragraph.style.fontSize = fontSize;
+    }
+
+    // Set margin properties
+    paragraph.style.marginTop = '10px';
+    paragraph.style.marginBottom = '0';
+
+    return paragraph;
 }
 
-    
+
+
+
+
+    }
+
     function openStatusModal() {
         $('#statusModal').modal('show');
     }
@@ -531,16 +595,7 @@ if (pictureLand2) {
     // Hide the link if pictureLand2 has no value
     $('#picture_land_modal2').hide();
 } // You can customize the text as needed
-    // Concatenate pictures and set them to the #picture_land_modal input
-    
 
-    // Update the status buttons in the modal to include the correct farm ID
-    $('#forInvestigationBtn').data('farm-id', id);
-    $('#forVisitingBtn').data('farm-id', id);
-    $('#approvedBtn').data('farm-id', id);
-    $('#disapprovedBtn').data('farm-id', id);
-    $('#waitingForApprovalBtn').data('farm-id', id);
-    $('#resubmitBtn').data('farm-id', id);
 }
 function updateCancel(id) {
     // Set the farm ID to be canceled
@@ -651,10 +706,27 @@ $(document).ready(function () {
 
 </script>
 <style>
+    .rounded-border {
+        border: 1px solid #ccc;
+        border-radius: 10px; /* Adjust the value to control the roundness of the corners */
+        padding: 7px; /* Add padding */
+        margin-bottom: 15px;
+    }
 
-.black{
-    color: black;
-}
+    .inner-container {
+        border-radius: 10px;
+        border: 1px solid #3C3633;
+        padding: 10px;
+        background-color: lightgray;
+            color: #000; /* Set font color to light black (#000) */
+            box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset; /* Updated box-shadow for Remarks container */
+        }
+    .status-validated-container {
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; /* Box-shadow for Remark Status and Validated By container */
+        }
+    .black{
+        color: black;
+    }
 
     .centered-container {
         display: flex;

@@ -413,32 +413,45 @@ public function getFarmDetails($id)
         'remarks' => $remarkFarms->pluck('remarks'),
         'remark_status' => $remarkFarms->pluck('remark_status'),
         'validated_by' => $remarkFarms->pluck('validated_by'),
+        'created_at' => $remarkFarms->pluck('created_at'),
     ]);
 }
 
 public function updateStatusCancel($id)
 {
-   try {
-       // Find the farm by ID
-       $farm = Farm::findOrFail($id);
+    try {
+        // Find the farm by ID
+        $farm = Farm::findOrFail($id);
 
-       // Update the status to "Cancel" (adjust this based on your actual status field)
-       $farm->status = 'Cancelled';
-       
-       // Save the changes
-       $farm->save();
+        // Update the status to "Cancel" (adjust this based on your actual status field)
+        $farm->status = 'Cancelled';
 
-       // You can return a success response if needed
-       return response()->json(['success' => true, 'message' => 'Farm status updated to "Cancel" successfully']);
+        // Save the changes
+        $farm->save();
 
-   } catch (\Exception $e) {
-       // Log the error for debugging purposes
-       \Log::error('Error updating farm status to "Cancel" for farm ID ' . $id . ': ' . $e->getMessage());
+        // Get the authenticated user (assuming it's a regular user)
+        $user = Auth::user();
 
-       // Handle any errors that occur during the update
-       return response()->json(['success' => false, 'message' => 'Error updating farm status to "Cancel"']);
-   }
+        // Create a new entry in the RemarkFarm table
+        RemarkFarm::create([
+            'farm_id' => $farm->id,
+            'remarks' => 'Cancelled', // Set the remark to "Cancelled"
+            'remark_status' => 'Cancelled', // Set the remark status to "Cancelled"
+            'validated_by' => $user->firstname . ' ' . $user->lastname,
+        ]);
+
+        // You can return a success response if needed
+        return response()->json(['success' => true, 'message' => 'Farm status updated to "Cancel" successfully']);
+
+    } catch (\Exception $e) {
+        // Log the error for debugging purposes
+        \Log::error('Error updating farm status to "Cancel" for farm ID ' . $id . ': ' . $e->getMessage());
+
+        // Handle any errors that occur during the update
+        return response()->json(['success' => false, 'message' => 'Error updating farm status to "Cancel"']);
+    }
 }
+
 
 }
 

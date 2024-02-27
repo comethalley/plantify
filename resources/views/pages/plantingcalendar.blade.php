@@ -29,20 +29,18 @@
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-xl-3">
+                <div class="row scrollable">
+                    <div class="col-xl-3 scrollable" style="overflow-y: auto; max-height: 100vh;">
                         <div class="card card-h-100">
                             <div class="card-body" style="display:flex; justify-content:center; align-items:center;">
                                 <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModalExample">
                                     <i class="mdi mdi-plus"></i>Create New Planting
                                 </button>
-                                <button class="btn btn-soft-danger" id="remove-actions" onClick="deleteMultiple()">
-                                    <i class="ri-delete-bin-2-line"></i>Delete Selected
-                                </button>
+                            
                             </div>
                         </div>
-                        <div class="card">
-                            <div class="card-body bg-info-subtle">
+                        <div class="card scrollable">
+                            <div class="card-body bg-info-subtle" style="overflow-y: auto;" >
                                 <div class="d-flex">
                                     <div class="flex-shrink-0">
                                         <i data-feather="calendar" class="text-info icon-dual-info"></i>
@@ -52,6 +50,24 @@
                                         <p class="text-muted mb-0">Scheduled Plantings will appear here.</p>
                                     </div>
                                 </div>
+                                <hr>
+                               
+                                    <div class="flex-grow-1 ms-3 text-center" >
+                                        <h6 class="fs-15"><strong>LEGEND</strong></h6>
+                                        <td style="width: 180px;">
+                                                        <div class="bg-soft-primary p-2 mb-1">
+                                                        <span class="text-black mb-0" >Planted</span>
+                                                        </div>
+                                                        <div class="bg-soft-success p-2 mb-1">
+                                                        <span class="text-black mb-0" >Harvested</span>
+                                                        </div>
+                                                        <div class="bg-soft-danger p-2 mb-1">
+                                                        <span class="text-black mb-0" >Destroyed</span>
+                                                        </div>
+                                        </td>
+                                        
+                                    </div>
+                               
                             </div>
                         </div>
                         @include('pages.plantingevents')
@@ -93,7 +109,19 @@
 
                                                 <div class="mb-3 ">
                                                     <label for="customername-field" class="form-label">Seed Name</label>
-                                                    <input type="text" name="title" id="customername-field" class="form-control" placeholder="Enter Seed Name" required />
+                                                    <input type="text" name="title" id="customername-field" class="form-control" placeholder="Enter Seed Name" required />       
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label for="seed" class="form-label">Seeds Amount</label>
+                                                    <input type="text" name="seed" id="customername-field" class="form-control" placeholder="Seed Amount. kg"required/>
+                                                </div>
+
+                                                <!-- =================== -->
+                                                <div class="mb-3" hidden>
+                                                    
+                                                    <input type="text" name="harvested" id="customername-field" class="form-control" value="0" required/>
+                                                    <input type="text" name="destroyed" id="customername-field" class="form-control" value="0" required/>
                                                 </div>
 
                                                 <div class="mb-3">
@@ -112,12 +140,9 @@
                                                     </div>
                                                 </div>
 
-
                                                 <div class="mb-3">
                                                     <label for="status" class="form-label">Status</label>
-                                                    
-                                                    <input type="text" name="status" id="customername-field" class="form-control" value="Status" required readonly/>
-                                                    
+                                                    <input type="text" name="status" id="customername-field" class="form-control" value="Planted" required readonly/>
                                                 </div>
 
                                                 <div class="mb-3">
@@ -157,18 +182,9 @@
                                                             </div>
 
                                                             <div class="flex-grow-1">
-                                                            <h6 class="d-block - fw-semibold semibold mb-0"><span id="eventtitle"></span></h6>
+                                                            <h6 class="d-block - fw-semibold semibold mb-0">Seed Name: <span id="eventtitle"></span></h6>
                                         
                                                             </div>
-                                                        </div>
-                                                    </div>
-                                                    
-                                                    <div class="d-flex align-items-center mb-2">
-                                                        <div class="flex-shrink-0 me-3">
-                                                            <i class="ri-time-line text-muted fs-16"></i>
-                                                        </div>
-                                                        <div class="flex-grow-1">
-                                                            <h6 class="d-block fw-semibold mb-0"><span id="eventstart"></span></h6>
                                                         </div>
                                                     </div>
 
@@ -177,7 +193,43 @@
                                                             <i class="ri-time-line text-muted fs-16"></i>
                                                         </div>
                                                         <div class="flex-grow-1">
-                                                            <h6 class="d-block fw-semibold mb-0"><span id="eventend"></span></h6>
+                                                            <h6 class="d-block fw-semibold mb-0">Seed Amount: <span id="eventseed"></span></h6>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="d-flex align-items-center mb-2">
+                                                        <div class="flex-shrink-0 me-3">
+                                                            <i class="ri-time-line text-muted fs-16"></i>
+                                                        </div>
+                                                        <div class="flex-grow-1">
+                                                            <h6 class="d-block fw-semibold mb-0">Seed Harvested: <span id="eventharvested"></span></h6>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="d-flex align-items-center mb-2">
+                                                        <div class="flex-shrink-0 me-3">
+                                                            <i class="ri-time-line text-muted fs-16"></i>
+                                                        </div>
+                                                        <div class="flex-grow-1">
+                                                            <h6 class="d-block fw-semibold mb-0">Seed Destroyed: <span id="eventdestroyed"></span></h6>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="d-flex align-items-center mb-2">
+                                                        <div class="flex-shrink-0 me-3">
+                                                            <i class="ri-time-line text-muted fs-16"></i>
+                                                        </div>
+                                                        <div class="flex-grow-1">
+                                                            <h6 class="d-block fw-semibold mb-0">Start Date: <span id="eventstart"></span></h6>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="d-flex align-items-center mb-2">
+                                                        <div class="flex-shrink-0 me-3">
+                                                            <i class="ri-time-line text-muted fs-16"></i>
+                                                        </div>
+                                                        <div class="flex-grow-1">
+                                                            <h6 class="d-block fw-semibold mb-0">End Date:<span id="eventend"></span></h6>
                                                         </div>
                                                     </div>
                                                     <div class="d-flex align-items-center mb-2">
@@ -185,7 +237,7 @@
                                                             <i class="ri-map-pin-line text fs-16"></i>
                                                         </div>
                                                         <div class="flex-grow-1">
-                                                            <h6 class="d-block fw-semibold mb-0"><span id="eventstatus"></span></h6>
+                                                            <h6 class="d-block fw-semibold mb-0">Status: <span id="eventstatus"></span></h6>
                                                         </div>
                                                     </div>
                                                     <div class="d-flex mb-3">
@@ -193,7 +245,8 @@
                                                             <i class="ri-discuss-line text-muted fs-16"></i>
                                                         </div>
                                                         <div class="flex-grow-1">
-                                                            <p class="d-block  fw-semibold mb-0" id="eventdescription"></p>
+                                                            
+                                                            <h6 class="d-block fw-semibold mb-0">Description: <span id="eventdescription"></span></h6>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -228,6 +281,19 @@
                                                 <label for="updateEventTitle">Seed Name:</label>
                                                 <input type="text" class="form-control" id="updateEventTitle" placeholder="Enter Seed Name">
                                             </div>
+                                            <div class="form-group mb-3">
+                                                <label for="updateEventSeed">Seeds Amount:</label>
+                                                <input type="text" class="form-control" id="updateEventSeed" placeholder="Enter Seeds Amount, kg">
+                                            </div>
+                                            <div class="form-group mb-3">
+                                                <label for="updateEventHarvested">Seeds Harvested:</label>
+                                                <input type="text" class="form-control" id="updateEventHarvested" placeholder="Enter Seeds Harvested">
+                                            </div>
+                                            <div class="form-group mb-3">
+                                                <label for="updateEventDestroyed">Seeds Destroyed:</label>
+                                                <input type="text" class="form-control" id="updateEventDestroyed" placeholder="Enter Seeds Destroyed">
+                                            </div>
+
                                             <div class="mb-3">
                                                 <label for="updatestart-datepicker" class="form-label">Start</label>
                                                 <div class="input-group">
@@ -334,11 +400,11 @@
                 $('#showModalExample').modal('show');
             },
 
-            
-        
-
             eventClick: function (info) {
                 var eventTitle = info.event.title;
+                var eventSeed = info.event.extendedProps.seed;
+                var eventHarvested = info.event.extendedProps.harvested;
+                var eventDestroyed = info.event.extendedProps.destroyed;
                 var eventStart = info.event.start;
                 var eventEnd = info.event.end;
                 var eventStatus = info.event.extendedProps.status;
@@ -346,6 +412,9 @@
 
                 // Display event details in the Event Detail Modal
                 $('#eventtitle').text(eventTitle);
+                $('#eventseed').text(eventSeed);
+                $('#eventharvested').text(eventHarvested);
+                $('#eventdestroyed').text(eventDestroyed);
                 $('#eventstart').text(moment(eventStart).format("YYYY-MM-DD"));
                 $('#eventend').text(moment(eventEnd).format("YYYY-MM-DD"));
                 $('#eventstatus').text(eventStatus);
@@ -357,6 +426,9 @@
 
                 // Populate update modal fields
                 $('#updateEventTitle').val(eventTitle);
+                $('#updateEventSeed').val(eventSeed);
+                $('#updateEventDestroyed').val(eventDestroyed);
+                $('#updateEventHarvested').val(eventHarvested);
                 $('#updatestart-datepicker').val(moment(eventStart).format("YYYY-MM-DD"));
                 $('#updateend-datepicker').val(moment(eventEnd).format("YYYY-MM-DD"));
                 $('#updatestatus').val(eventStatus);
@@ -364,6 +436,11 @@
 
                 // Show the Event Detail Modal
                 $('#EventdetailModal').modal('show');
+
+                console.log(eventHarvested)
+                console.log(info)
+            
+                
             },
 
 
@@ -408,6 +485,9 @@
         $('#updateEventBtn').on('click', function () {
             var eventId = $('#deleteEventBtn').data('event-id');
             var title = $('#updateEventTitle').val();
+            var seed = $('#updateEventSeed').val();
+            var harvested = $('#updateEventHarvested').val();
+            var destroyed = $('#updateEventDestroyed').val();
             var start = $('#updatestart-datepicker').val();
             var end = $('#updateend-datepicker').val();
             var status = $('#updatestatus').val();
@@ -419,10 +499,13 @@
             end: end,
             status: status,
             description: description,
+            seed: seed,
+            harvested: harvested,
+            destroyed: destroyed,
         });
 
 
-            if (title && start && end && status && description) {
+            if (title && start && end && status && description && seed && harvested && destroyed) {
                 $.ajax({
                     url: "/plantcalendar/" + eventId,
                     type: "PUT",
@@ -435,6 +518,9 @@
                         end: end,
                         status: status,
                         description: description,
+                        seed: seed,
+                        harvested: harvested,
+                        destroyed: destroyed,
                     },
 
                     
@@ -460,7 +546,7 @@
             handleEventDelete($(this).data('event-id'));
         });
 
-        function handleEventUpdate(eventId, start, end, status, description) {
+        function handleEventUpdate(eventId, start, end, status, description, seed, harvested, destroyed) {
             $.ajax({
                 url: "/plantcalendar/" + eventId,
                 type: "PUT",
@@ -469,6 +555,9 @@
                     end_date: end,
                     status: status,
                     description: description,
+                    seed: seed,
+                    harvested: harvested,
+                    destroyed: destroyed,
                 },
                 success: function (data) {
                     calendar.refetchEvents();

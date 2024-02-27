@@ -20,6 +20,9 @@ return new class extends Migration
             $table->text('end');
             $table->text('status')->nullable();
             $table->text('description')->nullable();
+            $table->text('harvested')->nullable();
+            $table->text('destroyed')->nullable();
+            $table->text('seed')->nullable();
             $table->timestamps();
         });
     }

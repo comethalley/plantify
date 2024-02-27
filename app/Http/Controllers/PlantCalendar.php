@@ -24,6 +24,9 @@ class PlantCalendar extends Controller
         $item->end = $request->end;
         $item->status = $request->status;
         $item->description = $request->description;
+        $item->seed = $request->seed;
+        $item->harvested = $request->harvested;
+        $item->destroyed = $request->destroyed;
         $item->save();
 
         return redirect('/plantcalendar');
@@ -42,6 +45,9 @@ class PlantCalendar extends Controller
                 'end' => $event->end,
                 'status' => $event->status,
                 'description' => $event->description,
+                'harvested' => $event->harvested,
+                'destroyed' => $event->destroyed,
+                'seed' => $event->seed,
                 // Add other fields as needed
             ];
         });
@@ -83,6 +89,9 @@ class PlantCalendar extends Controller
             'end' => $end,
             'status' => $request->input('status'),
             'description' => $request->input('description'),
+            'harvested' => $request->input('harvested'),
+            'destroyed' => $request->input('destroyed'),
+            'seed' => $request->input('seed'),
         ]);
         
         $updatedEvents = CalendarPlanting::all();

@@ -17,5 +17,8 @@ class CalendarPlanting extends Model
         'end',
         'status',
         'description',
+        'harvested',
+        'destroyed',
+        'seed',
     ];
 }

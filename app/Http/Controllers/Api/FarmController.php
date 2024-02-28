@@ -191,20 +191,20 @@ public function viewImage1($id)
 }
 
 // index farm-management//
-    public function index()
-    {
-        $barangays = Barangay::all();
-    
-        $farmLeaders = User::where('status', 1)
-                           ->where('role_id', 3)
-                           ->select('id', 'firstname', 'lastname')
-                           ->get();
-    
-        return view('pages.farms.index', [
-            'barangays' => $barangays,
-            'farmLeaders' => $farmLeaders,
-        ]);
-    }
+public function index()
+{
+    $barangays = Barangay::withCount('farms')->get();
+
+    $farmLeaders = User::where('status', 1)
+                       ->where('role_id', 3)
+                       ->select('id', 'firstname', 'lastname')
+                       ->get();
+
+    return view('pages.farms.index', [
+        'barangays' => $barangays,
+        'farmLeaders' => $farmLeaders,
+    ]);
+}
 
 
     public function viewArchiveFarms()

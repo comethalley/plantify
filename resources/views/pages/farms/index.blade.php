@@ -99,11 +99,11 @@
                                         <div class="col-lg-4 col">
                                             <div class="row text-muted text-center">
                                                 <div class="col-6 border-end border-end-dashed">
-                                                    <h5 class="mb-1 projects-num">225</h5>
+                                                    <h5 class="mb-1 projects-num">{{ $barangay->farms_count }}</h5>
                                                     <p class="text-muted mb-0">Farms</p>
                                                 </div>
                                                 <div class="col-6">
-                                                    <h5 class="mb-1 tasks-num">197</h5>
+                                                    <h5 class="mb-1 tasks-num">0</h5>
                                                     <p class="text-muted mb-0">Tasks</p>
                                                 </div>
                                             </div>

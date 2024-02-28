@@ -405,7 +405,9 @@ public function getFarmDetails($id)
     $farm = Farm::findOrFail($id);
 
     // Now, use the obtained farm_id to fetch all records from the "remarkfarms" table
-    $remarkFarms = RemarkFarm::where('farm_id', $farm->id)->get();
+    $remarkFarms = RemarkFarm::where('farm_id', $farm->id)
+        ->orderBy('created_at', 'desc') // Order by created_at in descending order
+        ->get();
 
     // Return response with combined data
     return response()->json([
@@ -416,6 +418,7 @@ public function getFarmDetails($id)
         'created_at' => $remarkFarms->pluck('created_at'),
     ]);
 }
+
 
 public function updateStatusCancel($id)
 {

@@ -45,7 +45,7 @@
 
 
     <button class="btn btn-danger addFarms-modal" data-bs-toggle="modal" data-bs-target="#addfarmModal">
-        <i class="ri-add-line align-bottom me-1"></i> Create Farm
+        <i class="ri-add-line align-bottom me-1"></i> Request Farm
     </button>
 
                                     </div>
@@ -149,7 +149,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header bg-light p-3">
-                <h5 class="modal-title" id="exampleModalLabel">Create Farms &nbsp;</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Request Farm &nbsp;</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
             </div>
             <form id="addFarmForm" data-action="/add-farms" method="post">
@@ -242,10 +242,6 @@
         </div>
     </div>
 </div>
-
- 
-
-
 
 
 <script>

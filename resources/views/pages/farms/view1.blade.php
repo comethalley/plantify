@@ -211,8 +211,14 @@
         @endif
       </tbody>
     </table>
+    
   </div>
 </div>
+</div>
+<div class="row">
+    <div class="col-6">
+        <button class="btn btn-secondary" onclick="goBack()">Back</button>
+    </div>
 </div>
 <div class="modal fade" id="remarkModals" tabindex="-1" aria-labelledby="remarkModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg"> <!-- Add the modal-lg class here -->
@@ -367,7 +373,7 @@
 
     <!-- Modal -->
 <div class="modal fade" id="updateCancelModal" tabindex="-1" role="dialog" aria-labelledby="updateCancelModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-light p-3">
                 <h5 class="modal-title" id="updateCancelModalLabel">Cancellation of Application</h5>
@@ -381,10 +387,10 @@
 
             <div class="modal-footer">
                     <!-- No Button with custom text -->
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-link link-success fw-medium text-decoration-none" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i>Close</button>
 
                     <!-- Yes Button with custom text -->
-                    <button type="button" class="btn btn-danger" id="updateStatusBtn">Confirm</button>
+                    <button type="button" class="btn btn-danger" id="updateStatusBtn">Yes, Cancel it</button>
 
             </div>
         </div>
@@ -402,6 +408,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,800;1,800&display=swap" rel="stylesheet">
 
 <script>
+
+function goBack() {
+        window.location.href = "/farms3";
+        window.onload = function() {
+            window.location.reload(true);
+        };
+    }
 function showFarmRemarks(id) {
         // Fetch farm details from the server
         fetch(`/farm/${id}/details`)
@@ -621,11 +634,11 @@ function updateCancel(id) {
 
 
     // Append the first message below the icon with red font
-    $("#updateCancelModal .modal-body").append("<div class='row'><div class='col text-center'><p style='color: red; font-weight: bold; font-size: 15px;'>Are you sure you want to cancel your application?</p></div></div>");
+    $("#updateCancelModal .modal-body").append("<div class='row'><div class='col text-center'><p style='color: red; font-weight: bold; font-size: 20px;'>You're about to cancel your application</p></div></div>");
 
 
     // Append the second message below the first message with black font
-    $("#updateCancelModal .modal-body").append("<div class='row'><div class='col text-center'><p style='color: black; font-size: 18px;'>Pressing 'Yes' will cancel your application, and you will no longer be able to proceed with the application.</p></div></div>");
+    $("#updateCancelModal .modal-body").append("<div class='row'><div class='col text-center'><p style='color: black; font-size: 16px; font-weight: bold; opacity: 0.6;'>Are you sure you want to proceed?</p></div></div>");
 
 }
 

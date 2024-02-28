@@ -58,7 +58,7 @@
             </div>
             <!--end col-->
 
-            <div class="col-xxl-2 col-sm-3 ms-auto">
+            <div class="col-xxl-2 col-sm-3 ms-auto d-flex">
     <div class="btn-group" style="width: 200px;">
         <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuClickableOutside" data-bs-toggle="dropdown" data-bs-auto-close="inside" aria-expanded="false">
             All
@@ -148,7 +148,7 @@
         &nbsp;
         <!-- Update the "Archive Application" button in your Blade file -->
         <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Delete Application">
-            <a href="#" class="text-danger d-inline-block edit-item-btn" onclick="confirmArchive('{{ $farm->id }}')">
+            <a href="#" class="text-danger d-inline-block edit-item-btn" onclick="showFarmDetails('{{ $farm->id }}', '{{ $farm->farm_name }}', '{{ $farm->barangay_name }}', '{{ $farm->area }}', '{{ $farm->address }}', '{{ $farm->farm_leader }}', '{{ $farm->status }}', '{{ $farm->title_land }}', '{{ $farm->picture_land }}', '{{ $farm->picture_land1 }}', '{{ $farm->picture_land2 }}'); confirmArchive('{{ $farm->id }}');">
                 <i class="ri-archive-line fs-3"></i>
             </a>
         </li>
@@ -172,7 +172,15 @@
   
 </div>
 </div>
+<div class="row">
+    <div class="col-12">
+        <button class="btn btn-secondary" onclick="goBack()">Back</button>
+        <br>
+        <br>
+    </div>
 </div>
+</div>
+
 
 <div class="modal fade" id="archiveConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="archiveConfirmationModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -357,6 +365,12 @@
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 <script>
+    function goBack() {
+        window.location.href = "/farms3";
+        window.onload = function() {
+            window.location.reload(true);
+        };
+    }
     $(document).ready(function(){
     $(".search-box input").on("keyup", function(event) {
         if (event.key === "Enter") {

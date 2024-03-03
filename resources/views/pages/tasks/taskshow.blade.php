@@ -33,7 +33,8 @@
                             </div>
                             <div class="col-sm-auto">
                                 <div class="d-flex gap-1 flex-wrap">
-
+                                <a href="{{ route('tasks.monitoring') }}" class="btn btn-primary bg-gradient
+                                                 waves-effect waves-light"><i class=" ri-arrow-left-line"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -46,8 +47,7 @@
                                         
                                         <div class="d-flex align-items-center mt-2">
                                             
-                                        <a href="{{ route('tasks.monitoring') }}" class="btn btn-primary bg-gradient
-                                     waves-effect waves-light"><i class="ri-arrow-left-line"></i></a>
+                                        
                                         </div>
                                     </div>
                                 </div>
@@ -73,22 +73,26 @@
 
 
                                             </th>
+                                            <th>ID</th>
                                             <th class="sort" data-sort="time">Title  </th>
                                             <th class="sort" data-sort="temperature">Description</th>
                                             <th class="sort" data-sort="windspeed">Priority</th>
                                             <th class="sort" data-sort="humidity">Assignee</th>
-
+                                            <th>Status</th>
                                             <th class="sort" data-sort="condition">Date Completed</th>
+                                            
                                             
                                         </tr>
 
                                         <tbody>
                                       @foreach ($completedTasks as $task)
                                         <tr>
+                                        <td>#{{ $task->id }}</td>
                                          <td>{{ $task->title }}</td>
                                       <td>{{ $task->description }}</td>
                                       <td>{{ $task->priority }}</td>
                                       <td>{{ $task->user_id }}</td>
+                                      <td>{{ $task->status }}</td>
                                      <td>{{ $task->completed_at }}</td>
                                     </tr>
                                       @endforeach

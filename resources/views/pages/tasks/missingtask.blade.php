@@ -33,6 +33,8 @@
                                     </div>
                                     <div class="col-sm-auto">
                                         <div class="d-flex gap-1 flex-wrap">
+                                        <a href="{{ route('tasks.monitoring') }}" class="btn btn-primary bg-gradient
+                                                 waves-effect waves-light"><i class=" ri-arrow-left-line"></i></a>
                                             <!-- Some buttons or actions can go here -->
                                         </div>
                                     </div>

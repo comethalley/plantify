@@ -95,6 +95,7 @@
                                      <a href="/taskassign" class="btn btn-primary bg-gradient
                                      waves-effect waves-light"></i>My Task</a>
                                      <!-- Vertical Variation -->
+                                     
                                      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuClickableOutside" data-bs-toggle="dropdown" data-bs-auto-close="inside" aria-expanded="false">
                                         All
                                     </button class="btn btn-primary dropdown-toggle">
@@ -163,15 +164,19 @@
                             <i class="ri-delete-bin-5-fill fs-16"></i>
                                                             </a>
                                                         </li> -->
-                        <a href="#editTaskModal" class="btn btn-primary btn-sm task-edit" data-bs-toggle="modal"
-                            data-task-id="{{$task->id}}"
-                            data-task-title="{{$task->title}}"
-                            data-task-description="{{$task->description}}"
-                            data-task-priority="{{$task->priority}}"
-                            data-task-due_date="{{$task->due_date}}"
-                            data-task-user_id="{{$task->user_id}}"
-                            data-task-status="{{$task->status}}">
-                        <i class="ri-pencil-fill fs-16"></i></a>
+                        <!-- Assuming this is inside your table -->
+    <a href="#" class="btn btn-primary btn-sm task-edit"
+       data-task-id="{{$task->id}}"
+       data-task-title="{{$task->title}}"
+       data-task-description="{{$task->description}}"
+       data-task-priority="{{$task->priority}}"
+       data-task-due_date="{{$task->due_date}}"
+       data-task-user_id="{{$task->user_id}}"
+       data-task-status="{{$task->status}}">
+        <i class="ri-pencil-fill fs-16"></i>
+    </a>
+
+
                         <form action="{{ route('tasks.destroy', $task->id) }}" method="POST" style="display: inline;">
                             @csrf
                             @method('DELETE')
@@ -491,27 +496,35 @@
         });
     });
 
-    $(document).on('click', '.task-id', function(event){
-    event.preventDefault();
+    $(document).ready(function() {
+    // Event handler for clicking on the edit button
+    $(document).on('click', '.task-edit', function(event) {
+        event.preventDefault();
+        
+        // Retrieve task information from data attributes
+        var taskID = $(this).data('task-id');
+        var title = $(this).data('task-title');
+        var description = $(this).data('task-description');
+        var priority = $(this).data('task-priority');
+        var due_date = $(this).data('task-due_date');
+        var user_id = $(this).data('task-user_id');
+        var status = $(this).data('task-status');
 
-    var taskID = $(this).data('task-id');
-    var title = $(this).data('task-title');
-    var description = $(this).data('task-description');
-    var priority = $(this).data('task-priority');
-    var due_date = $(this).data('task-due_date');
-    var user_id = $(this).data('task-user_id');
-    var status = $(this).data('task-status');
+        // Populate modal fields with task information
+        $('#editTaskModal #id').val(taskID);
+        $('#editTaskModal #title').val(title);
+        $('#editTaskModal #description').val(description);
+        $('#editTaskModal #priority').val(priority);
+        $('#editTaskModal #due_date').val(due_date);
+        $('#editTaskModal #user_id').val(user_id);
+        $('#editTaskModal #status').val(status);
 
-    $('#id').val(taskID);
-    $('#title').val(title);
-    $('#description').val(description);
-    $('#priority').val(priority);
-    $('#due_date').val(due_date);
-    $('#user_id').val(user_id);
-    $('#status').val(status);
-
-    $('#editTaskModal').modal('show');
+        // Show the edit task modal
+        $('#editTaskModal').modal('show');
+    });
 });
+
+
 
     
 });

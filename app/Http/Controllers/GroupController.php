@@ -112,22 +112,20 @@ class GroupController extends Controller
     }
 
 
-
-
-    public function redirectToGroupChat($farmId, $groupId)
+public function markGroupMessagesAsRead($groupId)
 {
-    // Logic to retrieve the group thread based on $farmId and $groupId
-    $groupThread = GroupThread::where('farm_id', $farmId)
-        ->where('group_id', $groupId)
-        ->first();
+    // Retrieve the group thread for the selected group
+    $groupThread = GroupThread::where('group_id', $groupId)->first();
 
     if ($groupThread) {
-        // Redirect to the group chat using the group thread ID
-        return redirect('/group/' . $groupThread->id);
-    } else {
-        // Handle error (e.g., group thread not found)
-        return redirect('/home')->with('error', 'Group chat not found.');
+        // Mark messages as read for the current user in the group thread
+        $groupThread->messages()->where('sender_id', auth()->id())->update(['isRead' => true]);
+
+        return response()->json(['success' => true]);
     }
+
+    return response()->json(['success' => false]);
 }
+
     // Add more methods as needed for your application
 }

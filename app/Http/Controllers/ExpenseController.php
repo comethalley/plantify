@@ -160,22 +160,31 @@ class ExpenseController extends Controller
         $farmId = $request->input('farm_id');
         $budget = Budget::where('farm_id', $farmId)->first();
 
-        return response()->json([
-            'allottedBudget' => $budget ? $budget->allotted_budget : 0,
-            'balance' => $budget ? $budget->balance : 0,
-            'totalExpenses' => $budget ? $budget->total_expenses : 0
-        ]);
+        if ($budget) {
+            return response()->json([
+                'allottedBudget' => $budget->allotted_budget,
+                'balance' => $budget->balance,
+                'totalExpenses' => $budget->total_expenses
+            ]);
+        } else {
+            return response()->json([
+                'allottedBudget' => 0,
+                'balance' => 0,
+                'totalExpenses' => 0
+            ]);
+        }
     }
+
 
     public function computeTotalExpenses()
     {
-        // Compute total expenses
         $expensesTotal = Expense::sum('amount');
 
-        // Update total expenses in the budget table
         $budget = Budget::first();
-        $budget->total_expenses = $expensesTotal;
-        $budget->save();
+        if ($budget) {
+            $budget->total_expenses = $expensesTotal;
+            $budget->save();
+        }
 
         return $expensesTotal;
     }

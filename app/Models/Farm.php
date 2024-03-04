@@ -10,11 +10,17 @@ class Farm extends Model
     use HasFactory;
 
     protected $fillable = [
+        'barangay_name',
         'farm_name',
-        'area',
         'address',
+        'area',
         'farm_leader',
-        'createdBy',
-        'status'
+        'status',
+        'title_land',
+        'picture_land',
+        'picture_land1',
+        'picture_land2',
     ];
+
+    
 }

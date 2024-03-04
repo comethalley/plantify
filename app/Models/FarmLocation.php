@@ -5,13 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class events extends Model
+class FarmLocation extends Model
 {
     use HasFactory;
+    protected $table = 'farm_locations';
     protected $fillable = [
-        'events_title',
-        'body',
-        'createdBy',
-        'status'
+        "latitude",
+        "longitude",
+        "location_name",
+        
     ];
 }

@@ -11,7 +11,10 @@
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
+<<<<<<< Updated upstream
         "nesbot/carbon": "^2.72",
+=======
+>>>>>>> Stashed changes
         "pusher/pusher-php-server": "^7.2"
     },
     "require-dev": {

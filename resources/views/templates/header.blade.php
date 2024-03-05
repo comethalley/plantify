@@ -104,9 +104,12 @@
                         </div>
 
                         <div class="dropdown topbar-head-dropdown ms-1 header-item" id="notificationDropdown">
-                            <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" id="page-header-notifications-dropdown" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
+                        @foreach($notifications as $key)
+                            <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" id="{{ $key->id }}" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
                                 <i class="bx bx-bell fs-22"></i>
-                                <span class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger">0<span class="visually-hidden">unread messages</span></span>
+                                @if($key->unread)
+                                <span class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger">{{ $key->unread }}<span class="visually-hidden">unread messages</span></span>
+                                @endif
                             </button>
                             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0" aria-labelledby="page-header-notifications-dropdown">
                                 <div class="dropdown-head bg-primary bg-pattern rounded-top">
@@ -122,6 +125,7 @@
                                                 </span>
                                             </div>
                                         </div>
+                                        @endforeach 
                                     </div>
 
                                     <div class="px-2 pt-2">
@@ -483,3 +487,26 @@
 
     <!-- Sweet Alerts js -->
     <script src="{{ asset('assets/libs/sweetalert2/sweetalert2.min.js') }}"></script>
+
+    <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+    <script>
+
+// Enable pusher logging - don't include this in production
+
+
+var pusher = new Pusher('932fdd5849f2e8b782a5', {
+  cluster: 'ap1'
+});
+
+var channel = pusher.subscribe('my-channel');
+channel.bind('my-event', function(data) {
+  if(data.from) {
+                let pending = parseInt($('#' + data.from).find('.pending').html());
+                if(pending) {
+                    $('#' + data.from).find('.pending').html(pending + 1);
+                } else {
+                    $('#' + data.from).html('<a href="#" class="nav-link" data-toggle="dropdown"><i  class="fa fa-bell text-white"><span class="badge badge-danger pending">1</span></i></a>');
+                }
+            }
+});
+</script>

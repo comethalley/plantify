@@ -30,7 +30,10 @@ class AuthController extends Controller
         //     "lastname",
         // )->get();
         // return response()->json($users);
-        return view('pages.index');
+      
+       // dd($notifications);
+       $notifications = DB::select("SELECT users.id, users.firstname, users.lastname, users.email, COUNT(is_read) AS unread FROM users LEFT JOIN message_notifs ON users.id = message_notifs.from AND message_notifs.is_read = 0 WHERE users.id = ".Auth::id()." GROUP BY users.id, users.firstname, users.lastname, users.email");
+       return view('pages.index', ['notifications' => $notifications]); 
     }
 
     public function viewLogin()
@@ -41,7 +44,11 @@ class AuthController extends Controller
     {
         return view('pages.signup');
     }
-
+    public function notifications()
+    {
+        $notifications = DB::select("SELECT users.id, users.firstname, users.lastname, users.email, COUNT(is_read) AS unread FROM users LEFT JOIN message_notifs ON users.id = message_notifs.from AND message_notifs.is_read = 0 WHERE users.id = ".Auth::id()." GROUP BY users.id, users.firstname, users.lastname, users.email");
+        return view('pages.index', ['supplierSeeds' => $supplierSeeds]); 
+    }
     public function farmLeaders()
     {
         $farmLeaders = DB::table('users')

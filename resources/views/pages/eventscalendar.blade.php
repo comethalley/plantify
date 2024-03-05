@@ -1,6 +1,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 @include('templates.header')
 
+
 <meta name="csrf-token" content="{{ csrf_token() }}" />
 
 
@@ -501,7 +502,34 @@
       dateFormat: "Y-m-d H:i", // Date and time format
     });
 
+<<<<<<< Updated upstream
        
+=======
+       flatpickr("#Eventstart-datepicker", {
+    
+     altInput: true,
+   altFormat: "F j, Y",
+   dateFormat: "Y-m-d",
+   minDate: "today",
+   });
+   flatpickr("#Eventend-datepicker", {
+    
+     altInput: true,
+   altFormat: "F j, Y",
+   dateFormat: "Y-m-d",
+   minDate: "today",
+   });
+    
+  
+   $(document).ready(function (){
+        $(document).on('click', '.editbtn', function() {
+
+          var eventid = $(this).val();
+          alert(eventid);  
+        });
+
+   });
+>>>>>>> Stashed changes
 
   </script>
 

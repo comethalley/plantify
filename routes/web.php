@@ -128,7 +128,7 @@ Route::get('/plantcalendar', [PlantCalendar::class, 'index']);
 Route::get('/plantcalendarget', [PlantCalendar::class, 'getEvents']);
 Route::get('/plantcalendardata/{eventId}', [PlantCalendar::class, 'getdata']);
 Route::delete('/plantcalendardelete/{eventId}', [PlantCalendar::class, 'deleteEvent']);
-Route::put('/plantcalendar/{id}', [PlantCalendar::class, 'update']);
+Route::put('scheduleupdate/{id}',[EventController::class, 'update']);
 Route::put('/plantcalendar/{eventId}/resize', [PlantCalendar::class, 'resize']);
 Route::get('/plantcalendar/search', [PlantCalendar::class, 'search']);
 

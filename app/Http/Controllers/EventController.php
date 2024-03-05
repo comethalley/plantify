@@ -14,15 +14,11 @@ class EventController extends Controller
     //
     public function index()
     {
-        $events = DB::table('events')->orderBy('id', 'DESC')->get();
+        $events = DB::table('events')->where('status', '1')->orderBy('id', 'DESC')->get();
         //dd($events);
-<<<<<<< Updated upstream
-        return view('pages.eventscalendar', ['events' => $events]);
-=======
         $notifications = DB::select("SELECT users.id, users.firstname, users.lastname, users.email, COUNT(is_read) AS unread FROM users LEFT JOIN message_notifs ON users.id = message_notifs.from AND message_notifs.is_read = 0 WHERE users.id = ".Auth::id()." GROUP BY users.id, users.firstname, users.lastname, users.email");
         $data = DB::table('events')->where('status', '1')->orderBy('id', 'DESC')->get();
         return view('pages.eventscalendar', ['events' => $events, 'data' => $data, 'notifications' => $notifications]);
->>>>>>> Stashed changes
     }
 
     public function create(Request $request)
@@ -33,9 +29,6 @@ class EventController extends Controller
         $item->end = $request->end;
         $item->location = $request->location;
         $item->description = $request->description;
-<<<<<<< Updated upstream
-        $item->save();
-=======
         $item->status = 1;
         
         $title = $request->title;
@@ -64,7 +57,6 @@ class EventController extends Controller
         $pusher->trigger('my-channel', 'my-event', $data);
 
         if($item->save()) {
->>>>>>> Stashed changes
 
         return redirect('/schedules');
         }
@@ -88,20 +80,30 @@ class EventController extends Controller
 
     public function deleteEvent(Request $request, $id)
     {
-        $event = Event::find($request->id)->delete();
-        return response()->json($event);
+        $event = Event::findOrFail($id);
+        if (!$event) {
+            return response()->json(['message' => 'The supplier does not exist'], 422);
+        }
+
+        $event->update([
+            'status' => 0,
+        ]);
+        return response()->json(['message' => 'Supplier Archive successfully']);
     }
 
     public function update(Request $request, $id)
-    {
-        $event = Event::findOrFail($id);
+    { 
+        $events = Event::find($request->id);
+        $events->title = $request->input('updatetitle');
+        $events->start = $request->input('updatestart');
+        $events->end = $request->input('updateend');
+        $events->location = $request->input('updatelocation');
+        $events->description = $request->input('updatedescription');
+        $events->update();
 
-        $event->update([
-            'start' => Carbon::parse($request->input('start_date'))->setTimezone('UTC'),
-            'end' => Carbon::parse($request->input('end_date'))->setTimezone('UTC'),
-        ]);
+       return response()->json(['events' => $events]);
 
-        return response()->json(['message' => 'Event moved successfully']);
+      
     }
 
     public function resize(Request $request, $id)

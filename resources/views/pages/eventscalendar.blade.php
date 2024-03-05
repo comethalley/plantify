@@ -1,7 +1,6 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 @include('templates.header')
 
-
 <meta name="csrf-token" content="{{ csrf_token() }}" />
 
 
@@ -34,17 +33,14 @@
                  <!--start row-->
 
                 <div class="row">
-                 <!-- end col-->
+                
                     <div class="col-xl-3">
                         <div class="card card-h-100">
                             <div class="card-body" style="display:flex; justify-content:center; align-items:center;">
-                            <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModalExample"><i class="mdi mdi-plus"></i>Create New Events</button>
+                               <button type="button" class="btn btn-success w-100" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModalExample"><i class="mdi mdi-plus"></i>Create New Events</button>
                             
                                         <button class="btn btn-soft-danger" id="remove-actions" onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button>
-                             </div>
-
-
-                             
+                             </div>       
                         </div>
                         <div class="card">
                             <div class="card-body bg-info-subtle">
@@ -59,27 +55,28 @@
                                  
                                 </div>
                             </div>
+                        </div>
+                                  
+                                                    <!----> @foreach ($events as $event)   
                             
-                     </div>
-                      <!----> @foreach ($events as $event) 
-                      <div class="card bg-light mb-3" style="max-width: 18rem;">
-  <div class="card-header">{{ $event->title}}</div>
-  <div class="card-body">
-    <h5 class="card-title">{{ $event->start}} to {{ $event->end}}</h5>
-    <p class="card-text">{{ $event->location}}</p>
-    <p class="card-text">{{ $event->description}}</p>
-  </div>
-</div>@endforeach
-                    </div> <!-- end col-->
-
-
+                              <div class="card border-success pe-2 me-n1 mb-3 simplebar-scrollable-y" style="max-width: 18rem;">
+                                <div class="card-header bg-transparent border-success">{{ $event->title}}</div>
+                                <div class="card-body">
+                                    <h6 class="card-text">{{ date('F j, Y', strtotime($event->start)) }} to {{ date('F j, Y', strtotime($event->end)) }}</h6>
+                                    <p class="card-text">Location: {{ $event->location}}</p>
+                                    <p class="card-text">Description: {{ $event->description}}</p>
+                                  
+                                </div>
+                                </div>@endforeach
+                                
+                        </div> <!-- end col-->
 <!-- ============================================================ -->
-                    <div class="col-xl-9">
+                <div class="col-xl-9">
                         
                     <div class="input-group mb-3">
                         <input type="text" id="searchInput" class="form-control" placeholder="Search events">
                             <div class="input-group-append">
-                                <button id="searchButton" class="btn btn-primary">{{__('Search')}}</button>
+                                <button id="searchButton" class="btn btn-success">{{__('Search')}}</button>
                             </div>
                     </div>
 
@@ -88,10 +85,12 @@
                                 <div id="calendar"></div>
                             </div>
                         </div>
-                    </div><!-- end col -->
-                </div>
-                <!--end row-->
-
+                    </div>
+                </div><!-- end col -->
+                
+            </div> <!--end row-->
+    </div>
+        </div> <!-- end row-->
 <!-- ============================================================ -->
                 <div style='clear:both'></div>
 
@@ -127,12 +126,12 @@
 
                                                 <div class="mb-3">
                                                     <label for="location" class="form-label">Location</label>
-                                                    <input type="text" name="location" id="customername-field" class="form-control" placeholder="Enter Location" required />
+                                                    <input type="text" name="location" id="customername-field" class="form-control" placeholder="Enter Location" />
                                                 </div>
 
                                                 <div class="mb-3">
                                                     <label for="description" class="form-label">Description</label>
-                                                    <input type="text" name="description" id="description" class="form-control" placeholder="Enter description" required />
+                                                    <input type="text" name="description" id="description" class="form-control" placeholder="Enter description" />
                                                 </div>
 
                                             </div>
@@ -165,9 +164,9 @@
                                                             <div class="flex-shrink-0 me-3">
                                                                 <i class="ri-calendar-event-line text-muted fs-16"></i>
                                                             </div>
-
+                                                            
                                                             <div class="flex-grow-1">
-                                                            <h6 class="d-block - fw-semibold semibold mb-0"><span id="eventtitle"></span></h6>
+                                                            <h6 class="d-block - fw-semibold semibold mb-0">Event Name: <span id="eventtitle"></span></h6>
                                         
                                                             </div>
                                                         </div>
@@ -178,7 +177,7 @@
                                                             <i class="ri-time-line text-muted fs-16"></i>
                                                         </div>
                                                         <div class="flex-grow-1">
-                                                            <h6 class="d-block fw-semibold mb-0"><span id="eventstart"></span></h6>
+                                                            <h6 class="d-block fw-semibold mb-0">Start: <span id="eventstart"></span></h6>
                                                         </div>
                                                     </div>
 
@@ -187,7 +186,7 @@
                                                             <i class="ri-time-line text-muted fs-16"></i>
                                                         </div>
                                                         <div class="flex-grow-1">
-                                                            <h6 class="d-block fw-semibold mb-0"><span id="eventend"></span></h6>
+                                                            <h6 class="d-block fw-semibold mb-0">End: <span id="eventend"></span></h6>
                                                         </div>
                                                     </div>
                                                     <div class="d-flex align-items-center mb-2">
@@ -195,7 +194,7 @@
                                                             <i class="ri-map-pin-line text fs-16"></i>
                                                         </div>
                                                         <div class="flex-grow-1">
-                                                            <h6 class="d-block fw-semibold mb-0"><span id="eventlocation"></span></h6>
+                                                            <h6 class="d-block fw-semibold mb-0">Location: <span id="eventlocation"></span></h6>
                                                         </div>
                                                     </div>
                                                     <div class="d-flex mb-3">
@@ -203,7 +202,7 @@
                                                             <i class="ri-discuss-line text-muted fs-16"></i>
                                                         </div>
                                                         <div class="flex-grow-1">
-                                                            <p class="d-block  fw-semibold mb-0" id="eventdescription"></p>
+                                                        <h6 class="d-block fw-semibold mb-0">Description: <span id="eventdescription"></span></h6>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -234,43 +233,48 @@
         <h5 class="modal-title" id="exampleModalLabel">Edit Event</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
+  
+       
       <div class="modal-body">
-      <div class="form-group">
-      <div class="form-group">
-                    <label for="updateEventTitle">Event Name:</label>
-                    <input type="text" class="form-control" id="updateEventTitle">
-                </div>
-                <div class="form-group">
-                    <label for="Eventstart-datepicker">Start:</label>
-                    <input type="text" class="form-control" id="Eventstart-datepicker">
-                </div>
-                <div class="form-group">
-                    <label for="Eventend-datepicker">End:</label>
-                    <input type="text" class="form-control" id="Eventend-datepicker">
-                </div>
-                <div class="form-group">
-                    <label for="updateLocation">Location:</label>
-                    <input type="text" class="form-control" id="updateLocation">
-                </div>
-                <div class="form-group">
-                    <label for="updateDescription">Description:</label>
-                    <input type="text" class="form-control" id="updateDescription">
-                </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary"  id="updateEventBtn">Save changes</button>
-      </div>
+      <form method="post" action="{{ URL('scheduleupdate/'.$events) }}" method="POST"  id="form-event">
+      @csrf
+        @method('PUT')
+          <div class="form-group">
+                     <div class="form-group">
+                        <label for="updateEventTitle">Event Name: </label>
+                        <input type="text" class="form-control" name="updatetitle" id="updateEventTitle" >
+                    </div>
+                    <div class="form-group">
+                        <label for="Eventstart-datepicker">Start:</label>
+                        <input type="text" class="form-control" name="updatestart" id="Eventstart-datepicker" >
+                    </div>
+                    <div class="form-group">
+                        <label for="Eventend-datepicker">End:</label>
+                        <input type="text" class="form-control" name="updateend" id="Eventend-datepicker" >
+                    </div>
+                    <div class="form-group">
+                        <label for="updateLocation">Location:</label>
+                        <input type="text" class="form-control" name="updatelocation" id="updateLocation" >
+                    </div>
+                    <div class="form-group">
+                        <label for="updateDescription">Description:</label>
+                        <input type="text" class="form-control" name="updatedescription" id="updateDescription">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary"  id="updateEventBtn">Save changes</button>
+                        </div>
+              </div>
+          </div>
+        </form>
     </div>
-  </div>
-</div>
- <!-- end modal-->
+            <!-- end modal-->
 
 
-                <!-- end modal-->
-            </div>
-        </div> <!-- end row-->
-
+                
+        
+        
     </div>
     <!-- container-fluid -->
 </div>
@@ -310,7 +314,6 @@
             initialView: 'dayGridMonth',
             timeZone: 'UTC',
             events: '/schedulesget',
-            editable: true,
             selectable: true,
             selectHelper: true,
             select: function (start, end, allDay) {
@@ -336,13 +339,19 @@
                     
                     // Display event details in the Update/Delete Event Modal
                     
-                    $('#eventtitle').text(eventTitle);
-                    $('#eventstart').text(date.start);
-                    //$('#Eventend-datepicker').text(event.updatedAt);
-                    $('#eventend').text(date.end); // Adjusted property access
-                    $('#eventlocation').text(event.location); // Adjusted property access
-                    $('#eventdescription').text(event.description); // Adjusted property access
-
+                        $('#eventtitle').text(eventTitle);
+                        $('#updateEventTitle').val(eventTitle);
+                        // Format start date
+                        $('#eventstart').text(moment(date.start).format('MMMM D, YYYY'));
+                        $('#Eventstart-datepicker').val(moment(date.start).format('MMMM D, YYYY'));
+                        // Format end date
+                        $('#eventend').text(moment(date.end).format('MMMM D, YYYY'));
+                        $('#Eventend-datepicker').val(moment(date.end).format('MMMM D, YYYY'));
+                        // Display other event details
+                        $('#eventlocation').text(event.location);
+                        $('#eventdescription').text(event.description);
+                        $('#updateLocation').val(event.location);
+                        $('#updateDescription').val(event.description);
                     // Store event ID for update and delete
                     var eventId = event.id;
                     $('#updateEventBtn').data('event-id', eventId);
@@ -377,62 +386,15 @@
                         });
                     });
 
-                    // When the user closes the modal without confirming the delete
-                    $('#cancelDeleteEventBtn').on('click', function () {
-                        // Close the confirmation modal
-                        $('#EventdetailModal').modal('hide');
-                    });
+                  
                 },
 
 
             // Drag And Drop
 
-            eventDrop: function(info) {
-                var eventId = info.event.id;
-                var newStartDate = info.event.start;
-                var newEndDate = info.event.end || newStartDate;
-                var newStartDateUTC = newStartDate.toISOString().slice(0, 10);
-                var newEndDateUTC = newEndDate.toISOString().slice(0, 10);
-
-                $.ajax({
-                    method: 'PUT',
-                    url: `/schedule/${eventId}`,
-                    data: {
-                        start_date: newStartDateUTC,
-                        end_date: newEndDateUTC,
-                    },
-                    success: function() {
-                        console.log('Event moved successfully.');
-                    },
-                    error: function(error) {
-                        console.error('Error moving event:', error);
-                    }
-                });
-            },
-
+        
             // Event Resizing
-            eventResize: function(info) {
-                var eventId = info.event.id;
-                var newEndDate = info.event.end;
-                var newEndDateUTC = newEndDate.toISOString().slice(0, 10);
 
-                $.ajax({
-                    method: 'PUT',
-                    url: `/schedule/${eventId}/resize`,
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    data: {
-                        end_date: newEndDateUTC
-                    },
-                    success: function() {
-                        console.log('Event resized successfully.');
-                    },
-                    error: function(error) {
-                        console.error('Error resizing event:', error);
-                    }
-                });
-            },
         });
 
         calendar.render();
@@ -478,33 +440,41 @@
                     },
                     error: function (error) {
                         console.error("Error deleting event:", error);
-                        alert("Error deleting event. Please try again.");
+                        alert("Event Deleted Successfully");
                     }
                 });
                 $('#EventdetailModal').modal('hide');
             }
             });
+
+         
+  
        
         flatpickr("#datepicker", {
       enableTime: true, // Enable time selection
       dateFormat: "Y-m-d H:i", // Date and time format
     });
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-  <script>
-    // Initialize flatpickr
-    flatpickr("#start-datepicker", {
-      enableTime: true, // Enable time selection
-      dateFormat: "Y-m-d H:i", // Date and time format
-    });
-    flatpickr("#end-datepicker", {
-      enableTime: true, // Enable time selection
-      dateFormat: "Y-m-d H:i", // Date and time format
-    });
 
-<<<<<<< Updated upstream
-       
-=======
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    
+  <script>
+   flatpickr("#start-datepicker", {
+     
+     altInput: true,
+   altFormat: "F j, Y",
+   dateFormat: "Y-m-d",
+   minDate: "today",
+   });
+   flatpickr("#end-datepicker", {
+    
+     altInput: true,
+   altFormat: "F j, Y",
+   dateFormat: "Y-m-d",
+   minDate: "today",
+   });
+  
+
        flatpickr("#Eventstart-datepicker", {
     
      altInput: true,
@@ -520,7 +490,6 @@
    minDate: "today",
    });
     
-  
    $(document).ready(function (){
         $(document).on('click', '.editbtn', function() {
 
@@ -529,7 +498,7 @@
         });
 
    });
->>>>>>> Stashed changes
+       
 
   </script>
 

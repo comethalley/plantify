@@ -57,11 +57,11 @@
             <input type="date" class="form-control" id="due_date" name="due_date">
         </div>
         <label for="user_id">Assign to user:</label>
-    <select name="user_id">
+`    <select name="user_id">
         @foreach ($users as $per_user)
         <option value="{{$per_user->id}}">{{$per_user->firstname}} {{$per_user->lastname}}</option>
         @endforeach
-    </select>    
+    </select>    `
         <button type="submit" class="btn btn-primary">Submit</button>
         <a href="{{ route('tasks.monitoring') }}" class="btn btn-primary ">Back</a>
     </form>

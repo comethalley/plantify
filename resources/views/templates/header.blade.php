@@ -392,12 +392,31 @@
                             </a>
                         </li>
 
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a class="nav-link menu-link" href="/piu" role="button" style="color:white">
                                 <i class="ri-leaf-line"></i>
                                 <span data-key="t-faqs">PIU</span>
                             </a>
-                        </li>
+                        </li> -->
+
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="#piuser" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards" style="color:white">
+                                <i class="ri-leaf-line"></i> <span>Botaknows</span>
+                            </a>
+                            <div class="collapse menu-dropdown" id="piuser">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="/piu/piu" class="nav-link" style="color:white"> Plant Information </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/piu/pes" class="nav-link" style="color:white"> Pesticide</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/piu/fiu" class="nav-link" style="color:white">Fertilizer</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li> <!-- end Dashboard Menu -->
 
                       
 

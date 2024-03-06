@@ -31,7 +31,7 @@ use App\Http\Controllers\PiuController;
 */
 
 // Route::get('/', function () {
-//     return view('email.email');
+//     return view('email.email');f
 // });
 
 Route::get('/', [AuthController::class, 'index'])->middleware('auth');
@@ -180,5 +180,9 @@ Route::get('/taskassign', [TaskController::class, 'tasksAssignedToMe']);
 //============================================================================================       
 
 
-Route::get('/piu', [PiuController::class, 'index']);
-Route::get('/show/{id}', [PiuController::class, 'show']);
+Route::get('/piu/piu', [PiuController::class, 'index']);
+Route::get('/piu/fiu', [PiuController::class, 'fer']);
+Route::get('/piu/pes', [PiuController::class, 'pes']);
+Route::get('/piu/show/{id}', [PiuController::class, 'show']);
+
+

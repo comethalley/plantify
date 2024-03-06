@@ -113,8 +113,8 @@
                                                 </div>
 
                                                 <div class="mb-3">
-                                                    <label for="seed" class="form-label">Seeds Amount</label>
-                                                    <input type="text" name="seed" id="customername-field" class="form-control" placeholder="Seed Amount. kg"required/>
+                                                    <label for="seed" class="form-label">Seeds Amount by Kg.</label>
+                                                    <input type="text" name="seed" id="customername-field" class="form-control" placeholder="Seed Amount by Kg."required/>
                                                 </div>
 
                                                 <!-- =================== -->
@@ -145,10 +145,7 @@
                                                     <input type="text" name="status" id="customername-field" class="form-control" value="Planted" required readonly/>
                                                 </div>
 
-                                                <div class="mb-3">
-                                                    <label for="description" class="form-label">Description</label>
-                                                    <input type="text" name="description" id="description" class="form-control" placeholder="Enter description" required />
-                                                </div>
+                                                
 
                                             </div>
                                             <div class="modal-footer">
@@ -178,7 +175,7 @@
                                                     <div class="d-flex mb-2">
                                                         <div class="flex-grow-1 d-flex align-items-center">
                                                             <div class="flex-shrink-0 me-3">
-                                                                <i class="ri-calendar-event-line text-muted fs-16"></i>
+                                                                <i class="ri-leaf-fill text-muted fs-16"></i>
                                                             </div>
 
                                                             <div class="flex-grow-1">
@@ -190,34 +187,34 @@
 
                                                     <div class="d-flex align-items-center mb-2">
                                                         <div class="flex-shrink-0 me-3">
-                                                            <i class="ri-time-line text-muted fs-16"></i>
+                                                            <i class="ri-scales-2-line text-muted fs-16"></i>
                                                         </div>
                                                         <div class="flex-grow-1">
-                                                            <h6 class="d-block fw-semibold mb-0">Seed Amount: <span id="eventseed"></span></h6>
+                                                            <h6 class="d-block fw-semibold mb-0">Seed Amount by Kg: <span id="eventseed"></span></h6>
                                                         </div>
                                                     </div>
 
                                                     <div class="d-flex align-items-center mb-2">
                                                         <div class="flex-shrink-0 me-3">
-                                                            <i class="ri-time-line text-muted fs-16"></i>
+                                                            <i class="ri-plant-line text-muted fs-16"></i>
                                                         </div>
                                                         <div class="flex-grow-1">
-                                                            <h6 class="d-block fw-semibold mb-0">Seed Harvested: <span id="eventharvested"></span></h6>
+                                                            <h6 class="d-block fw-semibold mb-0">Seed Harvested by Kg: <span id="eventharvested"></span></h6>
                                                         </div>
                                                     </div>
                                                     
                                                     <div class="d-flex align-items-center mb-2">
                                                         <div class="flex-shrink-0 me-3">
-                                                            <i class="ri-time-line text-muted fs-16"></i>
+                                                            <i class=" ri-delete-bin-line text-muted fs-16"></i>
                                                         </div>
                                                         <div class="flex-grow-1">
-                                                            <h6 class="d-block fw-semibold mb-0">Seed Destroyed: <span id="eventdestroyed"></span></h6>
+                                                            <h6 class="d-block fw-semibold mb-0">Seed Destroyed by Kg: <span id="eventdestroyed"></span></h6>
                                                         </div>
                                                     </div>
 
                                                     <div class="d-flex align-items-center mb-2">
                                                         <div class="flex-shrink-0 me-3">
-                                                            <i class="ri-time-line text-muted fs-16"></i>
+                                                            <i class="ri-calendar-check-fill text-muted fs-16"></i>
                                                         </div>
                                                         <div class="flex-grow-1">
                                                             <h6 class="d-block fw-semibold mb-0">Start Date: <span id="eventstart"></span></h6>
@@ -226,10 +223,10 @@
 
                                                     <div class="d-flex align-items-center mb-2">
                                                         <div class="flex-shrink-0 me-3">
-                                                            <i class="ri-time-line text-muted fs-16"></i>
+                                                            <i class="ri-calendar-event-fill text-muted fs-16"></i>
                                                         </div>
                                                         <div class="flex-grow-1">
-                                                            <h6 class="d-block fw-semibold mb-0">End Date:<span id="eventend"></span></h6>
+                                                            <h6 class="d-block fw-semibold mb-0">End Date: <span id="eventend"></span></h6>
                                                         </div>
                                                     </div>
                                                     <div class="d-flex align-items-center mb-2">
@@ -240,15 +237,7 @@
                                                             <h6 class="d-block fw-semibold mb-0">Status: <span id="eventstatus"></span></h6>
                                                         </div>
                                                     </div>
-                                                    <div class="d-flex mb-3">
-                                                        <div class="flex-shrink-0 me-3">
-                                                            <i class="ri-discuss-line text-muted fs-16"></i>
-                                                        </div>
-                                                        <div class="flex-grow-1">
-                                                            
-                                                            <h6 class="d-block fw-semibold mb-0">Description: <span id="eventdescription"></span></h6>
-                                                        </div>
-                                                    </div>
+                                                    
                                                 </div>
                                                         <div class="modal-footer">
                                                         <div class="hstack gap-2 justify-content-end">
@@ -281,14 +270,28 @@
                                                 <label for="updateEventTitle">Seed Name:</label>
                                                 <input type="text" class="form-control" id="updateEventTitle" placeholder="Enter Seed Name">
                                             </div>
+
+                                            
+
                                             <div class="form-group mb-3">
                                                 <label for="updateEventSeed">Seeds Amount:</label>
-                                                <input type="text" class="form-control" id="updateEventSeed" placeholder="Enter Seeds Amount, kg">
+                                                <input type="text" class="form-control" id="updateEventSeed" placeholder="Enter Seeds Amount, kg" readonly>
                                             </div>
+
+                                            <div class="form-group mb-3">
+                                                <label for="updatestatus">Status:</label>
+                                                <select name="updatestatus" id="updatestatus" class="form-control">
+                                                    <option value="Status" readonly selected>Planted</option>    
+                                                    <option value="Harvested">Harvested</option>
+                                                    <option value="Destroyed">Destroyed</option>
+                                                </select>
+                                            </div>
+                                    
                                             <div class="form-group mb-3">
                                                 <label for="updateEventHarvested">Seeds Harvested:</label>
                                                 <input type="text" class="form-control" id="updateEventHarvested" placeholder="Enter Seeds Harvested">
                                             </div>
+
                                             <div class="form-group mb-3">
                                                 <label for="updateEventDestroyed">Seeds Destroyed:</label>
                                                 <input type="text" class="form-control" id="updateEventDestroyed" placeholder="Enter Seeds Destroyed">
@@ -310,19 +313,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="form-group mb-3">
-                                                <label for="updatestatus">Status:</label>
-                                                <select name="updatestatus" id="updatestatus" class="form-control">
-                                                    <option value="Status" readonly selected>Status</option>    
-                                                    <option value="Harvested">Harvested</option>
-                                                    <option value="Destroyed">Destroyed</option>
-                                                </select>
-                                            </div>
-                                            
-                                            <div class="form-group mb-3">
-                                                <label for="updateDescription">Description:</label>
-                                                <input type="text" class="form-control" id="updateDescription" placeholder="Enter Description">
-                                            </div>
+                                          
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -491,21 +482,21 @@
             var start = $('#updatestart-datepicker').val();
             var end = $('#updateend-datepicker').val();
             var status = $('#updatestatus').val();
-            var description = $('#updateDescription').val();
+            
             
             console.log("Data Sent:", {
             title: title,
             start: start,
             end: end,
             status: status,
-            description: description,
+            
             seed: seed,
             harvested: harvested,
             destroyed: destroyed,
         });
 
 
-            if (title && start && end && status && description && seed && harvested && destroyed) {
+            if (title && start && end && status && seed && harvested && destroyed) {
                 $.ajax({
                     url: "/plantcalendar/" + eventId,
                     type: "PUT",
@@ -517,7 +508,7 @@
                         start: start,
                         end: end,
                         status: status,
-                        description: description,
+                        
                         seed: seed,
                         harvested: harvested,
                         destroyed: destroyed,
@@ -632,6 +623,51 @@
         document.getElementById("updatestatus").selectedIndex = 0;
 
     });
+
+    $(document).ready(function () {
+        $('#updatestatus').change(function () {
+            var status = $(this).val();
+            var seedAmount = parseFloat($('#updateEventSeed').val());
+            if (status === 'Harvested') {
+                var harvested = (seedAmount * 0.7).toFixed(); // 70% of seed amount
+                var destroyed = (seedAmount * 0.3).toFixed(); // 30% of seed amount
+                $('#updateEventHarvested').val(harvested);
+                $('#updateEventDestroyed').val(destroyed);
+            } else if (status === 'Destroyed') {
+                $('#updateEventHarvested').val('0'); // Clear harvested value
+                $('#updateEventDestroyed').val(seedAmount); // Entire seed amount is destroyed
+            } else {
+                $('#updateEventHarvested').val(''); // Clear harvested value
+                $('#updateEventDestroyed').val(''); // Clear destroyed value
+            }
+        });
+    });
+
+    $(document).ready(function () {
+        // Function to update visibility of harvested and destroyed input fields
+        function updateVisibility(status) {
+            if (status === 'Harvested') {
+                $('#updateEventHarvested').parent().show(); // Show harvested input field
+                $('#updateEventDestroyed').parent().show(); // Show destroyed input field
+            } else if (status === 'Destroyed') {
+                $('#updateEventHarvested').parent().show(); // Hide harvested input field
+                $('#updateEventDestroyed').parent().show(); // Show destroyed input field
+            } else {
+                $('#updateEventHarvested').parent().hide(); // Hide harvested input field
+                $('#updateEventDestroyed').parent().hide(); // Hide destroyed input field
+            }
+        }
+
+        // Initial visibility based on the status value
+        updateVisibility($('#updatestatus').val());
+
+        // Event listener for status change
+        $('#updatestatus').change(function () {
+            var status = $(this).val();
+            updateVisibility(status); // Update visibility based on the new status
+        });
+    });
+
 </script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 

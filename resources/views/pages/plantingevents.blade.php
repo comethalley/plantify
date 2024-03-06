@@ -4,7 +4,7 @@
     @foreach ($createplantings as $event)
         <div class="card">
             <div class="card bg-light mb-3">
-                <div class="card-header @if($event->status === 'Harvested') bg-soft-success @elseif($event->status === 'Destroyed') bg-soft-danger @endif">
+                <div class="card-header @if($event->status === 'Harvested') bg-soft-success @elseif($event->status === 'Destroyed') bg-soft-danger @elseif($event->status === 'Planted') bg-soft-secondary  @endif">
                     <h5 class="text-dark"><strong>Seed Name: </strong> {{ $event->title }}</h5>
                 </div>
                 <div class="card-body">
@@ -15,11 +15,11 @@
                     <p class="card-text"><strong>End Date: </strong> {{ $event->end }}</p>
                     <p class="card-text">
                         <strong>Status: </strong>
-                        <span class="@if($event->status === 'Harvested') bg-soft-success @elseif($event->status === 'Destroyed') bg-soft-danger @endif text-dark p-1 rounded">
+                        <span class="@if($event->status === 'Harvested') bg-soft-success @elseif($event->status === 'Destroyed') bg-soft-danger @elseif($event->status === 'Planted') bg-soft-secondary @endif text-dark p-1 rounded">
                             {{ $event->status }}
                         </span>
                     </p>
-                    <p class="card-text"><strong>Description: </strong>{{ $event->description }}</p>
+                    
                 </div>
             </div>
         </div>
@@ -38,7 +38,7 @@
             method: 'GET',
             dataType: 'json', // Specify data type as JSON
             success: function (data) {
-                var html = formatEvents(data); // Assuming formatEvents is a function that converts JSON to HTML
+                var html = formatEvents(data.reverse()); // Reverse the order of events
                 $('#planting-events-container').html(html);
             },
             error: function (error) {
@@ -70,7 +70,7 @@
             html += data[i].status;
             html += '</span>';
             html += '</p>';
-            html += '<p class="card-text"><strong>Description: </strong>' + data[i].description + '</p>';
+            
             html += '</div>';
             html += '</div>';
             html += '</div>';
@@ -84,7 +84,10 @@
             return 'bg-soft-success';
         } else if (status === 'Destroyed') {
             return 'bg-soft-danger';
+        } else if (status === 'Planted') {
+            return 'bg-soft-secondary';
         } else {
+            
             return '';
         }
     }

@@ -385,11 +385,24 @@
                             </a>
                         </li>
 
+                        
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="/plant-info" role="button" style="color:white">
-                                <i class="ri-leaf-line"></i>
-                                <span data-key="t-faqs">Plant Information</span>
+                            <a class="nav-link menu-link" href="#plantDashboard" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="inventoryDashboard" style="color:white">
+                            <i class="ri-leaf-line"></i></i> <span>Plant Information</span>
                             </a>
+                            <div class="collapse menu-dropdown" id="plantDashboard">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="/plant-info" class="nav-link" style="color:white"> Plant </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/pesticides" class="nav-link" style="color:white"> Pesticides </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/fertilizers" class="nav-link" style="color:white"> Fertilizers </a>
+                                    </li>
+                                </ul>
+                            </div>
                         </li>
 
                         <li class="nav-item">

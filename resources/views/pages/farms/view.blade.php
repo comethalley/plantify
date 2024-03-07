@@ -109,7 +109,7 @@
                             <td class="farm_name roboto-regular">{{ $farm->farm_name }}</td>
                             <td class="area roboto-regular">{{ $farm->area }}</td>
                             <td class="address roboto-regular">{{ $farm->address }}</td>
-                            <td class="farm_leader roboto-regular">{{ $farm->farm_leader }}</td>
+                            <td class="farm_leader roboto-regular">{{ strtoupper($farm->farm_leader_firstname) }} {{ strtoupper($farm->farm_leader_lastname) }}</td>
                             <td class="text-center status">
                             @switch(strtolower(str_replace(' ', '-', $farm->status)))
                                 @case('created')
@@ -140,7 +140,7 @@
             <td class="text-center">
     <ul class="list-inline d-flex justify-content-center gap-2 mb-0">
         <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="View Application">
-            <a href="#" data-bs-toggle="modal" data-bs-target="#viewModals" class="text-primary d-inline-block edit-item-btn" onclick="showFarmDetails('{{ $farm->id }}', '{{ $farm->farm_name }}', '{{ $farm->barangay_name }}', '{{ $farm->area }}', '{{ $farm->address }}', '{{ $farm->farm_leader }}', '{{ $farm->status }}', '{{ $farm->title_land }}', '{{ $farm->picture_land }}', '{{ $farm->picture_land1 }}', '{{ $farm->picture_land2 }}'); updateButtonVisibility('{{ $farm->status }}');">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#viewModals" class="text-primary d-inline-block edit-item-btn" onclick="showFarmDetails('{{ $farm->id }}', '{{ $farm->farm_name }}', '{{ $farm->barangay_name }}', '{{ $farm->area }}', '{{ $farm->address }}', '{{ $farm->farm_leader }}', '{{ $farm->status }}', '{{ $farm->title_land }}', '{{ $farm->picture_land }}', '{{ $farm->picture_land1 }}', '{{ $farm->picture_land2 }}', '{{ $farm->farm_leader_firstname }}', '{{ $farm->farm_leader_lastname }}');updateButtonVisibility('{{ $farm->status }}');">
                 <i class="ri-profile-line fs-3"></i>
             </a>
         </li>
@@ -148,7 +148,7 @@
         &nbsp;
         <!-- Update the "Archive Application" button in your Blade file -->
         <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Delete Application">
-            <a href="#" class="text-danger d-inline-block edit-item-btn" onclick="showFarmDetails('{{ $farm->id }}', '{{ $farm->farm_name }}', '{{ $farm->barangay_name }}', '{{ $farm->area }}', '{{ $farm->address }}', '{{ $farm->farm_leader }}', '{{ $farm->status }}', '{{ $farm->title_land }}', '{{ $farm->picture_land }}', '{{ $farm->picture_land1 }}', '{{ $farm->picture_land2 }}'); confirmArchive('{{ $farm->id }}');">
+            <a href="#" class="text-danger d-inline-block edit-item-btn" onclick="showFarmDetails('{{ $farm->id }}', '{{ $farm->farm_name }}', '{{ $farm->barangay_name }}', '{{ $farm->area }}', '{{ $farm->address }}', '{{ $farm->farm_leader }}', '{{ $farm->status }}', '{{ $farm->title_land }}', '{{ $farm->picture_land }}', '{{ $farm->picture_land1 }}', '{{ $farm->picture_land2 }}', '{{ $farm->farm_leader_firstname }}', '{{ $farm->farm_leader_lastname }}'); confirmArchive('{{ $farm->id }}');">
                 <i class="ri-archive-line fs-3"></i>
             </a>
         </li>
@@ -439,7 +439,7 @@ function updateButtonVisibility(status) {
 }
 
 // Function to show farm details in the modal
-function showFarmDetails(id, farmName, barangayName, area, address, farmLeader, status, titleLand, pictureLand, pictureLand1, pictureLand2) {
+function showFarmDetails(id, farmName, barangayName, area, address, farmLeader, status, titleLand, pictureLand, pictureLand1, pictureLand2, farmLeaderFirstName, farmLeaderLastName) {
     // Switch based on the lowercased, hyphenated status
     switch (status.toLowerCase().replace(/\s+/g, '-')) {
     case 'for-investigation':
@@ -482,7 +482,7 @@ function showFarmDetails(id, farmName, barangayName, area, address, farmLeader, 
     $('#barangay_name_modal').val(barangayName);
     $('#area_modal').val(area);
     $('#address_modal').val(address);
-    $('#farm_leader_modal').val(farmLeader);
+    $('#farm_leader_modal').val(farmLeaderFirstName + ' ' + farmLeaderLastName);
     
     $('#title_land_modal')
     .attr('href', "/view-pdf/" + id)

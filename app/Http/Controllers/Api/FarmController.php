@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 
+
 class FarmController extends Controller
 {
 //View PDF - IMG ///
@@ -306,8 +307,11 @@ public function viewFarms(Request $request)
 
     $farms = DB::table('farms')
         ->join('barangays', 'farms.barangay_name', '=', 'barangays.barangay_name')
+        ->leftJoin('users', 'farms.farm_leader', '=', 'users.id') // Join with users table for farm leader
+
         ->where('farms.barangay_name', '=', $barangayName)
         ->select('farms.*')
+        ->select('farms.*', 'users.firstname as farm_leader_firstname', 'users.lastname as farm_leader_lastname') // Select relevant columns with aliases
         ->get();
 
     return view('pages.farms.view', compact('farms', 'barangayName'));
@@ -321,26 +325,20 @@ public function viewFarms3(Request $request)
     // Get the authenticated user
     $user = Auth::user();
 
-    if ($user) {
-        // If the user is a farm leader, retrieve farms based on their farm_leader value and barangay_name
-        $farms = DB::table('farms')
-            ->join('barangays', 'farms.barangay_name', '=', 'barangays.barangay_name')
-            ->where('farms.farm_leader', '=', $user->firstname . ' ' . $user->lastname)
-            ->where('farms.barangay_name', '=', $barangayName)
-            ->select('farms.*')
-            ->get();
-    } else {
-        // If the user is not authenticated, you may want to handle this case accordingly
-        // For now, let's assume there's a default behavior, like fetching all farms for a specific barangay
-        $farms = DB::table('farms')
-            ->join('barangays', 'farms.barangay_name', '=', 'barangays.barangay_name')
-            ->where('farms.barangay_name', '=', $barangayName)
-            ->select('farms.*')
-            ->get();
-    }
+    $farms = DB::table('farms')
+        ->join('barangays', 'farms.barangay_name', '=', 'barangays.barangay_name')
+        ->leftJoin('users', 'farms.farm_leader', '=', 'users.id') // Join with users table for farm leader
+        ->when($user, function ($query) use ($user) {
+            // If the user is a farm leader, retrieve farms based on their farm_leader value and barangay_name
+            return $query->where('farms.farm_leader', '=', $user->id);
+        })
+        ->where('farms.barangay_name', '=', $barangayName)
+        ->select('farms.*', 'users.firstname as farm_leader_firstname', 'users.lastname as farm_leader_lastname') // Select relevant columns with aliases
+        ->get();
 
     return view('pages.farms.view1', compact('farms', 'barangayName'));
 }
+
 
 public function addFarms(Request $request)
     {
@@ -360,10 +358,6 @@ public function addFarms(Request $request)
 
             // Retrieve user details based on the selected farm_leader
             $selectedUser = User::findOrFail($request->input('farm_leader'));
-
-            // Extract first name and last name from the user details
-            $farmLeaderFirstName = $selectedUser->firstname;
-            $farmLeaderLastName = $selectedUser->lastname;
 
             $barangayName = $request->input('barangay_name');
             $farmName = $request->input('farm_name');
@@ -385,7 +379,7 @@ public function addFarms(Request $request)
             'farm_name' => $request->input('farm_name'),
             'address' => $request->input('address'),
             'area' => $request->input('area'),
-            'farm_leader' => $farmLeaderFirstName . ' ' . $farmLeaderLastName,
+            'farm_leader' => $selectedUser->id, // Use the id from the selected user
             'status' => $request->input('status', 'Created'),
             'title_land' => $titleLandPath,
             'picture_land' => $pictureLandPath,
@@ -454,6 +448,24 @@ public function updateStatusCancel($id)
         return response()->json(['success' => false, 'message' => 'Error updating farm status to "Cancel"']);
     }
 }
+public function updateFarm(Request $request, $id)
+{
+    // Validate the form data if needed
+
+    // Update the farm record based on the provided $id
+    $farm = Farm::findOrFail($id);
+
+    if (!$farm) {
+        return response()->json(['error' => 'Farm not found'], 404);
+    }
+
+    // Update farm attributes using $request data
+    $farm->update($request->all());
+
+    return response()->json(['message' => 'Farm updated successfully', 'farm' => $farm]);
+}
+
+
 
 
 }

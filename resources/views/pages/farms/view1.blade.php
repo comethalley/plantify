@@ -120,7 +120,7 @@
 
           <td class="details vertical-line">
             <b style="color: blue; font-size: 16px;">FARM APPLICATION</b><br>
-            <b style="font-family: 'Bahnschrift', sans-serif; font-size: 15px;">Farm Leader :</b> &nbsp;{{ strtoupper($farm->farm_leader) }}<br>
+            <b style="font-family: 'Bahnschrift', sans-serif; font-size: 15px;">Farm Leader :</b> &nbsp;{{ strtoupper($farm->farm_leader_firstname) }} {{ strtoupper($farm->farm_leader_lastname) }}<br>
             <b style="font-family: 'Bahnschrift', sans-serif; font-size: 15px;">Farm Name :</b> &nbsp;{{ strtoupper($farm->farm_name) }}<br>
             <b style="font-family: 'Bahnschrift', sans-serif; font-size: 15px;">Area :</b> &nbsp;{{ strtoupper($farm->area) }}<br>
             <b style="font-family: 'Bahnschrift', sans-serif; font-size: 15px;">Address :</b> &nbsp;{{ strtoupper($farm->address) }}, {{ strtoupper($farm->barangay_name) }}<br>
@@ -173,7 +173,7 @@
 <div class="centered-container times-new-roman-bold">
     <ul class="list-inline hstack gap-2 mb-0">
         <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="View Application">
-            <a href="#" data-bs-toggle="modal" data-bs-target="#viewModals" class="btn btn-outline-secondary text-primary d-inline-block edit-item-btn d-flex align-items-center justify-content-center custom-btn mt-2" onclick="showFarmDetails('{{ $farm->id }}', '{{ $farm->farm_name }}', '{{ $farm->barangay_name }}', '{{ $farm->area }}', '{{ $farm->address }}', '{{ $farm->farm_leader }}', '{{ $farm->status }}', '{{ $farm->title_land }}', '{{ $farm->picture_land }}', '{{ $farm->picture_land1 }}', '{{ $farm->picture_land2 }}');">
+        <a href="#" data-bs-toggle="modal" data-bs-target="#viewModals" class="btn btn-outline-secondary text-primary d-inline-block edit-item-btn d-flex align-items-center justify-content-center custom-btn mt-2" onclick="showFarmDetails('{{ $farm->id }}', '{{ $farm->farm_name }}', '{{ $farm->barangay_name }}', '{{ $farm->area }}', '{{ $farm->address }}', '{{ $farm->farm_leader }}', '{{ $farm->status }}', '{{ $farm->title_land }}', '{{ $farm->picture_land }}', '{{ $farm->picture_land1 }}', '{{ $farm->picture_land2 }}', '{{ $farm->farm_leader_firstname }}', '{{ $farm->farm_leader_lastname }}'); updateButtonVisibility('{{ $farm->status }}');">
                 <div class="d-flex align-items-center">
                     <i class="ri-profile-line fs-3 me-2 black"></i>
                     <span class="black">View Application</span>
@@ -186,35 +186,32 @@
 <div class="centered-container times-new-roman-bold">
     @unless($farm->status == 'Cancelled')
         <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Cancel Application">
-            <a href="#" class="btn btn-outline-danger waves-effect waves-light text-primary d-inline-block edit-item-btn d-flex align-items-center justify-content-center custom-btn1 mt-2" onclick="updateCancel('{{ $farm->id }}')">
+            <a href="#" class="btn btn-outline-danger waves-effect waves-light text-primary d-inline-block edit-item-btn d-flex align-items-center justify-content-center custom-btn1 mt-2" onclick="showFarmDetails('{{ $farm->id }}', '{{ $farm->farm_name }}', '{{ $farm->barangay_name }}', '{{ $farm->area }}', '{{ $farm->address }}', '{{ $farm->farm_leader }}', '{{ $farm->status }}', '{{ $farm->title_land }}', '{{ $farm->picture_land }}', '{{ $farm->picture_land1 }}', '{{ $farm->picture_land2 }}', '{{ $farm->farm_leader_firstname }}', '{{ $farm->farm_leader_lastname }}'); updateCancel('{{ $farm->id }}')">
                 <div class="d-flex align-items-center">
                     <i class="mdi mdi-cancel fs-3 me-2 black"></i>
                     <span class="black">Cancel Application</span>
                 </div>
             </a>
-        </li>
-    @endunless
+                                    </li>
+                                @endunless
+                            </div>
+                                            </td>
+                                            </td>
+                                        </tr>
+                                            @endforeach
+                                            @else
+                                        <tr>
+                                    <td colspan="7">
+                                <p>No farms found.</p>
+                            </td>
+                        </tr>
+                    @endif
+                </tbody>
+            </table>  
+        </div>
+    </div>
 </div>
 
-
-
-</td>
-          </td>
-        </tr>
-        @endforeach
-        @else
-        <tr>
-          <td colspan="7">
-            <p>No farms found.</p>
-          </td>
-        </tr>
-        @endif
-      </tbody>
-    </table>
-    
-  </div>
-</div>
-</div>
 <div class="row">
     <div class="col-6">
         <button class="btn btn-secondary" onclick="goBack()">Back</button>
@@ -242,7 +239,7 @@
 <div class="modal fade" id="statusModal" tabindex="-1" role="dialog" aria-labelledby="statusModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header p-2">
                 <h5 class="modal-title text-danger font-weight-bold" id="statusModalLabel" style="font-size: 20px;">Status Tags</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -288,94 +285,99 @@
     </div>
 </div>
 
-
-
 <div class="modal fade modal-lg" id="viewModals" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header bg-light p-3">
-                <h5 class="modal-title" id="exampleModalLabel">Farm Details</h5>
+            <div class="modal-header bg-light p-2">
+            <h5 class="modal-title" id="exampleModalLabel" style="color: white; font-size: 24px;">Farm Details</h5>
+            <h4 id="status_modal" style="color: white; font-size: 18px;"></h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
             </div>
 
             <div class="modal-body">
                 <div class="row">
-                <div class="col-md-12">
-    <!-- Status -->
-    <label for="status_modal" class="form-label custom-label">Status:</label>
-    <button id="status_modal" class="btn btn-primary btn-border">Active</button>
-    <br>
-    <br>
-</div>
 
-<div class="row">
-    <div class="col-md-6">
-        <!-- Farm Information -->
-        <label for="farm_name_modal" class="form-label custom-label">Farm Name:</label>
-        <input type="text" id="farm_name_modal" class="form-control" disabled placeholder="Farm Name">
-        <br>
-        <label for="barangay_name_modal" class="form-label custom-label">Barangay Name:</label>
-        <input type="text" id="barangay_name_modal" class="form-control" disabled placeholder="Barangay Name">
-        <br>
-        
-        <label for="title_land_modal" class="form-label custom-label">Title of land:</label>
-    <div>
-        <a id="title_land_modal" href="#" target="_blank" class="pdf-link">
-            View PDF for Farm <span id="farm_id_placeholder"></span> - <span id="title_land_placeholder"></span>
-        </a>
-    </div>
+                <div class="col-md-5">
+                        <!-- Status -->
+                        <label for="farm_name_modal" class="form-label custom-label">Farm Name:</label>
+                            <input type="text" id="farm_name_modal" name="farm_name" class="form-control" disabled placeholder="Farm Name">
+                        <br>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <!-- Farm Information -->
+                            <label for="farm_leader_modal" class="form-label custom-label">Farm Leader:</label>
+                            <input type="text" id="farm_leader_modal" class="form-control" name="farm_leader" disabled placeholder="Farm Leader">
+                            <br>
+                            <label for="address_modal" class="form-label custom-label">Address:</label>
+                            <input type="text" id="address_modal" class="form-control" name="address" disabled placeholder="Title of Land">
+                            <br>
 
-<br>
+                            <div class="list-group-item nested-2">
+                                <i class="mdi mdi-folder fs-16 align-middle text-warning me-2"></i> Picture of land (Images)
+                                <div class="list-group nested-list nested-sortable">
+                                    <div class="list-group-item nested-4">
+                                        <i class="mdi mdi-image fs-16 align-middle text-info me-2"></i>
+                                        <a id="picture_land_modal" href="#" target="_blank" class="pdf-link"></a>
+                                    </div>
+                                    <div class="list-group-item nested-3">
+                                        <i class="mdi mdi-image fs-16 align-middle text-info me-2"></i>
+                                        <a id="picture_land_modal1" href="#" target="_blank" class="pdf-link"></a>
+                                    </div>
+                                    <div class="list-group-item nested-3">
+                                        <i class="mdi mdi-image fs-16 align-middle text-info me-2"></i>
+                                        <a id="picture_land_modal2" href="#" target="_blank" class="pdf-link"></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-    </div>
+                        <div class="col-md-6">
+                            <!-- Additional Information -->
+                            <label for="barangay_name_modal" class="form-label custom-label">Barangay Name:</label>
+                            <input type="text" id="barangay_name_modal" class="form-control" name="barangay_name" disabled placeholder="Barangay Name">
+                            <br>
+                            <label for="area_modal" class="form-label custom-label">Area:</label>
+                            <input type="text" id="area_modal" class="form-control" disabled placeholder="Area">
+                            <br>
 
-    <div class="col-md-6">
-        <!-- Additional Information -->
-        <label for="farm_leader_modal" class="form-label custom-label">Farm Leader:</label>
-        <input type="text" id="farm_leader_modal" class="form-control" disabled placeholder="Farm Leader">
-        <br>
-        <label for="address_modal" class="form-label custom-label">Address:</label>
-        <input type="text" id="address_modal" class="form-control" disabled placeholder="Title of Land">
-        <br>
-        <label for="area_modal" class="form-label custom-label">Area:</label>
-        <input type="text" id="area_modal" class="form-control" disabled placeholder="Area">
+                            <div class="list-group-item nested-2">
+                                <i class="mdi mdi-folder fs-16 align-middle text-warning me-2"></i> Title of land (PDF)
+                                <div class="list-group nested-list nested-sortable">
+                                <div class="list-group-item nested-3" style="position: relative;">
+                                        <i class="bx bxs-file-pdf fs-16 align-middle text-danger me-2"></i>
+                                        <a id="title_land_modal" href="#" target="_blank" class="pdf-link">
+                                            View PDF for Farm <span id="farm_id_placeholder"></span> - <span id="title_land_placeholder"></span>
+                                        </a>
 
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-12">
-        <label for="picture_land_modal" class="form-label custom-label">Picture of land:</label>
-            <div>
-                <a id="picture_land_modal" href="#" target="_blank" class="pdf-link">
-                    View IMG for Farm 
-                </a>
-            </div>
-            <div>
-                <a id="picture_land_modal1" href="#" target="_blank" class="pdf-link">
-                    View IMG for Farm 
-                </a>
-            </div>
-            <div>
-                <a id="picture_land_modal2" href="#" target="_blank" class="pdf-link">
-                    View IMG for Farm
-                </a>
-            </div>
-    </div>
-</div>
+                                        <!-- Circular Button in the right end corner with upper margin and circular border -->
+                                        <button class="btn btn-primary" style="position: absolute; top: 2px; right: 1px; background-color: transparent; border: 1px solid transparent; color: #000; border-radius: 50%;">X</button>
 
-                <!-- Additional row with buttons -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Additional row with buttons -->
+                    <div class="row mt-3 ">
+                        <!-- For Investigation and For Visiting buttons -->
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-link link-success fw-medium text-decoration-none" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i>Close</button>
+                    </div>
+                    </div>
+                </div>
+                </form>
             </div>
         </div>
     </div>
-</div>
-</div>
 </div>
 
     <!-- Modal -->
 <div class="modal fade" id="updateCancelModal" tabindex="-1" role="dialog" aria-labelledby="updateCancelModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-light p-3">
+        <div class="modal-header p-4">
                 <h5 class="modal-title" id="updateCancelModalLabel">Cancellation of Application</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -384,7 +386,7 @@
                     <div class="modal-body" style="color: red; text-align: center;">
                         Are you sure you want to Cancel your Application?
                     </div>
-
+                <hr>
             <div class="modal-footer">
                     <!-- No Button with custom text -->
                     <button type="button" class="btn btn-link link-success fw-medium text-decoration-none" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i>Close</button>
@@ -396,6 +398,7 @@
         </div>
     </div>
 </div>
+
 
 
 <!-- Add this modal at the end of your Blade file -->
@@ -538,78 +541,157 @@ function createParagraphss(htmlContent, isBold, fontSize) {
         $('#statusModal').modal('show');
     }
 
-// Function to show farm details in the modal
-function showFarmDetails(id, farmName, barangayName, area, address, farmLeader, status, titleLand, pictureLand, pictureLand1, pictureLand2) {
-    // Switch based on the lowercased, hyphenated status
-    switch (status.toLowerCase().replace(/\s+/g, '-')) {
-        case 'for-investigation':
-        case 'created':
-            $('#status_modal').html(status + '<i class="fas fa-check-double label-icon align-middle rounded-pill fs-16 ms-2"></i> ')
-                .removeClass().addClass('btn btn-primary btn-label waves-effect right waves-light rounded-pill');
-            break;
-        case 'for-visiting':
-        case 'resubmit':
-            $('#status_modal').html('<i class="fas fa-info-circle label-icon align-middle rounded-pill fs-16 ms-2"></i> ' + status)
-                .removeClass().addClass('btn btn-secondary btn-label waves-effect right waves-light rounded-pill');
-            break;
-        case 'waiting-for-approval':
-            $('#status_modal').html('<i class="fas fa-hourglass-half label-icon align-middle rounded-pill fs-16 ms-2"></i> ' + status)
-                .removeClass().addClass('btn btn-warning btn-label waves-effect right waves-light rounded-pill');
-            break;
-        case 'approved':
-            $('#status_modal').html('<i class="fas fa-check-circle label-icon align-middle rounded-pill fs-16 ms-2"></i> ' + status)
-                .removeClass().addClass('btn btn-success btn-label waves-effect right waves-light rounded-pill');
-            break;
-        case 'disapproved':
-        case 'cancelled':
-            $('#status_modal').html('<i class="fas fa-times-circle label-icon align-middle rounded-pill fs-16 ms-2"></i> ' + status)
-                .removeClass().addClass('btn btn-danger btn-label waves-effect right waves-light rounded-pill');
-            break;
-        default:
-            $('#status_modal').text(status).removeClass().addClass('status status-' + status.toLowerCase().replace(/\s+/g, '-') + ' btn btn-no-shadow');
-    }
+    function submitUpdateForm(id) {
+    // Get the form data
+    var form = document.getElementById('updateFarmForm');
+    var formData = new FormData(form);
 
-    // Set values for other fields
+    fetch('/update-farms/' + id, {
+        method: 'PUT',
+        body: formData,
+        headers: {
+            'X-CSRF-Token': '{{ csrf_token() }}',
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Handle the response data here
+        console.log(data);
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+    function updateButtonVisibility(status) {
+    console.log('Updating button visibility for status:', status);
+
+    // Check if status is defined
+    if (typeof status !== 'undefined') {
+        // Show all buttons by default
+        $('#forInvestigationBtn, #forVisitingBtn, #approvedBtn, #disapprovedBtn, #waitingForApprovalBtn, #updateConfirmButton').show();
+
+        // Hide specific buttons based on the status
+        switch (status.toLowerCase().replace(/\s+/g, '-')) {
+            case 'created':
+            case 'for-investigation':
+            case 'for-visiting':
+            case 'approved':
+            case 'disapproved':
+            case 'cancelled':
+            case 'waiting-for-approval':
+                $('#forInvestigationBtn, #forVisitingBtn, #approvedBtn, #disapprovedBtn, #waitingForApprovalBtn, #updateConfirmButton').hide();
+                break;
+            case 'resubmit':
+                // Hide only the "Resubmit" button
+                $('#forInvestigationBtn, #forVisitingBtn, #approvedBtn, #disapprovedBtn, #waitingForApprovalBtn').hide();
+                break;
+        }
+    } else {
+        console.error('Status is undefined.');
+    }
+}
+// Function to show farm details in the modal
+function showFarmDetails(id, farmName, barangayName, area, address, farmLeader, status, titleLand, pictureLand, pictureLand1, pictureLand2, farmLeaderFirstName, farmLeaderLastName) {
+    // Switch based on the lowercased, hyphenated status
+// Assuming status is already defined
+switch (status.toLowerCase().replace(/\s+/g, '-')) {
+    case 'for-investigation':
+    case 'created':
+        $('#status_modal').html('(' + status + ')')
+            .removeClass().addClass('badge bg-primary fs-5');
+        $('#viewModals .modal-header').removeClass().addClass('modal-header bg-primary p-3');
+        // Add the 'disabled' attribute to inputs when status is not 'for-visiting' or 'resubmit'
+        $('#viewModals input.form-control').attr('disabled', 'disabled');
+        break;
+    case 'for-visiting':
+        $('#status_modal').html('(' + status + ')')
+            .removeClass().addClass('badge bg-primary fs-5');
+        $('#viewModals .modal-header').removeClass().addClass('modal-header bg-secondary p-3');
+        // Add the 'disabled' attribute to inputs when status is not 'for-visiting' or 'resubmit'
+        $('#viewModals input.form-control').attr('disabled', 'disabled');
+        break;
+    case 'resubmit':
+        $('#status_modal').html('(' + status + ')')
+            .removeClass().addClass('badge bg-secondary fs-4');
+        $('#viewModals .modal-header').removeClass().addClass('modal-header bg-secondary p-3');
+        // Remove the 'disabled' attribute from inputs when status is 'for-visiting' or 'resubmit'
+        $('#viewModals input.form-control').removeAttr('disabled');
+        break;
+    case 'waiting-for-approval':
+        $('#status_modal').html('(' + status + ')')
+            .removeClass().addClass('badge bg-warning fs-5');
+        $('#viewModals .modal-header').removeClass().addClass('modal-header bg-warning p-3');
+        // Add the 'disabled' attribute to inputs when status is not 'for-visiting' or 'resubmit'
+        $('#viewModals input.form-control').attr('disabled', 'disabled');
+        break;
+    case 'approved':
+        $('#status_modal').html('(' + status + ')')
+            .removeClass().addClass('badge bg-success fs-5');
+        $('#viewModals .modal-header').removeClass().addClass('modal-header bg-success p-3');
+        // Add the 'disabled' attribute to inputs when status is not 'for-visiting' or 'resubmit'
+        $('#viewModals input.form-control').attr('disabled', 'disabled');
+        break;
+    case 'disapproved':
+    case 'cancelled':
+        $('#status_modal').html('(' + status + ')')
+            .removeClass().addClass('badge bg-danger fs-5');
+        $('#viewModals .modal-header').removeClass().addClass('modal-header bg-danger p-3');
+        // Add the 'disabled' attribute to inputs when status is not 'for-visiting' or 'resubmit'
+        $('#viewModals input.form-control').attr('disabled', 'disabled');
+        break;
+    default:
+        $('#status_modal').html('(' + status + ')').removeClass().addClass('status status-' + status.toLowerCase().replace(/\s+/g, '-') + ' btn btn-no-shadow');
+        $('#viewModals .modal-header').removeClass(); // Reset to default modal header style
+        // Add the 'disabled' attribute to inputs when status is not 'for-visiting' or 'resubmit'
+        $('#viewModals input.form-control').attr('disabled', 'disabled');
+}
+
+
     $('#farm_name_modal').val(farmName);
     $('#barangay_name_modal').val(barangayName);
     $('#area_modal').val(area);
     $('#address_modal').val(address);
-    $('#farm_leader_modal').val(farmLeader);
-    
+    $('#farm_leader_modal').val(farmLeaderFirstName + ' ' + farmLeaderLastName);
+
     $('#title_land_modal')
-    .attr('href', "/view-pdf/" + id)
-    .attr('target', '_blank')
-    .text('View PDF for Farm ' + id); 
-    
+        .attr('href', "/view-pdf/" + id)
+        .attr('target', '_blank')
+        .text('View PDF for Farm ' + id);
+
     $('#picture_land_modal')
-    .attr('href', "/view-image/" + id)
-    .attr('target', '_blank')
-    .text('View IMG for Farm ' + id);
-    
+        .attr('href', "/view-image/" + id)
+        .attr('target', '_blank')
+        .text('View IMG for Farm ' + id);
+
+    // Check if pictureLand1 has a value before setting the link
     if (pictureLand1) {
-    $('#picture_land_modal1')
-        .attr('href', "/view-image1/" + id)
-        .attr('target', '_blank')
-        .text('View IMG for Farm ' + id)
-        .show(); // Ensure the link is visible
-} else {
-    // Hide the link if pictureLand1 has no value
-    $('#picture_land_modal1').hide();
+        $('#picture_land_modal1')
+            .attr('href', "/view-image1/" + id)
+            .attr('target', '_blank')
+            .text('View IMG for Farm ' + id)
+            .parent()  // Get the parent div
+            .show();    // Ensure the entire div is visible
+    } else {
+        // Hide the entire div if pictureLand1 has no value
+        $('#picture_land_modal1').parent().hide();
+    }
+
+    // Check if pictureLand2 has a value before setting the link
+    if (pictureLand2) {
+        $('#picture_land_modal2')
+            .attr('href', "/view-image2/" + id)
+            .attr('target', '_blank')
+            .text('View IMG for Farm ' + id)
+            .parent()  // Get the parent div
+            .show();    // Ensure the entire div is visible
+    } else {
+        // Hide the entire div if pictureLand2 has no value
+        $('#picture_land_modal2').parent().hide();
+    }
+    $('#updateConfirmButton').data('farm-id', id);
+    updateButtonVisibility(status);
 }
 
-// Check if pictureLand2 has a value before setting the link
-if (pictureLand2) {
-    $('#picture_land_modal2')
-        .attr('href', "/view-image2/" + id)
-        .attr('target', '_blank')
-        .text('View IMG for Farm ' + id)
-        .show(); // Ensure the link is visible
-} else {
-    // Hide the link if pictureLand2 has no value
-    $('#picture_land_modal2').hide();
-} // You can customize the text as needed
 
-}
 function updateCancel(id) {
     // Set the farm ID to be canceled
     $("#updateStatusBtn").data("farm-id", id);
@@ -719,6 +801,9 @@ $(document).ready(function () {
 
 </script>
 <style>
+    .btn-primary:hover {
+            background-color: #d3d3d3 !important; /* Light gray background on hover */
+    }
     .rounded-border {
         border: 1px solid #ccc;
         border-radius: 10px; /* Adjust the value to control the roundness of the corners */

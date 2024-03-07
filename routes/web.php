@@ -18,6 +18,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\PlantCalendar;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\AboutUsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -68,6 +69,8 @@ Route::get('/download-qrCode/{filename}', [InventoryController::class, 'download
 Route::get('/getLogs/{id}', [InventoryController::class, 'logs']);
 Route::get('/inventory/uom', [InventoryController::class, 'uom']);
 Route::post('/add-uom', [InventoryController::class, 'addUom']);
+Route::get('/getUom', [InventoryController::class, 'getUom']);
+Route::get ('/about-us',[AboutUsController::class,'index']);
 Route::get('/getAllUom', [InventoryController::class, 'getUom']);
 Route::post('/edit-uom/{id}', [InventoryController::class, 'updateUom']);
 Route::post('/archive-uom/{id}', [InventoryController::class, 'archiveUom']);

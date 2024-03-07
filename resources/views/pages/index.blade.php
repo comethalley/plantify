@@ -903,7 +903,7 @@
                                     <a class="dropdown-item" href="#"><i class="ri-delete-bin-5-line align-bottom text-muted me-2"></i>
                                         Delete</a>
                                 </div>
-                            </div>
+                            </div> 
                         </div>
                     </div> -->
             <!-- end card header -->
@@ -999,5 +999,6 @@
     <!-- container-fluid -->
 </div>
 <!-- End Page-content -->
+
 
 @include('templates.footer')

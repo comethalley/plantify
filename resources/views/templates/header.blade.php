@@ -106,11 +106,14 @@
                         <div class="dropdown topbar-head-dropdown ms-1 header-item" id="notificationDropdown">
                         @foreach($notifications as $key)
                             <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" id="{{ $key->id }}" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
-                                <i class="bx bx-bell fs-22"></i>
-                                @if($key->unread)
+
+                            <i class="bx bx-bell fs-22"></i>
+                                
                                 <span class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger">{{ $key->unread }}<span class="visually-hidden">unread messages</span></span>
-                                @endif
+                                
+                                
                             </button>
+                            @endforeach
                             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0" aria-labelledby="page-header-notifications-dropdown">
                                 <div class="dropdown-head bg-primary bg-pattern rounded-top">
                                     <div class="p-3">
@@ -125,7 +128,7 @@
                                                 </span>
                                             </div>
                                         </div>
-                                        @endforeach 
+                                       
                                     </div>
 
                                     <div class="px-2 pt-2">
@@ -165,7 +168,7 @@
                                                     <p class="mb-1">WE have a new events 🔔.</p>
                                                 </div>
                                                 <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
-                                                    <span><i class="mdi mdi-clock-outline"></i> 48 min ago</span>
+                                                    <span><i class="mdi mdi-clock-outline"></i> 1 min ago</span>
                                                 </p>
                                             </div>
                                             <div class="px-2 fs-15">
@@ -530,7 +533,7 @@ channel.bind('my-event', function(data) {
                 if(pending) {
                     $('#' + data.from).find('.pending').html(pending + 1);
                 } else {
-                    $('#' + data.from).html('<a href="#" class="nav-link" data-toggle="dropdown"><i  class="fa fa-bell text-white"><span class="badge badge-danger pending">1</span></i></a>');
+                    $('#' + data.from).html();
                 }
             }
 });

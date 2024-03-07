@@ -33,7 +33,8 @@ class AuthController extends Controller
       
        // dd($notifications);
        $notifs = DB::table('message_notifs')->orderBy('id', 'DESC')->get();
-       $notifications = DB::select("SELECT users.id, users.firstname, users.lastname, users.email, COUNT(is_read) AS unread FROM users LEFT JOIN message_notifs ON users.id = message_notifs.from AND message_notifs.is_read = 0 WHERE users.id = ".Auth::id()." GROUP BY users.id, users.firstname, users.lastname, users.email");
+       $notifications = DB::select("SELECT users.id, users.firstname, users.lastname, users.email, COUNT(is_read) AS unread FROM users LEFT JOIN message_notifs ON users.id = message_notifs.from AND message_notifs.is_read = 0 GROUP BY users.id, users.firstname, users.lastname, users.email");
+       
        return view('pages.index', ['notifications' => $notifications, 'notifs' => $notifs]); 
     }
 

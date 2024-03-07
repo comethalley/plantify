@@ -178,26 +178,26 @@ class PlantinfoController extends Controller
 
     public function pesticides()
     {
-        $plantinfo = DB::table('plant_infos')
+        $pesticide = DB::table('pesticide')
         ->where('status', 1)
         ->select(
             "*"
         )
         ->get();
 
-        return view('pages.plantinfo.pesticides', ['plantinfo' => $plantinfo]);
+        return view('pages.plantinfo.pesticides', ['pesticide' => $pesticide]);
     }
 
     public function fertilizers()
     {
 
-        $plantinfo = DB::table('plant_infos')
+        $fertilizers = DB::table('fertilizers')
             ->where('status', 1)
             ->select(
                 "*"
             )
             ->get();
 
-        return view('pages.plantinfo.fertilizers' , ['plantinfo' => $plantinfo]);
+        return view('pages.plantinfo.fertilizers' , ['fertilizers' => $fertilizers]);
     }
 }

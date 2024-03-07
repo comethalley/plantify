@@ -16,18 +16,22 @@ class TaskController extends Controller
     public function index()
     {
         // Fixed the syntax for the 'with' method'
-        $users = DB::table('users')->where('status', '1')->orderBy('id', 'DESC')->get();
-        $tasks = Task::where('completed', false)->orderBy('priority', 'desc')->orderBy('due_date')->get();
+        // Example logic to select users with small task assignments
+        $users = DB::table('users')
+            ->leftJoin('tasks', 'users.id', '=', 'tasks.user_id')
+            ->select('users.id', 'users.firstname', 'users.lastname', DB::raw('COUNT(tasks.id) as task_count'))
+            ->groupBy('users.id', 'users.firstname', 'users.lastname')
+            ->orderBy('task_count', 'ASC')
+            ->get();
+
+            $tasks = Task::where('completed', false)
+            ->where('archived', false)
+            ->orderBy('priority', 'desc')
+            ->orderBy('due_date')
+            ->get();
         return view('pages.tasks.monitoring', compact('tasks','users'));
 
 
-    }
-
-    public function create()
-    {
-
-        $user = DB::table('users')->where('status', '1')->orderBy('id', 'DESC')->get();
-        return view('pages.tasks.create', ['users' => $user]);
     }
 
 
@@ -38,7 +42,7 @@ class TaskController extends Controller
             'title' => 'required|max:255',
             'description' => 'nullable',
             'priority' => 'required|string|max:255',
-            'due_date' => 'nullable|max:255',
+            'due_date' => 'required|date_format:Y-m-d\TH:i',
             'status' => 'nullable|string|max:11',
             'user_id' => 'nullable|exists:users,id',
         ]);
@@ -70,7 +74,7 @@ class TaskController extends Controller
             'title' => 'required|max:255',
             'description' => 'nullable',
             'priority' => 'required|string|max:255',
-            'due_date' => 'nullable|max:255',
+            'due_date' => 'required|date_format:Y-m-d\TH:i',
             'status' => 'nullable|string|max:255',
             'user_id' => 'nullable|exists:users,id',
         ]);
@@ -145,4 +149,31 @@ class TaskController extends Controller
         return response()->json(['tasks' => $tasks]);
     }
     
+    public function archive(Task $task)
+    {
+        $task->update([
+            'archived' => true,
+            'archived_at' => now(),
+        ]);
+    
+        return redirect()->route('tasks.monitoring')->with('success', 'Task Archived Successfully');
+    }
+
+    public function showArchived()
+    {
+        $archivedTasks = Task::where('archived', true)
+                            ->orderBy('archived_at', 'desc')
+                            ->get();
+        return view('pages.tasks.archived', compact('archivedTasks'));
+    }
+
+    public function restore(Task $task)
+{
+    $task->update([
+        'archived' => false,
+        'archived_at' => null, // Optionally, you can reset the archived_at timestamp
+    ]);
+
+    return redirect()->route('archived')->with('success', 'Task Restored Successfully');
+}
 }

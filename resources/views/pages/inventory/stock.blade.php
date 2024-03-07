@@ -48,8 +48,8 @@
                                 </div>
                                 <div class="col-sm-auto">
                                     <div class="d-flex gap-1 flex-wrap">
-                                        <button type="button" class="btn btn-secondary waves-effect waves-light" data-bs-toggle="modal" id="create-btn" data-bs-target="#receiveModal"><i class="ri-add-line align-bottom me-1"></i> Receiving</button>
-                                        <button type="button" class="btn btn-success waves-effect waves-light" data-bs-toggle="modal" id="create-btn" data-bs-target="#usingModal"><i class="ri-add-line align-bottom me-1"></i> Planting</button>
+                                        <button type="button" class="btn btn-secondary waves-effect waves-light" data-bs-toggle="modal" id="create-btn" data-bs-target="#receiveModal"><i class="ri-add-line align-bottom me-1"></i> Add Stock</button>
+                                        <button type="button" class="btn btn-success waves-effect waves-light" data-bs-toggle="modal" id="create-btn" data-bs-target="#usingModal"><i class="ri-add-line align-bottom me-1"></i> Release</button>
                                         <button class="btn btn-soft-danger" id="remove-actions" onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button>
                                     </div>
                                 </div>
@@ -259,7 +259,7 @@
                                         <form method="post" action="/add-supplier">
                                             @csrf
                                             <div class="modal-body">
-                                                <input type="text" class="form-control" id="logs-id" placeholder="Enter your email">
+                                                <input type="hidden" class="form-control" id="logs-id" placeholder="Enter your email">
                                                 <h5 class="mb-3">Please Input Your Credentials</h5>
                                                 <div class="mb-2">
                                                     <input type="email" class="form-control" id="logs-email" placeholder="Enter your email">

@@ -6,6 +6,7 @@ use App\Models\Thread;
 use App\Models\Message;
 use App\Models\Reply;
 use App\Models\User;
+use App\Models\Group;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -43,8 +44,20 @@ public function showThread($threadId)
     // Retrieve messages for the current thread
     $messages = $thread->messages;
 
-    return view('pages.thread', compact('thread', 'users', 'messages'));
+    // Get a list of groups
+    $groups = Group::all();
+
+    $id = Auth::user()->id; 
+    $farmLeaders = DB::table('farms')
+        ->where('status', 1)
+        ->where('farm_leader', $id)
+        ->select("*")
+        ->first();
+
+    // Return to the view with the updated data
+    return view('pages.thread', compact('thread', 'users', 'messages', 'groups', 'farmLeaders'));
 }
+
 
 
 

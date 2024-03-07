@@ -15,12 +15,25 @@ return new class extends Migration
     {
         Schema::create('farms', function (Blueprint $table) {
             $table->id();
+            $table->string('barangay_name');
             $table->string('farm_name');
-            $table->string('area');
             $table->string('address');
+            $table->string('area');
             $table->string('farm_leader');
-            $table->string('createdBy');
             $table->string('status');
+            
+            // Change 'title_land' to use BLOB
+            $table->binary('title_land');
+            
+            // Change 'picture_land' to use BLOB
+            $table->binary('picture_land');
+            
+            // Change 'picture_land1' to use BLOB and allow nullable
+            $table->binary('picture_land1')->nullable();
+            
+            // Change 'picture_land2' to use BLOB and allow nullable
+            $table->binary('picture_land2')->nullable();
+
             $table->timestamps();
         });
     }

@@ -6,6 +6,7 @@ use App\Models\Thread;
 use App\Models\Message;
 use App\Models\Reply;
 use App\Models\User;
+use App\Models\Group;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -18,18 +19,29 @@ class ChatController extends Controller
      * @return \Illuminate\View\View
      */
     public function index()
-{
-    // Get the currently logged-in user
-    $currentUser = Auth::user();
+    {
+        // Get the currently logged-in user
+        $currentUser = Auth::user();
+    
+        // Retrieve all other users for the chat list (excluding the logged-in user)
+        $users = User::where('id', '!=', $currentUser->id)->get();
+    
+        // Add your logic to retrieve chat threads (modify as per your actual implementation)
+        $threads = Thread::with('messages')->get();
 
-    // Retrieve all other users for the chat list (excluding the logged-in user)
-    $users = User::where('id', '!=', $currentUser->id)->get();
+        // Get a list of groups
+        $groups = Group::all();
 
-    // Add your logic to retrieve chat threads (modify as per your actual implementation)
-    $threads = Thread::with('messages')->get();
-
-    return view('pages.chat', compact('users', 'threads'));
-}
+        $id = Auth::user()->id; 
+        $farmLeaders = DB::table('farms')
+            ->where('status', 1)
+            ->where('farm_leader', $id)
+            ->select("*")
+            ->first();
+            
+    
+        return view('pages.chat', compact('users', 'threads', 'groups', 'farmLeaders'));
+    }
 
     /**
      * Display the messages for a specific thread.
@@ -48,29 +60,7 @@ class ChatController extends Controller
     
 
 
-    /**
-     * Store a new message in a thread.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function storeMessage(Request $request, $threadId)
-    {
-        // Validate the incoming request data
-        $request->validate([
-            'content' => 'required|string',
-        ]);
 
-        // Create a new message in the specified thread
-        Message::create([
-            'thread_id' => $threadId,
-            'sender_id' => auth()->user()->id, // Assuming you have user authentication
-            'content' => $request->input('content'),
-            'create_date' => now(),
-        ]);
-
-        return redirect()->route('chat.show', $threadId);
-    }
 
     /**
      * Store a reply to a message.
@@ -128,16 +118,7 @@ class ChatController extends Controller
         return User::where('id', '!=', $currentUser->id)->get();
     }
 
-    public function unread()
-    {
-        // Assuming you are fetching users somewhere
-        $users = User::with(['messages' => function ($query) {
-            $query->where('isRead', false);
-        }])->get();
-    
-        // Pass the $users collection to your view
-        return view('your.view', compact('users'));
-    }
+
     
 
     public function markMessagesAsRead($userId)
@@ -160,6 +141,17 @@ class ChatController extends Controller
         }
     
         return response()->json(['success' => false]);
+    }
+    
+
+    public function searchUsers(Request $request)
+    {
+        $term = $request->input('term');
+    
+        // Perform a case-insensitive search on the firstname and lastname columns
+        $users = User::where('firstname', 'LIKE', '%' . $term . '%')->orWhere('lastname', 'LIKE', '%' . $term . '%')->get();
+    
+        return response()->json($users);
     }
     
     

@@ -193,6 +193,8 @@
                                             <div class="modal-body">
                                                 <div class="mt-4 text-center">
                                                     <input type="hidden" id="archive-supplierID" class="form-control" placeholder="ID" />
+                                                    <lord-icon src="https://cdn.lordicon.com/drxwpfop.json" trigger="hover" style="width:100px;height:100px">
+                                                    </lord-icon>
                                                     <h4>You are about to archive <span id="archive-supplier-name"></span>?</h4>
                                                     <p class="text-muted fs-15 mb-4">Are you sure you want to proceed ?</p>
                                                     <div class="hstack gap-2 justify-content-center remove">
@@ -231,7 +233,7 @@
                                                     Add Seeds from this Supplier
                                                 </h5>
                                                 <div class="row">
-                                                    <input type="text" name="supplier-id" id="supplier-id" class="form-control" readonly />
+                                                    <input type="hidden" name="supplier-id" id="supplier-id" class="form-control" readonly />
                                                     <div class="col-lg-4">
                                                         <div class="input-group">
                                                             <select class="form-select" id="seed">

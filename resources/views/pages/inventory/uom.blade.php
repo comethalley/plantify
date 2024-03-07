@@ -84,7 +84,7 @@
                                                 <th class="sort" data-sort="city">Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody class="list form-check-all">
+                                        <tbody class="list form-check-all" id="uom-table">
 
                                         </tbody>
 
@@ -109,7 +109,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <!--Create Supplier Modal-->
+                            <!--Create UOM Modal-->
                             <div class="modal fade" id="uomShowModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
@@ -139,26 +139,67 @@
                                     </div>
                                 </div>
                             </div>
+                            <!--End Create UOM Modal-->
 
-                            <!-- Modal -->
-                            <div class="modal fade flip" id="deleteOrder" tabindex="-1" aria-hidden="true">
+                            <!--Edit UOM Modal-->
+                            <div class="modal fade" id="uomEditShowModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
-                                        <div class="modal-body p-5 text-center">
-                                            <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop" colors="primary:#405189,secondary:#f06548" style="width:90px;height:90px"></lord-icon>
-                                            <div class="mt-4 text-center">
-                                                <h4>You are about to delete a order ?</h4>
-                                                <p class="text-muted fs-15 mb-4">Deleting your order will remove all of your information from our database.</p>
-                                                <div class="hstack gap-2 justify-content-center remove">
-                                                    <button class="btn btn-link link-success fw-medium text-decoration-none" id="deleteRecord-close" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i> Close</button>
-                                                    <button class="btn btn-danger" id="delete-record">Yes, Delete It</button>
-                                                </div>
+                                        <div class="modal-header bg-light p-3">
+                                            <h5 class="modal-title" id="exampleModalLabel">Edit Unit of Measurement</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+                                        </div>
+                                        @csrf
+                                        <div class="modal-body">
+                                            <input type="hidden" id="id-field" />
+
+                                            <input type="hidden" id="edit-unit-id" class="form-control" placeholder="ID" readonly />
+
+                                            <div class="mb-3">
+                                                <label for="customername-field" class="form-label">Measurement Name</label>
+                                                <input type="text" name="measurementname" id="edit-unit-name" class="form-control" placeholder="Ex. Per Pack" required />
+                                            </div>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <div class="hstack gap-2 justify-content-end">
+                                                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-success" id="edit-uom-btn">Edit</button>
+                                                <!-- <button type="button" class="btn btn-success" id="edit-btn">Update</button> -->
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <!--end modal -->
+                            <!--End Edit UOM Modal-->
+
+                            <!--Archive UOM Modal -->
+                            <div class="modal fade" id="uomArchiveShowModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <!-- <div class="modal-header bg-light p-3">
+                                            <h5 class="modal-title" id="farm-name">&nbsp;</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+                                        </div> -->
+                                        <form method="post" action="/add-supplier">
+                                            @csrf
+                                            <div class="modal-body">
+                                                <div class="mt-4 text-center">
+                                                    <input type="hidden" id="archive-uomID" class="form-control" placeholder="ID" />
+                                                    <h4>You are about to archive <span id="archive-uom-name"></span> measurement?</h4>
+                                                    <p class="text-muted fs-15 mb-4">Are you sure you want to proceed ?</p>
+                                                    <div class="hstack gap-2 justify-content-center remove">
+                                                        <button type="button" class="btn btn-link link-success fw-medium text-decoration-none" id="deleteRecord-close" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i> Close</button>
+                                                        <button type="button" class="btn btn-danger" id="archive-uom-btn">Yes, Archive It</button>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--End Archive UOM Modal-->
                         </div>
                     </div>
 

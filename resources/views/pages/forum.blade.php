@@ -62,7 +62,7 @@
 
 
 
-                                                    <div class="hstack mt-3"><input class="form-control me-auto form-control " type="text" name="" placeholder="Start your questions with “What” , “Why” , “How” etc." value="" style="width: 100%; border-width: 0px 0px 1px 0px " fdprocessedid="cawh3q">
+                                                    <div class="hstack mt-3"><input class="form-control me-auto form-control" type="text" name="" placeholder="Start your questions with “What” , “Why” , “How” etc." value="" style="width: 100%; border-width: 0px 0px 1px 0px " fdprocessedid="cawh3q">
 
                                                     </div>
                                                 </div>
@@ -157,6 +157,13 @@
                                                 <div class="modal-body">
 
                                                     <div>
+                                                        <h5 class="fs-15">
+                                                            Tips on successfully sharing your planting journey
+                                                        </h5>
+                                                        <p class="text-muted">• Keep your planting story precise </p>
+                                                        <p class="text-muted">• Avoid spamming</p>
+                                                        <p class="text-muted">• Be authentic</p>
+
                                                         <div>
                                                             <img src="/assets/images/plantifeedpics/rounded.png" alt="Image Description" class="object-cover rounded-full" style="width: 40px; height: 40px; margin-right: 8px;">
                                                             <b>Center for Urban Agriculture and Innovation</b>
@@ -184,7 +191,7 @@
 
 
                                                     <div class="hstack mt-3">
-                                                        <textarea class="form-control me-auto form-control mr-8" name="" placeholder="Say something..." style="width:100%; height: 150px; resize: none; border: none;"></textarea>
+                                                        <textarea class="form-control me-auto form-control mr-8" id="post" name="" placeholder="Say something..." style="width:100%; height: 150px; resize: none; border: none;"></textarea>
                                                     </div>
 
                                                     <!--  -->
@@ -194,7 +201,7 @@
 
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
-                                                    <button type="button" class="btn btn-primary ">Add Questions</button>
+                                                    <button type="button" class="btn btn-primary " id="post-btn">Post</button>
                                                 </div>
 
                                             </div><!-- /.modal-content -->

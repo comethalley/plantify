@@ -551,6 +551,7 @@ class InventoryController extends Controller
         $uoms = DB::table('uoms')->where('status', '1')->orderBy('id', 'DESC')->get();
 
         return response()->json(['uoms' => $uoms], 200);
+        //return view('pages.inventory.uomtable', ['uoms' => $uoms]);
     }
 
     public function addUom(Request $request)
@@ -574,6 +575,62 @@ class InventoryController extends Controller
             return response()->json(['message' => 'Measurement added successfully'], 200);
         } else {
             return response()->json(['error' => 'Failed to save in the database'], 500);
+        }
+    }
+
+    public function updateUom(Request $request, $id)
+    {
+        try {
+            $uoms = Uom::findOrFail($id);
+
+            $validator = Validator::make($request->all(), [
+                "unitName" => "required|string|max:55"
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json(['errors' => $validator->errors()], 422);
+            }
+
+            $data = $validator->validated();
+
+            $uoms->update([
+                'description' => $data['unitName'],
+            ]);
+
+            if ($uoms) {
+                return response()->json(['message' => 'Measurement Updated Successfully'], 200);
+            } else {
+                return response()->json(['error' => 'Internal Server Error'], 500);
+            }
+        } catch (ModelNotFoundException $e) {
+
+            return response()->json(['error' => 'UOM not found'], 404);
+        } catch (\Exception $e) {
+
+            return response()->json(['error' => 'Internal Server Error'], 500);
+        }
+    }
+
+    public function archiveUom(Request $request, $id)
+    {
+        try {
+            $uoms = Uom::findOrFail($id);
+
+            $uoms->update([
+                'status' => 0,
+            ]);
+
+            if ($uoms) {
+                return response()->json(['message' => 'Measurement Archive Successfully'], 200);
+            } else {
+                return response()->json(['error' => 'Internal Server Error'], 500);
+            }
+        } catch (ModelNotFoundException $e) {
+
+            return response()->json(['error' => 'UOM not found'], 404);
+        } catch (\Exception $e) {
+
+            return response()->json(['error' => 'Internal Server Error'], 500);
         }
     }
 }

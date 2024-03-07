@@ -1,65 +1,6 @@
 console.log("Hello JS is here!")
 
 $(document).ready(function() {
-    getUoms()
-
-    $('#add-uom-btn').on('click', function() {
-        console.log("uom-btn is clicked")
-        var unitName = $("#unit-name").val()
-
-        $.ajax({
-            url: "/add-uom",
-            method: "POST",
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            data: {
-                'unitName': unitName,
-             },
-            success: function(data) {
-                console.log(data)
-                getUoms();
-                $('#uomShowModal').modal('hide');
-            },
-            error: function(xhr, status, error) {
-                if (xhr.status === 422) {
-                    var errors  = JSON.parse(xhr.responseText);
-                    console.error("Validation Error:", errors);
-                } else {
-                    console.error("Error:", error);
-                }
-            }
-        });
-    });
-
-    function getUoms(){
-        $.ajax({
-            url: "/getUom",
-            method: "GET",
-            success: function(data) {
-                console.log(data)
-                populateUomTable(data)
-            },
-            error: function(xhr, status, error) {
-                console.error("Error:", status, error);
-            }
-        });
-    }
-
-    function populateUomTable(data){
-        var tableBody = $("#uomTable tbody");
-        tableBody.empty();
-
-        $.each(data.uoms, function(index, uom) {
-            var row = '<tr> <th scope="row"><div class="form-check"><input class="form-check-input" type="checkbox" name="checkAll" value="option1"></div></th>' 
-                        +'<td class="id"># ' + uom.id + '</td>' 
-                        +'<td class="customer_name">' + uom.description + '</td>' +
-                        '<td><ul class="list-inline hstack gap-2 mb-0"><li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="View"><a href="" class="text-primary d-inline-block supplier_btn" data-supplier-id="{{ $per_uoms->id }}"><i class="ri-eye-fill fs-16"></i></a></li><li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Edit"><a href="" class="text-primary d-inline-block edit_btn" data-supplier-id="{{ $per_uoms->id }}"><i class="ri-pencil-fill fs-16"></i></a></li><li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Remove"><a class="text-danger d-inline-block archive_btn" href="" data-supplier-id="{{ $per_uoms->id }}"><i class="ri-delete-bin-5-fill fs-16"></i></a></li></ul></td>'+
-                       '</tr>';
-
-            tableBody.append(row);
-        });
-    }
 
     getAllSupplier()
 

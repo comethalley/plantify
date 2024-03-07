@@ -9,7 +9,6 @@
 </head>
 <body>
     
-
 <div class="main-content">
     <div class="page-content">
         <div class="container-fluid">
@@ -333,10 +332,6 @@
     <!-- container-fluid -->
 </div>
 <!-- End Page-content -->
-
-
-
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
@@ -349,9 +344,6 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-    
-    
-
     
     document.addEventListener('DOMContentLoaded', function () {
         // Initialize Flatpickr
@@ -399,7 +391,6 @@
                 var eventStart = info.event.start;
                 var eventEnd = info.event.end;
                 var eventStatus = info.event.extendedProps.status;
-                var eventDescription = info.event.extendedProps.description;
 
                 // Display event details in the Event Detail Modal
                 $('#eventtitle').text(eventTitle);
@@ -409,12 +400,11 @@
                 $('#eventstart').text(moment(eventStart).format("YYYY-MM-DD"));
                 $('#eventend').text(moment(eventEnd).format("YYYY-MM-DD"));
                 $('#eventstatus').text(eventStatus);
-                $('#eventdescription').text(eventDescription);
+                
 
                 // Store event ID for update and delete
                 var eventId = info.event.id;
                 $('#deleteEventBtn').data('event-id', eventId);
-
                 // Populate update modal fields
                 $('#updateEventTitle').val(eventTitle);
                 $('#updateEventSeed').val(eventSeed);
@@ -423,18 +413,15 @@
                 $('#updatestart-datepicker').val(moment(eventStart).format("YYYY-MM-DD"));
                 $('#updateend-datepicker').val(moment(eventEnd).format("YYYY-MM-DD"));
                 $('#updatestatus').val(eventStatus);
-                $('#updateDescription').val(eventDescription);
+                
 
                 // Show the Event Detail Modal
                 $('#EventdetailModal').modal('show');
 
                 console.log(eventHarvested)
                 console.log(info)
-            
-                
+          
             },
-
-
             // Drag And Drop
             eventDrop: function (info) {
                 var eventId = info.event.id;
@@ -488,8 +475,7 @@
             title: title,
             start: start,
             end: end,
-            status: status,
-            
+            status: status,        
             seed: seed,
             harvested: harvested,
             destroyed: destroyed,
@@ -507,8 +493,7 @@
                         title: title,
                         start: start,
                         end: end,
-                        status: status,
-                        
+                        status: status,         
                         seed: seed,
                         harvested: harvested,
                         destroyed: destroyed,
@@ -537,15 +522,14 @@
             handleEventDelete($(this).data('event-id'));
         });
 
-        function handleEventUpdate(eventId, start, end, status, description, seed, harvested, destroyed) {
+        function handleEventUpdate(eventId, start, end, status, seed, harvested, destroyed) {
             $.ajax({
                 url: "/plantcalendar/" + eventId,
                 type: "PUT",
                 data: {
                     start_date: start,
                     end_date: end,
-                    status: status,
-                    description: description,
+                    status: status,                
                     seed: seed,
                     harvested: harvested,
                     destroyed: destroyed,
@@ -670,7 +654,5 @@
 
 </script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-
-
 
 @include('templates.footer')

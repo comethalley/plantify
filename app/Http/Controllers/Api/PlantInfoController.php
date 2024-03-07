@@ -175,4 +175,29 @@ class PlantinfoController extends Controller
         ]);
         return response()->json(['plantinfo' => $plantinfo], 200);
     }
+
+    public function pesticides()
+    {
+        $plantinfo = DB::table('plant_infos')
+        ->where('status', 1)
+        ->select(
+            "*"
+        )
+        ->get();
+
+        return view('pages.plantinfo.pesticides', ['plantinfo' => $plantinfo]);
+    }
+
+    public function fertilizers()
+    {
+
+        $plantinfo = DB::table('plant_infos')
+            ->where('status', 1)
+            ->select(
+                "*"
+            )
+            ->get();
+
+        return view('pages.plantinfo.fertilizers' , ['plantinfo' => $plantinfo]);
+    }
 }

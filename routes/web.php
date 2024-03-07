@@ -142,6 +142,9 @@ Route::post('/plantinfo', [PlantInfoController::class, 'store']);
 Route::post('/archive/{id}', [PlantInfoController::class, 'archive']);
 Route::get('/restore', [PlantInfoController::class, 'restore']);
 Route::post('/unarchive/{id}', [PlantInfoController::class, 'unarchive']);
+Route::get('/pesticides', [PlantInfoController::class, 'pesticides']);
+Route::get('/fertilizers', [PlantInfoController::class, 'fertilizers']);
+
 //==========================================================================
 
 //for farm management =======================================================

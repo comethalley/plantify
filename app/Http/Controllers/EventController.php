@@ -16,9 +16,10 @@ class EventController extends Controller
     {
         $events = DB::table('events')->where('status', '1')->orderBy('id', 'DESC')->get();
         //dd($events);
+        $notifs = DB::table('message_notifs')->orderBy('id', 'DESC')->get();
         $notifications = DB::select("SELECT users.id, users.firstname, users.lastname, users.email, COUNT(is_read) AS unread FROM users LEFT JOIN message_notifs ON users.id = message_notifs.from AND message_notifs.is_read = 0 WHERE users.id = ".Auth::id()." GROUP BY users.id, users.firstname, users.lastname, users.email");
         $data = DB::table('events')->where('status', '1')->orderBy('id', 'DESC')->get();
-        return view('pages.eventscalendar', ['events' => $events, 'data' => $data, 'notifications' => $notifications]);
+        return view('pages.eventscalendar', ['events' => $events, 'data' => $data, 'notifications' => $notifications, 'notifs' => $notifs]);
     }
 
     public function create(Request $request)
@@ -65,16 +66,16 @@ class EventController extends Controller
 
     public function getEvents()
     {
-        $event = Event::all();
-        return response()->json($event);
+       $events = Event::where('status', '!=', 0)->get();
+        
+        return response()->json($events);
     }
-
     public function getdata($id)
     {
         $data = DB::table('events')->where('id', $id)->orderBy('id', 'DESC')->get();
         //return view('pages.eventscalendar',['data'=>$data]);
         //dd($data);
-        return response()->json($data);
+        return view('pages.eventscalendar', ['data' => $data]);
     }
 
 

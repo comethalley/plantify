@@ -134,6 +134,7 @@
                                                 <a class="nav-link active" data-bs-toggle="tab" href="#all-noti-tab" role="tab" aria-selected="true">
                                                     All
                                                 </a>
+                                                
                                             </li>
                                             <li class="nav-item waves-effect waves-light">
                                                 <a class="nav-link" data-bs-toggle="tab" href="#messages-tab" role="tab" aria-selected="false">
@@ -151,7 +152,31 @@
 
                                 <div class="tab-content position-relative" id="notificationItemsTabContent">
                                     <div class="tab-pane fade show active py-2 ps-2" id="all-noti-tab" role="tabpanel">
-
+                                    <div class="text-reset notification-item d-block dropdown-item position-relative">
+                                    @foreach ($notifs as $notif) 
+                                    <div class="d-flex">
+                                      
+                                            <img src="assets/images/users/avatar-2.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                            <div class="flex-grow-1">
+                                                <a href="/schedules" class="stretched-link">
+                                                    <h6 class="mt-0 mb-1 fs-13 fw-semibold">{{ $notif->message}}</h6>
+                                                </a>
+                                                <div class="fs-13 text-muted">
+                                                    <p class="mb-1">WE have a new events 🔔.</p>
+                                                </div>
+                                                <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+                                                    <span><i class="mdi mdi-clock-outline"></i> 48 min ago</span>
+                                                </p>
+                                            </div>
+                                            <div class="px-2 fs-15">
+                                                <div class="form-check notification-check">
+                                                    <input class="form-check-input" type="checkbox" value="" id="all-notification-check02">
+                                                    <label class="form-check-label" for="all-notification-check02"></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @endforeach
+                                    </div>
                                     </div>
 
                                     <div class="tab-pane fade py-2 ps-2" id="messages-tab" role="tabpanel" aria-labelledby="messages-tab">

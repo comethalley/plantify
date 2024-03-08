@@ -62,7 +62,7 @@
 
                                                 <th class="sort" data-sort="">#</th>
                                                 <th class="sort" data-sort="">Name</th>
-                                                <th class="sort" data-sort="">Pesticide Image</th>
+                                                <th class="sort" data-sort="">Description</th>
                                                 <th class="sort" data-sort="">Actions</th>
                                             </tr>
                                         </thead>

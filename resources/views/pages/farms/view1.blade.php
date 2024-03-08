@@ -296,10 +296,13 @@
 
             <div class="modal-body">
                 <div class="row">
-
+                <form id="updateFarmForm" action="" method="post">
+                    @csrf
+                    <!-- @method('PUT') -->
                 <div class="col-md-5">
+                <input type="hidden" name="" id="farm_id_modal">
                         <!-- Status -->
-                        <label for="farm_name_modal" class="form-label custom-label">Farm Name:</label>
+                        <label for="farm_name_modal" class="form-label custom-label">Farm name:</label>
                             <input type="text" id="farm_name_modal" name="farm_name" class="form-control" disabled placeholder="Farm Name">
                         <br>
                     </div>
@@ -338,7 +341,7 @@
                             <input type="text" id="barangay_name_modal" class="form-control" name="barangay_name" disabled placeholder="Barangay Name">
                             <br>
                             <label for="area_modal" class="form-label custom-label">Area:</label>
-                            <input type="text" id="area_modal" class="form-control" disabled placeholder="Area">
+                            <input type="text" id="area_modal" class="form-control" name="area" disabled placeholder="Area">
                             <br>
 
                             <div class="list-group-item nested-2">
@@ -364,6 +367,8 @@
                         <!-- For Investigation and For Visiting buttons -->
                         <div class="modal-footer">
                         <button type="button" class="btn btn-link link-success fw-medium text-decoration-none" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i>Close</button>
+                        <button type="button" id="updateConfirmButton" class="btn btn-danger" onclick="submitUpdateForm()">Update</button>
+
                     </div>
                     </div>
                 </div>
@@ -541,13 +546,15 @@ function createParagraphss(htmlContent, isBold, fontSize) {
         $('#statusModal').modal('show');
     }
 
-    function submitUpdateForm(id) {
+    function submitUpdateForm() {
     // Get the form data
     var form = document.getElementById('updateFarmForm');
     var formData = new FormData(form);
+    var id = document.getElementById('farm_id_modal').value;
 
+    console.log(id);
     fetch('/update-farms/' + id, {
-        method: 'PUT',
+        method: 'POST',
         body: formData,
         headers: {
             'X-CSRF-Token': '{{ csrf_token() }}',
@@ -557,6 +564,7 @@ function createParagraphss(htmlContent, isBold, fontSize) {
     .then(data => {
         // Handle the response data here
         console.log(data);
+        location.reload();  // Corrected typo here
     })
     .catch(error => console.error('Error:', error));
 }
@@ -601,6 +609,9 @@ switch (status.toLowerCase().replace(/\s+/g, '-')) {
         $('#viewModals .modal-header').removeClass().addClass('modal-header bg-primary p-3');
         // Add the 'disabled' attribute to inputs when status is not 'for-visiting' or 'resubmit'
         $('#viewModals input.form-control').attr('disabled', 'disabled');
+        $('#viewModals select.form-select').attr('disabled', 'disabled');
+        $('#viewModals select#farm_leader_modal').attr('disabled', 'disabled');
+
         break;
     case 'for-visiting':
         $('#status_modal').html('(' + status + ')')
@@ -608,13 +619,51 @@ switch (status.toLowerCase().replace(/\s+/g, '-')) {
         $('#viewModals .modal-header').removeClass().addClass('modal-header bg-secondary p-3');
         // Add the 'disabled' attribute to inputs when status is not 'for-visiting' or 'resubmit'
         $('#viewModals input.form-control').attr('disabled', 'disabled');
+        $('#viewModals select.form-select').attr('disabled', 'disabled');
+        $('#viewModals select#farm_leader_modal').attr('disabled', 'disabled');
+
         break;
     case 'resubmit':
         $('#status_modal').html('(' + status + ')')
             .removeClass().addClass('badge bg-secondary fs-4');
         $('#viewModals .modal-header').removeClass().addClass('modal-header bg-secondary p-3');
         // Remove the 'disabled' attribute from inputs when status is 'for-visiting' or 'resubmit'
-        $('#viewModals input.form-control').removeAttr('disabled');
+        var dropdownHtml = `
+                <div class="input-group">
+                    <select id="barangay_name_modal" class="form-select" name="barangay_name">
+                        <option value="BagBag">BagBag</option>
+                        <option value="Capri">Capri</option>
+                        <option value="Fairview">Fairview</option>
+                        <option value="Gulod">Gulod</option>
+                        <option value="Greater Lagro">Greater Lagro</option>
+                        <option value="Kaligayahan">Kaligayahan</option>
+                        <option value="Nagkaisang Nayon">Nagkaisang Nayon</option>
+                        <option value="North Fairview">North Fairview</option>
+                        <option value="Novaliches Proper">Novaliches Proper</option>
+                        <option value="Pasong Putik Proper">Pasong Putik Proper</option>
+                        <option value="San Agustin">San Agustin</option>
+                        <option value="San Bartolome">San Bartolome</option>
+                        <option value="Sta. Lucia">Sta. Lucia</option>
+                        <option value="Sta. Monica">Sta. Monica</option>
+                    </select>
+                </div>
+            `;
+            $('#barangay_name_modal').replaceWith(dropdownHtml);
+            
+            var farmLeaderDropdownHtml = `
+                <div class="input-group">
+                    <select id="farm_leader_modal1" class="form-select" name="farm_leader">
+                        @foreach ($farmLeaders as $user)
+                            <option value="{{ $user->id }}">{{ $user->firstname }} {{ $user->lastname }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            `;
+            $('#farm_leader_modal').replaceWith(farmLeaderDropdownHtml);
+
+            $('#viewModals select.form-select').removeAttr('disabled');
+            $('#viewModals select#farm_leader_modal').removeAttr('disabled');  
+            $('#viewModals input.form-control').removeAttr('disabled');
         break;
     case 'waiting-for-approval':
         $('#status_modal').html('(' + status + ')')
@@ -622,6 +671,10 @@ switch (status.toLowerCase().replace(/\s+/g, '-')) {
         $('#viewModals .modal-header').removeClass().addClass('modal-header bg-warning p-3');
         // Add the 'disabled' attribute to inputs when status is not 'for-visiting' or 'resubmit'
         $('#viewModals input.form-control').attr('disabled', 'disabled');
+        $('#viewModals select.form-select').attr('disabled', 'disabled');
+        $('#viewModals select#farm_leader_modal').attr('disabled', 'disabled');
+
+
         break;
     case 'approved':
         $('#status_modal').html('(' + status + ')')
@@ -629,6 +682,9 @@ switch (status.toLowerCase().replace(/\s+/g, '-')) {
         $('#viewModals .modal-header').removeClass().addClass('modal-header bg-success p-3');
         // Add the 'disabled' attribute to inputs when status is not 'for-visiting' or 'resubmit'
         $('#viewModals input.form-control').attr('disabled', 'disabled');
+        $('#viewModals select.form-select').attr('disabled', 'disabled');
+        $('#viewModals select#farm_leader_modal').attr('disabled', 'disabled');
+
         break;
     case 'disapproved':
     case 'cancelled':
@@ -637,20 +693,29 @@ switch (status.toLowerCase().replace(/\s+/g, '-')) {
         $('#viewModals .modal-header').removeClass().addClass('modal-header bg-danger p-3');
         // Add the 'disabled' attribute to inputs when status is not 'for-visiting' or 'resubmit'
         $('#viewModals input.form-control').attr('disabled', 'disabled');
+        $('#viewModals select.form-select').attr('disabled', 'disabled');
+        $('#viewModals select#farm_leader_modal').attr('disabled', 'disabled');
+
         break;
     default:
         $('#status_modal').html('(' + status + ')').removeClass().addClass('status status-' + status.toLowerCase().replace(/\s+/g, '-') + ' btn btn-no-shadow');
         $('#viewModals .modal-header').removeClass(); // Reset to default modal header style
         // Add the 'disabled' attribute to inputs when status is not 'for-visiting' or 'resubmit'
         $('#viewModals input.form-control').attr('disabled', 'disabled');
+        $('#viewModals select.form-select').attr('disabled', 'disabled');
+        $('#viewModals select#farm_leader_modal').attr('disabled', 'disabled');
+
 }
 
-
+    $('#farm_id_modal').val(id);
     $('#farm_name_modal').val(farmName);
     $('#barangay_name_modal').val(barangayName);
     $('#area_modal').val(area);
     $('#address_modal').val(address);
     $('#farm_leader_modal').val(farmLeaderFirstName + ' ' + farmLeaderLastName);
+    $('#farm_leader_modal1').html(farmLeaderDropdownHtml);
+    
+
 
     $('#title_land_modal')
         .attr('href', "/view-pdf/" + id)

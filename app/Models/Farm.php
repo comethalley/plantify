@@ -22,5 +22,14 @@ class Farm extends Model
         'picture_land2',
     ];
 
-    
+    /**
+     * Update the farm record in the database.
+     *
+     * @param array $data
+     * @return bool
+     */
+    public function updateFarm(array $data)
+    {
+        return $this->update($data);
+    }
 }

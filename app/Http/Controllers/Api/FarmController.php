@@ -308,7 +308,6 @@ public function viewFarms(Request $request)
     $farms = DB::table('farms')
         ->join('barangays', 'farms.barangay_name', '=', 'barangays.barangay_name')
         ->leftJoin('users', 'farms.farm_leader', '=', 'users.id') // Join with users table for farm leader
-
         ->where('farms.barangay_name', '=', $barangayName)
         ->select('farms.*')
         ->select('farms.*', 'users.firstname as farm_leader_firstname', 'users.lastname as farm_leader_lastname') // Select relevant columns with aliases
@@ -325,6 +324,12 @@ public function viewFarms3(Request $request)
     // Get the authenticated user
     $user = Auth::user();
 
+    // Retrieve farm leaders
+    $farmLeaders = User::where('status', 1)
+                       ->where('role_id', 3)
+                       ->select('id', 'firstname', 'lastname')
+                       ->get();
+
     $farms = DB::table('farms')
         ->join('barangays', 'farms.barangay_name', '=', 'barangays.barangay_name')
         ->leftJoin('users', 'farms.farm_leader', '=', 'users.id') // Join with users table for farm leader
@@ -336,7 +341,7 @@ public function viewFarms3(Request $request)
         ->select('farms.*', 'users.firstname as farm_leader_firstname', 'users.lastname as farm_leader_lastname') // Select relevant columns with aliases
         ->get();
 
-    return view('pages.farms.view1', compact('farms', 'barangayName'));
+    return view('pages.farms.view1', compact('farms', 'barangayName', 'farmLeaders'));
 }
 
 

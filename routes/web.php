@@ -19,6 +19,8 @@ use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\PlantCalendar;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\AboutUsController;
+use App\Http\Controllers\EmailVerification;
+use App\Http\Controllers\PiuController;
 
 /*
 |--------------------------------------------------------------------------
@@ -70,7 +72,7 @@ Route::get('/getLogs/{id}', [InventoryController::class, 'logs']);
 Route::get('/inventory/uom', [InventoryController::class, 'uom']);
 Route::post('/add-uom', [InventoryController::class, 'addUom']);
 Route::get('/getUom', [InventoryController::class, 'getUom']);
-Route::get ('/about-us',[AboutUsController::class,'index']);
+Route::get('/about-us', [AboutUsController::class, 'index']);
 Route::get('/getAllUom', [InventoryController::class, 'getUom']);
 Route::post('/edit-uom/{id}', [InventoryController::class, 'updateUom']);
 Route::post('/archive-uom/{id}', [InventoryController::class, 'archiveUom']);
@@ -203,4 +205,15 @@ Route::post('/expenses/save-expense', [ExpenseController::class, 'saveExpense'])
 Route::get('/compute-total-expenses', [ExpenseController::class, 'computeTotalExpenses'])->name('compute-total-expenses');
 Route::get('/expenses/get-dashboard-data', [ExpenseController::class, 'getDashboardData']);
 // Route::get('/expenses', [ExpenseController::class, 'getExpenses']);
+//===========================================================================================================
+
+//Email Verification ===================================================
+Route::get('/verify-email', [EmailVerification::class, 'emailVerification']);
+//===========================================================================================================
+
+//Botaknows Userside ===================================================
+Route::get('/piu/piu', [PiuController::class, 'index']);
+Route::get('/piu/fiu', [PiuController::class, 'fer']);
+Route::get('/piu/pes', [PiuController::class, 'pes']);
+Route::get('/piu/show/{id}', [PiuController::class, 'show']);
 //===========================================================================================================

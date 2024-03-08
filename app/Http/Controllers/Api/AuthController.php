@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Libraries\PlantifyLibrary;
 use App\Mail\MailInvitation;
 use App\Models\User;
 use App\Models\PlantifeedModel;
@@ -20,6 +21,12 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class AuthController extends Controller
 {
+    protected $plantifyLibrary;
+
+    public function __construct(PlantifyLibrary $plantifyLibrary)
+    {
+        $this->plantifyLibrary = $plantifyLibrary;
+    }
 
     public function index()
     {
@@ -296,7 +303,16 @@ class AuthController extends Controller
             }
 
             $data = $validator->validated();
+
+            // print_r($data);
+            // exit;
             $generate_password = $this->generate_password(10);
+
+            $hash = $this->plantifyLibrary->generatehash(123);
+            $emailInvitation = $this->emailInvitation($data['email'], $data['firstname'], $generate_password, $hash);
+
+            print_r($emailInvitation);
+            exit;
 
             $admins = User::create([
                 'firstname'  => $data['firstname'],
@@ -307,8 +323,15 @@ class AuthController extends Controller
                 'status' => 1
             ]);
 
+
             if ($admins) {
-                return response()->json(['message' => 'Admin Invited Successfully', 'data' => $admins], 200);
+
+
+                // if ($emailInvitation) {
+                //     print_r($emailInvitation);
+                //     exit;
+                //     //return response()->json(['message' => 'Admin Invited Successfully', 'data' => $admins], 200);
+                // }
             } else {
                 return response()->json(['error' => 'Admin cant add Internal Server Error'], 500);
             }
@@ -369,14 +392,15 @@ class AuthController extends Controller
         return $password;
     }
 
-    public function emailInvitation($email, $firstname, $generate_password)
+    public function emailInvitation($email, $firstname, $generate_password, $hash)
     {
         $data = [
             "subject" => "Plantify Invitation Mail",
             "firstname" => $firstname,
             "email" => $email,
-            "password" => $generate_password,
-            "body" => "Join the urban green revolution !"
+            // "password" => $generate_password,
+            "body" => "Join the urban green revolution !",
+            "hash" => $hash
         ];
         // return json_encode($data);
 

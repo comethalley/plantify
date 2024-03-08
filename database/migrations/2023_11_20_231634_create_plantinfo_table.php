@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('plant_infos', function (Blueprint $table) {
             $table->id();
             $table->string("plant_name");
-            $table->string("planting_date");
-            $table->string("information");
+            $table->string("seasons");
+            $table->text("information");
             $table->string("companion");
             $table->string("status");
             $table->timestamps();

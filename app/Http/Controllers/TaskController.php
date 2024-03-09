@@ -4,8 +4,9 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Carbon;
 use Illuminate\Http\Request;
-use App\Models\Task;
+use App\Models\Task; 
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -13,26 +14,32 @@ use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
-    public function index()
-    {
-        // Fixed the syntax for the 'with' method'
-        // Example logic to select users with small task assignments
-        $users = DB::table('users')
-            ->leftJoin('tasks', 'users.id', '=', 'tasks.user_id')
-            ->select('users.id', 'users.firstname', 'users.lastname', DB::raw('COUNT(tasks.id) as task_count'))
-            ->groupBy('users.id', 'users.firstname', 'users.lastname')
-            ->orderBy('task_count', 'ASC')
-            ->get();
+    public function index()                
+{
+    $minimumTasks = 5; // Define the minimum number of tasks
+    
+    // Fetch users with their task counts
 
-            $tasks = Task::where('completed', false)
-            ->where('archived', false)
-            ->orderBy('priority', 'desc')
-            ->orderBy('due_date')
-            ->get();
-        return view('pages.tasks.monitoring', compact('tasks','users'));
+        $users = User::select('users.id', 'users.firstname', 'users.lastname', DB::raw('COUNT(CASE WHEN tasks.completed != 1 AND tasks.archived != 1  THEN tasks.id ELSE NULL END) AS tasks_count'))
+        ->leftJoin('tasks', 'users.id', '=', 'tasks.user_id')
+        ->groupBy('users.id', 'users.firstname', 'users.lastname')
+        ->havingRaw('tasks_count < ?', [$minimumTasks]) // Filter users whose non-archived and non-completed task count is not equal to 1
+        ->orderByRaw('tasks_count ASC')
+        ->get();
+    
+        $overdueTasks = Task::where('due_date', '<', Carbon::now())->get();
+    
+    // Fetch tasks for monitoring
+    $tasks = Task::where('completed', false)
+        ->where('archived', false)
+        ->orderByDesc('priority')
+        ->orderBy('due_date')
+        ->get();
 
+    return view('pages.tasks.monitoring', compact('tasks', 'users','overdueTasks'));
+}
 
-    }
+                                
 
 
     public function store(Request $request)
@@ -45,7 +52,7 @@ class TaskController extends Controller
             'due_date' => 'required|date_format:Y-m-d\TH:i',
             'status' => 'nullable|string|max:11',
             'user_id' => 'nullable|exists:users,id',
-        ]);
+        ]);                     
 
         Task::create([
             'title' => $request->input('title'),
@@ -61,11 +68,14 @@ class TaskController extends Controller
     }
 
     public function edit(Task $task)
-    {
-
-        $user = DB::table('users')->where('status', '1')->orderBy('id', 'DESC')->get();
-        return view('pages.tasks.edit', compact('task'), ['users' => $user]);
-    }
+{
+    $minimumTasks = 5; // Adjust as needed
+    $usersMeetingMinimumTasks = User::withCount('tasks')->having('tasks_count', '>=', $minimumTasks)->get();
+    
+    $activeUsers = User::where('status', '1')->orderBy('id', 'DESC')->get();
+    
+    return view('pages.tasks.edit', compact('task', 'usersMeetingMinimumTasks', 'activeUsers'));
+}
 
     public function update(Request $request, Task $task)
     {
@@ -99,12 +109,12 @@ class TaskController extends Controller
         return redirect()->route('tasks.monitoring')->with('success', 'Task Deleted Successfully');
     }
 
-    public function complete(Task $task)
+    public function complete(Task $task)                                                        
     {
         $task->update([
             'completed' => true,
             'completed_at' => now(),
-        ]);
+        ]);     
         return redirect()->route('tasks.monitoring')->with('success', 'Task Completed Successfully');
     }
 
@@ -115,24 +125,28 @@ class TaskController extends Controller
 
         return view('pages.tasks.taskshow', compact('completedTasks'));
     }
-
+                                       
     // app/Http/Controllers/TaskController.php
 
-    public function missingTasks()
+    
+    public function missingTasks()   
     {
-        $overdueTasks = Task::where('due_date', '<', now())->get();
-
+        // Find overdue tasks
+        $overdueTasks = Task::where('due_date', '<', Carbon::now())->get();
+    
+        // Pass overdue tasks to the view
         return view('pages.tasks.missingtask', ['tasks' => $overdueTasks]);
     }
+    
 
-    // app/Http/Controllers/TaskController.php
+    // app/Http/Controllers/TaskController.php                                              
 
     public function tasksAssignedToMe()
     {
         $id = Auth::user()->id;
         $tasks = DB::table('tasks')
             ->where('user_id', $id)
-            ->select("*")
+            ->select("*")                           
             ->get();
         // In your controller method
         return view('pages.tasks.taskassign', ['tasks' => $tasks]);
@@ -144,11 +158,11 @@ class TaskController extends Controller
         if (strtolower($status) == 'all'){
             $tasks = Task::all();
         } else {
-            $tasks = Task::Where('status', $status)->get();
+            $tasks = Task::Where('status', $status)->get();                                               
         }
-        return response()->json(['tasks' => $tasks]);
+        return response()->json(['tasks' => $tasks]);   
     }
-    
+                              
     public function archive(Task $task)
     {
         $task->update([
@@ -176,4 +190,5 @@ class TaskController extends Controller
 
     return redirect()->route('archived')->with('success', 'Task Restored Successfully');
 }
+
 }

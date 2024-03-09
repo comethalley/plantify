@@ -91,7 +91,13 @@
                                          <td>{{ $task->title }}</td>
                                       <td>{{ $task->description }}</td>
                                       <td>{{ $task->priority }}</td>
-                                      <td>{{ $task->user_id }}</td>
+                                      <td class="user_id">
+            @if ($task->user)
+                {{ $task->user->firstname }} {{ $task->user->lastname }}
+            @else
+                
+            @endif
+        </td> 
                                       <td>{{ $task->status }}</td>
                                      <td>{{ $task->completed_at }}</td>
                                     </tr>

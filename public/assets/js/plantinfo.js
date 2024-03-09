@@ -67,28 +67,35 @@ $(document).ready(function() {
     }
 
     $(document).on('click', '.add-plant', function(event){
-        event.preventDefault()
-
+        event.preventDefault();
+    
         console.log("Add Plant button clicked");
         var plant_name = $('#plant_name').val();
         var season = $('#season').val();
         var information = quill.root.innerHTML;
         var companion = $('#companion').val();
-
+        var day_harvest = $('#day_harvest').val();
+        var image = $('#image')[0].files[0];
+    
+        var formData = new FormData();
+        formData.append('plant_name', plant_name);
+        formData.append('seasons', season);
+        formData.append('information', information);
+        formData.append('companion', companion);
+        formData.append('days_harvest', day_harvest);
+        formData.append('image', image);
+    
         $.ajax({
             url: "/plantinfo",
             method: "POST",
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
-            data: {
-                'plant_name': plant_name,
-                'seasons': season,
-                'information': information,
-                'companion': companion
-            },
+            data: formData,
+            contentType: false, // important when sending FormData
+            processData: false, // important when sending FormData
             success: function(data) {
-                console.log(data)
+                console.log(data);
                 // getFarmLeader();
                 // $('#farmLeadershowModal').modal('hide');
             },
@@ -115,7 +122,7 @@ $(document).ready(function() {
                 }
             }
         });
-    })
+    });
 
     // $('.edit-item-btn').on('click', function() {
     //     event.preventDefault()

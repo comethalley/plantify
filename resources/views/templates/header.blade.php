@@ -285,6 +285,7 @@
                             </a>
                         </li>
 
+                        @if(session('user')->role_id == 1)
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="#UsersDropDown" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="UsersDropDown" style="color:white">
                                 <i class="ri-account-circle-line"></i> <span>Users</span>
@@ -303,6 +304,7 @@
                                 </ul>
                             </div>
                         </li>
+                        @endif
 
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="/farms3" role="button" style="color:white">
@@ -358,7 +360,7 @@
                             </a>
                             
                         </li> -->
-
+                        @if(session('user')->role_id == 1 || session('user')->role_id == 3)
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="#inventoryDashboard" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="inventoryDashboard" style="color:white">
                                 <i class="ri-archive-line"></i> <span>Inventory</span>
@@ -377,6 +379,7 @@
                                 </ul>
                             </div>
                         </li> <!-- end Dashboard Menu -->
+                        @endif
 
                         <!-- <li class="nav-item">
                             <a class="nav-link" href="task.html" role="button" style="color:white">
@@ -384,21 +387,23 @@
                                 <span data-key="t-task">Task</span>
                             </a>
                         </li> -->
-
+                        @if(session('user')->role_id == 3)
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="/expense" role="button" style="color:white">
                                 <i class="ri-coins-line "></i>
                                 <span data-key="t-dashboards">Expenses</span>
                             </a>
                         </li>
+                        @endif
 
+                        @if(session('user')->role_id != 4)
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="/chat" role="button" style="color:white">
                                 <i class="ri-wechat-line"></i>
                                 <span data-key="t-faqs">Chat</span>
                             </a>
                         </li>
-
+                        @endif
                         <!-- <li class="nav-item">
                             <a class="nav-link menu-link" href="/plant-info" role="button" style="color:white">
                                 <i class="ri-leaf-line"></i>
@@ -406,6 +411,7 @@
                             </a>
                         </li> -->
 
+                        @if(session('user')->role_id == 1 || session('user')->role_id == 3)
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="#pimaintenance" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards" style="color:white">
                                 <i class="ri-leaf-line"></i> <span>Botaknows Maintenance</span>
@@ -424,6 +430,7 @@
                                 </ul>
                             </div>
                         </li>
+                        @endif
 
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="#piuser" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards" style="color:white">

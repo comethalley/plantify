@@ -308,11 +308,9 @@ class AuthController extends Controller
             // exit;
             $generate_password = $this->generate_password(10);
 
-            $hash = $this->plantifyLibrary->generatehash(123);
-            $emailInvitation = $this->emailInvitation($data['email'], $data['firstname'], $generate_password, $hash);
 
-            print_r($emailInvitation);
-            exit;
+            // print_r($emailInvitation);
+            // exit;
 
             $admins = User::create([
                 'firstname'  => $data['firstname'],
@@ -325,13 +323,13 @@ class AuthController extends Controller
 
 
             if ($admins) {
+                $id = $admins->id;
+                $hash = $this->plantifyLibrary->generatehash($id);
+                $emailInvitation = $this->emailInvitation($data['email'], $data['firstname'], $generate_password, $hash);
+                if ($emailInvitation) {
 
-
-                // if ($emailInvitation) {
-                //     print_r($emailInvitation);
-                //     exit;
-                //     //return response()->json(['message' => 'Admin Invited Successfully', 'data' => $admins], 200);
-                // }
+                    return response()->json(['message' => 'Admin Invited Successfully', 'data' => $admins], 200);
+                }
             } else {
                 return response()->json(['error' => 'Admin cant add Internal Server Error'], 500);
             }
@@ -423,6 +421,9 @@ class AuthController extends Controller
 
         if (auth()->attempt($validated)) {
             $request->session()->regenerate();
+
+            $user = auth()->user();
+            $request->session()->put('user', $user);
 
             return redirect('/')->with('message', 'Welcome back!');
         }

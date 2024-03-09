@@ -266,14 +266,7 @@ class AuthController extends Controller
             'lastname'  => 'required|string|max:55',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|confirmed|min:6',
-            // 'role_id' => 'required|integer|digits:1'
         ]);
-
-        // $generate_password = $this->generate_password(10);
-
-        $email = $data['email'];
-        $firstname = $data['firstname'];
-        // $this->emailInvitation($email, $firstname, $generate_password);
 
         $user = User::create([
             'firstname' => $data['firstname'],
@@ -284,10 +277,14 @@ class AuthController extends Controller
             'status' => 1,
         ]);
 
+        // Store user data in the session
+        $request->session()->put('user', $user);
+
         auth()->login($user);
 
         return redirect("/");
     }
+
 
     public function createAdmin(Request $request)
     {

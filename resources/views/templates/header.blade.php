@@ -104,16 +104,17 @@
                         </div>
 
                         <div class="dropdown topbar-head-dropdown ms-1 header-item" id="notificationDropdown">
-                        @foreach($notifications as $key)
-                            <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" id="{{ $key->id }}" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
-
+                        
+                            <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"  data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false" id="unread-btn">
+                            
                             <i class="bx bx-bell fs-22"></i>
+                            @foreach($notifications as $key)
+                                @if($key->unread)
+                                    <span class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger">{{ $key->unread }}<span class="visually-hidden">unread messages</span></span>
                                 
-                                <span class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger">{{ $key->unread }}<span class="visually-hidden">unread messages</span></span>
-                                
-                                
-                            </button>
+                                @endif
                             @endforeach
+                            </button>
                             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0" aria-labelledby="page-header-notifications-dropdown">
                                 <div class="dropdown-head bg-primary bg-pattern rounded-top">
                                     <div class="p-3">
@@ -537,4 +538,32 @@ channel.bind('my-event', function(data) {
                 }
             }
 });
+</script>
+<script>
+ $('#unread-btn').on('click', function() {
+        // console.log("uom-btn is clicked")
+        // var unitName = $("#unit-name").val()
+
+        //console.log('talong')
+
+        $.ajax({
+            url: "/unread-events",
+            method: "GET",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(data) {
+                console.log(data)
+               
+            },
+            error: function(xhr, status, error) {
+                if (xhr.status === 422) {
+                    var errors = JSON.parse(xhr.responseText);
+                    console.error("Validation Error:", errors);
+                } else {
+                    console.error("Error:", error);
+                }
+            }
+        });
+    });
 </script>

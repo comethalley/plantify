@@ -119,7 +119,7 @@ Route::delete('/scheduledelete/{id}', [EventController::class, 'deleteEvent']);
 Route::put('/schedule/{id}', [EventController::class, 'update']);
 Route::put('/schedule/{id}/resize', [EventController::class, 'resize']);
 Route::get('/events/search', [EventController::class, 'search']);
-
+Route::get('/unread-events', [EventController::class, 'unread']);
 Route::view('add-schedule', 'pages.add');
 Route::post('create-schedule', [EventController::class, 'create']);
 // End Full Calender=================================================================

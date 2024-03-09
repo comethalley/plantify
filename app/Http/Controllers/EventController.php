@@ -17,7 +17,15 @@ class EventController extends Controller
         $events = DB::table('events')->where('status', '1')->orderBy('id', 'DESC')->get();
         //dd($events);
         $notifs = DB::table('message_notifs')->orderBy('id', 'DESC')->get();
-        $notifications = DB::select("SELECT users.id, users.firstname, users.lastname, users.email, COUNT(is_read) AS unread FROM users LEFT JOIN message_notifs ON users.id = message_notifs.from AND message_notifs.is_read = 0 GROUP BY users.id, users.firstname, users.lastname, users.email");
+        $notifications = DB::select("
+        SELECT
+            COUNT(id) AS unread
+        FROM
+            message_notifs
+        WHERE
+            is_read = 1
+    ");
+        //dd($notifications);
         $data = DB::table('events')->where('status', '1')->orderBy('id', 'DESC')->get();
         return view('pages.eventscalendar', ['events' => $events, 'data' => $data, 'notifications' => $notifications, 'notifs' => $notifs]);
     }
@@ -124,5 +132,11 @@ class EventController extends Controller
         $matchingEvents = Event::where('title', 'like', '%' . $searchKeywords . '%')->get();
 
         return response()->json($matchingEvents);
+    }
+
+    public function unread()
+    {
+        Message_notif::query()->update(['is_read' => 0]);
+        return redirect('/schedules');
     }
 }

@@ -192,7 +192,7 @@
 
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Days of Harvest</label>
-                                                    <input type="text" name="day_harvest" id="day_harvest" class="form-control" placeholder="Companion" required />
+                                                    <input type="text" name="day_harvest" id="day_harvest" class="form-control" placeholder="No. of Days" required />
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
@@ -232,18 +232,33 @@
                                                 </div>
 
                                                 <div class="mb-3">
-                                                    <label for="customername-field" class="form-label">Planting Date</label>
-                                                    <input type="date" name="supplier-name" id="edit_plant_date" class="form-control" placeholder="Plant Name" required />
+                                                <label for="mode">Season</label>
+                                                        <select class="form-select" id="edit_season">
+                                                            <option value="January">January</option>
+                                                            <option value="February">February</option>
+                                                            <option value="March">March</option>
+                                                        </select>
                                                 </div>
-
                                                 <div class="mb-3">
-                                                    <label for="customername-field" class="form-label">Information</label>
-                                                    <input type="text" name="description" id="edit_information" class="form-control" placeholder="Plant Information" required />
+                                                <label for="customername-field" class="form-label">Information</label>
+                                                    <input type="text" name="information" id="information" class="form-control" placeholder="Plant Information" required />
+                                                    <div id="editor">
                                                 </div>
+                                                </div>
+                                                <div class="mb-3">
+                                                          <label for="formFile" class="form-label">Upload</label>
+                                                        <input class="form-control" type="file" id="image">
+                                                </div>
+                                                
 
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Companion</label>
                                                     <input type="text" name="address" id="edit_companion" class="form-control" placeholder="Companion" required />
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label for="customername-field" class="form-label">Days to Harvest</label>
+                                                    <input type="text" name="address" id="edit_days_harvest" class="form-control" placeholder="No. of Days" required />
                                                 </div>
 
 

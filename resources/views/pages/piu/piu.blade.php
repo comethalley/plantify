@@ -43,58 +43,7 @@
     </div>
 </div>
 
-<!-- last -->
 
-<!--MORE-->
-<!-- @foreach($piu as $plant_info)
-    <div class="modal fade" id="showModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered">
-                                    <div class="modal-content">
-                                        <div class="modal-header bg-light p-3">
-                                            <h5 class="modal-title" id="exampleModalLabel"></h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
-                                        </div>
-                                
-                                            
-                                            <div class="modal-body">
-                                                <input type="hidden" id="id-field" />
-
-                                              
-
-                                                <div class="mb-3">
-                                                    <label for="customername-field" class="form-label">Plant Name: {{ $plant_info->plant_name}}</label>
-                                                    
-                                                </div>
-
-                                                <div class="mb-3">
-                                                    <label for="customername-field" class="form-label">Planting Date : {{ $plant_info->planting_date}}</label>
-                                                    
-                                                </div>
-
-                                                <div class="mb-3">
-                                                    <label for="customername-field" class="form-label">Information : {{ $plant_info->information}}</label>
-                                                   
-
-                                                <div class="mb-3">
-                                                    <label for="customername-field" class="form-label">Companion : {{ $plant_info->companion}} </label>
-                                                    
-                                                </div>  
-
-                                            </div>
-                                            <div class="modal-footer">
-                                                <div class="hstack gap-2 justify-content-end">
-                                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
-                                                    <button type="submit" class="btn btn-success" data-bs-dismiss="modal" >Ok</button>
-                                                    <button type="button" class="btn btn-success" id="edit-btn">Update</button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            @endforeach
-                </div> -->
-<!--end col-->
 </div>
 <!--end row-->
 

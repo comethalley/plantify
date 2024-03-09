@@ -51,6 +51,9 @@ $(document).ready(function() {
                 $('#edit_plant_date').val(data.plantinfo.planting_date)
                 $('#edit_information').val(data.plantinfo.information)
                 $('#edit_companion').val(data.plantinfo.companion)
+                $('#edit_plant_image').val(data.plantinfo.plant_image)
+                $('#edit_daystoharvest').val(data.plantinfo.daystoharvest)
+                
 
                 $('#updateModal').modal('show')
             },
@@ -72,11 +75,13 @@ $(document).ready(function() {
     })
 
     function updatePlantInfo(){
-        var plantID = $('#plantID').val()
-        var plant_name = $('#edit_plant_name').val()
+        var plantID = $('#plantID').val();
+        var plant_name = $('#edit_plant_name').val();
         var plant_date = $("#edit_plant_date").val();
         var information = $("#edit_information").val();
         var companion = $("#edit_companion").val();
+        var plant_image = $("#edit_plant_image").val();
+        var daystoharvest = $("#edit_daystoharvest").val();
 
         $.ajax({
             url: "/update/"+plantID,
@@ -88,7 +93,9 @@ $(document).ready(function() {
                 'edit_plant_name': plant_name,
                 'edit_planting_date' : plant_date,
                 'edit_information'  : information,
-                'edit_companion' : companion
+                'edit_companion' : companion,
+                'edit_plant_image' : plant_image,
+                'edit_daystoharvest' : daystoharvest
              },
             success: function(data) {
                 location.reload();

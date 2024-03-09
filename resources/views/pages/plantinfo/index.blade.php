@@ -232,7 +232,12 @@
 
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Plant Image</label>
-                                                    <input type="text" name="address" id="edit_plant_image" class="form-control" placeholder="Image" required />
+                                                    <input type="file" name="address" id="edit_plant_image" class="form-control" placeholder="Image" required />
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label for="customername-field" class="form-label">Days to Harvest</label>
+                                                    <input type="text" name="address" id="edit_daystoharvest" class="form-control" placeholder="No. of Days" required />
                                                 </div>
 
                                                 <div class="mb-3">

@@ -13,6 +13,7 @@ class PlantInfo extends Model
         'planting_date',
         'information',
         'companion',
+        'daystoharvest',
         'plant_image',
         'status'
 

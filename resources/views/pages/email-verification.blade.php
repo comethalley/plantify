@@ -21,6 +21,8 @@
     <link href="assets/css/app.min.css" rel="stylesheet" type="text/css">
     <!-- custom Css-->
     <link href="assets/css/custom.min.css" rel="stylesheet" type="text/css">
+    <!--JQuery-->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <style>
         .bg-image {
             background-image: url('{{ asset("assets/images/plantifeedpics/feedcover.png") }}');
@@ -91,7 +93,8 @@
                                         </div>
                                         <div class="text-muted text-center mx-lg-3">
                                             <h4 class="">Verify Your Email</h4>
-                                            <p>Please enter the 4 digit code sent to <span class="fw-semibold">example@abc.com</span></p>
+                                            <p>Please enter the 4 digit code sent to <span class="fw-semibold">{{ $user->email }}</span></p>
+
                                         </div>
 
                                         <div class="mt-4">
@@ -132,6 +135,10 @@
 
                                             </form>
 
+                                        </div>
+
+                                        <div class="mt-5 text-center">
+                                            <p>The code is valid for 5 minutes. Do not share this code with anyone for security reasons </p>
                                         </div>
 
                                         <div class="mt-5 text-center">
@@ -189,7 +196,20 @@
     <!-- two-step-verification js -->
     <script src="assets/js/pages/two-step-verification.init.js"></script>
 
-
+    <script>
+        setTimeout(function() {
+            $.ajax({
+                url: "/empty-code/{{ $user->id }}",
+                method: "GET",
+                success: function(data) {
+                    console.log(data)
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error:", status, error);
+                }
+            });
+        }, 300000);
+    </script>
 
 </body>
 

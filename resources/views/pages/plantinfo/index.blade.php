@@ -62,9 +62,11 @@
 
                                                 <th class="sort" data-sort="">#</th>
                                                 <th class="sort" data-sort="">Plant Name</th>
+                                                <th class="sort" data-sort="">Image</th>
                                                 <th class="sort" data-sort="">Season</th>
                                                 <th class="sort" data-sort="">Information</th>
                                                 <th class="sort" data-sort="">Companion</th>
+                                                <th class="sort" data-sort="">Days of Harvest</th>
                                                 <th class="sort" data-sort="">Action</th>
                                             </tr>
                                         </thead>
@@ -74,9 +76,11 @@
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $item->plant_name }}</td>
+                                                <td><img src="/images/{{ $item->image }}" alt="" width="200px" height="200px"></td>
                                                 <td>{{ $item->seasons }}</td>
                                                 <td>{!! $item->information !!}</td>
                                                 <td>{{ $item->companion }}</td>
+                                                <td>{{ $item->days_harvest }}</td>
                                                 <td>
                                                     <ul class="list-inline hstack gap-2 mb-0">
                                                         <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="View">
@@ -166,6 +170,12 @@
                                                     </div>
                                                 </div>
 
+                                                <div class="mb-3">
+                                                    <div>
+                                                        <label for="formFile" class="form-label">Upload</label>
+                                                        <input class="form-control" type="file" id="image">
+                                                    </div>
+                                                </div>
 
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Information</label>
@@ -178,6 +188,11 @@
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Companion</label>
                                                     <input type="text" name="companion" id="companion" class="form-control" placeholder="Companion" required />
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label for="customername-field" class="form-label">Days of Harvest</label>
+                                                    <input type="text" name="day_harvest" id="day_harvest" class="form-control" placeholder="Companion" required />
                                                 </div>
                                             </div>
                                             <div class="modal-footer">

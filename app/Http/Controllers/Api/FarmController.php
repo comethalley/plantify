@@ -455,7 +455,10 @@ public function updateStatusCancel($id)
 }
 public function updateFarm(Request $request, $id)
 {
-    // Validate the form data if needed
+    // Validate the form data
+    $request->validate([
+        'title_land' => 'nullable|file|mimes:pdf,png,jpg|max:2048',
+    ]);
 
     // Update the farm record based on the provided $id
     $farm = Farm::findOrFail($id);
@@ -464,11 +467,32 @@ public function updateFarm(Request $request, $id)
         return response()->json(['error' => 'Farm not found'], 404);
     }
 
+    $selectedUser = User::findOrFail($request->input('farm_leader'));
+
+    // Check if title_land file is provided in the request
+    if ($request->hasFile('title_land')) {
+        // Handle title_land file
+        $titleLandContent = file_get_contents($request->file('title_land')->getRealPath());
+        $titleLandPath = $request->file('title_land')->store('pdfs', 'public');
+    } else {
+        // If title_land file is not provided, use the existing value from the database
+        $titleLandPath = $farm->title_land;
+    }
+
     // Update farm attributes using $request data
-    $farm->update($request->all());
+    $farm->update([
+        'farm_name' => $request->input('farm_name'),
+        'address' => $request->input('address'),
+        'area' => $request->input('area'),
+        'barangay_name' => $request->input('barangay_name'),
+        'farm_leader' => $selectedUser->id,
+        'title_land' => $titleLandPath,
+    ]);
 
     return response()->json(['message' => 'Farm updated successfully', 'farm' => $farm]);
 }
+
+
 
 
 

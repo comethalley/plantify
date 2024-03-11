@@ -354,7 +354,7 @@
                                         </a>
 
                                         <!-- Circular Button in the right end corner with upper margin and circular border -->
-                                        <button class="btn btn-primary" style="position: absolute; top: 2px; right: 1px; background-color: transparent; border: 1px solid transparent; color: #000; border-radius: 50%;">X</button>
+                                        <button type="button" id='CancelBtnTitleLand'class="btn btn-primary" style="position: absolute; top: 2px; right: 1px; background-color: transparent; border: 1px solid transparent; color: #000; border-radius: 50%;">X</button>
 
                                     </div>
                                 </div>
@@ -575,7 +575,7 @@ function createParagraphss(htmlContent, isBold, fontSize) {
     // Check if status is defined
     if (typeof status !== 'undefined') {
         // Show all buttons by default
-        $('#forInvestigationBtn, #forVisitingBtn, #approvedBtn, #disapprovedBtn, #waitingForApprovalBtn, #updateConfirmButton').show();
+        $('#forInvestigationBtn, #forVisitingBtn, #approvedBtn, #disapprovedBtn, #waitingForApprovalBtn, #updateConfirmButton, #CancelBtnTitleLand').show();
 
         // Hide specific buttons based on the status
         switch (status.toLowerCase().replace(/\s+/g, '-')) {
@@ -586,7 +586,7 @@ function createParagraphss(htmlContent, isBold, fontSize) {
             case 'disapproved':
             case 'cancelled':
             case 'waiting-for-approval':
-                $('#forInvestigationBtn, #forVisitingBtn, #approvedBtn, #disapprovedBtn, #waitingForApprovalBtn, #updateConfirmButton').hide();
+                $('#forInvestigationBtn, #forVisitingBtn, #approvedBtn, #disapprovedBtn, #waitingForApprovalBtn, #updateConfirmButton, #CancelBtnTitleLand').hide();
                 break;
             case 'resubmit':
                 // Hide only the "Resubmit" button
@@ -601,6 +601,7 @@ function createParagraphss(htmlContent, isBold, fontSize) {
 function showFarmDetails(id, farmName, barangayName, area, address, farmLeader, status, titleLand, pictureLand, pictureLand1, pictureLand2, farmLeaderFirstName, farmLeaderLastName) {
     // Switch based on the lowercased, hyphenated status
 // Assuming status is already defined
+
 switch (status.toLowerCase().replace(/\s+/g, '-')) {
     case 'for-investigation':
     case 'created':
@@ -652,9 +653,11 @@ switch (status.toLowerCase().replace(/\s+/g, '-')) {
             
             var farmLeaderDropdownHtml = `
                 <div class="input-group">
-                    <select id="farm_leader_modal1" class="form-select" name="farm_leader">
+                    <select id="farm_leader_modal2" class="form-select" name="farm_leader">
+                        
                         @foreach ($farmLeaders as $user)
-                            <option value="{{ $user->id }}">{{ $user->firstname }} {{ $user->lastname }}</option>
+                                <option value="{{ $user->id }}">{{ $user->firstname }} {{ $user->lastname }}</option>
+                            
                         @endforeach
                     </select>
                 </div>
@@ -712,9 +715,11 @@ switch (status.toLowerCase().replace(/\s+/g, '-')) {
     $('#barangay_name_modal').val(barangayName);
     $('#area_modal').val(area);
     $('#address_modal').val(address);
+    $('#farm_leader_modal2').val(farmLeader);
     $('#farm_leader_modal').val(farmLeaderFirstName + ' ' + farmLeaderLastName);
-    $('#farm_leader_modal1').html(farmLeaderDropdownHtml);
-    
+
+    $('#CancelBtnTitleLand').data('farm-id', id);
+
 
 
     $('#title_land_modal')
@@ -752,10 +757,47 @@ switch (status.toLowerCase().replace(/\s+/g, '-')) {
         // Hide the entire div if pictureLand2 has no value
         $('#picture_land_modal2').parent().hide();
     }
+
     $('#updateConfirmButton').data('farm-id', id);
     updateButtonVisibility(status);
 }
+$(document).ready(function () {
+    var fileInputCanceled = false;
 
+    // Function to reset the changes made by CancelBtnTitleLand
+    function resetChanges() {
+        $('#title_land_modal, #CancelBtnTitleLand, .bx.bxs-file-pdf').show();
+        $('#title_land_modal').parent().find('input[type="file"]').remove();
+        fileInputCanceled = false; // Reset the flag
+    }
+
+    // Event handler for CancelBtnTitleLand click
+    $('#CancelBtnTitleLand').on('click', function () {
+        var farmId = $(this).data('farm-id');
+
+        // Hide the existing link, button, and PDF icon
+        $('#title_land_modal, #CancelBtnTitleLand, .bx.bxs-file-pdf').hide();
+
+        // Create the file input field and append it to the parent div
+        var fileInputHtml = '<input type="file" id="title_land_modal" name="title_land" class="form-control" title="This field is required to fill up" accept=".pdf, .doc, .docx" required />';
+        $('#title_land_modal').parent().append(fileInputHtml);
+        fileInputCanceled = true; // Set the flag indicating that the file input was canceled
+
+        // Remove the 'required' attribute to allow form submission without the file input
+        $('#title_land_modal').removeAttr('required');
+    });
+
+    // Event handler for modal hidden event
+    $('#viewModals').on('hidden.bs.modal', function () {
+        // Reset changes when the modal is closed
+        if (fileInputCanceled) {
+            resetChanges();
+        }
+    });
+});
+
+
+    
 
 function updateCancel(id) {
     // Set the farm ID to be canceled

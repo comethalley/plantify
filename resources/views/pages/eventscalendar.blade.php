@@ -37,9 +37,24 @@
                     <div class="col-xl-3">
                         <div class="card card-h-100">
                             <div class="card-body" style="display:flex; justify-content:center; align-items:center;">
-                               <button type="button" class="btn btn-success w-100" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModalExample"><i class="mdi mdi-plus"></i>Create New Events</button>
+                              
                             
-                                        <button class="btn btn-soft-danger" id="remove-actions" onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button>
+                            @if(auth()->user()->role_id == 1)
+                            {{-- Display only for role_id 1 (Admin) --}}
+                            <button type="button" class="btn btn-success w-100" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModalExample"><i class="mdi mdi-plus"></i>Create New Events</button>
+                            @elseif(auth()->user()->role_id == 2)
+                            {{-- Display only for role_id 2 (Super Admin) --}}
+                            <button type="button" class="btn btn-success w-100" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModalExample"><i class="mdi mdi-plus"></i>Create New Events</button>
+                            @elseif(auth()->user()->role_id == 3)
+                            {{-- Display for role_id 3 (Farm Leader) --}}
+                            <button hidden type="button" class="btn btn-success w-100" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModalExample"><i class="mdi mdi-plus"></i>Create New Events</button>
+                            @elseif(auth()->user()->role_id == 4 )
+                            {{-- Display only for role_id 4 ( Farmers) --}}
+                            <button hidden type="button" class="btn btn-success w-100" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModalExample"><i class="mdi mdi-plus"></i>Create New Events</button>
+                            @elseif(auth()->user()->role_id == 5 )
+                            {{-- Display only for role_id 5 (Public Users) --}}
+                            <button hidden type="button" class="btn btn-success w-100" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModalExample"><i class="mdi mdi-plus"></i>Create New Events</button>
+                            @endif
                              </div>       
                         </div>
                         <div class="card">
@@ -315,7 +330,22 @@
             initialView: 'dayGridMonth',
             timeZone: 'UTC',
             events: '/schedulesget',
+            @if(auth()->user()->role_id == 1)
+                            {{-- Display only for role_id 1 (Admin) --}}
             selectable: true,
+            @elseif(auth()->user()->role_id == 2)
+                            {{-- Display only for role_id 2 (Super Admin) --}}
+           selectable: true,         
+           @elseif(auth()->user()->role_id == 3)
+                            {{-- Display for role_id 3 (Farm Leader) --}}    
+            selectable: false,
+            @elseif(auth()->user()->role_id == 4 )
+                             {{-- Display only for role_id 4 ( Farmers) --}}
+            selectable: false,
+            @elseif(auth()->user()->role_id == 5 )
+                             {{-- Display only for role_id 5 (Public Users) --}}
+            selectable: false,
+            @endif
             selectHelper: true,
             select: function (start, end, allDay) {
                // Close Update/Delete Event Modal if open
@@ -336,7 +366,23 @@
                  //   console.log("Variable event is" + event.location)
                   //  console.log("Date is" + date.start)
                     // Close Update/Delete Event Modal if open
-                    $('#EventdetailModal').modal('show');
+            @if(auth()->user()->role_id == 1)
+                            {{-- Display only for role_id 1 (Admin) --}}
+                            $('#EventdetailModal').modal('show');
+            @elseif(auth()->user()->role_id == 2)
+                            {{-- Display only for role_id 2 (Super Admin) --}}
+                            $('#EventdetailModal').modal('show');         
+           @elseif(auth()->user()->role_id == 3)
+                            {{-- Display for role_id 3 (Farm Leader) --}}    
+                            $('#EventdetailModal').modal('hide');
+            @elseif(auth()->user()->role_id == 4 )
+                             {{-- Display only for role_id 4 ( Farmers) --}}
+                             $('#EventdetailModal').modal('hide');
+            @elseif(auth()->user()->role_id == 5 )
+                             {{-- Display only for role_id 5 (Public Users) --}}
+                             $('#EventdetailModal').modal('hide');
+            @endif
+                    
                     
                     // Display event details in the Update/Delete Event Modal
                     

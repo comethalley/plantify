@@ -104,16 +104,15 @@
                         </div>
 
                         <div class="dropdown topbar-head-dropdown ms-1 header-item" id="notificationDropdown">
-                        
-                            <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"  data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false" id="unread-btn">
-                            
-                            <i class="bx bx-bell fs-22"></i>
-                            @foreach($notifications as $key)
-                                @if($key->unread)
-                                    <span class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger">{{ $key->unread }}<span class="visually-hidden">unread messages</span></span>
-                                
+                           
+                        <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" id="unread-btn" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
+                   
+                        <i class="bx bx-bell fs-22"></i>
+                        @foreach($notifications as $key)
+                        @if($key->unread)
+                                <span id="reload-section" class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger">{{ $key->unread }}<span class="visually-hidden">unread messages</span></span>
                                 @endif
-                            @endforeach
+                               @endforeach 
                             </button>
                             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0" aria-labelledby="page-header-notifications-dropdown">
                                 <div class="dropdown-head bg-primary bg-pattern rounded-top">
@@ -530,21 +529,18 @@ var pusher = new Pusher('932fdd5849f2e8b782a5', {
 var channel = pusher.subscribe('my-channel');
 channel.bind('my-event', function(data) {
   if(data.from) {
-                let pending = parseInt($('#' + data.from).find('.pending').html());
+                let pending = parseInt($('#unread-btn' + data.from).find('.pending').html());
                 if(pending) {
-                    $('#' + data.from).find('.pending').html(pending + 1);
+                    $('#unread-btn' + data.from).find('.pending').html(pending + 1);
                 } else {
-                    $('#' + data.from).html();
+                    $('#unread-btn' + data.from).html();
                 }
             }
 });
 </script>
 <script>
  $('#unread-btn').on('click', function() {
-        // console.log("uom-btn is clicked")
-        // var unitName = $("#unit-name").val()
-
-        //console.log('talong')
+       
 
         $.ajax({
             url: "/unread-events",
@@ -554,7 +550,7 @@ channel.bind('my-event', function(data) {
             },
             success: function(data) {
                 console.log(data)
-               
+                $('#unread-btn').html(response)
             },
             error: function(xhr, status, error) {
                 if (xhr.status === 422) {
@@ -565,5 +561,15 @@ channel.bind('my-event', function(data) {
                 }
             }
         });
+
+        refreshContent(); 
     });
+</script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $('#unread-btn').on('click', function() {
+        $('#reload-section').load(location.href + ' #reload-section');
+    });
+    
 </script>

@@ -122,6 +122,7 @@ Route::get('/events/search', [EventController::class, 'search']);
 Route::get('/unread-events', [EventController::class, 'unread']);
 Route::view('add-schedule', 'pages.add');
 Route::post('create-schedule', [EventController::class, 'create']);
+
 // End Full Calender=================================================================
 
 Route::get('/plantcalendar', [PlantCalendar::class, 'index']);

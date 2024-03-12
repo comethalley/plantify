@@ -139,4 +139,5 @@ class EventController extends Controller
         Message_notif::query()->update(['is_read' => 0]);
         return redirect('/schedules');
     }
+    
 }

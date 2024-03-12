@@ -4,13 +4,13 @@
 <meta name="csrf-token" content="{{ csrf_token() }}" />
 
 
-<div class="main-content">
+<div class="main-content" >
 
 <div class="page-content">
     <div class="container-fluid">
 
    
-@section('content')
+ @section('content')
         <!-- start page title -->
         <div class="row">
             <div class="col-12">
@@ -29,12 +29,12 @@
         </div>
 
         <div class="row">
-            <div class="col-12">
+            <div class="col-12" >
                  <!--start row-->
 
                 <div class="row">
                 
-                    <div class="col-xl-3">
+                    <div class="col-xl-3" >
                         <div class="card card-h-100">
                             <div class="card-body" style="display:flex; justify-content:center; align-items:center;">
                               
@@ -57,7 +57,7 @@
                             @endif
                              </div>       
                         </div>
-                        <div class="card">
+                        <div class="card ">
                             <div class="card-body bg-info-subtle">
                                 <div class="d-flex">
                                     <div class="flex-shrink-0">
@@ -74,18 +74,18 @@
                                   
                                                     <!----> @foreach ($events as $event)   
                             
-                              <div class="card border-success pe-2 me-n1 mb-3 simplebar-scrollable-y" style="max-width: 18rem;">
-                                <div class="card-header bg-transparent border-success">{{ $event->title}}</div>
+                         <div class="card border-success pe-2 me-n1 mb-3 simplebar-scrollable-y" style="max-width: 18rem;" id="refresh">
+                             <div class="card-header bg-transparent border-success">{{ $event->title}}</div>
                                 <div class="card-body">
                                     <h6 class="card-text">{{ date('F j, Y', strtotime($event->start)) }} to {{ date('F j, Y', strtotime($event->end)) }}</h6>
                                     <p class="card-text">Location: {{ $event->location}}</p>
                                     <p class="card-text">Description: {{ $event->description}}</p>
                                   
                                 </div>
-                                </div>@endforeach
+                         </div>@endforeach
                                 
-                        </div> <!-- end col-->
-<!-- ============================================================ -->
+            </div> <!-- end col-->
+ <!-- ============================================================ -->
                 <div class="col-xl-9">
                         
                     <div class="input-group mb-3">
@@ -471,7 +471,7 @@
             $('#editexampleModal').modal('hide');
 
             var eventId = $(this).data('event-id');
-            if (confirm("Are you sure you want to delete this event?")) {
+           
                 $.ajax({
                     url: `/scheduledelete/${eventId}`,
                     type: "delete",
@@ -483,15 +483,15 @@
                     success: function (data) {
                         calendar.fullCalendar('refetchEvents');
                         $('#editexampleModal').modal('hide');
-                        alert("Event Deleted Successfully");
+                       
                     },
                     error: function (error) {
                         console.error("Error deleting event:", error);
-                        alert("Event Deleted Successfully");
+                       
                     }
                 });
                 $('#EventdetailModal').modal('hide');
-            }
+            
             });
 
          
@@ -546,7 +546,7 @@
 
    });
        
+</script>
 
-  </script>
 
 @include('templates.footer')

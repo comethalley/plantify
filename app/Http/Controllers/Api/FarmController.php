@@ -457,7 +457,10 @@ public function updateFarm(Request $request, $id)
 {
     // Validate the form data
     $request->validate([
+
         'title_land' => 'nullable|file|mimes:pdf,png,jpg|max:2048',
+        'picture_land' => 'nullable|file|mimes:jpeg,png|max:2048',
+
     ]);
 
     // Update the farm record based on the provided $id
@@ -479,6 +482,31 @@ public function updateFarm(Request $request, $id)
         $titleLandPath = $farm->title_land;
     }
 
+    if ($request->hasFile('picture_land')) {
+        // Handle title_land file
+        $pictureLandContent = file_get_contents($request->file('picture_land')->getRealPath());
+        $pictureLandPath = $request->file('picture_land')->store('images', 'public');
+    } else {
+        // If title_land file is not provided, use the existing value from the database
+        $pictureLandPath = $farm->picture_land;
+    }
+
+    if ($request->hasFile('picture_land1')) {
+        // Handle title_land file
+        $pictureLandContent1 = file_get_contents($request->file('picture_land1')->getRealPath());
+        $pictureLandPath1 = $request->file('picture_land1')->store('images', 'public');
+    } else {
+        // If title_land file is not provided, use the existing value from the database
+        $pictureLandPath1 = $farm->picture_land1;
+    }
+    if ($request->hasFile('picture_land2')) {
+        // Handle title_land file
+        $pictureLandContent2 = file_get_contents($request->file('picture_land2')->getRealPath());
+        $pictureLandPath2 = $request->file('picture_land2')->store('images', 'public');
+    } else {
+        // If title_land file is not provided, use the existing value from the database
+        $pictureLandPath2 = $farm->picture_land2;
+    }
     // Update farm attributes using $request data
     $farm->update([
         'farm_name' => $request->input('farm_name'),
@@ -487,6 +515,10 @@ public function updateFarm(Request $request, $id)
         'barangay_name' => $request->input('barangay_name'),
         'farm_leader' => $selectedUser->id,
         'title_land' => $titleLandPath,
+        'picture_land' => $pictureLandPath,
+        'picture_land1' => $pictureLandPath1,
+        'picture_land2' => $pictureLandPath2,
+
     ]);
 
     return response()->json(['message' => 'Farm updated successfully', 'farm' => $farm]);

@@ -319,17 +319,26 @@
                             <div class="list-group-item nested-2">
                                 <i class="mdi mdi-folder fs-16 align-middle text-warning me-2"></i> Picture of land (Images)
                                 <div class="list-group nested-list nested-sortable">
-                                    <div class="list-group-item nested-4">
+                                    <div class="list-group-item nested-3"style="position: relative;">
                                         <i class="mdi mdi-image fs-16 align-middle text-info me-2"></i>
                                         <a id="picture_land_modal" href="#" target="_blank" class="pdf-link"></a>
+
+                                        <button type="button" id='CancelBtnPictureLand'class="btn btn-primary" style="position: absolute; top: 4px; right: 1px;background-color: transparent; border: 1px solid transparent; color: #000; border-radius: 50%;">X</button>
+
                                     </div>
-                                    <div class="list-group-item nested-3">
+                                    <div class="list-group-item nested-3" style="position: relative;">
                                         <i class="mdi mdi-image fs-16 align-middle text-info me-2"></i>
                                         <a id="picture_land_modal1" href="#" target="_blank" class="pdf-link"></a>
+
+                                        <button type="button" id='CancelBtnPictureLand1'class="btn btn-primary" style="position: absolute; top: 2px; right: 1px;background-color: transparent; border: 1px solid transparent; color: #000; border-radius: 50%;">X</button>
+
                                     </div>
-                                    <div class="list-group-item nested-3">
+                                    <div class="list-group-item nested-3" style="position: relative;">
                                         <i class="mdi mdi-image fs-16 align-middle text-info me-2"></i>
                                         <a id="picture_land_modal2" href="#" target="_blank" class="pdf-link"></a>
+
+                                        <button type="button" id='CancelBtnPictureLand2'class="btn btn-primary" style="position: absolute; top: 2px; right: 1px;background-color: transparent; border: 1px solid transparent; color: #000; border-radius: 50%;">X</button>
+
                                     </div>
                                 </div>
                             </div>
@@ -575,7 +584,7 @@ function createParagraphss(htmlContent, isBold, fontSize) {
     // Check if status is defined
     if (typeof status !== 'undefined') {
         // Show all buttons by default
-        $('#forInvestigationBtn, #forVisitingBtn, #approvedBtn, #disapprovedBtn, #waitingForApprovalBtn, #updateConfirmButton, #CancelBtnTitleLand').show();
+        $('#forInvestigationBtn, #forVisitingBtn, #approvedBtn, #disapprovedBtn, #waitingForApprovalBtn, #updateConfirmButton, #CancelBtnTitleLand, #CancelBtnPictureLand, #CancelBtnPictureLand1, #CancelBtnPictureLand2').show();
 
         // Hide specific buttons based on the status
         switch (status.toLowerCase().replace(/\s+/g, '-')) {
@@ -586,7 +595,7 @@ function createParagraphss(htmlContent, isBold, fontSize) {
             case 'disapproved':
             case 'cancelled':
             case 'waiting-for-approval':
-                $('#forInvestigationBtn, #forVisitingBtn, #approvedBtn, #disapprovedBtn, #waitingForApprovalBtn, #updateConfirmButton, #CancelBtnTitleLand').hide();
+                $('#forInvestigationBtn, #forVisitingBtn, #approvedBtn, #disapprovedBtn, #waitingForApprovalBtn, #updateConfirmButton, #CancelBtnTitleLand, #CancelBtnPictureLand, #CancelBtnPictureLand1, #CancelBtnPictureLand2').hide();
                 break;
             case 'resubmit':
                 // Hide only the "Resubmit" button
@@ -766,8 +775,8 @@ $(document).ready(function () {
 
     // Function to reset the changes made by CancelBtnTitleLand
     function resetChanges() {
-        $('#title_land_modal, #CancelBtnTitleLand, .bx.bxs-file-pdf').show();
-        $('#title_land_modal').parent().find('input[type="file"]').remove();
+        $('#title_land_modal, #picture_land_modal, #picture_land_modal1, #picture_land_modal2, #CancelBtnTitleLand, #CancelBtnPictureLand, #CancelBtnPictureLand1, #CancelBtnPictureLand2,  .bx.bxs-file-pdf, .mdi.mdi-image').show();
+        $('#title_land_modal, #picture_land_modal, #picture_land_modal1, #picture_land_modal2').parent().find('input[type="file"]').remove();
         fileInputCanceled = false; // Reset the flag
     }
 
@@ -785,6 +794,48 @@ $(document).ready(function () {
 
         // Remove the 'required' attribute to allow form submission without the file input
         $('#title_land_modal').removeAttr('required');
+    });
+    $('#CancelBtnPictureLand').on('click', function () {
+        var farmId = $(this).data('farm-id');
+
+        // Hide the existing link, button, and PDF icon
+        $('#picture_land_modal, #CancelBtnPictureLand, .mdi.mdi-image').hide();
+
+        // Create the file input field and append it to the parent div
+        var fileInputHtml1 = '<input type="file" id="picture_land_modal" name="picture_land" class="form-control" title="This field is required to fill up" accept="image/*" required />';
+        $('#picture_land_modal').parent().append(fileInputHtml1);
+        fileInputCanceled = true; // Set the flag indicating that the file input was canceled
+
+        // Remove the 'required' attribute to allow form submission without the file input
+        $('#picture_land_modal').removeAttr('required');
+    });
+    $('#CancelBtnPictureLand1').on('click', function () {
+        var farmId = $(this).data('farm-id');
+
+        // Hide the existing link, button, and PDF icon
+        $('#picture_land_modal1, #CancelBtnPictureLand1, .mdi.mdi-image').hide();
+
+        // Create the file input field and append it to the parent div
+        var fileInputHtml2 = '<input type="file" id="picture_land_modal1" name="picture_land1" class="form-control" title="This field is required to fill up" accept="image/*" required />';
+        $('#picture_land_modal1').parent().append(fileInputHtml2);
+        fileInputCanceled = true; // Set the flag indicating that the file input was canceled
+
+        // Remove the 'required' attribute to allow form submission without the file input
+        $('#picture_land_modal1').removeAttr('required');
+    });
+    $('#CancelBtnPictureLand2').on('click', function () {
+        var farmId = $(this).data('farm-id');
+
+        // Hide the existing link, button, and PDF icon
+        $('#picture_land_modal2, #CancelBtnPictureLand2, .mdi.mdi-image').hide();
+
+        // Create the file input field and append it to the parent div
+        var fileInputHtml3 = '<input type="file" id="picture_land_modal2" name="picture_land2" class="form-control" title="This field is required to fill up" accept="image/*" required />';
+        $('#picture_land_modal2').parent().append(fileInputHtml3);
+        fileInputCanceled = true; // Set the flag indicating that the file input was canceled
+
+        // Remove the 'required' attribute to allow form submission without the file input
+        $('#picture_land_modal2').removeAttr('required');
     });
 
     // Event handler for modal hidden event

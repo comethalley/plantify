@@ -458,9 +458,10 @@ public function updateFarm(Request $request, $id)
     // Validate the form data
     $request->validate([
 
-        'title_land' => 'nullable|file|mimes:pdf,png,jpg|max:2048',
+        'title_land' => 'required|file|mimes:pdf,png,jpg|max:2048',
         'picture_land' => 'nullable|file|mimes:jpeg,png|max:2048',
-
+        'picture_land1' => 'nullable|file|mimes:jpeg,png|max:2048',
+        'picture_land2' => 'nullable|file|mimes:jpeg,png|max:2048',
     ]);
 
     // Update the farm record based on the provided $id

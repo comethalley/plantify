@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
 use App\Models\Event;
+use App\Notifications\NewNotificationEvent;
 use Illuminate\Http\Request;
-
+use App\Models\User;
 class EventController extends Controller
 {
     //
@@ -25,6 +26,11 @@ class EventController extends Controller
         $item->location = $request->location;
         $item->description = $request->description;
         $item->save();
+
+        $users = User::all();
+        foreach ($users as $user) {
+            $user->notify(new NewNotificationEvent($request->message));
+        }
 
         return redirect('/schedules');
     }

@@ -15,6 +15,6 @@ class Event extends Model
         'end',
         'location',
         'description',
-    
+        'status',
     ];
 }

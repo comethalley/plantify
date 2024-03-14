@@ -12,9 +12,12 @@ class EventController extends Controller
     //
     public function index()
     {
-        $events = DB::table('events')->orderBy('id', 'DESC')->get();
+        $events = DB::table('events')->where('status', '1')->orderBy('id', 'DESC')->get();
         //dd($events);
-        return view('pages.eventscalendar', ['events' => $events]);
+        
+        $data = DB::table('events')->where('status', '1')->orderBy('id', 'DESC')->get();
+        return view('pages.eventscalendar', ['events' => $events, 'data' => $data]);
+
     }
 
     public function create(Request $request)
@@ -25,11 +28,12 @@ class EventController extends Controller
         $item->end = $request->end;
         $item->location = $request->location;
         $item->description = $request->description;
+        $item->status = 1;
         $item->save();
 
         $users = User::all();
         foreach ($users as $user) {
-            $user->notify(new NewNotificationEvent($request->message));
+            $user->notify(new NewNotificationEvent($users));
         }
 
         return redirect('/schedules');

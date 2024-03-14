@@ -1,3 +1,4 @@
+
 <?php
 
 use Illuminate\Database\Migrations\Migration;
@@ -20,6 +21,7 @@ return new class extends Migration
             $table->date('end');
             $table->text('location')->nullable();
             $table->text('description')->nullable();
+            $table->string('status');
             $table->timestamps();
         });
     }

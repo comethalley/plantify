@@ -10,7 +10,7 @@ use Illuminate\Notifications\Notification;
 class NewNotificationEvent extends Notification
 {
     use Queueable;
-
+public  $users;
     /**
      * Create a new notification instance.
      *
@@ -39,10 +39,11 @@ class NewNotificationEvent extends Notification
      * @param  mixed  $notifiable
      * @return array
      */
-    public function toDatabase($notifiable)
+    public function toDatabase($users)
     {
         return [
-            'newevent'=>Carbon::now()
+            'id'=>$this->users['id'],
+            'name'=>$this->users['name']
         ];
     }
 
@@ -56,7 +57,7 @@ class NewNotificationEvent extends Notification
     public function toArray($notifiable)
     {
         return [
-            //
+           
         ];
     }
 }

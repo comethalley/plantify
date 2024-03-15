@@ -32,12 +32,11 @@
             <div class="col-12" >
                  <!--start row-->
 
-                <div class="row">
-                
-                    <div class="col-xl-3" >
+                 <div class="row scrollable">
+                    <div class="col-xl-3 scrollable" style="overflow-y: auto; max-height: 100vh;">
                         <div class="card card-h-100">
                             <div class="card-body" style="display:flex; justify-content:center; align-items:center;">
-                              
+                                
                             
                             @if(auth()->user()->role_id == 1)
                             {{-- Display only for role_id 1 (Admin) --}}
@@ -55,10 +54,10 @@
                             {{-- Display only for role_id 5 (Public Users) --}}
                             <button hidden type="button" class="btn btn-success w-100" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModalExample"><i class="mdi mdi-plus"></i>Create New Events</button>
                             @endif
-                             </div>       
+                            </div>
                         </div>
-                        <div class="card ">
-                            <div class="card-body bg-info-subtle">
+                        <div class="card scrollable">
+                            <div class="card-body bg-info-subtle" style="overflow-y: auto;" >
                                 <div class="d-flex">
                                     <div class="flex-shrink-0">
                                         <i data-feather="calendar" class="text-info icon-dual-info"></i>
@@ -72,17 +71,7 @@
                             </div>
                         </div>
                                   
-                                                    <!----> @foreach ($events as $event)   
-                            
-                         <div class="card border-success pe-2 me-n1 mb-3 simplebar-scrollable-y" style="max-width: 18rem;" id="refresh">
-                             <div class="card-header bg-transparent border-success">{{ $event->title}}</div>
-                                <div class="card-body">
-                                    <h6 class="card-text">{{ date('F j, Y', strtotime($event->start)) }} to {{ date('F j, Y', strtotime($event->end)) }}</h6>
-                                    <p class="card-text">Location: {{ $event->location}}</p>
-                                    <p class="card-text">Description: {{ $event->description}}</p>
-                                  
-                                </div>
-                         </div>@endforeach
+                        @include('pages.displayevent')
                                 
             </div> <!-- end col-->
  <!-- ============================================================ -->
@@ -225,7 +214,7 @@
 
                                                         <div class="modal-footer">
                                                         <div class="hstack gap-2 justify-content-end">
-                                                        <button type="button" class="btn btn-danger" id="deleteEventBtn" id="deleteEventBtn">Delete</button>
+                                                        <button type="button" class="btn btn-danger" id="deleteEventBtn" >Delete</button>
                                                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editexampleModal">edit</button>
                                                     
                                                           </div>  
@@ -404,34 +393,37 @@
                     $('#updateEventBtn').data('event-id', eventId);
                     $('#deleteEventBtn').data('event-id', eventId);
 
-                                    // When the user clicks the delete button in the modal
-                    $('#deleteEventBtn').on('click', function () {
-                        var eventId = info.event.id;
-                        
-                        // Make an AJAX delete request
-                        $.ajax({
-                            url: `/scheduledelete/${eventId}`, // Adjust the URL according to your server-side route
-                            type: 'DELETE',
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            },
-                            success: function(response) {
-                                console.log('Event deleted successfully.');
+                                    // When the user clicks the delete button in the modal// Store event ID for update and delete
+ var eventId = info.event.id;
+$('#deleteEventBtn').data('event-id', eventId);
 
-                                // Close the confirmation modal
-                                $('#EventdetailModal').modal('hide');
+   $('#deleteEventBtn').on('click', function () {
+    handleEventDelete($(this).data('event-id'));
+        });
 
-                                // Remove the event from the calendar
-                                info.event.remove();
-                            },
-                            error: function(error) {
-                                console.error('Error deleting event:', error);
+function handleEventDelete(eventId) {
+ // Close Update/Delete Event Modal
+ $('#editexampleModal').modal('hide');
+ $('#EventdetailModal').modal('hide');
+ if (confirm("Are you sure you want to delete this event?")) {
+    $.ajax({
+        url: "/scheduledelete/" + eventId,
+        type: "DELETE",
+        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+        success: function (data) {
+                    calendar.refetchEvents();
+                    alert("Planting Deleted Successfully");
+                    $('#planting-events-container').load(location.href + ' planting-events-container');
+                },
+                    error: function (error) {
+                        console.error("Error deleting event:", error);
+                        alert("Error deleting planting. Please try again.");
+                    }
+                });
+            }
+        }
 
-                                // Close the confirmation modal
-                                $('#EventdetailModal').modal('hide');
-                            }
-                        });
-                    });
+                    
 
                   
                 },
@@ -465,35 +457,7 @@
                 }
             });
         }
-        $('#deleteEventBtn').on('click', function () {
-
-            // Close Update/Delete Event Modal
-            $('#editexampleModal').modal('hide');
-
-            var eventId = $(this).data('event-id');
-           
-                $.ajax({
-                    url: `/scheduledelete/${eventId}`,
-                    type: "delete",
-                    headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-                    data: {
-                        id: eventId,
-                        type: 'delete'
-                    },
-                    success: function (data) {
-                        calendar.fullCalendar('refetchEvents');
-                        $('#editexampleModal').modal('hide');
-                       
-                    },
-                    error: function (error) {
-                        console.error("Error deleting event:", error);
-                       
-                    }
-                });
-                $('#EventdetailModal').modal('hide');
-            
-            });
-
+     
          
   
        
@@ -537,14 +501,12 @@
    minDate: "today",
    });
     
-   $(document).ready(function (){
-        $(document).on('click', '.editbtn', function() {
+ 
 
-          var eventid = $(this).val();
-          alert(eventid);  
-        });
+   $('#').on('click', function() {
+        $('#planting-events-container').load(location.href + ' #reload-section');
+    });
 
-   });
        
 </script>
 

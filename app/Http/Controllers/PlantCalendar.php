@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\CalendarPlanting;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
-use App\Notifications\NewNotificationEvent;
+use App\Notifications\NewplantingNotification;
 use App\Models\User;
 
 class PlantCalendar extends Controller
@@ -30,11 +30,17 @@ class PlantCalendar extends Controller
         $item->harvested = $request->harvested;
         $item->destroyed = $request->destroyed;
         $item->save();
-        $users = User::all();
-        foreach ($users as $user) {
-            $user->notify(new NewNotificationEvent($request->message));
-        }
 
+        $title = $request->title;
+
+        $users = auth()->user();
+            $users = User::all();
+        
+            foreach ($users as $user) {
+                $planting = new CalendarPlanting();
+                $planting->title = $title;
+                $user->notify(new NewplantingNotification($planting));
+            }
         return redirect('/plantcalendar');
     }
 

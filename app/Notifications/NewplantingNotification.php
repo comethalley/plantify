@@ -1,24 +1,24 @@
 <?php
 
 namespace App\Notifications;
-use Carbon\Carbon;
+
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class NewNotificationEvent extends Notification
+class NewplantingNotification extends Notification
 {
     use Queueable;
-public  $event;
+    public  $planting;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($event)
+    public function __construct($planting)
     {
-      $this->events = $event;
+        $this->plantings = $planting;
     }
 
     /**
@@ -27,23 +27,18 @@ public  $event;
      * @param  mixed  $notifiable
      * @return array
      */
-    public function via($ntoifiable)
-    {
-        return ['database','broadcast'];
-    }
+
+     public function via($ntoifiable)
+     {
+         return ['database','broadcast'];
+     }
 
 
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function toDatabase($event)
+    public function toDatabase($planting)
     {
         return [
            
-            'title'=>$this->events['title']
+            'title'=>$this->plantings['title']
         ];
     }
 
@@ -57,7 +52,7 @@ public  $event;
     public function toArray($notifiable)
     {
         return [
-            'title'=>$this->events['title']
+            'title'=>$this->plantings['title']
         ];
     }
 }

@@ -49,8 +49,9 @@ class EventController extends Controller
 
     public function getEvents()
     {
-        $event = Event::all();
-        return response()->json($event);
+        $events = Event::where('status', '!=', 0)->get();
+        
+        return response()->json($events);
     }
 
     public function getdata($id)
@@ -64,8 +65,18 @@ class EventController extends Controller
 
     public function deleteEvent(Request $request, $id)
     {
-        $event = Event::find($request->id)->delete();
-        return response()->json($event);
+        $event = Event::findOrFail($id);
+        $updatedEvents = Event::all();
+        if (!$event) {
+            return response()->json(['message' => 'The supplier does not exist'], 422);
+        }
+
+        $event->update([
+            'status' => 0,
+        ]);
+        return response()->json([
+            'message' => 'Planting deleted successfully',
+            'events' => $updatedEvents,]);
     }
 
     public function update(Request $request, $id)

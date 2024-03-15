@@ -154,8 +154,9 @@
 
                                 <div class="tab-content position-relative" id="notificationItemsTabContent">
                                     <div class="tab-pane fade show active py-2 ps-2" id="all-noti-tab" role="tabpanel">
-                                    <div class="text-reset notification-item d-block dropdown-item position-relative">
                                     @foreach (auth()->user()->notifications as $notification)
+                                    <div class="text-reset notification-item d-block dropdown-item position-relative">
+                                    @if ($notification->type === 'App\Notifications\NewNotificationEvent')
                                     <div class="d-flex">
                                       
                                             <img src="assets/images/users/avatar-2.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
@@ -177,8 +178,31 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        @endforeach
+                                        @elseif ($notification->type === 'App\Notifications\NewplantingNotification')
+                                        <div class="d-flex">
+                                      
+                                            <img src="assets/images/users/avatar-2.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                            <div class="flex-grow-1">
+                                                <a href="/plantcalendar" class="stretched-link">
+                                                    <h6 class="mt-0 mb-1 fs-13 fw-semibold">{{ $notification->data['title']}}</h6>
+                                                </a>
+                                                <div class="fs-13 text-muted">
+                                                    <p class="mb-1">may bagong tanim 🔔.</p>
+                                                </div>
+                                                <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+                                                    <span><i class="mdi mdi-clock-outline"></i> 1 min ago</span>
+                                                </p>
+                                            </div>
+                                            <div class="px-2 fs-15">
+                                                <div class="form-check notification-check">
+                                                    <input class="form-check-input" type="checkbox" value="" id="all-notification-check02">
+                                                    <label class="form-check-label" for="all-notification-check02"></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @endif
                                     </div>
+                                    @endforeach
                                     </div>
                                     <div class="tab-pane fade py-2 ps-2" id="messages-tab" role="tabpanel" aria-labelledby="messages-tab">
 

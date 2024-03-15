@@ -151,7 +151,8 @@ Route::post('/plantinfo', [PlantInfoController::class, 'store']);
 Route::post('/archive/{id}', [PlantInfoController::class, 'archive']);
 Route::get('/restore', [PlantInfoController::class, 'restore']);
 Route::post('/unarchive/{id}', [PlantInfoController::class, 'unarchive']);
-//==========================================================================
+//PES=======================================================================
+Route::get('/pes', [PlantInfoController::class, 'pes']);
 
 //For farm management =======================================================
 

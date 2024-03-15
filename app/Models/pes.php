@@ -5,16 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class piu extends Model
+class pes extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'plant_name',
-        'season',
-        'image',
-        'information',
-        'companion',
-        'status',
+        'pes_name',
+        'pes_image',
+        'pes_information',
+        'pes_status'
     ];
 
     public function __construct(array $attributes = [])

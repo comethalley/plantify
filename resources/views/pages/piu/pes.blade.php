@@ -36,24 +36,19 @@
                                                 <th class="sort" data-sort="">#</th>
                                                 <th class="sort" data-sort="">Plant Name</th>
                                                 <th class="sort" data-sort="">Image</th>
-                                                <th class="sort" data-sort="">Season</th>
                                                 <th class="sort" data-sort="">Information</th>
-                                                <th class="sort" data-sort="">Companion</th>
-                                                <th class="sort" data-sort="">Days of Harvest</th>
-                                                <th class="sort" data-sort="">Action</th>
+
                                             </tr>
                                         </thead>
                                         <tbody class="">
 
-                                            @foreach($plantinfo as $item)
+                                            @foreach($pes as $item)
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $item->plant_name }}</td>
                                                 <td><img src="/images/{{ $item->image }}" alt="" width="200px" height="200px"></td>
-                                                <td>{{ $item->seasons }}</td>
                                                 <td>{!! $item->information !!}</td>
-                                                <td>{{ $item->companion }}</td>
-                                                <td>{{ $item->days_harvest }}</td>
+                                                
                                                 <td>
                                                     <ul class="list-inline hstack gap-2 mb-0">
                                                         <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="View">

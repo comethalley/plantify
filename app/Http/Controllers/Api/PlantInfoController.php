@@ -200,7 +200,7 @@ class PlantinfoController extends Controller
 
     public function pes()
     {
-        $plantinfo = DB::table('plant_infos')
+        $pes = DB::table('pes')
             ->where('status', 1)
             ->select(
                 "*"
@@ -208,7 +208,7 @@ class PlantinfoController extends Controller
             ->get();
         //return view('plantinfo.index')->with('plantinfo', $plantinfo);
         //dd($plantinfo);
-        return view("pages.plantinfo.pes", ['plantinfo' => $plantinfo]);
+        return view("pages.piu.pes", ['pes' => $pes]);
     }
 
 }

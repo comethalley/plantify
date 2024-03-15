@@ -10,15 +10,15 @@ use Illuminate\Notifications\Notification;
 class NewNotificationEvent extends Notification
 {
     use Queueable;
-public  $users;
+public  $event;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($event)
     {
-        //
+      $this->events = $event;
     }
 
     /**
@@ -39,11 +39,11 @@ public  $users;
      * @param  mixed  $notifiable
      * @return array
      */
-    public function toDatabase($users)
+    public function toDatabase($event)
     {
         return [
-            'id'=>$this->users['id'],
-            'name'=>$this->users['name']
+           
+            'title'=>$this->events['title']
         ];
     }
 
@@ -57,7 +57,7 @@ public  $users;
     public function toArray($notifiable)
     {
         return [
-           
+            'title'=>$this->events['title']
         ];
     }
 }

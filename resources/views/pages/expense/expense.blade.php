@@ -56,27 +56,17 @@
             
             <!-- Your existing "Add Budget" button -->
             <div class="d-flex align-items-center">
-                @if ($userRoleId != 3)
+                @if ($userRoleId != 2)
                 <div class="flex-shrink-0 mb-3">
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addBudgetModal">
                         Add Budget
                     </button>
                 </div>
-                
-                &nbsp&nbsp&nbsp&nbsp
-                <div class="mb-3">
-                    <select class="form-select" id="farm_id" name="farm_id">
-                        <option value="">All Farm</option>
-                        @foreach($farm as $per_farm)
-                            <option value="{{ $per_farm->id }}">{{ $per_farm->farm_name }}</option>
-                        @endforeach
-                    </select>
-                </div>
                 @endif
             </div>
 
             <!-- Add Budget Modal -->
-            @if($userRoleId == 2)
+            @if($userRoleId == 3 && $farm)
             <div class="modal fade" id="addBudgetModal" tabindex="-1" aria-labelledby="addBudgetModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -89,7 +79,6 @@
                                 @csrf
                                 <div class="mb-3">
                                     <select class="form-select" id="farm_id" name="farm_id">
-                                        <option value="" data-farm-id="">All Farm</option>
                                         @foreach($farm as $per_farm)
                                             <option value="{{ $per_farm->id }}" data-farm-id="{{ $per_farm->id }}">{{ $per_farm->farm_name }}</option>
                                         @endforeach
@@ -251,17 +240,29 @@
                                             <div class="modal-body">
                                                 <form id="expenseForm">
                                                     <div class="mb-3">
+                                                        <label for="category" class="form-label">Category</label>
+                                                        <select class="form-select" id="category" onchange="toggleInputFields()">
+                                                            <option value=""> Select Category</option>
+                                                            <option value="electricity">Electricity</option>
+                                                            <option value="water">Water</option>
+                                                            <option value="seeds">Seeds</option>
+                                                            <option value="others">Others</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="mb-3" id="descriptionInput" style="display: none;">
                                                         <label for="description" class="form-label">Description</label>
                                                         <input type="text" class="form-control" id="description" placeholder="Enter description">
                                                     </div>
 
-                                                    <div class="mb-3">
+                                                    <div class="mb-3" id="amountInput" style="display: none;">
                                                         <label for="amount" class="form-label">Amount</label>
                                                         <input type="number" class="form-control" id="amount" placeholder="Enter amount">
                                                     </div>
 
-                                                    <div class="mb-3">
-                                                        <label for="image" class="form-label">Upload Proof of Expenses</label>
+                                                    <!-- Image Upload Input -->
+                                                    <div class="mb-3" id="imageInput" style="display: none;">
+                                                        <label for="image" class="form-label">Upload Image</label>
                                                         <input type="file" class="form-control" id="image" accept="image/*">
                                                     </div>
                                                 </form>
@@ -402,6 +403,33 @@
 <!-- apexcharts init -->
 <script src="assets/js/pages/apexcharts-column.init.js"></script>
 
+<!-- expenses modal -->
+<script>
+    function toggleInputFields() {
+        var category = document.getElementById('category').value;
+        var descriptionInput = document.getElementById('descriptionInput');
+        var amountInput = document.getElementById('amountInput');
+
+        // Hide all input fields
+        descriptionInput.style.display = 'none';
+        amountInput.style.display = 'none';
+        imageInput.style.display = 'none';
+
+        // Show input field based on selected category
+        if (category === 'electricity' || category === 'water') {
+            amountInput.style.display = 'block';
+            imageInput.style.display = 'block';
+        } else if (category === 'seeds') {
+            descriptionInput.style.display = 'block';
+            amountInput.style.display = 'block';
+            imageInput.style.display = 'block';
+        } else if (category === 'others') {
+            descriptionInput.style.display = 'block';
+            amountInput.style.display = 'block';
+            imageInput.style.display = 'block';
+        }
+    }
+</script>
 
 <script>
     document.getElementById('addBudgetForm').addEventListener('submit', function(event) {
@@ -410,7 +438,7 @@
         if (confirm('Are you sure you want to add this budget?')) {
             var formData = new FormData(this);
 
-            fetch(this.action, {
+            fetch('/expenses/add-budget', {
                 method: 'POST',
                 body: formData,
                 headers: {
@@ -467,6 +495,7 @@
     formData.append('description', document.getElementById('description').value);
     formData.append('amount', document.getElementById('amount').value);
     formData.append('image', document.getElementById('image').files[0]);
+    formData.append('farm_id', document.getElementById('farm_id').value); // Add farm_id to the form data
 
     fetch('/expenses/save-expense', {
         method: 'POST',

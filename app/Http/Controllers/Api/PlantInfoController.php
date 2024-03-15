@@ -106,35 +106,35 @@ class PlantinfoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-        // $plantinfo = Plantinfo::find($id);
-        // $input = $request->all();
-        // $plantinfo->update($input);
-        // return redirect('/plantinfo')->with('flash_message', 'Plant Updated!');
+{
+    $plantinfo = PlantInfo::where('id', $id)->where('status', 1)->first(); // Add first() to retrieve the record
 
-        $plantinfo = PlantInfo::where('id', $id)->where('status', 1);
+    $validator = Validator::make($request->all(), [
+        'edit_plant_name' => 'required|string|max:55',
+        'edit_image' => 'required|string|max:55',
+        'edit_seasons' => 'required|string|max:55',
+        'edit_information' => 'required|string|max:55',
+        'edit_companion' => 'required|string|max:55',
+        'edit_days_harvest' => 'required|string|max:55'
+    ]);
 
-        $validator = Validator::make($request->all(), [
-            'edit_plant_name' => 'required|string|max:55',
-            'edit_planting_date' => 'required|string|max:55',
-            'edit_information' => 'required|string|max:55',
-            'edit_companion' => 'required|string|max:55'
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        };
-
-        $data = $validator->validate();
-
-        $plantinfo->update([
-            "plant_name" => $data['edit_plant_name'],
-            "planting_date" => $data['edit_planting_date'],
-            "information" => $data['edit_information'],
-            "companion" => $data['edit_companion']
-        ]);
-        return response()->json(['plantinfo' => $plantinfo], 200);
+    if ($validator->fails()) {
+        return response()->json(['errors' => $validator->errors()], 422);
     }
+
+    $data = $validator->validated(); // Use validated() to retrieve validated data
+
+    $plantinfo->update([
+        "plant_name" => $data['edit_plant_name'],
+        "image" => $data['edit_image'],
+        "seasons" => $data['edit_seasons'], // Corrected field name
+        "information" => $data['edit_information'],
+        "companion" => $data['edit_companion'],
+        "days_harvest" => $data['edit_days_harvest'] // Added days_harvest field
+    ]);
+    
+    return response()->json(['plantinfo' => $plantinfo], 200);
+}
 
     /**
      * Remove the specified resource from storage.
@@ -197,4 +197,18 @@ class PlantinfoController extends Controller
         ]);
         return response()->json(['plantinfo' => $plantinfo], 200);
     }
+
+    public function pes()
+    {
+        $plantinfo = DB::table('plant_infos')
+            ->where('status', 1)
+            ->select(
+                "*"
+            )
+            ->get();
+        //return view('plantinfo.index')->with('plantinfo', $plantinfo);
+        //dd($plantinfo);
+        return view("pages.plantinfo.pes", ['plantinfo' => $plantinfo]);
+    }
+
 }

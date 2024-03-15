@@ -71,7 +71,7 @@ $(document).ready(function() {
     
         console.log("Add Plant button clicked");
         var plant_name = $('#plant_name').val();
-        var season = $('#season').val();
+        var seasons = $('#seasons').val();
         var information = quill.root.innerHTML;
         var companion = $('#companion').val();
         var day_harvest = $('#day_harvest').val();
@@ -79,7 +79,7 @@ $(document).ready(function() {
     
         var formData = new FormData();
         formData.append('plant_name', plant_name);
-        formData.append('seasons', season);
+        formData.append('seasons', seasons);
         formData.append('information', information);
         formData.append('companion', companion);
         formData.append('days_harvest', day_harvest);
@@ -96,6 +96,7 @@ $(document).ready(function() {
             processData: false, // important when sending FormData
             success: function(data) {
                 console.log(data);
+                location.reload(); 
                 // getFarmLeader();
                 // $('#farmLeadershowModal').modal('hide');
             },
@@ -144,13 +145,15 @@ $(document).ready(function() {
             url: "/edit/" + plantID,
             method: "GET",
             success: function(data) {
-                console.log(data)
+                console.log("plant info is"+data)
 
                 $('#plantID').val(data.plantinfo.id)
                 $('#edit_plant_name').val(data.plantinfo.plant_name)
-                $('#edit_plant_date').val(data.plantinfo.planting_date)
+                $('#edit_image').attr('src', "/images/"+data.plantinfo.image);
+                $('#edit_seasons').val(data.plantinfo.seasons)
                 $('#edit_information').val(data.plantinfo.information)
                 $('#edit_companion').val(data.plantinfo.companion)
+                $('#edit_days_harvest').val(data.plantinfo.days_harvest)
 
                 $('#updateModal').modal('show')
             },
@@ -171,28 +174,34 @@ $(document).ready(function() {
 
     })
 
-    function updatePlantInfo(){
-        var plantID = $('#plantID').val()
-        var plant_name = $('#edit_plant_name').val()
-        var plant_date = $("#edit_plant_date").val();
+    function updatePlantInfo() {
+        var plantID = $('#plantID').val();
+        var plant_name = $('#edit_plant_name').val();
+        var image = $('#myImage').attr('src', 'new_image.jpg'); // Retrieve the file object from the input field
+        var seasons = $("#edit_seasons").val();
         var information = $("#edit_information").val();
         var companion = $("#edit_companion").val();
-
+        var days_harvest = $('#edit_days_harvest').val();
+    
+        var formData = new FormData();
+        formData.append('edit_plant_name', plant_name);
+        formData.append('edit_image', image); // Append the file object to the FormData object
+        formData.append('edit_seasons', seasons);
+        formData.append('edit_information', information);
+        formData.append('edit_companion', companion);
+        formData.append('edit_days_harvest', days_harvest);
+    
         $.ajax({
-            url: "/update/"+plantID,
+            url: "/update/" + plantID,
             method: "POST",
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
-            data: {
-                'edit_plant_name': plant_name,
-                'edit_planting_date' : plant_date,
-                'edit_information'  : information,
-                'edit_companion' : companion
-             },
+            data: formData,
+            contentType: false,
+            processData: false,
             success: function(data) {
                 location.reload();
-
             },
             error: function(xhr, status, error) {
                 console.error("Error:", status, error);

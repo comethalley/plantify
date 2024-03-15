@@ -15,7 +15,7 @@ class PlantInfo extends Model
         'information',
         'companion',
         'days_harvest',
-        'status',
+        'status'
     ];
 
     public function __construct(array $attributes = [])

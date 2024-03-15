@@ -232,22 +232,25 @@
                                                 </div>
 
                                                 <div class="mb-3">
-                                                <label for="mode">Season</label>
-                                                        <select class="form-select" id="edit_season">
+                                                <label for="mode">Season</label>            
+                                                        <select class="form-select" id="edit_seasons">
                                                             <option value="January">January</option>
                                                             <option value="February">February</option>
                                                             <option value="March">March</option>
                                                         </select>
+                                                        
                                                 </div>
                                                 <div class="mb-3">
                                                 <label for="customername-field" class="form-label">Information</label>
-                                                    <input type="text" name="information" id="information" class="form-control" placeholder="Plant Information" required />
+                                                    <input type="text" name="information" id="edit_information" class="form-control" placeholder="Plant Information" required />
                                                     <div id="editor">
                                                 </div>
                                                 </div>
                                                 <div class="mb-3">
+                                                          
+                                                          <img src=""  alt="poo" srcset="" id="edit_image" width="200px" height="200px" >
                                                           <label for="formFile" class="form-label">Upload</label>
-                                                        <input class="form-control" type="file" id="image">
+                                                        <input class="form-control" type="file" id="edit_image">
                                                 </div>
                                                 
 

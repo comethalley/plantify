@@ -26,6 +26,58 @@
 <html lang="en">
 
 <head>
+    <style>
+        /* Badge styles */
+.badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+    text-transform: uppercase;
+}
+
+.badge-new {
+    background-color: #f0ffff; /* Light gray */
+    color: #007bff; /* Blue */
+}
+
+.badge-inprogress {
+    background-color: #f0f0f0; /* Light gray */
+    color: #28a745; /* Green */
+}
+
+.badge-pending {
+    background-color: #ffffe0; /* Light gray */
+    color: #ffc107; /* Yellow */
+}
+
+/* Priority styles */
+.priority {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.priority-high {
+    background-color: #dc3545; /* Red */
+    color: #fff; /* White */
+}
+
+.priority-medium {
+    background-color: #ffc107; /* Yellow */
+    color: #fff; /* Black */
+}
+
+.priority-low {
+    background-color: #28a745; /* Green */
+    color: #fff; /* White */
+}
+
+
+        </style>
 <script>
     $(document).ready(function() {
         $('#tasksTable').DataTable();
@@ -59,141 +111,125 @@
 
         <!-- end page title -->
 
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="card" id="orderList">
-                        <div class="card-header border-0">
-                            <div class="row align-items-center gy-3">
-                                <div class="col-sm">
-                                    <h5 class="card-title mb-0">Task list</h5>
-                                </div>
-                                <div class="col-sm-auto">
-                                    <div class="d-flex gap-1 flex-wrap">
-                                        <button type="button" class="btn btn-success add-btn" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModal"><i class="ri-add-line align-bottom me-1"></i> Create</button>
-                                        <!-- <button class="btn btn-soft-danger" id="remove-actions" onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button> -->
-        
-                                     <a href="{{ route('taskshow') }}" class="btn btn-primary bg-gradient
-                                     waves-effect waves-light"></i>Show Complete Task</a>
-                                     <a href="/missingtasks" class="btn btn-primary bg-gradient
-                                     waves-effect waves-light"></i>Missing Task</a>
-                                     <a href="/taskassign" class="btn btn-primary bg-gradient
-                                     waves-effect waves-light"></i>My Task</a>
-                                     <a href="{{ route('archived') }}" class="btn btn-primary bg-gradient
-                                     waves-effect waves-light"></i>Show Archived Task</a>
-                                     <!-- Vertical Variation -->
-                                     <!-- Place the dropdown filter before the table -->
-<div class="dropdown">
-    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuClickableOutside" data-bs-toggle="dropdown" aria-expanded="false">
-        All                                                               
-    </button>
-    <ul class="dropdown-menu" aria-labelledby="dropdownMenuClickableOutside">
-        <li><a class="dropdown-item" href="#" onclick="updateTable('All')">All</a></li>
-        <li><a class="dropdown-item" href="#" onclick="updateTable('New')">New</a></li>
-        <li><a class="dropdown-item" href="#" onclick="updateTable('Inprogress')">Inprogress</a></li>
-        <li><a class="dropdown-item" href="#" onclick="updateTable('Pending')">Pending</a></li>
-    </ul> 
-</div> 
+        <div class="row">
+    <div class="col-lg-12">
+        <div class="card" id="orderList">
+            <div class="card-header border-0">
+                <div class="row align-items-center gy-3">
+                    <div class="col-sm">
+                        <h5 class="card-title mb-0">Task list</h5>
+                    </div>
+                    <div class="col-sm-auto">
+                        <div class="d-flex gap-1 flex-wrap">
+                            <button type="button" class="btn btn-success add-btn" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModal"><i class="ri-add-line align-bottom me-1"></i> Create</button>
+                            <a href="{{ route('taskshow') }}" class="btn btn-primary bg-gradient waves-effect waves-light">Show Complete Task</a>
+                            <a href="/missingtasks" class="btn btn-primary bg-gradient waves-effect waves-light">Missing Task</a>
+                            <a href="/taskassign" class="btn btn-primary bg-gradient waves-effect waves-light">My Task</a>
+                            <a href="{{ route('archived') }}" class="btn btn-primary bg-gradient waves-effect waves-light">Show Archived Task</a>
 
-   
-                                </div>                  
+                            <!-- Dropdown Filter -->
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuClickableOutside" data-bs-toggle="dropdown" aria-expanded="false">
+                                    All
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuClickableOutside">
+                                    <li><a class="dropdown-item" href="#" onclick="updateTable('All')">All</a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="updateTable('New')">New</a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="updateTable('Inprogress')">Inprogress</a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="updateTable('Pending')">Pending</a></li>
+                                </ul> 
+                            </div> 
+                        </div>                  
+                    </div>
+                </div>
+            </div>
+            <div class="card-body border border-dashed border-end-0 border-start-0">
+                <table class="table table-nowrap align-middle">
+                    <form>
+                        <div class="row g-3">
+                            <div class="col-xxl-5 col-sm-6">
+                                <div class="search-box">
+                                    <!-- <input type="text" class="form-control search" placeholder="Search for order ID, customer, order status or something...">
+                                    <i class="ri-search-line search-icon"></i>         -->
+                                </div>
                             </div>
                         </div>
-                     <div class="card-body border border-dashed border-end-0 border-start-0">
+                        <!--end row-->
+                    </form>
+                </div>                                                    
+                <div class="card-body pt-0">
+                    <div class="table-responsive table-card mb-1">
                         <table class="table table-nowrap align-middle" id="tasksTable">
-     
-                            <form>
-                                <div class="row g-3">
-                                    <div class="col-xxl-5 col-sm-6">
-                                        <div class="search-box">
-                                            <!-- <input type="text" class="form-control search" placeholder="Search for order ID, customer, order status or something...">
-                                            <i class="ri-search-line search-icon"></i>         -->
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--end row-->
-                            </form>
-                        </div>                                                    
-                        <div class="card-body pt-0">
-                            <div>
-
-                                <div class="table-responsive table-card mb-1">
-                                    <table class="table table-nowrap align-middle" id="tasksTable">
-                                        <thead class="text-muted table-light">
-                                            <tr class="text-uppercase">
-                                            
-                                                    <!-- <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" id="checkAll" value="option">
-                                                    </div> -->          
-                                                </th>
-                                                <th class="sort" data_sort="id">ID</th>
-                                                <th class="sort" data_sort="tittle">Title</th>
-                                                <th class="sort" data_sort="description">Description</th>
-                                                <th class="sort" data_sort="user_id">Assigned To</th>
-                                                <th class="sort" data_sort="due_date">Due</th>
-                                               <th class="sort" data_sort="priority">Priority</th>
-                                               <th class="sort" data_sort="status">Status</th>
-                                                <th>Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        @foreach ($tasks as $task)
-            <tr class="task-row {{ strtolower(str_replace(' ', '-', $task->status)) }}">
-                  <td class="id">#{{ $task->id }}</td>
-    <td class="title">{{ $task->title }}</td>
-    <td class="description">{{ $task->description }}</td>
-    <td class="user_id">
-        @if ($task->user)
-            {{ $task->user->firstname }} {{ $task->user->lastname }}
-        @else
-            No User Assigned
-        @endif
-    </td> 
-    <td class="due_date">{{ $task->due_date }}</td>
-    <td class="priority">{{ $task->priority }}</td>
-    <td class="status">{{ $task->status }}</td>
-    <td>
-        <!-- Edit task button -->
-        <a href="#" class="btn btn-primary btn-sm task-edit"
-           data-task-id="{{ $task->id }}"
-           data-task-title="{{ $task->title }}"
-           data-task-description="{{ $task->description }}"
-           data-task-priority="{{ $task->priority }}"
-           data-task-due_date="{{ $task->due_date }}"
-           data-task-user_id="{{ $task->user_id }}"
-           data-task-status="{{ $task->status }}">
-            <i class="ri-pencil-fill fs-16"></i>
-        </a>
-
-        <!-- Archive task button -->
-        @if (!$task->archived)
-            <form action="{{ route('tasks.archive', $task->id) }}" method="POST" style="display: inline;">
-                @csrf
-                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to Archive this task?')">
-                    <i class="ri-delete-bin-5-fill fs-16"></i>
-                </button>
-            </form>
-        @endif
-
-        <!-- Complete task button -->
-        @if (!$task->completed)
-            <form action="{{ route('tasks.complete', $task->id) }}" method="POST" style="display: inline;">
-                @csrf
-                <button type="submit" class="btn btn-warning btn-sm">
-                    <i class="ri-checkbox-circle-line fs-16"></i>
-                </button>
-            </form>
-        @endif
-    </td>
-</tr>
-
-@endforeach
-
-            </tbody>
-                                        
-
-                                    </table>
-                                  
-
+                            <thead class="text-muted table-light">
+                                <tr class="text-uppercase">
+                                    <th class="sort" data_sort="id">ID</th>
+                                    <th class="sort" data_sort="tittle">Title</th>
+                                    <th class="sort" data_sort="description">Description</th>
+                                    <th class="sort" data_sort="user_id">Assigned To</th>
+                                    <th class="sort" data_sort="due_date">Due</th>
+                                    <th class="sort" data_sort="priority">Priority</th>
+                                    <th class="sort" data_sort="status">Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($tasks as $task)
+                                <tr class="task-row {{ strtolower(str_replace(' ', '-', $task->status)) }}">
+                                    <td class="id">#{{ $task->id }}</td>
+                                    <td class="title">{{ $task->title }}</td>
+                                    <td class="description" style="max-width: 100px; overflow: hidden; text-overflow: ellipsis;" title="{{ $task->description }}">
+                                        {{ $task->description }}
+                                    </td>
+                                    <td class="user_id">
+                                        @if ($task->user)
+                                        {{ $task->user->firstname }} {{ $task->user->lastname }}
+                                        @else
+                                        No User Assigned
+                                        @endif
+                                    </td> 
+                                    <td id="due_date_{{ $task->id }}" class="due_date">
+                                        {{ date('j M, Y - h:i A', strtotime($task->due_date)) }}
+                                    </td>
+                                    <td>
+                                        <span class="priority priority-<?php echo strtolower($task->priority); ?>"><?php echo $task->priority; ?></span>
+                                    </td>
+                                    <td>
+                                        <span class="badge badge-<?php echo strtolower($task->status); ?>"><?php echo $task->status; ?></span>
+                                    </td>
+                                    <td>
+                                        <!-- Edit task button -->
+                                        <a href="#" class="btn btn-primary btn-sm task-edit" data-task-id="{{ $task->id }}" data-task-title="{{ $task->title }}" data-task-description="{{ $task->description }}" data-task-priority="{{ $task->priority }}" data-task-due_date="{{ $task->due_date }}" data-task-user_id="{{ $task->user_id }}" data-task-status="{{ $task->status }}">
+                                            <i class="ri-pencil-fill fs-16"></i>
+                                        </a>
+                                        <!-- Archive task button -->
+                                        @if (!$task->archived)
+                                        <form action="{{ route('tasks.archive', $task->id) }}" method="POST" style="display: inline;">
+                                            @csrf
+                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to Archive this task?')">
+                                                <i class="ri-delete-bin-5-fill fs-16"></i>
+                                            </button>
+                                        </form>
+                                        @endif
+                                        <!-- Complete task button -->
+                                        @if (!$task->completed)
+                                        <form action="{{ route('tasks.complete', $task->id) }}" method="POST" style="display: inline;">
+                                            @csrf
+                                            <button type="submit" class="btn btn-warning btn-sm">
+                                                <i class="ri-checkbox-circle-line fs-16"></i>
+                                            </button>
+                                        </form>
+                                        @endif
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
      <!--Create Modal-->
      <div class="modal fade" id="showModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -210,48 +246,56 @@
                     <!-- Hidden input for ID -->
 
                     <div class="mb-3">
-                        <label for="title" class="form-label">Title</label>
-                        <input type="text" name="title" id="title" class="form-control" placeholder="Title" required />
-                    </div>
+    <label for="title" class="form-label">Title</label>
+    <input type="text" name="title" id="title" class="form-control" placeholder="Title" required />
+</div>
 
-                    <div class="mb-3">
-                        <label for="description" class="form-label">Description</label>
-                        <input type="text" name="description" id="description" class="form-control" placeholder="Description" required />
-                    </div>
+<div class="mb-3">
+    <label for="description" class="form-label">Description</label>
+    <input type="text" name="description" id="description" class="form-control" placeholder="Description" required />
+</div>
 
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                        <label for="due_date" class="form-label">Date and Time</label>
-                        <input type="datetime-local" name="due_date" id="due_date" class="form-control" required />
-                    </div>
-                        <div class="col-md-6">
-                            <label for="priority" class="form-label">Priority</label>
-                            <select class="form-control" id="priority" name="priority" required>
-                                <option value="Low">Low</option>
-                                <option value="Medium">Medium</option>
-                                <option value="High">High</option>
-                            </select>
-                        </div>
-                    </div>
+<div class="row">
+    <div class="col-md-6 mb-3">
+        <label for="due_date" class="form-label">Date and Time</label>
+        <input type="datetime-local" name="due_date" id="due_date" class="form-control" required />
+    </div>
+    <div class="col-md-6">
+        <label for="priority" class="form-label">Priority</label>
+        <select class="form-control" id="priority" name="priority" required>
+            <option value="" disabled selected>Select Priority</option> <!-- Placeholder for the priority dropdown -->
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+        </select>
+    </div>
+</div>
 
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label for="status" class="form-label">Status</label>
-                            <select class="form-control" id="s" name="status" required>
-                                <option value="New">New</option>
-                                <option value="Inprogress">Inprogress</option>
-                                <option value="Pending">Pending</option>
-                            </select>
-                        </div>
-                        <div class="col-md-8">
-                            <label class="form-label">Assigned To</label>
-                            <select name="user_id" class="form-control">
-                            @foreach ($users as $per_user)
-                                <option value="{{$per_user->id}}">{{$per_user->firstname}} {{$per_user->lastname}} -({{ $per_user->tasks_count }} tasks)</option>
-                                @endforeach
-                    </select>
-                        </div>    
-                    </div>
+<div class="row">
+    <div class="col-md-4">
+        <label for="status" class="form-label">Status</label>
+        <select class="form-control" id="s" name="status" required>
+            <option value="" disabled selected>Select Status</option> <!-- Placeholder for the status dropdown -->
+            <option value="New">New</option>
+            <option value="Inprogress">Inprogress</option>
+            <option value="Pending">Pending</option>
+        </select>
+    </div>
+    <div class="col-md-8">
+    <label class="form-label">Assigned To</label>
+    <select name="user_id" class="form-control" required>
+        <option value="" disabled selected>Select User</option> <!-- Placeholder for the user dropdown -->
+        @foreach ($users as $per_user)
+            @if ($per_user->tasks_count < 5) <!-- Check if the user has fewer than 5 tasks -->
+                <option value="{{$per_user->id}}">{{$per_user->firstname}} {{$per_user->lastname}} -({{ $per_user->tasks_count }} tasks)</option>
+            @endif
+        @endforeach
+    </select>
+</div>
+
+   
+</div>
+
 
                 </div>
                 <div class="modal-footer" style="display: block;">
@@ -316,15 +360,17 @@
                             </select>
                         </div>
                         <div class="col-md-8">
-                            <label class="form-label">Assigned To</label>
-                            <select name="user_id" class="form-control" required    id="edit-user_id">
-                                @foreach ($users as $per_user)
-                                <option value="{{$per_user->id}}">{{$per_user->firstname}} {{$per_user->lastname}} - ({{ $per_user->tasks_count }} tasks)</option>
-                               
-                                @endforeach
-                               </select>
-                        </div>
-                    </div>    
+    <label class="form-label">Assigned To</label>
+    <select name="user_id" class="form-control" required id="edit-user_id">
+        @foreach ($users as $user)
+            <option value="{{ $user->id }}" @if ($user->editable_task_id != null) disabled @endif>
+                {{ $user->firstname }} {{ $user->lastname }} - ({{ $user->tasks_count }} tasks)
+            </option>
+        @endforeach
+    </select>
+</div>
+                
+
 
                 </div>
                 <div class="modal-footer" style="display: block;">
@@ -432,14 +478,14 @@
 
             </div>
         <!-- container-fluid -->
-    </div>
+    </div>          
     <!-- End Page-content -->
           <!-- end main content-->
                     
 </div>                  
 <script>
 // Update table based on the selected filter
-    function updateTable(filter) {
+    function updateTable(filter) {                           
         // Get all table rows
         var rows = document.querySelectorAll('#tasksTable tbody tr');
 
@@ -447,7 +493,7 @@
         rows.forEach(function(row) {
             var statusCell = row.querySelector('.status'); // Get the cell containing status
             var status = statusCell.textContent.trim(); // Get the status text
-
+   
             // Show row if the filter is "All" or if the row's status matches the filter
             if (filter === 'All' || status === filter) {
                 row.style.display = '';
@@ -570,9 +616,40 @@
 
         
     });
+
+    // Function to update the color of the due date based on its proximity to the current date
+    function updateDueDateColor(taskId, dueDate) {
+    var dueDateElement = document.getElementById('due_date_' + taskId);
+    var currentTime = new Date();
+    var dueDateTime = new Date(dueDate);
+
+    var timeDiff = dueDateTime.getTime() - currentTime.getTime();
+    var hoursDiff = Math.floor(timeDiff / (1000 * 3600)); // Convert milliseconds to hours
+
+    // Reset color to default (black)
+    dueDateElement.style.color = 'black';
+
+    // Apply colors based on time remaining
+    if (hoursDiff <= 0) {
+        dueDateElement.style.color = 'red'; // Due date has passed, set color to red
+    } else if (hoursDiff <= 5) {
+        // Calculate lighter shade of red
+        var lightRed = Math.floor(255 - (hoursDiff * 25.5)); // Adjust multiplier for desired intensity
+        dueDateElement.style.color = 'rgb(255,' + lightRed + ',' + lightRed + ')'; // Set light red color
+    } else if (hoursDiff < 24) {
+        dueDateElement.style.color = 'orange'; // Less than 24 hours remaining, set color to orange
+    }
+}
+
+// Call the function for each due date in the table
+@foreach($tasks as $task)
+    updateDueDateColor({{ $task->id }}, '{{ $task->due_date }}');
+@endforeach
+
+                                                     
 });
 
-
+  
 
 
     

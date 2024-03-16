@@ -6,7 +6,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Carbon;
 use Illuminate\Http\Request;
-use App\Models\Task; 
+use App\Models\Task;  
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -14,27 +14,59 @@ use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
-    public function index()                
+    public function index()
 {
-    $minimumTasks = 5; // Define the minimum number of tasks
-    
-    // Fetch users with their task counts
-
-        $users = User::select('users.id', 'users.firstname', 'users.lastname', DB::raw('COUNT(CASE WHEN tasks.completed != 1 AND tasks.archived != 1  THEN tasks.id ELSE NULL END) AS tasks_count'))
-        ->leftJoin('tasks', 'users.id', '=', 'tasks.user_id')
-        ->groupBy('users.id', 'users.firstname', 'users.lastname')
-        ->havingRaw('tasks_count < ?', [$minimumTasks]) // Filter users whose non-archived and non-completed task count is not equal to 1
-        ->orderByRaw('tasks_count ASC')
+    // Retrieve users with their task counts
+    $users = User::select('id', 'firstname', 'lastname')
+        ->withCount([
+            'tasks as tasks_count' => function ($query) {
+                $query->where('completed', '!=', 1)
+                      ->where('archived', '!=', 1);
+            }
+        ])
+        ->orderBy('tasks_count', 'asc')
         ->get();
+
+    // Filter users who have exactly 5 tasks
+    $usersWithFiveTasks = $users->filter(function ($user) {
+        return $user->tasks_count == 5;
+    });
+
+    // Apply logic to allow editing only one task for users with exactly 5 tasks
+    foreach ($usersWithFiveTasks as $user) {
+        $editableTask = $user->tasks()->where('completed', '!=', 1)->where('archived', '!=', 1)->first();
+
+        // If exactly one task is found, allow editing
+        if ($editableTask) {
+            $user->editable_task_id = $editableTask->id;
+        } else {
+            // If no editable task found, set editable_task_id to null
+            $user->editable_task_id = null;
+        }
+    }         
+  
+                               
+
     
         $overdueTasks = Task::where('due_date', '<', Carbon::now())->get();
     
     // Fetch tasks for monitoring
-    $tasks = Task::where('completed', false)
-        ->where('archived', false)
-        ->orderByDesc('priority')
-        ->orderBy('due_date')
-        ->get();
+   // Retrieve tasks
+$tasks = Task::where('completed', false)
+->where('archived', false)
+->where('due_date', '>=', now()) // Filter out tasks with due dates in the future or today
+->orderByDesc('priority')
+->orderBy('due_date')
+->get();
+
+// Iterate over tasks and update status if due date is today
+foreach ($tasks as $task) {
+if ($task->due_date->isToday()) {
+    $task->status = 'missing'; // Change the status to "missing" when due date is met
+    $task->save();
+}
+}
+
 
     return view('pages.tasks.monitoring', compact('tasks', 'users','overdueTasks'));
 }
@@ -137,7 +169,7 @@ class TaskController extends Controller
         // Pass overdue tasks to the view
         return view('pages.tasks.missingtask', ['tasks' => $overdueTasks]);
     }
-    
+              
 
     // app/Http/Controllers/TaskController.php                                              
 

@@ -152,7 +152,10 @@ Route::post('/archive/{id}', [PlantInfoController::class, 'archive']);
 Route::get('/restore', [PlantInfoController::class, 'restore']);
 Route::post('/unarchive/{id}', [PlantInfoController::class, 'unarchive']);
 //PES=======================================================================
-Route::get('/pes', [PlantInfoController::class, 'pes']);
+Route::get('/pesticides', [PlantInfoController::class, 'pesticides']);
+Route::post('/pesticides', [PlantInfoController::class, 'pstore']);
+//FER=======================================================================
+Route::get('/fertilizers', [PlantInfoController::class, 'fertilizers']);
 
 //For farm management =======================================================
 
@@ -215,6 +218,6 @@ Route::get('/verify-email', [EmailVerification::class, 'emailVerification']);
 //Botaknows Userside ===================================================
 Route::get('/piu/piu', [PiuController::class, 'index']);
 Route::get('/piu/fiu', [PiuController::class, 'fer']);
-Route::get('/piu/pes', [PiuController::class, 'pes']);
+// Route::get('/piu/pes', [PiuController::class, 'pes']);
 Route::get('/piu/show/{id}', [PiuController::class, 'show']);
 //===========================================================================================================

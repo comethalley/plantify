@@ -7,6 +7,7 @@ use App\Models\PlantInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Pesticides;
 
 class PlantinfoController extends Controller
 {
@@ -198,17 +199,59 @@ class PlantinfoController extends Controller
         return response()->json(['plantinfo' => $plantinfo], 200);
     }
 
-    public function pes()
+    public function pesticides()
     {
-        $pes = DB::table('pes')
+        $pesticides = DB::table('pesticides')
+        ->where('pes_status', 1)
+        ->select(
+            "*"
+        )
+        ->get();
+
+        return view('pages.plantinfo.pesticides', ['pesticides' => $pesticides]);
+    }
+
+    public function pstore(Request $request)
+    {
+        // Validate the request
+        $request->validate([
+            'pes_name' => 'required',
+            'pes_information' => 'required',
+            'pes_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Example validation for image upload
+        ]);
+
+        // Retrieve all input data
+        $input = $request->all();
+
+        // Move the uploaded image to a specific directory
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images'), $imageName);
+            $input['image'] = $imageName;
+        }
+        $input['pes_status'] = 1;
+
+        // Create new plant info record
+        Pesticides::create($input);
+
+        return redirect('pesticides')->with('flash_message', 'Plant Added!');
+    }
+
+    public function fertilizers()
+    {
+
+        $fertilizers = DB::table('fertilizers')
             ->where('status', 1)
             ->select(
                 "*"
             )
             ->get();
-        //return view('plantinfo.index')->with('plantinfo', $plantinfo);
-        //dd($plantinfo);
-        return view("pages.piu.pes", ['pes' => $pes]);
+
+        return view('pages.plantinfo.fertilizers' , ['fertilizers' => $fertilizers]);
     }
+
+    
+
 
 }

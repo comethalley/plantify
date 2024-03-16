@@ -147,7 +147,7 @@ $(document).ready(function() {
             success: function(data) {
                 console.log("plant info is"+data)
 
-                $('#plantID').val(data.plantinfo.id)
+                $('#plantID').val(data.plantinfo.id)    
                 $('#edit_plant_name').val(data.plantinfo.plant_name)
                 $('#edit_image').attr('src', "/images/"+data.plantinfo.image);
                 $('#edit_seasons').val(data.plantinfo.seasons)
@@ -274,5 +274,60 @@ $(document).ready(function() {
         unarchivePlantInfo();
     });
 
+    $(document).on('click', '.add-pesticide', function(event){
+        event.preventDefault();
+    
+        console.log("Add Plant button clicked");
+        var pes_name = $('#pes_name').val();
+        var pes_information = $('#pes_information').val();
+        var pes_image = $('#pes_image')[0].files[0];
+        var pes_status = 1;
+    
+        var formData = new FormData();
+        formData.append('pes_name', pes_name);
+        formData.append('pes_information', pes_information);
+        formData.append('pes_image', pes_image);
+        formData.append('pes_status', pes_status);
+    
+        $.ajax({
+            url: "/pesticides",
+            method: "POST",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: formData,
+            contentType: false, // important when sending FormData
+            processData: false, // important when sending FormData
+            success: function(data) {
+                console.log(data);
+                location.reload(); 
+                // getFarmLeader();
+                // $('#farmLeadershowModal').modal('hide');
+            },
+            error: function(xhr, status, error) {
+                if (xhr.status === 422) {
+                    var errorsResponse = JSON.parse(xhr.responseText);
+                    console.error("Validation Error:", errorsResponse);
+            
+                    var errorMessage = "";
+            
+                    if (errorsResponse.errors) {
+                        for (var key in errorsResponse.errors) {
+                            if (errorsResponse.errors.hasOwnProperty(key)) {
+                                errorMessage += errorsResponse.errors[key][0] + "\n";
+                            }
+                        }
+                    } else {
+                        errorMessage = "Validation error occurred.";
+                    }
+            
+                    alert(errorMessage);
+                } else {
+                    console.error("Error:", error);
+                }
+            }
+        
+        });
+    })
     
 })

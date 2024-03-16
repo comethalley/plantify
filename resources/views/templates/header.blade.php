@@ -422,10 +422,10 @@
                                         <a href="/plant-info" class="nav-link" style="color:white"> Plant Information </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="/piu/pes" class="nav-link" style="color:white"> Pesticide</a>
+                                        <a href="/pesticides" class="nav-link" style="color:white"> Pesticide</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="/piu/fiu" class="nav-link" style="color:white">Fertilizer</a>
+                                        <a href="/fertilizers" class="nav-link" style="color:white">Fertilizer</a>
                                     </li>
                                 </ul>
                             </div>

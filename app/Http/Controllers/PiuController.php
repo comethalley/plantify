@@ -19,15 +19,15 @@ class PiuController extends Controller
         return view("pages.piu.piu", ['piu' => $piu]);
     }
 
-    public function pes()
-    {
-        $piu = DB::table('plant_infos')
-            ->where('status', 1)
-            ->select("*")
-            ->get();
+    // public function pes()
+    // {
+    //     $piu = DB::table('plant_infos')
+    //         ->where('status', 1)
+    //         ->select("*")
+    //         ->get();
         
-        return view("pages.piu.pes", ['piu' => $piu]);
-    }
+    //     return view("pages.piu.pes", ['piu' => $piu]);
+    // }
 
     public function fer()
     {

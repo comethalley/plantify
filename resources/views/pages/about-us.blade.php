@@ -217,7 +217,24 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                                                      </a>     
                                                          <p class="member-designation mb-0">Project Manager</p>    
                                                                             </div>         
-                                                                        </div>    
+                                                                        </div>   
+                                                                        <div class="card-footer text-center">
+                                    <ul class="list-inline mb-0">
+                                        <li class="list-inline-item">
+                                            <a href=" https://www.facebook.com/kenn.bonita7" class="lh-1 align-middle link-secondary"><i class="ri-facebook-fill style="font-size: 24px;></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="https://www.linkedin.com/in/bonita-kenneth-28b43b23b/" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                        <a href="https://github.com/comethalley" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
+                                        </li>
+                                       
+                                    </ul>
+                                </div>  
                                                                  </div>     
                                                   
                                                              </div> 
@@ -276,8 +293,24 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                                                      </a>     
                                                          <p class="member-designation mb-0">Assistant Project Manager</p>    
                                                                             </div>         
-                                                                        </div>    
-                                                                 </div>     
+                                                                        </div>  
+                                                                        <div class="card-footer text-center">
+                                    <ul class="list-inline mb-0">
+                                        <li class="list-inline-item">
+                                            <a href="https://www.facebook.com/Sensaikyut" class="lh-1 align-middle link-secondary"><i class="ri-facebook-fill style="font-size: 24px;></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="https://www.linkedin.com/in/bonita-kenneth-28b43b23b/" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                        <a href="https://github.com/comethalley" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
+                                        </li>
+                                       
+                                    </ul>
+                                </div>     
                                                   
                                                              </div> 
                                                           </div>  
@@ -339,7 +372,25 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                                                      </a>     
                                                          <p class="member-designation mb-0">Head Programmer</p>    
                                                                             </div>         
-                                                                        </div>    
+                                                                        </div>  
+                                                                        <div class="card-footer text-center">
+                                    <ul class="list-inline mb-0">
+                                        <li class="list-inline-item">
+                                            <a href=" https://www.facebook.com/kenn.bonita7" class="lh-1 align-middle link-secondary"><i class="ri-facebook-fill style="font-size: 24px;></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="https://www.linkedin.com/in/bonita-kenneth-28b43b23b/" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                        <a href="https://github.com/comethalley" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
+                                        </li>
+                                       
+                                    </ul>
+                                </div>  
+                                                                         
                                                                  </div>     
                                                   
                                                              </div> 
@@ -382,6 +433,20 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                                          <p class="member-designation mb-0">Head Researcher</p>    
                                                                             </div>         
                                                                         </div>    
+                                                                        <div class="card-footer text-center">
+                                    <ul class="list-inline mb-0">
+                                        <li class="list-inline-item">
+                                            <a href="https://www.facebook.com/yoo.junggggggg" class="lh-1 align-middle link-secondary"><i class="ri-facebook-fill style="font-size: 24px;></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="https://www.facebook.com/search/top/?q=gascon" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="javascript:void(0);" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
+                                        </li>
+                                       
+                                    </ul>
+                                </div> 
                                                                  </div>     
                                                   
                                                              </div> 
@@ -444,6 +509,23 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                                          <p class="member-designation mb-0">Developer</p>    
                                                                             </div>         
                                                                         </div>    
+                                                                        <div class="card-footer text-center">
+                                    <ul class="list-inline mb-0">
+                                        <li class="list-inline-item">
+                                            <a href="https://www.facebook.com/knnth0715" class="lh-1 align-middle link-secondary"><i class="ri-facebook-fill style="font-size: 24px;></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="https://www.linkedin.com/in/bonita-kenneth-28b43b23b/" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                        <a href="https://github.com/comethalley" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
+                                        </li>
+                                       
+                                    </ul>
+                                </div>  
                                                                  </div>     
                                                   
                                                              </div> 
@@ -482,7 +564,24 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                                                      </a>     
                                                          <p class="member-designation mb-0">Developer</p>    
                                                                             </div>         
-                                                                        </div>    
+                                                                        </div>   
+                                                                        <div class="card-footer text-center">
+                                    <ul class="list-inline mb-0">
+                                        <li class="list-inline-item">
+                                            <a href="https://www.facebook.com/edmanerss/" class="lh-1 align-middle link-secondary"><i class="ri-facebook-fill style="font-size: 24px;></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="https://www.linkedin.com/in/bonita-kenneth-28b43b23b/" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                        <a href="https://github.com/comethalley" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
+                                        </li>
+                                       
+                                    </ul>
+                                </div>   
                                                                  </div>     
                                                   
                                                              </div> 
@@ -522,7 +621,24 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                                                      </a>     
                                                          <p class="member-designation mb-0">Developer</p>    
                                                                             </div>         
-                                                                        </div>    
+                                                                        </div>   
+                                                                        <div class="card-footer text-center">
+                                    <ul class="list-inline mb-0">
+                                        <li class="list-inline-item">
+                                            <a href="https://www.facebook.com/james.pimocasas" class="lh-1 align-middle link-secondary"><i class="ri-facebook-fill style="font-size: 24px;></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="https://www.linkedin.com/in/bonita-kenneth-28b43b23b/" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                        <a href="https://github.com/comethalley" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
+                                        </li>
+                                       
+                                    </ul>
+                                </div>   
                                                                  </div>     
                                                   
                                                              </div> 
@@ -561,7 +677,24 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                                                      </a>     
                                                          <p class="member-designation mb-0">Developer</p>    
                                                                             </div>         
-                                                                        </div>    
+                                                                        </div> 
+                                                                        <div class="card-footer text-center">
+                                    <ul class="list-inline mb-0">
+                                        <li class="list-inline-item">
+                                            <a href="https://www.facebook.com/andrei.competente.7" class="lh-1 align-middle link-secondary"><i class="ri-facebook-fill style="font-size: 24px;></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="https://www.linkedin.com/in/bonita-kenneth-28b43b23b/" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                        <a href="https://github.com/comethalley" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
+                                        </li>
+                                       
+                                    </ul>
+                                </div>     
                                                                  </div>     
                                                   
                                                              </div> 
@@ -602,6 +735,23 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                                          <p class="member-designation mb-0">Developer</p>    
                                                                             </div>         
                                                                         </div>    
+                                                                        <div class="card-footer text-center">
+                                    <ul class="list-inline mb-0">
+                                        <li class="list-inline-item">
+                                            <a href="https://www.facebook.com/profile.php?id=100007227828011" class="lh-1 align-middle link-secondary"><i class="ri-facebook-fill style="font-size: 24px;></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="https://www.linkedin.com/in/bonita-kenneth-28b43b23b/" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                        <a href="https://github.com/comethalley" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
+                                        </li>
+                                       
+                                    </ul>
+                                </div>  
                                                                  </div>     
                                                   
                                                              </div> 
@@ -641,7 +791,24 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                                                      </a>     
                                                          <p class="member-designation mb-0">Developer</p>    
                                                                             </div>         
-                                                                        </div>    
+                                                                        </div>  
+                                                                        <div class="card-footer text-center">
+                                    <ul class="list-inline mb-0">
+                                        <li class="list-inline-item">
+                                            <a href="https://www.facebook.com/kylmrlgby" class="lh-1 align-middle link-secondary"><i class="ri-facebook-fill style="font-size: 24px;></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="https://www.linkedin.com/in/bonita-kenneth-28b43b23b/" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                        <a href="https://github.com/comethalley" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
+                                        </li>
+                                       
+                                    </ul>
+                                </div>    
                                                                  </div>     
                                                   
                                                              </div> 
@@ -681,7 +848,24 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                                                      </a>     
                                                          <p class="member-designation mb-0">Developer</p>    
                                                                             </div>         
-                                                                        </div>    
+                                                                        </div>  
+                                                                        <div class="card-footer text-center">
+                                    <ul class="list-inline mb-0">
+                                        <li class="list-inline-item">
+                                            <a href="https://www.facebook.com/gectojerry" class="lh-1 align-middle link-secondary"><i class="ri-facebook-fill style="font-size: 24px;></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="https://www.linkedin.com/in/bonita-kenneth-28b43b23b/" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                        <a href="https://github.com/comethalley" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
+                                        </li>
+                                       
+                                    </ul>
+                                </div>    
                                                                  </div>     
                                                   
                                                              </div> 
@@ -722,7 +906,24 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                                                      </a>     
                                                          <p class="member-designation mb-0">Developer</p>    
                                                                             </div>         
-                                                                        </div>    
+                                                                        </div>  
+                                                                        <div class="card-footer text-center">
+                                    <ul class="list-inline mb-0">
+                                        <li class="list-inline-item">
+                                            <a href=" https://www.facebook.com/jgmaglana" class="lh-1 align-middle link-secondary"><i class="ri-facebook-fill style="font-size: 24px;></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href=" https://www.instagram.com/jgmaglana" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="https://www.linkedin.com/in/bonita-kenneth-28b43b23b/" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                        <a href="https://github.com/comethalley" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
+                                        </li>
+                                       
+                                    </ul>
+                                </div>    
                                                                  </div>     
                                                   
                                                              </div> 
@@ -762,6 +963,23 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                                          <p class="member-designation mb-0">Developer</p>    
                                                                             </div>         
                                                                         </div>    
+                                                                        <div class="card-footer text-center">
+                                    <ul class="list-inline mb-0">
+                                        <li class="list-inline-item">
+                                            <a href="https://www.facebook.com/alexandramc.pareja" class="lh-1 align-middle link-secondary"><i class="ri-facebook-fill style="font-size: 24px;></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="https://www.linkedin.com/in/bonita-kenneth-28b43b23b/" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                        <a href="https://github.com/comethalley" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
+                                        </li>
+                                       
+                                    </ul>
+                                </div>  
                                                                  </div>     
                                                   
                                                              </div> 
@@ -802,6 +1020,23 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                                          <p class="member-designation mb-0">Developer</p>    
                                                                             </div>         
                                                                         </div>    
+                                                                        <div class="card-footer text-center">
+                                    <ul class="list-inline mb-0">
+                                        <li class="list-inline-item">
+                                            <a href="https://www.facebook.com/pomss0705" class="lh-1 align-middle link-secondary"><i class="ri-facebook-fill style="font-size: 24px;></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="https://www.linkedin.com/in/bonita-kenneth-28b43b23b/" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                        <a href="https://github.com/comethalley" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
+                                        </li>
+                                       
+                                    </ul>
+                                </div>  
                                                                  </div>     
                                                   
                                                              </div> 
@@ -842,6 +1077,23 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                                          <p class="member-designation mb-0">Developer</p>    
                                                                             </div>         
                                                                         </div>    
+                                                                        <div class="card-footer text-center">
+                                    <ul class="list-inline mb-0">
+                                        <li class="list-inline-item">
+                                            <a href=" https://www.facebook.com/jksaludares" class="lh-1 align-middle link-secondary"><i class="ri-facebook-fill style="font-size: 24px;></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="https://www.linkedin.com/in/bonita-kenneth-28b43b23b/" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                        <a href="https://github.com/comethalley" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
+                                        </li>
+                                       
+                                    </ul>
+                                </div>  
                                                                  </div>     
                                                   
                                                              </div> 
@@ -881,6 +1133,24 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                                          <p class="member-designation mb-0">Developer</p>    
                                                                             </div>         
                                                                         </div>    
+                                                                        <div class="card-footer text-center">
+                                    <ul class="list-inline mb-0">
+                                        <li class="list-inline-item">
+                                            <a href="https://www.facebook.com/Illegirl09" class="lh-1 align-middle link-secondary"><i class="ri-facebook-fill style="font-size: 24px;></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="https://www.linkedin.com/in/bonita-kenneth-28b43b23b/" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                        <a href="https://github.com/comethalley" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
+                                        </li>
+                                       
+                                    </ul>
+                                </div>  
+
                                                                  </div>     
                                                   
                                                              </div> 
@@ -920,7 +1190,24 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                                                      </a>     
                                                          <p class="member-designation mb-0">Developer</p>    
                                                                             </div>         
-                                                                        </div>    
+                                                                        </div> 
+                                                                        <div class="card-footer text-center">
+                                    <ul class="list-inline mb-0">
+                                        <li class="list-inline-item">
+                                            <a href="https://www.facebook.com/lui.torres.96" class="lh-1 align-middle link-secondary"><i class="ri-facebook-fill style="font-size: 24px;></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="https://www.linkedin.com/in/bonita-kenneth-28b43b23b/" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                        <a href="https://github.com/comethalley" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
+                                        </li>
+                                       
+                                    </ul>
+                                </div>     
                                                                  </div>     
                                                   
                                                              </div> 
@@ -960,7 +1247,24 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                                                      </a>     
                                                          <p class="member-designation mb-0">Developer</p>    
                                                                             </div>         
-                                                                        </div>    
+                                                                        </div>   
+                                                                        <div class="card-footer text-center">
+                                    <ul class="list-inline mb-0">
+                                        <li class="list-inline-item">
+                                            <a href="https://www.facebook.com/jp.vida2" class="lh-1 align-middle link-secondary"><i class="ri-facebook-fill style="font-size: 24px;></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="https://www.linkedin.com/in/bonita-kenneth-28b43b23b/" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                        <a href="https://github.com/comethalley" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
+                                        </li>
+                                       
+                                    </ul>
+                                </div>   
                                                                  </div>     
                                                   
                                                              </div> 
@@ -1025,6 +1329,24 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                                          <p class="member-designation mb-0">Researcher</p>    
                                                                             </div>         
                                                                         </div>    
+
+                                                                        <div class="card-footer text-center">
+                                    <ul class="list-inline mb-0">
+                                        <li class="list-inline-item">
+                                            <a href="https://www.facebook.com/luvettoo" class="lh-1 align-middle link-secondary"><i class="ri-facebook-fill style="font-size: 24px;></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="https://www.linkedin.com/in/bonita-kenneth-28b43b23b/" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                        <a href="https://github.com/comethalley" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
+                                        </li>
+                                       
+                                    </ul>
+                                </div>  
                                                                  </div>     
                                                   
                                                              </div> 
@@ -1064,7 +1386,24 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                                                      </a>     
                                                          <p class="member-designation mb-0">Researcher</p>    
                                                                             </div>         
-                                                                        </div>    
+                                                                        </div>   
+                                                                        <div class="card-footer text-center">
+                                    <ul class="list-inline mb-0">
+                                        <li class="list-inline-item">
+                                            <a href="https://www.facebook.com/hermione.macy" class="lh-1 align-middle link-secondary"><i class="ri-facebook-fill style="font-size: 24px;></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="https://www.linkedin.com/in/bonita-kenneth-28b43b23b/" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                        <a href="https://github.com/comethalley" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
+                                        </li>
+                                       
+                                    </ul>
+                                </div>   
                                                                  </div>     
                                                   
                                                              </div> 
@@ -1105,6 +1444,23 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                                          <p class="member-designation mb-0">Researcher</p>    
                                                                             </div>         
                                                                         </div>    
+                                                                        <div class="card-footer text-center">
+                                    <ul class="list-inline mb-0">
+                                        <li class="list-inline-item">
+                                            <a href="https://www.facebook.com/profile.php?id=100087732785741" class="lh-1 align-middle link-secondary"><i class="ri-facebook-fill style="font-size: 24px;></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="https://www.linkedin.com/in/bonita-kenneth-28b43b23b/" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                        <a href="https://github.com/comethalley" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
+                                        </li>
+                                       
+                                    </ul>
+                                </div>  
                                                                  </div>     
                                                   
                                                              </div> 
@@ -1144,7 +1500,25 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                                                      </a>     
                                                          <p class="member-designation mb-0">Researcher</p>    
                                                                             </div>         
-                                                                        </div>    
+                                                                        </div>   
+                                                                        <div class="card-footer text-center">
+                                    <ul class="list-inline mb-0">
+                                        <li class="list-inline-item">
+                                            <a href="https://www.facebook.com/ramirezlodyanne" class="lh-1 align-middle link-secondary"><i class="ri-facebook-fill style="font-size: 24px;></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="https://www.linkedin.com/in/bonita-kenneth-28b43b23b/" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                        <a href="https://github.com/comethalley" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
+                                        </li>
+                                       
+                                    </ul>
+                                </div>  
+
                                                                  </div>     
                                                   
                                                              </div> 
@@ -1184,7 +1558,24 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                                                      </a>     
                                                          <p class="member-designation mb-0">Researcher</p>    
                                                                             </div>         
-                                                                        </div>    
+                                                                        </div>   
+                                                                        <div class="card-footer text-center">
+                                    <ul class="list-inline mb-0">
+                                        <li class="list-inline-item">
+                                            <a href="https://www.facebook.com/romerski14" class="lh-1 align-middle link-secondary"><i class="ri-facebook-fill style="font-size: 24px;></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="https://www.linkedin.com/in/bonita-kenneth-28b43b23b/" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                        <a href="https://github.com/comethalley" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
+                                        </li>
+                                       
+                                    </ul>
+                                </div>   
                                                                  </div>     
                                                   
                                                              </div> 
@@ -1224,7 +1615,24 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                                                      </a>     
                                                          <p class="member-designation mb-0">Researcher</p>    
                                                                             </div>         
-                                                                        </div>    
+                                                                        </div>  
+                                                                        <div class="card-footer text-center">
+                                    <ul class="list-inline mb-0">
+                                        <li class="list-inline-item">
+                                            <a href="https://www.facebook.com/profile.php?id=100079746917904" class="lh-1 align-middle link-secondary"><i class="ri-facebook-fill style="font-size: 24px;></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="https://www.linkedin.com/in/bonita-kenneth-28b43b23b/" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                        <a href="https://github.com/comethalley" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
+                                        </li>
+                                       
+                                    </ul>
+                                </div>    
                                                                  </div>     
                                                   
                                                              </div> 

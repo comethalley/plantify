@@ -56,7 +56,7 @@
     <div class="container">
         <div class="row justify-content-center align-items-center">
             <div class="col-md-3">
-                <img src="https://i.pinimg.com/736x/31/46/32/314632758787c7e1fb8f2a9074c7f7c8.jpg" alt="Plant Image" class="img-fluid">
+                <img src="/assets/images/bg/abtlogo.png" alt="Plant Image" class="img-fluid">
             </div>
             <div class="col-md-9 text-black">
                 <h2 class="fw-bold font-Poppins text-black">Why Plantify was Created?</h2>
@@ -65,10 +65,11 @@
                     <br>Quezon City - District 5. The system helps the farmers in the following ways:
                 </p>
                 <ul class="list-unstyled">
-                <li><i class="fas fa-check-circle text-success"></i> Manage urban farms in a timely manner</li>
-                <li><i class="fas fa-check-circle text-success"></i> Create data reports for District Leaders</li>
-                <li><i class="fas fa-check-circle text-success"></i> Track expenses for farms</li>
-                <li><i class="fas fa-check-circle text-success"></i> Farm based on planting calendar</li>
+              
+        <li><i class="fas fa-check-circle" style="color: #4A9826;"></i> Manage urban farms in a timely manner</li>
+        <li><i class="fas fa-check-circle" style="color: #4A9826;"></i> Create data reports for District Leaders</li>
+        <li><i class="fas fa-check-circle" style="color: #4A9826;"></i> Track expenses for farms</li>
+        <li><i class="fas fa-check-circle" style="color: #4A9826;"></i> Farm based on planting calendar</li>
             </ul>
             </div>
         </div>
@@ -593,7 +594,7 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                                         <div class="col-lg-4 col">    
                                                           <div class="team-profile-img">   
                                                                  <div class="avatar-lg img-thumbnail rounded-circle flex-shrink-0">
-                                                                  <img src="/assets/images/team/Domingo.jpg" alt="" class="member-img img-fluid d-block rounded-circle"></div>   
+                                                                  <img src="/assets/images/team/Domingo.png" alt="" class="member-img img-fluid d-block rounded-circle"></div>   
                                                           <div class="team-content">  
                                               <a class="member-name" data-bs-toggle="offcanvas" href="#member-overview" aria-controls="member-overview">  
                                                                                     <h5 class="fs-16 mb-1">Jayvee Domingo</h5>   
@@ -714,7 +715,7 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                                         <div class="col-lg-4 col">    
                                                           <div class="team-profile-img">   
                                                                  <div class="avatar-lg img-thumbnail rounded-circle flex-shrink-0">
-                                                                  <img src="/assets/images/team/Maglana.jpg" alt="" class="member-img img-fluid d-block rounded-circle"></div>   
+                                                                  <img src="/assets/images/team/Maglana.png" alt="" class="member-img img-fluid d-block rounded-circle"></div>   
                                                           <div class="team-content">  
                                               <a class="member-name" data-bs-toggle="offcanvas" href="#member-overview" aria-controls="member-overview">  
                                                                                     <h5 class="fs-16 mb-1">Gabriel Maglana</h5>   
@@ -912,7 +913,7 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                                         <div class="col-lg-4 col">    
                                                           <div class="team-profile-img">   
                                                                  <div class="avatar-lg img-thumbnail rounded-circle flex-shrink-0">
-                                                                  <img src="/assets/images/team/Torres.jpg" alt="" class="member-img img-fluid d-block rounded-circle"></div>   
+                                                                  <img src="/assets/images/team/Torres.png" alt="" class="member-img img-fluid d-block rounded-circle"></div>   
                                                           <div class="team-content">  
                                               <a class="member-name" data-bs-toggle="offcanvas" href="#member-overview" aria-controls="member-overview">  
                                                                                     <h5 class="fs-16 mb-1">Lui Torres</h5>   

@@ -20,6 +20,6 @@ class Pesticides extends Model
         parent::__construct($attributes);
 
         // Set the default status to 1 when creating a new instance
-        $this->attributes['status'] = 1;
+        $this->attributes['pes_status'] = 1;
     }
 }

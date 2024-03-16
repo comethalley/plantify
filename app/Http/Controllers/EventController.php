@@ -83,15 +83,29 @@ class EventController extends Controller
     public function update(Request $request, $id)
     {
        // Validate the incoming request data
-       $events = Event::find($request->id);
-       $events->title = $request->input('updateEventTitle');
-       $events->start = $request->input('Eventstart');
-       $events->end = $request->input('Eventend');
-       $events->location = $request->input('updateLocation');
-       $events->description = $request->input('updateDescription');
-       $events->update();
+       $request->validate([
+        'title' => 'required|string|max:255',
+        'start' => 'required|date',
+        'end' => 'required|date',
+        'location' => 'nullable|string|max:255',
+        'description' => 'nullable|string',
+    ]);
 
-      return response()->json(['events' => $events]);
+    // Find the event by ID
+    $event = Event::findOrFail($eventId);
+
+    // Update the event with the new data
+    $event->update([
+        'title' => $request->title,
+        'start' => $request->start,
+        'end' => $request->end,
+        'location' => $request->location,
+        'description' => $request->description,
+    ]);
+
+    // Optionally, you can return a response indicating success
+    return response()->json(['message' => 'Event updated successfully'], 200);
+
 }
 
     public function resize(Request $request, $id)

@@ -42,6 +42,7 @@ class EventController extends Controller
                 $event->title = $title;
                 $user->notify(new NewNotificationEvent($event));
             }
+            sleep(3);
         
         return redirect('/schedules');
     }
@@ -81,15 +82,17 @@ class EventController extends Controller
 
     public function update(Request $request, $id)
     {
-        $event = Event::findOrFail($id);
+       // Validate the incoming request data
+       $events = Event::find($request->id);
+       $events->title = $request->input('updateEventTitle');
+       $events->start = $request->input('Eventstart');
+       $events->end = $request->input('Eventend');
+       $events->location = $request->input('updateLocation');
+       $events->description = $request->input('updateDescription');
+       $events->update();
 
-        $event->update([
-            'start' => Carbon::parse($request->input('start_date'))->setTimezone('UTC'),
-            'end' => Carbon::parse($request->input('end_date'))->setTimezone('UTC'),
-        ]);
-
-        return response()->json(['message' => 'Event moved successfully']);
-    }
+      return response()->json(['events' => $events]);
+}
 
     public function resize(Request $request, $id)
     {

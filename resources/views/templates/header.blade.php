@@ -51,7 +51,10 @@
     <link href="https://unpkg.com/quill-image-uploader@1.2.4/dist/quill.imageUploader.min.css" rel="stylesheet" />
     <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
     <script src="https://unpkg.com/quill-image-uploader@1.2.4/dist/quill.imageUploader.min.js"></script>
-
+<style>.tab-content {
+    max-height: 400px; /* Set maximum height for the notification content area */
+    overflow-y: auto; /* Enable vertical scrolling */
+}</style>
 </head>
 
 <body>
@@ -152,8 +155,8 @@
                                     </div>
                                 </div>
 
-                                <div class="tab-content position-relative" id="notificationItemsTabContent">
-                                    <div class="tab-pane fade show active py-2 ps-2" id="all-noti-tab" role="tabpanel">
+                                <div class="tab-content position-relative overflow-auto" id="notificationItemsTabContent">
+                                  <div class="tab-pane fade show active py-2 ps-2" id="all-noti-tab" role="tabpanel">
                                     @foreach (auth()->user()->notifications as $notification)
                                     <div class="text-reset notification-item d-block dropdown-item position-relative">
                                     @if ($notification->type === 'App\Notifications\NewNotificationEvent')
@@ -165,7 +168,7 @@
                                                     <h6 class="mt-0 mb-1 fs-13 fw-semibold">{{ $notification->data['title']}}</h6>
                                                 </a>
                                                 <div class="fs-13 text-muted">
-                                                    <p class="mb-1">WE have a new events 🔔.</p>
+                                                    <p class="mb-1">WE have a new events 📆.</p>
                                                 </div>
                                                 <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
                                                     <span><i class="mdi mdi-clock-outline"></i> 1 min ago</span>
@@ -187,7 +190,7 @@
                                                     <h6 class="mt-0 mb-1 fs-13 fw-semibold">{{ $notification->data['title']}}</h6>
                                                 </a>
                                                 <div class="fs-13 text-muted">
-                                                    <p class="mb-1">may bagong tanim 🔔.</p>
+                                                    <p class="mb-1">may bagong tanim 🌱.</p>
                                                 </div>
                                                 <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
                                                     <span><i class="mdi mdi-clock-outline"></i> 1 min ago</span>
@@ -595,4 +598,9 @@ function markNotificationAsRead(notificationCount) {
 $('#markasread').on('click', function() {
         $('#reload-section').load(location.href + ' #reload-section');
     });
+
+    $(document).ready(function() {
+    // Scroll down to the bottom of the notification content
+    $('#notificationItemsTabContent').scrollTop($('#notificationItemsTabContent')[0].scrollHeight);
+});
     </script>

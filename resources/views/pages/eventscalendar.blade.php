@@ -142,7 +142,7 @@
                                             <div class="modal-footer">
                                                 <div class="hstack gap-2 justify-content-end">
                                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                                                    <button type="submit" class="btn btn-info">Add Event</button>
+                                                    <button type="submit" class="btn btn-info" id="addEvent">Add Event</button>
                                                     <!-- <button type="button" class="btn btn-success" id="edit-btn">Update</button> -->
                                                 </div>
                                             </div>
@@ -214,7 +214,7 @@
 
                                                         <div class="modal-footer">
                                                         <div class="hstack gap-2 justify-content-end">
-                                                        <button type="button" class="btn btn-danger" id="deleteEventBtn" >Delete</button>
+                                                        <button type="button" class="btn btn-danger"data-bs-toggle="modal" data-bs-target="#archiveModal">Delete</button>
                                                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editexampleModal">edit</button>
                                                     
                                                           </div>  
@@ -231,51 +231,60 @@
                             </div>
 <!-- Update and Delete Event Modal -->
 <div class="modal fade" id="editexampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Edit Event</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-  
-       
-      <div class="modal-body">
-        
-      <form method="post" action="{{ URL('scheduleupdate/'.$events) }}" method="POST"  id="form-event">
-      @csrf
-        @method('PUT')
-          <div class="form-group">
-                     <div class="form-group">
-                        <label for="updateEventTitle">Event Name: </label>
-                        <input type="text" class="form-control" name="updatetitle" id="updateEventTitle" >
-                    </div>
-                    <div class="form-group">
-                        <label for="Eventstart-datepicker">Start:</label>
-                        <input type="text" class="form-control" name="updatestart" id="Eventstart-datepicker" >
-                    </div>
-                    <div class="form-group">
-                        <label for="Eventend-datepicker">End:</label>
-                        <input type="text" class="form-control" name="updateend" id="Eventend-datepicker" >
-                    </div>
-                    <div class="form-group">
-                        <label for="updateLocation">Location:</label>
-                        <input type="text" class="form-control" name="updatelocation" id="updateLocation" >
-                    </div>
-                    <div class="form-group">
-                        <label for="updateDescription">Description:</label>
-                        <input type="text" class="form-control" name="updatedescription" id="updateDescription">
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary"  id="updateEventBtn">Save changes</button>
-                        </div>
-              </div>
-          </div>
-        </form>
-    </div>
-            <!-- end modal-->
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Edit Event</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                <div class="form-group">
+                                <div class="form-group mb-3">
+                                                <label for="updateEventTitle">Event Name:</label>
+                                                <input type="text" class="form-control" id="updateEventTitle" placeholder="Enter Event Name">
+                                            </div>
 
+                                            <div class="mb-3">
+                                                <label for="Eventstart-datepicker" class="form-label">Start</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text"><i class="ri-calendar-event-line"></i></span>
+                                                    <input type="text" name="start" id="Eventstart-datepicker" class="form-control" data-toggle="flatpickr" data-flatpickr-enable-time="true" data-flatpickr-date-format="Y-m-d" placeholder="Enter Start Date" required />
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="Eventend-datepicker" class="form-label">End</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text"><i class="ri-calendar-event-line"></i></span>
+                                                    <input type="text" name="end" id="Eventend-datepicker" class="form-control" data-toggle="flatpickr" data-flatpickr-enable-time="true" data-flatpickr-date-format="Y-m-d" placeholder="Enter End Date" required />
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group mb-3">
+                                                <label for="updateLocation">Location:</label>
+                                                <input type="text" class="form-control" id="updateLocation" placeholder="Enter location" readonly>
+                                            </div>
+
+                                        
+                                    
+                                            <div class="form-group mb-3">
+                                                <label for="updateDescription">Description:</label>
+                                                <input type="text" class="form-control" id="updateDescription" placeholder="Enter description">
+                                            </div>
+
+
+                                           
+
+                                          
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary"  id="updateEventBtn">Save changes</button>
+                                </div>
+                                </div>
+                            </div>
+                            </div>
+                            <!-- end modal-->
 
                 
         
@@ -283,6 +292,35 @@
     </div>
     <!-- container-fluid -->
 </div>
+       <!--Archive Supplier Modal-->
+       <div class="modal fade" id="archiveModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-light p-3">
+                                            <h5 class="modal-title" id="farm-name">&nbsp;</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+                                        </div>
+                                        <form method="post" action="">
+                                            @csrf
+                                            <div class="modal-body">
+                                                <div class="mt-4 text-center">
+                                                    <input type="hidden" id="archive-supplierID" class="form-control" placeholder="ID" />
+                                                    <lord-icon src="https://cdn.lordicon.com/drxwpfop.json" trigger="hover" style="width:100px;height:100px">
+                                                    </lord-icon>
+                                                    <h4>You are about to archive <span id="archive-supplier-name"></span>?</h4>
+                                                    <p class="text-muted fs-15 mb-4">Are you sure you want to proceed ?</p>
+                                                    <div class="hstack gap-2 justify-content-center remove">
+                                                        <button type="button" class="btn btn-link link-success fw-medium text-decoration-none" id="deleteRecord-close" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i> Close</button>
+                                                        <button type="button" class="btn btn-danger" id="delete-record">Yes, Archive It</button>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--End Archive Supplier Modal-->
 <!-- End Page-content -->
 
 
@@ -294,6 +332,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
 
     <script type="text/javascript">
@@ -350,6 +389,10 @@
                   //  console.log("Event is", info.event._def.extendedProps);
                     var eventTitle = info.event._def.title
                     var eventID = info.event._def.publicId
+                    var eventStart = info.event.start;
+                    var eventEnd = info.event.end;
+                    var eventLocation = info.event.extendedProps.location;
+                var eventDescription = info.event.extendedProps.description;
                     var event = info.event._def.extendedProps
                     var date = info.event._instance.range
                  //   console.log("Variable event is" + event.location)
@@ -376,28 +419,26 @@
                     // Display event details in the Update/Delete Event Modal
                     
                         $('#eventtitle').text(eventTitle);
-                        $('#updateEventTitle').val(eventTitle);
-                        // Format start date
                         $('#eventstart').text(moment(date.start).format('MMMM D, YYYY'));
-                        $('#Eventstart-datepicker').val(moment(date.start).format('MMMM D, YYYY'));
-                        // Format end date
                         $('#eventend').text(moment(date.end).format('MMMM D, YYYY'));
-                        $('#Eventend-datepicker').val(moment(date.end).format('MMMM D, YYYY'));
-                        // Display other event details
                         $('#eventlocation').text(event.location);
                         $('#eventdescription').text(event.description);
-                        $('#updateLocation').val(event.location);
-                        $('#updateDescription').val(event.description);
-                    // Store event ID for update and delete
+
+                        $('#updateEventTitle').val(eventTitle);
+                        $('#Eventstart-datepicker').val(moment(eventStart).format("YYYY-MM-DD"));
+                        $('#Eventend-datepicker').val(moment(eventEnd).format("YYYY-MM-DD"));
+                        $('#updateLocation').val(eventLocation);
+                        $('#updateDescription').val(eventDescription);
+                    // Store event ID fo var eventId = event.id;r update and delete
                     var eventId = event.id;
                     $('#updateEventBtn').data('event-id', eventId);
-                    $('#deleteEventBtn').data('event-id', eventId);
+                    $('#delete-record').data('event-id', eventId);
 
                                     // When the user clicks the delete button in the modal// Store event ID for update and delete
  var eventId = info.event.id;
-$('#deleteEventBtn').data('event-id', eventId);
+$('#delete-record').data('event-id', eventId);
 
-   $('#deleteEventBtn').on('click', function () {
+   $('#delete-record').on('click', function () {
     handleEventDelete($(this).data('event-id'));
         });
 
@@ -405,14 +446,19 @@ function handleEventDelete(eventId) {
  // Close Update/Delete Event Modal
  $('#editexampleModal').modal('hide');
  $('#EventdetailModal').modal('hide');
- if (confirm("Are you sure you want to delete this event?")) {
+ 
     $.ajax({
         url: "/scheduledelete/" + eventId,
         type: "DELETE",
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
                     calendar.refetchEvents();
-                    alert("Planting Deleted Successfully");
+                    $('#archiveModal').modal('hide');
+                    Swal.fire({
+                    title: "Successfully archived",
+                    text: "Are you ready for the next level?",
+                    icon: "error"
+                    });
                     $('#planting-events-container').load(location.href + ' planting-events-container');
                 },
                     error: function (error) {
@@ -420,11 +466,59 @@ function handleEventDelete(eventId) {
                         alert("Error deleting planting. Please try again.");
                     }
                 });
-            }
+            
         }
 
-                    
+      
+        $('#updateEventBtn').on('click', function () {
+            var eventId = $('#updateEventBtn').data('eventId');
+            var title = $('#updateEventTitle').val();
+            var start = $('#Eventstart-datepicker').val();
+            var end = $('#Eventend-datepicker').val();
+            var location = $('#updateLocation').val();
+            var description = $('#updateDescription').val();
+            
+            console.log("Data Sent:", {
+            title: title,
+            start: start,
+            end: end,
+            location: location,
+            description: description,
+        });
 
+
+            if (title && start && end && location && description) {
+                $.ajax({
+                    url: "/scheduleupdate/" + eventId,
+                    type: "PUT",
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    data: {
+                        title: title,
+                        start: start,
+                        end: end,
+                        location: location,
+                        description: description,
+                    },
+
+                    
+                    success: function (data) {
+                        // Assuming your Laravel controller returns a JSON response with a success message
+                        console.log(data.message);
+                        $('#editexampleModal').modal('hide');
+                        calendar.refetchEvents();
+                        alert("Event Updated Successfully");
+                    },
+                    error: function (error) {
+                        console.error("Error updating event:", error);
+                        alert("Error updating event. Please try again.");
+                    }
+                });
+            }
+        });
+
+  
                   
                 },
 
@@ -458,11 +552,11 @@ function handleEventDelete(eventId) {
             });
         }
      
-         
-  
+                        // Update Event Button Click
+                     
        
         flatpickr("#datepicker", {
-      enableTime: true, // Enable time selection
+      enableTime: false, // Enable time selection
       dateFormat: "Y-m-d H:i", // Date and time format
     });
     </script>
@@ -487,19 +581,20 @@ function handleEventDelete(eventId) {
   
 
        flatpickr("#Eventstart-datepicker", {
-    
+        enableTime: false,
      altInput: true,
    altFormat: "F j, Y",
    dateFormat: "Y-m-d",
    minDate: "today",
    });
    flatpickr("#Eventend-datepicker", {
-    
+    enableTime: false,
      altInput: true,
    altFormat: "F j, Y",
    dateFormat: "Y-m-d",
    minDate: "today",
    });
+
     
  
 
@@ -508,6 +603,28 @@ function handleEventDelete(eventId) {
     });
 
        
+</script>
+<script>
+    $(document).ready(function(){
+    $("#deleteEventBtn").click(function(){
+        $('.modal').modal('hide');
+        $('body').removeClass('modal-open');
+        $('.modal-backdrop').remove();
+        $("#EventdetailModal").modal("hide")
+        $("#archiveModal").modal("show")
+    });
+});
+
+$("#addEvent").click(function(){
+    $('#showModalExample').modal('hide');
+    Swal.fire({
+        title: "Successfully added",
+        text: "Are you ready for the next level?", <br>
+        icon: "success",
+        showConfirmButton: false // Remove the OK button
+    });
+});
+
 </script>
 
 

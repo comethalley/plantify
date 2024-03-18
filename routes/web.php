@@ -220,4 +220,7 @@ Route::get('/piu/piu', [PiuController::class, 'index']);
 Route::get('/piu/fiu', [PiuController::class, 'fer']);
 // Route::get('/piu/pes', [PiuController::class, 'pes']);
 Route::get('/piu/show/{id}', [PiuController::class, 'show']);
+
+Route::get('/piu/pes', [PiuController::class, 'pes']);
+Route::get('/piu/showpes/{id}', [PiuController::class, 'showpes']);
 //===========================================================================================================

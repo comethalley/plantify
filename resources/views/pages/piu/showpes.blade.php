@@ -5,7 +5,7 @@
 
     <div class="page-content">
         <div class="container-fluid">
-        <a href="/piu/piu"   class="btn btn-success waves-effect waves-light mb-4" class="col-xl-3 col-lg-4 col-sm-6"><i class="ri-arrow-left-line"></i></div></a>
+        <a href="/piu/pes"   class="btn btn-success waves-effect waves-light mb-4" class="col-xl-3 col-lg-4 col-sm-6"><i class="ri-arrow-left-line"></i></div></a>
                 <!-- start page title -->
                   <div class="row">
                   
@@ -15,12 +15,12 @@
                                         <div class="row g-0 px-4 py-3">
                                             <div class="col-md-8">
                                                 <div class="card-body">
-                                                <h4 class="card-title mb-0 fw-bold">{{$piu->plant_name}}</h4>
+                                                <h4 class="card-title mb-0 fw-bold">Pesticide name: {{$pes->pes_name}}</h4>
                                              
                                                    
                                                 </div>
                                                 <div class="card-footer">
-                                                <h4 class="card-title mb-0 fw-bold">{!!$piu->information!!}</h4>
+                                                <h4 class="card-title mb-0 fw-bold">{!!$pes->pes_information!!}</h4>
                                                 </div>
                                             </div>
                                            
@@ -38,8 +38,8 @@
                                                 </div>
                                                 <div class="card-footer">
                                                      <h4 class="card-text mb-4 fw-bold">Another Information</h4>
-                                                     <p class="card-text mb-4 fw-bold" style="font-family: Arial, sans-serif; font-size: 16px;">Companion: {{$piu->companion}}</p>
-                                                    <p class="card-text mb-4 fw-bold" style="font-family: Arial, sans-serif; font-size: 16px;">Harvest Day: {{$piu->days_harvest}}</p>
+                                                     <p class="card-text mb-4 fw-bold" style="font-family: Arial, sans-serif; font-size: 16px;"></p>
+                                                    <p class="card-text mb-4 fw-bold" style="font-family: Arial, sans-serif; font-size: 16px;"></p>
 
                                                 </div>
                                             </div>

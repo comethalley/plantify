@@ -7,6 +7,7 @@ use App\Models\CalendarPlanting;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\PlantInfo;
 
 class PlantCalendar extends Controller
 {
@@ -16,7 +17,7 @@ class PlantCalendar extends Controller
         // $user = Auth::user();
         // $user->farm.id
         $id = Auth::user()->id;
-
+        $plantInfo = PlantInfo::pluck('days_harvest', 'plant_name');
         $user = User::select('users.*', 'farms.id AS farm_id')
             ->leftJoin('farms', 'farms.farm_leader', '=', 'users.id')
             ->where('users.id', $id)
@@ -32,7 +33,11 @@ class PlantCalendar extends Controller
             $events = CalendarPlanting::orderBy('id', 'DESC')->get();
         }
 
-        return view('pages.plantingcalendar', ['createplantings' => $events]);
+        return view('pages.plantingcalendar', [
+            'createplantings' => $events, 
+            'plantInfo' => $plantInfo
+        ]);
+    
     }
 
 

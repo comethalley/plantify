@@ -566,8 +566,8 @@ function updateStatus(newStatus) {
 }
 // Confirm update status when the user clicks the "Confirm" button in the modal
 $('#confirmUpdateBtn').on('click', function() {
-    // Hide any previous error messages
-    hideValidationError();
+    // Hide any previous error messages related to updating status
+    hideValidationError('updateStatus');
 
     // Get the remarks value from the input field
     var remarks = $('textarea[name="remarks"]').val();
@@ -576,15 +576,15 @@ $('#confirmUpdateBtn').on('click', function() {
 
     // Check if remarks is required and if it's empty
     if ($('label[for="remarkstext"]').text() === '-Required-' && remarks.trim() === '') {
-        // Display a validation error below the text box
-        showValidationError('Remarks is required.', $('textarea[name="remarks"]'));
+        // Display a validation error below the text box for updating status
+        showValidationError('Remarks is required.', $('textarea[name="remarks"]'), 'updateStatus');
         return;
     }
 
     // Check if select_date is required and if it's empty
     if ($('#dateInputContainer').is(':visible') && selectedDate.trim() === '') {
-        // Display a validation error below the calendar input
-        showValidationError('Select date is required.', $('input[name="select_date"]'));
+        // Display a validation error below the calendar input for updating status
+        showValidationError('Select date is required.', $('input[name="select_date"]'), 'updateStatus');
         return;
     }
 
@@ -607,7 +607,7 @@ $('#confirmUpdateBtn').on('click', function() {
             // Handle error response
             console.log('Error updating status:', error);
             // Display a generic error message or handle it accordingly
-            showValidationError('An error occurred while updating status.');
+            showValidationError('An error occurred while updating status.', $('#confirmUpdateBtn'), 'updateStatus');
         }
     });
 
@@ -621,25 +621,27 @@ $('#confirmUpdateBtn').on('click', function() {
 
 // Close error message when modal is closed
 $('#confirmationModal').on('hidden.bs.modal', function () {
-    hideValidationError();
+    hideValidationError('updateStatus');
 });
 
-function showValidationError(message, targetElement) {
+// Function to show validation error
+function showValidationError(message, targetElement, context) {
     // Create a span element for the error message
     var errorElement = $('<span class="text-danger">' + message + '</span>');
 
-    // Remove any existing error message for the target element
-    targetElement.next('.text-danger').remove();
+    // Remove any existing error message for the target element within the specified context
+    $('#' + context + ' .text-danger').remove();
 
-    // Append the error element below the target element
+    // Append the error element below the target element within the specified context
     targetElement.after(errorElement);
 }
 
-// Function to hide validation error
-function hideValidationError() {
-    // Hide error message
-    $('.text-danger').remove();
+// Function to hide validation error within a specific context
+function hideValidationError(context) {
+    // Hide error messages within the specified context
+    $('#' + context + ' .text-danger').remove();
 }
+
 
 
 

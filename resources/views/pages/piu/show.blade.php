@@ -33,13 +33,13 @@
                                         <div class="row g-0 px-4 py-3">
                                             <div class="col-md-8">
                                                 <div class="card-body">
-                                                    <h5 class="card-title mb-2 fw-bold">About Plant</h5>
+                                                <h4 class="card-text mb-4 fw-bold" style="font-family: Arial, sans-serif; font-size: 16px;" >Another Information</h4>
                                                    
                                                 </div>
                                                 <div class="card-footer">
-                                                     <h4 class="card-text mb-4 fw-bold">Another Information</h4>
+                                                <p class="card-text mb-4 fw-bold" style="font-family: Arial, sans-serif; font-size: 16px;">Planting Season: {{$piu->seasons}}</p>
                                                      <p class="card-text mb-4 fw-bold" style="font-family: Arial, sans-serif; font-size: 16px;">Companion: {{$piu->companion}}</p>
-                                                    <p class="card-text mb-4 fw-bold" style="font-family: Arial, sans-serif; font-size: 16px;">Harvest Day: {{$piu->days_harvest}}</p>
+                                                    <p class="card-text mb-0 fw-bold" style="font-family: Arial, sans-serif; font-size: 16px;">Harvest Day: {{$piu->days_harvest}}</p>
 
                                                 </div>
                                             </div>

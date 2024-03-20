@@ -181,7 +181,7 @@
                                                         <div class="centered-container times-new-roman-bold">
                                                             @if($farm->status == 'For-Visiting')
                                                                 <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Set Date Application">
-                                                                    <a href="#" data-bs-toggle="modal" data-bs-target="#SetDateModal" class="btn btn-outline-warning waves-effect waves-light text-primary d-inline-block edit-item-btn d-flex align-items-center justify-content-center custom-btn1 mt-2 btn-custom-width" onclick="setDate('{{ $farm->id }}')" >
+                                                                    <a href="#" data-bs-toggle="modal" data-bs-target="#SetDateModal" class="btn btn-outline-warning waves-effect waves-light text-primary d-inline-block edit-item-btn d-flex align-items-center justify-content-center custom-btn1 mt-2 btn-custom-width" onclick="setDate('{{ $farm->id }}', '{{ $farm->select_date }}')" >
                                                                         <div class="d-flex align-items-center">
                                                                             <i class="mdi mdi-calendar-check fs-3 me-2 black"></i>
                                                                             <span class="black">Set Visit Date</span>
@@ -410,28 +410,36 @@
         </div>
     </div>
 
-<div class="modal fade" id="SetDateModal" tabindex="-1" role="dialog" aria-labelledby="SetDateModalLabel" aria-hidden="true">
+    <div class="modal fade" id="SetDateModal" tabindex="-1" role="dialog" aria-labelledby="SetDateModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header p-4">
                 <h5 class="modal-title" id="SetDateModalLabel">Set Date of Visitation</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="card-body border border-dashed border-end-0 border-start-0">
-
+            <div class="modal-body">
+                Select the availability dates to visit in your farm.<br><br>
+                <input type="radio" id="availability1" name="availability" value="option1">
+                <label for="availability1"><span id="selectedDate">{{ $farm->select_date }}</span></label><br>
+                <input type="radio" id="availability2" name="availability" value="option2">
+                <label for="availability2">Option 2</label><br>
+                <input type="radio" id="availability3" name="availability" value="option3">
+                <label for="availability3">Option 3</label>
+            </div>
             <div class="modal-body" style="color: red; text-align: center;">
-                Are you sure you want to Cancel your Application?
+                Are you sure you want to Set the date of visitation?
             </div>
             <hr>
             <div class="modal-footer">
                 <!-- No Button with custom text -->
                 <button type="button" class="btn btn-link link-success fw-medium text-decoration-none" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i>Close</button>
                 <!-- Yes Button with custom text -->
-                <button type="button" class="btn btn-danger" id="updateStatusBtn">Yes, Set it</button>
+                <button type="button" class="btn btn-danger" id="SetDateBtn">Yes, Set it</button>
             </div>
         </div>
     </div>
 </div>
+
 
 
 <!-- Add this modal at the end of your Blade file -->
@@ -444,16 +452,71 @@
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,800;1,800&display=swap" rel="stylesheet">
 
 <script>
-function setDate(id) {
+
+function setDate(id, selectDate) {
+    // Calculate the next date
+    var nextDate = new Date(selectDate);
+    nextDate.setDate(nextDate.getDate() + 1); // Adding 1 day to selectDate
+
+    // Format nextDate as a string
+    var nextDateString = nextDate.toISOString().split('T')[0]; // Get the date part only in YYYY-MM-DD format
+
     // Set the farm ID to be canceled
-    $("#SetDateModal").show();
-    }
+    $("#SetDateBtn").data("farm-id", id);
+
+    // Set the select_date value to the label of option1
+    $("label[for='availability1']").text("Option 1: " + selectDate);
+
+    // Set the next date value to the label of option2
+    $("label[for='availability2']").text("Option 2: " + nextDateString);
+
+    // Show the confirmation modal
+    $("#SetDateModal").modal("show");
+}
+
+// Attach click event to update status button
+$("#SetDateBtn").click(function () {
+    // Get the farm ID from the data attribute
+    var id = $(this).data("farm-id");
+
+    // Get the selected date
+    var selectedDate = $('input[name="availability"]:checked').val();
+
+    // Send an AJAX request to update the status in the database
+    $.ajax({
+        url: "/set-date-farm/" + id,
+        type: "POST",
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        data: { 
+            status: "For-Visiting",
+            visit_date: selectedDate // Send the selected date
+        },
+        success: function (response) {
+            // Handle the response as needed
+            console.log(response);
+            
+            // Reload the current page after updating the status
+            location.reload();
+        },
+        error: function (error) {
+            console.error("Error updating farm status:", error);
+        }
+    });
+
+    // Close the modal after processing
+    $("#SetDateModal").modal("hide");
+});
+
+
 function goBack() {
         window.location.href = "/farms3";
         window.onload = function() {
             window.location.reload(true);
         };
     }
+
 function showFarmRemarks(id) {
         // Fetch farm details from the server
         fetch(`/farm/${id}/details`)

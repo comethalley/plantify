@@ -64,19 +64,18 @@
                                                 <th class="sort" data-sort="">Name</th>
                                                 <th class="sort" data-sort="">Image</th>
                                                 <th class="sort" data-sort="">Information</th>
-                                                <th class="sort" data-sort="">Type</th>
                                                 <th class="sort" data-sort="">Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody class="">
 
                                             @foreach($fertilizers as $item)
-                                            <tr>
+                                            <tr>    
                                                 <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $item->name }}</td>
-                                                <td><img src="/images/{{ $item->image }}" alt="" width="200px" height="200px"></td>
-                                                <td>{{ $item->information }}</td>
-                                                <td>{{ $item->type }}</td>
+                                                <td>{{ $item->fer_name }}</td>
+                                                <td><img src="/images/{{ $item->fer_image }}" alt="" width="200px" height="200px"></td>
+                                                <td>{{ $item->fer_information }}</td>
+                                                
                                                 
 
 
@@ -98,14 +97,7 @@
                                                                 <i class="ri-delete-bin-5-fill fs-16"></i>
                                                             </a>
                                                         </li>
-                                                        <!-- <a href="{{ url('/plantinfo/' . $item->id) }}" title="View Plant"><button class="btn btn-info btn-sm" data-bs-target="#EditModal"><i class="fa fa-eye" aria-hidden="true"></i> View</button></a>
-                                        <a href="{{ url('/plantinfo/' . $item->id . '/edit') }}" title="Edit Plant"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
-
-                                        <form method="POST" action="{{ url('/plantinfo' . '/' . $item->id) }}" accept-charset="UTF-8" style="display:inline">
-                                            {{ method_field('DELETE') }}
-                                            {{ csrf_field() }}
-                                            <button type="submit" class="btn btn-danger btn-sm" title="Delete Plant" onclick="return confirm('Are you sure you want to delete this item?');"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</button>
-                                        </form> -->
+                                                        
                                                     </ul>
                                                 </td>
 
@@ -143,10 +135,10 @@
                                 <div class="modal-dialog modal-dialog-centered modal-xl">
                                     <div class="modal-content">
                                         <div class="modal-header bg-light p-3">
-                                            <h5 class="modal-title" id="exampleModalLabel">Add Plant Information</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">Add Fertilizer</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
                                         </div>
-                                        <form action="{{ url('plantinfo') }}" method="post">
+                                        <form action="/fertilizers" method="post">
                                             @csrf
                                             <div class="modal-body">
                                                 <input type="hidden" id="id-field" />
@@ -154,28 +146,20 @@
                                                 <input type="text" id="orderId" class="form-control" placeholder="ID" readonly hidden />
 
                                                 <div class="mb-3">
-                                                    <label for="customername-field" class="form-label">Plant Name</label>
-                                                    <input type="text" name="plant_name" id="plant_name" class="form-control" placeholder="Plant Name" required />
+                                                    <label for="customername-field" class="form-label">Name</label>
+                                                    <input type="text" name="fer_name" id="fer_name" class="form-control" placeholder="Pesticide Name" required />
                                                 </div>
 
                                                 <div class="mb-3">
-                                                    <label for="customername-field" class="form-label">Planting Season</label>
-                                                    <input type="text" name="planting_date" id="planting_date" class="form-control" placeholder="Planting Season" required />
+                                                    <div>
+                                                        <label for="formFile" class="form-label">Upload</label>
+                                                        <input class="form-control" type="file" id="fer_image">
+                                                    </div>
                                                 </div>
 
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Information</label>
-                                                    <textarea type="textarea" name="information" id="information" class="form-control" placeholder="Plant Information" required> </textarea>
-                                                </div>
-
-                                                <div class="mb-3">
-                                                    <label for="customername-field" class="form-label">Companion</label>
-                                                    <input type="text" name="companion" id="companion" class="form-control" placeholder="Companion" required />
-                                                </div>
-
-                                                <div class="mb-3">
-                                                    <label for="customername-field" class="form-label">Plant Image</label>
-                                                    <input type="file" name="plant_image" id="plant_image" class="form-control" placeholder="Image" required />
+                                                    <textarea type="textarea" name="fer_information" id="fer_information" class="form-control" placeholder="Plant Information" required> </textarea>
                                                 </div>
 
 
@@ -186,7 +170,7 @@
                                             <div class="modal-footer">
                                                 <div class="hstack gap-2 justify-content-end">
                                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
-                                                    <button type="submit" class="btn btn-success">Add Plant</button>
+                                                    <button type="submit" class="btn btn-success add-fertilizer">Add Fertilizer</button>
                                                     <!-- <button type="button" class="btn btn-success" id="edit-btn">Update</button> -->
                                                 </div>
                                             </div>

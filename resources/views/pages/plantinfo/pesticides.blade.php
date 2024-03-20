@@ -151,8 +151,10 @@
                                                 </div>
 
                                                 <div class="mb-3">
-                                                    <label for="customername-field" class="form-label">Image</label>
-                                                    <input type="file" name="pes_image" id="pes_image" class="form-control" placeholder="Planting Season" required />
+                                                    <div>
+                                                        <label for="formFile" class="form-label">Upload</label>
+                                                        <input class="form-control" type="file" id="pes_image">
+                                                    </div>
                                                 </div>
 
                                                 <div class="mb-3">

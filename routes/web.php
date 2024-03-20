@@ -156,6 +156,7 @@ Route::get('/pesticides', [PlantInfoController::class, 'pesticides']);
 Route::post('/pesticides', [PlantInfoController::class, 'pstore']);
 //FER=======================================================================
 Route::get('/fertilizers', [PlantInfoController::class, 'fertilizers']);
+Route::post('/fertilizers', [PlantInfoController::class, 'fstore']);    
 
 //For farm management =======================================================
 

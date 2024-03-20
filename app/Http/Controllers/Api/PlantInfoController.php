@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Pesticides;
+use App\Models\Fertilizers;
 
 class PlantinfoController extends Controller
 {
@@ -224,11 +225,11 @@ class PlantinfoController extends Controller
         $input = $request->all();
 
         // Move the uploaded image to a specific directory
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
+        if ($request->hasFile('pes_image')) {
+            $image = $request->file('pes_image');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('images'), $imageName);
-            $input['image'] = $imageName;
+            $input['pes_image'] = $imageName;
         }
         $input['pes_status'] = 1;
 
@@ -242,7 +243,7 @@ class PlantinfoController extends Controller
     {
 
         $fertilizers = DB::table('fertilizers')
-            ->where('status', 1)
+            ->where('fer_status', 1)
             ->select(
                 "*"
             )
@@ -251,7 +252,32 @@ class PlantinfoController extends Controller
         return view('pages.plantinfo.fertilizers' , ['fertilizers' => $fertilizers]);
     }
 
-    
+    public function fstore(Request $request)
+    {
+        // Validate the request
+        $request->validate([
+            'fer_name' => 'required',
+            'fer_information' => 'required',
+            'fer_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Example validation for image upload
+        ]);
+
+        // Retrieve all input data
+        $input = $request->all();
+
+        // Move the uploaded image to a specific directory
+        if ($request->hasFile('fer_image')) {
+            $image = $request->file('fer_image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images'), $imageName);
+            $input['fer_image'] = $imageName;
+        }
+        $input['fer_status'] = 1;
+
+        // Create new plant info record
+        fertilizers::create($input);
+
+        return redirect('fertilizers')->with('flash_message', 'Plant Added!');
+    }
 
 
 }

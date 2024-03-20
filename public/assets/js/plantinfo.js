@@ -328,6 +328,68 @@ $(document).ready(function() {
             }
         
         });
+
+        
     })
+
+    $(document).on('click', '.add-fertilizer', function(event){
+        event.preventDefault();
+    
+        console.log("Add Plant button clicked");
+        var fer_name = $('#fer_name').val();
+        var fer_information = $('#fer_information').val();
+        var fer_image = $('#fer_image')[0].files[0];
+        var fer_status = 1;
+    
+        var formData = new FormData();
+        formData.append('fer_name', fer_name);
+        formData.append('fer_information', fer_information);
+        formData.append('fer_image', fer_image);
+        formData.append('fer_status', fer_status);
+    
+        $.ajax({
+            url: "/fertilizers",
+            method: "POST",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: formData,
+            contentType: false, // important when sending FormData
+            processData: false, // important when sending FormData
+            success: function(data) {
+                console.log(data);
+                location.reload(); 
+                // getFarmLeader();
+                // $('#farmLeadershowModal').modal('hide');
+            },
+            error: function(xhr, status, error) {
+                if (xhr.status === 422) {
+                    var errorsResponse = JSON.parse(xhr.responseText);
+                    console.error("Validation Error:", errorsResponse);
+            
+                    var errorMessage = "";
+            
+                    if (errorsResponse.errors) {
+                        for (var key in errorsResponse.errors) {
+                            if (errorsResponse.errors.hasOwnProperty(key)) {
+                                errorMessage += errorsResponse.errors[key][0] + "\n";
+                            }
+                        }
+                    } else {
+                        errorMessage = "Validation error occurred.";
+                    }
+            
+                    alert(errorMessage);
+                } else {
+                    console.error("Error:", error);
+                }
+            }
+        
+        });
+
+        
+    })
+
+    
     
 })

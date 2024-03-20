@@ -588,6 +588,11 @@ $('#confirmUpdateBtn').on('click', function() {
         return;
     }
 
+    // If calendar is not visible, set selectedDate to null
+    if (!$('#dateInputContainer').is(':visible')) {
+        selectedDate = null;
+    }
+
     // Perform an AJAX request to update the status and create a new entry in RemarkFarm
     $.ajax({
         url: '/update-status/' + farmIdToUpdate,
@@ -641,6 +646,7 @@ function hideValidationError(context) {
     // Hide error messages within the specified context
     $('#' + context + ' .text-danger').remove();
 }
+
 
 
 

@@ -263,13 +263,13 @@ public function archiveFarm(Request $request, $id)
         // Update the status in the farms table
         $farm->status = $request->input('status');
     
-        // If select_date is provided, update it
-        if ($request->has('select_date')) {
+        // If select_date is provided and not null, update it
+        if ($request->has('select_date') && $request->input('select_date') !== null) {
             // Parse and format the date using Carbon
             $selectedDate = Carbon::parse($request->input('select_date'))->toDateString();
             $farm->select_date = $selectedDate;
         } else {
-            // If no date is selected, set select_date to null
+            // If no date is selected or it's null, set select_date to null
             $farm->select_date = null;
         }
     
@@ -285,6 +285,7 @@ public function archiveFarm(Request $request, $id)
     
         return response()->json(['success' => 'Updated successfully']);
     }
+    
     
 
 //view farm-management//

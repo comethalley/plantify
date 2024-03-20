@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('remarks')->nullable();
             $table->string('remark_status');
             $table->string('validated_by');
+            $table->date('visit_date')->nullable();
             $table->timestamps();
         });
     }

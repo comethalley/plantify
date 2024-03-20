@@ -208,12 +208,17 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-            <h5>Type your remarks update below</h5>
-            <div class="form-floating">
+                <h5>Type your remarks update below</h5>
+                <div class="form-floating">
                     <textarea class="form-control" name="remarks" rows="3" style="height: 150px;" placeholder="Enter your remarks..."></textarea>
                     <label for="remarkstext">-Optional-</label>
                 </div>
-<br>
+                <br>
+                <div class="mb-3" id="dateInputContainer" style="display: none;">
+                    <label for="dateInput" class="form-label">Select Date:</label>
+                    <input type="date" class="form-control" id="dateInput" name="select_date" min="<?php echo date('Y-m-d'); ?>">
+                </div>
+
                 <h5>Are you sure you want to update the status?</h5>
             </div>
             <div class="modal-footer vstack gap-2">
@@ -223,6 +228,7 @@
         </div>
     </div>
 </div>
+
 
     <!-- Modal -->
 
@@ -551,17 +557,34 @@ function updateStatus(newStatus) {
     } else {
         $('label[for="remarkstext"]').text('-Optional-');
     }
+    
+    if (newStatus === 'For-Visiting') {
+        $('#dateInputContainer').show();
+    } else {
+        $('#dateInputContainer').hide();
+    }
 }
-
 // Confirm update status when the user clicks the "Confirm" button in the modal
 $('#confirmUpdateBtn').on('click', function() {
+    // Hide any previous error messages
+    hideValidationError();
+
     // Get the remarks value from the input field
     var remarks = $('textarea[name="remarks"]').val();
+    // Get the selected date from the input field
+    var selectedDate = $('input[name="select_date"]').val();
 
     // Check if remarks is required and if it's empty
     if ($('label[for="remarkstext"]').text() === '-Required-' && remarks.trim() === '') {
         // Display a validation error below the text box
-        showValidationError('This field is required to select');
+        showValidationError('Remarks is required.', $('textarea[name="remarks"]'));
+        return;
+    }
+
+    // Check if select_date is required and if it's empty
+    if ($('#dateInputContainer').is(':visible') && selectedDate.trim() === '') {
+        // Display a validation error below the calendar input
+        showValidationError('Select date is required.', $('input[name="select_date"]'));
         return;
     }
 
@@ -572,7 +595,8 @@ $('#confirmUpdateBtn').on('click', function() {
         data: {
             _token: '{{ csrf_token() }}',
             status: statusToUpdate,
-            remarks: remarks // Include remarks in the data sent to the server
+            remarks: remarks, // Include remarks in the data sent to the server
+            select_date: selectedDate // Include selected date in the data
         },
         success: function (data) {
             // Handle success response
@@ -595,20 +619,27 @@ $('#confirmUpdateBtn').on('click', function() {
     $('#confirmationModal').modal('hide');
 });
 
-// Function to display a validation error below the text box
-function showValidationError(message) {
+// Close error message when modal is closed
+$('#confirmationModal').on('hidden.bs.modal', function () {
+    hideValidationError();
+});
+
+function showValidationError(message, targetElement) {
     // Create a span element for the error message
     var errorElement = $('<span class="text-danger">' + message + '</span>');
 
-    // Check if the error element already exists and remove it
-    if ($('#remarksError').length) {
-        $('#remarksError').remove();
-    }
+    // Remove any existing error message for the target element
+    targetElement.next('.text-danger').remove();
 
-    // Append the error element below the text box
-    $('.form-floating').append(errorElement.attr('id', 'remarksError'));
+    // Append the error element below the target element
+    targetElement.after(errorElement);
 }
 
+// Function to hide validation error
+function hideValidationError() {
+    // Hide error message
+    $('.text-danger').remove();
+}
 
 
 

@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
+
 
 
 class FarmController extends Controller
@@ -244,33 +246,46 @@ public function archiveFarm(Request $request, $id)
 
 
     public function updateStatus(Request $request, $id)
-{
-    // Validate the request if needed
-    $request->validate([
-        'status' => 'required|in:For-Investigation,For-Visiting,Approved,Disapproved,Waiting-for-Approval,Resubmit',
-        'remarks' => 'nullable|string|max:255',
-    ]);
-
-    // Find the farm by ID
-    $farm = Farm::findOrFail($id);
-
-    // Get the authenticated user (admin)
-    $admin = Auth::user();
-
-    // Update the status in the farms table
-    $farm->status = $request->input('status');
-    $farm->save();
-
-    // Create a new entry in the RemarkFarm table
-    RemarkFarm::create([
-        'farm_id' => $farm->id,
-        'remarks' => $request->input('remarks'),
-        'remark_status' => $request->input('status'),
-        'validated_by' => $admin->firstname . ' ' . $admin->lastname,
-    ]);
-
-    return response()->json(['success' => 'Updated successfully']);
-}
+    {
+        // Validate the request if needed
+        $request->validate([
+            'status' => 'required|in:For-Investigation,For-Visiting,Approved,Disapproved,Waiting-for-Approval,Resubmit',
+            'remarks' => 'nullable|string|max:255',
+            'select_date' => 'nullable|date', // Add validation rule for select_date
+        ]);
+    
+        // Find the farm by ID
+        $farm = Farm::findOrFail($id);
+    
+        // Get the authenticated user (admin)
+        $admin = Auth::user();
+    
+        // Update the status in the farms table
+        $farm->status = $request->input('status');
+    
+        // If select_date is provided, update it
+        if ($request->has('select_date')) {
+            // Parse and format the date using Carbon
+            $selectedDate = Carbon::parse($request->input('select_date'))->toDateString();
+            $farm->select_date = $selectedDate;
+        } else {
+            // If no date is selected, set select_date to null
+            $farm->select_date = null;
+        }
+    
+        $farm->save();
+    
+        // Create a new entry in the RemarkFarm table
+        RemarkFarm::create([
+            'farm_id' => $farm->id,
+            'remarks' => $request->input('remarks'),
+            'remark_status' => $request->input('status'),
+            'validated_by' => $admin->firstname . ' ' . $admin->lastname,
+        ]);
+    
+        return response()->json(['success' => 'Updated successfully']);
+    }
+    
 
 //view farm-management//
 
@@ -458,7 +473,7 @@ public function updateFarm(Request $request, $id)
     // Validate the form data
     $request->validate([
 
-        'title_land' => 'required|file|mimes:pdf,png,jpg|max:2048',
+        'title_land' => 'nullable|file|mimes:pdf,png,jpg|max:2048',
         'picture_land' => 'nullable|file|mimes:jpeg,png|max:2048',
         'picture_land1' => 'nullable|file|mimes:jpeg,png|max:2048',
         'picture_land2' => 'nullable|file|mimes:jpeg,png|max:2048',

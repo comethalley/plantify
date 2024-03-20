@@ -1,17 +1,12 @@
 @include('templates.header')
 
-
 <div class="main-content">
-
     <div class="page-content">
         <div class="container-fluid">
-
-            <!-- start page title -->
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                         <h4 class="mb-sm-0">Farm Management</h4>
-
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="javascript: void(0);">Barangays</a></li>
@@ -22,7 +17,6 @@
                     </div>
                 </div>
             </div>
-            <!-- end page title -->
 <div class="row">
     @if(isset($farms) && count($farms) > 0)
         @foreach($farms as $key => $farm)
@@ -47,11 +41,8 @@
     <div class="row g-3 align-items-center justify-content-between">
         <div class="col-xxl-5 col-sm-12">
             <div class="search-box">
-                <!-- Your first search box content here -->
-                <!-- Placeholder: Your first search box content here -->
             </div>
         </div>
-        <!--end col-->
 
         <div class="col-xxl-2 col-sm-4">
             <div class="search-box">
@@ -59,11 +50,8 @@
                 <i class="ri-search-line search-icon"></i>
             </div>
         </div>
-        <!--end col-->
-
         <div class="col-xxl-3 col-sm-6 d-flex justify-content-end">
             <div class="btn-group" style="width: 200px;">
-                <!-- Your dropdown content here -->
                 <button class="btn btn-light dropdown-toggle me-2" type="button" id="dropdownMenuClickableOutside" data-bs-toggle="dropdown" data-bs-auto-close="inside" aria-expanded="false">
                     All
                 </button>
@@ -86,25 +74,20 @@
                 </button>
             </div>
         </div>
-        <!--end col-->
     </div>
-    <!--end row-->
 </div>
 
 
 </form>
-                                <!--end card-body-->
-
 <div class="card-body">
   <div class="table-responsive table-card mb-4 rounded">
     <table class="table align-middle table-nowrap mb-0 table-bordered" id="tasksTable">
       <thead class="table-light text-muted">
         <tr>
         <th class="text-center vertical-line" data-sort="id" style="font-weight: bold; color: black;">Reference Number</th>
-<th class="text-center vertical-line" style="font-weight: bold; color: black;">Details</th>
-<th class="text-center vertical-line" data-sort="status" style="font-weight: bold; color: black;">Status</th>
-<th class="text-center vertical-line" data-sort="actions" style="font-weight: bold; color: black;">Actions</th>
-
+        <th class="text-center vertical-line" style="font-weight: bold; color: black;">Details</th>
+        <th class="text-center vertical-line" data-sort="status" style="font-weight: bold; color: black;">Status</th>
+        <th class="text-center vertical-line" data-sort="actions" style="font-weight: bold; color: black;">Actions</th>
         </tr>
       </thead>
       @endif
@@ -161,7 +144,7 @@
 
         @break
     @default
-@endswitch
+    @endswitch
 
             <br>
             <a href="javascript:void(0);" class="btn btn-success btn-border equal-width-validation" style="font-weight: bold;" onclick="showFarmRemarks('{{ $farm->id }}');">Validation Remarks</a>
@@ -169,35 +152,47 @@
             <i style="font-size: 13px;">Click "Validation Remarks" for more specific updates</i>
           </td>
 
-          <td class="actions vertical-line">
-<div class="centered-container times-new-roman-bold">
-    <ul class="list-inline hstack gap-2 mb-0">
-        <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="View Application">
-        <a href="#" data-bs-toggle="modal" data-bs-target="#viewModals" class="btn btn-outline-secondary text-primary d-inline-block edit-item-btn d-flex align-items-center justify-content-center custom-btn mt-2" onclick="showFarmDetails('{{ $farm->id }}', '{{ $farm->farm_name }}', '{{ $farm->barangay_name }}', '{{ $farm->area }}', '{{ $farm->address }}', '{{ $farm->farm_leader }}', '{{ $farm->status }}', '{{ $farm->title_land }}', '{{ $farm->picture_land }}', '{{ $farm->picture_land1 }}', '{{ $farm->picture_land2 }}', '{{ $farm->farm_leader_firstname }}', '{{ $farm->farm_leader_lastname }}'); updateButtonVisibility('{{ $farm->status }}');">
-                <div class="d-flex align-items-center">
-                    <i class="ri-profile-line fs-3 me-2 black"></i>
-                    <span class="black">View Application</span>
-                </div>
-            </a>
-        </li>
-    </ul>
-</div>
-
-<div class="centered-container times-new-roman-bold">
-    @unless($farm->status == 'Cancelled')
-        <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Cancel Application">
-            <a href="#" class="btn btn-outline-danger waves-effect waves-light text-primary d-inline-block edit-item-btn d-flex align-items-center justify-content-center custom-btn1 mt-2" onclick="showFarmDetails('{{ $farm->id }}', '{{ $farm->farm_name }}', '{{ $farm->barangay_name }}', '{{ $farm->area }}', '{{ $farm->address }}', '{{ $farm->farm_leader }}', '{{ $farm->status }}', '{{ $farm->title_land }}', '{{ $farm->picture_land }}', '{{ $farm->picture_land1 }}', '{{ $farm->picture_land2 }}', '{{ $farm->farm_leader_firstname }}', '{{ $farm->farm_leader_lastname }}'); updateCancel('{{ $farm->id }}')">
-                <div class="d-flex align-items-center">
-                    <i class="mdi mdi-cancel fs-3 me-2 black"></i>
-                    <span class="black">Cancel Application</span>
-                </div>
-            </a>
-                                    </li>
-                                @endunless
-                            </div>
-                                            </td>
-                                            </td>
-                                        </tr>
+                                                    <td class="actions vertical-line">
+                                                        <div class="centered-container times-new-roman-bold">
+                                                            <ul class="list-inline hstack gap-2 mb-0">
+                                                                <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="View Application">
+                                                                <a href="#" data-bs-toggle="modal" data-bs-target="#viewModals" class="btn btn-outline-secondary text-primary d-inline-block edit-item-btn d-flex align-items-center justify-content-center custom-btn mt-2" onclick="showFarmDetails('{{ $farm->id }}', '{{ $farm->farm_name }}', '{{ $farm->barangay_name }}', '{{ $farm->area }}', '{{ $farm->address }}', '{{ $farm->farm_leader }}', '{{ $farm->status }}', '{{ $farm->title_land }}', '{{ $farm->picture_land }}', '{{ $farm->picture_land1 }}', '{{ $farm->picture_land2 }}', '{{ $farm->farm_leader_firstname }}', '{{ $farm->farm_leader_lastname }}'); updateButtonVisibility('{{ $farm->status }}');">
+                                                                        <div class="d-flex align-items-center">
+                                                                            <i class="ri-profile-line fs-3 me-2 black"></i>
+                                                                            <span class="black">View Application</span>
+                                                                        </div>
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="centered-container times-new-roman-bold">
+                                                            @unless($farm->status == 'Cancelled')
+                                                                <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Cancel Application">
+                                                                    <a href="#" data-bs-toggle="modal" data-bs-target="#updateCancelModal" class="btn btn-outline-danger waves-effect waves-light text-primary d-inline-block edit-item-btn d-flex align-items-center justify-content-center custom-btn1 mt-2" onclick="showFarmDetails('{{ $farm->id }}', '{{ $farm->farm_name }}', '{{ $farm->barangay_name }}', '{{ $farm->area }}', '{{ $farm->address }}', '{{ $farm->farm_leader }}', '{{ $farm->status }}', '{{ $farm->title_land }}', '{{ $farm->picture_land }}', '{{ $farm->picture_land1 }}', '{{ $farm->picture_land2 }}', '{{ $farm->farm_leader_firstname }}', '{{ $farm->farm_leader_lastname }}'); updateCancel('{{ $farm->id }}')">
+                                                                        <div class="d-flex align-items-center">
+                                                                            <i class="mdi mdi-cancel fs-3 me-2 black"></i>
+                                                                            <span class="black">Cancel Application</span>
+                                                                        </div>
+                                                                    </a>
+                                                                </li>
+                                                                @endunless
+                                                        </div>
+                                                        <!-- Insert the provided code snippet here -->
+                                                        <div class="centered-container times-new-roman-bold">
+                                                            @if($farm->status == 'For-Visiting')
+                                                                <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Set Date Application">
+                                                                    <a href="#" data-bs-toggle="modal" data-bs-target="#SetDateModal" class="btn btn-outline-warning waves-effect waves-light text-primary d-inline-block edit-item-btn d-flex align-items-center justify-content-center custom-btn1 mt-2 btn-custom-width" onclick="setDate('{{ $farm->id }}')" >
+                                                                        <div class="d-flex align-items-center">
+                                                                            <i class="mdi mdi-calendar-check fs-3 me-2 black"></i>
+                                                                            <span class="black">Set Visit Date</span>
+                                                                        </div>
+                                                                    </a>
+                                                                </li>
+                                                            @endif
+                                                        </div>
+                                                    </td>
+                                                </td>
+                                            </tr>
                                             @endforeach
                                             @else
                                         <tr>
@@ -389,31 +384,54 @@
 </div>
 
     <!-- Modal -->
-<div class="modal fade" id="updateCancelModal" tabindex="-1" role="dialog" aria-labelledby="updateCancelModalLabel" aria-hidden="true">
+    <div class="modal fade" id="updateCancelModal" tabindex="-1" role="dialog" aria-labelledby="updateCancelModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+            <div class="modal-header p-4">
+                    <h5 class="modal-title" id="updateCancelModalLabel">Cancellation of Application</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="card-body border border-dashed border-end-0 border-start-0">
+
+                        <div class="modal-body" style="color: red; text-align: center;">
+                            Are you sure you want to Cancel your Application?
+                        </div>
+                    <hr>
+                <div class="modal-footer">
+                        <!-- No Button with custom text -->
+                        <button type="button" class="btn btn-link link-success fw-medium text-decoration-none" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i>Close</button>
+
+                        <!-- Yes Button with custom text -->
+                        <button type="button" class="btn btn-danger" id="updateStatusBtn">Yes, Cancel it</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<div class="modal fade" id="SetDateModal" tabindex="-1" role="dialog" aria-labelledby="SetDateModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-        <div class="modal-header p-4">
-                <h5 class="modal-title" id="updateCancelModalLabel">Cancellation of Application</h5>
+            <div class="modal-header p-4">
+                <h5 class="modal-title" id="SetDateModalLabel">Set Date of Visitation</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="card-body border border-dashed border-end-0 border-start-0">
 
-                    <div class="modal-body" style="color: red; text-align: center;">
-                        Are you sure you want to Cancel your Application?
-                    </div>
-                <hr>
+            <div class="modal-body" style="color: red; text-align: center;">
+                Are you sure you want to Cancel your Application?
+            </div>
+            <hr>
             <div class="modal-footer">
-                    <!-- No Button with custom text -->
-                    <button type="button" class="btn btn-link link-success fw-medium text-decoration-none" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i>Close</button>
-
-                    <!-- Yes Button with custom text -->
-                    <button type="button" class="btn btn-danger" id="updateStatusBtn">Yes, Cancel it</button>
-
+                <!-- No Button with custom text -->
+                <button type="button" class="btn btn-link link-success fw-medium text-decoration-none" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i>Close</button>
+                <!-- Yes Button with custom text -->
+                <button type="button" class="btn btn-danger" id="updateStatusBtn">Yes, Set it</button>
             </div>
         </div>
     </div>
 </div>
-
 
 
 <!-- Add this modal at the end of your Blade file -->
@@ -426,7 +444,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,800;1,800&display=swap" rel="stylesheet">
 
 <script>
-
+function setDate(id) {
+    // Set the farm ID to be canceled
+    $("#SetDateModal").show();
+    }
 function goBack() {
         window.location.href = "/farms3";
         window.onload = function() {
@@ -626,7 +647,7 @@ switch (status.toLowerCase().replace(/\s+/g, '-')) {
         break;
     case 'for-visiting':
         $('#status_modal').html('(' + status + ')')
-            .removeClass().addClass('badge bg-primary fs-5');
+            .removeClass().addClass('badge bg-secondary fs-5');
         $('#viewModals .modal-header').removeClass().addClass('modal-header bg-secondary p-3');
         // Add the 'disabled' attribute to inputs when status is not 'for-visiting' or 'resubmit'
         $('#viewModals input.form-control').attr('disabled', 'disabled');
@@ -1065,10 +1086,16 @@ $(document).ready(function () {
         padding: 15px;
         width: 200px;
         text-align: center;
-    }
+}
+
 .custom-label {
         font-size: 1rem; 
-    }
+}
+
+.btn-custom-width {
+    width: 170px;
+}
+
     </style> 
 
 @include('templates.footer')

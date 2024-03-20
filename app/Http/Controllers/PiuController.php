@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\piu;
 use App\Models\piupes;
+use App\Models\piufer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -33,13 +34,17 @@ class PiuController extends Controller
 
     public function fer()
     {
-        $piu = DB::table('plant_infos')
-            ->where('status', 1)
-            ->select("*")
+
+        $fer = DB::table('fertilizers')
+            ->where('fer_status', 1)
+            ->select(
+                "*"
+            )
             ->get();
-        
-        return view("pages.piu.fiu", ['piu' => $piu]);
+
+        return view('pages.piu.fiu' , ['fer' => $fer]);
     }
+
 
     public function show($id)
     {
@@ -56,15 +61,15 @@ class PiuController extends Controller
 
     public function showfiu($id)
     {
-        $piu = DB::table('plant_infos')
-        ->where('status', 1)
+        $fer = DB::table('fertilizers')
+        ->where('fer_status', 1)
         ->where('id', $id)
         ->select("*")
         ->first();
 
         //dd($piu);
         
-        return view("pages.fiu.show", ['piu' => $piu,]);
+        return view("pages.piu.showfiu", ['fer' => $fer,]);
     }
 
     public function showpes($id)

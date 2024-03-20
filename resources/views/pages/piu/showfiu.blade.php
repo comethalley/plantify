@@ -5,7 +5,7 @@
 
     <div class="page-content">
         <div class="container-fluid">
-        <a href="/piu/pes"   class="btn btn-success waves-effect waves-light mb-4" class="col-xl-3 col-lg-4 col-sm-6"><i class="ri-arrow-left-line"></i></div></a>
+        <a href="/piu/fiu"   class="btn btn-success waves-effect waves-light mb-4" class="col-xl-3 col-lg-4 col-sm-6"><i class="ri-arrow-left-line"></i></div></a>
                 <!-- start page title -->
                   <div class="row">
                   
@@ -15,12 +15,12 @@
                                         <div class="row g-0 px-4 py-3">
                                             <div class="col-md-8">
                                                 <div class="card-body">
-                                                <h4 class="card-title mb-0 fw-bold">Pesticide Name: {{$pes->pes_name}}</h4>
+                                                <h4 class="card-title mb-0 fw-bold">Fertlizer Name: {{$fer->fer_name}}</h4>
                                              
                                                    
                                                 </div>
                                                 <div class="card-footer">
-                                                <h4 class="card-title mb-0 fw-bold">{!!$pes->pes_information!!}</h4>
+                                                <h4 class="card-title mb-0 fw-bold">{!!$fer->fer_information!!}</h4>
                                                 </div>
                                             </div>
                                            

@@ -21,7 +21,7 @@
                             <div class="card" >
                             <img class="card-img-top img-fluid mb-2" src="/images/{{ $pes->pes_image}}" alt="Card image cap">
                                 <div class="card-body" >
-                                    <h4 class="card-title mb-2 text-center "></h4><br>
+                                    <h4 class="card-title mb-2 text-center ">{{ $pes->pes_name}}</h4><br>
                                     
                                     <div class="text-end">
                                     <a href="{{ url('piu/showpes', $pes->id) }}" class="btn btn-success add-btn d-flex justify-content-center align-items-center" >Read more</a>

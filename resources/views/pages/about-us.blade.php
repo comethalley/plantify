@@ -45,12 +45,37 @@
     </style>
 </head>
 
+<div class="header-section" style="display:flex; justify-content:space-around; height:60px; position:sticky; top: 0;   background-color:#8BE262; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); z-index: 1000;">
+
+
+<div class="header-title">
+    <a style="font-size:14px; font-family: Montserrat,sans-serif; text-decoration:none; color:black;" href="#">
+        <img src="/assets/images/bg/white 3.png" alt="Plant Image" class="img-fluid" style="height: 65px;">
+    </a>
+</div>
+
+    
+
+<div class="middle-section" style="align-items:center;font-size:15px;font-family:Montserrat,sans-serif; display:flex; justify-content:space-between; width:500px;">
+    <a style="text-decoration:none; color:white; font-family: Poppins, sans-serif; font-size: 13px; font-weight: bold;" href="#" onmouseover="this.style.color='#13C56B'" onmouseout="this.style.color='white'">Home</a>
+    <a style="text-decoration:none; color:white; font-family: Poppins, sans-serif; font-size: 13px; font-weight: bold;" href="#" onmouseover="this.style.color='#13C56B'" onmouseout="this.style.color='white'">Analytics</a>
+    <a style="text-decoration:none; color:white; font-family: Poppins, sans-serif; font-size: 13px; font-weight: bold;" href="#" onmouseover="this.style.color='#13C56B'" onmouseout="this.style.color='white'">FAQs</a>
+    <a style="text-decoration:none; color:white; font-family: Poppins, sans-serif; font-size: 13px; font-weight: bold;" href="#" onmouseover="this.style.color='#13C56B'" onmouseout="this.style.color='white'">Contact</a>
+    <a style="text-decoration:none; color:white; font-family: Poppins, sans-serif; font-size: 13px; font-weight: bold;" href="#" onmouseover="this.style.color='#13C56B'" onmouseout="this.style.color='white'">Email</a>
+</div>
+
+<div class="middle-section" style="display: flex; align-items: center; justify-content: space-between; font-family: Rubik, sans-serif;">
+    <a style="color: white; text-decoration: none; font-family: Poppins, sans-serif; font-size: 13px; font-weight: bold; margin-right: 10px;" href="#">Sign in</a>
+    <a style="text-decoration: none; font-size: 13px; background-color: #ED5E5E; color: white; padding: 10px; border-radius: 5px; font-weight: bold; flex-grow: 1; text-align: center;" href="#" onmouseover="this.style.backgroundColor='#c95050'" onmouseout="this.style.backgroundColor='#ED5E5E'">SignUp</a>
+</div>
+</div>
+
 <body>
 
-    <div class="header">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1364 340" fill="none">
-            <path d="M0 151.2L37.8889 176.361C75.7778 201.994 151.556 251.606 227.333 270.861C303.111 289.406 378.889 277.594 454.667 239.439C530.444 201.994 606.222 138.206 682 144.939C757.778 151.2 833.556 226.8 909.333 251.961C985.111 277.594 1060.89 251.606 1136.67 258.339C1212.44 264.6 1288.22 302.4 1326.11 321.3L1364 340.2V-6.92257e-05H1326.11C1288.22 -6.92257e-05 1212.44 -6.92257e-05 1136.67 -6.92257e-05C1060.89 -6.92257e-05 985.111 -6.92257e-05 909.333 -6.92257e-05C833.556 -6.92257e-05 757.778 -6.92257e-05 682 -6.92257e-05C606.222 -6.92257e-05 530.444 -6.92257e-05 454.667 -6.92257e-05C378.889 -6.92257e-05 303.111 -6.92257e-05 227.333 -6.92257e-05C151.556 -6.92257e-05 75.7778 -6.92257e-05 37.8889 -6.92257e-05H0V151.2Z" fill="#8BE262" />
-        </svg>
+<div class="wave">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1365 250" fill="none" >
+<path d="M0 80L37.8889 93.3125C75.7778 106.875 151.556 133.125 227.333 143.313C303.111 153.125 378.889 146.875 454.667 126.688C530.444 106.875 606.222 73.125 682 76.6875C757.778 80 833.556 120 909.333 133.313C985.111 146.875 1060.89 133.125 1136.67 136.688C1212.44 140 1288.22 160 1326.11 170L1364 180V7.29139e-06H1326.11C1288.22 7.29139e-06 1212.44 7.29139e-06 1136.67 7.29139e-06C1060.89 7.29139e-06 985.111 7.29139e-06 909.333 7.29139e-06C833.556 7.29139e-06 757.778 7.29139e-06 682 7.29139e-06C606.222 7.29139e-06 530.444 7.29139e-06 454.667 7.29139e-06C378.889 7.29139e-06 303.111 7.29139e-06 227.333 7.29139e-06C151.556 7.29139e-06 75.7778 7.29139e-06 37.8889 7.29139e-06H0V80Z" fill="#8BE262"/>
+    </svg>
     </div>
 
     <div class="container">
@@ -100,7 +125,9 @@ font-weight: 700; line-height: normal; text-align:center;color:Green; padding: 2
                     </div>
 
 
-                    <p style="margin: 20px; color:black; font-size: 16px;font-family: Inter; font-weight: 400; text-align:justify;line-height: normal;text-align:center;">Quezon City University (QCU), formerly known as Quezon City Polytechnic University (QCPU), is a city government-funded university in Quezon City, Philippines. It was established on March 1, 1994, as the Quezon City Polytechnic, offering technical and vocational courses. It was renamed as Quezon City Polytechnic University when it was elevated into university status in 2001. Twenty years later in 2021, QCPU was renamed Quezon City University. </p>
+                    <p style="margin: 20px; color:black; font-size: 16px;font-family: Inter; font-weight: 400; text-align:justify;line-height: normal;text-align:center; text-indent: 2em;">Quezon City University (QCU), formerly known as Quezon City Polytechnic University (QCPU), is a city government-funded university in Quezon City, Philippines. It was established on March 1, 1994, as the Quezon City Polytechnic, offering technical and vocational courses. It was renamed as Quezon City Polytechnic University when it was elevated into university status in 2001. Twenty years later in 2021, QCPU was renamed Quezon City University. </p>
+
+
 
 
 <div class="second-container" style="margin-top:50px; display: grid; grid-template-columns:250px 40px 250px 40px 290px; justify-content:center; ">
@@ -180,7 +207,10 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1364 340" fill="none">
             <path d="M0 151.2L37.8889 176.361C75.7778 201.994 151.556 251.606 227.333 270.861C303.111 289.406 378.889 277.594 454.667 239.439C530.444 201.994 606.222 138.206 682 144.939C757.778 151.2 833.556 226.8 909.333 251.961C985.111 277.594 1060.89 251.606 1136.67 258.339C1212.44 264.6 1288.22 302.4 1326.11 321.3L1364 340.2V-6.92257e-05H1326.11C1288.22 -6.92257e-05 1212.44 -6.92257e-05 1136.67 -6.92257e-05C1060.89 -6.92257e-05 985.111 -6.92257e-05 909.333 -6.92257e-05C833.556 -6.92257e-05 757.778 -6.92257e-05 682 -6.92257e-05C606.222 -6.92257e-05 530.444 -6.92257e-05 454.667 -6.92257e-05C378.889 -6.92257e-05 303.111 -6.92257e-05 227.333 -6.92257e-05C151.556 -6.92257e-05 75.7778 -6.92257e-05 37.8889 -6.92257e-05H0V151.2Z" fill="#8BE262" />
         </svg>
-        <div class="row">
+
+
+        
+        <div class="row" style="width: 1345px;">
                         <div class="col-lg-10 mx-auto text-center">
 <h1 style="margin-bottom:40px; text-align:center; color: Black; font-family: Poppins;font-size: 30px; font-style: normal; font-weight: 700; line-height: normal;">MEET THE TEAM</h1>
 
@@ -213,7 +243,7 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                                                     <img src="/assets/images/team/Gascon.jpg" alt="" class="member-img img-fluid d-block rounded-circle"></div>   
                                                           <div class="team-content">  
                                               <a class="member-name" data-bs-toggle="offcanvas" href="#member-overview" aria-controls="member-overview">  
-                                                                                    <h5 class="fs-16 mb-1">Camila Gascon</h5>   
+                                                                <h5 class="fs-16 mb-1">Camila Rose Gascon</h5>   
                                                                      </a>     
                                                          <p class="member-designation mb-0">Project Manager</p>    
                                                                             </div>         
@@ -221,16 +251,16 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                                                         <div class="card-footer text-center">
                                     <ul class="list-inline mb-0">
                                         <li class="list-inline-item">
-                                            <a href=" https://www.facebook.com/kenn.bonita7" class="lh-1 align-middle link-secondary"><i class="ri-facebook-fill style="font-size: 24px;></i></a>
+                                            <a href=" https://www.facebook.com/camilarose.gascon" class="lh-1 align-middle link-secondary"><i class="ri-facebook-fill style="font-size: 24px;></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
+                                            <a href="https://www.instagram.com/gasconcamila/" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="https://www.linkedin.com/in/bonita-kenneth-28b43b23b/" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
+                                            <a href="https://www.linkedin.com/home" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                        <a href="https://github.com/comethalley" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
+                                        <a href="https://github.com/" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
                                         </li>
                                        
                                     </ul>
@@ -256,7 +286,7 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                     </div> 
                     
                     
-                    <div class="row">
+                    <div class="row"  style="width: 1345px;">
                         <div class="col-lg-10 mx-auto text-center">
 <!-- <h1 style="margin-bottom:80px; text-align:center; color: Black; font-family: Poppins;font-size: 30px; font-style: normal; font-weight: 700; line-height: normal;">MEET THE TEAM</h1> -->
 
@@ -300,13 +330,13 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                             <a href="https://www.facebook.com/Sensaikyut" class="lh-1 align-middle link-secondary"><i class="ri-facebook-fill style="font-size: 24px;></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
+                                            <a href="https://www.instagram.com/cjguevarra__/" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="https://www.linkedin.com/in/bonita-kenneth-28b43b23b/" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
+                                            <a href="https://www.linkedin.com/home" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                        <a href="https://github.com/comethalley" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
+                                        <a href="https://github.com/Cjaaay1" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
                                         </li>
                                        
                                     </ul>
@@ -333,7 +363,7 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
 
 
 
-                    <div class="row">
+                    <div class="row"  style="width: 1345px;">
                         <div class="col-lg-10 mx-auto text-center">
 <!-- <h1 style="margin-bottom:80px; text-align:center; color: Black; font-family: Poppins;font-size: 30px; font-style: normal; font-weight: 700; line-height: normal;"></h1> -->
 
@@ -368,7 +398,7 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                                                   <img src="/assets/images/team/Bonita.png" alt="" class="member-img img-fluid d-block rounded-circle"></div>   
                                                           <div class="team-content">  
                                               <a class="member-name" data-bs-toggle="offcanvas" href="#member-overview" aria-controls="member-overview">  
-                                                                                    <h5 class="fs-16 mb-1">Kenneth Bonita</h5>   
+                                                                    <h5 class="fs-16 mb-1">Kenneth Bonita</h5>   
                                                                      </a>     
                                                          <p class="member-designation mb-0">Head Programmer</p>    
                                                                             </div>         
@@ -379,7 +409,7 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                             <a href=" https://www.facebook.com/kenn.bonita7" class="lh-1 align-middle link-secondary"><i class="ri-facebook-fill style="font-size: 24px;></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
+                                            <a href="https://www.instagram.com/" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
                                         </li>
                                         <li class="list-inline-item">
                                             <a href="https://www.linkedin.com/in/bonita-kenneth-28b43b23b/" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
@@ -424,11 +454,11 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                                         <div class="col-lg-4 col">    
                                                           <div class="team-profile-img">   
                                                                  <div class="avatar-lg img-thumbnail rounded-circle flex-shrink-0">
-                                                                  <img src="/assets/images/team/Samin.jpeg" alt="" class="member-img img-fluid d-block rounded-circle"></div>   
+                                                                  <img src="/assets/images/team/Samin.jpg" alt="" class="member-img img-fluid d-block rounded-circle"></div>   
                                                                   
                                                           <div class="team-content">  
                                               <a class="member-name" data-bs-toggle="offcanvas" href="#member-overview" aria-controls="member-overview">  
-                                                                                    <h5 class="fs-16 mb-1">Yna Rose Samin</h5>   
+                                                                    <h5 class="fs-16 mb-1">Yna Rose Samin</h5>   
                                                                      </a>     
                                                          <p class="member-designation mb-0">Head Researcher</p>    
                                                                             </div>         
@@ -439,10 +469,13 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                             <a href="https://www.facebook.com/yoo.junggggggg" class="lh-1 align-middle link-secondary"><i class="ri-facebook-fill style="font-size: 24px;></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="https://www.facebook.com/search/top/?q=gascon" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
+                                            <a href="https://www.instagram.com/everynayt?igsh=OTAzdGd0bHhibGxn&fbclid=IwAR3lTBIpECJxGybALUk-f6j3x4sfBotTdTGR2u9H29F9xpgICtu6wZ2Un2w" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="javascript:void(0);" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
+                                            <a href="https://www.linkedin.com/home" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                        <a href="https://github.com/Ynarose" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
                                         </li>
                                        
                                     </ul>
@@ -467,7 +500,7 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
 
                     <!-- Developer section -->
 
-                    <div class="row">
+                    <div class="row" style="padding:0 width:1343px;">
                         <div class="col-lg-10 mx-auto text-center"> <br>
                             <div>
                             <h1 style="margin-bottom:40px; text-align:center; color: Black; font-family: Poppins;font-size: 30px; font-style: normal; font-weight: 700; line-height: normal;">Developer</h1>
@@ -504,7 +537,7 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                                                   <img src="/assets/images/team/Amoguis.jpg" alt="" class="member-img img-fluid d-block rounded-circle"></div>   
                                                           <div class="team-content">  
                                               <a class="member-name" data-bs-toggle="offcanvas" href="#member-overview" aria-controls="member-overview">  
-                                                                                    <h5 class="fs-16 mb-1">Kenneth Amoguis</h5>   
+                                                                        <h5 class="fs-16 mb-1">John Kenneth Amoguis</h5>   
                                                                      </a>     
                                                          <p class="member-designation mb-0">Developer</p>    
                                                                             </div>         
@@ -515,13 +548,13 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                             <a href="https://www.facebook.com/knnth0715" class="lh-1 align-middle link-secondary"><i class="ri-facebook-fill style="font-size: 24px;></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
+                                            <a href="https://www.instagram.com/kennierman/?fbclid=IwAR3X9CUnyY23Dwqi-Hfp11CDBDR9nfKWGJF9iLWdAJIETvQkp1eElJOT6gU" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="https://www.linkedin.com/in/bonita-kenneth-28b43b23b/" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
+                                            <a href="https://www.linkedin.com/in/amoguis-john-kenneth-501b8b249/?fbclid=IwAR3SIaekCRebXDmKyPFNnTw3MwnH38HR3OgYgPdYWr80Za95Wa83Sk0DktE" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                        <a href="https://github.com/comethalley" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
+                                        <a href="https://github.com/amoguis0715/kenneth15" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
                                         </li>
                                        
                                     </ul>
@@ -571,13 +604,13 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                             <a href="https://www.facebook.com/edmanerss/" class="lh-1 align-middle link-secondary"><i class="ri-facebook-fill style="font-size: 24px;></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
+                                            <a href="https://www.instagram.com/edmaners/" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="https://www.linkedin.com/in/bonita-kenneth-28b43b23b/" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
+                                            <a href="https://www.linkedin.com/in/edman-cabote-1955652ba/" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                        <a href="https://github.com/comethalley" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
+                                        <a href="https://github.com/Edmaners" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
                                         </li>
                                        
                                     </ul>
@@ -617,7 +650,7 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                                                   <img src="/assets/images/team/Casas.jpg" alt="" class="member-img img-fluid d-block rounded-circle"></div>   
                                                           <div class="team-content">  
                                               <a class="member-name" data-bs-toggle="offcanvas" href="#member-overview" aria-controls="member-overview">  
-                                                                                    <h5 class="fs-16 mb-1">James Ivan Casas</h5>   
+                                                                <h5 class="fs-16 mb-1">James Ivan Casas</h5>   
                                                                      </a>     
                                                          <p class="member-designation mb-0">Developer</p>    
                                                                             </div>         
@@ -628,13 +661,13 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                             <a href="https://www.facebook.com/james.pimocasas" class="lh-1 align-middle link-secondary"><i class="ri-facebook-fill style="font-size: 24px;></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
+                                            <a href="https://www.instagram.com/" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="https://www.linkedin.com/in/bonita-kenneth-28b43b23b/" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
+                                            <a href="https://www.linkedin.com/home" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                        <a href="https://github.com/comethalley" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
+                                        <a href="https://github.com/" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
                                         </li>
                                        
                                     </ul>
@@ -673,7 +706,7 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                                                  <div class="avatar-lg img-thumbnail rounded-circle flex-shrink-0"><img src="assets/images/team/Competente.jpg" alt="" class="member-img img-fluid d-block rounded-circle"></div>   
                                                           <div class="team-content">  
                                               <a class="member-name" data-bs-toggle="offcanvas" href="#member-overview" aria-controls="member-overview">  
-                                                                                    <h5 class="fs-16 mb-1">Andrei Competente</h5>   
+                                                                    <h5 class="fs-16 mb-1">Andrei Competente</h5>   
                                                                      </a>     
                                                          <p class="member-designation mb-0">Developer</p>    
                                                                             </div>         
@@ -684,13 +717,13 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                             <a href="https://www.facebook.com/andrei.competente.7" class="lh-1 align-middle link-secondary"><i class="ri-facebook-fill style="font-size: 24px;></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
+                                            <a href="https://www.instagram.com/dreis.pov/" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="https://www.linkedin.com/in/bonita-kenneth-28b43b23b/" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
+                                            <a href="https://www.linkedin.com/home" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                        <a href="https://github.com/comethalley" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
+                                        <a href="https://github.com/defnotdrei" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
                                         </li>
                                        
                                     </ul>
@@ -730,7 +763,7 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                                                   <img src="/assets/images/team/Domingo.png" alt="" class="member-img img-fluid d-block rounded-circle"></div>   
                                                           <div class="team-content">  
                                               <a class="member-name" data-bs-toggle="offcanvas" href="#member-overview" aria-controls="member-overview">  
-                                                                                    <h5 class="fs-16 mb-1">Jayvee Domingo</h5>   
+                                                                    <h5 class="fs-16 mb-1">Jayvee Domingo</h5>   
                                                                      </a>     
                                                          <p class="member-designation mb-0">Developer</p>    
                                                                             </div>         
@@ -741,13 +774,13 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                             <a href="https://www.facebook.com/profile.php?id=100007227828011" class="lh-1 align-middle link-secondary"><i class="ri-facebook-fill style="font-size: 24px;></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
+                                            <a href="https://www.instagram.com/" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="https://www.linkedin.com/in/bonita-kenneth-28b43b23b/" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
+                                            <a href="https://www.linkedin.com/home" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                        <a href="https://github.com/comethalley" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
+                                        <a href="https://github.com/jaycol19?fbclid=IwAR3vUwbz8pl7btZXbC4R_Efqi5SzYE3GtGPjFF-MR9oEI4nujg_u1xBugQU" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
                                         </li>
                                        
                                     </ul>
@@ -787,7 +820,7 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                                                   <img src="/assets/images/team/Gabuay.jpg" alt="" class="member-img img-fluid d-block rounded-circle"></div>   
                                                           <div class="team-content">  
                                               <a class="member-name" data-bs-toggle="offcanvas" href="#member-overview" aria-controls="member-overview">  
-                                                                                    <h5 class="fs-16 mb-1">Kyla Gabuay</h5>   
+                                                                    <h5 class="fs-16 mb-1">Kyla Mariel Gabuay</h5>   
                                                                      </a>     
                                                          <p class="member-designation mb-0">Developer</p>    
                                                                             </div>         
@@ -798,13 +831,13 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                             <a href="https://www.facebook.com/kylmrlgby" class="lh-1 align-middle link-secondary"><i class="ri-facebook-fill style="font-size: 24px;></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
+                                            <a href="https://www.instagram.com/kyl.mrl/" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="https://www.linkedin.com/in/bonita-kenneth-28b43b23b/" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
+                                            <a href="https://www.linkedin.com/home" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                        <a href="https://github.com/comethalley" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
+                                        <a href=": https://github.com/kylmrl" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
                                         </li>
                                        
                                     </ul>
@@ -844,7 +877,7 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                                                   <img src="/assets/images/team/Gecto.jpg" alt="" class="member-img img-fluid d-block rounded-circle"></div>   
                                                           <div class="team-content">  
                                               <a class="member-name" data-bs-toggle="offcanvas" href="#member-overview" aria-controls="member-overview">  
-                                                                                    <h5 class="fs-16 mb-1">Jerry Gecto</h5>   
+                                                            <h5 class="fs-16 mb-1">Jerry Gecto</h5>   
                                                                      </a>     
                                                          <p class="member-designation mb-0">Developer</p>    
                                                                             </div>         
@@ -855,13 +888,13 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                             <a href="https://www.facebook.com/gectojerry" class="lh-1 align-middle link-secondary"><i class="ri-facebook-fill style="font-size: 24px;></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
+                                            <a href="https://www.instagram.com/xtaka_chan/" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="https://www.linkedin.com/in/bonita-kenneth-28b43b23b/" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
+                                            <a href="https://www.linkedin.com/in/jerry-gecto-8322b9243/" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                        <a href="https://github.com/comethalley" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
+                                        <a href="https://github.com/xTaka-chan" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
                                         </li>
                                        
                                     </ul>
@@ -902,8 +935,8 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                                                   <img src="/assets/images/team/Maglana.png" alt="" class="member-img img-fluid d-block rounded-circle"></div>   
                                                           <div class="team-content">  
                                               <a class="member-name" data-bs-toggle="offcanvas" href="#member-overview" aria-controls="member-overview">  
-                                                                                    <h5 class="fs-16 mb-1">Gabriel Maglana</h5>   
-                                                                     </a>     
+                                                                <h5 class="fs-16 mb-1">Jhon Gabriel Maglana</h5>   
+                                                                 </a>     
                                                          <p class="member-designation mb-0">Developer</p>    
                                                                             </div>         
                                                                         </div>  
@@ -916,10 +949,10 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                             <a href=" https://www.instagram.com/jgmaglana" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="https://www.linkedin.com/in/bonita-kenneth-28b43b23b/" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
+                                            <a href="https://www.linkedin.com/home" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                        <a href="https://github.com/comethalley" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
+                                        <a href="https://github.com/" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
                                         </li>
                                        
                                     </ul>
@@ -958,7 +991,7 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                                                  <div class="avatar-lg img-thumbnail rounded-circle flex-shrink-0"><img src="assets/images/team/Pareja.jpg"alt="" class="member-img img-fluid d-block rounded-circle"></div>   
                                                           <div class="team-content">  
                                               <a class="member-name" data-bs-toggle="offcanvas" href="#member-overview" aria-controls="member-overview">  
-                                                                                    <h5 class="fs-16 mb-1">Alexandra Marie Pareja</h5>   
+                                                                    <h5 class="fs-16 mb-1">Alexandra Marie Pareja</h5>   
                                                                      </a>     
                                                          <p class="member-designation mb-0">Developer</p>    
                                                                             </div>         
@@ -969,13 +1002,13 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                             <a href="https://www.facebook.com/alexandramc.pareja" class="lh-1 align-middle link-secondary"><i class="ri-facebook-fill style="font-size: 24px;></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
+                                            <a href="https://www.instagram.com/alexandra.prj?igsh=MWYwOTMwdzV1eTVtOA%3D%3D" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="https://www.linkedin.com/in/bonita-kenneth-28b43b23b/" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
+                                            <a href="https://www.linkedin.com/in/alexandra-marie-pareja-4a5375288?trk=contact-info" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                        <a href="https://github.com/comethalley" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
+                                        <a href="https://github.com/wdpooh" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
                                         </li>
                                        
                                     </ul>
@@ -1015,7 +1048,8 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                                                   <img src="/assets/images/team/Pomida.png" alt="" class="member-img img-fluid d-block rounded-circle"></div>   
                                                           <div class="team-content">  
                                               <a class="member-name" data-bs-toggle="offcanvas" href="#member-overview" aria-controls="member-overview">  
-                                                                                    <h5 class="fs-16 mb-1">Cyril Pomida</h5>   
+                                                                
+                                                                    <h5 class="fs-16 mb-1">Cyril John Pomida</h5>   
                                                                      </a>     
                                                          <p class="member-designation mb-0">Developer</p>    
                                                                             </div>         
@@ -1026,13 +1060,13 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                             <a href="https://www.facebook.com/pomss0705" class="lh-1 align-middle link-secondary"><i class="ri-facebook-fill style="font-size: 24px;></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
+                                            <a href="https://www.instagram.com/cyjhnpmd/" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="https://www.linkedin.com/in/bonita-kenneth-28b43b23b/" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
+                                            <a href="https://www.linkedin.com/home" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                        <a href="https://github.com/comethalley" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
+                                        <a href="https://github.com/cyjhn" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
                                         </li>
                                        
                                     </ul>
@@ -1083,13 +1117,13 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                             <a href=" https://www.facebook.com/jksaludares" class="lh-1 align-middle link-secondary"><i class="ri-facebook-fill style="font-size: 24px;></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
+                                            <a href="https://www.instagram.com/kjayssss/" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="https://www.linkedin.com/in/bonita-kenneth-28b43b23b/" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
+                                            <a href="https://www.linkedin.com/in/saludares-jayson-karl-a-33059a2b4/" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                        <a href="https://github.com/comethalley" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
+                                        <a href="https://github.com/jaysonkarl" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
                                         </li>
                                        
                                     </ul>
@@ -1139,13 +1173,13 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                             <a href="https://www.facebook.com/Illegirl09" class="lh-1 align-middle link-secondary"><i class="ri-facebook-fill style="font-size: 24px;></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
+                                            <a href="https://www.instagram.com/" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="https://www.linkedin.com/in/bonita-kenneth-28b43b23b/" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
+                                            <a href="https://www.linkedin.com/in/shine-tacsiat-4bb79227b/" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                        <a href="https://github.com/comethalley" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
+                                        <a href="https://github.com/Skytaire?fbclid=IwAR0VpePPzHdt6lMnsbMnaMUR-OU2rCmp0tCug3BZKMs-N5Mw-YEXGNP7S0k" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
                                         </li>
                                        
                                     </ul>
@@ -1186,7 +1220,7 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                                                   <img src="/assets/images/team/Torres.png" alt="" class="member-img img-fluid d-block rounded-circle"></div>   
                                                           <div class="team-content">  
                                               <a class="member-name" data-bs-toggle="offcanvas" href="#member-overview" aria-controls="member-overview">  
-                                                                                    <h5 class="fs-16 mb-1">Lui Torres</h5>   
+                                                                                    <h5 class="fs-16 mb-1">Luigi Torres</h5>   
                                                                      </a>     
                                                          <p class="member-designation mb-0">Developer</p>    
                                                                             </div>         
@@ -1197,15 +1231,16 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                             <a href="https://www.facebook.com/lui.torres.96" class="lh-1 align-middle link-secondary"><i class="ri-facebook-fill style="font-size: 24px;></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
+                                            <a href="https://www.instagram.com/" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="https://www.linkedin.com/in/bonita-kenneth-28b43b23b/" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
+                                            <a href="https://www.linkedin.com/home" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                        <a href="https://github.com/comethalley" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
+                                        <a href="https://github.com/Luitorres" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
                                         </li>
                                        
+                                        
                                     </ul>
                                 </div>     
                                                                  </div>     
@@ -1243,7 +1278,7 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                                                   <img src="/assets/images/team/vida.png" alt="" class="member-img img-fluid d-block rounded-circle"></div>   
                                                           <div class="team-content">  
                                               <a class="member-name" data-bs-toggle="offcanvas" href="#member-overview" aria-controls="member-overview">  
-                                                                                    <h5 class="fs-16 mb-1">John Vida</h5>   
+                                                                    <h5 class="fs-16 mb-1">John Paul Vida</h5>   
                                                                      </a>     
                                                          <p class="member-designation mb-0">Developer</p>    
                                                                             </div>         
@@ -1254,13 +1289,13 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                             <a href="https://www.facebook.com/jp.vida2" class="lh-1 align-middle link-secondary"><i class="ri-facebook-fill style="font-size: 24px;></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
+                                            <a href="https://www.instagram.com/" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="https://www.linkedin.com/in/bonita-kenneth-28b43b23b/" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
+                                            <a href="https://www.linkedin.com/home" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                        <a href="https://github.com/comethalley" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
+                                        <a href=" https://github.com/JohnVida12" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
                                         </li>
                                        
                                     </ul>
@@ -1286,7 +1321,7 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
 
                    <!-- Researcher Section -->
 
-                    <div class="row">
+                    <div class="row" style="padding:0;">
                         <div class="col-lg-10 mx-auto text-center"><br>
                             <div>
                             <h1 style="margin-bottom:40px; text-align:center; color: Black; font-family: Poppins;font-size: 30px; font-style: normal; font-weight: 700; line-height: normal;">Researcher</h1>
@@ -1336,13 +1371,13 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                             <a href="https://www.facebook.com/luvettoo" class="lh-1 align-middle link-secondary"><i class="ri-facebook-fill style="font-size: 24px;></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
+                                            <a href="https://www.instagram.com/luvettoo" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="https://www.linkedin.com/in/bonita-kenneth-28b43b23b/" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
+                                            <a href="https://www.linkedin.com/in/lovethlagmay" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                        <a href="https://github.com/comethalley" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
+                                        <a href="https://github.com/laveff" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
                                         </li>
                                        
                                     </ul>
@@ -1393,13 +1428,13 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                             <a href="https://www.facebook.com/hermione.macy" class="lh-1 align-middle link-secondary"><i class="ri-facebook-fill style="font-size: 24px;></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
+                                            <a href="https://www.instagram.com/macykim_00/?fbclid=IwAR24gT6t71R3HXOJ874T_x9U-d-KnpanezoPqzaJCSy0TcT-Lw8l1jjd5mI" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="https://www.linkedin.com/in/bonita-kenneth-28b43b23b/" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
+                                            <a href="https://www.linkedin.com/in/blessie-magado/" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                        <a href="https://github.com/comethalley" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
+                                        <a href="https://github.com/" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
                                         </li>
                                        
                                     </ul>
@@ -1450,13 +1485,13 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                             <a href="https://www.facebook.com/profile.php?id=100087732785741" class="lh-1 align-middle link-secondary"><i class="ri-facebook-fill style="font-size: 24px;></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
+                                            <a href="https://www.instagram.com/mannyd.perez?igsh=YWtrN3MyZXF5bHpy&fbclid=IwAR2aU5C9ZeanlOd-exkRZIbBaxCu_YJzrewHF6LbnXdlVkjgVhnPeIOj9pM" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="https://www.linkedin.com/in/bonita-kenneth-28b43b23b/" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
+                                            <a href="https://www.linkedin.com/home" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                        <a href="https://github.com/comethalley" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
+                                        <a href="https://github.com/MannyPerez514?fbclid=IwAR1yzFRJ53zq3MeN-p_A2CbGREiZfHI3zQ0ZriGdNbXZjr8ajwpERKIe1tg" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
                                         </li>
                                        
                                     </ul>
@@ -1507,13 +1542,13 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                             <a href="https://www.facebook.com/ramirezlodyanne" class="lh-1 align-middle link-secondary"><i class="ri-facebook-fill style="font-size: 24px;></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
+                                            <a href="https://www.instagram.com/lodyanneramirez26?igsh=eG0yaXc5c2dpazdt" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="https://www.linkedin.com/in/bonita-kenneth-28b43b23b/" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
+                                            <a href="https://www.linkedin.com/in/lodyanne-ramirez-a0592820b/" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                        <a href="https://github.com/comethalley" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
+                                        <a href="https://github.com/" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
                                         </li>
                                        
                                     </ul>
@@ -1554,7 +1589,7 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                                                   <img src="/assets/images/team/Romero.jpg" alt="" class="member-img img-fluid d-block rounded-circle"></div>   
                                                           <div class="team-content">  
                                               <a class="member-name" data-bs-toggle="offcanvas" href="#member-overview" aria-controls="member-overview">  
-                                                                                    <h5 class="fs-16 mb-1">Mark Angelo Romero</h5>   
+                                                                        <h5 class="fs-16 mb-1">Mark Angelo Romero</h5>   
                                                                      </a>     
                                                          <p class="member-designation mb-0">Researcher</p>    
                                                                             </div>         
@@ -1565,13 +1600,13 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                             <a href="https://www.facebook.com/romerski14" class="lh-1 align-middle link-secondary"><i class="ri-facebook-fill style="font-size: 24px;></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
+                                            <a href="https://www.instagram.com/markromerski?igsh=MWZ6OXN2amc1YTN2OQ==" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="https://www.linkedin.com/in/bonita-kenneth-28b43b23b/" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
+                                            <a href="https://www.linkedin.com/in/mark-angelo-romero-35b96020b?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                        <a href="https://github.com/comethalley" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
+                                        <a href="https://github.com/macagelo12" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
                                         </li>
                                        
                                     </ul>
@@ -1622,17 +1657,18 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                             <a href="https://www.facebook.com/profile.php?id=100079746917904" class="lh-1 align-middle link-secondary"><i class="ri-facebook-fill style="font-size: 24px;></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
+                                            <a href="https://www.instagram.com/baile.cute/" class="lh-1 align-middle link-success"><i class="lab la-instagram" style="font-size: 24px; color: pink;"></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="https://www.linkedin.com/in/bonita-kenneth-28b43b23b/" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
+                                            <a href="https://www.linkedin.com/home" class="lh-1 align-middle link-primary"><i class="ri-linkedin-fill style="font-size: 24px;></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                        <a href="https://github.com/comethalley" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
+                                        <a href="https://github.com/" class="lh-1 align-middle link-success"><i class="lab la-github" style="font-size: 24px; color: black;"></i></a>
                                         </li>
                                        
                                     </ul>
-                                </div>    
+                                </div>
+                                
                                                                  </div>     
                                                   
                                                              </div> 
@@ -1641,13 +1677,51 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                                                 </div>
 
                                                <!-- Last-->
+                                               
                        
 
                                             </div>
                              
                              </div>
+                             
                          </div>
                          <!-- end col -->
+            
+
                      </div>
 
+                
+<div  style="display:flex;">
+
+                     <div class="plantify-section" style="display:flex; flex-direction: column; padding:30px;">
+            <h3 style="font-family:Montserrat,sans-serif; ">PLANTIFY</h3>
+            <p style="font-family: Rubik, sans-serif; color:grey; font-size:16px;">Premium Multipurpose Admin & Dashboard Template</p>
+            <p style="font-family: Rubik, sans-serif; color:grey;font-size:16px;margin:0;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas quis aliquam odio, et venenatis erat. Quisque nunc libero, iaculis ut lorem vitae,Quisque nunc libero, iaculis ut lorem vitae,</p>
+        </div>
+
+        <div class="about-section" style="display:flex; flex-direction: column; padding:30px;">
+            <h3 style="font-family:Montserrat,sans-serif;">About</h3>
+            <p style="font-family: Rubik, sans-serif; color:grey; font-size:16px;">About Plantify</p>
+            <p style="font-family: Rubik, sans-serif; color:grey; font-size:16px;">FAQS</p>
+            <p style="font-family: Rubik, sans-serif; color:grey; font-size:16px;">Help</p>
+
+        </div>
+
+        <div class="discover-section" style="display:flex; flex-direction: column; padding:30px;">
+            <h3 style="font-family:Montserrat,sans-serif;">Discover</h3>
+            <p style="font-family: Rubik, sans-serif; color:grey; font-size:16px;">How it works</p>
+            <p style="font-family: Rubik, sans-serif; color:grey; font-size:16px;">Learn More</p>
+            <p style="font-family: Rubik, sans-serif; color:grey; font-size:16px;">To Explore</p>
+
+        </div>
+
+        <div class="address-section" style="display:flex; flex-direction: column; padding:30px;">
+            <h3 style="font-family:Montserrat,sans-serif;">Address</h3>
+            <p style="font-family: Rubik, sans-serif; color:grey; font-size:16px;">673 Quirino Highway, San Bartolome, Novaliches, Quezon City</p>
+
+
+
+        </div>
+        </div>     
+      
 </body>

@@ -27,6 +27,10 @@
     <link href="{{ asset('assets/css/app.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- Custom Css-->
     <link href="{{ asset('assets/css/custom.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/css/custom.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/css/dashboard.css') }}" rel="stylesheet" type="text/css" />
+
+
 
     <!--JQuery-->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -91,6 +95,15 @@
                         </button>
 
                         <!-- App Search-->
+
+                        <div class="ms-1 header-item d-none d-sm-flex">
+                            <span> Weather Today  &nbsp;&nbsp;&nbsp;</span>
+                            <button id="weather-button" type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" style="color: rgb(5, 5, 5);">
+                                <img id="weather-icon" src="" alt="">
+                                <span id="temperature-placeholder">--°C</span>
+                            </button>
+                        </div>
+
 
                     </div>
 
@@ -523,6 +536,8 @@
     <script src="{{ asset('assets/libs/apexcharts/apexcharts.min.js') }}"></script>
     <script src="{{ asset('assets/js/pages/plugins/lord-icon-2.1.0.js') }}"></script>
     <script src="{{ asset('assets/js/app.js') }}"></script>
+    <script src="{{ asset('assets/js/header.js') }}"></script>
+
 
     <!-- list.js min js -->
     <script src="{{ asset('assets/libs/list.js/list.min.js') }}"></script>

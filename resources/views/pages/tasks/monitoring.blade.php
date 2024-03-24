@@ -35,7 +35,10 @@
     font-size: 10px;
     text-transform: uppercase;
 }
-
+.badge-missing {
+    background-color: #FE8484; /* Light gray */
+    color: #800000; /* Blue */
+}
 .badge-new {
     background-color: #f0ffff; /* Light gray */
     color: #007bff; /* Blue */
@@ -633,13 +636,10 @@
     if (hoursDiff <= 0) {
         dueDateElement.style.color = 'red'; // Due date has passed, set color to red
     } else if (hoursDiff <= 5) {
-        // Calculate lighter shade of red
-        var lightRed = Math.floor(255 - (hoursDiff * 25.5)); // Adjust multiplier for desired intensity
-        dueDateElement.style.color = 'rgb(255,' + lightRed + ',' + lightRed + ')'; // Set light red color
-    } else if (hoursDiff < 24) {
-        dueDateElement.style.color = 'orange'; // Less than 24 hours remaining, set color to orange
+        dueDateElement.style.color = 'orange'; // Less than or equal to 5 hours remaining, set color to orange
     }
 }
+
 
 // Call the function for each due date in the table
 @foreach($tasks as $task)

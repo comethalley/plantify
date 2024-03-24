@@ -18,18 +18,23 @@ class TaskController extends Controller
 {
     // Retrieve users with their task counts
     $users = User::select('id', 'firstname', 'lastname')
-        ->withCount([
-            'tasks as tasks_count' => function ($query) {
-                $query->where('completed', '!=', 1)
-                      ->where('archived', '!=', 1);
-            }
-        ])
-        ->orderBy('tasks_count', 'asc')
-        ->get();
+    ->withCount([
+        'tasks as tasks_count' => function ($query) {
+            $query->where('completed', '!=', 1)
+                  ->where('archived', '!=', 1)
+                  ->where(function($query) {
+                      $query->where('status', '!=', 'missing')
+                            ->orWhereNull('status');
+                  });
+        }
+    ])
+    ->orderBy('tasks_count', 'asc')
+    ->get();
+
 
     // Filter users who have exactly 5 tasks
     $usersWithFiveTasks = $users->filter(function ($user) {
-        return $user->tasks_count == 5;
+        return $user->tasks_count == 6;
     });
 
     // Apply logic to allow editing only one task for users with exactly 5 tasks
@@ -48,25 +53,33 @@ class TaskController extends Controller
                                
 
     
-        $overdueTasks = Task::where('due_date', '<', Carbon::now())->get();
+    $overdueTasks = Task::where('due_date', '<', Carbon::now())->get();
     
     // Fetch tasks for monitoring
-   // Retrieve tasks
-$tasks = Task::where('completed', false)
-->where('archived', false)
-->where('due_date', '>=', now()) // Filter out tasks with due dates in the future or today
-->orderByDesc('priority')
-->orderBy('due_date')
-->get();
+    $tasks = Task::where('completed', false)
+    ->where('archived', false)
+    ->where('due_date', '>=', Carbon::now()->toDateTimeString()) 
+    ->where('status', '!=', 'missing')
+    ->orderByDesc('priority')
+    ->orderBy('due_date')
+    ->get();
+
 
 // Iterate over tasks and update status if due date is today
 foreach ($tasks as $task) {
-if ($task->due_date->isToday()) {
-    $task->status = 'missing'; // Change the status to "missing" when due date is met
-    $task->save();
-}
-}
+    $currentDateTime = Carbon::now(); // Current date and time
+    $dueDateTime = Carbon::parse($task->due_date); // Due date of the task
 
+    if ($dueDateTime->isToday()) {
+        $task->status = 'missing'; // Change the status to "missing" when due date is past
+        $task->save();
+    }
+
+}
+                                        
+
+         
+              
 
     return view('pages.tasks.monitoring', compact('tasks', 'users','overdueTasks'));
 }
@@ -101,7 +114,7 @@ if ($task->due_date->isToday()) {
 
     public function edit(Task $task)
 {
-    $minimumTasks = 5; // Adjust as needed
+    $minimumTasks = 6; // Adjust as needed
     $usersMeetingMinimumTasks = User::withCount('tasks')->having('tasks_count', '>=', $minimumTasks)->get();
     
     $activeUsers = User::where('status', '1')->orderBy('id', 'DESC')->get();
@@ -162,27 +175,31 @@ if ($task->due_date->isToday()) {
 
     
     public function missingTasks()   
-    {
-        // Find overdue tasks
-        $overdueTasks = Task::where('due_date', '<', Carbon::now())->get();
+{
+    // Find tasks that are either past their due date, not completed yet, or marked as missing
+    $missingTasks = Task::where(function($query) {
+                            $query->where('due_date', '<', Carbon::now())
+                                  ->orWhere(function($query) {
+                                      $query->whereNull('due_date')
+                                            ->where('completed', false);
+                                  })
+                                  ->orWhere('status', 'missing'); // Include tasks with status 'missing'
+                        })
+                        ->get();
     
-        // Pass overdue tasks to the view
-        return view('pages.tasks.missingtask', ['tasks' => $overdueTasks]);
-    }
-              
+    // Pass missing tasks to the view
+    return view('pages.tasks.missingtask', ['tasks' => $missingTasks]);
+}
 
     // app/Http/Controllers/TaskController.php                                              
 
     public function tasksAssignedToMe()
-    {
-        $id = Auth::user()->id;
-        $tasks = DB::table('tasks')
-            ->where('user_id', $id)
-            ->select("*")                           
-            ->get();
-        // In your controller method
-        return view('pages.tasks.taskassign', ['tasks' => $tasks]);
-    }
+{
+    $tasks = Task::with('user')->where('user_id', auth()->id())->get();
+    
+    return view('pages.tasks.taskassign', ['tasks' => $tasks]);
+}
+
         public function filterByStatus(Request $request)
     {
         $status = $request->input('status');

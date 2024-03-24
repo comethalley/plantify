@@ -1,4 +1,60 @@
 @include('templates.header')
+<style>
+        /* Badge styles */
+.badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+    text-transform: uppercase;
+}
+
+.badge-new {
+    background-color: #f0ffff; /* Light gray */
+    color: #007bff; /* Blue */
+}
+
+.badge-missing {
+    background-color: #FE8484; /* Light gray */
+    color: #800000; /* Blue */
+}
+.badge-inprogress {
+    background-color: #f0f0f0; /* Light gray */
+    color: #28a745; /* Green */
+}
+
+.badge-pending {
+    background-color: #ffffe0; /* Light gray */
+    color: #ffc107; /* Yellow */
+}
+
+/* Priority styles */
+.priority {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.priority-high {
+    background-color: #dc3545; /* Red */
+    color: #fff; /* White */
+}
+
+.priority-medium {
+    background-color: #ffc107; /* Yellow */
+    color: #fff; /* Black */
+}
+
+.priority-low {
+    background-color: #28a745; /* Green */
+    color: #fff; /* White */
+}
+
+
+ </style>
 
 <div class="main-content">
 
@@ -76,11 +132,11 @@
                                             <th>ID</th>
                                             <th class="sort" data-sort="time">Title  </th>
                                             <th class="sort" data-sort="temperature">Description</th>
-                                            <th class="sort" data-sort="windspeed">Priority</th>
                                             <th class="sort" data-sort="humidity">Assignee</th>
-                                            <th>Status</th>
+                                            <th class="sort" data-sort="windspeed">Priority</th>
+                                            <th class="sort" >Status</th>
                                             <th class="sort" data-sort="condition">Date Archived</th>
-                                            <th></th>
+                                            <th>Actions</th>
                                             
                                             
                                         </tr>
@@ -90,17 +146,22 @@
                                         <tr>
                                         <td>#{{ $task->id }}</td>
                                          <td>{{ $task->title }}</td>
-                                      <td>{{ $task->description }}</td>
-                                      <td>{{ $task->priority }}</td>
-                                      <td class="user_id">
-                                        @if ($task->user)
-                                            {{ $task->user->firstname }} {{ $task->user->lastname }}
-                                        @else
-                                            
-                                        @endif
+                                         <td class="description" style="max-width: 100px; overflow: hidden; text-overflow: ellipsis;" title="{{ $task->description }}">
+                                        {{ $task->description }}
+                                    </td>
+                                     <td class="user_id">
+                                    @if ($task->user)
+                                        {{ $task->user->firstname }} {{ $task->user->lastname }}
+                                    @else
+                                        
+                                    @endif
                                     </td> 
-                                      <td>{{ $task->status }}</td>
-                                     <td>{{ $task->archived_at }}</td>
+                                    <td>
+                                        <span class="priority priority-<?php echo strtolower($task->priority); ?>"><?php echo $task->priority; ?></span>
+                                    </td>
+                                    <td>
+                                        <span class="badge badge-<?php echo strtolower($task->status); ?>"><?php echo $task->status; ?></span>
+                                    </td><td>{{ $task->archived_at }}</td>
                                      <td>
             <form action="{{ route('tasks.restore', $task->id) }}" method="POST" style="display: inline;">
                 @csrf

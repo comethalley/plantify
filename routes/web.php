@@ -127,6 +127,7 @@ Route::delete('/scheduledelete/{id}', [EventController::class, 'deleteEvent']);
 Route::put('/scheduleupdate/{id}', [EventController::class, 'update']);
 Route::put('/schedule/{id}/resize', [EventController::class, 'resize']);
 Route::get('/events/search', [EventController::class, 'search']);
+Route::get('/upcomingevent', [EventController::class, 'notifyUpcomingEvents']);
 
 Route::view('add-schedule', 'pages.add');
 Route::post('create-schedule', [EventController::class, 'create']);

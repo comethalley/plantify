@@ -330,7 +330,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
@@ -343,9 +343,7 @@
             }
         });
 
-        function getEvent(){
 
-        }
 
         var calendarEl = document.getElementById('calendar');
         var events = [];
@@ -471,7 +469,7 @@ function handleEventDelete(eventId) {
 
       
         $('#updateEventBtn').on('click', function () {
-            var eventId = $('#updateEventBtn').data('eventId');
+            var eventId = $('#updateEventBtn').data('eventId') || info.event.id;
             var title = $('#updateEventTitle').val();
             var start = $('#Eventstart-datepicker').val();
             var end = $('#Eventend-datepicker').val();
@@ -505,10 +503,11 @@ function handleEventDelete(eventId) {
                     
                     success: function (data) {
                         // Assuming your Laravel controller returns a JSON response with a success message
-                        console.log(data.message);
                         $('#editexampleModal').modal('hide');
+                        $('#planting-events-container').load(window.location.href + ' #planting-events-container');
                         calendar.refetchEvents();
-                        alert("Event Updated Successfully");
+                       
+                   
                     },
                     error: function (error) {
                         console.error("Error updating event:", error);
@@ -598,9 +597,7 @@ function handleEventDelete(eventId) {
     
  
 
-   $('#').on('click', function() {
-        $('#planting-events-container').load(location.href + ' #reload-section');
-    });
+   
 
        
 </script>

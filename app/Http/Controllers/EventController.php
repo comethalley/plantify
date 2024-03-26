@@ -8,6 +8,9 @@ use App\Notifications\NewNotificationEvent;
 use App\Events\EventCreated;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Notifications\UpcomingEventNotification;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 class EventController extends Controller
 {
     //
@@ -43,10 +46,28 @@ class EventController extends Controller
                 $user->notify(new NewNotificationEvent($event));
             }
             sleep(3);
-        
+
+           
         return redirect('/schedules');
     }
 
+
+    public function notifyUpcomingEvents()
+    {
+        $user = auth()->user();
+
+        // Check if there are upcoming events in the calendar
+        // Replace this with your logic to check for upcoming events
+        $upcomingEvents = Event::where('start', '>=', now())->count();
+    
+        if ($upcomingEvents > 0) {
+            $user->notify(new UpcomingEventsNotification());
+            return response()->json(['message' => 'Notification sent if there are upcoming events.']);
+        }
+    dd($upcomingEvents);
+        return response()->json(['message' => 'No upcoming events.']);
+
+    }
 
     public function getEvents()
     {
@@ -92,7 +113,7 @@ class EventController extends Controller
     ]);
 
     // Find the event by ID
-    $event = Event::findOrFail($eventId);
+    $event = Event::findOrFail($id);
 
     // Update the event with the new data
     $event->update([
@@ -104,7 +125,7 @@ class EventController extends Controller
     ]);
 
     // Optionally, you can return a response indicating success
-    return response()->json(['message' => 'Event updated successfully'], 200);
+    return response()->json(['message' => 'Event updated successfully']);
 
 }
 

@@ -159,9 +159,8 @@
                                   <div class="tab-pane fade show active py-2 ps-2" id="all-noti-tab" role="tabpanel">
                                     @foreach (auth()->user()->notifications as $notification)
                                     <div class="text-reset notification-item d-block dropdown-item position-relative">
-                                    @if ($notification->type === 'App\Notifications\NewNotificationEvent')
-                                    <div class="d-flex">
-                                      
+                                      @if ($notification->type === 'App\Notifications\NewNotificationEvent')
+                                       <div class="d-flex">
                                             <img src="assets/images/users/avatar-2.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
                                             <div class="flex-grow-1">
                                                 <a href="/schedules" class="stretched-link">
@@ -202,11 +201,14 @@
                                                     <label class="form-check-label" for="all-notification-check02"></label>
                                                 </div>
                                             </div>
+                                        
                                         </div>
                                         @endif
                                     </div>
+                                  
                                     @endforeach
                                     </div>
+                                 
                                     <div class="tab-pane fade py-2 ps-2" id="messages-tab" role="tabpanel" aria-labelledby="messages-tab">
 
                                     </div>
@@ -602,5 +604,18 @@ $('#markasread').on('click', function() {
     $(document).ready(function() {
     // Scroll down to the bottom of the notification content
     $('#notificationItemsTabContent').scrollTop($('#notificationItemsTabContent')[0].scrollHeight);
+});
+
+
+
+
+const pusher = new Pusher('932fdd5849f2e8b782a5', {
+    cluster: 'ap1',
+    encrypted: true
+});
+
+const channel = pusher.subscribe('channel-name');
+channel.bind('event-name', function(data) {
+    // Display notification
 });
     </script>

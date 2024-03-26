@@ -15,15 +15,15 @@
                                     <div class="flex-grow-1">
                                         <h5 class="mb-4">Chats</h5>
                                     </div>
-                                    <div class="flex-shrink-0">
+                                    <!-- <div class="flex-shrink-0">
                                         <div data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="bottom" title="Add Contact">
 
-                                            <!-- Button trigger modal -->
+                                            Button trigger modal
                                             <button type="button" class="btn btn-soft-success btn-sm">
                                                 <i class="ri-add-line align-bottom"></i>
                                             </button>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                                 <div class="search-box">
                                     <input type="text" class="form-control bg-light border-light" id="searchInput" placeholder="Search here...">
@@ -41,11 +41,11 @@
                                         Chats
                                     </a>
                                 </li>
-                                <li class="nav-item">
+                                <!-- <li class="nav-item">
                                     <a class="nav-link" data-bs-toggle="tab" href="#contacts" role="tab">
                                         Contacts
                                     </a>
-                                </li>
+                                </li> -->
                             </ul>
 
                             <div class="tab-content text-muted">
@@ -56,13 +56,13 @@
                                                 <h4 class="mb-0 fs-11 text-muted text-uppercase">Direct Messages</h4>
                                             </div>
                                             <div class="flex-shrink-0">
-                                                <div data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="bottom" title="New Message">
+                                                <!-- <div data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="bottom" title="New Message">
         
-                                                    <!-- Button trigger modal -->
+                                                    Button trigger modal
                                                     <button type="button" class="btn btn-soft-success btn-sm shadow-none">
                                                         <i class="ri-add-line align-bottom"></i>
                                                     </button>
-                                                </div>
+                                                </div> -->
                                             </div>
                                         </div>
                                     
@@ -107,12 +107,12 @@
                                                 <h4 class="mb-0 fs-11 text-muted text-uppercase">Channels</h4>
                                             </div>
                                             <div class="flex-shrink-0">
-                                                <div data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="bottom" title="Create group">
-                                                    <!-- Button trigger modal -->
+                                                <!-- <div data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="bottom" title="Create group">
+                                                    Button trigger modal
                                                     <button type="button" class="btn btn-soft-success btn-sm">
                                                         <i class="ri-add-line align-bottom"></i>
                                                     </button>
-                                                </div>
+                                                </div> -->
                                             </div>
                                         </div>
         

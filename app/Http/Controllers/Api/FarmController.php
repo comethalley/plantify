@@ -431,6 +431,7 @@ public function getFarmDetails($id)
         'remark_status' => $remarkFarms->pluck('remark_status'),
         'validated_by' => $remarkFarms->pluck('validated_by'),
         'created_at' => $remarkFarms->pluck('created_at'),
+        'visit_date' => $remarkFarms->pluck('visit_date'),
     ]);
 }
 
@@ -456,6 +457,8 @@ public function updateStatusCancel($id)
             'remarks' => 'Cancelled', // Set the remark to "Cancelled"
             'remark_status' => 'Cancelled', // Set the remark status to "Cancelled"
             'validated_by' => $user->firstname . ' ' . $user->lastname,
+            'visit_date' => null, // Set visit_date to null
+
         ]);
 
         // You can return a success response if needed

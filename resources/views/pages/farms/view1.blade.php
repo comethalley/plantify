@@ -166,7 +166,7 @@
                                                             </ul>
                                                         </div>
                                                         <div class="centered-container times-new-roman-bold">
-                                                            @unless($farm->status == 'Cancelled')
+                                                        @if($farm->status == 'Created')
                                                                 <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Cancel Application">
                                                                     <a href="#" data-bs-toggle="modal" data-bs-target="#updateCancelModal" class="btn btn-outline-danger waves-effect waves-light text-primary d-inline-block edit-item-btn d-flex align-items-center justify-content-center custom-btn1 mt-2" onclick="showFarmDetails('{{ $farm->id }}', '{{ $farm->farm_name }}', '{{ $farm->barangay_name }}', '{{ $farm->area }}', '{{ $farm->address }}', '{{ $farm->farm_leader }}', '{{ $farm->status }}', '{{ $farm->title_land }}', '{{ $farm->picture_land }}', '{{ $farm->picture_land1 }}', '{{ $farm->picture_land2 }}', '{{ $farm->farm_leader_firstname }}', '{{ $farm->farm_leader_lastname }}'); updateCancel('{{ $farm->id }}')">
                                                                         <div class="d-flex align-items-center">
@@ -175,7 +175,7 @@
                                                                         </div>
                                                                     </a>
                                                                 </li>
-                                                                @endunless
+                                                                @endif
                                                         </div>
                                                         <!-- Insert the provided code snippet here -->
                                                         <div class="centered-container times-new-roman-bold">
@@ -544,7 +544,6 @@ function showFarmRemarks(id) {
                 header.innerText = "Farmer's Evaluation Thread";
                 modalBody.appendChild(header);
 
-                // Loop through each record and create separate containers for each type of data
                 data.remarks.forEach((remark, index) => {
                     // Create a wrapper container with border, padding, and box-shadow
                     var containerWrapper = createContainerWrapper();
@@ -558,17 +557,19 @@ function showFarmRemarks(id) {
                     var statusAndValidatedParagraph = createParagraphss(statusAndValidatedText, true, '17px'); // Specify the font size
                     containerWrapper.appendChild(statusAndValidatedParagraph);
 
-
-
-
                     // Create a container for "Remarks" with border, padding, light gray background, light black font color, and updated box-shadow
                     var remarksContainer = createContainer();
 
                     // Create a paragraph for "Validated By"
                     var validatedByParagraph = createParagraphs(data.validated_by[index], true);
 
-                    // Create a paragraph for "Remarks" without bold font
-                    var remarksParagraph = createParagraph(remark);
+                    var remarkText = remark || ""; // If remark is null or undefined, assign an empty string
+                    var visitDateText = data.visit_date[index] ? new Date(data.visit_date[index]).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : ""; // Format visit date
+                    var remarksContent = remarkText;
+                    if (visitDateText) {
+                        remarksContent += ' at ' + visitDateText;
+                    }
+                    var remarksParagraph = createParagraph(remarksContent);
 
                     // Append both paragraphs to the remarksContainer
                     remarksContainer.appendChild(validatedByParagraph);
@@ -577,10 +578,10 @@ function showFarmRemarks(id) {
                     // Add the remarksContainer to the containerWrapper
                     containerWrapper.appendChild(remarksContainer);
 
-
                     // Add the containerWrapper to the modal body
                     modalBody.appendChild(containerWrapper);
                 });
+
 
                 // Show the modal
                 var myModal = new bootstrap.Modal(document.getElementById('remarkModals'));
@@ -639,9 +640,6 @@ function createParagraphss(htmlContent, isBold, fontSize) {
 
     return paragraph;
 }
-
-
-
 
 
     }

@@ -125,9 +125,10 @@ Route::get('/schedules', [EventController::class, 'index']);
 Route::get('/schedulesget', [EventController::class, 'getEvents']);
 Route::get('/schedulesdata/{id}', [EventController::class, 'getdata']);
 Route::delete('/scheduledelete/{id}', [EventController::class, 'deleteEvent']);
-Route::put('/schedule/{id}', [EventController::class, 'update']);
+Route::put('/scheduleupdate/{id}', [EventController::class, 'update']);
 Route::put('/schedule/{id}/resize', [EventController::class, 'resize']);
 Route::get('/events/search', [EventController::class, 'search']);
+Route::get('/upcomingevent', [EventController::class, 'notifyUpcomingEvents']);
 
 Route::view('add-schedule', 'pages.add');
 Route::post('create-schedule', [EventController::class, 'create']);
@@ -224,3 +225,6 @@ Route::get('/piu/fiu', [PiuController::class, 'fer']);
 Route::get('/piu/pes', [PiuController::class, 'pes']);
 Route::get('/piu/show/{id}', [PiuController::class, 'show']);
 //===========================================================================================================
+Route::get('/markAsRead',function(){
+    auth()->user()->unreadNotifications->markAsRead();
+});

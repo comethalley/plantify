@@ -4,16 +4,24 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
 use App\Models\Event;
+use App\Notifications\NewNotificationEvent;
+use App\Events\EventCreated;
 use Illuminate\Http\Request;
-
+use App\Models\User;
+use App\Notifications\UpcomingEventNotification;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 class EventController extends Controller
 {
     //
     public function index()
     {
-        $events = DB::table('events')->orderBy('id', 'DESC')->get();
+        $events = DB::table('events')->where('status', '1')->orderBy('id', 'DESC')->get();
         //dd($events);
-        return view('pages.eventscalendar', ['events' => $events]);
+        
+        $data = DB::table('events')->where('status', '1')->orderBy('id', 'DESC')->get();
+        return view('pages.eventscalendar', ['events' => $events, 'data' => $data]);
+
     }
 
     public function create(Request $request)
@@ -24,16 +32,48 @@ class EventController extends Controller
         $item->end = $request->end;
         $item->location = $request->location;
         $item->description = $request->description;
+        $item->status = 1;
         $item->save();
 
+        $title = $request->title;
+
+        $users = auth()->user();
+            $users = User::all();
+        
+            foreach ($users as $user) {
+                $event = new Event();
+                $event->title = $title;
+                $user->notify(new NewNotificationEvent($event));
+            }
+            sleep(3);
+
+           
         return redirect('/schedules');
     }
 
 
+    public function notifyUpcomingEvents()
+    {
+        $user = auth()->user();
+
+        // Check if there are upcoming events in the calendar
+        // Replace this with your logic to check for upcoming events
+        $upcomingEvents = Event::where('start', '>=', now())->count();
+    
+        if ($upcomingEvents > 0) {
+            $user->notify(new UpcomingEventsNotification());
+            return response()->json(['message' => 'Notification sent if there are upcoming events.']);
+        }
+    dd($upcomingEvents);
+        return response()->json(['message' => 'No upcoming events.']);
+
+    }
+
     public function getEvents()
     {
-        $event = Event::all();
-        return response()->json($event);
+        $events = Event::where('status', '!=', 0)->get();
+        
+        return response()->json($events);
     }
 
     public function getdata($id)
@@ -47,21 +87,47 @@ class EventController extends Controller
 
     public function deleteEvent(Request $request, $id)
     {
-        $event = Event::find($request->id)->delete();
-        return response()->json($event);
+        $event = Event::findOrFail($id);
+        $updatedEvents = Event::all();
+        if (!$event) {
+            return response()->json(['message' => 'The supplier does not exist'], 422);
+        }
+
+        $event->update([
+            'status' => 0,
+        ]);
+        return response()->json([
+            'message' => 'Planting deleted successfully',
+            'events' => $updatedEvents,]);
     }
 
     public function update(Request $request, $id)
     {
-        $event = Event::findOrFail($id);
+       // Validate the incoming request data
+       $request->validate([
+        'title' => 'required|string|max:255',
+        'start' => 'required|date',
+        'end' => 'required|date',
+        'location' => 'nullable|string|max:255',
+        'description' => 'nullable|string',
+    ]);
 
-        $event->update([
-            'start' => Carbon::parse($request->input('start_date'))->setTimezone('UTC'),
-            'end' => Carbon::parse($request->input('end_date'))->setTimezone('UTC'),
-        ]);
+    // Find the event by ID
+    $event = Event::findOrFail($id);
 
-        return response()->json(['message' => 'Event moved successfully']);
-    }
+    // Update the event with the new data
+    $event->update([
+        'title' => $request->title,
+        'start' => $request->start,
+        'end' => $request->end,
+        'location' => $request->location,
+        'description' => $request->description,
+    ]);
+
+    // Optionally, you can return a response indicating success
+    return response()->json(['message' => 'Event updated successfully']);
+
+}
 
     public function resize(Request $request, $id)
     {

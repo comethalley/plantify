@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\PlantInfo;
+use App\Notifications\NewplantingNotification;
+
 
 class PlantCalendar extends Controller
 {
@@ -61,6 +63,16 @@ class PlantCalendar extends Controller
         $item->destroyed = $request->destroyed;
         $item->save();
 
+        $title = $request->title;
+
+        $users = auth()->user();
+            $users = User::all();
+        
+            foreach ($users as $user) {
+                $planting = new CalendarPlanting();
+                $planting->title = $title;
+                $user->notify(new NewplantingNotification($planting));
+            }
         return redirect('/plantcalendar');
     }
 
@@ -99,7 +111,9 @@ class PlantCalendar extends Controller
                 'destroyed' => $event->destroyed,
                 'seed' => $event->seed,
                 // Add other fields as needed
+                
             ];
+        
         });
 
         return response()->json($formattedEvents);

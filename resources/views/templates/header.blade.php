@@ -37,7 +37,8 @@
     <script src="{{ asset('assets/js/farmleader.js') }}"></script>
     <script src="{{ asset('assets/js/plantinfo.js') }}"></script>
     <script src="{{ asset('assets/js/forum.js') }}"></script>
-
+    <!--markusread JS-->
+    <script src="{{ asset('assets/js/markasread.js') }}"></script>
 
     <!--Scanner JS-->
     <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
@@ -50,7 +51,10 @@
     <link href="https://unpkg.com/quill-image-uploader@1.2.4/dist/quill.imageUploader.min.css" rel="stylesheet" />
     <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
     <script src="https://unpkg.com/quill-image-uploader@1.2.4/dist/quill.imageUploader.min.js"></script>
-
+<style>.tab-content {
+    max-height: 400px; /* Set maximum height for the notification content area */
+    overflow-y: auto; /* Enable vertical scrolling */
+}</style>
 </head>
 
 <body>
@@ -109,10 +113,10 @@
                             </button>
                         </div>
 
-                        <div class="dropdown topbar-head-dropdown ms-1 header-item" id="notificationDropdown">
-                            <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" id="page-header-notifications-dropdown" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
+                        <div class="dropdown topbar-head-dropdown ms-1 header-item" id="markasread">
+                            <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" id="markasread" onclick="markNotificationAsRead()" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
                                 <i class="bx bx-bell fs-22"></i>
-                                <span class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger">0<span class="visually-hidden">unread messages</span></span>
+                                <span id="reload-section" class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger" id="markasread">{{count(auth()->user()->unreadNotifications)}}<span class="visually-hidden">unread messages</span></span>
                             </button>
                             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0" aria-labelledby="page-header-notifications-dropdown">
                                 <div class="dropdown-head bg-primary bg-pattern rounded-top">
@@ -151,11 +155,127 @@
                                     </div>
                                 </div>
 
-                                <div class="tab-content position-relative" id="notificationItemsTabContent">
-                                    <div class="tab-pane fade show active py-2 ps-2" id="all-noti-tab" role="tabpanel">
-
+                                <div class="tab-content position-relative overflow-auto" id="notificationItemsTabContent">
+                                  <div class="tab-pane fade show active py-2 ps-2" id="all-noti-tab" role="tabpanel">
+                                    @foreach (auth()->user()->notifications as $notification)
+                                    <div class="text-reset notification-item d-block dropdown-item position-relative">
+                                      @if ($notification->type === 'App\Notifications\NewNotificationEvent')
+                                       <div class="d-flex">
+                                            <img src="assets/images/users/avatar-2.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                            <div class="flex-grow-1">
+                                                <a href="/schedules" class="stretched-link">
+                                                    <h6 class="mt-0 mb-1 fs-13 fw-semibold">{{ $notification->data['title']}}</h6>
+                                                </a>
+                                                <div class="fs-13 text-muted">
+                                                    <p class="mb-1">WE have a new events 📆.</p>
+                                                </div>
+                                                <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+                                                    <span><i class="mdi mdi-clock-outline"></i> 1 min ago</span>
+                                                </p>
+                                            </div>
+                                            <div class="px-2 fs-15">
+                                                <div class="form-check notification-check">
+                                                    <input class="form-check-input" type="checkbox" value="" id="all-notification-check02">
+                                                    <label class="form-check-label" for="all-notification-check02"></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @elseif ($notification->type === 'App\Notifications\NewplantingNotification')
+                                        <div class="d-flex">
+                                      
+                                            <img src="assets/images/users/avatar-2.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                            <div class="flex-grow-1">
+                                                <a href="/plantcalendar" class="stretched-link">
+                                                    <h6 class="mt-0 mb-1 fs-13 fw-semibold">{{ $notification->data['title']}}</h6>
+                                                </a>
+                                                <div class="fs-13 text-muted">
+                                                    <p class="mb-1">The {{ $notification->data['title']}} has been planted 🌱.</p>
+                                                </div>
+                                                <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+                                                    <span><i class="mdi mdi-clock-outline"></i> 1 min ago</span>
+                                                </p>
+                                            </div>
+                                            <div class="px-2 fs-15">
+                                                <div class="form-check notification-check">
+                                                    <input class="form-check-input" type="checkbox" value="" id="all-notification-check02">
+                                                    <label class="form-check-label" for="all-notification-check02"></label>
+                                                </div>
+                                            </div>
+                                        
+                                        </div>
+                                        @elseif ($notification->type === 'App\Notifications\UpcomingHarvestNotification')
+                                        <div class="d-flex">
+                                      
+                                            <img src="assets/images/users/avatar-2.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                            <div class="flex-grow-1">
+                                                <a href="/plantcalendar" class="stretched-link">
+                                                    <h6 class="mt-0 mb-1 fs-13 fw-semibold">{{ $notification->data['title']}}</h6>
+                                                </a>
+                                                <div class="fs-13 text-muted">
+                                                    <p class="mb-1">{{ $notification->data['message']}}.</p>
+                                                </div>
+                                                <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+                                                    <span><i class="mdi mdi-clock-outline"></i> 1 min ago</span>
+                                                </p>
+                                            </div>
+                                            <div class="px-2 fs-15">
+                                                <div class="form-check notification-check">
+                                                    <input class="form-check-input" type="checkbox" value="" id="all-notification-check02">
+                                                    <label class="form-check-label" for="all-notification-check02"></label>
+                                                </div>
+                                            </div>
+                                        
+                                        </div>
+                                        @elseif ($notification->type === 'App\Notifications\OutOfStockNotification')
+                                        <div class="d-flex">
+                                      
+                                            <img src="assets/images/users/avatar-2.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                            <div class="flex-grow-1">
+                                                <a href="/inventory/stocks" class="stretched-link">
+                                                    <h6 class="mt-0 mb-1 fs-13 fw-semibold">Running out of seeds</h6>
+                                                </a>
+                                                <div class="fs-13 text-muted">
+                                                    <p class="mb-1">{{ $notification->data['message']}}.</p>
+                                                </div>
+                                                <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+                                                    <span><i class="mdi mdi-clock-outline"></i> 1 min ago</span>
+                                                </p>
+                                            </div>
+                                            <div class="px-2 fs-15">
+                                                <div class="form-check notification-check">
+                                                    <input class="form-check-input" type="checkbox" value="" id="all-notification-check02">
+                                                    <label class="form-check-label" for="all-notification-check02"></label>
+                                                </div>
+                                            </div>
+                                        
+                                        </div>
+                                        @elseif ($notification->type === 'App\Notifications\UpcomingEventNotification')
+                                       <div class="d-flex">
+                                            <img src="assets/images/notif/avatar-2.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                            <div class="flex-grow-1">
+                                                <a href="/schedules" class="stretched-link">
+                                                    <h6 class="mt-0 mb-1 fs-13 fw-semibold">{{ $notification->data['title']}}</h6>
+                                                </a>
+                                                <div class="fs-13 text-muted">
+                                                    <p class="mb-1">{{ $notification->data['message']}}.</p>
+                                                </div>
+                                                <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+                                                    <span><i class="mdi mdi-clock-outline"></i> 1 min ago</span>
+                                                </p>
+                                            </div>
+                                            <div class="px-2 fs-15">
+                                                <div class="form-check notification-check">
+                                                    <input class="form-check-input" type="checkbox" value="" id="all-notification-check02">
+                                                    <label class="form-check-label" for="all-notification-check02"></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @endif
                                     </div>
-
+                                  
+                                    @endforeach
+                                    </div>
+                                 
                                     <div class="tab-pane fade py-2 ps-2" id="messages-tab" role="tabpanel" aria-labelledby="messages-tab">
 
                                     </div>
@@ -542,3 +662,34 @@
 
     <!-- Sweet Alerts js -->
     <script src="{{ asset('assets/libs/sweetalert2/sweetalert2.min.js') }}"></script>
+
+    <script>
+
+function markNotificationAsRead(notificationCount) {
+    if(notificationCount !=='0'){
+        $.get('/markAsRead');
+   }
+}
+
+$('#markasread').on('click', function() {
+        $('#reload-section').load(location.href + ' #reload-section');
+    });
+
+    $(document).ready(function() {
+    // Scroll down to the bottom of the notification content
+    $('#notificationItemsTabContent').scrollTop($('#notificationItemsTabContent')[0].scrollHeight);
+});
+
+
+
+
+const pusher = new Pusher('932fdd5849f2e8b782a5', {
+    cluster: 'ap1',
+    encrypted: true
+});
+
+const channel = pusher.subscribe('channel-name');
+channel.bind('event-name', function(data) {
+    // Display notification
+});
+    </script>

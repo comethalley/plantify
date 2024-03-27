@@ -316,6 +316,32 @@
     <!-- end main content-->
 
 </div>
+
+<script>
+    $(document).ready(function(){
+    $("#").click(function(){
+        $('.modal').modal('hide');
+        $('body').removeClass('modal-open');
+        $('.modal-backdrop').remove();
+        $("#").modal("hide")
+        $("#").modal("show")
+    });
+});
+
+ 
+$("#create").click(function(){
+    $('#showModal').modal('hide');
+    Swal.fire({
+        title: "Successfully added",
+        text: "Are you ready for the next level?", <br>
+        icon: "success",
+        showConfirmButton: false // Remove the OK button
+    });
+});
+
+</script>
+
+
 <!-- END layout-wrapper -->
 <!-- 
 <div class="main-content">

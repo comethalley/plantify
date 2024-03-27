@@ -84,6 +84,29 @@ class PiuController extends Controller
         
         return view("pages.piu.showpes", ['pes' => $pes,]);
     }
+
+   public function searchpiu()
+   {
+        $search = $request->plant_name;
+
+        if($search != "")
+        {
+            $piu = DB::table('plant_infos')
+            ->where('name', "LIKE", "%$request")
+            ->first("*");
+            if($piu)
+            {
+                return redirect ('piu/'.$piu->show.'/'.$piu->id );
+            }
+            else
+            {
+                return redirect ()->back()->with("status", "No plant matched your search");
+            }
+        }
+        else 
+        {
+            return redirect ()->back();
+        }
+   }
     
-  
 }

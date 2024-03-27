@@ -416,20 +416,26 @@ class AuthController extends Controller
             'password' => 'required'
         ]);
 
-        if (auth()->attempt($validated)) {
+        $user = Auth::getProvider()->retrieveByCredentials($validated);
+
+        if (!$user || !Auth::getProvider()->validateCredentials($user, $validated)) {
+            return back()->withErrors(['email' => 'Login failed'])->onlyInput('email');
+        }
+
+        if (!$user->hasVerifiedEmail()) {
+            return back()->withErrors(['email' => 'Please verify your email before logging in']);
+        }
+
+        if (Auth::attempt($validated)) {
             $request->session()->regenerate();
 
-            $user = auth()->user();
+            $user = Auth::user();
             $request->session()->put('user', $user);
 
             return redirect('/')->with('message', 'Welcome back!');
         }
 
         return back()->withErrors(['email' => 'Login failed'])->onlyInput('email');
-        // /** @var \App\Models\User $user */
-        // $user = Auth::user();
-        // $token = $user->createToken('main')->plainTextToken;
-        // return response(compact('user', 'token'));
     }
 
     public function logout(Request $request)
@@ -500,5 +506,10 @@ class AuthController extends Controller
     public function getFarmers()
     {
         return view('pages.users.farmers');
+    }
+
+    public function landingpage()
+    {
+        return view('landingpage');
     }
 }

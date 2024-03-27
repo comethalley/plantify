@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 
+
 class FarmController extends Controller
 {
 //View PDF - IMG ///
@@ -191,20 +192,20 @@ public function viewImage1($id)
 }
 
 // index farm-management//
-    public function index()
-    {
-        $barangays = Barangay::all();
-    
-        $farmLeaders = User::where('status', 1)
-                           ->where('role_id', 3)
-                           ->select('id', 'firstname', 'lastname')
-                           ->get();
-    
-        return view('pages.farms.index', [
-            'barangays' => $barangays,
-            'farmLeaders' => $farmLeaders,
-        ]);
-    }
+public function index()
+{
+    $barangays = Barangay::withCount('farms')->get();
+
+    $farmLeaders = User::where('status', 1)
+                       ->where('role_id', 3)
+                       ->select('id', 'firstname', 'lastname')
+                       ->get();
+
+    return view('pages.farms.index', [
+        'barangays' => $barangays,
+        'farmLeaders' => $farmLeaders,
+    ]);
+}
 
 
     public function viewArchiveFarms()
@@ -243,30 +244,33 @@ public function archiveFarm(Request $request, $id)
 
 
     public function updateStatus(Request $request, $id)
-    {
-        // Validate the request if needed
-        $request->validate([
-            'status' => 'required|in:For-Investigation,For-Visiting,Approved,Disapproved,Waiting-for-Approval,Resubmit',
-            'remarks' => 'nullable|string|max:255',
-        ]);
-    
-        // Find the farm by ID
-        $farms = Farm::findOrFail($id);
-    
-        // Update the status in the farms table
-        $farms->status = $request->input('status');
-        $farms->save();
-    
-        // Create a new entry in the RemarkFarm table
-        RemarkFarm::create([
-            'farm_id' => $farms->id,
-            'remarks' => $request->input('remarks'),
-            'remark_status' => $request->input('status'),
-        ]);
-    
-        return response()->json(['success' => 'Updated successfully']); // Assuming you want to handle success in JavaScript
-    }
+{
+    // Validate the request if needed
+    $request->validate([
+        'status' => 'required|in:For-Investigation,For-Visiting,Approved,Disapproved,Waiting-for-Approval,Resubmit',
+        'remarks' => 'nullable|string|max:255',
+    ]);
 
+    // Find the farm by ID
+    $farm = Farm::findOrFail($id);
+
+    // Get the authenticated user (admin)
+    $admin = Auth::user();
+
+    // Update the status in the farms table
+    $farm->status = $request->input('status');
+    $farm->save();
+
+    // Create a new entry in the RemarkFarm table
+    RemarkFarm::create([
+        'farm_id' => $farm->id,
+        'remarks' => $request->input('remarks'),
+        'remark_status' => $request->input('status'),
+        'validated_by' => $admin->firstname . ' ' . $admin->lastname,
+    ]);
+
+    return response()->json(['success' => 'Updated successfully']);
+}
 
 //view farm-management//
 
@@ -303,8 +307,11 @@ public function viewFarms(Request $request)
 
     $farms = DB::table('farms')
         ->join('barangays', 'farms.barangay_name', '=', 'barangays.barangay_name')
+        ->leftJoin('users', 'farms.farm_leader', '=', 'users.id') // Join with users table for farm leader
+
         ->where('farms.barangay_name', '=', $barangayName)
         ->select('farms.*')
+        ->select('farms.*', 'users.firstname as farm_leader_firstname', 'users.lastname as farm_leader_lastname') // Select relevant columns with aliases
         ->get();
 
     return view('pages.farms.view', compact('farms', 'barangayName'));
@@ -318,26 +325,20 @@ public function viewFarms3(Request $request)
     // Get the authenticated user
     $user = Auth::user();
 
-    if ($user) {
-        // If the user is a farm leader, retrieve farms based on their farm_leader value and barangay_name
-        $farms = DB::table('farms')
-            ->join('barangays', 'farms.barangay_name', '=', 'barangays.barangay_name')
-            ->where('farms.farm_leader', '=', $user->firstname . ' ' . $user->lastname)
-            ->where('farms.barangay_name', '=', $barangayName)
-            ->select('farms.*')
-            ->get();
-    } else {
-        // If the user is not authenticated, you may want to handle this case accordingly
-        // For now, let's assume there's a default behavior, like fetching all farms for a specific barangay
-        $farms = DB::table('farms')
-            ->join('barangays', 'farms.barangay_name', '=', 'barangays.barangay_name')
-            ->where('farms.barangay_name', '=', $barangayName)
-            ->select('farms.*')
-            ->get();
-    }
+    $farms = DB::table('farms')
+        ->join('barangays', 'farms.barangay_name', '=', 'barangays.barangay_name')
+        ->leftJoin('users', 'farms.farm_leader', '=', 'users.id') // Join with users table for farm leader
+        ->when($user, function ($query) use ($user) {
+            // If the user is a farm leader, retrieve farms based on their farm_leader value and barangay_name
+            return $query->where('farms.farm_leader', '=', $user->id);
+        })
+        ->where('farms.barangay_name', '=', $barangayName)
+        ->select('farms.*', 'users.firstname as farm_leader_firstname', 'users.lastname as farm_leader_lastname') // Select relevant columns with aliases
+        ->get();
 
     return view('pages.farms.view1', compact('farms', 'barangayName'));
 }
+
 
 public function addFarms(Request $request)
     {
@@ -357,10 +358,6 @@ public function addFarms(Request $request)
 
             // Retrieve user details based on the selected farm_leader
             $selectedUser = User::findOrFail($request->input('farm_leader'));
-
-            // Extract first name and last name from the user details
-            $farmLeaderFirstName = $selectedUser->firstname;
-            $farmLeaderLastName = $selectedUser->lastname;
 
             $barangayName = $request->input('barangay_name');
             $farmName = $request->input('farm_name');
@@ -382,7 +379,7 @@ public function addFarms(Request $request)
             'farm_name' => $request->input('farm_name'),
             'address' => $request->input('address'),
             'area' => $request->input('area'),
-            'farm_leader' => $farmLeaderFirstName . ' ' . $farmLeaderLastName,
+            'farm_leader' => $selectedUser->id, // Use the id from the selected user
             'status' => $request->input('status', 'Created'),
             'title_land' => $titleLandPath,
             'picture_land' => $pictureLandPath,
@@ -396,6 +393,80 @@ public function addFarms(Request $request)
         return response()->json(['success' => false, 'errors' => ['exception' => [$e->getMessage()]]], 500);
     }
 }
+public function getFarmDetails($id)
+{
+    // Fetch farm details from the "farms" table
+    $farm = Farm::findOrFail($id);
+
+    // Now, use the obtained farm_id to fetch all records from the "remarkfarms" table
+    $remarkFarms = RemarkFarm::where('farm_id', $farm->id)
+        ->orderBy('created_at', 'desc') // Order by created_at in descending order
+        ->get();
+
+    // Return response with combined data
+    return response()->json([
+        'farm_id' => $farm->id,
+        'remarks' => $remarkFarms->pluck('remarks'),
+        'remark_status' => $remarkFarms->pluck('remark_status'),
+        'validated_by' => $remarkFarms->pluck('validated_by'),
+        'created_at' => $remarkFarms->pluck('created_at'),
+    ]);
+}
+
+
+public function updateStatusCancel($id)
+{
+    try {
+        // Find the farm by ID
+        $farm = Farm::findOrFail($id);
+
+        // Update the status to "Cancel" (adjust this based on your actual status field)
+        $farm->status = 'Cancelled';
+
+        // Save the changes
+        $farm->save();
+
+        // Get the authenticated user (assuming it's a regular user)
+        $user = Auth::user();
+
+        // Create a new entry in the RemarkFarm table
+        RemarkFarm::create([
+            'farm_id' => $farm->id,
+            'remarks' => 'Cancelled', // Set the remark to "Cancelled"
+            'remark_status' => 'Cancelled', // Set the remark status to "Cancelled"
+            'validated_by' => $user->firstname . ' ' . $user->lastname,
+        ]);
+
+        // You can return a success response if needed
+        return response()->json(['success' => true, 'message' => 'Farm status updated to "Cancel" successfully']);
+
+    } catch (\Exception $e) {
+        // Log the error for debugging purposes
+        \Log::error('Error updating farm status to "Cancel" for farm ID ' . $id . ': ' . $e->getMessage());
+
+        // Handle any errors that occur during the update
+        return response()->json(['success' => false, 'message' => 'Error updating farm status to "Cancel"']);
+    }
+}
+public function updateFarm(Request $request, $id)
+{
+    // Validate the form data if needed
+
+    // Update the farm record based on the provided $id
+    $farm = Farm::findOrFail($id);
+
+    if (!$farm) {
+        return response()->json(['error' => 'Farm not found'], 404);
+    }
+
+    // Update farm attributes using $request data
+    $farm->update($request->all());
+
+    return response()->json(['message' => 'Farm updated successfully', 'farm' => $farm]);
+}
+
+
+
 
 }
 

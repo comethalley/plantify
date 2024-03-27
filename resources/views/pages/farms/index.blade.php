@@ -34,7 +34,7 @@
                                     <div class="list-grid-nav hstack gap-1">
 
                                     @if(Auth::check())
-                                        @if(Auth::user()->role_id == 1)
+                                    @if(Auth::check() && (Auth::user()->role_id == 1 || Auth::user()->role_id == 2))
                                             <button class="btn btn-primary btn-label waves-effect waves-light" onclick="openTestPage()">
                                                 <i class="ri-inbox-archive-line label-icon align-middle fs-16 me-2"></i> View Archive Farm
                                             </button>
@@ -45,7 +45,7 @@
 
 
     <button class="btn btn-danger addFarms-modal" data-bs-toggle="modal" data-bs-target="#addfarmModal">
-        <i class="ri-add-line align-bottom me-1"></i> Create Farm
+        <i class="ri-add-line align-bottom me-1"></i> Request Farm
     </button>
 
                                     </div>
@@ -99,11 +99,11 @@
                                         <div class="col-lg-4 col">
                                             <div class="row text-muted text-center">
                                                 <div class="col-6 border-end border-end-dashed">
-                                                    <h5 class="mb-1 projects-num">225</h5>
+                                                    <h5 class="mb-1 projects-num">{{ $barangay->farms_count }}</h5>
                                                     <p class="text-muted mb-0">Farms</p>
                                                 </div>
                                                 <div class="col-6">
-                                                    <h5 class="mb-1 tasks-num">197</h5>
+                                                    <h5 class="mb-1 tasks-num">0</h5>
                                                     <p class="text-muted mb-0">Tasks</p>
                                                 </div>
                                             </div>
@@ -111,15 +111,17 @@
                                         <div class="col-lg-2 col">
                                         @if(Auth::check() && Auth::user()->role_id == 3)
     
-    <div class="text-end">
-        <a href="{{ route('farms.view3', ['barangay_name' => $barangay->barangay_name]) }}" class="button-89">View Farms</a>
-    </div>
-   
-@elseif(Auth::check() && Auth::user()->role_id == 1)
-    <div class="text-end">
-        <a href="{{ route('farms.view', ['barangay_name' => $barangay->barangay_name]) }}" class="button-89">View Farms</a>
-    </div>
-@endif
+                                            <div class="text-end">
+                                                <a href="{{ route('farms.view3', ['barangay_name' => $barangay->barangay_name]) }}" class="button-89">View Farms</a>
+                                            </div>
+                                        
+                                        @elseif(Auth::check() && (Auth::user()->role_id == 1 || Auth::user()->role_id == 2))
+                                        
+                                            <div class="text-end">
+                                                <a href="{{ route('farms.view', ['barangay_name' => $barangay->barangay_name]) }}" class="button-89">View Farms</a>
+                                            </div>
+                                        
+                                        @endif
 
                                             
                                         </div>
@@ -147,7 +149,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header bg-light p-3">
-                <h5 class="modal-title" id="exampleModalLabel">Create Farms &nbsp;</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Request Farm &nbsp;</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
             </div>
             <form id="addFarmForm" data-action="/add-farms" method="post">
@@ -240,10 +242,6 @@
         </div>
     </div>
 </div>
-
- 
-
-
 
 
 <script>

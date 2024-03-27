@@ -1,4 +1,3 @@
-
 @include('templates.header')
 
 
@@ -46,7 +45,7 @@
                                 <div class="row g-3">
                                     <div class="col-xxl-5 col-sm-6">
                                         <div class="search-box">
-                                        
+
                                         </div>
                                     </div>
                                 </div>
@@ -60,12 +59,14 @@
                                     <table class="table table-nowrap align-middle" id="orderTable">
                                         <thead class="text-muted table-light">
                                             <tr class="text-uppercase">
-                                               
+
                                                 <th class="sort" data-sort="">#</th>
                                                 <th class="sort" data-sort="">Plant Name</th>
-                                                <th class="sort" data-sort="">Plant Date</th>
+                                                <th class="sort" data-sort="">Image</th>
+                                                <th class="sort" data-sort="">Season</th>
                                                 <th class="sort" data-sort="">Information</th>
                                                 <th class="sort" data-sort="">Companion</th>
+                                                <th class="sort" data-sort="">Days of Harvest</th>
                                                 <th class="sort" data-sort="">Action</th>
                                             </tr>
                                         </thead>
@@ -75,21 +76,20 @@
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $item->plant_name }}</td>
-                                                <td>{{ $item->planting_date }}</td>
-                                                <td>{{ $item->information }}</td>
+                                                <td><img src="/images/{{ $item->image }}" alt="" width="200px" height="200px"></td>
+                                                <td>{{ $item->seasons }}</td>
+                                                <td>{!! $item->information !!}</td>
                                                 <td>{{ $item->companion }}</td>
-
-                                                
-                                    
-                                    <td>
-                                        <ul class="list-inline hstack gap-2 mb-0">
-                                            <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="View">
+                                                <td>{{ $item->days_harvest }}</td>
+                                                <td>
+                                                    <ul class="list-inline hstack gap-2 mb-0">
+                                                        <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="View">
                                                             <a href="" class="text-primary d-inline-block supplier_btn" data-bs-target="#viewModal" data-bs-toggle="modal" data-supplier-id="">
                                                                 <i class="ri-eye-fill fs-16"></i>
                                                             </a>
                                                         </li>
                                                         <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Edit">
-                                                            <a href=""  class="text-primary d-inline-block edit-item-btn" data-plantinfo-id="{{$item->id}}">
+                                                            <a href="" class="text-primary d-inline-block edit-item-btn" data-plantinfo-id="{{$item->id}}">
                                                                 <i class="ri-pencil-fill fs-16"></i>
                                                             </a>
                                                         </li>
@@ -98,7 +98,7 @@
                                                                 <i class="ri-delete-bin-5-fill fs-16"></i>
                                                             </a>
                                                         </li>
-                                        <!-- <a href="{{ url('/plantinfo/' . $item->id) }}" title="View Plant"><button class="btn btn-info btn-sm" data-bs-target="#EditModal"><i class="fa fa-eye" aria-hidden="true"></i> View</button></a>
+                                                        <!-- <a href="{{ url('/plantinfo/' . $item->id) }}" title="View Plant"><button class="btn btn-info btn-sm" data-bs-target="#EditModal"><i class="fa fa-eye" aria-hidden="true"></i> View</button></a>
                                         <a href="{{ url('/plantinfo/' . $item->id . '/edit') }}" title="Edit Plant"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
 
                                         <form method="POST" action="{{ url('/plantinfo' . '/' . $item->id) }}" accept-charset="UTF-8" style="display:inline">
@@ -106,12 +106,8 @@
                                             {{ csrf_field() }}
                                             <button type="submit" class="btn btn-danger btn-sm" title="Delete Plant" onclick="return confirm('Are you sure you want to delete this item?');"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</button>
                                         </form> -->
-                                        </ul>
-                                    </td>
-                                    
-
-                                            
-
+                                                    </ul>
+                                                </td>
                                         </tbody>
                                         @endforeach
                                     </table>
@@ -135,18 +131,18 @@
                                     </div>
                                 </div>
                             </div>
-                            
-                            
+
+
                             <!--Add Plantinfo Modal-->
 
                             <div class="modal fade" id="showModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-dialog modal-dialog-centered modal-lg">
                                     <div class="modal-content">
                                         <div class="modal-header bg-light p-3">
                                             <h5 class="modal-title" id="exampleModalLabel">Add Plant Information</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
                                         </div>
-                                        <form action="{{ url('plantinfo') }}" method="post">
+                                        <form action="" method="post">
                                             @csrf
                                             <div class="modal-body">
                                                 <input type="hidden" id="id-field" />
@@ -158,14 +154,35 @@
                                                     <input type="text" name="plant_name" id="plant_name" class="form-control" placeholder="Plant Name" required />
                                                 </div>
 
-                                                <div class="mb-3">
-                                                    <label for="customername-field" class="form-label">Planting Date</label>
+                                                <!-- <div class="mb-3">
+                                                    <label for="customername-field" class="form-label">Season</label>
                                                     <input type="date" name="planting_date" id="planting_date" class="form-control" required />
+                                                </div> -->
+                                                <div class="mb-3">
+                                                    <!-- <label for="customername-field" class="form-label">Season</label> -->
+                                                    <div class="form-group">
+                                                        <label for="mode">Season</label>
+                                                        <select class="form-select" id="season">
+                                                            <option value="January">January</option>
+                                                            <option value="February">February</option>
+                                                            <option value="March">March</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <div>
+                                                        <label for="formFile" class="form-label">Upload</label>
+                                                        <input class="form-control" type="file" id="image">
+                                                    </div>
                                                 </div>
 
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Information</label>
-                                                    <input type="text" name="information" id="information" class="form-control" placeholder="Plant Information" required />
+                                                    <!-- <input type="text" name="information" id="information" class="form-control" placeholder="Plant Information" required /> -->
+                                                    <div id="editor">
+
+                                                    </div>
                                                 </div>
 
                                                 <div class="mb-3">
@@ -173,15 +190,15 @@
                                                     <input type="text" name="companion" id="companion" class="form-control" placeholder="Companion" required />
                                                 </div>
 
-                                    
-
-                                              
-
+                                                <div class="mb-3">
+                                                    <label for="customername-field" class="form-label">Days of Harvest</label>
+                                                    <input type="text" name="day_harvest" id="day_harvest" class="form-control" placeholder="Companion" required />
+                                                </div>
                                             </div>
                                             <div class="modal-footer">
                                                 <div class="hstack gap-2 justify-content-end">
                                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
-                                                    <button type="submit" class="btn btn-success">Add Plant</button>
+                                                    <button type="button" class="btn btn-success add-plant">Add Plant</button>
                                                     <!-- <button type="button" class="btn btn-success" id="edit-btn">Update</button> -->
                                                 </div>
                                             </div>
@@ -191,10 +208,11 @@
                             </div>
 
 
+
                             <!-- Update modal -->
 
 
-                             <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header bg-light p-3">
@@ -202,7 +220,7 @@
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
                                         </div>
                                         <form action="{{ url('plantinfo/') }}" method="post">
-                                                @csrf
+                                            @csrf
                                             <div class="modal-body">
                                                 <input type="hidden" id="id-field" />
 
@@ -210,7 +228,7 @@
 
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Plant Name</label>
-                                                    <input type="text" name="plant_name" id="edit_plant_name"  class="form-control" placeholder="Plant Name" required />
+                                                    <input type="text" name="plant_name" id="edit_plant_name" class="form-control" placeholder="Plant Name" required />
                                                 </div>
 
                                                 <div class="mb-3">
@@ -228,7 +246,7 @@
                                                     <input type="text" name="address" id="edit_companion" class="form-control" placeholder="Companion" required />
                                                 </div>
 
-                                              
+
 
                                             </div>
                                             <div class="modal-footer">
@@ -255,9 +273,9 @@
                                                 <div class="hstack gap-2 justify-content-center remove">
                                                     <button class="btn btn-link link-success fw-medium text-decoration-none" id="deleteRecord-close" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i> Close</button>
                                                     <form method="POST" action="" style="display:inline">
-                                                    <input type="hidden" id="archiveID">
-                                                    <button type="button" class="btn btn-danger" id="plantinfo-archive">Yes, Delete It</button>
-                                                </form>
+                                                        <input type="hidden" id="archiveID">
+                                                        <button type="button" class="btn btn-danger" id="plantinfo-archive">Yes, Delete It</button>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>

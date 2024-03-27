@@ -43,11 +43,33 @@ class PlantinfoController extends Controller
      */
     public function store(Request $request)
     {
+        // Validate the request
+        $request->validate([
+            'plant_name' => 'required',
+            'seasons' => 'required',
+            'information' => 'required',
+            'companion' => 'required',
+            'days_harvest' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Example validation for image upload
+        ]);
 
+        // Retrieve all input data
         $input = $request->all();
+
+        // Move the uploaded image to a specific directory
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images'), $imageName);
+            $input['image'] = $imageName;
+        }
+
+        // Create new plant info record
         plantinfo::create($input);
-        return redirect('plant-info')->with('flash_message', 'Plant Addedd!');
+
+        return redirect('plant-info')->with('flash_message', 'Plant Added!');
     }
+
 
     /**
      * Display the specified resource.

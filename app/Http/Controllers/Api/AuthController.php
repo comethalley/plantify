@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Libraries\PlantifyLibrary;
 use App\Mail\MailInvitation;
 use App\Models\User;
 use App\Models\PlantifeedModel;
@@ -20,6 +21,12 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class AuthController extends Controller
 {
+    protected $plantifyLibrary;
+
+    public function __construct(PlantifyLibrary $plantifyLibrary)
+    {
+        $this->plantifyLibrary = $plantifyLibrary;
+    }
 
     public function index()
     {
@@ -259,14 +266,7 @@ class AuthController extends Controller
             'lastname'  => 'required|string|max:55',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|confirmed|min:6',
-            // 'role_id' => 'required|integer|digits:1'
         ]);
-
-        // $generate_password = $this->generate_password(10);
-
-        $email = $data['email'];
-        $firstname = $data['firstname'];
-        // $this->emailInvitation($email, $firstname, $generate_password);
 
         $user = User::create([
             'firstname' => $data['firstname'],
@@ -277,10 +277,14 @@ class AuthController extends Controller
             'status' => 1,
         ]);
 
+        // Store user data in the session
+        $request->session()->put('user', $user);
+
         auth()->login($user);
 
         return redirect("/");
     }
+
 
     public function createAdmin(Request $request)
     {
@@ -296,7 +300,14 @@ class AuthController extends Controller
             }
 
             $data = $validator->validated();
+
+            // print_r($data);
+            // exit;
             $generate_password = $this->generate_password(10);
+
+
+            // print_r($emailInvitation);
+            // exit;
 
             $admins = User::create([
                 'firstname'  => $data['firstname'],
@@ -307,8 +318,15 @@ class AuthController extends Controller
                 'status' => 1
             ]);
 
+
             if ($admins) {
-                return response()->json(['message' => 'Admin Invited Successfully', 'data' => $admins], 200);
+                $id = $admins->id;
+                $hash = $this->plantifyLibrary->generatehash($id);
+                $emailInvitation = $this->emailInvitation($data['email'], $data['firstname'], $generate_password, $hash);
+                if ($emailInvitation) {
+
+                    return response()->json(['message' => 'Admin Invited Successfully', 'data' => $admins], 200);
+                }
             } else {
                 return response()->json(['error' => 'Admin cant add Internal Server Error'], 500);
             }
@@ -369,14 +387,15 @@ class AuthController extends Controller
         return $password;
     }
 
-    public function emailInvitation($email, $firstname, $generate_password)
+    public function emailInvitation($email, $firstname, $generate_password, $hash)
     {
         $data = [
             "subject" => "Plantify Invitation Mail",
             "firstname" => $firstname,
             "email" => $email,
-            "password" => $generate_password,
-            "body" => "Join the urban green revolution !"
+            // "password" => $generate_password,
+            "body" => "Join the urban green revolution !",
+            "hash" => $hash
         ];
         // return json_encode($data);
 
@@ -397,17 +416,26 @@ class AuthController extends Controller
             'password' => 'required'
         ]);
 
-        if (auth()->attempt($validated)) {
+        $user = Auth::getProvider()->retrieveByCredentials($validated);
+
+        if (!$user || !Auth::getProvider()->validateCredentials($user, $validated)) {
+            return back()->withErrors(['email' => 'Login failed'])->onlyInput('email');
+        }
+
+        if (!$user->hasVerifiedEmail()) {
+            return back()->withErrors(['email' => 'Please verify your email before logging in']);
+        }
+
+        if (Auth::attempt($validated)) {
             $request->session()->regenerate();
+
+            $user = Auth::user();
+            $request->session()->put('user', $user);
 
             return redirect('/')->with('message', 'Welcome back!');
         }
 
         return back()->withErrors(['email' => 'Login failed'])->onlyInput('email');
-        // /** @var \App\Models\User $user */
-        // $user = Auth::user();
-        // $token = $user->createToken('main')->plainTextToken;
-        // return response(compact('user', 'token'));
     }
 
     public function logout(Request $request)
@@ -478,5 +506,10 @@ class AuthController extends Controller
     public function getFarmers()
     {
         return view('pages.users.farmers');
+    }
+
+    public function landingpage()
+    {
+        return view('landingpage');
     }
 }

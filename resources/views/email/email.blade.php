@@ -304,7 +304,7 @@
                                                         <td style="overflow-wrap:break-word;word-break:break-word;padding:33px 55px;font-family:'Cabin',sans-serif;" align="left">
 
                                                             <div style="font-size: 14px; line-height: 160%; text-align: center; word-wrap: break-word;">
-                                                                <p style="font-size: 14px; line-height: 160%;"><span style="font-size: 32px; line-height: 35.2px;">Hi, </span></p><br><br>
+                                                                <p style="font-size: 14px; line-height: 160%;"><span style="font-size: 32px; line-height: 35.2px;">Hi, {{ $data['firstname'] }}</span></p><br><br>
                                                                 <p style="font-size: 14px; line-height: 160%;"><span style="font-size: 18px; line-height: 28.8px;">We are thrilled to extend a warm welcome as a cherished member of our urban farming community. Your passion for sustainable agriculture and commitment to fostering a greener environment make you a valuable addition to our network. </span></p>
                                                             </div>
 
@@ -344,9 +344,10 @@
                                                                                 <td style="overflow-wrap:break-word;word-break:break-word;padding:41px 55px 18px;font-family:'Cabin',sans-serif;" align="left">
 
                                                                                     <div style="font-size: 14px; color: #003399; line-height: 160%; text-align: center; word-wrap: break-word;">
-                                                                                        <p style="font-size: 14px; line-height: 160%;"><span style="font-size: 28px; line-height: 32px;"><strong>To get started, we have created your user account with the following credentials: </strong></span></p><br>
-                                                                                        <p style="font-size: 14px; line-height: 160%;"><span style="font-size: 16px; line-height: 25.6px; color: #000000;">Username: </span></p>
-                                                                                        <p style="font-size: 14px; line-height: 160%;"><span style="font-size: 16px; line-height: 25.6px; color: #000000;">Password: </span></p>
+                                                                                        <p style="font-size: 14px; line-height: 160%;"><span style="font-size: 28px; line-height: 32px;"><strong>To get started, Click the link below to verify your email address.</strong></span></p><br>
+                                                                                        <a href="http://127.0.0.1:8000/verify-email?l={{ $data['hash'] }}">
+                                                                                            <p style="font-size: 14px; line-height: 160%;"><span style="font-size: 16px; line-height: 25.6px; color: #000000;">Verify your Email</span></p>
+                                                                                        </a>
                                                                                     </div>
 
                                                                                 </td>
@@ -372,8 +373,8 @@
                                                         <td style="overflow-wrap:break-word;word-break:break-word;padding:33px 55px 60px;font-family:'Cabin',sans-serif;" align="left">
 
                                                             <div style="font-size: 14px; line-height: 160%; text-align: justify; word-wrap: break-word;">
-                                                                <p style="line-height: 160%; font-size: 14px;"><span style="font-size: 18px; line-height: 28.8px;">Your temporary password is intended for your initial login. We highly recommend <strong>changing</strong> it to a secure password of your choice after your first login, as this will help enhance the security of your account. </span></p><br><br>
-                                                                <p style="line-height: 160%; font-size: 14px;"><span style="font-size: 18px; line-height: 28.8px;">Feel free to explore our Urban Farmer Portal: <a href="">plantify.com</a></span></p><br><br>
+                                                                <!-- <p style="line-height: 160%; font-size: 14px;"><span style="font-size: 18px; line-height: 28.8px;">Your temporary password is intended for your initial login. We highly recommend <strong>changing</strong> it to a secure password of your choice after your first login, as this will help enhance the security of your account. </span></p><br><br>
+                                                                <p style="line-height: 160%; font-size: 14px;"><span style="font-size: 18px; line-height: 28.8px;">Feel free to explore our Urban Farmer Portal: <a href="">plantify.com</a></span></p><br><br> -->
                                                                 <p style="line-height: 160%; font-size: 14px;"><span style="font-size: 18px; line-height: 28.8px;">As we embark on this journey together, your expertise in urban farming will undoubtedly play a crucial role in the success of our community. We are eager to collaborate with you and witness the positive impact your knowledge and dedication will have on the thriving urban farming landscape.</span></p>
                                                             </div>
 

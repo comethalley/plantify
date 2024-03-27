@@ -45,7 +45,11 @@
     <!--Weather JS-->
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
-
+    <!--Quill-->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet" />
+    <link href="https://unpkg.com/quill-image-uploader@1.2.4/dist/quill.imageUploader.min.css" rel="stylesheet" />
+    <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+    <script src="https://unpkg.com/quill-image-uploader@1.2.4/dist/quill.imageUploader.min.js"></script>
 
 </head>
 
@@ -248,7 +252,7 @@
                 </br>
                 <a href="/" class="logo logo-dark">
                     <span class="logo-sm">
-                        <img src="{{ asset('assets/images/p-white.png') }}" alt="" height="22" />
+                        <img src="{{ asset('assets/images/p-white-small.png') }}" alt="" height="22" />
                     </span>
                     <span class="logo-lg">
                         <img src="{{ asset('assets/images/p-white.png') }}" alt="" height="17" />
@@ -257,7 +261,7 @@
                 <!-- Light Logo-->
                 <a href="/" class="logo logo-light">
                     <span class="logo-sm">
-                        <img src="{{ asset('assets/images/p-white.png') }}" alt="" height="22" />
+                        <img src="{{ asset('assets/images/p-white-small.png') }}" alt="" height="22" />
                     </span>
                     <span class="logo-lg">
                         <img src="{{ asset('assets/images/p-white.png') }}" alt="" height="40" />
@@ -281,6 +285,7 @@
                             </a>
                         </li>
 
+                        @if(session('user')->role_id == 1)
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="#UsersDropDown" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="UsersDropDown" style="color:white">
                                 <i class="ri-account-circle-line"></i> <span>Users</span>
@@ -299,6 +304,7 @@
                                 </ul>
                             </div>
                         </li>
+                        @endif
 
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="/farms3" role="button" style="color:white">
@@ -313,9 +319,21 @@
                             </a>
                             <div class="collapse menu-dropdown" id="sidebarDashboards">
                                 <ul class="nav nav-sm flex-column">
-                                    <li class="nav-item">
-                                        <a href="/plantcalendar" class="nav-link" style="color:white">Planting Calendar</a>
-                                    </li>
+
+                                    <a href="#sidebarAccount" class="nav-link" data-bs-toggle="collapse" role="button" aria-expanded="true" aria-controls="sidebarAccount" data-key="t-level-1.2" style="color:white">Planting Calendar</a>
+                                    <div class="menu-dropdown collapse" id="sidebarAccount">
+                                        <ul class="nav nav-sm flex-column">
+                                            <li class="nav-item">
+                                                <a href="/plantcalendar" class="nav-link" style="color:white">Calendar</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="/calendar_list" class="nav-link" style="color:white">Planting List</a>
+                                            </li>
+
+                                        </ul>
+                                    </div>
+
+
                                     <li class="nav-item">
                                         <a href="/schedules" class="nav-link" style="color:white"> Event Calendar </a>
                                     </li>
@@ -354,7 +372,7 @@
                             </a>
                             
                         </li> -->
-
+                        @if(session('user')->role_id == 1 || session('user')->role_id == 3)
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="#inventoryDashboard" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="inventoryDashboard" style="color:white">
                                 <i class="ri-archive-line"></i> <span>Inventory</span>
@@ -373,6 +391,7 @@
                                 </ul>
                             </div>
                         </li> <!-- end Dashboard Menu -->
+                        @endif
 
                         <!-- <li class="nav-item">
                             <a class="nav-link" href="task.html" role="button" style="color:white">
@@ -380,27 +399,69 @@
                                 <span data-key="t-task">Task</span>
                             </a>
                         </li> -->
-
+                        @if(session('user')->role_id == 3)
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="/expense" role="button" style="color:white">
                                 <i class="ri-coins-line "></i>
                                 <span data-key="t-dashboards">Expenses</span>
                             </a>
                         </li>
+                        @endif
 
+                        @if(session('user')->role_id != 4)
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="/chat" role="button" style="color:white">
                                 <i class="ri-wechat-line"></i>
                                 <span data-key="t-faqs">Chat</span>
                             </a>
                         </li>
-
-                        <li class="nav-item">
+                        @endif
+                        <!-- <li class="nav-item">
                             <a class="nav-link menu-link" href="/plant-info" role="button" style="color:white">
                                 <i class="ri-leaf-line"></i>
                                 <span data-key="t-faqs">Plant Information</span>
                             </a>
+                        </li> -->
+
+                        @if(session('user')->role_id == 1 || session('user')->role_id == 3)
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="#pimaintenance" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards" style="color:white">
+                                <i class="ri-leaf-line"></i> <span>Botaknows Maintenance</span>
+                            </a>
+                            <div class="collapse menu-dropdown" id="pimaintenance">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="/plant-info" class="nav-link" style="color:white"> Plant Information </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/piu/pes" class="nav-link" style="color:white"> Pesticide</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/piu/fiu" class="nav-link" style="color:white">Fertilizer</a>
+                                    </li>
+                                </ul>
+                            </div>
                         </li>
+                        @endif
+
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="#piuser" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards" style="color:white">
+                                <i class="ri-leaf-line"></i> <span>Botaknows</span>
+                            </a>
+                            <div class="collapse menu-dropdown" id="piuser">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="/piu/piu" class="nav-link" style="color:white"> Plant Information </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/piu/pes" class="nav-link" style="color:white"> Pesticide</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/piu/fiu" class="nav-link" style="color:white">Fertilizer</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li> <!-- end Dashboard Menu -->
 
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="/plantifeed" role="button" style="color:white">

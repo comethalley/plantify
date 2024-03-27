@@ -15,9 +15,12 @@ class TaskController extends Controller
 {
     public function index()
     {
-        // Fixed the syntax for the 'with' method
+        // Fixed the syntax for the 'with' method'
+        $users = DB::table('users')->where('status', '1')->orderBy('id', 'DESC')->get();
         $tasks = Task::where('completed', false)->orderBy('priority', 'desc')->orderBy('due_date')->get();
-        return view('pages.tasks.monitoring', compact('tasks'));
+        return view('pages.tasks.monitoring', compact('tasks','users'));
+
+
     }
 
     public function create()
@@ -36,6 +39,7 @@ class TaskController extends Controller
             'description' => 'nullable',
             'priority' => 'required|string|max:255',
             'due_date' => 'nullable|max:255',
+            'status' => 'nullable|string|max:11',
             'user_id' => 'nullable|exists:users,id',
         ]);
 
@@ -44,6 +48,7 @@ class TaskController extends Controller
             'description' => $request->input('description'),
             'priority' => $request->input('priority'),
             'due_date' => $request->input('due_date'),
+            'status' => $request->input('status'),
             'user_id' => $request->input('user_id'), // Fixed the input field name
         ]);
 
@@ -66,6 +71,7 @@ class TaskController extends Controller
             'description' => 'nullable',
             'priority' => 'required|string|max:255',
             'due_date' => 'nullable|max:255',
+            'status' => 'nullable|string|max:255',
             'user_id' => 'nullable|exists:users,id',
         ]);
 
@@ -74,6 +80,7 @@ class TaskController extends Controller
             'description' => $request->input('description'),
             'priority' => $request->input('priority'),
             'due_date' => $request->input('due_date'),
+            'status' => $request->input('status'),
             'user_id' => $request->input('user_id'),
             // Fixed the input field name
         ]);
@@ -99,6 +106,7 @@ class TaskController extends Controller
 
     public function showCompleted()
     {
+        
         $completedTasks = Task::where('completed', true)->orderBy('completed_at', 'desc')->get();
 
         return view('pages.tasks.taskshow', compact('completedTasks'));
@@ -125,4 +133,16 @@ class TaskController extends Controller
         // In your controller method
         return view('pages.tasks.taskassign', ['tasks' => $tasks]);
     }
+        public function filterByStatus(Request $request)
+    {
+        $status = $request->input('status');
+    
+        if (strtolower($status) == 'all'){
+            $tasks = Task::all();
+        } else {
+            $tasks = Task::Where('status', $status)->get();
+        }
+        return response()->json(['tasks' => $tasks]);
+    }
+    
 }

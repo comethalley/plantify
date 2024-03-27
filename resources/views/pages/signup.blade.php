@@ -105,7 +105,7 @@
                                             <button class="btn btn-success w-100" type="submit">Sign Up</button>
                                         </div>
 
-                                        <div class="mt-4 text-center">
+                                        <!-- <div class="mt-4 text-center">
                                             <div class="signin-other-title">
                                                 <h5 class="fs-13 mb-4 title text-muted">Create account with</h5>
                                             </div>
@@ -116,7 +116,7 @@
                                                 <button type="button" class="btn btn-dark btn-icon waves-effect waves-light"><i class="ri-github-fill fs-16"></i></button>
                                                 <button type="button" class="btn btn-info btn-icon waves-effect waves-light"><i class="ri-twitter-fill fs-16"></i></button>
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </form>
 
                                 </div>

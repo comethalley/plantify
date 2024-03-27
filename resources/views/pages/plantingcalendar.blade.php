@@ -9,7 +9,6 @@
 </head>
 <body>
     
-
 <div class="main-content">
     <div class="page-content">
         <div class="container-fluid">
@@ -107,14 +106,19 @@
                                                 <input type="hidden" id="id-field" />
                                                 <input type="text" id="orderId" class="form-control" placeholder="ID" readonly hidden />
 
-                                                <div class="mb-3 ">
-                                                    <label for="customername-field" class="form-label">Seed Name</label>
-                                                    <input type="text" name="title" id="customername-field" class="form-control" placeholder="Enter Seed Name" required />       
+                                                <div class="mb-3">
+                                                    <label for="seed" class="form-label">Seed Name</label>
+                                                    <select name="title" id="seed-dropdown" class="form-select" required>
+                                                        <option value="">Select Seed Name</option>
+                                                        @foreach ($plantInfo as $name => $days)
+                                                            <option value="{{ $name }}" data-days-harvest="{{ $days }}">{{ $name }}</option>
+                                                        @endforeach
+                                                    </select>
                                                 </div>
 
                                                 <div class="mb-3">
-                                                    <label for="seed" class="form-label">Seeds Amount</label>
-                                                    <input type="text" name="seed" id="customername-field" class="form-control" placeholder="Seed Amount. kg"required/>
+                                                    <label for="seed" class="form-label">Seeds Amount (g).</label>
+                                                    <input type="text" name="seed" id="customername-field" class="form-control" placeholder="Seed Amount (g)."required/>
                                                 </div>
 
                                                 <!-- =================== -->
@@ -145,16 +149,13 @@
                                                     <input type="text" name="status" id="customername-field" class="form-control" value="Planted" required readonly/>
                                                 </div>
 
-                                                <div class="mb-3">
-                                                    <label for="description" class="form-label">Description</label>
-                                                    <input type="text" name="description" id="description" class="form-control" placeholder="Enter description" required />
-                                                </div>
+                                                
 
                                             </div>
                                             <div class="modal-footer">
                                                 <div class="hstack gap-2 justify-content-end">
                                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                                                    <button type="submit" class="btn btn-info">Add Event</button>
+                                                    <button type="submit" class="btn btn-info">Add Planting</button>
                                                     <!-- <button type="button" class="btn btn-success" id="edit-btn">Update</button> -->
                                                 </div>
                                             </div>
@@ -178,7 +179,7 @@
                                                     <div class="d-flex mb-2">
                                                         <div class="flex-grow-1 d-flex align-items-center">
                                                             <div class="flex-shrink-0 me-3">
-                                                                <i class="ri-calendar-event-line text-muted fs-16"></i>
+                                                                <i class="ri-leaf-fill text-muted fs-16"></i>
                                                             </div>
 
                                                             <div class="flex-grow-1">
@@ -190,34 +191,34 @@
 
                                                     <div class="d-flex align-items-center mb-2">
                                                         <div class="flex-shrink-0 me-3">
-                                                            <i class="ri-time-line text-muted fs-16"></i>
+                                                            <i class="ri-scales-2-line text-muted fs-16"></i>
                                                         </div>
                                                         <div class="flex-grow-1">
-                                                            <h6 class="d-block fw-semibold mb-0">Seed Amount: <span id="eventseed"></span></h6>
+                                                            <h6 class="d-block fw-semibold mb-0">Seed Amount (g): <span id="eventseed"></span></h6>
                                                         </div>
                                                     </div>
 
                                                     <div class="d-flex align-items-center mb-2">
                                                         <div class="flex-shrink-0 me-3">
-                                                            <i class="ri-time-line text-muted fs-16"></i>
+                                                            <i class="ri-plant-line text-muted fs-16"></i>
                                                         </div>
                                                         <div class="flex-grow-1">
-                                                            <h6 class="d-block fw-semibold mb-0">Seed Harvested: <span id="eventharvested"></span></h6>
+                                                            <h6 class="d-block fw-semibold mb-0">Estimated Plant Harvested (kg): <span id="eventharvested"></span></h6>
                                                         </div>
                                                     </div>
                                                     
                                                     <div class="d-flex align-items-center mb-2">
                                                         <div class="flex-shrink-0 me-3">
-                                                            <i class="ri-time-line text-muted fs-16"></i>
+                                                            <i class=" ri-delete-bin-line text-muted fs-16"></i>
                                                         </div>
                                                         <div class="flex-grow-1">
-                                                            <h6 class="d-block fw-semibold mb-0">Seed Destroyed: <span id="eventdestroyed"></span></h6>
+                                                            <h6 class="d-block fw-semibold mb-0">Estimated Plant Destroyed (kg): <span id="eventdestroyed"></span></h6>
                                                         </div>
                                                     </div>
 
                                                     <div class="d-flex align-items-center mb-2">
                                                         <div class="flex-shrink-0 me-3">
-                                                            <i class="ri-time-line text-muted fs-16"></i>
+                                                            <i class="ri-calendar-check-fill text-muted fs-16"></i>
                                                         </div>
                                                         <div class="flex-grow-1">
                                                             <h6 class="d-block fw-semibold mb-0">Start Date: <span id="eventstart"></span></h6>
@@ -226,10 +227,10 @@
 
                                                     <div class="d-flex align-items-center mb-2">
                                                         <div class="flex-shrink-0 me-3">
-                                                            <i class="ri-time-line text-muted fs-16"></i>
+                                                            <i class="ri-calendar-event-fill text-muted fs-16"></i>
                                                         </div>
                                                         <div class="flex-grow-1">
-                                                            <h6 class="d-block fw-semibold mb-0">End Date:<span id="eventend"></span></h6>
+                                                            <h6 class="d-block fw-semibold mb-0">End Date: <span id="eventend"></span></h6>
                                                         </div>
                                                     </div>
                                                     <div class="d-flex align-items-center mb-2">
@@ -240,15 +241,7 @@
                                                             <h6 class="d-block fw-semibold mb-0">Status: <span id="eventstatus"></span></h6>
                                                         </div>
                                                     </div>
-                                                    <div class="d-flex mb-3">
-                                                        <div class="flex-shrink-0 me-3">
-                                                            <i class="ri-discuss-line text-muted fs-16"></i>
-                                                        </div>
-                                                        <div class="flex-grow-1">
-                                                            
-                                                            <h6 class="d-block fw-semibold mb-0">Description: <span id="eventdescription"></span></h6>
-                                                        </div>
-                                                    </div>
+                                                    
                                                 </div>
                                                         <div class="modal-footer">
                                                         <div class="hstack gap-2 justify-content-end">
@@ -281,16 +274,30 @@
                                                 <label for="updateEventTitle">Seed Name:</label>
                                                 <input type="text" class="form-control" id="updateEventTitle" placeholder="Enter Seed Name">
                                             </div>
+
+                                            
+
                                             <div class="form-group mb-3">
-                                                <label for="updateEventSeed">Seeds Amount:</label>
-                                                <input type="text" class="form-control" id="updateEventSeed" placeholder="Enter Seeds Amount, kg">
+                                                <label for="updateEventSeed">Seeds Amount (g):</label>
+                                                <input type="text" class="form-control" id="updateEventSeed" placeholder="Enter Seeds Amount (g)" readonly>
                                             </div>
+
                                             <div class="form-group mb-3">
-                                                <label for="updateEventHarvested">Seeds Harvested:</label>
+                                                <label for="updatestatus">Status:</label>
+                                                <select name="updatestatus" id="updatestatus" class="form-control">
+                                                    <option value="Status" readonly selected>Planted</option>    
+                                                    <option value="Harvested">Harvested</option>
+                                                    <option value="Destroyed">Destroyed</option>
+                                                </select>
+                                            </div>
+                                    
+                                            <div class="form-group mb-3">
+                                                <label for="updateEventHarvested">Estimated Plants Harvested (kg):</label>
                                                 <input type="text" class="form-control" id="updateEventHarvested" placeholder="Enter Seeds Harvested">
                                             </div>
+
                                             <div class="form-group mb-3">
-                                                <label for="updateEventDestroyed">Seeds Destroyed:</label>
+                                                <label for="updateEventDestroyed">Estimated Plants Destroyed (kg):</label>
                                                 <input type="text" class="form-control" id="updateEventDestroyed" placeholder="Enter Seeds Destroyed">
                                             </div>
 
@@ -310,19 +317,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="form-group mb-3">
-                                                <label for="updatestatus">Status:</label>
-                                                <select name="updatestatus" id="updatestatus" class="form-control">
-                                                    <option value="Status" readonly selected>Status</option>    
-                                                    <option value="Harvested">Harvested</option>
-                                                    <option value="Destroyed">Destroyed</option>
-                                                </select>
-                                            </div>
-                                            
-                                            <div class="form-group mb-3">
-                                                <label for="updateDescription">Description:</label>
-                                                <input type="text" class="form-control" id="updateDescription" placeholder="Enter Description">
-                                            </div>
+                                          
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -342,10 +337,6 @@
     <!-- container-fluid -->
 </div>
 <!-- End Page-content -->
-
-
-
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
@@ -359,23 +350,50 @@
         }
     });
     
-    
-
-    
     document.addEventListener('DOMContentLoaded', function () {
+        
+        function calculateEndDate(startDate, daysToHarvest) {
+            var endDate = new Date(startDate);
+            endDate.setDate(startDate.getDate() + parseInt(daysToHarvest));
+            return endDate.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+        }
+
+        // Event listener for changes in start date
+        $('#start-datepicker').change(function () {
+            var startDate = new Date($(this).val());
+            var seedName = $('#seed-dropdown').val();
+            var daysToHarvest = $('#seed-dropdown option:selected').data('days-harvest');
+            if (startDate && seedName && daysToHarvest) {
+                var endDate = calculateEndDate(startDate, daysToHarvest);
+                $('#end-datepicker').val(endDate);
+            }
+        });
+
+        // Event listener for changes in seed dropdown
+        $('#seed-dropdown').change(function () {
+            var startDate = new Date($('#start-datepicker').val());
+            var daysToHarvest = $(this).find('option:selected').data('days-harvest');
+            if (startDate && daysToHarvest) {
+                var endDate = calculateEndDate(startDate, daysToHarvest);
+                $('#end-datepicker').val(endDate);
+            }
+        });
         // Initialize Flatpickr
         flatpickr("#start-datepicker, #updatestart-datepicker", {
             enableTime: false,
             dateFormat: "Y-m-d",
+            minDate: "today",
         });
 
         flatpickr("#end-datepicker, #updateend-datepicker", {
             enableTime: false,
             dateFormat: "Y-m-d",
+            minDate: "today",
         });
         flatpickr("#datepicker", {
             enableTime: false,
             dateFormat: "Y-m-d",
+            minDate: "today",
         });
 
         var calendarEl = document.getElementById('calendar');
@@ -408,7 +426,6 @@
                 var eventStart = info.event.start;
                 var eventEnd = info.event.end;
                 var eventStatus = info.event.extendedProps.status;
-                var eventDescription = info.event.extendedProps.description;
 
                 // Display event details in the Event Detail Modal
                 $('#eventtitle').text(eventTitle);
@@ -418,12 +435,11 @@
                 $('#eventstart').text(moment(eventStart).format("YYYY-MM-DD"));
                 $('#eventend').text(moment(eventEnd).format("YYYY-MM-DD"));
                 $('#eventstatus').text(eventStatus);
-                $('#eventdescription').text(eventDescription);
+                
 
                 // Store event ID for update and delete
                 var eventId = info.event.id;
                 $('#deleteEventBtn').data('event-id', eventId);
-
                 // Populate update modal fields
                 $('#updateEventTitle').val(eventTitle);
                 $('#updateEventSeed').val(eventSeed);
@@ -432,18 +448,15 @@
                 $('#updatestart-datepicker').val(moment(eventStart).format("YYYY-MM-DD"));
                 $('#updateend-datepicker').val(moment(eventEnd).format("YYYY-MM-DD"));
                 $('#updatestatus').val(eventStatus);
-                $('#updateDescription').val(eventDescription);
+                
 
                 // Show the Event Detail Modal
                 $('#EventdetailModal').modal('show');
 
                 console.log(eventHarvested)
                 console.log(info)
-            
-                
+          
             },
-
-
             // Drag And Drop
             eventDrop: function (info) {
                 var eventId = info.event.id;
@@ -491,21 +504,20 @@
             var start = $('#updatestart-datepicker').val();
             var end = $('#updateend-datepicker').val();
             var status = $('#updatestatus').val();
-            var description = $('#updateDescription').val();
+            
             
             console.log("Data Sent:", {
             title: title,
             start: start,
             end: end,
-            status: status,
-            description: description,
+            status: status,        
             seed: seed,
             harvested: harvested,
             destroyed: destroyed,
         });
 
 
-            if (title && start && end && status && description && seed && harvested && destroyed) {
+            if (title && start && end && status && seed && harvested && destroyed) {
                 $.ajax({
                     url: "/plantcalendar/" + eventId,
                     type: "PUT",
@@ -516,8 +528,7 @@
                         title: title,
                         start: start,
                         end: end,
-                        status: status,
-                        description: description,
+                        status: status,         
                         seed: seed,
                         harvested: harvested,
                         destroyed: destroyed,
@@ -546,15 +557,14 @@
             handleEventDelete($(this).data('event-id'));
         });
 
-        function handleEventUpdate(eventId, start, end, status, description, seed, harvested, destroyed) {
+        function handleEventUpdate(eventId, start, end, status, seed, harvested, destroyed) {
             $.ajax({
                 url: "/plantcalendar/" + eventId,
                 type: "PUT",
                 data: {
                     start_date: start,
                     end_date: end,
-                    status: status,
-                    description: description,
+                    status: status,                
                     seed: seed,
                     harvested: harvested,
                     destroyed: destroyed,
@@ -618,23 +628,87 @@
         }
     }
 
-
         flatpickr("#start-datepicker, #updatestart-datepicker", {
             enableTime: false,
             dateFormat: "Y-m-d",
+            minDate: "today",
         });
 
         flatpickr("#end-datepicker, #updateend-datepicker", {
             enableTime: false,
             dateFormat: "Y-m-d",
+            minDate: "today",
         });
 
         document.getElementById("updatestatus").selectedIndex = 0;
 
+        document.getElementById('seed-dropdown').addEventListener('change', function () {
+        // Get the selected seed name value and its days_harvest attribute
+        var selectedSeedId = this.value;
+        var daysHarvest = parseInt(this.options[this.selectedIndex].getAttribute('data-days-harvest'));
+
+        // Get the selected start date
+        var startDateInput = document.getElementById('start-datepicker');
+        var startDate = new Date(startDateInput.value);
+
+        // Calculate the end date based on the selected start date and days_harvest
+        var endDate = new Date(startDate.getTime() + daysHarvest * 24 * 60 * 60 * 1000);
+
+        // Format the end date as YYYY-MM-DD
+        var endDateFormatted = endDate.toISOString().slice(0, 10);
+
+        // Set the calculated end date value to the end date input field
+        var endDateInput = document.getElementById('end-datepicker');
+        endDateInput.value = endDateFormatted;
     });
+
+    });
+
+    $(document).ready(function () {
+        $('#updatestatus').change(function () {
+            var status = $(this).val();
+            var seedAmount = parseFloat($('#updateEventSeed').val());
+            if (status === 'Harvested') {
+                var harvested = (seedAmount * 4.5).toFixed(); // 70% of seed amount
+                var destroyed = (seedAmount * 0.5).toFixed(); // 30% of seed amount
+                $('#updateEventHarvested').val(harvested);
+                $('#updateEventDestroyed').val(destroyed);
+            } else if (status === 'Destroyed') {
+                $('#updateEventHarvested').val('0'); // Clear harvested value
+                $('#updateEventDestroyed').val(seedAmount); // Entire seed amount is destroyed
+            } else {
+                $('#updateEventHarvested').val(''); // Clear harvested value
+                $('#updateEventDestroyed').val(''); // Clear destroyed value
+            }
+        });
+    });
+
+    $(document).ready(function () {
+        // Function to update visibility of harvested and destroyed input fields
+        function updateVisibility(status) {
+            if (status === 'Harvested') {
+                $('#updateEventHarvested').parent().show(); // Show harvested input field
+                $('#updateEventDestroyed').parent().show(); // Show destroyed input field
+            } else if (status === 'Destroyed') {
+                $('#updateEventHarvested').parent().show(); // Hide harvested input field
+                $('#updateEventDestroyed').parent().show(); // Show destroyed input field
+            } else {
+                $('#updateEventHarvested').parent().hide(); // Hide harvested input field
+                $('#updateEventDestroyed').parent().hide(); // Hide destroyed input field
+            }
+        }
+
+        // Initial visibility based on the status value
+        updateVisibility($('#updatestatus').val());
+
+        // Event listener for status change
+        $('#updatestatus').change(function () {
+            var status = $(this).val();
+            updateVisibility(status); // Update visibility based on the new status
+        });
+    });
+
 </script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-
-
 
 @include('templates.footer')

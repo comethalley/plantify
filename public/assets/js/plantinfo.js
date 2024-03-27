@@ -1,7 +1,49 @@
 
 console.log("Hello Plantinfo is here")
-$(document).ready(function() {
 
+$(document).ready(function() {
+    Quill.register("modules/imageUploader", ImageUploader);
+    const quill = new Quill('#editor', {
+        theme: 'snow',
+        modules: {
+            toolbar: [
+                ['bold', 'italic', 'underline'],
+                [{ 'header': 1 }, { 'header': 2 }],
+                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                ['image']
+            ],
+            imageUploader: {
+                upload: (file) => {
+                    return new Promise((resolve, reject) => {
+                        const formData = new FormData();
+                        formData.append("image", file);
+    
+                        fetch(
+                            "https://api.imgbb.com/1/upload?key=cfcbefca16c54d2521b89d1537f0017e",
+                            {
+                                method: "POST",
+                                body: formData
+                            }
+                        )
+                        .then((response) => response.json())
+                        .then((result) => {
+                            console.log(result);
+                            if (result.data && result.data.url) {
+                                resolve(result.data.url);
+                            } else {
+                                reject("Invalid response from image uploader");
+                            }
+                        })
+                        .catch((error) => {
+                            reject("Upload failed");
+                            console.error("Error:", error);
+                        });
+                    });
+                }
+            }
+        }
+    });
+    
 
     function getPlant(supplierId){
         console.log("Button is clicked !")
@@ -23,6 +65,64 @@ $(document).ready(function() {
             }
         });
     }
+
+    $(document).on('click', '.add-plant', function(event){
+        event.preventDefault();
+    
+        console.log("Add Plant button clicked");
+        var plant_name = $('#plant_name').val();
+        var season = $('#season').val();
+        var information = quill.root.innerHTML;
+        var companion = $('#companion').val();
+        var day_harvest = $('#day_harvest').val();
+        var image = $('#image')[0].files[0];
+    
+        var formData = new FormData();
+        formData.append('plant_name', plant_name);
+        formData.append('seasons', season);
+        formData.append('information', information);
+        formData.append('companion', companion);
+        formData.append('days_harvest', day_harvest);
+        formData.append('image', image);
+    
+        $.ajax({
+            url: "/plantinfo",
+            method: "POST",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: formData,
+            contentType: false, // important when sending FormData
+            processData: false, // important when sending FormData
+            success: function(data) {
+                console.log(data);
+                // getFarmLeader();
+                // $('#farmLeadershowModal').modal('hide');
+            },
+            error: function(xhr, status, error) {
+                if (xhr.status === 422) {
+                    var errorsResponse = JSON.parse(xhr.responseText);
+                    console.error("Validation Error:", errorsResponse);
+            
+                    var errorMessage = "";
+            
+                    if (errorsResponse.errors) {
+                        for (var key in errorsResponse.errors) {
+                            if (errorsResponse.errors.hasOwnProperty(key)) {
+                                errorMessage += errorsResponse.errors[key][0] + "\n";
+                            }
+                        }
+                    } else {
+                        errorMessage = "Validation error occurred.";
+                    }
+            
+                    alert(errorMessage);
+                } else {
+                    console.error("Error:", error);
+                }
+            }
+        });
+    });
 
     // $('.edit-item-btn').on('click', function() {
     //     event.preventDefault()

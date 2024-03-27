@@ -10,9 +10,11 @@ class PlantInfo extends Model
     use HasFactory;
     protected $fillable = [
         'plant_name',
-        'planting_date',
+        'image',
+        'seasons',
         'information',
         'companion',
+        'days_harvest',
         'status',
     ];
 

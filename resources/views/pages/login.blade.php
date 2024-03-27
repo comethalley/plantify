@@ -67,13 +67,19 @@
                                 <div class="p-2 mt-4">
                                     <form action="/login/process" method="POST">
                                         @csrf
-                                        @error('email')
-                                        <p class="text-red-500 text-xs p-1">{{$message}}</p>
-                                        @enderror
+                                        @if ($errors->any())
+                                        <div class="alert alert-danger text-center">
+
+                                            @foreach ($errors->all() as $error)
+                                            <p>{{ $error }}</p>
+                                            @endforeach
+
+                                        </div>
+                                        @endif
 
                                         <div class="mb-3">
                                             <label for="username" class="form-label">Email</label>
-                                            <input type="email" class="form-control" id="username" name="email" placeholder="Enter username">
+                                            <input type="email" class="form-control" id="username" name="email" placeholder="Enter Email Address">
                                         </div>
 
                                         <div class="mb-3">
@@ -87,16 +93,16 @@
                                             </div>
                                         </div>
 
-                                        <div class="form-check">
+                                        <!-- <div class="form-check">
                                             <input class="form-check-input" type="checkbox" value="" id="auth-remember-check">
                                             <label class="form-check-label" for="auth-remember-check">Remember me</label>
-                                        </div>
+                                        </div> -->
 
                                         <div class="mt-4">
                                             <button class="btn btn-success w-100" type="submit">Sign In</button>
                                         </div>
 
-                                        <div class="mt-4 text-center">
+                                        <!-- <div class="mt-4 text-center">
                                             <div class="signin-other-title">
                                                 <h5 class="fs-13 mb-4 title">Sign In with</h5>
                                             </div>
@@ -106,7 +112,7 @@
                                                 <button type="button" class="btn btn-dark btn-icon waves-effect waves-light"><i class="ri-github-fill fs-16"></i></button>
                                                 <button type="button" class="btn btn-info btn-icon waves-effect waves-light"><i class="ri-twitter-fill fs-16"></i></button>
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </form>
                                 </div>
                             </div>

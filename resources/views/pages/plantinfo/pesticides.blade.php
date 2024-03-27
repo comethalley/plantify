@@ -89,7 +89,7 @@
                                                             </a>
                                                         </li>
                                                         <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Edit">
-                                                            <a href="" class="text-primary d-inline-block edit-item-btn" data-plantinfo-id="{{$item->id}}">
+                                                            <a href="" class="text-primary d-inline-block edit-pes-btn" data-plantinfo-id="{{$item->id}}">
                                                                 <i class="ri-pencil-fill fs-16"></i>
                                                             </a>
                                                         </li>
@@ -191,7 +191,7 @@
                                             <h5 class="modal-title" id="exampleModalLabel">Edit Pesticide Information</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
                                         </div>
-                                        <form action="{{ url('plantinfo/') }}" method="post">
+                                        <form action="{{ url('pesticides/') }}" method="post">
                                             @csrf
                                             <div class="modal-body">
                                                 <input type="hidden" id="id-field" />
@@ -222,7 +222,7 @@
                                             <div class="modal-footer">
                                                 <div class="hstack gap-2 justify-content-end">
                                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
-                                                    <button type="button" class="btn btn-success" id="perinfo-update">Save</button>
+                                                    <button type="button" class="btn btn-success" id="pesinfo-update">Save</button>
                                                     <!-- <button type="button" class="btn btn-success" id="edit-btn">Update</button> -->
                                                 </div>
                                             </div>

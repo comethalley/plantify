@@ -120,22 +120,36 @@ class PlantinfoController extends Controller
         'edit_days_harvest' => 'required|string|max:55'
     ]);
 
+    // If validation fails, return error response
     if ($validator->fails()) {
         return response()->json(['errors' => $validator->errors()], 422);
     }
 
-    $data = $validator->validated(); // Use validated() to retrieve validated data
+    // Retrieve validated data
+    $data = $validator->validated();
 
+    // Handle image upload
+    if ($request->hasFile('edit_image')) {
+        $image = $request->file('edit_image');
+        $imageName = time() . '.' . $image->getClientOriginalExtension();
+        $image->move(public_path('images'), $imageName);
+        $data['edit_image'] = $imageName;
+    }
+
+    // Update plant info record
     $plantinfo->update([
         "plant_name" => $data['edit_plant_name'],
-        "image" => $data['edit_image'],
-        "seasons" => $data['edit_seasons'], // Corrected field name
+       // "image" => isset($data['edit_image']) ? $data['edit_image'] : $plantinfo->image,
+       "image" => $data['edit_image'],
+        "seasons" => $data['edit_seasons'],
         "information" => $data['edit_information'],
         "companion" => $data['edit_companion'],
-        "days_harvest" => $data['edit_days_harvest'] // Added days_harvest field
+        "days_harvest" => $data['edit_days_harvest']
     ]);
-    
+
+    // Return success response
     return response()->json(['plantinfo' => $plantinfo], 200);
+
 }
 
     /**

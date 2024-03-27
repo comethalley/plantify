@@ -199,7 +199,7 @@
 
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Fertilizer Name</label>
-                                                    <input type="text" name="plant_name" id="edit_fer_name" class="form-control" placeholder="Fertilizer Name" required />
+                                                    <input type="text" name="plant_name" id="edit_fer_name" class="form-control" placeholder="Fertilizer     Name" required />
                                                 </div>
 
                                                 <div class="mb-3">

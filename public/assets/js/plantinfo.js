@@ -132,37 +132,41 @@ $(document).ready(function() {
     //     //$('#supplier-id').val(plantID)
     //     getPlant(supplierId);
     // });
-
     $(document).on('click', '.edit-item-btn', function(event){
-        event.preventDefault()
-
+        event.preventDefault();
+    
         var plantID = $(this).data('plantinfo-id');
-        console.log(plantID)
-        //$('#supplier-id').val(plantID)
-        //getPlant(supplierId);
-
+    
         $.ajax({
             url: "/edit/" + plantID,
             method: "GET",
             success: function(data) {
-                console.log("plant info is"+data)
-
-                $('#plantID').val(data.plantinfo.id)    
-                $('#edit_plant_name').val(data.plantinfo.plant_name)
-                $('#edit_image').attr('src', "/images/"+data.plantinfo.image);
-                $('#edit_seasons').val(data.plantinfo.seasons)
-                $('#edit_information').val(data.plantinfo.information)
-                $('#edit_companion').val(data.plantinfo.companion)
-                $('#edit_days_harvest').val(data.plantinfo.days_harvest)
-
-                $('#updateModal').modal('show')
+                $('#plantID').val(data.plantinfo.id);   
+                $('#edit_plant_name').val(data.plantinfo.plant_name);
+                $('#edit_image_preview').attr('src', "/images/"+data.plantinfo.image); // Image preview
+                $('#edit_seasons').val(data.plantinfo.seasons);
+                $('#edit_information').val(data.plantinfo.information);
+                $('#edit_companion').val(data.plantinfo.companion);
+                $('#edit_days_harvest').val(data.plantinfo.days_harvest);
+    
+                $('#updateModal').modal('show');
             },
             error: function(xhr, status, error) {
                 console.error("Error:", status, error);
             }
         });
-    })
-
+    });
+    
+    // Handling file input change to show a preview of the selected image
+    $('#edit_image').on('change', function() {
+        var file = this.files[0];
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            $('#edit_image_preview').attr('src', e.target.result);
+        };
+        reader.readAsDataURL(file);
+    });
+    
     $(document).on('click', '.remove-item-btn', function(event){
         event.preventDefault()
 
@@ -422,37 +426,35 @@ $(document).ready(function() {
         });
     }
 
-    $('#perinfo-update').on('click', function() {
+    $('#pesinfo-update').on('click', function() {
         updatePestInfo();
     });
 
     $(document).on('click', '.edit-pes-btn', function(event){
-        event.preventDefault()
-
-        var plantID = $(this).data('pesticide-id');
-        console.log(plantID)
-        //$('#supplier-id').val(plantID)
-        //getPlant(supplierId);
-
+        event.preventDefault();
+    
+        var pesID = $(this).data('pesticide-id');
+        console.log(pesID);
+    
         $.ajax({
-            url: "/edit/" + plantID,
+            url: "/edit/" + pesID,
             method: "GET",
             success: function(data) {
-                console.log("plant info is"+data)
-
-                $('#plantID').val(data.plantinfo.id)    
-                $('#edit_pes_name').val(data.plantinfo.pes_name)
-                $('#edit_pes_image').attr('src', "/images/"+data.pesticide.image);
-                $('#edit_pes_information').val(data.plantinfo.information)
-
-
-                $('#updateModal').modal('show')
+                if (data && data.pesticide) { // Check if data and data.pesticide are defined
+                    $('#pesID').val(data.pesticide.id);    
+                    $('#edit_pes_name').val(data.pesticide.pes_name);
+                    $('#edit_pes_image').attr('src', "/images/" + data.pesticide.image);
+                    $('#edit_pes_information').val(data.pesticide.information);
+                    $('#updateModal').modal('show');
+                } else {
+                    console.error("Invalid data format:", data);
+                }
             },
             error: function(xhr, status, error) {
                 console.error("Error:", status, error);
             }
         });
-    })
+    });
 
     
 

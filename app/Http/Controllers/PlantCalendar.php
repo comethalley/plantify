@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\CalendarPlanting;
@@ -24,27 +25,25 @@ class PlantCalendar extends Controller
             ->leftJoin('farms', 'farms.farm_leader', '=', 'users.id')
             ->where('users.id', $id)
             ->first();
-            
+
         // If the user is authenticated and is a farm leader
         if ($user->role_id === '3') {
             // Retrieve events for the farm associated with the farm leader
             $events = CalendarPlanting::where('farm_id', $user->farm_id)->orderBy('id', 'DESC')->get();
-           
         } else {
             // If the user is not a farm leader, retrieve all events
             $events = CalendarPlanting::orderBy('id', 'DESC')->get();
         }
 
         return view('pages.plantingcalendar', [
-            'createplantings' => $events, 
+            'createplantings' => $events,
             'plantInfo' => $plantInfo
         ]);
-    
     }
 
 
     public function create(Request $request)
-    
+
     {
         $id = Auth::user()->id;
 
@@ -87,12 +86,11 @@ class PlantCalendar extends Controller
             ->leftJoin('farms', 'farms.farm_leader', '=', 'users.id')
             ->where('users.id', $id)
             ->first();
-            
+
         // If the user is authenticated and is a farm leader
         if ($user->role_id === '3') {
             // Retrieve events for the farm associated with the farm leader
             $events = CalendarPlanting::where('farm_id', $user->farm_id)->orderBy('id', 'DESC')->get();
-           
         } else {
             // If the user is not a farm leader, retrieve all events
             $events = CalendarPlanting::orderBy('id', 'DESC')->get();
@@ -101,7 +99,7 @@ class PlantCalendar extends Controller
         // Include additional details in the response
         $formattedEvents = $events->map(function ($event) {
 
-            
+
             return [
                 'id' => $event->id,
                 'title' => $event->title,
@@ -166,7 +164,7 @@ class PlantCalendar extends Controller
             'destroyed' => $request->input('destroyed'),
             'seed' => $request->input('seed'),
         ]);
-        
+
         $updatedEvents = CalendarPlanting::all();
 
         return response()->json([
@@ -197,7 +195,30 @@ class PlantCalendar extends Controller
         return response()->json($matchingEvents);
     }
 
-    
+    public function calendar_list(Request $request)
+    {
+        // Retrieve the authenticated user
+        // $user = Auth::user();
+        // $user->farm.id
+        $id = Auth::user()->id;
+        $plantInfo = PlantInfo::pluck('days_harvest', 'plant_name');
+        $user = User::select('users.*', 'farms.id AS farm_id')
+            ->leftJoin('farms', 'farms.farm_leader', '=', 'users.id')
+            ->where('users.id', $id)
+            ->first();
 
-    
+        // If the user is authenticated and is a farm leader
+        if ($user->role_id === '3') {
+            // Retrieve events for the farm associated with the farm leader
+            $events = CalendarPlanting::where('farm_id', $user->farm_id)->orderBy('id', 'DESC')->get();
+        } else {
+            // If the user is not a farm leader, retrieve all events
+            $events = CalendarPlanting::orderBy('id', 'DESC')->get();
+        }
+
+        return view('pages.calendar_list', [
+            'createplantings' => $events,
+            'plantInfo' => $plantInfo
+        ]);
+    }
 }

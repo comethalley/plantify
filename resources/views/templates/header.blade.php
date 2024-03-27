@@ -439,9 +439,21 @@
                             </a>
                             <div class="collapse menu-dropdown" id="sidebarDashboards">
                                 <ul class="nav nav-sm flex-column">
-                                    <li class="nav-item">
-                                        <a href="/plantcalendar" class="nav-link" style="color:white">Planting Calendar</a>
-                                    </li>
+
+                                    <a href="#sidebarAccount" class="nav-link" data-bs-toggle="collapse" role="button" aria-expanded="true" aria-controls="sidebarAccount" data-key="t-level-1.2" style="color:white">Planting Calendar</a>
+                                    <div class="menu-dropdown collapse" id="sidebarAccount">
+                                        <ul class="nav nav-sm flex-column">
+                                            <li class="nav-item">
+                                                <a href="/plantcalendar" class="nav-link" style="color:white">Calendar</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="/calendar_list" class="nav-link" style="color:white">Planting List</a>
+                                            </li>
+
+                                        </ul>
+                                    </div>
+
+
                                     <li class="nav-item">
                                         <a href="/schedules" class="nav-link" style="color:white"> Event Calendar </a>
                                     </li>

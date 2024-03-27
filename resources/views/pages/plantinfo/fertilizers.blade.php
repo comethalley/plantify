@@ -147,7 +147,7 @@
 
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Name</label>
-                                                    <input type="text" name="fer_name" id="fer_name" class="form-control" placeholder="Pesticide Name" required />
+                                                    <input type="text" name="fer_name" id="fer_name" class="form-control" placeholder="Fertilizer Name" required />
                                                 </div>
 
                                                 <div class="mb-3">
@@ -159,7 +159,7 @@
 
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Information</label>
-                                                    <textarea type="textarea" name="fer_information" id="fer_information" class="form-control" placeholder="Plant Information" required> </textarea>
+                                                    <textarea type="textarea" name="fer_information" id="fer_information" class="form-control" placeholder="Fertilizer Information" required> </textarea>
                                                 </div>
 
 
@@ -187,7 +187,7 @@
                                 <div class="modal-dialog modal-dialog-centered modal-xl">
                                     <div class="modal-content">
                                         <div class="modal-header bg-light p-3">
-                                            <h5 class="modal-title" id="exampleModalLabel">Edit Plant Information</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">Edit Fertilizer Information</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
                                         </div>
                                         <form action="{{ url('plantinfo/') }}" method="post">
@@ -198,29 +198,20 @@
                                                 <input type="hidden" id="plantID" class="form-control" placeholder="ID" />
 
                                                 <div class="mb-3">
-                                                    <label for="customername-field" class="form-label">Plant Name</label>
-                                                    <input type="text" name="plant_name" id="edit_plant_name" class="form-control" placeholder="Plant Name" required />
-                                                </div>
-
-                                                <div class="mb-3">
-                                                    <label for="customername-field" class="form-label">Planting Date</label>
-                                                    <input type="text" name="supplier-name" id="edit_plant_date" class="form-control" placeholder="Plant Name" required />
-                                                </div>
-
-                                                <div class="mb-3">
-                                                    <label for="customername-field" class="form-label">Information</label>
-                                                    <textarea type="textarea" name="description" id="edit_information" class="form-control" placeholder="Plant Information" required> </textarea>
+                                                    <label for="customername-field" class="form-label">Fertilizer Name</label>
+                                                    <input type="text" name="plant_name" id="edit_fer_name" class="form-control" placeholder="Fertilizer Name" required />
                                                 </div>
 
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Plant Image</label>
-                                                    <input type="text" name="address" id="edit_plant_image" class="form-control" placeholder="Image" required />
+                                                    <input type="file" name="address" id="edit_fer_image" class="form-control" placeholder="Image" required />
                                                 </div>
 
                                                 <div class="mb-3">
-                                                    <label for="customername-field" class="form-label">Companion</label>
-                                                    <input type="text" name="address" id="edit_companion" class="form-control" placeholder="Companion" required />
+                                                    <label for="customername-field" class="form-label">Information</label>
+                                                    <textarea type="textarea" name="description" id="edit_fer_information" class="form-control" placeholder="Plant Information" required> </textarea>
                                                 </div>
+
 
 
 

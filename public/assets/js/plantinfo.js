@@ -213,6 +213,8 @@ $(document).ready(function() {
         updatePlantInfo();
     });
 
+    
+
     function archivePlantInfo(){
         var plantID = $('#archiveID').val()
         
@@ -389,6 +391,70 @@ $(document).ready(function() {
 
         
     })
+
+    function updatePestInfo() {
+        var pestID = $('#pestID').val();
+        var pes_name = $('#edit_pes_name').val();
+        var pes_image = $('#myImage').attr('src', 'new_pes_image.jpg'); // Retrieve the file object from the input field
+        var pes_information = $("#edit_pes_information").val();
+    
+        var formData = new FormData();
+        formData.append('edit_pes_name', pes_name);
+        formData.append('edit_pes_image', pes_image); // Append the file object to the FormData object
+        formData.append('edit_pes_information', pes_information);
+
+    
+        $.ajax({
+            url: "/update/" + plantID,
+            method: "POST",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(data) {
+                location.reload();
+            },
+            error: function(xhr, status, error) {
+                console.error("Error:", status, error);
+            }
+        });
+    }
+
+    $('#perinfo-update').on('click', function() {
+        updatePestInfo();
+    });
+
+    $(document).on('click', '.edit-pes-btn', function(event){
+        event.preventDefault()
+
+        var plantID = $(this).data('pesticide-id');
+        console.log(plantID)
+        //$('#supplier-id').val(plantID)
+        //getPlant(supplierId);
+
+        $.ajax({
+            url: "/edit/" + plantID,
+            method: "GET",
+            success: function(data) {
+                console.log("plant info is"+data)
+
+                $('#plantID').val(data.plantinfo.id)    
+                $('#edit_pes_name').val(data.plantinfo.pes_name)
+                $('#edit_pes_image').attr('src', "/images/"+data.pesticide.image);
+                $('#edit_pes_information').val(data.plantinfo.information)
+
+
+                $('#updateModal').modal('show')
+            },
+            error: function(xhr, status, error) {
+                console.error("Error:", status, error);
+            }
+        });
+    })
+
+    
 
     
     

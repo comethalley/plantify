@@ -173,12 +173,12 @@
 </div>
 </div>
 <div class="row">
-    <div class="col-12">
-        <button class="btn btn-secondary" onclick="goBack()">Back</button>
-        <br>
-        <br>
+        <div class="col-6">
+            <button class="btn btn-secondary d-flex align-items-center justify-content-center" onclick="goBack()">
+            <i class="ri-arrow-left-line me-1"></i> Back
+        </button>
+        </div>
     </div>
-</div>
 </div>
 
 

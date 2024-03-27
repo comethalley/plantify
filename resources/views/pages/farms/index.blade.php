@@ -76,7 +76,7 @@
                                             <div class="row">
                                                 <div class="col">
                                                     <div class="flex-shrink-0 me-2">
-                                                        <button type="button" class="btn btn-light btn-icon rounded-circle btn-sm favourite-btn">
+                                                        <button type="button" class="btn btn-light btn-icon rounded-circle btn-sm favourite-btn disabled">
                                                             <i class=" ri-folder-5-line fs-14"></i>
                                                         </button>
                                                     </div>
@@ -98,16 +98,13 @@
                                         </div>
                                         <div class="col-lg-4 col">
                                             <div class="row text-muted text-center">
-                                                <div class="col-6 border-end border-end-dashed">
+                                                <div class="col-6  mx-auto">
                                                     <h5 class="mb-1 projects-num">{{ $barangay->farms_count }}</h5>
-                                                    <p class="text-muted mb-0">Farms</p>
-                                                </div>
-                                                <div class="col-6">
-                                                    <h5 class="mb-1 tasks-num">0</h5>
-                                                    <p class="text-muted mb-0">Tasks</p>
+                                                    <p class="text-muted mb-0">Number of Farms</p>
                                                 </div>
                                             </div>
                                         </div>
+                                        <br><br><br>
                                         <div class="col-lg-2 col">
                                         @if(Auth::check() && Auth::user()->role_id == 3)
     
@@ -120,27 +117,19 @@
                                             <div class="text-end">
                                                 <a href="{{ route('farms.view', ['barangay_name' => $barangay->barangay_name]) }}" class="button-89">View Farms</a>
                                             </div>
-                                        
-                                        @endif
-
-                                            
+                                        @endif  
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        
+                        </div> 
                     @endforeach
-                    
                 @else
                     <p>No farms found.</p>
-                @endif
-
-                
+                @endif  
             </div>
         </div>
-    </div>
-    
+    </div> 
 </div>
 
 
@@ -298,6 +287,11 @@
 </script>
 
 <style>
+/* Custom styles for disabled button */
+.disabled {
+    pointer-events: none; /* Disable pointer events */
+    opacity: 1; /* Reduce opacity to visually indicate disabled state */
+}
 
 .team-box {
         border: 1px solid #e5e5e5; /* Add a border to the card */

@@ -196,7 +196,7 @@
                                             @endforeach
                                             @else
                                         <tr>
-                                    <td colspan="7">
+                                    <td>
                                 <p>No farms found.</p>
                             </td>
                         </tr>
@@ -205,13 +205,16 @@
             </table>  
         </div>
     </div>
-</div>
-
-<div class="row">
-    <div class="col-6">
-        <button class="btn btn-secondary" onclick="goBack()">Back</button>
+    <div class="row">
+        <div class="col-6">
+            <button class="btn btn-secondary d-flex align-items-center justify-content-center" onclick="goBack()">
+            <i class="ri-arrow-left-line me-1"></i> Back
+        </button>
+        </div>
     </div>
 </div>
+
+
 <div class="modal fade" id="remarkModals" tabindex="-1" aria-labelledby="remarkModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg"> <!-- Add the modal-lg class here -->
         <div class="modal-content">

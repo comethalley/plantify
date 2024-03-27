@@ -18,6 +18,8 @@ use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\PlantCalendar;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\AboutUsController;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\FarmController;
 use App\Http\Controllers\EmailVerification;
 use App\Http\Controllers\PiuController;
 

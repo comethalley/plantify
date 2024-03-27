@@ -57,7 +57,7 @@
 
 </head>
 
-<body>
+<body onload="">>
 
     <!-- Begin page -->
     <div id="layout-wrapper">
@@ -97,7 +97,7 @@
                         <!-- App Search-->
 
                         <div class="ms-1 header-item d-none d-sm-flex">
-                            <span> Weather Today  &nbsp;&nbsp;&nbsp;</span>
+                            <span> Weather Today &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                             <button id="weather-button" type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" style="color: rgb(5, 5, 5);">
                                 <img id="weather-icon" src="" alt="">
                                 <span id="temperature-placeholder">--°C</span>

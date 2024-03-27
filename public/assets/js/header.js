@@ -16,7 +16,9 @@ function getTemperatureData(city) {
     .then(data => {
         const currentTemperature = data.currentConditions.temp;
         updateTemperature(currentTemperature);
-        updateWeatherIcon(data.currentConditions.weather);
+        updateWeatherIcon(data.currentConditions.icon);
+        // let iconCondition = data[day].icon;
+        // updateWeatherIcon(iconCondition);
     })
     .catch(err => {
         console.error('Error fetching temperature data:', err);

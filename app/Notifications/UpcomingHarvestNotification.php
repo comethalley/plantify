@@ -27,9 +27,9 @@ class UpcomingHarvestNotification extends Notification
     {
         return [
           
-            'event_id' => $this->plantName->id,
-            'event_name' => $this->plantName->title,
-            'message' => 'Upcoming event: ' . $this->plantName->title . ' on ' . $this->plantName->end,
+            
+            'title' => $this->plantName->title,
+            'message' => 'Soon to be harvest: ' . $this->plantName->title . ' on ' . $this->plantName->end,
         ];
     }
 }

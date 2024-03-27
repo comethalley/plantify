@@ -23,20 +23,12 @@ class UpcomingEventNotification extends Notification
         return ['database'];
     }
 
-    public function toDatabase($notifiable)
-    {
-        return [
-            'title' => $this->event->title,
-            'start' => $this->event->start,
-            'message' => 'Upcoming event: ' . $this->events->title . ' on ' . $this->event->start,
-        ];
-    }
+ 
     public function toArray($notifiable)
     {
         return [
             'title' => $this->event->title,
-            'start' => $this->event->start,
-            'message' => 'Upcoming event: ' . $this->event->title . ' on ' . $this->event->start,
+            'message' => 'Are you ready for the event: ' . $this->event->title . ' on ' . $this->event->start,
         ];
     }
 }

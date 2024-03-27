@@ -16,9 +16,10 @@ class CalendarPlanting extends Model
         'start',
         'end',
         'status',
-        'description',
+        'farm_id',
         'harvested',
         'destroyed',
         'seed',
     ];
+    
 }

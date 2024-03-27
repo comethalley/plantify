@@ -22,7 +22,7 @@ class CheckUpcomingEvents extends Command
             
             foreach ($users as $user) {
                 foreach ($upcomingevents as $events) {
-                    $user->notify(new UpcomingHarvestNotification($events));
+                    $user->notify(new UpcomingEventNotification($events));
                 }
             }
             

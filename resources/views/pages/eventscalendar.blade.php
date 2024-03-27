@@ -455,7 +455,7 @@ function handleEventDelete(eventId) {
                     Swal.fire({
                     title: "Successfully archived",
                     text: "Are you ready for the next level?",
-                    icon: "error"
+                    icon: "success"
                     });
                     $('#planting-events-container').load(location.href + ' planting-events-container');
                 },
@@ -601,6 +601,7 @@ function handleEventDelete(eventId) {
 
        
 </script>
+
 <script>
     $(document).ready(function(){
     $("#deleteEventBtn").click(function(){

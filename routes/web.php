@@ -165,6 +165,7 @@ Route::get('/farms/filterByStatus1', [FarmController::class, 'filterByStatus1'])
 Route::get('/farm/{id}/details', [FarmController::class, 'getFarmDetails']);
 Route::post('/update-farm-status-cancel/{id}', [FarmController::class, 'updateStatusCancel']);
 Route::post('/update-farms/{id}', [FarmController::class, 'updateFarm'])->name('farms.update');
+Route::post('/set-date-farm/{id}', [FarmController::class, 'SetDateStatus'])->name('set.date.farm');
 
 
 //index farm-mamangement//

@@ -410,7 +410,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="SetDateModal" tabindex="-1" role="dialog" aria-labelledby="SetDateModalLabel" aria-hidden="true">
+<div class="modal fade" id="SetDateModal" tabindex="-1" role="dialog" aria-labelledby="SetDateModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header p-4">
@@ -420,11 +420,11 @@
             <div class="modal-body">
                 Select the availability dates to visit in your farm.<br><br>
                 <input type="radio" id="availability1" name="availability" value="option1">
-                <label for="availability1"><span id="selectedDate">{{ $farm->select_date }}</span></label><br>
+                <label for="availability1"></label><br>
                 <input type="radio" id="availability2" name="availability" value="option2">
-                <label for="availability2">Option 2</label><br>
+                <label for="availability2"></label><br>
                 <input type="radio" id="availability3" name="availability" value="option3">
-                <label for="availability3">Option 3</label>
+                <label for="availability3"></label>
             </div>
             <div class="modal-body" style="color: red; text-align: center;">
                 Are you sure you want to Set the date of visitation?
@@ -454,27 +454,33 @@
 <script>
 
 function setDate(id, selectDate) {
-    // Calculate the next date
-    var nextDate = new Date(selectDate);
-    nextDate.setDate(nextDate.getDate() + 1); // Adding 1 day to selectDate
+    // Calculate the next two dates
+    var nextDate1 = new Date(selectDate);
+    var nextDate2 = new Date(selectDate);
+    nextDate1.setDate(nextDate1.getDate() + 1); // Adding 1 day to selectDate
+    nextDate2.setDate(nextDate2.getDate() + 2); // Adding 2 days to selectDate
 
-    // Format nextDate as a string
-    var nextDateString = nextDate.toISOString().split('T')[0]; // Get the date part only in YYYY-MM-DD format
+    // Format next dates as strings
+    var nextDateString1 = nextDate1.toISOString().split('T')[0]; // Get the date part only in YYYY-MM-DD format
+    var nextDateString2 = nextDate2.toISOString().split('T')[0]; // Get the date part only in YYYY-MM-DD format
 
     // Set the farm ID to be canceled
     $("#SetDateBtn").data("farm-id", id);
 
-    // Set the select_date value to the label of option1
-    $("label[for='availability1']").text("Option 1: " + selectDate);
+    // Set values and labels for each radio button
+    $("#availability1").val(selectDate);
+    $("label[for='availability1']").text(selectDate);
 
-    // Set the next date value to the label of option2
-    $("label[for='availability2']").text("Option 2: " + nextDateString);
+    $("#availability2").val(nextDateString1);
+    $("label[for='availability2']").text(nextDateString1);
+
+    $("#availability3").val(nextDateString2);
+    $("label[for='availability3']").text(nextDateString2);
 
     // Show the confirmation modal
     $("#SetDateModal").modal("show");
 }
 
-// Attach click event to update status button
 $("#SetDateBtn").click(function () {
     // Get the farm ID from the data attribute
     var id = $(this).data("farm-id");
@@ -482,32 +488,36 @@ $("#SetDateBtn").click(function () {
     // Get the selected date
     var selectedDate = $('input[name="availability"]:checked').val();
 
-    // Send an AJAX request to update the status in the database
-    $.ajax({
-        url: "/set-date-farm/" + id,
-        type: "POST",
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        data: { 
-            status: "For-Visiting",
-            visit_date: selectedDate // Send the selected date
-        },
-        success: function (response) {
-            // Handle the response as needed
-            console.log(response);
-            
-            // Reload the current page after updating the status
-            location.reload();
-        },
-        error: function (error) {
-            console.error("Error updating farm status:", error);
-        }
-    });
+    // Check if availability1 is selected
+    if(selectedDate) {
+        // Send an AJAX request to update the status in the database
+        $.ajax({
+            url: "/set-date-farm/" + id,
+            type: "POST",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: { 
+                status: "For-Visiting",
+                visit_date: selectedDate // Send the selected date
+            },
+            success: function (response) {
+                // Handle the response as needed
+                console.log(response);
+                
+                // Reload the current page after updating the status
+                location.reload();
+            },
+            error: function (error) {
+                console.error("Error updating farm status:", error);
+            }
+        });
+    }
 
     // Close the modal after processing
     $("#SetDateModal").modal("hide");
 });
+
 
 
 function goBack() {

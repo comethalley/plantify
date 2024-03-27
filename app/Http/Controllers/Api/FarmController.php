@@ -541,40 +541,40 @@ public function updateFarm(Request $request, $id)
     return response()->json(['message' => 'Farm updated successfully', 'farm' => $farm]);
 }
 
-public function SetDateStatus($id)
-{
-    try {
-        // Find the farm by ID
-        $farm = Farm::findOrFail($id);
+public function SetDateStatus($id, Request $request)
+    {
+        try {
+            // Find the farm by ID
+            $farm = Farm::findOrFail($id);
 
-        $farm->status = 'For-Visiting';
+            $farm->status = 'For-Visiting';
 
-        // Save the changes
-        $farm->save();
+            // Save the changes
+            $farm->save();
 
-        // Get the authenticated user (assuming it's a regular user)
-        $user = Auth::user();
+            // Get the authenticated user (assuming it's a regular user)
+            $user = Auth::user();
 
-        // Create a new entry in the RemarkFarm table
-        RemarkFarm::create([
-            'farm_id' => $farm->id,
-            'remarks' => 'For-Visiting', 
-            'remark_status' => 'For-Visiting',
-            'validated_by' => $user->firstname . ' ' . $user->lastname,
-	'visit_date',
-        ]);
+            // Create a new entry in the RemarkFarm table
+            RemarkFarm::create([
+                'farm_id' => $farm->id,
+                'remarks' => 'For Farm Visiting Date', 
+                'remark_status' => 'For-Visiting',
+                'validated_by' => $user->firstname . ' ' . $user->lastname,
+                'visit_date' => $request->visit_date // Save the selected date
+            ]);
 
-        // You can return a success response if needed
-        return response()->json(['success' => true, 'message' => 'Farm status updated successfully']);
+            // You can return a success response if needed
+            return response()->json(['success' => true, 'message' => 'Farm status updated successfully']);
 
-    } catch (\Exception $e) {
-        // Log the error for debugging purposes
-        \Log::error('Error updating farm status to "Cancel" for farm ID ' . $id . ': ' . $e->getMessage());
+        } catch (\Exception $e) {
+            // Log the error for debugging purposes
+            \Log::error('Error updating farm status to "Cancel" for farm ID ' . $id . ': ' . $e->getMessage());
 
-        // Handle any errors that occur during the update
-        return response()->json(['success' => false, 'message' => 'Error updating farm status to "Set Date"']);
+            // Handle any errors that occur during the update
+            return response()->json(['success' => false, 'message' => 'Error updating farm status to "Set Date"']);
+        }
     }
-}
 
 
 

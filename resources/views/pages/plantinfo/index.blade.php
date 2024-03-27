@@ -213,7 +213,7 @@
 
 
                             <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-dialog modal-dialog-centered modal-lg">
                                     <div class="modal-content">
                                         <div class="modal-header bg-light p-3">
                                             <h5 class="modal-title" id="exampleModalLabel">Edit Plant Information</h5>
@@ -242,10 +242,12 @@
                                                 </div>
                                                 <div class="mb-3">
                                                 <label for="customername-field" class="form-label">Information</label>
-                                                    <input type="text" name="information" id="edit_information" class="form-control" placeholder="Plant Information" required />
-                                                    <div id="editor">
+                                                    <!-- <input type="text" name="information" id="edit_information" class="form-control" placeholder="Plant Information" required /> -->
+                                                    <div id="edit-editor">
+
+                                                    
                                                 </div>
-                                                </div>
+                                                </div>      
                                                 <div class="mb-3">
                                                           
                                                           <img src=""  alt="" srcset="" id="edit_image_preview" width="200px" height="200px" >

@@ -50,7 +50,7 @@ class PlantinfoController extends Controller
             'plant_name' => 'required',
             'seasons' => 'required',
             'information' => 'required',
-            'companion' => 'required',
+            'companion' => 'required',  
             'days_harvest' => 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Example validation for image upload
         ]);
@@ -113,7 +113,7 @@ class PlantinfoController extends Controller
 
     $validator = Validator::make($request->all(), [
         'edit_plant_name' => 'required|string|max:55',
-        'edit_image' => 'required|string|max:55',
+        'edit_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         'edit_seasons' => 'required|string|max:55',
         'edit_information' => 'required|string|max:55',
         'edit_companion' => 'required|string|max:55',
@@ -291,6 +291,54 @@ class PlantinfoController extends Controller
         fertilizers::create($input);
 
         return redirect('fertilizers')->with('flash_message', 'Plant Added!');
+    }
+
+    public function pupdate(Request $request, $id)
+{
+    $pesticides = Pesticides::where('id', $id)->where('status', 1)->first(); // Add first() to retrieve the record
+
+    $validator = Validator::make($request->all(), [
+        'edit_pes_name' => 'required|string|max:55',
+        'edit_pes_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'edit_information' => 'required|string|max:55'
+
+    ]);
+
+    // If validation fails, return error response
+    if ($validator->fails()) {
+        return response()->json(['errors' => $validator->errors()], 422);
+    }
+
+    // Retrieve validated data
+    $data = $validator->validated();
+
+    // Handle image upload
+    if ($request->hasFile('edit_pes_image')) {
+        $image = $request->file('edit_pes_image');
+        $imageName = time() . '.' . $image->getClientOriginalExtension();
+        $image->move(public_path('images'), $imageName);
+        $data['edit_pes_image'] = $imageName;
+    }
+
+    // Update plant info record
+    $plantinfo->update([
+        "pes_name" => $data['edit_pes_name'],
+       // "image" => isset($data['edit_image']) ? $data['edit_image'] : $plantinfo->image,
+       "pes_image" => $data['edit_pes_image'],
+        "information" => $data['edit_pes_information']
+
+    ]);
+
+    // Return success response
+    return response()->json(['plantinfo' => $plantinfo], 200);
+
+}
+
+public function pedit($id)
+    {
+        $pesticides = pesticides::find($id);
+        // return view('plantinfo.edit')->with('plantinfo', $plantinfo);
+        return response()->json(['pesticides' => $pesticides], 200);
     }
 
 

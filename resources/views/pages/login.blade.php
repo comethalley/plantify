@@ -67,9 +67,15 @@
                                 <div class="p-2 mt-4">
                                     <form action="/login/process" method="POST">
                                         @csrf
-                                        @error('email')
-                                        <p class="text-red-500 text-xs p-1">{{$message}}</p>
-                                        @enderror
+                                        @if ($errors->any())
+                                        <div class="alert alert-danger text-center">
+
+                                            @foreach ($errors->all() as $error)
+                                            <p>{{ $error }}</p>
+                                            @endforeach
+
+                                        </div>
+                                        @endif
 
                                         <div class="mb-3">
                                             <label for="username" class="form-label">Email</label>

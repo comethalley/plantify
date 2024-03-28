@@ -18,7 +18,7 @@
     </div>
 </div>
 <script src="https://cdn.lordicon.com/lordicon.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <!-- <script src="{{ asset('assets/js/pages/calendar.init.js') }}"></script>
 

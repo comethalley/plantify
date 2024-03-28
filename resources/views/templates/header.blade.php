@@ -45,6 +45,7 @@
 
     <!--Weather JS-->
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!--Quill-->
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet" />
@@ -167,7 +168,7 @@
                                                     <h6 class="mt-0 mb-1 fs-13 fw-semibold">{{ $notification->data['title']}}</h6>
                                                 </a>
                                                 <div class="fs-13 text-muted">
-                                                    <p class="mb-1">WE have a new events 📆.</p>
+                                                    <p class="mb-1">Check it out we have new events 📆.</p>
                                                 </div>
                                                 <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
                                                     <span><i class="mdi mdi-clock-outline"></i> 1 min ago</span>

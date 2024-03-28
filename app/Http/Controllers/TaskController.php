@@ -4,13 +4,15 @@
 
 namespace App\Http\Controllers;
 
+
 use Illuminate\Support\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Task;  
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Log;
+use DateTime;
 
 class TaskController extends Controller
 {
@@ -18,6 +20,7 @@ class TaskController extends Controller
 {
     // Retrieve users with their task counts
     $users = User::select('id', 'firstname', 'lastname')
+    ->where('role_id', 4) // Filter by role_id == 4
     ->withCount([
         'tasks as tasks_count' => function ($query) {
             $query->where('completed', '!=', 1)
@@ -31,62 +34,60 @@ class TaskController extends Controller
     ->orderBy('tasks_count', 'asc')
     ->get();
 
-
     // Filter users who have exactly 5 tasks
     $usersWithFiveTasks = $users->filter(function ($user) {
         return $user->tasks_count == 6;
-    });
-
-    // Apply logic to allow editing only one task for users with exactly 5 tasks
-    foreach ($usersWithFiveTasks as $user) {
-        $editableTask = $user->tasks()->where('completed', '!=', 1)->where('archived', '!=', 1)->first();
-
-        // If exactly one task is found, allow editing
-        if ($editableTask) {
-            $user->editable_task_id = $editableTask->id;
-        } else {
-            // If no editable task found, set editable_task_id to null
-            $user->editable_task_id = null;
-        }
-    }         
-  
-                               
-
+    });     
+                                                                                                 
+     
     
-    $overdueTasks = Task::where('due_date', '<', Carbon::now())->get();
-    
-    // Fetch tasks for monitoring
-    $tasks = Task::where('completed', false)
+// Fetch tasks for monitoring
+$role_id = auth()->user()->role_id;
+
+if ($role_id == 4) {
+    // Fetch tasks for role ID 4
+    $tasksQuery = Task::with('user')->where('user_id', auth()->id());
+} else {
+    // Fetch all tasks
+    $tasksQuery = Task::with('user');
+}
+
+$tasks = $tasksQuery->where('status', '!=', 'missing')
     ->where('archived', false)
-    ->where('due_date', '>=', Carbon::now()->toDateTimeString()) 
-    ->where('status', '!=', 'missing')
+    ->where('completed', false)
     ->orderByDesc('priority')
-    ->orderBy('due_date')
+    ->orderBy('due_date', 'asc')
     ->get();
 
+// $now = Carbon::now();
+date_default_timezone_set('Asia/Manila');
 
-// Iterate over tasks and update status if due date is today
 foreach ($tasks as $task) {
-    $currentDateTime = Carbon::now(); // Current date and time
-    $dueDateTime = Carbon::parse($task->due_date); // Due date of the task
+    // Convert the task's due date to a Carbon instance in PH timezone
+    $dueDate = Carbon::parse($task->due_date)->setTimezone('Asia/Manila');
 
-    if ($dueDateTime->isToday()) {
-        $task->status = 'missing'; // Change the status to "missing" when due date is past
-        $task->save();
+    // Get the current date and time in PH timezone
+    $currentDateTime = Carbon::now()->setTimezone('Asia/Manila');
+
+    // Check if the due date is in the past
+    if ($dueDate < $currentDateTime) {
+        // Update the status of the task to 'missing'
+        $task->update([
+            "status" => "missing"
+        ]); 
+
+        // Optionally, you can save the task after updating the status
+        // $task->save();
     }
 
 }
-                                        
-
-         
-              
-
-    return view('pages.tasks.monitoring', compact('tasks', 'users','overdueTasks'));
+// Return the view with the tasks and users data
+return view('pages.tasks.monitoring', compact('tasks', 'users'));
 }
-
+        
                                 
 
-
+                                            
     public function store(Request $request)
     {
         // Fixed the syntax for the 'redirect' method
@@ -165,9 +166,26 @@ foreach ($tasks as $task) {
 
     public function showCompleted()
     {
-        
-        $completedTasks = Task::where('completed', true)->orderBy('completed_at', 'desc')->get();
+        $role_id = auth()->user()->role_id;
 
+// Initialize tasks query
+if ($role_id == 4) {
+    // Fetch tasks for role ID 4
+    $tasksQuery = Task::with('user')->where('user_id', auth()->id());
+} else {
+    // Fetch all tasks
+    $tasksQuery = Task::with('user');
+}
+
+// Fetch completed tasks
+$completedTasks = $tasksQuery->where('completed', true)->orderBy('completed_at', 'desc')->get();
+
+// Update status for completed tasks
+foreach ($completedTasks as $task) {
+    $task->update(['status' => 'completed']);
+}
+
+        
         return view('pages.tasks.taskshow', compact('completedTasks'));
     }
                                        
@@ -177,15 +195,47 @@ foreach ($tasks as $task) {
     public function missingTasks()   
 {
     // Find tasks that are either past their due date, not completed yet, or marked as missing
-    $missingTasks = Task::where(function($query) {
-                            $query->where('due_date', '<', Carbon::now())
-                                  ->orWhere(function($query) {
-                                      $query->whereNull('due_date')
-                                            ->where('completed', false);
-                                  })
-                                  ->orWhere('status', 'missing'); // Include tasks with status 'missing'
-                        })
-                        ->get();
+    $role_id = auth()->user()->role_id;
+
+if ($role_id == 4) {
+    // Fetch tasks for role ID 4
+    $tasksQuery = Task::with('user')->where('user_id', auth()->id());
+} else {
+    // Fetch all tasks
+    $tasksQuery = Task::with('user');
+}
+
+    $missingTasksQuery = Task::where(function($query) {
+        $query->where('due_date', '<', Carbon::now())
+          ->orWhere(function($subQuery) {
+              $subQuery->whereNull('due_date')
+                       ->where('completed', false);
+          })
+          ->orWhere('status', 'missing');
+});
+
+// Fetch missing tasks based on user role
+if ($role_id == 4) {
+    $missingTasksQuery->where('user_id', auth()->id());
+}
+
+$missingTasks = $missingTasksQuery->get();
+
+// Merge missing tasks with other tasks based on the role
+$tasks = $tasksQuery->where('status', '!=', 'missing')
+    ->where('archived', false)
+    ->where('completed', false)
+    ->orderByDesc('priority')
+    ->orderBy('due_date', 'asc')
+    ->get();
+
+// Merge missing tasks with other tasks
+$tasks = $tasks->merge($missingTasks);
+
+    // Update status of fetched tasks to 'missing'
+    foreach ($missingTasks as $task) {
+        $task->update(['status' => 'missing']);
+    }
     
     // Pass missing tasks to the view
     return view('pages.tasks.missingtask', ['tasks' => $missingTasks]);
@@ -240,4 +290,4 @@ foreach ($tasks as $task) {
     return redirect()->route('archived')->with('success', 'Task Restored Successfully');
 }
 
-}
+}                                         

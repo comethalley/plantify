@@ -8,23 +8,28 @@
     font-size: 10px;
     text-transform: uppercase;
 }
-
 .badge-new {
-    background-color: #f0ffff; /* Light gray */
+    background-color: #f0ffff; /* Light cyan */
     color: #007bff; /* Blue */
 }
 
 .badge-missing {
-    background-color: #FE8484; /* Light gray */
-    color: #800000; /* Blue */
+    background-color: #ffe4e1; /* Misty rose */
+    color: #800000; /* Dark red */
 }
+
 .badge-inprogress {
-    background-color: #f0f0f0; /* Light gray */
+    background-color: #f0f8ff; /* Alice blue */
     color: #28a745; /* Green */
 }
 
+.badge-completed {
+    background-color: #f5f5dc; /* Beige */
+    color: #6B8E23; /* Olive */
+}
+
 .badge-pending {
-    background-color: #ffffe0; /* Light gray */
+    background-color: #fff8dc; /* Cornsilk */
     color: #ffc107; /* Yellow */
 }
 
@@ -109,7 +114,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div><br>
+                                    </div>
                                     <!--end row-->
                                     <!-- Another Calender -->
                                     <!-- <div >
@@ -142,7 +147,16 @@
                                                 </tr>
                                             </thead>
                                             @if($tasks == "")
-                                             <p>No tasks assigned to you.</p>
+                                             <p>
+                                             <td colspan="10"><div class="noresult" style="display: flex; justify-content: center; align-items: center; height: 200px;">
+                                                    <div class="text-center">
+                                                        <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="loop" colors="primary:#121331,secondary:#08a88a" style="width:75px;height:75px"></lord-icon>
+                                                        <h5 class="mt-2" style="font-size: 20px;">Sorry! No Result Found</h5>
+                                                        <p class="text-muted mb-0" style="font-size: 16px;">We've searched more than 200k+ tasks. We did not find any tasks for your search.</p>
+                                                    </div>
+                                                </div>
+                                                </td>
+                                             </p>
                                               @else
                     
                                              @foreach($tasks as $task)

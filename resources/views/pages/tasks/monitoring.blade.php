@@ -8,12 +8,10 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Tasks</h4>
-
-                        <div class="page-title-right">
+                        <h4 class="mb-sm-0">Task</h4>
+                    <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">List Viewed</a></li>
-                                <li class="breadcrumb-item active">Kanban Board</li>
+                                <li class="breadcrumb-item">Task</li>
                             </ol>
                         </div>
 
@@ -34,25 +32,31 @@
     border-radius: 4px;
     font-size: 10px;
     text-transform: uppercase;
-}
-.badge-missing {
-    background-color: #FE8484; /* Light gray */
-    color: #800000; /* Blue */
-}
-.badge-new {
-    background-color: #f0ffff; /* Light gray */
+}.badge-new {
+    background-color: #f0ffff; /* Light cyan */
     color: #007bff; /* Blue */
 }
 
+.badge-missing {
+    background-color: #ffe4e1; /* Misty rose */
+    color: #800000; /* Dark red */
+}
+
 .badge-inprogress {
-    background-color: #f0f0f0; /* Light gray */
+    background-color: #f0f8ff; /* Alice blue */
     color: #28a745; /* Green */
 }
 
+.badge-completed {
+    background-color: #f5f5dc; /* Beige */
+    color: #6B8E23; /* Olive */
+}
+
 .badge-pending {
-    background-color: #ffffe0; /* Light gray */
+    background-color: #fff8dc; /* Cornsilk */
     color: #ffc107; /* Yellow */
 }
+
 
 /* Priority styles */
 .priority {
@@ -78,14 +82,8 @@
     background-color: #28a745; /* Green */
     color: #fff; /* White */
 }
+  </style>
 
-
-        </style>
-<script>
-    $(document).ready(function() {
-        $('#tasksTable').DataTable();
-    });
-</script>
 
     <!-- Include jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -98,8 +96,7 @@
     <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"> -->
 <form>
     <!-- Your content here -->
-    <br>
-    <br>
+    
     <!-- <div class="container text-center">
         
 
@@ -114,21 +111,43 @@
 
         <!-- end page title -->
 
-        <div class="row">
+<div class="row">
     <div class="col-lg-12">
         <div class="card" id="orderList">
             <div class="card-header border-0">
                 <div class="row align-items-center gy-3">
                     <div class="col-sm">
-                        <h5 class="card-title mb-0">Task list</h5>
+                    @if(auth()->user()->role_id == 4) 
+                        {{-- Display only for role_id 4 (Farmers) --}}
+                        <h5 class="card-title mb-0">My Task</h5>
+                        @endif
+                    @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 3 || auth()->user()->role_id == 5) 
+                    {{-- Display only for role_id 4 (Farmers) --}}
+                    <h5 class="card-title mb-0">Task List</h5>
+                    @endif
                     </div>
                     <div class="col-sm-auto">
                         <div class="d-flex gap-1 flex-wrap">
-                            <button type="button" class="btn btn-success add-btn" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModal"><i class="ri-add-line align-bottom me-1"></i> Create</button>
-                            <a href="{{ route('taskshow') }}" class="btn btn-primary bg-gradient waves-effect waves-light">Show Complete Task</a>
-                            <a href="/missingtasks" class="btn btn-primary bg-gradient waves-effect waves-light">Missing Task</a>
-                            <a href="/taskassign" class="btn btn-primary bg-gradient waves-effect waves-light">My Task</a>
-                            <a href="{{ route('archived') }}" class="btn btn-primary bg-gradient waves-effect waves-light">Show Archived Task</a>
+                    @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 3) 
+                        {{-- Display only for roles 1, 2, or 3 --}}
+                        <button type="button" class="btn btn-success add-btn" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModal"><i class="ri-add-line align-bottom me-1"></i> Create</button>
+                    @endif
+
+                    @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 3 || auth()->user()->role_id == 4 ) 
+                        {{-- Display only for All --}}
+                        <a href="{{ route('taskshow') }}" class="btn btn-primary bg-gradient waves-effect waves-light">Show Complete Task</a>
+                    @endif
+
+                    @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 3 || auth()->user()->role_id == 4 ) 
+                        {{-- Display only for All --}}
+                        <a href="/missingtasks" class="btn btn-primary bg-gradient waves-effect waves-light">Missing Task</a>
+                    @endif
+
+
+                    @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 3) 
+                        {{-- Display only for SuperAdmin,Admin,Farmer Leader --}}
+                        <a href="{{ route('archived') }}" class="btn btn-primary bg-gradient waves-effect waves-light">Show Archived Task</a>
+                    @endif
 
                             <!-- Dropdown Filter -->
                             <div class="dropdown">
@@ -151,10 +170,7 @@
                     <form>
                         <div class="row g-3">
                             <div class="col-xxl-5 col-sm-6">
-                                <div class="search-box">
-                                    <!-- <input type="text" class="form-control search" placeholder="Search for order ID, customer, order status or something...">
-                                    <i class="ri-search-line search-icon"></i>         -->
-                                </div>
+                                
                             </div>
                         </div>
                         <!--end row-->
@@ -172,7 +188,10 @@
                                     <th class="sort" data_sort="due_date">Due</th>
                                     <th class="sort" data_sort="priority">Priority</th>
                                     <th class="sort" data_sort="status">Status</th>
+                                    @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 3 ) 
+                                     {{-- Display only for role_id 1,2,3 (Super Admin, Admin, Farmerleader) --}}
                                     <th>Actions</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -200,7 +219,8 @@
                                         <span class="badge badge-<?php echo strtolower($task->status); ?>"><?php echo $task->status; ?></span>
                                     </td>
                                     <td>
-                                        <!-- Edit task button -->
+                                    @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 3 ) 
+                                        {{-- Display only for role_id 1, 2, 3 (Super Admin, Admin, Farmerleader) --}}
                                         <a href="#" class="btn btn-primary btn-sm task-edit" data-task-id="{{ $task->id }}" data-task-title="{{ $task->title }}" data-task-description="{{ $task->description }}" data-task-priority="{{ $task->priority }}" data-task-due_date="{{ $task->due_date }}" data-task-user_id="{{ $task->user_id }}" data-task-status="{{ $task->status }}">
                                             <i class="ri-pencil-fill fs-16"></i>
                                         </a>
@@ -222,7 +242,8 @@
                                             </button>
                                         </form>
                                         @endif
-                                    </td>
+                                    @endif
+                                </td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -645,6 +666,7 @@
 @foreach($tasks as $task)
     updateDueDateColor({{ $task->id }}, '{{ $task->due_date }}');
 @endforeach
+
 
                                                      
 });

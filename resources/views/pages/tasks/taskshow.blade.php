@@ -10,17 +10,27 @@
 }
 
 .badge-new {
-    background-color: #f0ffff; /* Light gray */
+    background-color: #f0ffff; /* Light cyan */
     color: #007bff; /* Blue */
 }
 
+.badge-missing {
+    background-color: #ffe4e1; /* Misty rose */
+    color: #800000; /* Dark red */
+}
+
 .badge-inprogress {
-    background-color: #f0f0f0; /* Light gray */
+    background-color: #f0f8ff; /* Alice blue */
     color: #28a745; /* Green */
 }
 
+.badge-completed {
+    background-color: #f5f5dc; /* Beige */
+    color: #6B8E23; /* Olive */
+}
+
 .badge-pending {
-    background-color: #ffffe0; /* Light gray */
+    background-color: #fff8dc; /* Cornsilk */
     color: #ffc107; /* Yellow */
 }
 
@@ -68,7 +78,6 @@
                                 <li class="breadcrumb-item active">Kanban Board</li>
                             </ol>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -102,7 +111,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div><br>
+                            </div>
                             <!--end row-->
                             <!-- Another Calender -->
                             <!-- <div >
@@ -114,16 +123,13 @@
                                 </div> -->
                         </form>
                     </div>
-                    <div class="card-body pt-0">
-                        <div>
-
-                            <div class="table-responsive table-card mb-1">
+                    
+                        <div class="card-body pt-0">
+                             <div class="table-responsive table-card mb-1">
                                 <table class="table table-nowrap align-middle" id="">
                                     <thead class="text-muted table-light">
                                         <tr class="text-uppercase">
-
-
-                                            </th>
+                                        </th>
                                             <th>ID</th>
                                             <th class="sort" data-sort="title">Title  </th>
                                             <th class="sort" data-sort="description">Description</th>
@@ -134,7 +140,7 @@
                                             
                                             
                                         </tr>
-
+                                        </thead>
                                         <tbody>
                                       @foreach ($completedTasks as $task)
                                         <tr>

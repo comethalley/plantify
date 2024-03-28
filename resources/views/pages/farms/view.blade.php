@@ -161,17 +161,21 @@
                         </tr>
                     @endforeach
                 @else
-                    <tr>
-                        <td colspan="7">
-                            <p>No farms found.</p>
-                        </td>
-                    </tr>
+                <tr>
+                    <td colspan="7">
+                        <!-- Message indicating no farms found -->
+                        <!-- Lord icon -->
+                        <div id="lordIconContainer" style="text-align: center;"></div>
+                        <p id="noFarmsMessage" style="text-align: center; font-size: 21px;">No Farms found.</p>
+                    </td>
+                </tr>
                 @endif
             </tbody>
         </table>
   
 </div>
 </div>
+<br><br>
 <div class="row">
         <div class="col-6">
             <button class="btn btn-secondary d-flex align-items-center justify-content-center" onclick="goBack()">
@@ -369,8 +373,10 @@
 
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdn.lordicon.com/lordicon.js"></script>
 
 <script>
+
     function goBack() {
         window.location.href = "/farms3";
         window.onload = function() {
@@ -707,6 +713,15 @@ $(document).ready(function () {
     });
     
 });
+        // Create the Lord icon dynamically
+    var lordIconContainer = document.getElementById("lordIconContainer");
+    var lordIcon = document.createElement("lord-icon");
+    lordIcon.setAttribute("src", "https://cdn.lordicon.com/anqzffqz.json");
+    lordIcon.setAttribute("trigger", "loop");
+    lordIcon.setAttribute("stroke", "bold");
+    lordIcon.setAttribute("state", "morph-check");
+    lordIcon.setAttribute("style", "width:250px;height:250px"); // Adjust size as needed
+    lordIconContainer.appendChild(lordIcon);
 
 </script>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,500&display=swap" rel="stylesheet">

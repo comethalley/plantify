@@ -195,9 +195,10 @@
                                             </tr>
                                             @endforeach
                                             @else
-                                        <tr>
-                                    <td>
-                                <p>No farms found.</p>
+                                            <tr>
+                                        <td colspan="7">
+                                    <div id="lordIconContainer" style="text-align: center;"></div>
+                                <p id="noFarmsMessage" style="text-align: center; font-size: 21px;">No Farms found.</p>
                             </td>
                         </tr>
                     @endif
@@ -207,7 +208,7 @@
     </div>
     <div class="row">
         <div class="col-6">
-            <button class="btn btn-secondary d-flex align-items-center justify-content-center" onclick="goBack()">
+            <button type="button"class="btn btn-secondary d-flex align-items-center justify-content-center" onclick="goBack()">
             <i class="ri-arrow-left-line me-1"></i> Back
         </button>
         </div>
@@ -1052,6 +1053,15 @@ $(document).ready(function () {
     
 });
 
+        // Create the Lord icon dynamically
+    var lordIconContainer = document.getElementById("lordIconContainer");
+    var lordIcon = document.createElement("lord-icon");
+    lordIcon.setAttribute("src", "https://cdn.lordicon.com/anqzffqz.json");
+    lordIcon.setAttribute("trigger", "loop");
+    lordIcon.setAttribute("stroke", "bold");
+    lordIcon.setAttribute("state", "morph-check");
+    lordIcon.setAttribute("style", "width:250px;height:250px"); // Adjust size as needed
+    lordIconContainer.appendChild(lordIcon);
 
 </script>
 <style>

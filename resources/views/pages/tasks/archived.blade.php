@@ -10,27 +10,21 @@
 }
 
 .badge-new {
-    background-color: #f0ffff; /* Light cyan */
+    background-color: #f0ffff; /* Light gray */
     color: #007bff; /* Blue */
 }
 
 .badge-missing {
-    background-color: #ffe4e1; /* Misty rose */
-    color: #800000; /* Dark red */
+    background-color: #FE8484; /* Light gray */
+    color: #800000; /* Blue */
 }
-
 .badge-inprogress {
-    background-color: #f0f8ff; /* Alice blue */
+    background-color: #f0f0f0; /* Light gray */
     color: #28a745; /* Green */
 }
 
-.badge-completed {
-    background-color: #f5f5dc; /* Beige */
-    color: #6B8E23; /* Olive */
-}
-
 .badge-pending {
-    background-color: #fff8dc; /* Cornsilk */
+    background-color: #ffffe0; /* Light gray */
     color: #ffc107; /* Yellow */
 }
 
@@ -60,7 +54,8 @@
 }
 
 
-        </style>
+ </style>
+
 <div class="main-content">
 
     <div class="page-content">
@@ -78,6 +73,7 @@
                                 <li class="breadcrumb-item active">Kanban Board</li>
                             </ol>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -89,7 +85,7 @@
                     <div class="card-header border-0">
                         <div class="row align-items-center gy-3">
                             <div class="col-sm">
-                                <h5 class="card-title mb-0">Completed Task</h5>
+                                <h5 class="card-title mb-0">Archived Task</h5>
                             </div>
                             <div class="col-sm-auto">
                                 <div class="d-flex gap-1 flex-wrap">
@@ -111,7 +107,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div><br>
                             <!--end row-->
                             <!-- Another Calender -->
                             <!-- <div >
@@ -123,26 +119,30 @@
                                 </div> -->
                         </form>
                     </div>
-                    
-                        <div class="card-body pt-0">
-                             <div class="table-responsive table-card mb-1">
+                    <div class="card-body pt-0">
+                        <div>
+
+                            <div class="table-responsive table-card mb-1">
                                 <table class="table table-nowrap align-middle" id="">
                                     <thead class="text-muted table-light">
                                         <tr class="text-uppercase">
-                                        </th>
+
+
+                                            </th>
                                             <th>ID</th>
-                                            <th class="sort" data-sort="title">Title  </th>
-                                            <th class="sort" data-sort="description">Description</th>
-                                            <th class="sort" data-sort="user_id">Assignee</th>
-                                            <th class="sort" data-sort="priority">Priority</th>
-                                            <th class="sort">Status</th>
-                                            <th class="sort" data-sort="condition">Date Completed</th>
+                                            <th class="sort" data-sort="time">Title  </th>
+                                            <th class="sort" data-sort="temperature">Description</th>
+                                            <th class="sort" data-sort="humidity">Assignee</th>
+                                            <th class="sort" data-sort="windspeed">Priority</th>
+                                            <th class="sort" >Status</th>
+                                            <th class="sort" data-sort="condition">Date Archived</th>
+                                            <th>Actions</th>
                                             
                                             
                                         </tr>
-                                        </thead>
+
                                         <tbody>
-                                      @foreach ($completedTasks as $task)
+                                      @foreach ($archivedTasks as $task)
                                         <tr>
                                         <td>#{{ $task->id }}</td>
                                          <td>{{ $task->title }}</td>
@@ -161,8 +161,13 @@
                                     </td>
                                     <td>
                                         <span class="badge badge-<?php echo strtolower($task->status); ?>"><?php echo $task->status; ?></span>
-                                    </td>
-                                     <td>{{ $task->completed_at }}</td>
+                                    </td><td>{{ $task->archived_at }}</td>
+                                     <td>
+            <form action="{{ route('tasks.restore', $task->id) }}" method="POST" style="display: inline;">
+                @csrf
+                <button type="submit" class="btn btn-success btn-sm">Restore</button>
+            </form>
+        </td>
                                     </tr>
                                       @endforeach
                                      </tbody>
@@ -222,7 +227,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($completedTasks as $task)
+            @foreach ($archivedTasks as $task)
             <tr>
                 <td>{{ $task->title }}</td>
                 <td>{{ $task->description }}</td>

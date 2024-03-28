@@ -67,6 +67,9 @@ public function farm()
 {
     return $this->hasOne(Farm::class);
 }
-
+public function tasks()
+{
+    return $this->hasMany(Task::class);
+}
 
 }

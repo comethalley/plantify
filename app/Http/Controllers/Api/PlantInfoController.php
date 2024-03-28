@@ -401,7 +401,7 @@ public function fedit($id) {
         return response()->json(['error' => 'Fertilizer not found'], 404);
     }
 
-    return response()->json(['fertilizer' => $fertilizer], 200);
+   // return response()->json(['fertilizer' => $fertilizer], 200);
 }
 
 

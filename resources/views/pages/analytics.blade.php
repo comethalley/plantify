@@ -387,6 +387,34 @@ $(document).ready(function() {
             chart: {
                 type: 'bar',
                 height: 350,
+                events: {
+                    dataPointSelection: function(event, chartContext, config) {
+                        var selectedMonth = chartContext.w.config.xaxis.categories[config.dataPointIndex];
+                        var detailsHtml = '';
+                        if (!window.farmData) {
+                            console.error('Farm data is not available.');
+                            return;
+                        }
+                        var details = window.farmData.filter(function(item) {
+                            var itemMonth = new Date(item.start).toLocaleString('default', { month: 'long' });
+                            return itemMonth === selectedMonth;
+                        });
+
+                        details.forEach(function(item) {
+                            var createdDate = new Date(item.created_at);
+                            var formattedCreatedDate = createdDate.toLocaleDateString('en-US', {
+                                year: 'numeric', month: 'long', day: 'numeric'
+                            }) + ' | ' + createdDate.toLocaleTimeString('en-US', {
+                                hour: '2-digit', minute: '2-digit', hour12: true
+                            });
+                            detailsHtml += `<div><h4>${item.title}</h4><p>Created At: ${formattedCreatedDate}</p><p>Harvested: ${item.harvested}</p><p>Destroyed: ${item.destroyed}</p></div>`;
+                        });
+
+                        var monthDetailsElement = document.getElementById('month-details');
+                        monthDetailsElement.innerHTML = detailsHtml;
+                        monthDetailsElement.style.display = details.length > 0 ? 'block' : 'none';
+                    }
+                }
             },
             series: [
                 {
@@ -426,6 +454,9 @@ $(document).ready(function() {
                             destroyedData.push(parseFloat(response.monthlyData[month].destroyed));
                         });
 
+                        // Store the farms data in a global variable for access in the dataPointSelection event
+                        window.farmData = response.farms;
+
                         // Update the chart with new data and months
                         farmChart.updateOptions({
                             series: [
@@ -455,6 +486,7 @@ $(document).ready(function() {
         console.error('ApexCharts library is not loaded.');
     }
 });
+
 
 
 

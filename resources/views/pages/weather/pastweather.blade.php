@@ -85,6 +85,7 @@
                                              waves-effect waves-light mdi mdi-magnify search-widget-icon"></button>
                                                 </div>
                                             </div>
+                                            <button id="exportButton">Export to Excel</button>
                                         </div>
                                     </div><br>
                                     <!--end row-->
@@ -102,7 +103,7 @@
                                 <div>
 
                                     <div class="table-responsive table-card mb-1">
-                                        <table class="table table-nowrap align-middle" id="">
+                                        <table class="table table-nowrap align-middle" id="example-table">
                                             <thead class="text-muted table-light">
                                                 <tr class="text-uppercase">
 
@@ -244,6 +245,30 @@
                     const dateInput = document.getElementById('dateInput').value;
                     fetchWeatherDataForDate(dateInput);
                 }
+
+                $(document).ready(function() {
+    $("#exportButton").click(function() {
+        var table = $('#example-table').clone();
+        var tableHtml = table.prop('outerHTML');
+
+        var dataType = 'application/vnd.ms-excel';
+        var filename = 'download.xls';
+
+        var downloadLink = document.createElement("a");
+        document.body.appendChild(downloadLink);
+
+        if (navigator.msSaveOrOpenBlob) {
+            var blob = new Blob(['\ufeff', tableHtml], {
+                type: dataType
+            });
+            navigator.msSaveOrOpenBlob(blob, filename);
+        } else {
+            downloadLink.href = 'data:' + dataType + ', ' + encodeURIComponent(tableHtml);
+            downloadLink.download = filename;
+            downloadLink.click();
+        }
+    });
+});
             </script>
 </body>
 

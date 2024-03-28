@@ -56,10 +56,39 @@ class AnalyticsController extends Controller
     }
 
     public function getFarmsData($id)
-{
-    $farms = DB::table('createplantings')->where('farm_id', $id)->get();
+    {
+        $months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        $monthlyData = array_fill_keys($months, ['harvested' => 0, 'destroyed' => 0]);
     
-    return response()->json(['farms' => $farms]);
-}
+        // Fetch the farm data for the entire year
+        $year = now()->year; // or use a specific year if necessary
+        $farms = DB::table('createplantings')
+                   ->where('farm_id', $id)
+                   ->whereYear('start', $year)
+                   ->get();
+    
+        // Aggregate harvested and destroyed data for each month
+        foreach ($farms as $farm) {
+            $month = Carbon::parse($farm->start)->format('F');
+            if (array_key_exists($month, $monthlyData)) {
+                $monthlyData[$month]['harvested'] += $farm->harvested;
+                $monthlyData[$month]['destroyed'] += $farm->destroyed;
+            }
+        }
+    
+        // Sum the 'harvested' and 'destroyed' column for the entire year
+        $totalHarvested = array_sum(array_column($monthlyData, 'harvested'));
+        $totalDestroyed = array_sum(array_column($monthlyData, 'destroyed'));
+    
+        return response()->json([
+            'farms' => $farms,
+            'totalHarvested' => $totalHarvested,
+            'totalDestroyed' => $totalDestroyed,
+            'monthlyData' => $monthlyData
+        ]);
+    }
+    
+    
+    
 }
     

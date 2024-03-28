@@ -382,21 +382,24 @@
 });
 
 $(document).ready(function() {
-    // Check if ApexCharts is loaded
     if (typeof ApexCharts !== 'undefined') {
-        // Initialize the chart with some default data
         var options = {
             chart: {
-                type: 'line',
+                type: 'bar',
                 height: 350,
-                // Other chart options...
             },
-            series: [{
-                name: 'Harvested',
-                data: [] // Initialize with an empty array
-            }],
+            series: [
+                {
+                    name: 'Harvested',
+                    data: []
+                },
+                {
+                    name: 'Destroyed',
+                    data: []
+                }
+            ],
             xaxis: {
-                categories: [] // Initialize with an empty array
+                categories: [] // This will be updated dynamically
             }
         };
 
@@ -411,25 +414,39 @@ $(document).ready(function() {
                 url: '/farmsAnalyticsData/' + selectedOption,
                 method: 'GET',
                 success: function(response) {
-                    // Log the response to inspect its structure
-                    console.log(response);
+                    console.log("AJAX response:", response);
 
-                    // Assuming response contains data in the format { farms: { harvested: [...] } }
-                    var harvestedData = response.farms.harvested;
+                    if (response && response.monthlyData) {
+                        var harvestedData = [];
+                        var destroyedData = [];
+                        var categories = Object.keys(response.monthlyData);
 
-                    // Check if harvestedData is an array
-                    if (Array.isArray(harvestedData)) {
-                        // Update chart data with fetched data
-                        farmChart.updateSeries([{
-                            name: 'Harvested',
-                            data: harvestedData
-                        }]);
+                        categories.forEach(function(month) {
+                            harvestedData.push(parseFloat(response.monthlyData[month].harvested));
+                            destroyedData.push(parseFloat(response.monthlyData[month].destroyed));
+                        });
+
+                        // Update the chart with new data and months
+                        farmChart.updateOptions({
+                            series: [
+                                {
+                                    name: 'Harvested',
+                                    data: harvestedData
+                                },
+                                {
+                                    name: 'Destroyed',
+                                    data: destroyedData
+                                }
+                            ],
+                            xaxis: {
+                                categories: categories
+                            }
+                        });
                     } else {
-                        console.error('Fetched data is not in the expected format');
+                        console.error('Fetched data is not in the expected format', response);
                     }
                 },
                 error: function(xhr, status, error) {
-                    // Handle errors
                     console.error(xhr.responseText);
                 }
             });
@@ -438,6 +455,8 @@ $(document).ready(function() {
         console.error('ApexCharts library is not loaded.');
     }
 });
+
+
 
 
 

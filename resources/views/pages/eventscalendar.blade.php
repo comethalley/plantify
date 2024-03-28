@@ -42,7 +42,8 @@
                             {{-- Display only for role_id 1 (Admin) --}}
                             <button type="button" class="btn btn-success w-100" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModalExample"><i class="mdi mdi-plus"></i>Create New Events</button>
                             @elseif(auth()->user()->role_id == 2)
-                            {{-- Display only for role_id 2 (Super Admin) --}}
+                            {{-- Display only for role_id 2 (
+                                 Admin) --}}
                             <button type="button" class="btn btn-success w-100" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModalExample"><i class="mdi mdi-plus"></i>Create New Events</button>
                             @elseif(auth()->user()->role_id == 3)
                             {{-- Display for role_id 3 (Farm Leader) --}}
@@ -148,7 +149,7 @@
                                             </div>
                                         </form>
                                     </div>
-                                </div>
+                                </div> 
                             </div> <!-- end modal-->
 
     <!---event detail EventModal--->
@@ -455,7 +456,7 @@ function handleEventDelete(eventId) {
                     Swal.fire({
                     title: "Successfully archived",
                     text: "Are you ready for the next level?",
-                    icon: "success"
+                    icon: "error"
                     });
                     $('#planting-events-container').load(location.href + ' planting-events-container');
                 },
@@ -535,6 +536,8 @@ function handleEventDelete(eventId) {
             var searchKeywords = document.getElementById('searchInput').value.toLowerCase();
             filterAndDisplayEvents(searchKeywords);
         });
+
+        
 
 
         function filterAndDisplayEvents(searchKeywords) {

@@ -184,31 +184,31 @@
                             <!-- Update modal -->
 
 
-                    <div class="modal fade" id="fer_updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                             <div class="modal-dialog modal-dialog-centered modal-xl">
-                            <div class="modal-content">
-                             <div class="modal-header bg-light p-3">
-                  <h5 class="modal-title" id="exampleModalLabel">Edit Pesticide Information</h5>
+                            <div class="modal fade" id="fer_updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header bg-light p-3">
+                <h5 class="modal-title" id="exampleModalLabel">Edit Fertilizer Information</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
             </div>
-            <form action="{{ url('fertilizers/') }}" method="post">
+            <form action="{{ url('fertilizers') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
-                    <input type="hidden" id="fesID" class="form-control" placeholder="Pesticide ID" />
+                    <input type="hidden" id="ferID" class="form-control" placeholder="Fertilizer ID" />
 
                     <div class="mb-3">
-                        <label for="edit_fer_name" class="form-label">Pesticide Name</label>
-                        <input type="text" name="edit_fer_name" id="edit_fer_name" class="form-control" placeholder="Pesticide Name" required />
+                        <label for="edit_fer_name" class="form-label">Fertilizer Name</label>
+                        <input type="text" name="edit_fer_name" id="edit_fer_name" class="form-control" placeholder="Fertilizer Name" required />
                     </div>
 
                     <div class="mb-3">
-                        <label for="edit_fer_image" class="form-label">Pesticide Image</label>
-                        <input type="file" name="edit_fer_image" id="edit_fer_image" class="form-control" required />
+                        <label for="edit_fer_image" class="form-label">Fertilizer Image</label>
+                        <input type="file" name="edit_fer_image" id="edit_fer_image" class="form-control" accept="image/*" required />
                     </div>
 
                     <div class="mb-3">
                         <label for="edit_fer_information" class="form-label">Information</label>
-                        <textarea name="edit_fer_information" id="edit_fer_information" class="form-control" placeholder="Pesticide Information" required></textarea>
+                        <textarea name="edit_fer_information" id="edit_fer_information" class="form-control" placeholder="Fertilizer Information" required></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -221,6 +221,7 @@
         </div>
     </div>
 </div>
+
 
 
 

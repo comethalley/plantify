@@ -520,80 +520,8 @@ $(document).ready(function() {
         });
 
 
-        function updateFertInfo() {
-            var ferID = $('#fesID').val();
-            var fer_name = $('#edit_fes_name').val();
-            var fer_information = $("#edit_fes_information").val();
-            var fer_image = $('#edit_fes_image').prop('files')[0]; // Retrieve the file object from the input field
-            
-        
-            if (!ferID || !fer_name || !fer_information) {
-                console.error("Missing required fields");
-                return;
-            }
-        
-            var formData = new FormData();
-            formData.append('edit_fer_name', fer_name);
-            if (fer_image) {
-                formData.append('edit_fer_image', fer_image);
-            }
-            formData.append('edit_fer_information', fer_information);
-        
-            $.ajax({
-                url: "/fupdate/" + pesID,
-                method: "POST",
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function(data) {
-                    location.reload(); // Reload the page after successful update
-                },
-                error: function(xhr, status, error) {
-                    console.error("Error:", xhr.responseText);
-                }
-            });
-        }
-        
-        $('#ferinfo-update').on('click', function() {
-            updateFertInfo();
-        });
-        
-        $(document).on('click', '.edit-fer-btn', function(event) {
-            event.preventDefault();
-        
-            var ferID = $(this).data('fertilizer-id');
-        
-            if (!ferID) {
-                console.error("Invalid fertilizer ID");
-                return;
-            }
-        
-            $.ajax({
-                url: "/fedit/" + ferID,
-                method: "GET",
-                success: function(data) {
-                    if (data && data.fertilzer) {
-                        $('#pesID').val(data.fertilzer.id);
-                        $('#edit_fer_name').val(data.fertilzer.pes_name);
-                        $('#edit_fer_image').attr('src', "/images/" + data.fertilzer.image);
-                        $('#edit_fer_information').val(data.fertilzer.information);
-                        $('#fer_updateModal').modal('show');
-                    } else {
-                        console.error("Invalid data format:", data);
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error("Error:", xhr.responseText);
-                }
-            });
 
-            
-
-    //fertilizer
-    
+        
     
     
         })
@@ -601,4 +529,4 @@ $(document).ready(function() {
 
     
     })
- })
+ 

@@ -353,53 +353,50 @@ public function pedit($id) {
 
 
 
-public function fupdate(Request $request, $id)
-{
-    // Retrieve the fertilizer record by ID
+public function fupdate(Request $request, $id) {
     $fertilizers = Fertilizers::find($id);
 
-    // Check if the fertilizer record exists
     if (!$fertilizers) {
         return response()->json(['error' => 'Fertilizer not found'], 404);
     }
 
-    // Validate the request data
     $validator = Validator::make($request->all(), [
-        'edit_fer_name' => 'required|string|max:55',
-        'edit_fer_image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-        'edit_fer_information' => 'required|string|max:255'
+        'fer_name' => 'required|string|max:55',
+        'fer_image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        'fer_information' => 'required|string|max:255'
     ]);
 
-    // If validation fails, return error response
     if ($validator->fails()) {
         return response()->json(['errors' => $validator->errors()], 422);
     }
 
-    // Retrieve validated data
     $data = $validator->validated();
 
-    // Handle image upload
-    if ($request->hasFile('edit_fer_image')) {
-        $image = $request->file('edit_fer_image');
+    if ($request->hasFile('fer_image')) {
+        $image = $request->file('fer_image');
         $imageName = time() . '.' . $image->getClientOriginalExtension();
         $image->move(public_path('images'), $imageName);
-        $data['edit_fer_image'] = $imageName;
+        $data['fer_image'] = $imageName;
+    } else {
+        $data['fer_image'] = $fertilizers->fer_image;
     }
 
-    // Update fertilizer record
     try {
         $fertilizers->update([
-            "fer_name" => $data['edit_fer_name'],
-            "fer_image" => $data['edit_fer_image'] ?? $fertilizers->fer_image, // Keep existing image if not provided
-            "fer_information" => $data['edit_fer_information']
+            "fer_name" => $data['fer_name'],
+            "fer_image" => $data['fer_image'],
+            "fer_information" => $data['fer_information']
         ]);
+
+        $fertilizers = Fertilizers::find($id);
     } catch (\Exception $e) {
         return response()->json(['error' => 'Failed to update fertilizer record'], 500);
     }
 
-    // Return response with updated fertilizer data
     return response()->json(['fertilizers' => $fertilizers], 200);
 }
+
+
 
 
 public function fedit($id) {
@@ -409,8 +406,11 @@ public function fedit($id) {
         return response()->json(['error' => 'Fertilizer not found'], 404);
     }
 
-   // return response()->json(['fertilizer' => $fertilizer], 200);
+    // Return response with fertilizer data
+    return response()->json(['fertilizer' => $fertilizers], 200);
 }
+
+
 
 
 

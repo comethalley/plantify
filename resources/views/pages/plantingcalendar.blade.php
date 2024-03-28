@@ -245,7 +245,7 @@
                                                 </div>
                                                         <div class="modal-footer">
                                                         <div class="hstack gap-2 justify-content-end">
-                                                        <button type="button" class="btn btn-danger" id="deleteEventBtn" id="deleteEventBtn" hidden>Delete</button>
+                                                        <button type="button" class="btn btn-danger" id="deleteEventBtn" id="deleteEventBtn">Delete</button>
                                                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editexampleModal">Edit</button>
                                                     
                                                           </div>  
@@ -564,10 +564,16 @@
                     });
                     },
                     error: function (error) {
-                        console.error("Error updating event:", error);
-                        alert("Error updating event. Please try again.");
-                    }
-                });
+    console.error("Error updating event:", error);
+    alert("Error updating event. Please try again.");
+    $('#updateEventBtn').modal('hide');
+    Swal.fire({
+        title: "Error",
+        text: "Error updating event. Please try again.",
+        icon: "error"
+    });
+}
+
             }
         });
 

@@ -343,8 +343,6 @@
     var expensesData = JSON.parse('{!! $expensesData !!}');
     var plantingData = {!! $plantingData !!};
     var farmsData = {!! $farmsData !!};
-
-    var yearSelector = document.getElementById('yearSelect');
     var farmSelector = document.getElementById('farmSelect');
     var barangaySelector = document.getElementById('barangaySelect');
     var plantingChart;
@@ -395,13 +393,15 @@ $(document).ready(function() {
                             console.error('Farm data is not available.');
                             return;
                         }
+                        var selectedYear = $('#yearSelect').val();
                         var details = window.farmData.filter(function(item) {
                             var itemMonth = new Date(item.start).toLocaleString('default', { month: 'long' });
-                            return itemMonth === selectedMonth;
+                            var itemYear = new Date(item.start).getFullYear().toString();
+                            return itemMonth === selectedMonth && itemYear === selectedYear;
                         });
 
                         details.forEach(function(item) {
-                            var createdDate = new Date(item.created_at);
+                            var createdDate = new Date(item.start);
                             var formattedCreatedDate = createdDate.toLocaleDateString('en-US', {
                                 year: 'numeric', month: 'long', day: 'numeric'
                             }) + ' | ' + createdDate.toLocaleTimeString('en-US', {
@@ -434,12 +434,14 @@ $(document).ready(function() {
         var farmChart = new ApexCharts(document.querySelector("#farmChart"), options);
         farmChart.render();
 
-        $('#farmSelect').change(function() {
-            var selectedOption = $(this).val();
+        // Trigger the chart update when the year or farm selection changes
+        $('#farmSelect, #yearSelect').change(function() {
+            var selectedOption = $('#farmSelect').val();
+            var selectedYear = $('#yearSelect').val();
 
             // Perform AJAX request
             $.ajax({
-                url: '/farmsAnalyticsData/' + selectedOption,
+                url: `/farmsAnalyticsData/${selectedOption}?year=${selectedYear}`,
                 method: 'GET',
                 success: function(response) {
                     console.log("AJAX response:", response);
@@ -493,129 +495,7 @@ $(document).ready(function() {
 
 
 
-// Function to update chart data based on selected year and farm
-    function updateChartData(year, farmId) {
-        var filteredData = plantingData.filter(function(item) {
-            var itemYear = new Date(item.start).getFullYear();
-            return itemYear === year && (!farmId || item.farm_id == farmId);
-        });
-    var monthlyData = {
-        'January': { harvested: 0, destroyed: 0 }, 'February': { harvested: 0, destroyed: 0 }, 
-        'March': { harvested: 0, destroyed: 0 }, 'April': { harvested: 0, destroyed: 0 },
-        'May': { harvested: 0, destroyed: 0 }, 'June': { harvested: 0, destroyed: 0 }, 
-        'July': { harvested: 0, destroyed: 0 }, 'August': { harvested: 0, destroyed: 0 }, 
-        'September': { harvested: 0, destroyed: 0 }, 'October': { harvested: 0, destroyed: 0 }, 
-        'November': { harvested: 0, destroyed: 0 }, 'December': { harvested: 0, destroyed: 0 }
-    };
 
-    filteredData.forEach(function(item) {
-        var date = new Date(item.start);
-        var month = date.toLocaleString('default', { month: 'long' });
-        monthlyData[month].harvested += Number(item.harvested);
-        monthlyData[month].destroyed += Number(item.destroyed);
-    });
-
-    var harvestedSeriesData = Object.values(monthlyData).map(data => data.harvested);
-    var destroyedSeriesData = Object.values(monthlyData).map(data => data.destroyed);
-    var plantingCategories = Object.keys(monthlyData);
-
-    if (plantingChart) {
-        plantingChart.destroy();
-    }
-
-    createPlantingBarChart(harvestedSeriesData, destroyedSeriesData, plantingCategories);
-}
-
-// Function to create the planting bar chart
-function createPlantingBarChart(harvestedSeriesData, destroyedSeriesData, plantingCategories) {
-    var plantingOptions = {
-        chart: {
-            type: 'bar',
-            height: 350,
-            events: {
-                dataPointSelection: function (event, chartContext, config) {
-                    var month = plantingCategories[config.dataPointIndex];
-                    var details = plantingData.filter(function (item) {
-                        var itemMonth = new Date(item.start).toLocaleString('default', { month: 'long' });
-                        return itemMonth === month && new Date(item.start).getFullYear() === parseInt(yearSelector.value);
-                    });
-
-                    var detailsHtml = '';
-                    details.forEach(function(item) {
-                        var createdDate = new Date(item.created_at);
-                        var formattedCreatedDate = createdDate.toLocaleDateString('en-US', {
-                            year: 'numeric', month: 'long', day: 'numeric'
-                        }) + ' | ' + createdDate.toLocaleTimeString('en-US', {
-                            hour: '2-digit', minute: '2-digit', hour12: true
-                        });
-                        detailsHtml += `<div><h4>${item.title}</h4><p>Created At: ${formattedCreatedDate}</p><p>Harvested: ${item.harvested}</p><p>Destroyed: ${item.destroyed}</p></div>`;
-                    });
-
-                    var monthDetailsElement = document.getElementById('month-details');
-                    monthDetailsElement.innerHTML = detailsHtml;
-                    monthDetailsElement.style.display = details.length > 0 ? 'block' : 'none';
-                }
-            }
-        },
-        series: [{
-            name: 'Harvested',
-            data: harvestedSeriesData
-        }, {
-            name: 'Destroyed',
-            data: destroyedSeriesData
-        }],
-        xaxis: {
-            categories: plantingCategories
-        },
-        plotOptions: {
-            bar: {
-                horizontal: false,
-                columnWidth: '55%',
-                dataLabels: {
-                    position: 'top', // Aligns the data labels at the top of the bar
-                }
-            }
-        },
-        dataLabels: {
-            enabled: false
-        },
-        fill: {
-            opacity: 1
-        },
-        tooltip: {
-            y: {
-                formatter: function (val) {
-                    return val + " units";
-                }
-            }
-        }
-    };
-
-    plantingChart = new ApexCharts(document.querySelector("#planting-chart"), plantingOptions);
-    plantingChart.render();
-}
-
-// Event listeners for selector changes
-yearSelector.addEventListener('change', function() {
-    var selectedYear = this.value; // Get the selected year
-    var selectedFarmId = farmSelector.value; // Get the selected farm ID
-
-    // Update chart data with selected year and farm ID
-    updateChartData(selectedYear, selectedFarmId);
-});
-
-farmSelector.addEventListener('change', function() {
-    var selectedFarmId = this.value; // Get the selected farm ID
-    var selectedYear = yearSelector.value; // Get the selected year
-
-    // Update chart data with selected year and farm ID
-    updateChartData(selectedYear, selectedFarmId);
-});
-
-// Initial chart rendering
-var currentYear = new Date().getFullYear();
-yearSelector.value = currentYear.toString();
-updateChartData(currentYear, null);
 
 
     // DONUT CHART  

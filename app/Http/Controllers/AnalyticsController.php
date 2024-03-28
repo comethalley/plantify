@@ -29,7 +29,7 @@ class AnalyticsController extends Controller
     } else {
         // Fetch data for super admin and admin roles
         $expensesData = Expense::all(['description', 'amount', 'created_at'])->toJson();
-        $plantingData = CalendarPlanting::all(['title', 'start', 'harvested', 'destroyed', 'created_at'])->toJson();
+        $plantingData = CalendarPlanting::all(['title', 'start', 'harvested', 'destroyed', 'start'])->toJson();
 
         // Retrieve all farms and their farm_names
         $barangayId = $user->barangay_id;
@@ -55,13 +55,14 @@ class AnalyticsController extends Controller
         return response()->json(['farms' => $farms]);
     }
 
-    public function getFarmsData($id)
+    public function getFarmsData(Request $request, $id)
     {
+        $year = $request->has('year') ? $request->year : now()->year;
+    
         $months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
         $monthlyData = array_fill_keys($months, ['harvested' => 0, 'destroyed' => 0]);
     
-        // Fetch the farm data for the entire year
-        $year = now()->year; // or use a specific year if necessary
+        // Fetch the farm data for the selected year
         $farms = DB::table('createplantings')
                    ->where('farm_id', $id)
                    ->whereYear('start', $year)
@@ -76,7 +77,7 @@ class AnalyticsController extends Controller
             }
         }
     
-        // Sum the 'harvested' and 'destroyed' column for the entire year
+        // Sum the 'harvested' and 'destroyed' columns for the selected year
         $totalHarvested = array_sum(array_column($monthlyData, 'harvested'));
         $totalDestroyed = array_sum(array_column($monthlyData, 'destroyed'));
     
@@ -87,7 +88,6 @@ class AnalyticsController extends Controller
             'monthlyData' => $monthlyData
         ]);
     }
-    
     
     
 }

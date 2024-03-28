@@ -465,6 +465,12 @@ public function updateFarm(Request $request, $id)
     return response()->json(['message' => 'Farm updated successfully', 'farm' => $farm]);
 }
 
+public function fetchFarmsByBarangay(Request $request)
+{
+    $farms = Farm::where('barangay_id', $request->barangay_id)->get();
+
+    return response()->json($farms);
+}
 
 
 

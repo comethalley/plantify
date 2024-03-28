@@ -16,6 +16,9 @@
     <link rel="shortcut icon" href="{{asset('assets/images/favicon.icon')}}" />
 
     <!-- Weather config -->
+   <!-- ApexChart - Piegraph (Js and cdn) -->
+   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+   <script src="{{ asset('assets/js/donut.js') }}"></script>
 
     <!-- Layout config Js -->
     <script src="{{ asset('assets/js/layout.js') }}"></script>
@@ -457,6 +460,14 @@
                                 <span data-key="t-faqs">Plantifeed</span>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/analytics" role="button" style="color:white">
+                                <i class="ri-wechat-line"></i>
+                                <span data-key="t-faqs">Analytics</span>
+                            </a>
+                        </li>
+
+
 
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="/farm_locations" role="button" style="color:white">

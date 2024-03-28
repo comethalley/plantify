@@ -9,6 +9,7 @@
     padding: 0;
     box-sizing: border-box;
     font-family: "Poppins", sans-serif;
+  
 }
 body {
     display: flex;
@@ -229,11 +230,12 @@ img {
     justify-content: center;
     display: flex;
 }
-.highlights {
+.highlights .cards {
     display: flex;
     flex-wrap: wrap;
-
-    margin-top: 10px;
+    gap: 20px; /* You set the gap between the cards here */
+    margin-top: 50px;
+    justify-content: space-between; /* This will help to distribute space evenly */
 }
 .highlights .heading {
     width: 100%;
@@ -243,14 +245,16 @@ img {
 }
 
 .card2 {
-    width: 250px;
+    width: calc(33.333% - 40px); /* Subtract the total space taken by two gaps (20px each) */
     height: 150px;
     border-radius: 20px;
     color: #1a1a1a;
     background-color: #fff;
     padding: 10px 20px;
+    box-sizing: border-box; /* This ensures padding is included in the width */
     display: flex;
     flex-direction: column;
+    justify-content: space-between; /* This will help content to distribute evenly within the card */
 }
 .card2 .card-heading {
     color: #c2c2c2;
@@ -276,4 +280,50 @@ img {
     bottom: 30px;
     left: 50%;
     transform: translateX(-50%);
+}
+
+
+/* Mobile Styles */
+@media (max-width: 768px) { /* Adjust to your breakpoint preference */
+    .wrapper {
+        flex-direction: column;
+        width: auto;
+        min-width: 0;
+    }
+    .sidebar,
+    .main {
+        width: 100%;
+        min-width: 0;
+        max-width: 100%;
+        padding: 15px;
+    }
+    .main .cards,
+    .highlights .cards {
+        justify-content: center;
+    }
+    .card,
+    .card2 {
+        width: calc(100% - 40px); /* Full width minus padding for small screens */
+        margin-bottom: 20px;
+    }
+    .search input,
+    .search button {
+        width: 100%;
+    }
+    .search ul {
+        width: calc(100% - 30px); /* Full width minus padding for search results */
+        left: 15px; /* Align with the padding of the search input */
+    }
+    .weather-icon #icon,
+    img {
+        width: auto;
+        max-width: 100%;
+        height: auto;
+    }
+    .condition-rain div i,
+    .location i {
+        width: auto;
+        max-width: 100%;
+    }
+    /* Adjust font sizes and other properties as needed for smaller screens */
 }

@@ -519,154 +519,86 @@ $(document).ready(function() {
             }
         });
 
-        function updatePestInfo() {
-        var pesID = $('#pesID').val();
-        var pes_name = $('#edit_pes_name').val();
-        var pes_information = $("#edit_pes_information").val();
-        var pes_image = $('#edit_pes_image').prop('files')[0]; // Retrieve the file object from the input field
+
+        function updateFertInfo() {
+            var ferID = $('#fesID').val();
+            var fer_name = $('#edit_fes_name').val();
+            var fer_information = $("#edit_fes_information").val();
+            var fer_image = $('#edit_fes_image').prop('files')[0]; // Retrieve the file object from the input field
+            
         
-    
-        if (!pesID || !pes_name || !pes_information) {
-            console.error("Missing required fields");
-            return;
-        }
-    
-        var formData = new FormData();
-        formData.append('edit_pes_name', pes_name);
-        if (pes_image) {
-            formData.append('edit_pes_image', pes_image);
-        }
-        formData.append('edit_pes_information', pes_information);
-    
-        $.ajax({
-            url: "/pupdate/" + pesID,
-            method: "POST",
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function(data) {
-                location.reload(); // Reload the page after successful update
-            },
-            error: function(xhr, status, error) {
-                console.error("Error:", xhr.responseText);
+            if (!ferID || !fer_name || !fer_information) {
+                console.error("Missing required fields");
+                return;
             }
-        });
-    }
-    
-    $('#pesinfo-update').on('click', function() {
-        updatePestInfo();
-    });
-    
-    $(document).on('click', '.edit-pes-btn', function(event) {
-        event.preventDefault();
-    
-        var pesID = $(this).data('pesticide-id');
-    
-        if (!pesID) {
-            console.error("Invalid pesticide ID");
-            return;
-        }
-    
-        $.ajax({
-            url: "/pedit/" + pesID,
-            method: "GET",
-            success: function(data) {
-                if (data && data.pesticide) {
-                    $('#pesID').val(data.pesticide.id);
-                    $('#edit_pes_name').val(data.pesticide.pes_name);
-                    $('#edit_pes_image').attr('src', "/images/" + data.pesticide.image);
-                    $('#edit_pes_information').val(data.pesticide.information);
-                    $('#pes_updateModal').modal('show');
-                } else {
-                    console.error("Invalid data format:", data);
+        
+            var formData = new FormData();
+            formData.append('edit_fer_name', fer_name);
+            if (fer_image) {
+                formData.append('edit_fer_image', fer_image);
+            }
+            formData.append('edit_fer_information', fer_information);
+        
+            $.ajax({
+                url: "/fupdate/" + pesID,
+                method: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(data) {
+                    location.reload(); // Reload the page after successful update
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error:", xhr.responseText);
                 }
-            },
-            error: function(xhr, status, error) {
-                console.error("Error:", xhr.responseText);
-            }
+            });
+        }
+        
+        $('#ferinfo-update').on('click', function() {
+            updateFertInfo();
         });
-    });
-    
-
-    //Fertilizer update
-
-    function updateFertInfo() {
-        var ferID = $('#ferID').val();
-        var fer_name = $('#edit_fer_name').val();
-        var fer_information = $("#edit_fer_information").val();
-        var fer_image = $('#edit_fer_image').prop('files')[0]; // Retrieve the file object from the input field
-    
-        if (!ferID || !fer_name || !fer_information) {
-            console.error("Missing required fields");
-            return;
-        }
-    
-        var formData = new FormData();
-        formData.append('edit_fer_name', fer_name);
-        if (fer_image) {
-            formData.append('edit_fer_image', fer_image);
-        }
-        formData.append('edit_fer_information', fer_information);
-    
-        $.ajax({
-            url: "/fupdate/" + ferID, // Corrected pesID to ferID
-            method: "POST",
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function(data) {
-                location.reload(); // Reload the page after successful update
-            },
-            error: function(xhr, status, error) {
-                console.error("Error:", xhr.responseText);
+        
+        $(document).on('click', '.edit-fer-btn', function(event) {
+            event.preventDefault();
+        
+            var ferID = $(this).data('fertilizer-id');
+        
+            if (!ferID) {
+                console.error("Invalid fertilizer ID");
+                return;
             }
-        });
-    }
-    
-    $('#ferinfo-update').on('click', function() {
-        updateFertInfo();
-    });
-    
-    $(document).on('click', '.edit-fer-btn', function(event) {
-        event.preventDefault();
-    
-        var pesID = $(this).data('fertilizer-id');
-    
-        if (!pesID) {
-            console.error("Invalid fertilizer ID");
-            return;
-        }
-    
-        $.ajax({
-            url: "/fedit/" + pesID, // Corrected ferID to pesID
-            method: "GET",
-            success: function(data) {
-                if (data && data.fertilizer) { // Corrected pesticide to fertilizer
-                    $('#ferID').val(data.fertilizer.id);
-                    $('#edit_fer_name').val(data.fertilizer.pes_name);
-                    $('#edit_fer_image').attr('src', "/images/" + data.fertilizer.image);
-                    $('#edit_fer_information').val(data.fertilizer.information);
-                    $('#fer_updateModal').modal('show');
-                } else {
-                    console.error("Invalid data format:", data);
+        
+            $.ajax({
+                url: "/fedit/" + ferID,
+                method: "GET",
+                success: function(data) {
+                    if (data && data.fertilzer) {
+                        $('#pesID').val(data.fertilzer.id);
+                        $('#edit_fer_name').val(data.fertilzer.pes_name);
+                        $('#edit_fer_image').attr('src', "/images/" + data.fertilzer.image);
+                        $('#edit_fer_information').val(data.fertilzer.information);
+                        $('#fer_updateModal').modal('show');
+                    } else {
+                        console.error("Invalid data format:", data);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error:", xhr.responseText);
                 }
-            },
-            error: function(xhr, status, error) {
-                console.error("Error:", xhr.responseText);
-            }
-        });
-    });
+            });
+
+            
+
+    //fertilizer
+    
+    
+    
+        })
     
 
     
-    
-
     })
-    
-})
+ })

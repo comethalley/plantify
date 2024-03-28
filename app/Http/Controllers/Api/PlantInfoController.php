@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Pesticides;
 use App\Models\Fertilizers;
 
+
 class PlantinfoController extends Controller
 {
     public function index()
@@ -350,13 +351,15 @@ public function pedit($id) {
 }
 
 
+
+
 public function fupdate(Request $request, $id)
 {
     // Retrieve the fertilizer record by ID
-    $fertilizer = Fertilizers::find($id);
+    $fertilizers = Fertilizers::find($id);
 
     // Check if the fertilizer record exists
-    if (!$fertilizer) {
+    if (!$fertilizers) {
         return response()->json(['error' => 'Fertilizer not found'], 404);
     }
 
@@ -384,20 +387,25 @@ public function fupdate(Request $request, $id)
     }
 
     // Update fertilizer record
-    $fertilizer->update([
-        "fer_name" => $data['edit_fer_name'],
-        "fer_image" => $data['edit_fer_image'] ?? $fertilizer->fer_image, // Keep existing image if not provided
-        "fer_information" => $data['edit_fer_information']
-    ]);
+    try {
+        $fertilizers->update([
+            "fer_name" => $data['edit_fer_name'],
+            "fer_image" => $data['edit_fer_image'] ?? $fertilizers->fer_image, // Keep existing image if not provided
+            "fer_information" => $data['edit_fer_information']
+        ]);
+    } catch (\Exception $e) {
+        return response()->json(['error' => 'Failed to update fertilizer record'], 500);
+    }
 
     // Return response with updated fertilizer data
-    return response()->json(['fertilizer' => $fertilizer], 200);
+    return response()->json(['fertilizers' => $fertilizers], 200);
 }
 
-public function fedit($id) {
-    $fertilizer = Fertilizers::find($id);
 
-    if (!$fertilizer) {
+public function fedit($id) {
+    $fertilizers = Fertilizers::find($id);
+
+    if (!$fertilizers) {
         return response()->json(['error' => 'Fertilizer not found'], 404);
     }
 

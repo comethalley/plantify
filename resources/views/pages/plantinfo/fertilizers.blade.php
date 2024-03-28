@@ -88,7 +88,7 @@
                                                             </a>
                                                         </li>
                                                         <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Edit">
-                                                            <a href="" class="text-primary d-inline-block edit-fer-btn" data-fertilizer-id="{{$item->id}}">
+                                                            <a href="#" class="text-primary d-inline-block edit-fer-btn" data-fertilizers-id="{{$item->id}}">
                                                                 <i class="ri-pencil-fill fs-16"></i>
                                                             </a>
                                                         </li>
@@ -104,8 +104,9 @@
 
 
 
-                                        </tbody>
+                                       
                                         @endforeach
+                                        </tbody>
                                     </table>
                                     <div class="noresult" style="display: none">
                                         <div class="text-center">
@@ -183,43 +184,44 @@
                             <!-- Update modal -->
 
 
-                            <div class="modal fade" id="fer_updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl">
-        <div class="modal-content">
-            <div class="modal-header bg-light p-3">
-                <h5 class="modal-title" id="exampleModalLabel">Edit Fertilizer Information</h5>
+                    <div class="modal fade" id="fer_updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                             <div class="modal-dialog modal-dialog-centered modal-xl">
+                            <div class="modal-content">
+                             <div class="modal-header bg-light p-3">
+                  <h5 class="modal-title" id="exampleModalLabel">Edit Pesticide Information</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
             </div>
-            <form action="{{ url('fupdate/') }}" method="post" enctype="multipart/form-data">
+            <form action="{{ url('fertilizers/') }}" method="post">
                 @csrf
                 <div class="modal-body">
-                <input type="hidden" id="ferID" class="form-control" placeholder="Fertlizer ID" />
+                    <input type="hidden" id="fesID" class="form-control" placeholder="Pesticide ID" />
 
                     <div class="mb-3">
-                        <label for="edit_fer_name" class="form-label">Fertilizer Name</label>
-                        <input type="text" name="edit_fer_name" id="edit_fer_name" class="form-control" placeholder="Fertilizer Name" required />
+                        <label for="edit_fer_name" class="form-label">Pesticide Name</label>
+                        <input type="text" name="edit_fer_name" id="edit_fer_name" class="form-control" placeholder="Pesticide Name" required />
                     </div>
 
                     <div class="mb-3">
-                        <label for="edit_fer_image" class="form-label">Fertilizer Image</label>
+                        <label for="edit_fer_image" class="form-label">Pesticide Image</label>
                         <input type="file" name="edit_fer_image" id="edit_fer_image" class="form-control" required />
                     </div>
 
                     <div class="mb-3">
                         <label for="edit_fer_information" class="form-label">Information</label>
-                        <textarea name="edit_fer_information" id="edit_fer_information" class="form-control" placeholder="Fertilizer Information" required></textarea>
+                        <textarea name="edit_fer_information" id="edit_fer_information" class="form-control" placeholder="Pesticide Information" required></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <div class="hstack gap-2 justify-content-end">
                         <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-success" id="plantinfo-update">Save</button>
+                        <button type="button" class="btn btn-success" id="ferinfo-update">Save</button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
 
 
                             <!-- Modal -->

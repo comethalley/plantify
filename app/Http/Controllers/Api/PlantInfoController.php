@@ -295,13 +295,19 @@ class PlantinfoController extends Controller
 
     public function pupdate(Request $request, $id)
 {
-    $pesticides = Pesticides::where('id', $id)->where('status', 1)->first(); // Add first() to retrieve the record
+    // Retrieve the pesticide record by ID
+    $pesticides = Pesticides::find($id);
 
+    // Check if the pesticide record exists
+    if (!$pesticides) {
+        return response()->json(['error' => 'Pesticide not found'], 404);
+    }
+
+    // Validate the request data
     $validator = Validator::make($request->all(), [
         'edit_pes_name' => 'required|string|max:55',
         'edit_pes_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-        'edit_information' => 'required|string|max:55'
-
+        'edit_pes_information' => 'required|string|max:55'
     ]);
 
     // If validation fails, return error response
@@ -320,26 +326,85 @@ class PlantinfoController extends Controller
         $data['edit_pes_image'] = $imageName;
     }
 
-    // Update plant info record
-    $plantinfo->update([
+    // Update pesticide record
+    $pesticides->update([
         "pes_name" => $data['edit_pes_name'],
-       // "image" => isset($data['edit_image']) ? $data['edit_image'] : $plantinfo->image,
-       "pes_image" => $data['edit_pes_image'],
-        "information" => $data['edit_pes_information']
-
+        "pes_image" => $data['edit_pes_image'],
+        "pes_information" => $data['edit_pes_information']
     ]);
 
-    // Return success response
-    return response()->json(['plantinfo' => $plantinfo], 200);
-
+    // Return response with updated pesticide data
+    return response()->json(['pesticide' => $pesticides], 200);
 }
 
-public function pedit($id)
-    {
-        $pesticides = pesticides::find($id);
-        // return view('plantinfo.edit')->with('plantinfo', $plantinfo);
-        return response()->json(['pesticides' => $pesticides], 200);
+    
+
+public function pedit($id) {
+    $pesticide = Pesticides::find($id);
+
+    if (!$pesticide) {
+        return response()->json(['error' => 'Pesticide not found'], 404);
     }
+
+    return response()->json(['pesticide' => $pesticide], 200);
+}
+
+
+public function fupdate(Request $request, $id)
+{
+    // Retrieve the fertilizer record by ID
+    $fertilizer = Fertilizers::find($id);
+
+    // Check if the fertilizer record exists
+    if (!$fertilizer) {
+        return response()->json(['error' => 'Fertilizer not found'], 404);
+    }
+
+    // Validate the request data
+    $validator = Validator::make($request->all(), [
+        'edit_fer_name' => 'required|string|max:55',
+        'edit_fer_image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        'edit_fer_information' => 'required|string|max:255'
+    ]);
+
+    // If validation fails, return error response
+    if ($validator->fails()) {
+        return response()->json(['errors' => $validator->errors()], 422);
+    }
+
+    // Retrieve validated data
+    $data = $validator->validated();
+
+    // Handle image upload
+    if ($request->hasFile('edit_fer_image')) {
+        $image = $request->file('edit_fer_image');
+        $imageName = time() . '.' . $image->getClientOriginalExtension();
+        $image->move(public_path('images'), $imageName);
+        $data['edit_fer_image'] = $imageName;
+    }
+
+    // Update fertilizer record
+    $fertilizer->update([
+        "fer_name" => $data['edit_fer_name'],
+        "fer_image" => $data['edit_fer_image'] ?? $fertilizer->fer_image, // Keep existing image if not provided
+        "fer_information" => $data['edit_fer_information']
+    ]);
+
+    // Return response with updated fertilizer data
+    return response()->json(['fertilizer' => $fertilizer], 200);
+}
+
+public function fedit($id) {
+    $fertilizer = Fertilizers::find($id);
+
+    if (!$fertilizer) {
+        return response()->json(['error' => 'Fertilizer not found'], 404);
+    }
+
+    return response()->json(['fertilizer' => $fertilizer], 200);
+}
+
+
 
 
 }

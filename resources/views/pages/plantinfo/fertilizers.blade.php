@@ -88,7 +88,7 @@
                                                             </a>
                                                         </li>
                                                         <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Edit">
-                                                            <a href="" class="text-primary d-inline-block edit-item-btn" data-plantinfo-id="{{$item->id}}">
+                                                            <a href="" class="text-primary d-inline-block edit-fer-btn" data-fertilizer-id="{{$item->id}}">
                                                                 <i class="ri-pencil-fill fs-16"></i>
                                                             </a>
                                                         </li>
@@ -184,49 +184,43 @@
 
 
                             <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered modal-xl">
-                                    <div class="modal-content">
-                                        <div class="modal-header bg-light p-3">
-                                            <h5 class="modal-title" id="exampleModalLabel">Edit Fertilizer Information</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
-                                        </div>
-                                        <form action="{{ url('plantinfo/') }}" method="post">
-                                            @csrf
-                                            <div class="modal-body">
-                                                <input type="hidden" id="id-field" />
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header bg-light p-3">
+                <h5 class="modal-title" id="exampleModalLabel">Edit Fertilizer Information</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+            </div>
+            <form action="{{ url('fupdate/') }}" method="post" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body">
+                <input type="hidden" id="ferID" class="form-control" placeholder="Fertlizer ID" />
 
-                                                <input type="hidden" id="plantID" class="form-control" placeholder="ID" />
+                    <div class="mb-3">
+                        <label for="edit_fer_name" class="form-label">Fertilizer Name</label>
+                        <input type="text" name="edit_fer_name" id="edit_fer_name" class="form-control" placeholder="Fertilizer Name" required />
+                    </div>
 
-                                                <div class="mb-3">
-                                                    <label for="customername-field" class="form-label">Fertilizer Name</label>
-                                                    <input type="text" name="plant_name" id="edit_fer_name" class="form-control" placeholder="Fertilizer     Name" required />
-                                                </div>
+                    <div class="mb-3">
+                        <label for="edit_fer_image" class="form-label">Fertilizer Image</label>
+                        <input type="file" name="edit_fer_image" id="edit_fer_image" class="form-control" required />
+                    </div>
 
-                                                <div class="mb-3">
-                                                    <label for="customername-field" class="form-label">Plant Image</label>
-                                                    <input type="file" name="address" id="edit_fer_image" class="form-control" placeholder="Image" required />
-                                                </div>
+                    <div class="mb-3">
+                        <label for="edit_fer_information" class="form-label">Information</label>
+                        <textarea name="edit_fer_information" id="edit_fer_information" class="form-control" placeholder="Fertilizer Information" required></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="hstack gap-2 justify-content-end">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-success" id="plantinfo-update">Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
-                                                <div class="mb-3">
-                                                    <label for="customername-field" class="form-label">Information</label>
-                                                    <textarea type="textarea" name="description" id="edit_fer_information" class="form-control" placeholder="Plant Information" required> </textarea>
-                                                </div>
-
-
-
-
-                                            </div>
-                                            <div class="modal-footer">
-                                                <div class="hstack gap-2 justify-content-end">
-                                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
-                                                    <button type="button" class="btn btn-success" id="plantinfo-update">Save</button>
-                                                    <!-- <button type="button" class="btn btn-success" id="edit-btn">Update</button> -->
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
 
                             <!-- Modal -->
                             <div class="modal fade flip" id="deleteOrder" tabindex="-1" aria-hidden="true">

@@ -452,16 +452,24 @@ $(document).ready(function() {
     function updatePestInfo() {
         var pesID = $('#pesID').val();
         var pes_name = $('#edit_pes_name').val();
-        var pes_image = $('#myImage').prop('files')[0]; // Retrieve the file object from the input field
         var pes_information = $("#edit_pes_information").val();
+        var pes_image = $('#edit_pes_image').prop('files')[0]; // Retrieve the file object from the input field
+        
+    
+        if (!pesID || !pes_name || !pes_information) {
+            console.error("Missing required fields");
+            return;
+        }
     
         var formData = new FormData();
         formData.append('edit_pes_name', pes_name);
-        formData.append('edit_pes_image', pes_image); // Append the file object to the FormData object
+        if (pes_image) {
+            formData.append('edit_pes_image', pes_image);
+        }
         formData.append('edit_pes_information', pes_information);
     
         $.ajax({
-            url: "/pupdate/" + pesID, // Changed from plantID to pesID
+            url: "/pupdate/" + pesID,
             method: "POST",
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -470,48 +478,195 @@ $(document).ready(function() {
             contentType: false,
             processData: false,
             success: function(data) {
-                location.reload();
+                location.reload(); // Reload the page after successful update
             },
             error: function(xhr, status, error) {
-                console.error("Error:", status, error);
+                console.error("Error:", xhr.responseText);
             }
         });
     }
-
+    
     $('#pesinfo-update').on('click', function() {
         updatePestInfo();
     });
-
-    $(document).on('click', '.edit-pes-btn', function(event){
+    
+    $(document).on('click', '.edit-pes-btn', function(event) {
         event.preventDefault();
     
         var pesID = $(this).data('pesticide-id');
-        console.log(pesID);
+    
+        if (!pesID) {
+            console.error("Invalid pesticide ID");
+            return;
+        }
     
         $.ajax({
             url: "/pedit/" + pesID,
             method: "GET",
             success: function(data) {
-                console.log(data); // Add this line to inspect the data received from the server
                 if (data && data.pesticide) {
-                    $('#pesID').val(data.pesticide.id);    
+                    $('#pesID').val(data.pesticide.id);
                     $('#edit_pes_name').val(data.pesticide.pes_name);
                     $('#edit_pes_image').attr('src', "/images/" + data.pesticide.image);
                     $('#edit_pes_information').val(data.pesticide.information);
-                    $('#updateModal').modal('show');
+                    $('#pes_updateModal').modal('show');
                 } else {
                     console.error("Invalid data format:", data);
                 }
             },
             error: function(xhr, status, error) {
-                console.error("Error:", status, error);
+                console.error("Error:", xhr.responseText);
+            }
+        });
+
+        function updatePestInfo() {
+        var pesID = $('#pesID').val();
+        var pes_name = $('#edit_pes_name').val();
+        var pes_information = $("#edit_pes_information").val();
+        var pes_image = $('#edit_pes_image').prop('files')[0]; // Retrieve the file object from the input field
+        
+    
+        if (!pesID || !pes_name || !pes_information) {
+            console.error("Missing required fields");
+            return;
+        }
+    
+        var formData = new FormData();
+        formData.append('edit_pes_name', pes_name);
+        if (pes_image) {
+            formData.append('edit_pes_image', pes_image);
+        }
+        formData.append('edit_pes_information', pes_information);
+    
+        $.ajax({
+            url: "/pupdate/" + pesID,
+            method: "POST",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(data) {
+                location.reload(); // Reload the page after successful update
+            },
+            error: function(xhr, status, error) {
+                console.error("Error:", xhr.responseText);
+            }
+        });
+    }
+    
+    $('#pesinfo-update').on('click', function() {
+        updatePestInfo();
+    });
+    
+    $(document).on('click', '.edit-pes-btn', function(event) {
+        event.preventDefault();
+    
+        var pesID = $(this).data('pesticide-id');
+    
+        if (!pesID) {
+            console.error("Invalid pesticide ID");
+            return;
+        }
+    
+        $.ajax({
+            url: "/pedit/" + pesID,
+            method: "GET",
+            success: function(data) {
+                if (data && data.pesticide) {
+                    $('#pesID').val(data.pesticide.id);
+                    $('#edit_pes_name').val(data.pesticide.pes_name);
+                    $('#edit_pes_image').attr('src', "/images/" + data.pesticide.image);
+                    $('#edit_pes_information').val(data.pesticide.information);
+                    $('#pes_updateModal').modal('show');
+                } else {
+                    console.error("Invalid data format:", data);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error:", xhr.responseText);
             }
         });
     });
+    
+
+    //Fertilizer update
+
+    function updateFertInfo() {
+        var ferID = $('#ferID').val();
+        var fer_name = $('#edit_fer_name').val();
+        var fer_information = $("#edit_fer_information").val();
+        var fer_image = $('#edit_fer_image').prop('files')[0]; // Retrieve the file object from the input field
+    
+        if (!ferID || !fer_name || !fer_information) {
+            console.error("Missing required fields");
+            return;
+        }
+    
+        var formData = new FormData();
+        formData.append('edit_fer_name', fer_name);
+        if (fer_image) {
+            formData.append('edit_fer_image', fer_image);
+        }
+        formData.append('edit_fer_information', fer_information);
+    
+        $.ajax({
+            url: "/fupdate/" + ferID, // Corrected pesID to ferID
+            method: "POST",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(data) {
+                location.reload(); // Reload the page after successful update
+            },
+            error: function(xhr, status, error) {
+                console.error("Error:", xhr.responseText);
+            }
+        });
+    }
+    
+    $('#ferinfo-update').on('click', function() {
+        updateFertInfo();
+    });
+    
+    $(document).on('click', '.edit-fer-btn', function(event) {
+        event.preventDefault();
+    
+        var pesID = $(this).data('fertilizer-id');
+    
+        if (!pesID) {
+            console.error("Invalid fertilizer ID");
+            return;
+        }
+    
+        $.ajax({
+            url: "/fedit/" + pesID, // Corrected ferID to pesID
+            method: "GET",
+            success: function(data) {
+                if (data && data.fertilizer) { // Corrected pesticide to fertilizer
+                    $('#ferID').val(data.fertilizer.id);
+                    $('#edit_fer_name').val(data.fertilizer.pes_name);
+                    $('#edit_fer_image').attr('src', "/images/" + data.fertilizer.image);
+                    $('#edit_fer_information').val(data.fertilizer.information);
+                    $('#fer_updateModal').modal('show');
+                } else {
+                    console.error("Invalid data format:", data);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error:", xhr.responseText);
+            }
+        });
+    });
+    
 
     
     
 
-    
+    })
     
 })

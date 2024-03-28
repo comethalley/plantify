@@ -77,7 +77,7 @@ Route::get('/about-us', [AboutUsController::class, 'index']);
 Route::get('/getAllUom', [InventoryController::class, 'getUom']);
 Route::post('/edit-uom/{id}', [InventoryController::class, 'updateUom']);
 Route::post('/archive-uom/{id}', [InventoryController::class, 'archiveUom']);
-
+Route::get('/getAllStock', [InventoryController::class, 'getAllStock']);
 Route::get('/plantifeed', [ForumController::class, 'index']);
 
 // Direct Messages
@@ -190,7 +190,7 @@ Route::get('/archive-farm/{id}', [FarmController::class, 'archiveFarm'])
 Route::get('/tasks', [TaskController::class, 'index'])->name('tasks.monitoring');
 Route::post('/tasks/store', [TaskController::class, 'store'])->name('tasks.store');
 Route::get('/tasks/{task}/edit', [TaskController::class, 'edit'])->name('tasks.edit');
-Route::post('/tasks/{task}', [TaskController::class, 'update']);   
+Route::post('/tasks/{task}', [TaskController::class, 'update']);
 Route::delete('/tasks/{task}', [TaskController::class, 'destroy'])->name('tasks.destroy');
 Route::post('/tasks/{task}/complete', [TaskController::class, 'complete'])->name('tasks.complete');
 Route::get('taskshow', [TaskController::class, 'showCompleted'])->name('taskshow');
@@ -227,6 +227,6 @@ Route::get('/piu/fiu', [PiuController::class, 'fer']);
 Route::get('/piu/pes', [PiuController::class, 'pes']);
 Route::get('/piu/show/{id}', [PiuController::class, 'show']);
 //===========================================================================================================
-Route::get('/markAsRead',function(){
+Route::get('/markAsRead', function () {
     auth()->user()->unreadNotifications->markAsRead();
 });

@@ -633,4 +633,32 @@ class InventoryController extends Controller
             return response()->json(['error' => 'Internal Server Error'], 500);
         }
     }
+
+    public function getAllStock()
+    {
+        $stocks = DB::table('stocks')
+            ->leftJoin('supplier_seeds', 'supplier_seeds.id', '=', 'stocks.supplier_seeds_id')
+            ->leftJoin('suppliers', 'suppliers.id', '=', 'supplier_seeds.supplier_id')
+            ->leftJoin('uoms', 'uoms.id', '=', 'supplier_seeds.uom_id')
+            ->leftJoin('seeds', 'seeds.id', '=', 'supplier_seeds.seed_id')
+            ->select(
+                'stocks.id as stocksID',
+                'stocks.available_seed as available',
+                'stocks.used_seed as used',
+                'stocks.total as total',
+                'supplier_seeds.id as suppliers_seedsID',
+                'supplier_seeds.qty as qty',
+                'supplier_seeds.qr_code as qr_code',
+                'suppliers.id as supplierID',
+                'suppliers.name as supplier_name',
+                'uoms.id as umoID',
+                'uoms.description as umoName',
+                'seeds.id as seedID',
+                'seeds.name as seedName',
+            )
+            ->orderBy('stocks.id', 'DESC')
+            ->get();
+
+        return response()->json(['stocks' => $stocks], 200);
+    }
 }

@@ -2,6 +2,7 @@ console.log("Hello JS is here!");
 
 $(document).ready(function () {
     getAllSupplier();
+    getStocksList();
 
     function getAllSupplier() {
         $.ajax({
@@ -63,6 +64,61 @@ $(document).ready(function () {
             error: function (xhr, status, error) {
                 console.error("Error:", status, error);
             },
+        });
+    }
+
+
+
+    function getStocksList() {
+        $.ajax({
+            url: "/getAllStock",
+            method: "GET",
+            success: function (data) {
+                console.log(data);
+                // $("#uom-table").html(data)
+                populateStocksTable(data);
+            },
+            error: function (xhr, status, error) {
+                console.error("Error:", status, error);
+            },
+        });
+    }
+
+    function populateStocksTable(data) {
+        var tableBody = $("#stocksTable tbody");
+        tableBody.empty();
+
+        $.each(data.stocks, function (index, uom) {
+            console.log(uom);
+            var row =
+                "<tr>" +
+                "<td class='id'># " +
+                uom.stocksID +
+                "</td>" +
+                "<td class='customer_name'>" +
+                uom.qr_code +
+                "</td>" +
+                "<td class='customer_name'>" +
+                uom.seedName +
+                "</td>" +
+                "<td class='customer_name'>" +
+                uom.supplier_name +
+                "</td>" +
+                "<td class='customer_name text-success'>" +
+                uom.available +
+                "</td>" +
+                "<td class='customer_name text-danger'>-" +
+                uom.used +
+                "</td>" +
+                "<td class='customer_name'>" +
+                uom.total +
+                "</td>" +
+                "<td class='customer_name'><button type='button' class='btn btn-info waves-effect waves-light w-xs logs-btn' id='logs-btn' data-bs-toggle='modal' data-bs-target='#logModal' data-logs-id=" +
+                uom.stocksID +
+                ">Logs</button></td>" +
+                "</tr>";
+
+            tableBody.append(row);
         });
     }
 
@@ -249,14 +305,23 @@ $(document).ready(function () {
     // var supplier = $('#supplier_description').text();
     // console.log("Supplier is " + supplier);
 
+
+
     let scanner;
     let modal = document.getElementById("receiveModal");
 
     function receiveItem(lastScannedContent, parsedMultipleReceive) {
         if (lastScannedContent == "") {
-            alert("QR code is empty!");
+            // alert("QR code is empty!");
+            Swal.fire({
+                title: "QR code is empty !",
+                text: "Please show appropriate QR Code",
+                icon: "error",
+                showConfirmButton: false,
+                timer: 2000,
+            });
         } else {
-            alert(lastScannedContent);
+            // alert(lastScannedContent);
             stopScanner();
             $.ajax({
                 url: "/add-stock",
@@ -271,11 +336,19 @@ $(document).ready(function () {
                     multiplier: parsedMultipleReceive,
                 },
                 success: function (data) {
+                    getStocksList();
                     console.log(data);
                     console.log("multiplier is " + parsedMultipleReceive);
                     lastScannedContent = "";
                     $("#multiple-receive").val("1");
                     $("#received-qr").text(" ");
+                    Swal.fire({
+                        title: "Successfully Added",
+                        text: "Item has been added to inventory",
+                        icon: "success",
+                        showConfirmButton: false,
+                        timer: 2000,
+                    });
                     startScanner();
                 },
                 error: function (xhr, status, error) {
@@ -363,7 +436,17 @@ $(document).ready(function () {
             success: function (data, textStatus, xhr) {
                 console.log(data);
                 if (xhr.status === 200) {
-                    alert("Success:" + data.success);
+                    //alert("Success:" + data.success);
+                    Swal.fire({
+                        title: "Success",
+                        text: data.success,
+                        icon: "success",
+                        showConfirmButton: false,
+                        timer: 2000,
+                    }).then((result) => {
+                    
+                        location.reload();
+                    });
                 }
             },
             error: function (xhr, status, error) {
@@ -382,7 +465,7 @@ $(document).ready(function () {
         });
     }
 
-    $(".logs-btn").on("click", function () {
+    $(document).on("click", "#logs-btn", function () {
         var stockID = $(this).data("logs-id");
         getLogs(stockID);
     });
@@ -391,18 +474,23 @@ $(document).ready(function () {
         console.log("void-btn is clicked");
         voidItem();
     });
-});
 
-//for using scanner
-$(document).ready(function () {
+    
     let usingScanner;
     let usingModal = document.getElementById("usingModal");
 
     function usedItem(lastUsedScannedContent, parsedMultipleUsed, mode) {
         if (lastUsedScannedContent == "") {
-            alert("QR code is empty!");
+            //alert("QR code is empty!");
+            Swal.fire({
+                title: "QR code is empty !",
+                text: "Please show appropriate QR Code",
+                icon: "error",
+                showConfirmButton: false,
+                timer: 2000,
+            });
         } else {
-            alert(lastUsedScannedContent);
+            // alert(lastUsedScannedContent);
             stopUsedScanner();
             $.ajax({
                 url: "/remove-stock",
@@ -418,10 +506,18 @@ $(document).ready(function () {
                     mode: mode,
                 },
                 success: function (data) {
+                    getStocksList();
                     console.log(data);
                     lastUsedScannedContent = "";
                     $("#multiple-used").val("1");
                     $("#used-qr").text(" ");
+                    Swal.fire({
+                        title: "Successfully Receive",
+                        text: "Item has been remove to inventory",
+                        icon: "success",
+                        showConfirmButton: false,
+                        timer: 2000,
+                    });
                     startUsedScanner();
                 },
                 error: function (xhr, status, error) {

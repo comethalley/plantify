@@ -226,21 +226,21 @@
                                         </a>
                                         <!-- Archive task button -->
                                         @if (!$task->archived)
-                                        <form action="{{ route('tasks.archive', $task->id) }}" method="POST" style="display: inline;">
-                                            @csrf
-                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to Archive this task?')">
-                                                <i class="ri-delete-bin-5-fill fs-16"></i>
-                                            </button>
-                                        </form>
+                                     <form id="archiveForm{{ $task->id }}" action="{{ route('tasks.archive', $task->id) }}" method="POST" style="display: inline;">
+                                        @csrf
+                                      <button type="button" class="btn btn-danger btn-sm" id="deletebtn" data-task-id="{{ $task->id }}">
+                                          <i class="ri-delete-bin-5-fill fs-16"></i>
+                                    </button>
+                                    </form>
                                         @endif
                                         <!-- Complete task button -->
                                         @if (!$task->completed)
-                                        <form action="{{ route('tasks.complete', $task->id) }}" method="POST" style="display: inline;">
-                                            @csrf
-                                            <button type="submit" class="btn btn-warning btn-sm">
-                                                <i class="ri-checkbox-circle-line fs-16"></i>
-                                            </button>
-                                        </form>
+                                       <form id="completeForm{{ $task->id }}" action="{{ route('tasks.complete', $task->id) }}" method="POST" style="display: inline;">
+                                       @csrf
+                                         <button type="button" class="btn btn-warning btn-sm complete-btn" data-task-id="{{ $task->id }}">
+                                      <i class="ri-checkbox-circle-line fs-16"></i>
+                                          </button>
+                                         </form>
                                         @endif
                                     @endif
                                 </td>
@@ -506,7 +506,8 @@
     <!-- End Page-content -->
           <!-- end main content-->
                     
-</div>                  
+</div>  
+                
 <script>
 // Update table based on the selected filter
     function updateTable(filter) {                           
@@ -624,9 +625,16 @@
                 'user_id': user_id, 
             },
             success: function(data) {
+                $('#task-edit').modal('hide');
+                    Swal.fire({
+                    title: "Successfully archived",
+                    text: "Are you ready for the next level?",
+                    icon: "success"
+                    });
                 console.log(data)
                 location.reload()
-                
+          
+
             },
             error: function(xhr, status, error) {
                 if (xhr.status === 422) {
@@ -677,4 +685,61 @@
     
 
     </script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    // Add event listener to all delete buttons
+    document.querySelectorAll('.btn-danger').forEach(button => {
+        button.addEventListener('click', function() {
+            const taskId = this.getAttribute('data-task-id');
+
+            // Show SweetAlert confirmation modal
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'Are you sure you want to Archive this task?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, archive it!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Submit the form
+                    document.getElementById('archiveForm' + taskId).submit();
+                }
+            });
+        });
+    });
+
+
+    document.querySelectorAll('.complete-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const taskId = this.getAttribute('data-task-id');
+
+            // Show SweetAlert confirmation modal
+            Swal.fire({
+                title: 'The task completed',
+                text: 'Are you sure you want to mark this task as completed?',
+                icon: 'success',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, mark it as completed!',
+                
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Submit the form
+                    document.getElementById('completeForm' + taskId).submit();
+                }
+            });
+        });
+    });
+
+    // Reload the page after form submission
+    function reloadPage() {
+        location.reload();
+    }
+</script>
 <!-- END layout-wrappe

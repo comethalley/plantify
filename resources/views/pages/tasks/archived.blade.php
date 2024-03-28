@@ -142,34 +142,34 @@
                                         </tr>
 
                                         <tbody>
-                                      @foreach ($archivedTasks as $task)
-                                        <tr>
-                                        <td>#{{ $task->id }}</td>
-                                         <td>{{ $task->title }}</td>
-                                         <td class="description" style="max-width: 100px; overflow: hidden; text-overflow: ellipsis;" title="{{ $task->description }}">
-                                        {{ $task->description }}
-                                    </td>
-                                     <td class="user_id">
-                                    @if ($task->user)
-                                        {{ $task->user->firstname }} {{ $task->user->lastname }}
-                                    @else
-                                        
-                                    @endif
-                                    </td> 
-                                    <td>
-                                        <span class="priority priority-<?php echo strtolower($task->priority); ?>"><?php echo $task->priority; ?></span>
-                                    </td>
-                                    <td>
-                                        <span class="badge badge-<?php echo strtolower($task->status); ?>"><?php echo $task->status; ?></span>
-                                    </td><td>{{ $task->archived_at }}</td>
-                                     <td>
-            <form action="{{ route('tasks.restore', $task->id) }}" method="POST" style="display: inline;">
+                                        @foreach ($archivedTasks as $task)
+    <tr>
+        <td>#{{ $task->id }}</td>
+        <td>{{ $task->title }}</td>
+        <td class="description" style="max-width: 100px; overflow: hidden; text-overflow: ellipsis;" title="{{ $task->description }}">
+            {{ $task->description }}
+        </td>
+        <td class="user_id">
+            @if ($task->user)
+                {{ $task->user->firstname }} {{ $task->user->lastname }}
+            @else
+            @endif
+        </td> 
+        <td>
+            <span class="priority priority-<?php echo strtolower($task->priority); ?>"><?php echo $task->priority; ?></span>
+        </td>
+        <td>
+            <span class="badge badge-<?php echo strtolower($task->status); ?>"><?php echo $task->status; ?></span>
+        </td>
+        <td>{{ $task->archived_at }}</td>
+        <td>
+            <form id="restoreForm{{ $task->id }}" action="{{ route('tasks.restore', $task->id) }}" method="POST" style="display: inline;">
                 @csrf
-                <button type="submit" class="btn btn-success btn-sm">Restore</button>
+                <button type="button" class="btn btn-success btn-sm restore-btn" data-task-id="{{ $task->id }}">Restore</button>
             </form>
         </td>
-                                    </tr>
-                                      @endforeach
+    </tr>
+@endforeach
                                      </tbody>
                                   
                                     </tbody>
@@ -190,6 +190,9 @@
         <!-- end main content-->
 
     </div>
+
+
+
     <!-- END layout-wrapper -->
 
 <!-- <!DOCTYPE html>
@@ -241,6 +244,33 @@
 </div>  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+    // Add event listener to all restore buttons
+    document.querySelectorAll('.restore-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const taskId = this.getAttribute('data-task-id');
+
+            // Show SweetAlert confirmation modal
+            Swal.fire({
+                title: 'Restore Task',
+                text: 'Are you sure you want to restore this task?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#28a745',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Yes, restore it!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Submit the form
+                    document.getElementById('restoreForm' + taskId).submit();
+                }
+            });
+        });
+    });
+</script>
 </body>
 
 </html>

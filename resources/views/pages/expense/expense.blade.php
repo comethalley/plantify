@@ -303,7 +303,7 @@
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                <form class="edit-expense-form" id="editExpenseForm" action="/expenses/update-expense" method="POST">
+                                                <form class="edit-expense-form" id="editExpenseForm" action="{{ url('/expenses/update-expense') }}" method="POST">
                                                     @csrf
                                                     <div class="mb-3">
                                                         <label for="editCategory" class="form-label">Category</label>
@@ -352,6 +352,8 @@
                                                         <label for="editImage" class="form-label">Upload Image</label>
                                                         <input type="file" class="form-control" id="editImage" accept="image/*">
                                                     </div>
+
+                                                    <input type="hidden" id="editExpenseId" name="expense_id">
                                                 </form>
                                             </div>
                                             <div class="modal-footer">
@@ -448,7 +450,7 @@
 <script>
     
     document.addEventListener('DOMContentLoaded', function () {
-        // Get references to the elements
+
         var categorySelect = document.getElementById('category');
         var descriptionInput = document.getElementById('descriptionInput');
         var previousInput = document.getElementById('previousInput');
@@ -458,11 +460,9 @@
         var amountInput = document.getElementById('amountInput');
         var imageInput = document.getElementById('imageInput');
 
-        // Function to show relevant inputs based on selected category
         function showInputsForCategory() {
             var selectedCategoryId = categorySelect.value;
 
-            // Hide all inputs first
             descriptionInput.style.display = 'none';
             previousInput.style.display = 'none';
             currentInput.style.display = 'none';
@@ -471,28 +471,25 @@
             amountInput.style.display = 'none';
             imageInput.style.display = 'none';
 
-            // Show inputs based on selected category
-            if (selectedCategoryId === '1') { // Electricity
+            if (selectedCategoryId === '1') {
                 previousInput.style.display = 'block';
                 currentInput.style.display = 'block';
                 kwhInput.style.display = 'block';
                 totalAmount.style.display = 'block';
                 imageInput.style.display = 'block';
-            } else if (selectedCategoryId === '2') { // Water
+            } else if (selectedCategoryId === '2') {
                 previousInput.style.display = 'block';
                 currentInput.style.display = 'block';
                 totalAmount.style.display = 'block';
                 imageInput.style.display = 'block';
-            } else if (selectedCategoryId === '3' || selectedCategoryId === '4') { // Seeds and Others
+            } else if (selectedCategoryId === '3' || selectedCategoryId === '4') {
                 descriptionInput.style.display = 'block';
                 amountInput.style.display = 'block';
                 imageInput.style.display = 'block';
             }
         }
 
-        // Call the function initially to set the initial state
         showInputsForCategory();
-        // Add event listener to the category select
         categorySelect.addEventListener('change', showInputsForCategory);
     });
 
@@ -603,7 +600,7 @@
     // <!-- edit expense -->
 
     document.addEventListener('DOMContentLoaded', function () {
-        // Get references to the elements
+        
         var editCategorySelect = document.getElementById('editCategory');
         var editDescriptionInput = document.getElementById('editDescriptionInput');
         var editPreviousInput = document.getElementById('editPreviousInput');
@@ -613,9 +610,8 @@
         var editAmountInput = document.getElementById('editAmountInput');
         var editImageInput = document.getElementById('editImageInput');
 
-        // Function to show relevant inputs based on selected category
         function showInputsForEditCategory(selectedCategoryId) {
-            // Hide all inputs first
+
             editDescriptionInput.style.display = 'none';
             editPreviousInput.style.display = 'none';
             editCurrentInput.style.display = 'none';
@@ -624,7 +620,6 @@
             editAmountInput.style.display = 'none';
             editImageInput.style.display = 'none';
 
-            // Show inputs based on selected category
             if (selectedCategoryId === '1') { // Electricity
                 editPreviousInput.style.display = 'block';
                 editCurrentInput.style.display = 'block';
@@ -643,92 +638,81 @@
             }
         }
 
-        // Call the function initially to set the initial state
         showInputsForEditCategory(editCategorySelect.value);
-
-        // Add event listener to the edit category select
+        
         editCategorySelect.addEventListener('change', function () {
             showInputsForEditCategory(editCategorySelect.value);
         });
     });
 
     function editExpenseModal(row) {
-        // Show a confirmation modal before opening the edit modal
-        if (confirm('Are you sure you want to edit this expense?')) {
-            var cells = row.cells;
-            var categoryId = cells[1].textContent.trim(); // Assuming category ID is in the second column
-            var description = cells[2].textContent.trim(); // Assuming description is in the third column
-            var amount = cells[3].textContent.trim(); // Assuming amount is in the fourth column
+    if (confirm('Are you sure you want to edit this expense?')) {
+        var expenseId = row.dataset.expenseId;
+        var cells = row.cells;
+        var categoryId = cells[1].textContent.trim();
+        var description = cells[2].textContent.trim();
+        var amount = cells[3].textContent.trim();
 
-            // Populate modal fields with expense details
-            document.getElementById('editCategory').value = categoryId;
-            document.getElementById('editDescription').value = description;
-            document.getElementById('editAmount').value = amount;
+        // Populate the modal fields with expense data
+        document.getElementById('editCategory').value = categoryId;
+        document.getElementById('editDescription').value = description;
+        document.getElementById('editAmount').value = amount;
+        document.getElementById('editExpenseId').value = expenseId;
 
-            // Display the modal
-            $('#editModal').modal('show');
+        $('#editModal').modal('show');
+    }
+}
+
+// Function to handle editing expense
+function editExpense() {
+    var editForm = document.getElementById('editExpenseForm');
+    var formData = new FormData(editForm);
+    var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+    fetch('/expenses/update-expense', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRF-TOKEN': csrfToken
         }
-    }
-
-    function editExpense() {
-        var editForm = document.getElementById('editExpenseForm');
-        var formData = new FormData(editForm);
-
-        // Get the CSRF token
-        var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-        fetch('/expenses/update', {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-CSRF-TOKEN': csrfToken
-            }
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to update expense');
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.success) {
-                console.log('Expense updated successfully:', data);
-                // Optionally update the UI or close the modal
-                $('#editModal').modal('hide');
-                // Assuming you want to reload the page after updating the expense
-                location.reload();
-            } else {
-                console.error('Failed to update expense:', data.message);
-                // Display an error message to the user
-                alert('Failed to update expense. ' + data.message);
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            // Display an error message to the user
-            alert('An unexpected error occurred. Please try again later.');
-        });
-    }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            console.log('Expense updated successfully:', data);
+            location.reload(); // Optionally, update the expense in the table
+            appendExpenseToTable(data);
+            $('#editModal').modal('hide');
+        } else {
+            console.error('Failed to update expense:', data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
 
     function calculateEditTotalAmount() {
         var categorySelect = document.getElementById('editCategory');
-        var editPreviousInput = document.getElementById('editPrevious').value;
-        var editCurrentInput = document.getElementById('editCurrent').value;
-        var editKwhInput = document.getElementById('editKwh').value;
+        var editPreviousInput = parseFloat(document.getElementById('editPrevious').value);
+        var editCurrentInput = parseFloat(document.getElementById('editCurrent').value);
+        var editKwhInput = parseFloat(document.getElementById('editKwh').value);
+        var editTotalElement = document.getElementById('editTotal');
 
-        if (categorySelect.value === '1') { // Electricity
+        if (categorySelect.value === '1') {
             if (!isNaN(editPreviousInput) && !isNaN(editCurrentInput) && !isNaN(editKwhInput)) {
-                var difference = parseFloat(editPreviousInput) - parseFloat(editCurrentInput);
+                var difference = editPreviousInput - editCurrentInput;
                 var total = difference * editKwhInput;
-                document.getElementById('editTotal').textContent = total.toFixed(2);
+                editTotalElement.textContent = total.toFixed(2);
             } else {
-                document.getElementById('editTotal').textContent = 'Invalid input'; 
+                editTotalElement.textContent = 'Invalid input'; 
             }
-        } else if (categorySelect.value === '2') { // Water
+        } else if (categorySelect.value === '2') {
             if (!isNaN(editPreviousInput) && !isNaN(editCurrentInput)) {
-                var total = parseFloat(editPreviousInput) + parseFloat(editCurrentInput);
-                document.getElementById('editTotal').textContent = total.toFixed(2);
+                var total = editPreviousInput + editCurrentInput;
+                editTotalElement.textContent = total.toFixed(2);
             } else {
-                document.getElementById('editTotal').textContent = 'Invalid input';
+                editTotalElement.textContent = 'Invalid input';
             }
         }
     }
@@ -736,6 +720,12 @@
     $(document).ready(function() {
         $('#editPrevious, #editCurrent, #editKwh').on('input', calculateEditTotalAmount);
     });
+
+    function removeExpense(row) {
+        if (confirm('Are you sure you want to remove this expense?')) {
+            row.style.display = 'none';
+        }
+    }
 </script>
 
 

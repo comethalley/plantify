@@ -102,7 +102,7 @@ class ExpenseController extends Controller
             'amount' => 'required|numeric',
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-
+        
         // Create a new Expense instance
         $expense = new Expense([
             'description' => $validatedData['description'],
@@ -135,43 +135,34 @@ class ExpenseController extends Controller
 
     public function updateExpense(Request $request)
     {
-        try {
-            // Validate the incoming request data
-            $validatedData = $request->validate([
-                'category' => 'required',
-                'description' => 'required|string|max:255',
-                'amount' => 'required|numeric',
-                'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-            ]);
+        // Validate the incoming request data
+        $validatedData = $request->validate([
+            'expense_id' => 'required|exists:expenses,id',
+            'description' => 'required|string|max:255',
+            'amount' => 'required|numeric',
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
     
-            // Find the expense by ID
-            $expense = Expense::findOrFail($request->expense_id);
+        // Find the expense by ID
+        $expense = Expense::findOrFail($validatedData['expense_id']);
     
-            // Update the expense details
-            $expense->category_id = $validatedData['category']; // Assuming category ID is in the form data
-            $expense->description = $validatedData['description'];
-            $expense->amount = $validatedData['amount'];
+        // Update the expense data
+        $expense->description = $validatedData['description'];
+        $expense->amount = $validatedData['amount'];
     
-            // Handle image upload if provided
-            if ($request->hasFile('image')) {
-                $image = $request->file('image');
-                $imageName = time() . '.' . $image->getClientOriginalExtension();
-                $image->move(public_path('images/expenses'), $imageName);
-                $expense->image_path = 'images/expenses/' . $imageName;
-            }
-    
-            // Save the updated expense
-            $expense->save();
-    
-            // Return a JSON response indicating success
-            return response()->json(['success' => true]);
-        } catch (\Exception $e) {
-            // Log the error
-            \Log::error('Error updating expense: ' . $e->getMessage());
-    
-            // Return a JSON response with an error message
-            return response()->json(['success' => false, 'message' => 'An unexpected error occurred. Please try again later.'], 500);
+        // Handle image upload if provided
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images/expenses'), $imageName);
+            $expense->image_path = 'images/expenses/' . $imageName;
         }
+    
+        // Save the updated expense
+        $expense->save();
+    
+        // Assuming you want to return a JSON response
+        return response()->json(['success' => true]);
     }
 
     public function addBudget(Request $request)

@@ -20,6 +20,7 @@ class Farm extends Model
         'picture_land',
         'picture_land1',
         'picture_land2',
+        'select_date',
     ];
 
     

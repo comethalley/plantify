@@ -9,50 +9,53 @@ use App\Models\Expense;
 use App\Models\Farm;
 use App\Models\Budget;
 use App\Models\User;
+use App\Models\Category;
 
 class ExpenseController extends Controller
 {
     public function index()
-{
-    $expenses = Expense::all();
-    $user = auth()->user();
+    {
+        $categories = Category::all();
+        $expenses = Expense::all();
+        $user = auth()->user();
 
-    // Initialize variables
-    $farm = null;
-    $allottedBudget = null;
-    $totalExpenses = null;
-    $balance = null;
+        // Initialize variables
+        $farm = null;
+        $allottedBudget = null;
+        $totalExpenses = null;
+        $balance = null;
 
-    if ($user->role_id == 2 || $user->role_id == 1) {
-        $farm = Farm::all();
-        $allottedBudget = Budget::sum('allotted_budget');
-        $balance = Budget::sum('balance');
-        $totalExpenses = $this->computeTotalExpenses();
-    } else if ($user->role_id == 3) {
-        $farm = Farm::where('farm_leader', $user->id)->get(); // Use get() instead of first()
+        if ($user->role_id == 2 || $user->role_id == 1) {
+            $farm = Farm::all();
+            $allottedBudget = Budget::sum('allotted_budget');
+            $balance = Budget::sum('balance');
+            $totalExpenses = $this->computeTotalExpenses();
+        } else if ($user->role_id == 3) {
+            $farm = Farm::where('farm_leader', $user->id)->get(); // Use get() instead of first()
 
-        // Check if farms are found
-        if ($farm->isEmpty()) {
-            // Handle case where no farms are found for the user
-            return redirect()->back()->with('error', 'You are not associated with any farms.');
+            // Check if farms are found
+            if ($farm->isEmpty()) {
+                // Handle case where no farms are found for the user
+                return redirect()->back()->with('error', 'You are not associated with any farms.');
+            }
+
+            // Retrieve other budget-related data for the user's farm
+            $farmId = $farm->first()->id;
+            $allottedBudget = Budget::where('farm_id', $farmId)->sum('allotted_budget');
+            $totalExpenses = Budget::where('farm_id', $farmId)->sum('total_expenses');
+            $balance = Budget::where('farm_id', $farmId)->value('balance');
         }
 
-        // Retrieve other budget-related data for the user's farm
-        $farmId = $farm->first()->id;
-        $allottedBudget = Budget::where('farm_id', $farmId)->sum('allotted_budget');
-        $totalExpenses = Budget::where('farm_id', $farmId)->sum('total_expenses');
-        $balance = Budget::where('farm_id', $farmId)->value('balance');
+        return view("pages.expense.expense", [
+            'expenses' => $expenses,
+            'farm' => $farm,
+            'allottedBudget' => $allottedBudget,
+            'totalExpenses' => $totalExpenses,
+            'balance' => $balance,
+            'userRoleId' => $user->role_id,
+            'farmCategory' => $categories,
+        ]);
     }
-
-    return view("pages.expense.expense", [
-        'expenses' => $expenses,
-        'farm' => $farm,
-        'allottedBudget' => $allottedBudget,
-        'totalExpenses' => $totalExpenses,
-        'balance' => $balance,
-        'userRoleId' => $user->role_id,
-    ]);
-}
 
     // public function saveExpense(Request $request)
     // {
@@ -90,26 +93,22 @@ class ExpenseController extends Controller
 
     //     return response()->json(['success' => true, 'id' => $expense->id, 'image_url' => asset($expense->image_path)]);
     // }
-
-
+    
     public function saveExpense(Request $request)
-{
-    try {
+    {
         // Validate the incoming request data
         $validatedData = $request->validate([
             'description' => 'required|string|max:255',
             'amount' => 'required|numeric',
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-            'farm_id' => 'required|exists:farms,id', // Add validation for farm_id
-            'category' => 'required|in:electricity,water,seeds,others' // Add validation for category
         ]);
 
         // Create a new Expense instance
         $expense = new Expense([
             'description' => $validatedData['description'],
             'amount' => $validatedData['amount'],
-            'farm_id' => $validatedData['farm_id'], // Use the validated farm_id from the request
-            'budget_id' => 1, // Assuming there's only one budget for now, you may adjust this as needed
+            'farm_id' => auth()->user()->farm_id, // Associate expense with the authenticated user's farm
+            'budget_id' => 9, // Assuming there's only one budget for now, you may adjust this as needed
         ]);
 
         // Handle image upload if provided
@@ -120,23 +119,11 @@ class ExpenseController extends Controller
             $expense->image_path = 'images/expenses/' . $imageName;
         }
 
-        // Store the expense under the appropriate category column
-        switch ($validatedData['category']) {
-            case 'electricity':
-            case 'water':
-            case 'seeds':
-                $expense->{$validatedData['category']} = $validatedData['amount'];
-                break;
-            case 'others':
-                // Add logic for other category if needed
-                break;
-        }
-
         // Save the expense
         $expense->save();
 
-        // Update the total expenses in the associated budget for the specific farm
-        $budget = Budget::where('farm_id', $validatedData['farm_id'])->firstOrFail();
+        // Update the total expenses in the associated budget
+        $budget = Budget::findOrFail(); // Assuming budget id 1, update this as needed
         $totalExpenses = Expense::where('budget_id', $budget->id)->sum('amount');
         $budget->total_expenses = $totalExpenses;
         $budget->balance = $budget->allotted_budget - $budget->total_expenses;
@@ -144,12 +131,7 @@ class ExpenseController extends Controller
 
         // Return a JSON response indicating success along with the ID of the newly created expense and its image URL if available
         return response()->json(['success' => true, 'id' => $expense->id, 'image_url' => asset($expense->image_path)]);
-    } catch (\Exception $e) {
-        return response()->json(['success' => false, 'message' => 'Failed to add expense. Please try again later.', 'error' => $e->getMessage()], 500);
     }
-}
-
-
 
     public function addBudget(Request $request)
     {

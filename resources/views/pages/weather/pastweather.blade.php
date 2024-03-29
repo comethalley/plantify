@@ -75,7 +75,9 @@
                             </div>
                             <div class="card-body border border-dashed border-end-0 border-start-0">
                                 <form>
-                                    <div class="row g-3">
+                                    <div class="row g-3"> 
+                                       
+
                                         <div class="col-xl-3 ">
                                             <div class="mt-3">
                                                 <label class="form-label mb-0">Search Date</label>
@@ -84,10 +86,9 @@
                                                     <button onclick="searchWeather()" type="button" class="btn btn-primary bg-gradient
                                              waves-effect waves-light mdi mdi-magnify search-widget-icon"></button>
                                                 </div>
-                                            </div>
-                                            <button id="exportButton">Export to Excel</button>
-                                        </div>
-                                    </div><br>
+                                                        
+                                    </div>
+                                    
                                     <!--end row-->
                                     <!-- Another Calender -->
                                     <!-- <div >
@@ -103,7 +104,7 @@
                                 <div>
 
                                     <div class="table-responsive table-card mb-1">
-                                        <table class="table table-nowrap align-middle" id="example-table">
+                                        <table class="table table-nowrap align-middle" id="">
                                             <thead class="text-muted table-light">
                                                 <tr class="text-uppercase">
 
@@ -133,6 +134,14 @@
                     </div>
                     <!-- container-fluid -->
                 </div>
+
+                <div style="display: flex; justify-content: flex-end;">
+                    <button id="exportButton" class="btn btn-success waves-effect waves-light ml-auto">
+                        <i class="ri-download-fill me-1"></i> Export file
+                    </button>
+                </div>
+
+                
                 <!-- End Page-content -->
                 <!-- end main content-->
 

@@ -479,11 +479,10 @@
     var categorySelect = document.getElementById('category');
     var descriptionInput = document.getElementById('description');
     var amountInput = document.getElementById('amount');
-    var previousInput = document.getElementById('previous').value;
-    var currentInput = document.getElementById('current').value;
-    var kwhInput = document.getElementById('kwh').value;
+    var previousInput = document.getElementById('previous');
+    var currentInput = document.getElementById('current');
+    var kwhInput = document.getElementById('kwh');
     var imageInput = document.getElementById('image');
-    var totalInput = document.getElementById('total');
 
     // Get the selected category ID
     var categoryId = categorySelect.value;
@@ -495,31 +494,24 @@
     // Prepare the form data to send
     var formData = new FormData();
 
-    if (categoryId == '1') { // Electricity
-        var previous = Number(previousInput);
-        var current = Number(currentInput);
-        var kwh = Number(kwhInput);
-        var total = (previous - current) * kwh;
+    if (categoryId === '1') { // Electricity
+        var previous = parseFloat(previousInput.value);
+        var current = parseFloat(currentInput.value);
+        var kwh = parseFloat(kwhInput.value);
+        totalAmount = (previous - current) * kwh; // Calculate total amount for electricity
 
-        // description = 'Electricity';
-        // formData.append('previous', previousInput.value);
-        // formData.append('current', currentInput.value);
-        // formData.append('kwh', kwhInput.value);
-        // formData.append('total', totalInput.textContent);
-        totalAmount = total;
+        description = 'Electricity';
+        formData.append('previous', previous);
+        formData.append('current', current);
+        formData.append('kwh', kwh);
+    } else if (categoryId === '2') { // Water
+        var previous = parseFloat(previousInput.value);
+        var current = parseFloat(currentInput.value);
+        totalAmount = previous + current; // Calculate total amount for water
 
-        
-
-    } else if (categoryId == '2') { // Water
-        // var previous = previousInput;
-        // var current = currentInput;
-        // var total = previous + current;
-
-        // description = 'Water';
-        // // formData.append('previous', previousInput.value);
-        // // formData.append('current', currentInput.value);
-        // // formData.append('amount', totalAmount);
-        // totalAmount = total;
+        description = 'Water';
+        formData.append('previous', previous);
+        formData.append('current', current);
     } else { // Seeds and Others
         description = descriptionInput.value;
         totalAmount = amountInput.value;
@@ -534,20 +526,20 @@
     // Fetch CSRF token from meta tag
     var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-    // // Perform an AJAX request to save the data
+    // Perform an AJAX request to save the data
     fetch('/expenses/save-expense', {
         method: 'POST',
         body: formData,
         headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
+            'X-CSRF-TOKEN': csrfToken // Include CSRF token in the headers
+        }
     })
     .then(response => response.json())
     .then(data => {
         if (data.success) {
             // Handle success
             console.log('Expense saved successfully:', data);
-            location.reload()
+            location.reload();
             // Optionally, you can update the UI here
             // For example, you can append the new expense to the table without reloading the page
             appendExpenseToTable(data);
@@ -576,24 +568,26 @@
 
     // Function to calculate total amount
     function calculateTotalAmount() {
-        // Get the previous and current inputs
+        var categorySelect = document.getElementById('category');
         var previousInput = document.getElementById('previous').value;
         var currentInput = document.getElementById('current').value;
         var kWhInput = document.getElementById('kwh').value;
 
-        // Check if inputs are valid numbers
-        if (!isNaN(previousInput) && !isNaN(currentInput)) {
-            // Subtract current from previous
-            var difference = parseFloat(previousInput) - parseFloat(currentInput);
-
-            // Multiply by 11.91
-            var total = difference * kWhInput;
-
-            // Display total in the total input
-            document.getElementById('total').textContent = total.toFixed(2); // Limit to 2 decimal places
-        } else {
-            // If inputs are not valid numbers, display error message or handle as needed
-            document.getElementById('total').textContent = 'Invalid input';
+        if (categorySelect.value === '1') { // Electricity
+            if (!isNaN(previousInput) && !isNaN(currentInput) && !isNaN(kWhInput)) {
+                var difference = parseFloat(previousInput) - parseFloat(currentInput);
+                var total = difference * kWhInput;
+                document.getElementById('total').textContent = total.toFixed(2); // Limit to 2 decimal places
+            } else {
+                document.getElementById('total').textContent = 'Invalid input';
+            }
+        } else if (categorySelect.value === '2') { // Water
+            if (!isNaN(previousInput) && !isNaN(currentInput)) {
+                var total = parseFloat(previousInput) + parseFloat(currentInput);
+                document.getElementById('total').textContent = total.toFixed(2); // Limit to 2 decimal places
+            } else {
+                document.getElementById('total').textContent = 'Invalid input';
+            }
         }
     }
 

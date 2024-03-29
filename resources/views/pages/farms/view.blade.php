@@ -161,24 +161,28 @@
                         </tr>
                     @endforeach
                 @else
-                    <tr>
-                        <td colspan="7">
-                            <p>No farms found.</p>
-                        </td>
-                    </tr>
+                <tr>
+                    <td colspan="7">
+                        <!-- Message indicating no farms found -->
+                        <!-- Lord icon -->
+                        <div id="lordIconContainer" style="text-align: center;"></div>
+                        <p id="noFarmsMessage" style="text-align: center; font-size: 21px;">No Farms found.</p>
+                    </td>
+                </tr>
                 @endif
             </tbody>
         </table>
   
 </div>
 </div>
+<br><br>
 <div class="row">
-    <div class="col-12">
-        <button class="btn btn-secondary" onclick="goBack()">Back</button>
-        <br>
-        <br>
+        <div class="col-6">
+            <button class="btn btn-secondary d-flex align-items-center justify-content-center" onclick="goBack()">
+            <i class="ri-arrow-left-line me-1"></i> Back
+        </button>
+        </div>
     </div>
-</div>
 </div>
 
 
@@ -208,12 +212,17 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-            <h5>Type your remarks update below</h5>
-            <div class="form-floating">
+                <h5>Type your remarks update below</h5>
+                <div class="form-floating">
                     <textarea class="form-control" name="remarks" rows="3" style="height: 150px;" placeholder="Enter your remarks..."></textarea>
                     <label for="remarkstext">-Optional-</label>
                 </div>
-<br>
+                <br>
+                <div class="mb-3" id="dateInputContainer" style="display: none;">
+                    <label for="dateInput" class="form-label">Select Date:</label>
+                    <input type="date" class="form-control" id="dateInput" name="select_date" min="<?php echo date('Y-m-d'); ?>">
+                </div>
+
                 <h5>Are you sure you want to update the status?</h5>
             </div>
             <div class="modal-footer vstack gap-2">
@@ -223,6 +232,7 @@
         </div>
     </div>
 </div>
+
 
     <!-- Modal -->
 
@@ -363,8 +373,10 @@
 
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdn.lordicon.com/lordicon.js"></script>
 
 <script>
+
     function goBack() {
         window.location.href = "/farms3";
         window.onload = function() {
@@ -551,18 +563,40 @@ function updateStatus(newStatus) {
     } else {
         $('label[for="remarkstext"]').text('-Optional-');
     }
+    
+    if (newStatus === 'For-Visiting') {
+        $('#dateInputContainer').show();
+    } else {
+        $('#dateInputContainer').hide();
+    }
 }
-
 // Confirm update status when the user clicks the "Confirm" button in the modal
 $('#confirmUpdateBtn').on('click', function() {
+    // Hide any previous error messages related to updating status
+    hideValidationError('updateStatus');
+
     // Get the remarks value from the input field
     var remarks = $('textarea[name="remarks"]').val();
+    // Get the selected date from the input field
+    var selectedDate = $('input[name="select_date"]').val();
 
     // Check if remarks is required and if it's empty
     if ($('label[for="remarkstext"]').text() === '-Required-' && remarks.trim() === '') {
-        // Display a validation error below the text box
-        showValidationError('This field is required to select');
+        // Display a validation error below the text box for updating status
+        showValidationError('Remarks is required.', $('textarea[name="remarks"]'), 'updateStatus');
         return;
+    }
+
+    // Check if select_date is required and if it's empty
+    if ($('#dateInputContainer').is(':visible') && selectedDate.trim() === '') {
+        // Display a validation error below the calendar input for updating status
+        showValidationError('Select date is required.', $('input[name="select_date"]'), 'updateStatus');
+        return;
+    }
+
+    // If calendar is not visible, set selectedDate to null
+    if (!$('#dateInputContainer').is(':visible')) {
+        selectedDate = null;
     }
 
     // Perform an AJAX request to update the status and create a new entry in RemarkFarm
@@ -572,7 +606,8 @@ $('#confirmUpdateBtn').on('click', function() {
         data: {
             _token: '{{ csrf_token() }}',
             status: statusToUpdate,
-            remarks: remarks // Include remarks in the data sent to the server
+            remarks: remarks, // Include remarks in the data sent to the server
+            select_date: selectedDate // Include selected date in the data
         },
         success: function (data) {
             // Handle success response
@@ -583,7 +618,7 @@ $('#confirmUpdateBtn').on('click', function() {
             // Handle error response
             console.log('Error updating status:', error);
             // Display a generic error message or handle it accordingly
-            showValidationError('An error occurred while updating status.');
+            showValidationError('An error occurred while updating status.', $('#confirmUpdateBtn'), 'updateStatus');
         }
     });
 
@@ -595,19 +630,29 @@ $('#confirmUpdateBtn').on('click', function() {
     $('#confirmationModal').modal('hide');
 });
 
-// Function to display a validation error below the text box
-function showValidationError(message) {
+// Close error message when modal is closed
+$('#confirmationModal').on('hidden.bs.modal', function () {
+    hideValidationError('updateStatus');
+});
+
+// Function to show validation error
+function showValidationError(message, targetElement, context) {
     // Create a span element for the error message
     var errorElement = $('<span class="text-danger">' + message + '</span>');
 
-    // Check if the error element already exists and remove it
-    if ($('#remarksError').length) {
-        $('#remarksError').remove();
-    }
+    // Remove any existing error message for the target element within the specified context
+    $('#' + context + ' .text-danger').remove();
 
-    // Append the error element below the text box
-    $('.form-floating').append(errorElement.attr('id', 'remarksError'));
+    // Append the error element below the target element within the specified context
+    targetElement.after(errorElement);
 }
+
+// Function to hide validation error within a specific context
+function hideValidationError(context) {
+    // Hide error messages within the specified context
+    $('#' + context + ' .text-danger').remove();
+}
+
 
 
 
@@ -668,6 +713,15 @@ $(document).ready(function () {
     });
     
 });
+        // Create the Lord icon dynamically
+    var lordIconContainer = document.getElementById("lordIconContainer");
+    var lordIcon = document.createElement("lord-icon");
+    lordIcon.setAttribute("src", "https://cdn.lordicon.com/anqzffqz.json");
+    lordIcon.setAttribute("trigger", "loop");
+    lordIcon.setAttribute("stroke", "bold");
+    lordIcon.setAttribute("state", "morph-check");
+    lordIcon.setAttribute("style", "width:250px;height:250px"); // Adjust size as needed
+    lordIconContainer.appendChild(lordIcon);
 
 </script>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,500&display=swap" rel="stylesheet">

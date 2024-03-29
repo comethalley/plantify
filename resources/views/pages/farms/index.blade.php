@@ -7,8 +7,7 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                <h4 class="mb-sm-0">Districts 5</h4>
-
+                                <h4 class="mb-sm-0">District 5</h4>
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
                                         <li class="breadcrumb-item"><a href="javascript: void(0);">Farm management</a></li>
@@ -76,7 +75,7 @@
                                             <div class="row">
                                                 <div class="col">
                                                     <div class="flex-shrink-0 me-2">
-                                                        <button type="button" class="btn btn-light btn-icon rounded-circle btn-sm favourite-btn">
+                                                        <button type="button" class="btn btn-light btn-icon rounded-circle btn-sm favourite-btn disabled">
                                                             <i class=" ri-folder-5-line fs-14"></i>
                                                         </button>
                                                     </div>
@@ -85,12 +84,12 @@
                                         </div>
                                         <div class="col-lg-4 col">
                                             <div class="team-profile-img">
-                                                <div class="avatar-lg img-thumbnail rounded-circle flex-shrink-0">
-                                                    <img src="{{ asset('assets/images/users/avatar-2.jpg') }}" alt="" class="member-img img-fluid d-block rounded-circle">
+                                                <div class="avatar-lg img-thumbnail rounded-circle flex-shrink-0" style="position: relative; overflow: hidden;">
+                                                    <img src="{{ asset('assets/images/farms/planting.png') }}" style="position: absolute; top: 50%; left: 48%; transform: translate(-50%, -50%); width: 4rem; height: 4rem;" alt="Planting Image">
                                                 </div>
-                                                <div class="team-content">
+                                            <div class="team-content">
                                                     <a class="member-name" data-bs-toggle="offcanvas" href="#member-overview" aria-controls="member-overview">
-                                                        <h5>{{ $barangay->barangay_name }}</h5>
+                                                    <h5 style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">{{ $barangay->barangay_name }}</h5>
                                                     </a>
                                                     <p>Barangay</p>
                                                 </div>
@@ -98,16 +97,13 @@
                                         </div>
                                         <div class="col-lg-4 col">
                                             <div class="row text-muted text-center">
-                                                <div class="col-6 border-end border-end-dashed">
+                                                <div class="col-6  mx-auto">
                                                     <h5 class="mb-1 projects-num">{{ $barangay->farms_count }}</h5>
-                                                    <p class="text-muted mb-0">Farms</p>
-                                                </div>
-                                                <div class="col-6">
-                                                    <h5 class="mb-1 tasks-num">0</h5>
-                                                    <p class="text-muted mb-0">Tasks</p>
+                                                    <p class="text-muted mb-0">Number of Farms</p>
                                                 </div>
                                             </div>
                                         </div>
+                                        <br><br><br>
                                         <div class="col-lg-2 col">
                                         @if(Auth::check() && Auth::user()->role_id == 3)
     
@@ -120,27 +116,34 @@
                                             <div class="text-end">
                                                 <a href="{{ route('farms.view', ['barangay_name' => $barangay->barangay_name]) }}" class="button-89">View Farms</a>
                                             </div>
-                                        
-                                        @endif
-
-                                            
+                                        @endif  
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        
+                        </div> 
                     @endforeach
-                    
                 @else
-                    <p>No farms found.</p>
-                @endif
-
-                
+                <tr>
+                    <td colspan="7">
+                        <!-- Message indicating no farms found -->
+                        <!-- Lord icon -->
+                        <div id="lordIconContainer" style="text-align: center;"></div>
+                        <p id="noFarmsMessage" style="text-align: center; font-size: 21px;">No Barangays Farms found.</p>
+                    </td>
+                </tr>
+                @endif  
             </div>
         </div>
     </div>
-    
+    <div class="row">
+    <div class="col-6">
+        <button class="btn btn-secondary d-flex align-items-center justify-content-center mb-3" onclick="goBack()">
+            <i class="ri-arrow-left-line me-1"></i> Back
+        </button>
+    </div>
+</div>
+
 </div>
 
 
@@ -245,7 +248,12 @@
 
 
 <script>
-   
+       function goBack() {
+        window.location.href = "{{ route('home') }}";
+            window.onload = function() {
+            window.location.reload(true);
+        };
+    }
 
    function cancelUpload(inputName) {
         // Clear the selected file for the specified input
@@ -293,11 +301,24 @@
         .catch(error => console.error('Error:', error));
     }
     
+    var lordIconContainer = document.getElementById("lordIconContainer");
+    var lordIcon = document.createElement("lord-icon");
+    lordIcon.setAttribute("src", "https://cdn.lordicon.com/anqzffqz.json");
+    lordIcon.setAttribute("trigger", "loop");
+    lordIcon.setAttribute("stroke", "bold");
+    lordIcon.setAttribute("state", "morph-check");
+    lordIcon.setAttribute("style", "width:250px;height:250px"); // Adjust size as needed
+    lordIconContainer.appendChild(lordIcon);
 
  
 </script>
 
 <style>
+/* Custom styles for disabled button */
+.disabled {
+    pointer-events: none; /* Disable pointer events */
+    opacity: 1; /* Reduce opacity to visually indicate disabled state */
+}
 
 .team-box {
         border: 1px solid #e5e5e5; /* Add a border to the card */

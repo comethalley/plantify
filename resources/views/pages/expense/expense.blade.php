@@ -479,9 +479,9 @@
     var categorySelect = document.getElementById('category');
     var descriptionInput = document.getElementById('description');
     var amountInput = document.getElementById('amount');
-    var previousInput = document.getElementById('previous');
-    var currentInput = document.getElementById('current');
-    var kwhInput = document.getElementById('kwh');
+    var previousInput = document.getElementById('previous').value;
+    var currentInput = document.getElementById('current').value;
+    var kwhInput = document.getElementById('kwh').value;
     var imageInput = document.getElementById('image');
     var totalInput = document.getElementById('total');
 
@@ -495,26 +495,31 @@
     // Prepare the form data to send
     var formData = new FormData();
 
-    if (categoryId === '1') { // Electricity
-        var previous = parseFloat(previousInput.value);
-        var current = parseFloat(currentInput.value);
-        var kwh = parseFloat(kwhInput.value);
+    if (categoryId == '1') { // Electricity
+        var previous = Number(previousInput);
+        var current = Number(currentInput);
+        var kwh = Number(kwhInput);
         var total = (previous - current) * kwh;
 
-        description = 'Electricity';
-        formData.append('previous', previousInput.value);
-        formData.append('current', currentInput.value);
-        formData.append('kwh', kwhInput.value);
-        formData.append('total', totalInput.textContent);
-    } else if (categoryId === '2') { // Water
-        var previous = parseFloat(previousInput.value);
-        var current = parseFloat(currentInput.value);
-        var total = previous + current;
+        // description = 'Electricity';
+        // formData.append('previous', previousInput.value);
+        // formData.append('current', currentInput.value);
+        // formData.append('kwh', kwhInput.value);
+        // formData.append('total', totalInput.textContent);
+        totalAmount = total;
 
-        description = 'Water';
-        formData.append('previous', previousInput.value);
-        formData.append('current', currentInput.value);
-        formData.append('amount', totalAmount);
+        
+
+    } else if (categoryId == '2') { // Water
+        // var previous = previousInput;
+        // var current = currentInput;
+        // var total = previous + current;
+
+        // description = 'Water';
+        // // formData.append('previous', previousInput.value);
+        // // formData.append('current', currentInput.value);
+        // // formData.append('amount', totalAmount);
+        // totalAmount = total;
     } else { // Seeds and Others
         description = descriptionInput.value;
         totalAmount = amountInput.value;
@@ -529,13 +534,13 @@
     // Fetch CSRF token from meta tag
     var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-    // Perform an AJAX request to save the data
+    // // Perform an AJAX request to save the data
     fetch('/expenses/save-expense', {
         method: 'POST',
         body: formData,
         headers: {
-            'X-CSRF-TOKEN': csrfToken // Include CSRF token in the headers
-        }
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
     })
     .then(response => response.json())
     .then(data => {

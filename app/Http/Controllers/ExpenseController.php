@@ -123,7 +123,7 @@ class ExpenseController extends Controller
         $expense->save();
 
         // Update the total expenses in the associated budget
-        $budget = Budget::findOrFail(); // Assuming budget id 1, update this as needed
+        $budget = Budget::findOrFail($expense->budget_id); // Assuming budget id 1, update this as needed
         $totalExpenses = Expense::where('budget_id', $budget->id)->sum('amount');
         $budget->total_expenses = $totalExpenses;
         $budget->balance = $budget->allotted_budget - $budget->total_expenses;
@@ -131,6 +131,47 @@ class ExpenseController extends Controller
 
         // Return a JSON response indicating success along with the ID of the newly created expense and its image URL if available
         return response()->json(['success' => true, 'id' => $expense->id, 'image_url' => asset($expense->image_path)]);
+    }
+
+    public function updateExpense(Request $request)
+    {
+        try {
+            // Validate the incoming request data
+            $validatedData = $request->validate([
+                'category' => 'required',
+                'description' => 'required|string|max:255',
+                'amount' => 'required|numeric',
+                'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            ]);
+    
+            // Find the expense by ID
+            $expense = Expense::findOrFail($request->expense_id);
+    
+            // Update the expense details
+            $expense->category_id = $validatedData['category']; // Assuming category ID is in the form data
+            $expense->description = $validatedData['description'];
+            $expense->amount = $validatedData['amount'];
+    
+            // Handle image upload if provided
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $imageName = time() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('images/expenses'), $imageName);
+                $expense->image_path = 'images/expenses/' . $imageName;
+            }
+    
+            // Save the updated expense
+            $expense->save();
+    
+            // Return a JSON response indicating success
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            // Log the error
+            \Log::error('Error updating expense: ' . $e->getMessage());
+    
+            // Return a JSON response with an error message
+            return response()->json(['success' => false, 'message' => 'An unexpected error occurred. Please try again later.'], 500);
+        }
     }
 
     public function addBudget(Request $request)

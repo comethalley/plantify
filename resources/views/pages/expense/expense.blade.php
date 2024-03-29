@@ -294,51 +294,73 @@
                                     </div>
                                 </div>
 
-
-
-
-                                <!-- Edit Modal -->
+                                <!-- Edit Expense Modal -->
                                 <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
+                                    <div class="modal-dialog" id="editDialogBox">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="editModalLabel">Edit Expense</h5>
+                                                <h5 class="modal-title" id="editModalLabel">Edit Item</h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                <form id="editForm" enctype="multipart/form-data">
+                                                <form class="edit-expense-form" id="editExpenseForm" action="/expenses/update-expense" method="POST">
                                                     @csrf
-                                                    @method('PUT')
-
                                                     <div class="mb-3">
+                                                        <label for="editCategory" class="form-label">Category</label>
+                                                        <select class="form-select" id="editCategory" name="category">
+                                                            <option value="">Select Category</option>
+                                                            @foreach($farmCategory as $category)
+                                                                <option value="{{ $category->id }}">{{ $category->category_name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="mb-3" id="editDescriptionInput" style="display: none;">
                                                         <label for="editDescription" class="form-label">Description</label>
-                                                        <input type="text" class="form-control" id="editDescription" name="description" placeholder="Enter description">
+                                                        <input type="text" class="form-control" id="editDescription" placeholder="Enter description">
                                                     </div>
 
-                                                    <div class="mb-3">
+                                                    <div class="mb-3" id="editPreviousInput" style="display: none;">
+                                                        <label for="editPrevious" class="form-label">Previous</label>
+                                                        <input type="number" class="form-control" id="editPrevious">
+                                                    </div>
+
+                                                    <div class="mb-3" id="editCurrentInput" style="display: none;">
+                                                        <label for="editCurrent" class="form-label">Current</label>
+                                                        <input type="number" class="form-control" id="editCurrent">
+                                                    </div>
+
+                                                    <div class="mb-3" id="editKwhInput" style="display: none;">
+                                                        <label for="editKwh" class="form-label">Kilo Watt per Hour</label>
+                                                        <input type="number" class="form-control" id="editKwh">
+                                                    </div>
+
+                                                    <div class="mb-3" id="editTotalAmount" style="display: none;">
+                                                        <label colspan="3" for="editTotal" class="form-label">Total Amount</label>
+                                                        <label colspan="2" type="number" class="form-control" id="editTotal"
+                                                            style="color: black; font-weight: bold; font-size: 10pt; padding-top: 5px; padding-bottom: 5px;">
+                                                            0.00</label>
+                                                    </div>
+
+                                                    <div class="mb-3" id="editAmountInput" style="display: none;">
                                                         <label for="editAmount" class="form-label">Amount</label>
-                                                        <input type="number" class="form-control" id="editAmount" name="amount" placeholder="Enter amount">
+                                                        <input type="number" class="form-control" id="editAmount" placeholder="Enter amount">
                                                     </div>
 
-                                                    <div class="mb-3">
-                                                        <label for="editImage" class="form-label">Upload New Proof of Expenses</label>
-                                                        <input type="file" class="form-control" id="editImage" name="image" accept="image/*">
+                                                    <!-- Image Upload Input -->
+                                                    <div class="mb-3" id="editImageInput" style="display: none;">
+                                                        <label for="editImage" class="form-label">Upload Image</label>
+                                                        <input type="file" class="form-control" id="editImage" accept="image/*">
                                                     </div>
-
-                                                    <input type="hidden" name="expense_id" id="editExpenseId" value="">
-
-                                                    <div id="editImagePreview" class="mb-3"></div>
                                                 </form>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                <button type="button" class="btn btn-primary" onclick="saveEdit()">Save Changes</button>
+                                                <button type="button" class="btn btn-primary" onclick="editExpense()">Save Changes</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
-
 
                                 <div class="table-responsive table-card mt-3 mb-1">
                                     <table class="table align-middle table-nowrap" id="customerTable">
@@ -372,7 +394,7 @@
                                                     <td>
                                                         <div class="d-flex gap-2">
                                                             <div class="edit">
-                                                                <button class="btn btn-sm btn-success edit-item-btn" data-bs-toggle="modal" data-bs-target="#editModal" onclick="populateEditModal(this.closest('tr'))">Edit</button>
+                                                                <button class="btn btn-sm btn-success edit-item-btn" onclick="editExpenseModal(this.closest('tr'))">Edit</button>
                                                             </div>
                                                             <div class="remove">
                                                                 <button class="btn btn-sm btn-danger remove-item-btn" onclick="removeExpense(this.closest('tr'))">Remove</button>
@@ -429,6 +451,10 @@
         // Get references to the elements
         var categorySelect = document.getElementById('category');
         var descriptionInput = document.getElementById('descriptionInput');
+        var previousInput = document.getElementById('previousInput');
+        var currentInput = document.getElementById('currentInput');
+        var kwhInput = document.getElementById('kwhInput');
+        var totalAmount = document.getElementById('totalAmount');
         var amountInput = document.getElementById('amountInput');
         var imageInput = document.getElementById('imageInput');
 
@@ -438,6 +464,7 @@
 
             // Hide all inputs first
             descriptionInput.style.display = 'none';
+            previousInput.style.display = 'none';
             currentInput.style.display = 'none';
             kwhInput.style.display = 'none';
             totalAmount.style.display = 'none';
@@ -445,22 +472,19 @@
             imageInput.style.display = 'none';
 
             // Show inputs based on selected category
-            if (selectedCategoryId === '1') {
+            if (selectedCategoryId === '1') { // Electricity
                 previousInput.style.display = 'block';
                 currentInput.style.display = 'block';
                 kwhInput.style.display = 'block';
                 totalAmount.style.display = 'block';
                 imageInput.style.display = 'block';
-            } else if (selectedCategoryId === '2') {
+            } else if (selectedCategoryId === '2') { // Water
                 previousInput.style.display = 'block';
                 currentInput.style.display = 'block';
                 totalAmount.style.display = 'block';
                 imageInput.style.display = 'block';
-            } else if (selectedCategoryId === '3' || selectedCategoryId === '4') {
+            } else if (selectedCategoryId === '3' || selectedCategoryId === '4') { // Seeds and Others
                 descriptionInput.style.display = 'block';
-                currentInput.style.display = 'none';
-                kwhInput.style.display = 'none';
-                totalAmount.style.display = 'none';
                 amountInput.style.display = 'block';
                 imageInput.style.display = 'block';
             }
@@ -468,105 +492,74 @@
 
         // Call the function initially to set the initial state
         showInputsForCategory();
-
         // Add event listener to the category select
         categorySelect.addEventListener('change', showInputsForCategory);
     });
 
-    // Function to save new item
     function saveNewItem() {
-    // Get references to the input fields
-    var categorySelect = document.getElementById('category');
-    var descriptionInput = document.getElementById('description');
-    var amountInput = document.getElementById('amount');
-    var previousInput = document.getElementById('previous');
-    var currentInput = document.getElementById('current');
-    var kwhInput = document.getElementById('kwh');
-    var imageInput = document.getElementById('image');
+        var categorySelect = document.getElementById('category');
+        var descriptionInput = document.getElementById('description');
+        var amountInput = document.getElementById('amount');
+        var previousInput = document.getElementById('previous');
+        var currentInput = document.getElementById('current');
+        var kwhInput = document.getElementById('kwh');
+        var imageInput = document.getElementById('image');
+        var categoryId = categorySelect.value;
+        var description = '';
+        var totalAmount = 0;
+        var formData = new FormData();
 
-    // Get the selected category ID
-    var categoryId = categorySelect.value;
+        if (categoryId === '1') { // Electricity
+            var previous = parseFloat(previousInput.value);
+            var current = parseFloat(currentInput.value);
+            var kwh = parseFloat(kwhInput.value);
+            totalAmount = (previous - current) * kwh;
+            description = 'Electricity';
+            formData.append('previous', previous);
+            formData.append('current', current);
+            formData.append('kwh', kwh);
+        } else if (categoryId === '2') { // Water
+            var previous = parseFloat(previousInput.value);
+            var current = parseFloat(currentInput.value);
+            totalAmount = previous + current;
+            description = 'Water';
+            formData.append('previous', previous);
+            formData.append('current', current);
+        } else { // Seeds and Others
+            description = descriptionInput.value;
+            totalAmount = amountInput.value;
+        }
 
-    // Determine the description and total amount based on the selected category
-    var description = '';
-    var totalAmount = 0;
+        formData.append('category', categoryId);
+        formData.append('description', description);
+        formData.append('amount', totalAmount);
+        formData.append('image', imageInput.files[0]);
 
-    // Prepare the form data to send
-    var formData = new FormData();
+        var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-    if (categoryId === '1') { // Electricity
-        var previous = parseFloat(previousInput.value);
-        var current = parseFloat(currentInput.value);
-        var kwh = parseFloat(kwhInput.value);
-        totalAmount = (previous - current) * kwh; // Calculate total amount for electricity
-
-        description = 'Electricity';
-        formData.append('previous', previous);
-        formData.append('current', current);
-        formData.append('kwh', kwh);
-    } else if (categoryId === '2') { // Water
-        var previous = parseFloat(previousInput.value);
-        var current = parseFloat(currentInput.value);
-        totalAmount = previous + current; // Calculate total amount for water
-
-        description = 'Water';
-        formData.append('previous', previous);
-        formData.append('current', current);
-    } else { // Seeds and Others
-        description = descriptionInput.value;
-        totalAmount = amountInput.value;
+        fetch('/expenses/save-expense', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRF-TOKEN': csrfToken
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                console.log('Expense saved successfully:', data);
+                location.reload();
+                appendExpenseToTable(data);
+                $('#addModal').modal('hide');
+            } else {
+                console.error('Failed to save expense:', data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
     }
 
-    // Common form data for all categories
-    formData.append('category', categoryId);
-    formData.append('description', description);
-    formData.append('amount', totalAmount);
-    formData.append('image', imageInput.files[0]); // Assuming only one image is uploaded
-
-    // Fetch CSRF token from meta tag
-    var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-    // Perform an AJAX request to save the data
-    fetch('/expenses/save-expense', {
-        method: 'POST',
-        body: formData,
-        headers: {
-            'X-CSRF-TOKEN': csrfToken // Include CSRF token in the headers
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            // Handle success
-            console.log('Expense saved successfully:', data);
-            location.reload();
-            // Optionally, you can update the UI here
-            // For example, you can append the new expense to the table without reloading the page
-            appendExpenseToTable(data);
-            $('#addModal').modal('hide'); // Optionally, close the modal here
-        } else {
-            // Handle error
-            console.error('Failed to save expense:', data.message);
-        }
-    })
-    .catch(error => {
-        // Handle error
-        console.error('Error:', error);
-    });
-}
-
-    // Function to append newly added expense to the table
-    function appendExpenseToTable(expense) {
-        var expenseRow = $('<tr>' +
-            '<td>' + expense.id + '</td>' +
-            '<td>' + expense.description + '</td>' +
-            '<td>' + expense.amount + '</td>' +
-            '<td><img src="' + expense.image_url + '" alt="Expense Image" style="max-width: 100px;"></td>' +
-            '</tr>');
-        $('#expensesTable').append(expenseRow);
-    }
-
-    // Function to calculate total amount
     function calculateTotalAmount() {
         var categorySelect = document.getElementById('category');
         var previousInput = document.getElementById('previous').value;
@@ -577,14 +570,14 @@
             if (!isNaN(previousInput) && !isNaN(currentInput) && !isNaN(kWhInput)) {
                 var difference = parseFloat(previousInput) - parseFloat(currentInput);
                 var total = difference * kWhInput;
-                document.getElementById('total').textContent = total.toFixed(2); // Limit to 2 decimal places
+                document.getElementById('total').textContent = total.toFixed(2);
             } else {
-                document.getElementById('total').textContent = 'Invalid input';
+                document.getElementById('total').textContent = 'Invalid input'; 
             }
         } else if (categorySelect.value === '2') { // Water
             if (!isNaN(previousInput) && !isNaN(currentInput)) {
                 var total = parseFloat(previousInput) + parseFloat(currentInput);
-                document.getElementById('total').textContent = total.toFixed(2); // Limit to 2 decimal places
+                document.getElementById('total').textContent = total.toFixed(2);
             } else {
                 document.getElementById('total').textContent = 'Invalid input';
             }
@@ -592,9 +585,7 @@
     }
 
     $(document).ready(function() {
-        $('#previous, #current, #kwh').on('input', function() {
-            calculateTotalAmount();
-        });
+        $('#previous, #current, #kwh').on('input', calculateTotalAmount);
     });
 
     function showDialog(message, type) {
@@ -604,31 +595,151 @@
                             '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
                         '</div>';
         $('#dialogBox').html(dialogHtml);
-        // Automatically hide the dialog after 5 seconds
         setTimeout(function() {
             $('#dialogBox').html('');
         }, 5000);
     }
 
-    // function updateTotalExpensesAndBalance() {
-    //     fetch('/budget/total-expenses', {
-    //         method: 'GET',
-    //         headers: {
-    //             'X-CSRF-TOKEN': '{{ csrf_token() }}'
-    //         }
-    //     })
-    //     .then(response => response.json())
-    //     .then(data => {
-    //         // Update total expenses and balance display on the frontend
-    //         document.getElementById('totalExpenses').innerText = data.totalExpenses;
-    //         document.getElementById('balance').innerText = data.balance;
-    //     })
-    //     .catch(error => {
-    //         console.error('Error:', error);
-    //     });
-    // }
+    // <!-- edit expense -->
+
+    document.addEventListener('DOMContentLoaded', function () {
+        // Get references to the elements
+        var editCategorySelect = document.getElementById('editCategory');
+        var editDescriptionInput = document.getElementById('editDescriptionInput');
+        var editPreviousInput = document.getElementById('editPreviousInput');
+        var editCurrentInput = document.getElementById('editCurrentInput');
+        var editKwhInput = document.getElementById('editKwhInput');
+        var editTotalAmount = document.getElementById('editTotalAmount');
+        var editAmountInput = document.getElementById('editAmountInput');
+        var editImageInput = document.getElementById('editImageInput');
+
+        // Function to show relevant inputs based on selected category
+        function showInputsForEditCategory(selectedCategoryId) {
+            // Hide all inputs first
+            editDescriptionInput.style.display = 'none';
+            editPreviousInput.style.display = 'none';
+            editCurrentInput.style.display = 'none';
+            editKwhInput.style.display = 'none';
+            editTotalAmount.style.display = 'none';
+            editAmountInput.style.display = 'none';
+            editImageInput.style.display = 'none';
+
+            // Show inputs based on selected category
+            if (selectedCategoryId === '1') { // Electricity
+                editPreviousInput.style.display = 'block';
+                editCurrentInput.style.display = 'block';
+                editKwhInput.style.display = 'block';
+                editTotalAmount.style.display = 'block';
+                editImageInput.style.display = 'block';
+            } else if (selectedCategoryId === '2') { // Water
+                editPreviousInput.style.display = 'block';
+                editCurrentInput.style.display = 'block';
+                editTotalAmount.style.display = 'block';
+                editImageInput.style.display = 'block';
+            } else if (selectedCategoryId === '3' || selectedCategoryId === '4') { // Seeds and Others
+                editDescriptionInput.style.display = 'block';
+                editAmountInput.style.display = 'block';
+                editImageInput.style.display = 'block';
+            }
+        }
+
+        // Call the function initially to set the initial state
+        showInputsForEditCategory(editCategorySelect.value);
+
+        // Add event listener to the edit category select
+        editCategorySelect.addEventListener('change', function () {
+            showInputsForEditCategory(editCategorySelect.value);
+        });
+    });
+
+    function editExpenseModal(row) {
+        // Show a confirmation modal before opening the edit modal
+        if (confirm('Are you sure you want to edit this expense?')) {
+            var cells = row.cells;
+            var categoryId = cells[1].textContent.trim(); // Assuming category ID is in the second column
+            var description = cells[2].textContent.trim(); // Assuming description is in the third column
+            var amount = cells[3].textContent.trim(); // Assuming amount is in the fourth column
+
+            // Populate modal fields with expense details
+            document.getElementById('editCategory').value = categoryId;
+            document.getElementById('editDescription').value = description;
+            document.getElementById('editAmount').value = amount;
+
+            // Display the modal
+            $('#editModal').modal('show');
+        }
+    }
+
+    function editExpense() {
+        var editForm = document.getElementById('editExpenseForm');
+        var formData = new FormData(editForm);
+
+        // Get the CSRF token
+        var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        fetch('/expenses/update', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRF-TOKEN': csrfToken
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to update expense');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                console.log('Expense updated successfully:', data);
+                // Optionally update the UI or close the modal
+                $('#editModal').modal('hide');
+                // Assuming you want to reload the page after updating the expense
+                location.reload();
+            } else {
+                console.error('Failed to update expense:', data.message);
+                // Display an error message to the user
+                alert('Failed to update expense. ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            // Display an error message to the user
+            alert('An unexpected error occurred. Please try again later.');
+        });
+    }
+
+    function calculateEditTotalAmount() {
+        var categorySelect = document.getElementById('editCategory');
+        var editPreviousInput = document.getElementById('editPrevious').value;
+        var editCurrentInput = document.getElementById('editCurrent').value;
+        var editKwhInput = document.getElementById('editKwh').value;
+
+        if (categorySelect.value === '1') { // Electricity
+            if (!isNaN(editPreviousInput) && !isNaN(editCurrentInput) && !isNaN(editKwhInput)) {
+                var difference = parseFloat(editPreviousInput) - parseFloat(editCurrentInput);
+                var total = difference * editKwhInput;
+                document.getElementById('editTotal').textContent = total.toFixed(2);
+            } else {
+                document.getElementById('editTotal').textContent = 'Invalid input'; 
+            }
+        } else if (categorySelect.value === '2') { // Water
+            if (!isNaN(editPreviousInput) && !isNaN(editCurrentInput)) {
+                var total = parseFloat(editPreviousInput) + parseFloat(editCurrentInput);
+                document.getElementById('editTotal').textContent = total.toFixed(2);
+            } else {
+                document.getElementById('editTotal').textContent = 'Invalid input';
+            }
+        }
+    }
+
+    $(document).ready(function() {
+        $('#editPrevious, #editCurrent, #editKwh').on('input', calculateEditTotalAmount);
+    });
 </script>
 
+
+<!-- Budget JavaScript -->
 <script>
     document.getElementById('addBudgetForm').addEventListener('submit', function(event) {
         event.preventDefault();

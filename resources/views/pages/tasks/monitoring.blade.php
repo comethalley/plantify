@@ -395,7 +395,7 @@
 </div>
                 
 
-
+    
                 </div>
                 <div class="modal-footer" style="display: block;">
                     <div class="hstack gap-2 justify-content-end">
@@ -724,8 +724,8 @@
                 text: 'Are you sure you want to mark this task as completed?',
                 icon: 'success',
                 showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
+                confirmButtonColor: '#28a745',
+                cancelButtonColor: '#808080',
                 confirmButtonText: 'Yes, mark it as completed!',
                 
             }).then((result) => {
@@ -741,5 +741,26 @@
     function reloadPage() {
         location.reload();
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('add-btn').addEventListener('click', function() {
+        // Show SweetAlert confirmation dialog
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'Are you sure you want to add this task?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, add it!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // If confirmed, submit the form
+                document.getElementById('task-form').submit();
+            }
+        });
+    });
+});
 </script>
 <!-- END layout-wrappe

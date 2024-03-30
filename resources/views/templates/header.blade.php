@@ -34,6 +34,7 @@
 
     <!--JQuery-->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
 
     <script src="{{ asset('assets/js/inventory.js') }}"></script>
     <script src="{{ asset('assets/js/uom.js') }}"></script>
@@ -594,6 +595,9 @@
                                     </li>
                                     <li class="nav-item">
                                         <a href="/inventory/uom" class="nav-link" style="color:white"> Unit of Measurements </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/inventory/fertilizer" class="nav-link" style="color:white">Fertilizer</a>
                                     </li>
                                 </ul>
                             </div>

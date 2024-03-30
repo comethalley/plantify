@@ -79,6 +79,7 @@ Route::post('/edit-uom/{id}', [InventoryController::class, 'updateUom']);
 Route::post('/archive-uom/{id}', [InventoryController::class, 'archiveUom']);
 Route::get('/getAllStock', [InventoryController::class, 'getAllStock']);
 Route::get('/plantifeed', [ForumController::class, 'index']);
+Route::get('/inventory/fertilizer', [InventoryController::class, 'fertilizer']);
 
 // Direct Messages
 Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');

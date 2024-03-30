@@ -67,8 +67,6 @@ $(document).ready(function () {
         });
     }
 
-
-
     function getStocksList() {
         $.ajax({
             url: "/getAllStock",
@@ -305,8 +303,6 @@ $(document).ready(function () {
     // var supplier = $('#supplier_description').text();
     // console.log("Supplier is " + supplier);
 
-
-
     let scanner;
     let modal = document.getElementById("receiveModal");
 
@@ -444,7 +440,6 @@ $(document).ready(function () {
                         showConfirmButton: false,
                         timer: 2000,
                     }).then((result) => {
-                    
                         location.reload();
                     });
                 }
@@ -475,7 +470,6 @@ $(document).ready(function () {
         voidItem();
     });
 
-    
     let usingScanner;
     let usingModal = document.getElementById("usingModal");
 

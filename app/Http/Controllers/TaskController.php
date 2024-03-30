@@ -13,7 +13,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use DateTime;
-
+use App\Notifications\NewTaskAssignNotification;
+use App\Notifications\CompleteTaskNotification;
+use App\Notifications\MissingTaskNotification;
 class TaskController extends Controller
 {
     public function index()
@@ -59,7 +61,6 @@ $tasks = $tasksQuery->where('status', '!=', 'missing')
     ->orderBy('due_date', 'asc')
     ->get();
 
-// $now = Carbon::now();
 date_default_timezone_set('Asia/Manila');
 
 foreach ($tasks as $task) {
@@ -76,11 +77,11 @@ foreach ($tasks as $task) {
             "status" => "missing"
         ]); 
 
-        // Optionally, you can save the task after updating the status
-        // $task->save();
+        // Notify the user about the missing task
+        $task->user->notify(new MissingTaskNotification($task));
     }
-
 }
+
 // Return the view with the tasks and users data
 return view('pages.tasks.monitoring', compact('tasks', 'users'));
 }
@@ -109,6 +110,21 @@ return view('pages.tasks.monitoring', compact('tasks', 'users'));
             'user_id' => $request->input('user_id'), // Fixed the input field name
         ]);
 
+         $user_id = $request->user_id;
+
+        $users = auth()->user();
+            $userToNotify = User::find($user_id); // Replace $userId with the ID of the user you want to notify
+
+            if ($userToNotify) {
+                // Assuming you have created a new task and want to notify the user about it.
+                $task = new Task(); // Assuming you have created a new task object here
+            
+                // Notify the user about the new task assignment
+                $userToNotify->notify(new NewTaskAssignNotification($task));
+            } else {
+                // Handle the case where the user is not found
+                // You can log an error, show a message, or take any other appropriate action.
+            }
         // Fixed the syntax for the 'redirect' method
         return redirect()->route('tasks.monitoring')->with('success', 'Task Created Successfully');
     }
@@ -161,6 +177,13 @@ return view('pages.tasks.monitoring', compact('tasks', 'users'));
             'completed' => true,
             'completed_at' => now(),
         ]);     
+        $users = auth()->user();
+        $users = User::all();
+    
+        foreach ($users as $user) {
+            $tasks = new Task();
+            $user->notify(new CompleteTaskNotification($tasks));
+        }
         return redirect()->route('tasks.monitoring')->with('success', 'Task Completed Successfully');
     }
 

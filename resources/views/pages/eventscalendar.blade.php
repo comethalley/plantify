@@ -216,7 +216,7 @@
                                                         <div class="modal-footer">
                                                         <div class="hstack gap-2 justify-content-end">
                                                         <button type="button" class="btn btn-danger"data-bs-toggle="modal" data-bs-target="#archiveModal">Delete</button>
-                                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editexampleModal">edit</button>
+                                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editexampleModal">Edit</button>
                                                     
                                                           </div>  
                                                         </div>
@@ -242,14 +242,14 @@
                                 <div class="form-group">
                                 <div class="form-group mb-3">
                                                 <label for="updateEventTitle">Event Name:</label>
-                                                <input type="text" class="form-control" id="updateEventTitle" placeholder="Enter Event Name">
+                                                <input type="text" class="form-control" id="updateEventTitle" placeholder="Enter Event Name" required>
                                             </div>
 
                                             <div class="mb-3">
                                                 <label for="Eventstart-datepicker" class="form-label">Start</label>
                                                 <div class="input-group">
                                                     <span class="input-group-text"><i class="ri-calendar-event-line"></i></span>
-                                                    <input type="text" name="start" id="Eventstart-datepicker" class="form-control" data-toggle="flatpickr" data-flatpickr-enable-time="true" data-flatpickr-date-format="Y-m-d" placeholder="Enter Start Date" required />
+                                                    <input type="text" name="start" id="Eventstart-datepicker" class="form-control" data-toggle="flatpickr" data-flatpickr-enable-time="true" data-flatpickr-date-format="Y-m-d" placeholder="Enter Start Date" required/>
                                                 </div>
                                             </div>
 
@@ -263,14 +263,14 @@
 
                                             <div class="form-group mb-3">
                                                 <label for="updateLocation">Location:</label>
-                                                <input type="text" class="form-control" id="updateLocation" placeholder="Enter location" readonly>
+                                                <input type="text" class="form-control" id="updateLocation" placeholder="Enter location" required>
                                             </div>
 
                                         
                                     
                                             <div class="form-group mb-3">
                                                 <label for="updateDescription">Description:</label>
-                                                <input type="text" class="form-control" id="updateDescription" placeholder="Enter description">
+                                                <input type="text" class="form-control" id="updateDescription" placeholder="Enter description" required>
                                             </div>
 
 
@@ -504,15 +504,28 @@ function handleEventDelete(eventId) {
                     
                     success: function (data) {
                         // Assuming your Laravel controller returns a JSON response with a success message
+                        
                         $('#editexampleModal').modal('hide');
                         $('#planting-events-container').load(window.location.href + ' #planting-events-container');
                         calendar.refetchEvents();
+                        $('#editexampleModal').modal('hide');
+                        Swal.fire({
+                        title: "Successfully Updated",
+                        text: "Are you ready for the next level?",
+                        icon: "success"
+                        });
+                        
                        
                    
                     },
                     error: function (error) {
                         console.error("Error updating event:", error);
-                        alert("Error updating event. Please try again.");
+                        $('#editexampleModal').modal('show');
+                        Swal.fire({
+                        title: "Unsuccessfully update",
+                        text: "Please enter a valid information",
+                        icon: "error"
+                        });
                     }
                 });
             }
@@ -627,6 +640,8 @@ $("#addEvent").click(function(){
 });
 
 </script>
+
+
 
 
 @include('templates.footer')

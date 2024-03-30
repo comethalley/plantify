@@ -37,6 +37,7 @@
     <script src="{{ asset('assets/js/farmleader.js') }}"></script>
     <script src="{{ asset('assets/js/plantinfo.js') }}"></script>
     <script src="{{ asset('assets/js/forum.js') }}"></script>
+    <script src="{{ asset('assets/js/fertilizer.js') }}"></script>
 
 
     <!--Scanner JS-->

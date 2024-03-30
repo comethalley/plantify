@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Fertilizers extends Model
 {
     use HasFactory;
+    
     protected $fillable = [
         'fer_name',
         'fer_image',
@@ -17,6 +18,7 @@ class Fertilizers extends Model
 
     public function __construct(array $attributes = [])
     {
+        // Call the parent constructor first
         parent::__construct($attributes);
 
         // Set the default status to 1 when creating a new instance

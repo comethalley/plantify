@@ -43,6 +43,47 @@ $(document).ready(function() {
             }
         }
     });
+
+    const quill2 = new Quill('#edit-editor', {
+        theme: 'snow',
+        modules: {
+            toolbar: [
+                ['bold', 'italic', 'underline'],
+                [{ 'header': 1 }, { 'header': 2 }],
+                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                ['image']
+            ],
+            imageUploader: {
+                upload: (file) => {
+                    return new Promise((resolve, reject) => {
+                        const formData = new FormData();
+                        formData.append("image", file);
+    
+                        fetch(
+                            "https://api.imgbb.com/1/upload?key=cfcbefca16c54d2521b89d1537f0017e",
+                            {
+                                method: "POST",
+                                body: formData
+                            }
+                        )
+                        .then((response) => response.json())
+                        .then((result) => {
+                            console.log(result);
+                            if (result.data && result.data.url) {
+                                resolve(result.data.url);
+                            } else {
+                                reject("Invalid response from image uploader");
+                            }
+                        })
+                        .catch((error) => {
+                            reject("Upload failed");
+                            console.error("Error:", error);
+                        });
+                    });
+                }
+            }
+        }
+    });
     
 
     function getPlant(supplierId){
@@ -132,37 +173,49 @@ $(document).ready(function() {
     //     //$('#supplier-id').val(plantID)
     //     getPlant(supplierId);
     // });
-
-    $(document).on('click', '.edit-item-btn', function(event){
-        event.preventDefault()
-
+    $(document).on('click', '.edit-item-btn', function(event) {
+        event.preventDefault();
+    
         var plantID = $(this).data('plantinfo-id');
-        console.log(plantID)
-        //$('#supplier-id').val(plantID)
-        //getPlant(supplierId);
-
+    
         $.ajax({
             url: "/edit/" + plantID,
             method: "GET",
             success: function(data) {
-                console.log("plant info is"+data)
+                // Update form fields with retrieved data
 
-                $('#plantID').val(data.plantinfo.id)    
-                $('#edit_plant_name').val(data.plantinfo.plant_name)
-                $('#edit_image').attr('src', "/images/"+data.plantinfo.image);
-                $('#edit_seasons').val(data.plantinfo.seasons)
-                $('#edit_information').val(data.plantinfo.information)
-                $('#edit_companion').val(data.plantinfo.companion)
-                $('#edit_days_harvest').val(data.plantinfo.days_harvest)
+              // Fallback option (not recommended)
+                quill2.root.innerHTML = data.plantinfo.information;
 
-                $('#updateModal').modal('show')
+                $('#plantID').val(data.plantinfo.id);
+                $('#edit_plant_name').val(data.plantinfo.plant_name);
+                $('#edit_image').attr('src', "/images/" + data.plantinfo.image); // Update image preview
+                $('#edit_seasons').val(data.plantinfo.seasons);
+                //$('#edit_information').val(data.plantinfo.information);
+                $('#edit_companion').val(data.plantinfo.companion);
+                $('#edit_days_harvest').val(data.plantinfo.days_harvest);
+    
+                // Show the modal
+                $('#updateModal').modal('show');
             },
             error: function(xhr, status, error) {
                 console.error("Error:", status, error);
+                // Consider adding user-friendly error handling here
             }
         });
-    })
-
+    });
+    
+    // Handling file input change to show a preview of the selected image
+    $('#edit_image').on('change', function() {
+        var file = this.files[0];
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            // Update image preview with the selected image
+            $('#edit_image_preview').attr('src', e.target.result);
+        };
+        reader.readAsDataURL(file);
+    });
+    
     $(document).on('click', '.remove-item-btn', function(event){
         event.preventDefault()
 
@@ -175,17 +228,20 @@ $(document).ready(function() {
     })
 
     function updatePlantInfo() {
+        event.preventDefault();
+
         var plantID = $('#plantID').val();
         var plant_name = $('#edit_plant_name').val();
-        var image = $('#myImage').attr('src', 'new_image.jpg'); // Retrieve the file object from the input field
+        var edit_image = $('#edit_image')[0].files[0]; // Retrieve the file object from the input field
+        console.log("Selected image:", image); // Debugging statement
         var seasons = $("#edit_seasons").val();
-        var information = $("#edit_information").val();
+        var information = quill2.root.innerHTML;
         var companion = $("#edit_companion").val();
         var days_harvest = $('#edit_days_harvest').val();
     
         var formData = new FormData();
         formData.append('edit_plant_name', plant_name);
-        formData.append('edit_image', image); // Append the file object to the FormData object
+        formData.append('edit_image', edit_image); // Append the file object to the FormData object
         formData.append('edit_seasons', seasons);
         formData.append('edit_information', information);
         formData.append('edit_companion', companion);
@@ -208,10 +264,13 @@ $(document).ready(function() {
             }
         });
     }
+    
 
     $('#plantinfo-update').on('click', function() {
         updatePlantInfo();
     });
+
+    
 
     function archivePlantInfo(){
         var plantID = $('#archiveID').val()
@@ -390,6 +449,84 @@ $(document).ready(function() {
         
     })
 
+    function updatePestInfo() {
+        var pesID = $('#pesID').val();
+        var pes_name = $('#edit_pes_name').val();
+        var pes_information = $("#edit_pes_information").val();
+        var pes_image = $('#edit_pes_image').prop('files')[0]; // Retrieve the file object from the input field
+        
+    
+        if (!pesID || !pes_name || !pes_information) {
+            console.error("Missing required fields");
+            return;
+        }
+    
+        var formData = new FormData();
+        formData.append('edit_pes_name', pes_name);
+        if (pes_image) {
+            formData.append('edit_pes_image', pes_image);
+        }
+        formData.append('edit_pes_information', pes_information);
+    
+        $.ajax({
+            url: "/pupdate/" + pesID,
+            method: "POST",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(data) {
+                location.reload(); // Reload the page after successful update
+            },
+            error: function(xhr, status, error) {
+                console.error("Error:", xhr.responseText);
+            }
+        });
+    }
+    
+    $('#pesinfo-update').on('click', function() {
+        updatePestInfo();
+    });
+    
+    $(document).on('click', '.edit-pes-btn', function(event) {
+        event.preventDefault();
+    
+        var pesID = $(this).data('pesticide-id');
+    
+        if (!pesID) {
+            console.error("Invalid pesticide ID");
+            return;
+        }
+    
+        $.ajax({
+            url: "/pedit/" + pesID,
+            method: "GET",
+            success: function(data) {
+                if (data && data.pesticide) {
+                    $('#pesID').val(data.pesticide.id);
+                    $('#edit_pes_name').val(data.pesticide.pes_name);
+                    $('#edit_pes_image').attr('src', "/images/" + data.pesticide.image);
+                    $('#edit_pes_information').val(data.pesticide.information);
+                    $('#pes_updateModal').modal('show');
+                } else {
+                    console.error("Invalid data format:", data);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error:", xhr.responseText);
+            }
+        });
+
+
+
+        
     
     
-})
+        })
+    
+
+    
+    })
+ 

@@ -40,51 +40,46 @@
                             </div>
                         </div>
 
-                        <form>
+                      
     <div class="card-body">
         <div class="row g-3">
-            <div class="col-xxl-5 col-sm-12">
-                <div class="search-box">
-                    <!-- Your search box content here -->
-                </div>
-            </div>
-            <!--end col-->
-
             <div class="col-xxl-2 col-sm-4">
                 <div class="search-box">
-                    <input type="text" class="form-control search bg-light border-light" placeholder="Search for Farm ID or Name or Leader...">
+                <input type="text" class="form-control search bg-light border-light" placeholder="Search for Farm ID or Name or Leader..." oninput="searchTable(this.value)">
                     <i class="ri-search-line search-icon"></i>
                 </div>
             </div>
             <!--end col-->
 
-            <div class="col-xxl-2 col-sm-3 ms-auto d-flex">
-    <div class="btn-group" style="width: 200px;">
-        <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuClickableOutside" data-bs-toggle="dropdown" data-bs-auto-close="inside" aria-expanded="false">
-            All
-        </button>
-        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuClickableOutside">
-            <li><a class="dropdown-item" href="javascript:void(0);">All</a></li>
-            <li><a class="dropdown-item" href="javascript:void(0);">Created</a></li>
-            <li><a class="dropdown-item" href="javascript:void(0);">For investigation</a></li>
-            <li><a class="dropdown-item" href="javascript:void(0);">For visiting</a></li>
-            <li><a class="dropdown-item" href="javascript:void(0);">Waiting-for-approval</a></li>
-            <li><a class="dropdown-item" href="javascript:void(0);">Approved</a></li>
-            <li><a class="dropdown-item" href="javascript:void(0);">Resubmit</a></li>
-            <li><a class="dropdown-item" href="javascript:void(0);">Disapproved</a></li>
-            <li><a class="dropdown-item" href="javascript:void(0);">Cancelled</a></li>
-        </ul>
-    </div>
-</div>
-
+            <div class="col-xxl-5 col-sm-12">
+                <!-- Your search box content here -->
+            </div>
             <!--end col-->
 
-           
+            <div class="col-xxl-2 col-sm-3 ms-auto d-flex">
+                <div class="btn-group" style="width: 200px;">
+                    <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuClickableOutside" data-bs-toggle="dropdown" data-bs-auto-close="inside" aria-expanded="false">
+                        All
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuClickableOutside">
+                        <li><a class="dropdown-item" href="javascript:void(0);">All</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0);">Created</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0);">For investigation</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0);">For visiting</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0);">Waiting-for-approval</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0);">Approved</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0);">Resubmit</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0);">Disapproved</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0);">Cancelled</a></li>
+                    </ul>
+                </div>
+            </div>
             <!--end col-->
         </div>
         <!--end row-->
     </div>
-</form>
+
+
 
                                 <!--end card-body-->
 <div class="card-body ">
@@ -371,11 +366,36 @@
 </div>
 
 
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://cdn.lordicon.com/lordicon.js"></script>
 
 <script>
+
+function searchTable(value) {
+        var searchInput = value.toLowerCase();
+        var rows = document.querySelectorAll('#farmTableBody tr');
+        var found = 0; // Variable to count the number of matching rows
+
+        rows.forEach(row => {
+            var id = row.querySelector('.id').textContent.toLowerCase();
+            var farmLeader = row.querySelector('.farm_leader').textContent.toLowerCase();
+
+            if (id.includes(searchInput) || farmLeader.includes(searchInput)) {
+                row.style.display = '';
+                found++; // Increment found for each matching row
+            } else {
+                row.style.display = 'none';
+            }
+        });
+
+        // If no matching rows are found, display the "No Farms found" message
+        if (found === 0) {
+            document.getElementById('noFarmsMessage').parentNode.parentNode.style.display = '';
+        } else {
+            document.getElementById('noFarmsMessage').parentNode.parentNode.style.display = 'none';
+        }
+    }
 
     function goBack() {
         window.location.href = "/farms3";
@@ -383,27 +403,7 @@
             window.location.reload(true);
         };
     }
-    $(document).ready(function(){
-    $(".search-box input").on("keyup", function(event) {
-        if (event.key === "Enter") {
-            event.preventDefault(); // Prevent form submission on Enter key
-        } else {
-            var searchText = $(this).val().toLowerCase();
-            $("#farmTableBody tr").filter(function() {
-                var farmId = $(this).find(".id").text().toLowerCase();
-                var farmName = $(this).find(".farm_name").text().toLowerCase();
-                var farmLeader = $(this).find(".farm_leader").text().toLowerCase();
-                var matchFound = farmId.indexOf(searchText) > -1 || farmName.indexOf(searchText) > -1 || farmLeader.indexOf(searchText) > -1;
-                $(this).toggle(matchFound);
-            });
-        }
-    });
 
-    // Add this block to prevent form submission on Enter key press
-    $("form").on("submit", function(event) {
-        event.preventDefault();
-    });
-});
 // Function to update the status buttons visibility in the modal
 function updateButtonVisibility(status) {
     console.log('Updating button visibility for status:', status);

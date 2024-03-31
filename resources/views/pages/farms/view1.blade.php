@@ -9,14 +9,14 @@
                         <h4 class="mb-sm-0">Farm Management</h4>
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item">Barangays</li>
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Barangays</a></li>
                                 <li class="breadcrumb-item active">Farms</li>
                             </ol>
                         </div>
+
                     </div>
                 </div>
             </div>
-
 <div class="row">
     @if(isset($farms) && count($farms) > 0)
         @foreach($farms as $key => $farm)
@@ -1103,10 +1103,8 @@ $(document).ready(function () {
         align-items: center;
 
     }
-
-.custom-btn1
-{
-        width:170px;
+.custom-btn1{
+    width:170px;
 
 }
     .custom-btn {

@@ -116,6 +116,12 @@
             </div>
         </div>
     </div>
+        <div id="noFarmsMessageContainer" style="display: none;">
+            <td colspan="7">
+                <div id="lordIconContainer" style="text-align: center;"></div>
+                <p id="noFarmsMessage" style="text-align: center; font-size: 21px;">No Barangays Farms found.</p>
+            </td>
+        </div>
         <div class="row">
             <div class="col-6">
                 <button class="btn btn-secondary d-flex align-items-center justify-content-center mb-3" onclick="goBack()">
@@ -272,16 +278,27 @@
     $(document).ready(function() {
     $('#searchMemberList').on('keyup', function() {
         var searchText = $(this).val().toLowerCase();
+        var resultCount = 0; // Initialize result count
         $('.team-list .card.team-box').each(function() {
-            var barangayName = $(this).find('.team-content .member-name').text().toLowerCase(); // Adjusted selector to target the barangay name
+            var barangayName = $(this).find('.team-content .member-name').text().toLowerCase();
             if (barangayName.includes(searchText)) {
-                $(this).closest('.col').show(); // Show the entire column
+                $(this).closest('.col').show();
+                resultCount++; // Increment result count for each match found
             } else {
-                $(this).closest('.col').hide(); // Hide the entire column
+                $(this).closest('.col').hide();
             }
         });
+        // Display message if no results found or if search input is empty
+        if (resultCount === 0 || searchText === "") {
+            $('#noFarmsMessageContainer').show();
+        } else {
+            $('#noFarmsMessageContainer').hide();
+        }
     });
 });
+
+
+
 
 
 

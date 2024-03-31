@@ -18,6 +18,13 @@ class ExpenseController extends Controller
         $categories = Category::all();
         $expenses = Expense::all();
         $user = auth()->user();
+        $farmId = $user->farm_id;
+
+        $expenses = Expense::whereHas('farm', function ($query) use ($farmId) {
+            $query->where('id', $farmId);
+        })->get();
+
+        $budget = Budget::where('farm_id', $farmId)->first();
 
         // Initialize variables
         $farm = null;
@@ -48,6 +55,7 @@ class ExpenseController extends Controller
 
         return view("pages.expense.expense", [
             'expenses' => $expenses,
+            'budget' => $budget,
             'farm' => $farm,
             'allottedBudget' => $allottedBudget,
             'totalExpenses' => $totalExpenses,
@@ -96,21 +104,26 @@ class ExpenseController extends Controller
     
     public function saveExpense(Request $request)
     {
-        // Validate the incoming request data
+        $user = auth()->user();
+        // Validate the request data
         $validatedData = $request->validate([
+            'farm_id' => 'required|exists:farms,id', // Ensure farm_id exists in farms table
             'description' => 'required|string|max:255',
             'amount' => 'required|numeric',
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
         
-        // Create a new Expense instance
+        // Retrieve farm_id from the validated data
+        $farmId = $validatedData['farm_id'];
+    
+        // Create a new Expense instance associated with the provided farm_id
         $expense = new Expense([
             'description' => $validatedData['description'],
             'amount' => $validatedData['amount'],
-            'farm_id' => auth()->user()->farm_id, // Associate expense with the authenticated user's farm
-            'budget_id' => 9, // Assuming there's only one budget for now, you may adjust this as needed
+            'farm_id' => $farmId,
+            'budget_id' => 9, // Assuming there's only one budget for now, adjust as needed
         ]);
-
+    
         // Handle image upload if provided
         if ($request->hasFile('image')) {
             $image = $request->file('image');
@@ -118,17 +131,17 @@ class ExpenseController extends Controller
             $image->move(public_path('images/expenses'), $imageName);
             $expense->image_path = 'images/expenses/' . $imageName;
         }
-
+    
         // Save the expense
         $expense->save();
-
+    
         // Update the total expenses in the associated budget
         $budget = Budget::findOrFail($expense->budget_id); // Assuming budget id 1, update this as needed
         $totalExpenses = Expense::where('budget_id', $budget->id)->sum('amount');
         $budget->total_expenses = $totalExpenses;
         $budget->balance = $budget->allotted_budget - $budget->total_expenses;
         $budget->save();
-
+    
         // Return a JSON response indicating success along with the ID of the newly created expense and its image URL if available
         return response()->json(['success' => true, 'id' => $expense->id, 'image_url' => asset($expense->image_path)]);
     }
@@ -168,32 +181,40 @@ class ExpenseController extends Controller
     public function addBudget(Request $request)
     {
         try {
+            // Validate the request data
             $validatedData = $request->validate([
-                'farm_id' => 'required|exists:farms,id',
+                'farm_id' => 'required|exists:farms,id', // Ensure farm_id exists in farms table
                 'allotted_budget' => 'required|numeric|min:0',
             ]);
-
-            $existingBudget = Budget::where('farm_id', $validatedData['farm_id'])->first();
-
+    
+            // Retrieve farm_id from the validated data
+            $farmId = $validatedData['farm_id'];
+    
+            // Check if a budget already exists for the provided farm_id
+            $existingBudget = Budget::where('farm_id', $farmId)->first();
+    
             if ($existingBudget) {
-
+                // If a budget already exists, update the allotted budget
                 $existingBudget->allotted_budget += $validatedData['allotted_budget'];
                 $existingBudget->save();
             } else {
+                // If no budget exists, create a new budget
                 $budget = new Budget();
-                $budget->farm_id = $validatedData['farm_id'];
+                $budget->farm_id = $farmId;
                 $budget->allotted_budget = $validatedData['allotted_budget'];
                 $budget->balance = $validatedData['allotted_budget'];
                 $budget->total_expenses = 0;
                 $budget->save();
             }
-
+    
+            // Return a JSON response indicating success along with the allotted budget
             return response()->json([
                 'status' => 'success',
                 'message' => 'Budget added successfully!',
                 'allotted_budget' => $existingBudget ? $existingBudget->allotted_budget : $budget->allotted_budget,
             ]);
         } catch (\Exception $e) {
+            // Return a JSON response indicating error if validation fails or an exception occurs
             return response()->json([
                 'status' => 'error',
                 'message' => 'Failed to add budget. Please try again later.',

@@ -501,6 +501,7 @@
         var currentInput = document.getElementById('current');
         var kwhInput = document.getElementById('kwh');
         var imageInput = document.getElementById('image');
+        var farmId = document.getElementById('farm_id').value; // Get the selected farm_id
         var categoryId = categorySelect.value;
         var description = '';
         var totalAmount = 0;
@@ -527,6 +528,7 @@
             totalAmount = amountInput.value;
         }
 
+        formData.append('farm_id', farmId); // Append the farm_id to the form data
         formData.append('category', categoryId);
         formData.append('description', description);
         formData.append('amount', totalAmount);

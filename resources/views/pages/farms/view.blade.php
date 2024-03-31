@@ -51,11 +51,6 @@
             </div>
             <!--end col-->
 
-            <div class="col-xxl-5 col-sm-12">
-                <!-- Your search box content here -->
-            </div>
-            <!--end col-->
-
             <div class="col-xxl-2 col-sm-3 ms-auto d-flex">
                 <div class="btn-group" style="width: 200px;">
                     <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuClickableOutside" data-bs-toggle="dropdown" data-bs-auto-close="inside" aria-expanded="false">
@@ -171,6 +166,12 @@
 </div>
 </div>
 <br><br>
+<div id="noFarmsMessageContainer" style="display: none;">
+            <td colspan="7">
+                <div id="lordIconContainer" style="text-align: center;"></div>
+                <p id="noFarmsMessage" style="text-align: center; font-size: 21px;">No Barangays Farms found.</p>
+            </td>
+        </div>
 <div class="row">
         <div class="col-6">
             <button class="btn btn-secondary d-flex align-items-center justify-content-center" onclick="goBack()">
@@ -373,29 +374,30 @@
 <script>
 
 function searchTable(value) {
-        var searchInput = value.toLowerCase();
-        var rows = document.querySelectorAll('#farmTableBody tr');
-        var found = 0; // Variable to count the number of matching rows
+    var searchInput = value.toLowerCase();
+    var rows = document.querySelectorAll('#farmTableBody tr');
+    var found = 0; // Variable to count the number of matching rows
 
-        rows.forEach(row => {
-            var id = row.querySelector('.id').textContent.toLowerCase();
-            var farmLeader = row.querySelector('.farm_leader').textContent.toLowerCase();
+    rows.forEach(row => {
+        var id = row.querySelector('.id').textContent.toLowerCase();
+        var farmLeader = row.querySelector('.farm_leader').textContent.toLowerCase();
 
-            if (id.includes(searchInput) || farmLeader.includes(searchInput)) {
-                row.style.display = '';
-                found++; // Increment found for each matching row
-            } else {
-                row.style.display = 'none';
-            }
-        });
-
-        // If no matching rows are found, display the "No Farms found" message
-        if (found === 0) {
-            document.getElementById('noFarmsMessage').parentNode.parentNode.style.display = '';
+        if (id.includes(searchInput) || farmLeader.includes(searchInput)) {
+            row.style.display = '';
+            found++; // Increment found for each matching row
         } else {
-            document.getElementById('noFarmsMessage').parentNode.parentNode.style.display = 'none';
+            row.style.display = 'none';
         }
+    });
+
+    // If no matching rows are found, display the "No Farms found" message
+    if (found === 0) {
+        document.getElementById('noFarmsMessageContainer').style.display = '';
+    } else {
+        document.getElementById('noFarmsMessageContainer').style.display = 'none';
     }
+}
+
 
     function goBack() {
         window.location.href = "/farms3";

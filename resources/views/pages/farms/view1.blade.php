@@ -34,44 +34,24 @@
                             </div>
                         </div>
 
-                        <form>
                             <div style="text-align: center;">
                                 <h4 style="font-size: 20px;"><em><strong>Your dashboard will feature updates regarding the status of your application.
-<br> In addition to this, you will also receive email notifications whenever there are changes in the status of your application
-<br> or You may also check back here to see the status of your application..</strong></em></h4>
+                                    <br> In addition to this, you will also receive email notifications whenever there are changes in the status of your application
+                                    <br> or You may also check back here to see the status of your application..</strong></em></h4>
                             </div>
                             <br>
-                            <div class="card-body">
+<div class="card-body">
     <div class="row g-3 align-items-center justify-content-between">
         <div class="col-xxl-2 col-sm-4">
             <div class="search-box">
-                <input type="text" class="form-control search bg-light border-light" placeholder="Search for application or something...">
+            <input type="text" id="searchInput" class="form-control search bg-light border-light" placeholder="Search for Farm ID or Name ..." >
                 <i class="ri-search-line search-icon"></i>
-            </div>
-        </div>
-
-        <div class="col-xxl-5 col-sm-12">
-            <div class="search-box">
             </div>
         </div>
                                     
         <div class="col-xxl-3 col-sm-6 d-flex justify-content-end">
-            <div class="btn-group" style="width: 200px;">
-                <button class="btn btn-light dropdown-toggle me-2" type="button" id="dropdownMenuClickableOutside" data-bs-toggle="dropdown" data-bs-auto-close="inside" aria-expanded="false">
-                    All
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuClickableOutside">
-                    <li><a class="dropdown-item" href="javascript:void(0);">All</a></li>
-                    <li><a class="dropdown-item" href="javascript:void(0);">Created</a></li>
-                    <li><a class="dropdown-item" href="javascript:void(0);">For investigation</a></li>
-                    <li><a class="dropdown-item" href="javascript:void(0);">For visiting</a></li>
-                    <li><a class="dropdown-item" href="javascript:void(0);">Waiting-for-approval</a></li>
-                    <li><a class="dropdown-item" href="javascript:void(0);">Approved</a></li>
-                    <li><a class="dropdown-item" href="javascript:void(0);">Resubmit</a></li>
-                    <li><a class="dropdown-item" href="javascript:void(0);">Disapproved</a></li>
-                    <li><a class="dropdown-item" href="javascript:void(0);">Cancelled</a></li>
-                </ul>
-            </div>
+
+
 
             <div class="hstack flex-wrap gap-2 mb-3 mb-lg-0">
                 <button type="button" class="btn btn-soft-dark btn-border refresh-button custom-width" onclick="location.reload()">
@@ -84,7 +64,6 @@
 
 
 
-</form>
 <div class="card-body">
   <div class="table-responsive table-card mb-4 rounded">
     <table class="table align-middle table-nowrap mb-0 table-bordered" id="tasksTable">
@@ -99,21 +78,27 @@
       @endif
       <tbody id="farmTableBody" class="list form-check-all">
         <tr class="farm-row {{ strtolower(str_replace(' ', '-', $farm->status)) }}">
-          <td class="id" style="text-align: left;">
-            <div style="margin-bottom: 5px;">#{{ $farm->id }}</div>
+          <td class=" roboto-regular" style="text-align: left;">
+            <div class="id" style="margin-bottom: 5px;">#{{ $farm->id }}</div>
             <hr style="margin: 10px 0;">
             <b style="font-size: 14px;">Date Filled: </b><br>
             <div>{{ \Carbon\Carbon::parse($farm->created_at)->format('Y-m-d / h:i A') }}</div>
-
           </td>
-
           <td class="details vertical-line">
-            <b style="color: blue; font-size: 16px;">FARM APPLICATION</b><br>
-            <b style="font-family: 'Bahnschrift', sans-serif; font-size: 15px;">Farm Leader :</b> &nbsp;{{ strtoupper($farm->farm_leader_firstname) }} {{ strtoupper($farm->farm_leader_lastname) }}<br>
-            <b style="font-family: 'Bahnschrift', sans-serif; font-size: 15px;">Farm Name :</b> &nbsp;{{ strtoupper($farm->farm_name) }}<br>
-            <b style="font-family: 'Bahnschrift', sans-serif; font-size: 15px;">Area :</b> &nbsp;{{ strtoupper($farm->area) }}<br>
-            <b style="font-family: 'Bahnschrift', sans-serif; font-size: 15px;">Address :</b> &nbsp;{{ strtoupper($farm->address) }}, {{ strtoupper($farm->barangay_name) }}<br>
-          </td>
+    <b style="color: blue; font-size: 16px;">FARM APPLICATION</b><br>
+    <span class="farm-leader"> <!-- Add class for farm leader -->
+        <b style="font-family: 'Bahnschrift', sans-serif; font-size: 15px;">Farm Leader :</b> &nbsp;{{ strtoupper($farm->farm_leader_firstname) }} {{ strtoupper($farm->farm_leader_lastname) }}<br>
+    </span>
+    <span class="farm-name"> <!-- Add class for farm name -->
+        <b style="font-family: 'Bahnschrift', sans-serif; font-size: 15px;">Farm Name :</b> &nbsp;{{ strtoupper($farm->farm_name) }}<br>
+    </span>
+    <span class="area"> <!-- Add class for area -->
+        <b style="font-family: 'Bahnschrift', sans-serif; font-size: 15px;">Area :</b> &nbsp;{{ strtoupper($farm->area) }}<br>
+    </span>
+    <span class="address"> <!-- Add class for address -->
+        <b style="font-family: 'Bahnschrift', sans-serif; font-size: 15px;">Address :</b> &nbsp;{{ strtoupper($farm->address) }}, {{ strtoupper($farm->barangay_name) }}<br>
+    </span>
+</td>
 
           <td class="status vertical-line">
           @switch(strtolower(str_replace(' ', '-', $farm->status)))
@@ -212,6 +197,12 @@
             </table>  
         </div>
     </div>
+    <div id="noFarmsMessageContainer" style="display: none;">
+            <td colspan="7">
+                <div id="lordIconContainer" style="text-align: center;"></div>
+                <p id="noFarmsMessage" style="text-align: center; font-size: 21px;">No Barangays Farms found.</p>
+            </td>
+        </div>
     <div class="row">
         <div class="col-6">
             <button type="button"class="btn btn-secondary d-flex align-items-center justify-content-center" onclick="goBack()">
@@ -453,8 +444,8 @@
 
 
 <!-- Add this modal at the end of your Blade file -->
-
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://cdn.lordicon.com/lordicon.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -462,6 +453,34 @@
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,800;1,800&display=swap" rel="stylesheet">
 
 <script>
+
+$(document).ready(function() {
+    // Function to handle search
+    $('#searchInput').on('input', function() {
+        var searchText = $(this).val().trim().toLowerCase(); // Get search text and convert to lowercase
+        var resultsCount = 0; // Initialize count of matching results
+        // Loop through each row in the table body
+        $('#farmTableBody tr').each(function() {
+            var idText = $(this).find('.id').text().toLowerCase(); // Get text of farm id column
+            var farmNameText = $(this).find('.farm-name').text().toLowerCase(); // Get text of farm name column
+            // Define regular expression pattern to match either Farm ID or Farm Name containing the search query
+            var pattern = new RegExp(searchText, 'i');
+            // Check if search text matches Farm ID exactly or if Farm Name contains the search text
+            if (pattern.test(idText) || pattern.test(farmNameText)) {
+                $(this).show(); // Show row if search text matches
+                resultsCount++; // Increment count of matching results
+            } else {
+                $(this).hide(); // Otherwise, hide the row
+            }
+        });
+        // Show or hide the "No Farms found" message container based on the count of matching results
+        if (resultsCount === 0 && searchText.length > 0) {
+            $('#noFarmsMessageContainer').show(); // Show message container if there are no matching results
+        } else {
+            $('#noFarmsMessageContainer').hide(); // Otherwise, hide the message container
+        }
+    });
+});
 
 function setDate(id, selectDate) {
     // Calculate the next two dates
@@ -1017,48 +1036,6 @@ $("#updateStatusBtn").click(function () {
     $("#updateCancelModal").modal("hide");
 });
 
-
-$(document).ready(function () {
-    $('.dropdown-item').click(function () {
-        var status = $(this).text();
-
-        
-        if (status.toLowerCase() === 'all') {
-            $('.farm-row').show();
-        } else {
-            
-            $('.farm-row').hide();
-
-            
-            $('.farm-row.' + status.toLowerCase().replace(' ', '-')).show();
-        }
-
-        $.ajax({
-            url: '/farms/filterByStatus',
-            type: 'GET',
-            data: { status: status },
-            success: function (data) {
-                
-                console.log(status);
-
-                
-                $('#dropdownMenuClickableOutside').text(status);
-
-                
-                if (data.farms.length === 0) {
-                    $('#tableContainer').html('<p>No farms found.</p>');
-                } else {
-                    
-                    $('#tableContainer').html(data.farms);
-                }
-            },
-            error: function (error) {
-                console.log(error);
-            }
-        });
-    });
-    
-});
 
         // Create the Lord icon dynamically
     var lordIconContainer = document.getElementById("lordIconContainer");

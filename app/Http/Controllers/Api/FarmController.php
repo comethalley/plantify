@@ -288,18 +288,6 @@ public function archiveFarm(Request $request, $id)
 
 //view farm-management//
 
-public function filterByStatus(Request $request)
-{
-    $status = $request->input('status');
-
-    if (strtolower($status) == 'all') {
-        $farms = Farm::all();
-    } else {
-        $farms = Farm::where('status', $status)->get();
-    }
-
-    return response()->json(['farms' => $farms]);
-}
 
 public function filterByStatus1(Request $request)
 {

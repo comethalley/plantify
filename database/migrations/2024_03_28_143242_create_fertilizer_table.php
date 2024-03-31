@@ -1,4 +1,3 @@
-
 <?php
 
 use Illuminate\Database\Migrations\Migration;
@@ -14,17 +13,24 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('barangays', function (Blueprint $table) {
+        Schema::create('fertilizers', function (Blueprint $table) {
             $table->id();
-            $table->string('barangay_name');
-            
-            // Add more columns as needed
+            $table->string('farm_id');
+            $table->string('name');
+            $table->text('uom_id');
+            $table->string('qty');
+            $table->string('status');
             $table->timestamps();
         });
     }
 
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
     public function down()
     {
-        Schema::dropIfExists('barangays');
+        Schema::dropIfExists('fertilizers');
     }
 };

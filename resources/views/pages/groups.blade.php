@@ -640,4 +640,8 @@ $(document).ready(function () {
     }
 });
 
+
+setInterval(function() {
+        $('#group-conversation').load(window.location.href + ' #group-conversation');
+    }, 500);
 </script>

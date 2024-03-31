@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Api;
-
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Models\Calendar;
 use Illuminate\Http\Request;
@@ -30,8 +30,12 @@ class FullCalendarController extends Controller
     				'title'		=>	$request->title,
     				'start'		=>	$request->start,
     				'end'		=>	$request->end
+				
     			]);
-
+				$users = User::all();
+				foreach ($users as $user) {
+					$user->notify(new NewNotificationEvent($request->message));
+				}
     			return response()->json($event);
     		}
 

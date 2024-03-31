@@ -1,12 +1,12 @@
 <div class="table-responsive table-card mb-1">
-    <table class="table table-nowrap align-middle" id="orderTable">
+    <table class="table table-nowrap align-middle" id="supplierTable">
         <thead class="text-muted table-light">
             <tr class="text-uppercase">
-                <th scope="col" style="width: 25px;">
+                <!-- <th scope="col" style="width: 25px;">
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" id="checkAll" value="option">
                     </div>
-                </th>
+                </th> -->
                 <th class="sort" data-sort="id">Supplier ID</th>
                 <th class="sort" data-sort="customer_name">Supplier Name</th>
                 <th class="sort" data-sort="date">Address</th>
@@ -19,11 +19,11 @@
             @foreach ($supplier as $per_supplier)
 
             <tr>
-                <th scope="row">
+                <!-- <th scope="row">
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" name="checkAll" value="option1">
                     </div>
-                </th>
+                </th> -->
                 <td class="id">#{{ $per_supplier->id }}</td>
                 <td class="customer_name">{{ $per_supplier->name }}</td>
                 <td class="date">{{ $per_supplier->address }}</td>
@@ -153,6 +153,28 @@
             $('#archive-supplierID').val(supplierId)
             getSupplier(supplierId);
             $("#archiveModal").modal('show')
+        });
+
+        function downloadTableAsExcel(tableId, filename) {
+            var table = document.getElementById(tableId);
+            if (!table) {
+                console.error("Table element with ID '" + tableId + "' not found.");
+                return;
+            }
+
+            var ws = XLSX.utils.table_to_sheet(table);
+
+            // Create a workbook with a single worksheet
+            var wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+            // Convert the workbook to a binary Excel file and trigger the download
+            XLSX.writeFile(wb, filename + '.xlsx');
+        }
+
+        $(document).on("click", ".download-btn", function() {
+            console.log("Download button clicked");
+            downloadTableAsExcel('supplierTable', 'table_data');
         });
     });
 </script>

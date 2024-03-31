@@ -4,13 +4,13 @@
 <meta name="csrf-token" content="{{ csrf_token() }}" />
 
 
-<div class="main-content">
+<div class="main-content" >
 
 <div class="page-content">
     <div class="container-fluid">
 
    
-@section('content')
+ @section('content')
         <!-- start page title -->
         <div class="row">
             <div class="col-12">
@@ -29,24 +29,36 @@
         </div>
 
         <div class="row">
-            <div class="col-12">
+            <div class="col-12" >
                  <!--start row-->
 
-                <div class="row">
-                 <!-- end col-->
-                    <div class="col-xl-3">
+                 <div class="row scrollable">
+                    <div class="col-xl-3 scrollable" style="overflow-y: auto; max-height: 100vh;">
                         <div class="card card-h-100">
                             <div class="card-body" style="display:flex; justify-content:center; align-items:center;">
-                            <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModalExample"><i class="mdi mdi-plus"></i>Create New Events</button>
+                                
                             
-                                        <button class="btn btn-soft-danger" id="remove-actions" onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button>
-                             </div>
-
-
-                             
+                            @if(auth()->user()->role_id == 1)
+                            {{-- Display only for role_id 1 (Admin) --}}
+                            <button type="button" class="btn btn-success w-100" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModalExample"><i class="mdi mdi-plus"></i>Create New Events</button>
+                            @elseif(auth()->user()->role_id == 2)
+                            {{-- Display only for role_id 2 (
+                                 Admin) --}}
+                            <button type="button" class="btn btn-success w-100" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModalExample"><i class="mdi mdi-plus"></i>Create New Events</button>
+                            @elseif(auth()->user()->role_id == 3)
+                            {{-- Display for role_id 3 (Farm Leader) --}}
+                            <button hidden type="button" class="btn btn-success w-100" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModalExample"><i class="mdi mdi-plus"></i>Create New Events</button>
+                            @elseif(auth()->user()->role_id == 4 )
+                            {{-- Display only for role_id 4 ( Farmers) --}}
+                            <button hidden type="button" class="btn btn-success w-100" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModalExample"><i class="mdi mdi-plus"></i>Create New Events</button>
+                            @elseif(auth()->user()->role_id == 5 )
+                            {{-- Display only for role_id 5 (Public Users) --}}
+                            <button hidden type="button" class="btn btn-success w-100" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModalExample"><i class="mdi mdi-plus"></i>Create New Events</button>
+                            @endif
+                            </div>
                         </div>
-                        <div class="card">
-                            <div class="card-body bg-info-subtle">
+                        <div class="card scrollable">
+                            <div class="card-body bg-info-subtle" style="overflow-y: auto;" >
                                 <div class="d-flex">
                                     <div class="flex-shrink-0">
                                         <i data-feather="calendar" class="text-info icon-dual-info"></i>
@@ -58,27 +70,18 @@
                                  
                                 </div>
                             </div>
-                            
-                     </div>
-                      <!----> @foreach ($events as $event) 
-                      <div class="card bg-light mb-3" style="max-width: 18rem;">
-  <div class="card-header">{{ $event->title}}</div>
-  <div class="card-body">
-    <h5 class="card-title">{{ $event->start}} to {{ $event->end}}</h5>
-    <p class="card-text">{{ $event->location}}</p>
-    <p class="card-text">{{ $event->description}}</p>
-  </div>
-</div>@endforeach
-                    </div> <!-- end col-->
-
-
-<!-- ============================================================ -->
-                    <div class="col-xl-9">
+                        </div>
+                                  
+                        @include('pages.displayevent')
+                                
+            </div> <!-- end col-->
+ <!-- ============================================================ -->
+                <div class="col-xl-9">
                         
                     <div class="input-group mb-3">
                         <input type="text" id="searchInput" class="form-control" placeholder="Search events">
                             <div class="input-group-append">
-                                <button id="searchButton" class="btn btn-primary">{{__('Search')}}</button>
+                                <button id="searchButton" class="btn btn-success">{{__('Search')}}</button>
                             </div>
                     </div>
 
@@ -87,10 +90,12 @@
                                 <div id="calendar"></div>
                             </div>
                         </div>
-                    </div><!-- end col -->
-                </div>
-                <!--end row-->
-
+                    </div>
+                </div><!-- end col -->
+                
+            </div> <!--end row-->
+    </div>
+        </div> <!-- end row-->
 <!-- ============================================================ -->
                 <div style='clear:both'></div>
 
@@ -126,25 +131,25 @@
 
                                                 <div class="mb-3">
                                                     <label for="location" class="form-label">Location</label>
-                                                    <input type="text" name="location" id="customername-field" class="form-control" placeholder="Enter Location" required />
+                                                    <input type="text" name="location" id="customername-field" class="form-control" placeholder="Enter Location" />
                                                 </div>
 
                                                 <div class="mb-3">
                                                     <label for="description" class="form-label">Description</label>
-                                                    <input type="text" name="description" id="description" class="form-control" placeholder="Enter description" required />
+                                                    <input type="text" name="description" id="description" class="form-control" placeholder="Enter description" />
                                                 </div>
 
                                             </div>
                                             <div class="modal-footer">
                                                 <div class="hstack gap-2 justify-content-end">
                                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                                                    <button type="submit" class="btn btn-info">Add Event</button>
+                                                    <button type="submit" class="btn btn-info" id="addEvent">Add Event</button>
                                                     <!-- <button type="button" class="btn btn-success" id="edit-btn">Update</button> -->
                                                 </div>
                                             </div>
                                         </form>
                                     </div>
-                                </div>
+                                </div> 
                             </div> <!-- end modal-->
 
     <!---event detail EventModal--->
@@ -164,9 +169,9 @@
                                                             <div class="flex-shrink-0 me-3">
                                                                 <i class="ri-calendar-event-line text-muted fs-16"></i>
                                                             </div>
-
+                                                            
                                                             <div class="flex-grow-1">
-                                                            <h6 class="d-block - fw-semibold semibold mb-0"><span id="eventtitle"></span></h6>
+                                                            <h6 class="d-block - fw-semibold semibold mb-0">Event Name: <span id="eventtitle"></span></h6>
                                         
                                                             </div>
                                                         </div>
@@ -177,7 +182,7 @@
                                                             <i class="ri-time-line text-muted fs-16"></i>
                                                         </div>
                                                         <div class="flex-grow-1">
-                                                            <h6 class="d-block fw-semibold mb-0"><span id="eventstart"></span></h6>
+                                                            <h6 class="d-block fw-semibold mb-0">Start: <span id="eventstart"></span></h6>
                                                         </div>
                                                     </div>
 
@@ -186,7 +191,7 @@
                                                             <i class="ri-time-line text-muted fs-16"></i>
                                                         </div>
                                                         <div class="flex-grow-1">
-                                                            <h6 class="d-block fw-semibold mb-0"><span id="eventend"></span></h6>
+                                                            <h6 class="d-block fw-semibold mb-0">End: <span id="eventend"></span></h6>
                                                         </div>
                                                     </div>
                                                     <div class="d-flex align-items-center mb-2">
@@ -194,7 +199,7 @@
                                                             <i class="ri-map-pin-line text fs-16"></i>
                                                         </div>
                                                         <div class="flex-grow-1">
-                                                            <h6 class="d-block fw-semibold mb-0"><span id="eventlocation"></span></h6>
+                                                            <h6 class="d-block fw-semibold mb-0">Location: <span id="eventlocation"></span></h6>
                                                         </div>
                                                     </div>
                                                     <div class="d-flex mb-3">
@@ -202,7 +207,7 @@
                                                             <i class="ri-discuss-line text-muted fs-16"></i>
                                                         </div>
                                                         <div class="flex-grow-1">
-                                                            <p class="d-block  fw-semibold mb-0" id="eventdescription"></p>
+                                                        <h6 class="d-block fw-semibold mb-0">Description: <span id="eventdescription"></span></h6>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -210,8 +215,8 @@
 
                                                         <div class="modal-footer">
                                                         <div class="hstack gap-2 justify-content-end">
-                                                        <button type="button" class="btn btn-danger" id="deleteEventBtn" id="deleteEventBtn">Delete</button>
-                                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editexampleModal">edit</button>
+                                                        <button type="button" class="btn btn-danger"data-bs-toggle="modal" data-bs-target="#archiveModal">Delete</button>
+                                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editexampleModal">Edit</button>
                                                     
                                                           </div>  
                                                         </div>
@@ -227,52 +232,96 @@
                             </div>
 <!-- Update and Delete Event Modal -->
 <div class="modal fade" id="editexampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Edit Event</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-      <div class="form-group">
-      <div class="form-group">
-                    <label for="updateEventTitle">Event Name:</label>
-                    <input type="text" class="form-control" id="updateEventTitle">
-                </div>
-                <div class="form-group">
-                    <label for="Eventstart-datepicker">Start:</label>
-                    <input type="text" class="form-control" id="Eventstart-datepicker">
-                </div>
-                <div class="form-group">
-                    <label for="Eventend-datepicker">End:</label>
-                    <input type="text" class="form-control" id="Eventend-datepicker">
-                </div>
-                <div class="form-group">
-                    <label for="updateLocation">Location:</label>
-                    <input type="text" class="form-control" id="updateLocation">
-                </div>
-                <div class="form-group">
-                    <label for="updateDescription">Description:</label>
-                    <input type="text" class="form-control" id="updateDescription">
-                </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary"  id="updateEventBtn">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
- <!-- end modal-->
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Edit Event</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                <div class="form-group">
+                                <div class="form-group mb-3">
+                                                <label for="updateEventTitle">Event Name:</label>
+                                                <input type="text" class="form-control" id="updateEventTitle" placeholder="Enter Event Name" required>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="Eventstart-datepicker" class="form-label">Start</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text"><i class="ri-calendar-event-line"></i></span>
+                                                    <input type="text" name="start" id="Eventstart-datepicker" class="form-control" data-toggle="flatpickr" data-flatpickr-enable-time="true" data-flatpickr-date-format="Y-m-d" placeholder="Enter Start Date" required/>
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="Eventend-datepicker" class="form-label">End</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text"><i class="ri-calendar-event-line"></i></span>
+                                                    <input type="text" name="end" id="Eventend-datepicker" class="form-control" data-toggle="flatpickr" data-flatpickr-enable-time="true" data-flatpickr-date-format="Y-m-d" placeholder="Enter End Date" required />
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group mb-3">
+                                                <label for="updateLocation">Location:</label>
+                                                <input type="text" class="form-control" id="updateLocation" placeholder="Enter location" required>
+                                            </div>
+
+                                        
+                                    
+                                            <div class="form-group mb-3">
+                                                <label for="updateDescription">Description:</label>
+                                                <input type="text" class="form-control" id="updateDescription" placeholder="Enter description" required>
+                                            </div>
 
 
-                <!-- end modal-->
-            </div>
-        </div> <!-- end row-->
+                                           
 
+                                          
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary"  id="updateEventBtn">Save changes</button>
+                                </div>
+                                </div>
+                            </div>
+                            </div>
+                            <!-- end modal-->
+
+                
+        
+        
     </div>
     <!-- container-fluid -->
 </div>
+       <!--Archive Supplier Modal-->
+       <div class="modal fade" id="archiveModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-light p-3">
+                                            <h5 class="modal-title" id="farm-name">&nbsp;</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+                                        </div>
+                                        <form method="post" action="">
+                                            @csrf
+                                            <div class="modal-body">
+                                                <div class="mt-4 text-center">
+                                                    <input type="hidden" id="archive-supplierID" class="form-control" placeholder="ID" />
+                                                    <lord-icon src="https://cdn.lordicon.com/drxwpfop.json" trigger="hover" style="width:100px;height:100px">
+                                                    </lord-icon>
+                                                    <h4>You are about to archive <span id="archive-supplier-name"></span>?</h4>
+                                                    <p class="text-muted fs-15 mb-4">Are you sure you want to proceed ?</p>
+                                                    <div class="hstack gap-2 justify-content-center remove">
+                                                        <button type="button" class="btn btn-link link-success fw-medium text-decoration-none" id="deleteRecord-close" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i> Close</button>
+                                                        <button type="button" class="btn btn-danger" id="delete-record">Yes, Archive It</button>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--End Archive Supplier Modal-->
 <!-- End Page-content -->
 
 
@@ -282,8 +331,9 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
 
     <script type="text/javascript">
@@ -294,9 +344,7 @@
             }
         });
 
-        function getEvent(){
 
-        }
 
         var calendarEl = document.getElementById('calendar');
         var events = [];
@@ -309,8 +357,22 @@
             initialView: 'dayGridMonth',
             timeZone: 'UTC',
             events: '/schedulesget',
-            editable: true,
+            @if(auth()->user()->role_id == 1)
+                            {{-- Display only for role_id 1 (Admin) --}}
             selectable: true,
+            @elseif(auth()->user()->role_id == 2)
+                            {{-- Display only for role_id 2 (Super Admin) --}}
+           selectable: true,         
+           @elseif(auth()->user()->role_id == 3)
+                            {{-- Display for role_id 3 (Farm Leader) --}}    
+            selectable: false,
+            @elseif(auth()->user()->role_id == 4 )
+                             {{-- Display only for role_id 4 ( Farmers) --}}
+            selectable: false,
+            @elseif(auth()->user()->role_id == 5 )
+                             {{-- Display only for role_id 5 (Public Users) --}}
+            selectable: false,
+            @endif
             selectHelper: true,
             select: function (start, end, allDay) {
                // Close Update/Delete Event Modal if open
@@ -326,112 +388,159 @@
                   //  console.log("Event is", info.event._def.extendedProps);
                     var eventTitle = info.event._def.title
                     var eventID = info.event._def.publicId
+                    var eventStart = info.event.start;
+                    var eventEnd = info.event.end;
+                    var eventLocation = info.event.extendedProps.location;
+                var eventDescription = info.event.extendedProps.description;
                     var event = info.event._def.extendedProps
                     var date = info.event._instance.range
                  //   console.log("Variable event is" + event.location)
                   //  console.log("Date is" + date.start)
                     // Close Update/Delete Event Modal if open
-                    $('#EventdetailModal').modal('show');
+            @if(auth()->user()->role_id == 1)
+                            {{-- Display only for role_id 1 (Admin) --}}
+                            $('#EventdetailModal').modal('show');
+            @elseif(auth()->user()->role_id == 2)
+                            {{-- Display only for role_id 2 (Super Admin) --}}
+                            $('#EventdetailModal').modal('show');         
+           @elseif(auth()->user()->role_id == 3)
+                            {{-- Display for role_id 3 (Farm Leader) --}}    
+                            $('#EventdetailModal').modal('hide');
+            @elseif(auth()->user()->role_id == 4 )
+                             {{-- Display only for role_id 4 ( Farmers) --}}
+                             $('#EventdetailModal').modal('hide');
+            @elseif(auth()->user()->role_id == 5 )
+                             {{-- Display only for role_id 5 (Public Users) --}}
+                             $('#EventdetailModal').modal('hide');
+            @endif
+                    
                     
                     // Display event details in the Update/Delete Event Modal
                     
-                    $('#eventtitle').text(eventTitle);
-                    $('#eventstart').text(date.start);
-                    //$('#Eventend-datepicker').text(event.updatedAt);
-                    $('#eventend').text(date.end); // Adjusted property access
-                    $('#eventlocation').text(event.location); // Adjusted property access
-                    $('#eventdescription').text(event.description); // Adjusted property access
+                        $('#eventtitle').text(eventTitle);
+                        $('#eventstart').text(moment(date.start).format('MMMM D, YYYY'));
+                        $('#eventend').text(moment(date.end).format('MMMM D, YYYY'));
+                        $('#eventlocation').text(event.location);
+                        $('#eventdescription').text(event.description);
 
-                    // Store event ID for update and delete
+                        $('#updateEventTitle').val(eventTitle);
+                        $('#Eventstart-datepicker').val(moment(eventStart).format("YYYY-MM-DD"));
+                        $('#Eventend-datepicker').val(moment(eventEnd).format("YYYY-MM-DD"));
+                        $('#updateLocation').val(eventLocation);
+                        $('#updateDescription').val(eventDescription);
+                    // Store event ID fo var eventId = event.id;r update and delete
                     var eventId = event.id;
                     $('#updateEventBtn').data('event-id', eventId);
-                    $('#deleteEventBtn').data('event-id', eventId);
+                    $('#delete-record').data('event-id', eventId);
 
-                                    // When the user clicks the delete button in the modal
-                    $('#deleteEventBtn').on('click', function () {
-                        var eventId = info.event.id;
+                                    // When the user clicks the delete button in the modal// Store event ID for update and delete
+ var eventId = info.event.id;
+$('#delete-record').data('event-id', eventId);
+
+   $('#delete-record').on('click', function () {
+    handleEventDelete($(this).data('event-id'));
+        });
+
+function handleEventDelete(eventId) {
+ // Close Update/Delete Event Modal
+ $('#editexampleModal').modal('hide');
+ $('#EventdetailModal').modal('hide');
+ 
+    $.ajax({
+        url: "/scheduledelete/" + eventId,
+        type: "DELETE",
+        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+        success: function (data) {
+                    calendar.refetchEvents();
+                    $('#archiveModal').modal('hide');
+                    Swal.fire({
+                    title: "Successfully archived",
+                    text: "Are you ready for the next level?",
+                    icon: "error"
+                    });
+                    $('#planting-events-container').load(location.href + ' planting-events-container');
+                },
+                    error: function (error) {
+                        console.error("Error deleting event:", error);
+                        alert("Error deleting planting. Please try again.");
+                    }
+                });
+            
+        }
+
+      
+        $('#updateEventBtn').on('click', function () {
+            var eventId = $('#updateEventBtn').data('eventId') || info.event.id;
+            var title = $('#updateEventTitle').val();
+            var start = $('#Eventstart-datepicker').val();
+            var end = $('#Eventend-datepicker').val();
+            var location = $('#updateLocation').val();
+            var description = $('#updateDescription').val();
+            
+            console.log("Data Sent:", {
+            title: title,
+            start: start,
+            end: end,
+            location: location,
+            description: description,
+        });
+
+
+            if (title && start && end && location && description) {
+                $.ajax({
+                    url: "/scheduleupdate/" + eventId,
+                    type: "PUT",
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    data: {
+                        title: title,
+                        start: start,
+                        end: end,
+                        location: location,
+                        description: description,
+                    },
+
+                    
+                    success: function (data) {
+                        // Assuming your Laravel controller returns a JSON response with a success message
                         
-                        // Make an AJAX delete request
-                        $.ajax({
-                            url: `/scheduledelete/${eventId}`, // Adjust the URL according to your server-side route
-                            type: 'DELETE',
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            },
-                            success: function(response) {
-                                console.log('Event deleted successfully.');
-
-                                // Close the confirmation modal
-                                $('#EventdetailModal').modal('hide');
-
-                                // Remove the event from the calendar
-                                info.event.remove();
-                            },
-                            error: function(error) {
-                                console.error('Error deleting event:', error);
-
-                                // Close the confirmation modal
-                                $('#EventdetailModal').modal('hide');
-                            }
+                        $('#editexampleModal').modal('hide');
+                        $('#planting-events-container').load(window.location.href + ' #planting-events-container');
+                        calendar.refetchEvents();
+                        $('#editexampleModal').modal('hide');
+                        Swal.fire({
+                        title: "Successfully Updated",
+                        text: "Are you ready for the next level?",
+                        icon: "success"
                         });
-                    });
+                        
+                       
+                   
+                    },
+                    error: function (error) {
+                        console.error("Error updating event:", error);
+                        $('#editexampleModal').modal('show');
+                        Swal.fire({
+                        title: "Unsuccessfully update",
+                        text: "Please enter a valid information",
+                        icon: "error"
+                        });
+                    }
+                });
+            }
+        });
 
-                    // When the user closes the modal without confirming the delete
-                    $('#cancelDeleteEventBtn').on('click', function () {
-                        // Close the confirmation modal
-                        $('#EventdetailModal').modal('hide');
-                    });
+  
+                  
                 },
 
 
             // Drag And Drop
 
-            eventDrop: function(info) {
-                var eventId = info.event.id;
-                var newStartDate = info.event.start;
-                var newEndDate = info.event.end || newStartDate;
-                var newStartDateUTC = newStartDate.toISOString().slice(0, 10);
-                var newEndDateUTC = newEndDate.toISOString().slice(0, 10);
-
-                $.ajax({
-                    method: 'PUT',
-                    url: `/schedule/${eventId}`,
-                    data: {
-                        start_date: newStartDateUTC,
-                        end_date: newEndDateUTC,
-                    },
-                    success: function() {
-                        console.log('Event moved successfully.');
-                    },
-                    error: function(error) {
-                        console.error('Error moving event:', error);
-                    }
-                });
-            },
-
+        
             // Event Resizing
-            eventResize: function(info) {
-                var eventId = info.event.id;
-                var newEndDate = info.event.end;
-                var newEndDateUTC = newEndDate.toISOString().slice(0, 10);
 
-                $.ajax({
-                    method: 'PUT',
-                    url: `/schedule/${eventId}/resize`,
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    data: {
-                        end_date: newEndDateUTC
-                    },
-                    success: function() {
-                        console.log('Event resized successfully.');
-                    },
-                    error: function(error) {
-                        console.error('Error resizing event:', error);
-                    }
-                });
-            },
         });
 
         calendar.render();
@@ -440,6 +549,8 @@
             var searchKeywords = document.getElementById('searchInput').value.toLowerCase();
             filterAndDisplayEvents(searchKeywords);
         });
+
+        
 
 
         function filterAndDisplayEvents(searchKeywords) {
@@ -455,54 +566,82 @@
                 }
             });
         }
-        $('#deleteEventBtn').on('click', function () {
-
-            // Close Update/Delete Event Modal
-            $('#editexampleModal').modal('hide');
-
-            var eventId = $(this).data('event-id');
-            if (confirm("Are you sure you want to delete this event?")) {
-                $.ajax({
-                    url: `/scheduledelete/${eventId}`,
-                    type: "delete",
-                    headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-                    data: {
-                        id: eventId,
-                        type: 'delete'
-                    },
-                    success: function (data) {
-                        calendar.fullCalendar('refetchEvents');
-                        $('#editexampleModal').modal('hide');
-                        alert("Event Deleted Successfully");
-                    },
-                    error: function (error) {
-                        console.error("Error deleting event:", error);
-                        alert("Error deleting event. Please try again.");
-                    }
-                });
-                $('#EventdetailModal').modal('hide');
-            }
-            });
+     
+                        // Update Event Button Click
+                     
        
         flatpickr("#datepicker", {
-      enableTime: true, // Enable time selection
+      enableTime: false, // Enable time selection
       dateFormat: "Y-m-d H:i", // Date and time format
     });
     </script>
+
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    
   <script>
-    // Initialize flatpickr
-    flatpickr("#start-datepicker", {
-      enableTime: true, // Enable time selection
-      dateFormat: "Y-m-d H:i", // Date and time format
-    });
-    flatpickr("#end-datepicker", {
-      enableTime: true, // Enable time selection
-      dateFormat: "Y-m-d H:i", // Date and time format
-    });
+   flatpickr("#start-datepicker", {
+     
+     altInput: true,
+   altFormat: "F j, Y",
+   dateFormat: "Y-m-d",
+   minDate: "today",
+   });
+   flatpickr("#end-datepicker", {
+    
+     altInput: true,
+   altFormat: "F j, Y",
+   dateFormat: "Y-m-d",
+   minDate: "today",
+   });
+  
+
+       flatpickr("#Eventstart-datepicker", {
+        enableTime: false,
+     altInput: true,
+   altFormat: "F j, Y",
+   dateFormat: "Y-m-d",
+   minDate: "today",
+   });
+   flatpickr("#Eventend-datepicker", {
+    enableTime: false,
+     altInput: true,
+   altFormat: "F j, Y",
+   dateFormat: "Y-m-d",
+   minDate: "today",
+   });
+
+    
+ 
+
+   
 
        
+</script>
 
-  </script>
+<script>
+    $(document).ready(function(){
+    $("#deleteEventBtn").click(function(){
+        $('.modal').modal('hide');
+        $('body').removeClass('modal-open');
+        $('.modal-backdrop').remove();
+        $("#EventdetailModal").modal("hide")
+        $("#archiveModal").modal("show")
+    });
+});
+
+$("#addEvent").click(function(){
+    $('#showModalExample').modal('hide');
+    Swal.fire({
+        title: "Successfully added",
+        text: "Are you ready for the next level?", <br>
+        icon: "success",
+        showConfirmButton: false // Remove the OK button
+    });
+});
+
+</script>
+
+
+
 
 @include('templates.footer')

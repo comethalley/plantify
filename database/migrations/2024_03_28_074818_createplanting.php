@@ -13,13 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('events', function (Blueprint $table) {
+        Schema::create('createplantings', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->date('start');
-            $table->date('end');
-            $table->text('location')->nullable();
-            $table->text('description')->nullable();
+            $table->text('start');
+            $table->text('end');
+            $table->text('status')->nullable();
+            $table->text('farm_id')->nullable();
+            $table->text('harvested')->nullable();
+            $table->text('destroyed')->nullable();
+            $table->text('seed')->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('events');
+        Schema::dropIfExists('createplantings');
     }
 };

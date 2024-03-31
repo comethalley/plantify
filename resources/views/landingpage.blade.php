@@ -17,7 +17,7 @@
 
         <div class="middle-section" style="align-items:center;font-size:15px;font-family:Montserrat,sans-serif; display:flex; justify-content:space-between; width:500px;">
             <a style="text-decoration:none; color:black;" href="#" onmouseover="this.style.color='#13C56B'" onmouseout="this.style.color='black'">Home</a>
-            <a style="text-decoration:none; color:black;" href="#" onmouseover="this.style.color='#13C56B'" onmouseout="this.style.color='black'">Analytics</a>
+            <a style="text-decoration:none; color:black;" href="/about-us" onmouseover="this.style.color='#13C56B'" onmouseout="this.style.color='black'">About</a>
             <a style="text-decoration:none; color:black;" href="#" onmouseover="this.style.color='#13C56B'" onmouseout="this.style.color='black'">FAQs</a>
             <a style="text-decoration:none; color:black;" href="#" onmouseover="this.style.color='#13C56B'" onmouseout="this.style.color='black'">Contact</a>
             <a style="text-decoration:none; color:black;" href="#" onmouseover="this.style.color='#13C56B'" onmouseout="this.style.color='black'">Email</a>

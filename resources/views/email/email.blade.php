@@ -32,6 +32,23 @@
     <title></title>
 
     <style type="text/css">
+        .btn {
+            color: black;
+            padding: 14px 16px;
+            cursor: pointer;
+            border-radius: 7px;
+            font-size: 12px;
+        }
+
+        .warning {
+            background-color: rgb(50, 208, 77);
+        }
+
+        .warning:hover {
+            background-color: white;
+            color: white;
+        }
+
         @media only screen and (min-width: 620px) {
             .u-row {
                 width: 600px !important;
@@ -345,8 +362,8 @@
 
                                                                                     <div style="font-size: 14px; color: #003399; line-height: 160%; text-align: center; word-wrap: break-word;">
                                                                                         <p style="font-size: 14px; line-height: 160%;"><span style="font-size: 28px; line-height: 32px;"><strong>To get started, Click the link below to verify your email address.</strong></span></p><br>
-                                                                                        <a href="http://127.0.0.1:8000/verify-email?l={{ $data['hash'] }}">
-                                                                                            <p style="font-size: 14px; line-height: 160%;"><span style="font-size: 16px; line-height: 25.6px; color: #000000;">Verify your Email</span></p>
+                                                                                        <a href="https://plantify-cuai.com/verify-email?l={{ $data['hash'] }}" class="btn warning">
+                                                                                            Verify your Email
                                                                                         </a>
                                                                                     </div>
 

@@ -118,7 +118,7 @@
 
                                                 <div class="mb-3">
                                                     <label for="seed" class="form-label">Seeds Amount (g).</label>
-                                                    <input type="text" name="seed" id="customername-field" class="form-control" placeholder="Seed Amount (g)."required/>
+                                                    <input type="text" name="seed" id="seed-input" class="form-control" placeholder="Seed Amount (g)." required/>
                                                 </div>
 
                                                 <!-- =================== -->
@@ -155,7 +155,7 @@
                                             <div class="modal-footer">
                                                 <div class="hstack gap-2 justify-content-end">
                                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                                                    <button type="submit" class="btn btn-info">Add Planting</button>
+                                                    <button type="submit" class="btn btn-info" id="addplanting">Add Planting</button>
                                                     <!-- <button type="button" class="btn btn-success" id="edit-btn">Update</button> -->
                                                 </div>
                                             </div>
@@ -342,6 +342,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
 
 <script type="text/javascript">
     $.ajaxSetup({
@@ -351,7 +353,21 @@
     });
     
     document.addEventListener('DOMContentLoaded', function () {
-        
+
+        var inputElement = document.getElementById("seed-input");
+
+
+        inputElement.addEventListener("input", function(event) {
+            // Get the value entered by the user
+            var inputValue = event.target.value;
+
+            // Remove non-numeric characters from the input value
+            var numericValue = inputValue.replace(/\D/g, '');
+
+            // Update the input value with only numeric characters
+            event.target.value = numericValue;
+        });
+                
         function calculateEndDate(startDate, daysToHarvest) {
             var endDate = new Date(startDate);
             endDate.setDate(startDate.getDate() + parseInt(daysToHarvest));
@@ -517,7 +533,8 @@
         });
 
 
-            if (title && start && end && status && seed && harvested && destroyed) {
+         
+        if (title && start && end && status && seed && harvested && destroyed) {
                 $.ajax({
                     url: "/plantcalendar/" + eventId,
                     type: "PUT",
@@ -540,11 +557,20 @@
                         console.log(data.message);
                         $('#editexampleModal').modal('hide');
                         calendar.refetchEvents();
-                        alert("Planting Updated Successfully");
+                        $('#updateEventBtn').modal('hide');
+                         Swal.fire({
+                        title: "Successfully Updated",
+                        text: "Are you ready for the next level?",
+                        icon: "success"
+                    });
                     },
                     error: function (error) {
-                        console.error("Error updating event:", error);
-                        alert("Error updating event. Please try again.");
+                        $('#updateEventBtn').modal('hide');
+                    Swal.fire({
+                        title: "Error",
+                        text: "Error updating event. Please try again.",
+                        icon: "error"
+                    });
                     }
                 });
             }
@@ -626,6 +652,8 @@
         } else {
             return 'transparent'; // Transparent background for other events
         }
+
+        
     }
 
         flatpickr("#start-datepicker, #updatestart-datepicker", {
@@ -708,7 +736,16 @@
         });
     });
 
+     
+
+
+
+
+
 </script>
+
+
+
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 @include('templates.footer')

@@ -11,5 +11,6 @@ class EmailVerification extends Model
     protected $fillable = [
         'user_id',
         'email_code',
+        'status'
     ];
 }

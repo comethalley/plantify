@@ -51,6 +51,7 @@ class ExpenseController extends Controller
             $allottedBudget = Budget::where('farm_id', $farmId)->sum('allotted_budget');
             $totalExpenses = Budget::where('farm_id', $farmId)->sum('total_expenses');
             $balance = Budget::where('farm_id', $farmId)->value('balance');
+            $expenses = Expense::where('farm_id', $farmId)->get();
         }
 
         return view("pages.expense.expense", [

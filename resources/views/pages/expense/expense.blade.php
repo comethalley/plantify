@@ -383,7 +383,7 @@
                                                             <input class="form-check-input" type="checkbox" name="chk_child" value="option1">
                                                         </div>
                                                     </th>
-                                                    <td class="id" style="display:none;"><a href="javascript:void(0);" class="fw-medium link-primary">#{{ $expense->id }}</a></td>
+                                                    <td class="id" style="display:none;"><a href="javascript:void(0);" class="fw-medium link-primary">#{{ $expense->farm_id }}</a></td>
                                                     <td class="description">{{ $expense->description }}</td>
                                                     <td class="amount">{{ $expense->amount }}</td>
                                                     <td class="image">

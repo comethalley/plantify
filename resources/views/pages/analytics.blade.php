@@ -491,13 +491,6 @@ $(document).ready(function() {
 
 
 
-
-
-
-
-
-
-
     // DONUT CHART  
 
         // Prepare the data for the expenses donut chart
@@ -539,7 +532,8 @@ $(document).ready(function() {
                     document.getElementById('details-created-at').textContent = 'Date: ' + friendlyDateTime;
 
                     // Make the details section visible
-                    document.getElementById('details-section').style.display = 'block';
+                    var detailsSection = document.getElementById('details-section');
+                        detailsSection.style.display = 'block';
                 }
             }
         },

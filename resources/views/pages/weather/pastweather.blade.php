@@ -84,7 +84,7 @@
                                                 <div class="d-flex align-items-center ">
                                                     <input type="text" id="dateInput" class="form-control flatpickr-input me-2" data-provider="flatpickr" data-date-format="d M, Y" data-default-date="25 12,2021" readonly="readonly">
                                                     <button onclick="searchWeather()" type="button" class="btn btn-primary bg-gradient
-                                             waves-effect waves-light mdi mdi-magnify search-widget-icon"></button>
+                                             waves-effect waves-light mdi mdi-magnify search-widget-icon"></button>        
                                                 </div>
                                                         
                                     </div>
@@ -104,7 +104,7 @@
                                 <div>
 
                                     <div class="table-responsive table-card mb-1">
-                                        <table class="table table-nowrap align-middle" id="">
+                                        <table class="table table-nowrap align-middle" id="example-table">
                                             <thead class="text-muted table-light">
                                                 <tr class="text-uppercase">
 
@@ -171,6 +171,7 @@
             Hourly weather data will be added here
         </tbody>
     </table> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
             <br>
             <script>
@@ -255,8 +256,8 @@
                     fetchWeatherDataForDate(dateInput);
                 }
 
-                $(document).ready(function() {
-    $("#exportButton").click(function() {
+        $(document).ready(function() {
+        $("#exportButton").click(function() {
         var table = $('#example-table').clone();
         var tableHtml = table.prop('outerHTML');
 

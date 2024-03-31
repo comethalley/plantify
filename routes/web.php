@@ -22,6 +22,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\FarmController;
 use App\Http\Controllers\EmailVerification;
 use App\Http\Controllers\PiuController;
+use App\Http\Controllers\AnalyticsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -228,6 +229,16 @@ Route::get('/piu/fiu', [PiuController::class, 'fer']);
 Route::get('/piu/pes', [PiuController::class, 'pes']);
 Route::get('/piu/show/{id}', [PiuController::class, 'show']);
 //===========================================================================================================
+
+Route::middleware(['auth', 'checkrole:1,2,3'])->group(function () {
+    Route::get('/analytics', [AnalyticsController::class, 'index']);
+});
+
+Route::get('api/farms', [FarmController::class, 'fetchFarmsByBarangay'])->name('api.farms');
+Route::get('/farmsAnalytics/{slug}', [AnalyticsController::class, 'getFarms']);
+Route::get('/farmsAnalyticsData/{num}', [AnalyticsController::class, 'getFarmsData']);
+
 Route::get('/markAsRead', function () {
     auth()->user()->unreadNotifications->markAsRead();
 });
+

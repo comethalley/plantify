@@ -39,13 +39,13 @@ use App\Http\Controllers\AnalyticsController;
 //     return view('email.email');
 // });
 
-Route::get('/', [AuthController::class, 'index'])->middleware('auth');
+Route::middleware(['auth'])->get('/', [AuthController::class, 'index']);
 Route::get('/login', [AuthController::class, 'viewLogin'])->name('login')->middleware('guest');
 Route::get('/signup', [AuthController::class, 'viewSignup']);
 Route::post('/login/process', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
 Route::post('/register', [AuthController::class, 'signup']);
-Route::middleware(['auth'])->get('/authenticated-route', 'AuthController@index');
+// Route::middleware(['auth'])->get('/authenticated-route', 'AuthController@index');
 
 
 Route::get('/planting', [PlantController::class, 'index']);
@@ -186,7 +186,9 @@ Route::post('/set-date-farm/{id}', [FarmController::class, 'SetDateStatus'])->na
 Route::get('/farms3', [FarmController::class, 'index']);
 Route::post('/add-farms', [FarmController::class, 'addFarms'])->name('add.farms');
 Route::get('/archive-farm/{id}', [FarmController::class, 'archiveFarm'])->name('archive.farm');
-Route::get('/', function () {return view('pages.index');})->name('home');
+Route::get('/', function () {
+    return view('pages.index');
+})->name('home');
 
 //=============================================================================================    
 
@@ -243,4 +245,3 @@ Route::get('/farmsAnalyticsData/{num}', [AnalyticsController::class, 'getFarmsDa
 Route::get('/markAsRead', function () {
     auth()->user()->unreadNotifications->markAsRead();
 });
-

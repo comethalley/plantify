@@ -67,8 +67,6 @@ $(document).ready(function () {
         });
     }
 
-
-
     function getStocksList() {
         $.ajax({
             url: "/getAllStock",
@@ -241,33 +239,35 @@ $(document).ready(function () {
         var seedID = $("#seed").val();
         var uomID = $("#uom").val();
         var quantity = $("#qty").val();
-
-        // console.log(seedID)
-
+    
+        // Create a FormData object to handle file uploads
+        var formData = new FormData();
+        formData.append('image', $('#image')[0].files[0]); // Append the image file
+        formData.append('supplier_id', supplier_id);
+        formData.append('seed_id', seedID);
+        formData.append('uom_id', uomID);
+        formData.append('quantity', quantity);
+    
         $.ajax({
             url: "/add-seed",
             method: "POST",
             headers: {
                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
             },
-            data: {
-                supplier_id: supplier_id,
-                seed_id: seedID,
-                uom_id: uomID,
-                quantity: quantity,
-            },
+            // Use the FormData object instead of plain data
+            data: formData,
+            // Set processData and contentType to false when using FormData
+            processData: false,
+            contentType: false,
             success: function (data, textStatus, xhr) {
                 console.log(data);
-                // $('#supplier-id').val('');
                 $("#seed").val(0);
                 $("#uom").val(0);
                 $("#qty").val(0);
-
+    
                 if (xhr.status === 200) {
-                    // Successful response
                     getSupplier(supplier_id);
                 } else if (xhr.status === 404) {
-                    // Seed not found, handle accordingly (e.g., display a message to the user)
                     console.error("Seed not found");
                 }
             },
@@ -304,8 +304,6 @@ $(document).ready(function () {
 
     // var supplier = $('#supplier_description').text();
     // console.log("Supplier is " + supplier);
-
-
 
     let scanner;
     let modal = document.getElementById("receiveModal");
@@ -444,7 +442,6 @@ $(document).ready(function () {
                         showConfirmButton: false,
                         timer: 2000,
                     }).then((result) => {
-                    
                         location.reload();
                     });
                 }
@@ -476,6 +473,7 @@ $(document).ready(function () {
     });
 
     
+
     let usingScanner;
     let usingModal = document.getElementById("usingModal");
 
@@ -575,4 +573,6 @@ $(document).ready(function () {
         stopUsedScanner();
         lastUsedScannedContent = "";
     });
+
+  
 });

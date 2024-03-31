@@ -16,6 +16,9 @@
     <link rel="shortcut icon" href="{{asset('assets/images/favicon.icon')}}" />
 
     <!-- Weather config -->
+   <!-- ApexChart - Piegraph (Js and cdn) -->
+   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+   <script src="{{ asset('assets/js/donut.js') }}"></script>
 
     <!-- Layout config Js -->
     <script src="{{ asset('assets/js/layout.js') }}"></script>
@@ -34,6 +37,7 @@
 
     <!--JQuery-->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
 
     <script src="{{ asset('assets/js/inventory.js') }}"></script>
     <script src="{{ asset('assets/js/uom.js') }}"></script>
@@ -204,10 +208,10 @@
                                                 <img src="assets/images/users/avatar-2.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
                                                 <div class="flex-grow-1">
                                                     <a href="/plantcalendar" class="stretched-link">
-                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">{{ $notification->data['title']}}</h6>
+                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold"></h6>
                                                     </a>
                                                     <div class="fs-13 text-muted">
-                                                        <p class="mb-1">The {{ $notification->data['title']}} has been planted 🌱.</p>
+                                                        <p class="mb-1">The  has been planted 🌱.</p>
                                                     </div>
                                                     <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
                                                         <span><i class="mdi mdi-clock-outline"></i> 1 min ago</span>
@@ -287,6 +291,75 @@
                                                         <label class="form-check-label" for="all-notification-check02"></label>
                                                     </div>
                                                 </div>
+                                            </div>
+                                            @elseif ($notification->type === 'App\Notifications\NewTaskAssignNotification')
+                                            <div class="d-flex">
+
+                                                <img src="assets/images/users/avatar-2.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                                <div class="flex-grow-1">
+                                                    <a href="/inventory/stocks" class="stretched-link">
+                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">TASK</h6>
+                                                    </a>
+                                                    <div class="fs-13 text-muted">
+                                                        <p class="mb-1">{{ $notification->data['message']}}.</p>
+                                                    </div>
+                                                    <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+                                                        <span><i class="mdi mdi-clock-outline"></i> 1 min ago</span>
+                                                    </p>
+                                                </div>
+                                                <div class="px-2 fs-15">
+                                                    <div class="form-check notification-check">
+                                                        <input class="form-check-input" type="checkbox" value="" id="all-notification-check02">
+                                                        <label class="form-check-label" for="all-notification-check02"></label>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            @elseif ($notification->type === 'App\Notifications\CompleteTaskNotification')
+                                            <div class="d-flex">
+
+                                                <img src="assets/images/users/avatar-2.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                                <div class="flex-grow-1">
+                                                    <a href="/inventory/stocks" class="stretched-link">
+                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">TASK</h6>
+                                                    </a>
+                                                    <div class="fs-13 text-muted">
+                                                        <p class="mb-1">{{ $notification->data['message']}}.</p>
+                                                    </div>
+                                                    <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+                                                        <span><i class="mdi mdi-clock-outline"></i> 1 min ago</span>
+                                                    </p>
+                                                </div>
+                                                <div class="px-2 fs-15">
+                                                    <div class="form-check notification-check">
+                                                        <input class="form-check-input" type="checkbox" value="" id="all-notification-check02">
+                                                        <label class="form-check-label" for="all-notification-check02"></label>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            @elseif ($notification->type === 'App\Notifications\MissingTaskNotification')
+                                            <div class="d-flex">
+
+                                                <img src="assets/images/users/avatar-2.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                                <div class="flex-grow-1">
+                                                    <a href="/inventory/stocks" class="stretched-link">
+                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">MISSING TASK</h6>
+                                                    </a>
+                                                    <div class="fs-13 text-muted">
+                                                        <p class="mb-1">{{ $notification->data['message']}}.</p>
+                                                    </div>
+                                                    <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+                                                        <span><i class="mdi mdi-clock-outline"></i> 1 min ago</span>
+                                                    </p>
+                                                </div>
+                                                <div class="px-2 fs-15">
+                                                    <div class="form-check notification-check">
+                                                        <input class="form-check-input" type="checkbox" value="" id="all-notification-check02">
+                                                        <label class="form-check-label" for="all-notification-check02"></label>
+                                                    </div>
+                                                </div>
+
                                             </div>
                                             @endif
                                         </div>
@@ -526,6 +599,9 @@
                                     <li class="nav-item">
                                         <a href="/inventory/uom" class="nav-link" style="color:white"> Unit of Measurements </a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a href="/inventory/fertilizer" class="nav-link" style="color:white">Fertilizer</a>
+                                    </li>
                                 </ul>
                             </div>
                         </li> <!-- end Dashboard Menu -->
@@ -607,6 +683,14 @@
                                 <span data-key="t-faqs">Plantifeed</span>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/analytics" role="button" style="color:white">
+                                <i class="ri-wechat-line"></i>
+                                <span data-key="t-faqs">Analytics</span>
+                            </a>
+                        </li>
+
+
 
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="/farm_locations" role="button" style="color:white">

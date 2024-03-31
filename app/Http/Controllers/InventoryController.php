@@ -7,6 +7,7 @@ use App\Models\Stock;
 use App\Models\Supplier;
 use App\Models\SupplierSeed;
 use App\Models\Uom;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
@@ -26,7 +27,13 @@ class InventoryController extends Controller
     public function index()
     {
 
-        $supplier = DB::table('suppliers')->where('status', '1')->orderBy('id', 'DESC')->get();
+        $id = Auth::user()->id;
+
+        $user = User::select('users.*', 'farms.id AS farm_id')
+            ->leftJoin('farms', 'farms.farm_leader', '=', 'users.id')
+            ->where('users.id', $id)
+            ->first();
+        $supplier = DB::table('suppliers')->where('status', '1')->where('farm_id', $user->farm_id)->orderBy('id', 'DESC')->get();
         $uom = DB::table('uoms')->where('status', '1')->get();
         $seeds = DB::table('seeds')->where('status', '1')->get();
         return view("pages.inventory.inventory", ['supplier' => $supplier, 'uom' => $uom, 'seeds' => $seeds]);
@@ -34,7 +41,13 @@ class InventoryController extends Controller
 
     public function getAllSupplier()
     {
-        $supplier = DB::table('suppliers')->where('status', '1')->orderBy('id', 'DESC')->get();
+        $id = Auth::user()->id;
+
+        $user = User::select('users.*', 'farms.id AS farm_id')
+            ->leftJoin('farms', 'farms.farm_leader', '=', 'users.id')
+            ->where('users.id', $id)
+            ->first();
+        $supplier = DB::table('suppliers')->where('status', '1')->where('farm_id', $user->farm_id)->orderBy('id', 'DESC')->get();
         $uom = DB::table('uoms')->where('status', '1')->get();
         $seeds = DB::table('seeds')->where('status', '1')->get();
         return view("pages.inventory.suppliertable", ['supplier' => $supplier, 'uom' => $uom, 'seeds' => $seeds]);
@@ -58,6 +71,7 @@ class InventoryController extends Controller
             ->leftJoin('seeds', 'seeds.id', '=', 'supplier_seeds.seed_id')
             ->select(
                 'supplier_seeds.id as suppliers_seedsID',
+                'supplier_seeds.image',
                 'supplier_seeds.qty as qty',
                 'supplier_seeds.qr_code as qr_code',
                 'suppliers.id as supplierID',
@@ -93,12 +107,20 @@ class InventoryController extends Controller
             'seed_id' => 'required',
             'uom_id' => 'required',
             'quantity' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         try {
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $imageName = time() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('images'), $imageName);
+                //$input['image'] = $imageName;
+            }
             $qrText = $this->generateCode();
             $supplierSeed = SupplierSeed::create([
                 'supplier_id' => $data['supplier_id'],
+                'image' => $imageName,
                 'uom_id' => $data['uom_id'],
                 'seed_id' => $data['seed_id'],
                 'qty' =>  $data['quantity'],
@@ -188,9 +210,19 @@ class InventoryController extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
+        $id = Auth::user()->id;
 
+        $user = User::select('users.*', 'farms.id AS farm_id')
+            ->leftJoin('farms', 'farms.farm_leader', '=', 'users.id')
+            ->where('users.id', $id)
+            ->first();
+
+        if ($user->farm_id == null) {
+            return response()->json(['errors' => 'Please make sure you have a farm assigned to you']);
+        }
         Supplier::create([
             'name' => $request['supplier-name'],
+            'farm_id' => $user->farm_id,
             'description' => $request['description'],
             'address' => $request['address'],
             'contact' => $request['contact'],
@@ -660,5 +692,9 @@ class InventoryController extends Controller
             ->get();
 
         return response()->json(['stocks' => $stocks], 200);
+    }
+
+    public function fertilizer()
+    {
     }
 }

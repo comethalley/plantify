@@ -92,8 +92,6 @@ $(document).ready(function () {
                     } else {
                         errorMessage = "Validation error occurred.";
                     }
-
-                    alert(errorMessage);
                 } else {
                     console.error("Error:", error);
                 }
@@ -174,13 +172,16 @@ $(document).ready(function () {
                             if (errorsResponse.errors.hasOwnProperty(key)) {
                                 errorMessage +=
                                     errorsResponse.errors[key][0] + "\n";
+                                Swal.fire({
+                                    title: "Email already taken",
+                                    text: "Please use a different email address.",
+                                    icon: "error",
+                                });
                             }
                         }
                     } else {
                         errorMessage = "Validation error occurred.";
                     }
-
-                    alert(errorMessage);
                 } else {
                     console.error("Error:", error);
                 }

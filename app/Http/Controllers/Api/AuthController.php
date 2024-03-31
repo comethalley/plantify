@@ -30,23 +30,8 @@ class AuthController extends Controller
 
     public function index()
     {
-        if (auth()->check()) {
-            // User is authenticated
-            echo "User is authenticated. Details:";
-
-            // Get the authenticated user
-            $user = auth()->user();
-
-            // Print user details
-            echo "User ID: " . $user->id . "\n";
-            echo "Name: " . $user->name . "\n";
-            echo "Email: " . $user->email . "\n";
-            // Print any other user details you want
-            exit;
-        } else {
-            // User is not authenticated
-            echo "User is not authenticated.";
-            exit;
+        if (!auth()->check()) {
+            return redirect()->route('login');
         }
         // $users = DB::table('users')->where('status', 1)->select(
         //     "id",

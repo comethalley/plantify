@@ -9,14 +9,14 @@
                         <h4 class="mb-sm-0">Farm Management</h4>
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">Barangays</a></li>
+                                <li class="breadcrumb-item">Barangays</li>
                                 <li class="breadcrumb-item active">Farms</li>
                             </ol>
                         </div>
-
                     </div>
                 </div>
             </div>
+
 <div class="row">
     @if(isset($farms) && count($farms) > 0)
         @foreach($farms as $key => $farm)
@@ -35,21 +35,26 @@
                         </div>
 
                         <form>
-                        <h4 style="font-size: 16px;"><em><strong>You will receive an email when the status of your application changes. You may also check back here to see the status of your application.</strong></em></h4>
-                        <div class="card-body">
-<div class="card-body">
+                            <div style="text-align: center;">
+                                <h4 style="font-size: 20px;"><em><strong>Your dashboard will feature updates regarding the status of your application.
+<br> In addition to this, you will also receive email notifications whenever there are changes in the status of your application
+<br> or You may also check back here to see the status of your application..</strong></em></h4>
+                            </div>
+                            <br>
+                            <div class="card-body">
     <div class="row g-3 align-items-center justify-content-between">
-        <div class="col-xxl-5 col-sm-12">
-            <div class="search-box">
-            </div>
-        </div>
-
         <div class="col-xxl-2 col-sm-4">
             <div class="search-box">
                 <input type="text" class="form-control search bg-light border-light" placeholder="Search for application or something...">
                 <i class="ri-search-line search-icon"></i>
             </div>
         </div>
+
+        <div class="col-xxl-5 col-sm-12">
+            <div class="search-box">
+            </div>
+        </div>
+                                    
         <div class="col-xxl-3 col-sm-6 d-flex justify-content-end">
             <div class="btn-group" style="width: 200px;">
                 <button class="btn btn-light dropdown-toggle me-2" type="button" id="dropdownMenuClickableOutside" data-bs-toggle="dropdown" data-bs-auto-close="inside" aria-expanded="false">
@@ -76,6 +81,7 @@
         </div>
     </div>
 </div>
+
 
 
 </form>
@@ -181,7 +187,7 @@
                                                         <div class="centered-container times-new-roman-bold">
                                                             @if($farm->status == 'For-Visiting')
                                                                 <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Set Date Application">
-                                                                    <a href="#" data-bs-toggle="modal" data-bs-target="#SetDateModal" class="btn btn-outline-warning waves-effect waves-light text-primary d-inline-block edit-item-btn d-flex align-items-center justify-content-center custom-btn1 mt-2 btn-custom-width" onclick="setDate('{{ $farm->id }}', '{{ $farm->select_date }}')" >
+                                                                    <a href="#" data-bs-toggle="modal" data-bs-target="#SetDateModal" class="btn btn-outline-warning waves-effect waves-light text-primary d-inline-block edit-item-btn d-flex align-items-center justify-content-center custom-btn11 mt-2 btn-custom-width" onclick="setDate('{{ $farm->id }}', '{{ $farm->select_date }}')" >
                                                                         <div class="d-flex align-items-center">
                                                                             <i class="mdi mdi-calendar-check fs-3 me-2 black"></i>
                                                                             <span class="black">Set Visit Date</span>
@@ -1098,6 +1104,11 @@ $(document).ready(function () {
 
     }
 
+.custom-btn1
+{
+        width:170px;
+
+}
     .custom-btn {
         width:170px;
     }

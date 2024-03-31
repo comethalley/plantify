@@ -192,7 +192,7 @@
 
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Days of Harvest</label>
-                                                    <input type="text" name="day_harvest" id="day_harvest" class="form-control" placeholder="No. of Days" required />
+                                                    <input type="number" name="day_harvest" id="day_harvest" class="form-control" placeholder="No. of Days" required />
                                                 </div>
                                             </div>
                                             <div class="modal-footer">

@@ -52,7 +52,7 @@ class PlantinfoController extends Controller
             'seasons' => 'required',
             'information' => 'required',
             'companion' => 'required',  
-            'days_harvest' => 'required',
+            'days_harvest' => 'required|int|max:55',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Example validation for image upload
         ]);
 
@@ -118,7 +118,7 @@ class PlantinfoController extends Controller
         'edit_seasons' => 'required|string|max:55',
         'edit_information' => 'required|string|max:55',
         'edit_companion' => 'required|string|max:55',
-        'edit_days_harvest' => 'required|string|max:55'
+        'edit_days_harvest' => 'required|int|max:55'
     ]);
 
     // If validation fails, return error response

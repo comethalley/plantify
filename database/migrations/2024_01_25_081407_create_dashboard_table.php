@@ -13,13 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('remarkfarms', function (Blueprint $table) {
+        Schema::create('dashboard', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('farm_id');
-            $table->string('remarks')->nullable();
-            $table->string('remark_status');
-            $table->string('validated_by');
-            $table->date('visit_date')->nullable();
+            $table->string('device_type');
+            $table->decimal('user_count', 10, 2);
             $table->timestamps();
         });
     }
@@ -31,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('remarkfarms');
+        Schema::dropIfExists('dashboard');
     }
 };

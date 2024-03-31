@@ -22,6 +22,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\FarmController;
 use App\Http\Controllers\EmailVerification;
 use App\Http\Controllers\PiuController;
+use App\Http\Controllers\AnalyticsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,7 +45,7 @@ Route::get('/signup', [AuthController::class, 'viewSignup']);
 Route::post('/login/process', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
 Route::post('/register', [AuthController::class, 'signup']);
-Route::middleware(['auth'])->get('/authenticated-route', 'AuthController@index');
+//Route::middleware(['auth'])->get('/authenticated-route', 'AuthController@index');
 
 
 Route::get('/planting', [PlantController::class, 'index']);
@@ -178,13 +179,17 @@ Route::get('/farms/filterByStatus1', [FarmController::class, 'filterByStatus1'])
 Route::get('/farm/{id}/details', [FarmController::class, 'getFarmDetails']);
 Route::post('/update-farm-status-cancel/{id}', [FarmController::class, 'updateStatusCancel']);
 Route::post('/update-farms/{id}', [FarmController::class, 'updateFarm'])->name('farms.update');
+Route::post('/set-date-farm/{id}', [FarmController::class, 'SetDateStatus'])->name('set.date.farm');
 
 
 //index farm-mamangement//
 Route::get('/farms3', [FarmController::class, 'index']);
 Route::post('/add-farms', [FarmController::class, 'addFarms'])->name('add.farms');
-Route::get('/archive-farm/{id}', [FarmController::class, 'archiveFarm'])
-    ->name('archive.farm');
+Route::get('/archive-farm/{id}', [FarmController::class, 'archiveFarm'])->name('archive.farm');
+// Route::get('/', function () {
+//     return view('pages.index');
+// })->name('home');
+
 //=============================================================================================    
 
 //TASK MANAGEMENT ============================================================================
@@ -228,6 +233,15 @@ Route::get('/piu/fiu', [PiuController::class, 'fer']);
 Route::get('/piu/pes', [PiuController::class, 'pes']);
 Route::get('/piu/show/{id}', [PiuController::class, 'show']);
 //===========================================================================================================
+
+Route::middleware(['auth', 'checkrole:1,2,3'])->group(function () {
+    Route::get('/analytics', [AnalyticsController::class, 'index']);
+});
+
+Route::get('api/farms', [FarmController::class, 'fetchFarmsByBarangay'])->name('api.farms');
+Route::get('/farmsAnalytics/{slug}', [AnalyticsController::class, 'getFarms']);
+Route::get('/farmsAnalyticsData/{num}', [AnalyticsController::class, 'getFarmsData']);
+
 Route::get('/markAsRead', function () {
     auth()->user()->unreadNotifications->markAsRead();
 });

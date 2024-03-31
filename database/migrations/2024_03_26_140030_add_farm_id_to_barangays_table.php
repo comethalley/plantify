@@ -13,14 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('remarkfarms', function (Blueprint $table) {
-            $table->id();
-            $table->bigInteger('farm_id');
-            $table->string('remarks')->nullable();
-            $table->string('remark_status');
-            $table->string('validated_by');
-            $table->date('visit_date')->nullable();
-            $table->timestamps();
+        Schema::table('barangays', function (Blueprint $table) {
+            $table->unsignedBigInteger('farm_id')->unsigned()->nullable();
+            $table->foreign('farm_id')->references('id')->on('farms')->onDelete('cascade');
         });
     }
 
@@ -31,6 +26,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('remarkfarms');
+        Schema::table('barangays', function (Blueprint $table) {
+            //
+        });
     }
 };

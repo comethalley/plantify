@@ -49,6 +49,7 @@
                                 <div class="col-sm-auto">
                                     <div class="d-flex gap-1 flex-wrap">
                                         <button type="button" class="btn btn-success add-btn" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModal"><i class="ri-add-line align-bottom me-1"></i> Add Supplier</button>
+                                        <button type="button" class="btn btn-primary download-btn"><i class="ri-download-2-line"></i> Download</button>
                                         <button class="btn btn-soft-danger" id="remove-actions" onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button>
                                     </div>
                                 </div>
@@ -211,7 +212,7 @@
                             <!--End Archive Supplier Modal-->
 
                             <!--View Supplier Modal-->
-                            <div class="modal fade modal-lg" id="viewModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal fade modal-xl" id="viewModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header bg-light p-3">
@@ -234,7 +235,12 @@
                                                 </h5>
                                                 <div class="row">
                                                     <input type="hidden" name="supplier-id" id="supplier-id" class="form-control" readonly />
-                                                    <div class="col-lg-4">
+                                                    <div class="col-lg-3">
+                                                        <div class="mb-3">
+                                                            <input type="file" name="image" id="image" class="form-control" required />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-3">
                                                         <div class="input-group">
                                                             <select class="form-select" id="seed">
                                                                 <option selected="" value="0">Choose Seed</option>
@@ -244,7 +250,7 @@
                                                             </select>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-4">
+                                                    <div class="col-lg-3">
                                                         <div class="input-group">
                                                             <select class="form-select" id="uom">
                                                                 <option selected="" value="0">Unit of Measurement</option>
@@ -259,7 +265,7 @@
                                                             <input type="text" name="qty" id="qty" class="form-control" placeholder="Enter Qty" required />
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-2">
+                                                    <div class="col-lg-1">
                                                         <button type="button" class="btn btn-success add-btn" id="seed-btn"><i class="ri-add-line align-bottom me-1"></i></button>
                                                     </div>
                                                 </div>

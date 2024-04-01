@@ -362,7 +362,13 @@ class AuthController extends Controller
             ]);
 
             if ($farmLeaders) {
-                return response()->json(['message' => 'Admin Invited Successfully', 'data' => $farmLeaders], 200);
+                $id = $farmLeaders->id;
+                $hash = $this->plantifyLibrary->generatehash($id);
+                $emailInvitation = $this->emailInvitation($data['email'], $data['firstname'], $generate_password, $hash);
+                if ($emailInvitation) {
+
+                    return response()->json(['message' => 'Admin Invited Successfully', 'data' => $farmLeaders], 200);
+                }
             } else {
                 return response()->json(['error' => 'Admin cant add Internal Server Error'], 500);
             }

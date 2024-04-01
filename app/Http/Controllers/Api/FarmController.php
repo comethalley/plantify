@@ -572,6 +572,12 @@ public function SetDateStatus($id, Request $request)
 }
 
 
+public function fetchFarmsByBarangay(Request $request)
+{
+    $farms = Farm::where('barangay_id', $request->barangay_id)->get();
+
+    return response()->json($farms);
+}
 
 
 

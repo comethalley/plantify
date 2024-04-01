@@ -66,7 +66,9 @@ tempUnit = document.querySelectorAll(".temp-unit");
 
 // function to get public ip address
 document.addEventListener("DOMContentLoaded", function() {
+  currentUnit = "c"; // Set the default unit to Celsius
   getLocation();
+  changeUnit(currentUnit); // This will set up the UI for Celsius
 });
 
 function getLocation() {
@@ -100,12 +102,16 @@ function getLocationDetails(position) {
       currentCity = city;
       getWeatherData(city);
       
-      document.getElementById("location").innerHTML = `${city},  ${country}`;
-    })
-    .catch(error => {
-      console.error('Error fetching location details:', error);
-      document.getElementById("location").innerHTML = "Error fetching location details.";
-    });
+      //  // Assuming you have the getWeatherData function defined somewhere
+      //  currentCity = city;
+      //  getWeatherData(city);
+       
+       document.getElementById("location").innerHTML = `${city}, ${country}`;
+     })
+     .catch(error => {
+       console.error('Error fetching location details:', error);
+       document.getElementById("location").innerHTML = "Error fetching location details.";
+     });
 }
 
 function showError(error) {
@@ -177,10 +183,6 @@ function updateWeatherUI(today, data, unit, hourlyorWeek) {
 
 
 
-
-
-
-
 function getWeatherData(city, unit, hourlyorWeek) {
   const apiKey = "UQCDAHREW2AP33F6RGNT3X2Z9";
   fetch(
@@ -230,7 +232,7 @@ function getWeatherData(city, unit, hourlyorWeek) {
 
 //function to update Forecast
 function updateForecast(data, unit, type) {
-  weatherCards.innerHTML = "";
+  weatherCards.innerHTML = ""; // Clear existing weather cards
   let day = 0;
   let numCards = 6;
   let startIndex = 1;
@@ -533,6 +535,7 @@ function changeUnit(unit) {
     tempUnit.forEach((elem) => {
       elem.innerText = `°${unit.toUpperCase()}`;
     });
+    // Set the active class based on the current unit
     if (unit === "c") {
       celciusBtn.classList.add("active");
       fahrenheitBtn.classList.remove("active");
@@ -540,7 +543,10 @@ function changeUnit(unit) {
       celciusBtn.classList.remove("active");
       fahrenheitBtn.classList.add("active");
     }
-    getWeatherData(currentCity, currentUnit, hourlyorWeek);
+    // Fetch new weather data if the city is set
+    if (currentCity) {
+      getWeatherData(currentCity, currentUnit, hourlyorWeek);
+    }
   }
 }
 

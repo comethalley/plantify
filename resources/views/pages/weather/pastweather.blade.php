@@ -76,18 +76,20 @@
                             </div>
                             <div class="card-body border border-dashed border-end-0 border-start-0">
                                 <form>
-                                    <div class="row g-3">
+                                    <div class="row g-3"> 
+                                       
+
                                         <div class="col-xl-3 ">
                                             <div class="mt-3">
                                                 <label class="form-label mb-0">Search Date</label>
                                                 <div class="d-flex align-items-center ">
                                                     <input type="text" id="dateInput" class="form-control flatpickr-input me-2" data-provider="flatpickr" data-date-format="d M, Y" data-default-date="25 12,2021" readonly="readonly">
                                                     <button onclick="searchWeather()" type="button" class="btn btn-primary bg-gradient
-                                             waves-effect waves-light mdi mdi-magnify search-widget-icon"></button>
+                                             waves-effect waves-light mdi mdi-magnify search-widget-icon"></button>        
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </div><br>
+                                                        
+                                    </div>
+                                    
                                     <!--end row-->
                                     <!-- Another Calender -->
                                     <!-- <div >
@@ -103,7 +105,7 @@
                                 <div>
 
                                     <div class="table-responsive table-card mb-1">
-                                        <table class="table table-nowrap align-middle" id="">
+                                        <table class="table table-nowrap align-middle" id="example-table">
                                             <thead class="text-muted table-light">
                                                 <tr class="text-uppercase">
 
@@ -133,6 +135,14 @@
                     </div>
                     <!-- container-fluid -->
                 </div>
+
+                <div style="display: flex; justify-content: flex-end;">
+                    <button id="exportButton" class="btn btn-success waves-effect waves-light ml-auto">
+                        <i class="ri-download-fill me-1"></i> Export file
+                    </button>
+                </div>
+
+                
                 <!-- End Page-content -->
                 <!-- end main content-->
 
@@ -162,6 +172,7 @@
             Hourly weather data will be added here
         </tbody>
     </table> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
             <br>
             <script>
@@ -245,6 +256,30 @@
                     const dateInput = document.getElementById('dateInput').value;
                     fetchWeatherDataForDate(dateInput);
                 }
+
+        $(document).ready(function() {
+        $("#exportButton").click(function() {
+        var table = $('#example-table').clone();
+        var tableHtml = table.prop('outerHTML');
+
+        var dataType = 'application/vnd.ms-excel';
+        var filename = 'download.xls';
+
+        var downloadLink = document.createElement("a");
+        document.body.appendChild(downloadLink);
+
+        if (navigator.msSaveOrOpenBlob) {
+            var blob = new Blob(['\ufeff', tableHtml], {
+                type: dataType
+            });
+            navigator.msSaveOrOpenBlob(blob, filename);
+        } else {
+            downloadLink.href = 'data:' + dataType + ', ' + encodeURIComponent(tableHtml);
+            downloadLink.download = filename;
+            downloadLink.click();
+        }
+    });
+});
             </script>
 </body>
 

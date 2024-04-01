@@ -1,0 +1,100 @@
+#donut-chart {
+    height: 350px;
+}
+
+/* General card styling */
+.card-body {
+    margin: 0;
+    padding: 20px;
+    background-color: var(--card-bg-color, #f8f9fa);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+.card-body:hover {
+    transform: translateY(-5px);
+}
+
+/* Year selector styling */
+.year-selector {
+    margin-bottom: 20px;
+}
+
+.year-selector label {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.year-selector select {
+    width: 100%;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ced4da;
+    background-color: #ffffff;
+    transition: border-color 0.2s ease-in-out;
+}
+
+.year-selector select:focus {
+    border-color: #80bdff;
+    outline: none;
+}
+
+/* Planting chart styling */
+#planting-chart {
+    height: 350px;
+    background-color: #e9ecef;
+    border-radius: 4px;
+    margin-bottom: 15px;
+}
+
+/* Month details styling (hidden by default) */
+#month-details,
+#details-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 4px;
+    transition: max-height 0.2s ease-in-out;
+}
+
+/* Enhancements for interactive elements */
+select:focus,
+#month-details:target,
+#details-section:target {
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+/* CSS variable for theme management */
+:root {
+    --card-bg-color: #ffffff;
+}
+/* Style the container of each planting detail */
+#month-details > div,
+#details-section > div {
+    background-color: #f7f7f7;
+    border-left: 5px solid #5cb85c; /* This adds a left border for some visual accent */
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+/* Style the title of the planting detail */
+#month-details h4,
+#details-section h4 {
+    color: #333333;
+    margin-bottom: 5px;
+}
+
+/* Style the paragraphs inside the planting detail */
+#month-details p,
+#details-section p {
+    color: #666666;
+    margin: 5px 0;
+    line-height: 1.5;
+    font-size: 0.9em;
+}
+/* Optional: If you want the created date to stand out */
+#month-details p:first-of-type,
+#details-section p:first-of-type {
+    color: #000000;
+    font-weight: bold;
+}

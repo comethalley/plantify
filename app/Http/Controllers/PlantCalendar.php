@@ -52,6 +52,8 @@ class PlantCalendar extends Controller
             ->where('users.id', $id)
             ->first();
 
+        $farm_id = $user->farm_id;
+
         $item = new CalendarPlanting();
         $item->title = $request->title;
         $item->start = $request->start;
@@ -65,14 +67,12 @@ class PlantCalendar extends Controller
 
         $title = $request->title;
 
-        $users = auth()->user();
-            $users = User::all();
+        // $users = auth()->user();
+        //     $users = User::all();
         
-            foreach ($users as $user) {
                 $planting = new CalendarPlanting();
                 $planting->title = $title;
                 $user->notify(new NewplantingNotification($planting));
-            }
         return redirect('/plantcalendar');
     }
 

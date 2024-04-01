@@ -14,6 +14,7 @@ class Supplier extends Model
         "address",
         "contact",
         "email",
-        "status"
+        "status",
+        "farm_id"
     ];
 }

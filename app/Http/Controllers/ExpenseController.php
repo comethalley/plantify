@@ -116,13 +116,14 @@ class ExpenseController extends Controller
         
         // Retrieve farm_id from the validated data
         $farmId = $validatedData['farm_id'];
+        $budgetId = Budget::where('farm_id', $farmId)->value('id');
     
         // Create a new Expense instance associated with the provided farm_id
         $expense = new Expense([
             'description' => $validatedData['description'],
             'amount' => $validatedData['amount'],
             'farm_id' => $farmId,
-            'budget_id' => 9, // Assuming there's only one budget for now, adjust as needed
+            'budget_id' => $budgetId, // Assuming there's only one budget for now, adjust as needed
         ]);
     
         // Handle image upload if provided
@@ -149,34 +150,26 @@ class ExpenseController extends Controller
 
     public function updateExpense(Request $request)
     {
-        // Validate the incoming request data
+        // Validate the request data
         $validatedData = $request->validate([
-            'expense_id' => 'required|exists:expenses,id',
+            'expense_id' => 'required|exists:expenses,id', // Ensure expense_id exists in expenses table
             'description' => 'required|string|max:255',
             'amount' => 'required|numeric',
-            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            // Add validation rules for other fields you want to update
         ]);
-    
+        
         // Find the expense by ID
         $expense = Expense::findOrFail($validatedData['expense_id']);
-    
-        // Update the expense data
+        // Update the expense fields
         $expense->description = $validatedData['description'];
         $expense->amount = $validatedData['amount'];
-    
-        // Handle image upload if provided
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('images/expenses'), $imageName);
-            $expense->image_path = 'images/expenses/' . $imageName;
-        }
+        // Update other fields if needed
     
         // Save the updated expense
         $expense->save();
     
-        // Assuming you want to return a JSON response
-        return response()->json(['success' => true]);
+        // Return a JSON response indicating success
+        return response()->json(['success' => true, 'message' => 'Expense updated successfully']);
     }
 
     public function addBudget(Request $request)

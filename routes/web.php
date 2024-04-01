@@ -197,6 +197,6 @@ Route::post('/expenses/add-budget', [ExpenseController::class, 'addBudget']);
 Route::post('/expenses/save-expense', [ExpenseController::class, 'saveExpense'])->name('saveExpense');
 Route::get('/compute-total-expenses', [ExpenseController::class, 'computeTotalExpenses'])->name('compute-total-expenses');
 Route::get('/expenses/get-dashboard-data', [ExpenseController::class, 'getDashboardData']);
-Route::post('/expenses/update-expense', [ExpenseController::class, 'updateExpense']);
+Route::post('/expenses/update', [ExpenseController::class, 'updateExpense'])->name('expenses.update');
 // Route::get('/expenses', [ExpenseController::class, 'getExpenses']);
 //===========================================================================================================

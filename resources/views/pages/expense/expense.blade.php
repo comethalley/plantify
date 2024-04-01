@@ -303,7 +303,7 @@
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                <form class="edit-expense-form" id="editExpenseForm" action="{{ url('/expenses/update-expense') }}" method="POST">
+                                                <form class="edit-expense-form" id="editExpenseForm" action="/expenses/update" method="POST">
                                                     @csrf
                                                     <div class="mb-3">
                                                         <label for="editCategory" class="form-label">Category</label>
@@ -398,9 +398,9 @@
                                                             <div class="edit">
                                                                 <button class="btn btn-sm btn-success edit-item-btn" onclick="editExpenseModal(this.closest('tr'))">Edit</button>
                                                             </div>
-                                                            <div class="remove">
+                                                            <!-- <div class="remove">
                                                                 <button class="btn btn-sm btn-danger remove-item-btn" onclick="removeExpense(this.closest('tr'))">Remove</button>
-                                                            </div>
+                                                            </div> -->
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -548,7 +548,6 @@
             if (data.success) {
                 console.log('Expense saved successfully:', data);
                 location.reload();
-                appendExpenseToTable(data);
                 $('#addModal').modal('hide');
             } else {
                 console.error('Failed to save expense:', data.message);
@@ -648,30 +647,26 @@
     });
 
     function editExpenseModal(row) {
-    if (confirm('Are you sure you want to edit this expense?')) {
-        var expenseId = row.dataset.expenseId;
-        var cells = row.cells;
-        var categoryId = cells[1].textContent.trim();
-        var description = cells[2].textContent.trim();
-        var amount = cells[3].textContent.trim();
-
-        // Populate the modal fields with expense data
-        document.getElementById('editCategory').value = categoryId;
-        document.getElementById('editDescription').value = description;
-        document.getElementById('editAmount').value = amount;
-        document.getElementById('editExpenseId').value = expenseId;
-
-        $('#editModal').modal('show');
-    }
+    var expenseId = row.getAttribute('data-expense-id');
+    var description = row.querySelector('.description').textContent.trim();
+    var amount = row.querySelector('.amount').textContent.trim();
+    // Populate modal fields with current expense data
+    document.getElementById('editExpenseId').value = expenseId;
+    document.getElementById('editDescription').value = description;
+    document.getElementById('editAmount').value = amount;
+    $('#editModal').modal('show');
 }
 
-// Function to handle editing expense
-function editExpense() {
-    var editForm = document.getElementById('editExpenseForm');
-    var formData = new FormData(editForm);
+function updateExpense() {
+    var expenseId = document.getElementById('editExpenseId').value;
+    var description = document.getElementById('editDescription').value;
+    var amount = document.getElementById('editAmount').value;
+    var formData = new FormData();
+    formData.append('expense_id', expenseId);
+    formData.append('description', description);
+    formData.append('amount', amount);
     var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-    fetch('/expenses/update-expense', {
+    fetch('/expenses/update', {
         method: 'POST',
         body: formData,
         headers: {
@@ -682,8 +677,7 @@ function editExpense() {
     .then(data => {
         if (data.success) {
             console.log('Expense updated successfully:', data);
-            location.reload(); // Optionally, update the expense in the table
-            appendExpenseToTable(data);
+            location.reload();
             $('#editModal').modal('hide');
         } else {
             console.error('Failed to update expense:', data.message);
@@ -723,11 +717,11 @@ function editExpense() {
         $('#editPrevious, #editCurrent, #editKwh').on('input', calculateEditTotalAmount);
     });
 
-    function removeExpense(row) {
-        if (confirm('Are you sure you want to remove this expense?')) {
-            row.style.display = 'none';
-        }
-    }
+    // function removeExpense(row) {
+    //     if (confirm('Are you sure you want to remove this expense?')) {
+    //         row.style.display = 'none';
+    //     }
+    // }
 </script>
 
 

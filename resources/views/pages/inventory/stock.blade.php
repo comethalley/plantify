@@ -72,14 +72,10 @@
                             <div>
 
                                 <div class="table-responsive table-card mb-1">
-                                    <table class="table table-nowrap align-middle" id="orderTable">
+                                    <table class="table table-nowrap align-middle" id="stocksTable">
                                         <thead class="text-muted table-light">
                                             <tr class="text-uppercase">
-                                                <th scope="col" style="width: 25px;">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" id="checkAll" value="option">
-                                                    </div>
-                                                </th>
+
                                                 <th class="sort" data-sort="id">ID</th>
                                                 <th class="sort" data-sort="customer_name">Code</th>
                                                 <th class="sort" data-sort="date">Seed Name</th>
@@ -91,31 +87,7 @@
                                             </tr>
                                         </thead>
                                         <tbody class="list form-check-all">
-                                            @foreach ($stocks as $per_stocks)
 
-                                            <tr>
-                                                <th scope="row">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" name="checkAll" value="option1">
-                                                    </div>
-                                                </th>
-                                                <td class="id">#{{ $per_stocks->stocksID }}</td>
-                                                <td class="customer_name">{{ $per_stocks->qr_code }}</td>
-                                                <td class="date">{{ $per_stocks->seedName }}</td>
-                                                <td class="amount">{{ $per_stocks->supplier_name }}</td>
-                                                <td class="payment text-success">
-                                                    {{ $per_stocks->available }}
-                                                </td>
-                                                <td class="payment text-danger">
-                                                    -&nbsp;{{ $per_stocks->used }}
-                                                </td>
-                                                <td class="payment">{{ $per_stocks->total }}</td>
-                                                </td>
-                                                <td>
-                                                    <button type="button" class="btn btn-info waves-effect waves-light w-xs logs-btn" data-bs-toggle="modal" data-bs-target="#logModal" data-logs-id="{{ $per_stocks->stocksID }}">Logs</button>
-                                                </td>
-                                            </tr>
-                                            @endforeach
                                         </tbody>
                                     </table>
                                     <div class=" noresult" style="display: none">

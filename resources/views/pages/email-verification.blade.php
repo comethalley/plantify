@@ -130,7 +130,7 @@
                                                 </div>
 
                                                 <div class="mt-3">
-                                                    <button type="button" class="btn btn-success w-100">Confirm</button>
+                                                    <button type="button" class="btn btn-success w-100" id="confirm">Confirm</button>
                                                 </div>
 
                                             </form>
@@ -142,7 +142,8 @@
                                         </div>
 
                                         <div class="mt-5 text-center">
-                                            <p class="mb-0">Didn't receive a code ? <a href="auth-pass-reset-cover.html" class="fw-semibold text-primary text-decoration-underline">Resend</a> </p>
+                                            <p class="mb-0" id="resend-code">Didn't receive a code ? <a href="#" class="fw-semibold text-primary text-decoration-underline" id="resendCode">Resend</a> </p>
+                                            <p class="mb-0" id="available">Resend Code is Available in <span id="time-left"></span> </p>
                                         </div>
                                     </div>
                                 </div>
@@ -167,11 +168,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <!-- <div class="text-center">
-                            <p class="mb-0">©
-                                <script>
-                                    document.write(new Date().getFullYear())
-                                </script>2024 Velzon. Crafted with <i class="mdi mdi-heart text-danger"></i> by Themesbrand
-                            </p>
+                            
                         </div> -->
                     </div>
                 </div>
@@ -197,18 +194,131 @@
     <script src="assets/js/pages/two-step-verification.init.js"></script>
 
     <script>
-        setTimeout(function() {
+        $(document).ready(function() {
+            // Function to update the countdown timer
+            function updateCountdown() {
+                // Get the current time and target time
+                var currentTime = Date.now();
+                var targetTime = localStorage.getItem('timerStartTime') ? parseInt(localStorage.getItem('timerStartTime')) + 300000 : currentTime;
+
+                // Calculate remaining time in milliseconds
+                var remainingTime = Math.max(targetTime - currentTime, 0);
+
+                // Convert remaining time to minutes and seconds
+                var minutes = Math.floor(remainingTime / (1000 * 60));
+                var seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+
+                // Update the display
+                if (remainingTime > 0) {
+                    $("#available").show();
+                    $("#time-left").text(minutes + "m " + seconds + "s");
+                } else {
+                    // Hide the countdown when time reaches zero
+                    $("#available").hide();
+                    $("#resend-code").show();
+                }
+
+                // If there's still time remaining, update the timer again after 1 second
+                if (remainingTime > 0) {
+                    setTimeout(updateCountdown, 1000);
+                }
+            }
+
+            // Initial call to update the countdown
+            updateCountdown();
+        });
+        $(document).ready(function() {
+            var timerStartTime = localStorage.getItem('timerStartTime');
+            var currentTime = Date.now();
+
+            if (!timerStartTime || currentTime - timerStartTime > 300000) {
+
+                localStorage.setItem('timerStartTime', currentTime);
+                timerStartTime = currentTime;
+            }
+
+
+            var elapsedTime = currentTime - timerStartTime;
+            var remainingTime = 300000 - elapsedTime;
+
+
+            remainingTime = Math.max(remainingTime, 0);
+
+
+            setTimeout(sendAjaxRequest, remainingTime);
+        });
+
+        function sendAjaxRequest() {
             $.ajax({
                 url: "/empty-code/{{ $user->id }}",
                 method: "GET",
                 success: function(data) {
-                    console.log(data)
+                    console.log(data);
+
+                    //localStorage.setItem('timerStartTime', Date.now());
                 },
                 error: function(xhr, status, error) {
                     console.error("Error:", status, error);
                 }
             });
-        }, 300000);
+        }
+
+        function resetLocalStorage() {
+            localStorage.removeItem('timerStartTime');
+        }
+
+        $(document).ready(function() {
+            $("#resendCode").click(function() {
+                resetLocalStorage()
+                $.ajax({
+                    url: "/resend-code/{{ $user->id }}",
+                    method: "get",
+                    success: function(data) {
+                        console.log(data)
+                        $("#resend-code").hide();
+                        $("#available").show();
+                        localStorage.setItem('timerStartTime', Date.now());
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Error:", status, error);
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $("#confirm").click(function() {
+                var digit1 = $("#digit1-input").val()
+                var digit2 = $("#digit2-input").val()
+                var digit3 = $("#digit3-input").val()
+                var digit4 = $("#digit4-input").val()
+                $.ajax({
+                    url: "/confirm-code/{{ $user->id }}",
+                    method: "POST",
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    data: {
+                        'digit1': digit1,
+                        'digit2': digit2,
+                        'digit3': digit3,
+                        'digit4': digit4,
+                    },
+                    success: function(data) {
+
+                        var response = JSON.parse(JSON.stringify(data));
+                        console.log(response)
+                        alert(response.message)
+                        location.reload()
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Error:", status, error);
+                    }
+                });
+            });
+        });
     </script>
 
 </body>

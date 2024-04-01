@@ -19,11 +19,14 @@ return new class extends Migration
             $table->text('start');
             $table->text('end');
             $table->text('status')->nullable();
-            $table->text('description')->nullable();
+            $table->text('farm_id')->nullable();
             $table->text('harvested')->nullable();
             $table->text('destroyed')->nullable();
             $table->text('seed')->nullable();
             $table->timestamps();
+
+            $table->foreign('farm_id')->references('id')->on('farms')->onDelete('cascade');
+
         });
     }
 

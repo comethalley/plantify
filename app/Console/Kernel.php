@@ -15,18 +15,22 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->command('check:out-of-stock-items')->everyMinute();
+        $schedule->command('harvests:check')->everyMinute();
+        $schedule->command('notify:upcoming-events')->everyMinute();
     }
+    
 
+  
     /**
      * Register the commands for the application.
      *
      * @return void
      */
-    protected function commands()
-    {
-        $this->load(__DIR__.'/Commands');
-
-        require base_path('routes/console.php');
-    }
+    protected $commands = [
+        Commands\CheckOutOfStockItems::class,
+        Commands\CheckHarvestEvents::class,
+        Commands\CheckUpcomingEvents::class,
+    ];
+    
 }

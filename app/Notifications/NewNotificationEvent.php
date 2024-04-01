@@ -39,13 +39,7 @@ public  $event;
      * @param  mixed  $notifiable
      * @return array
      */
-    public function toDatabase($event)
-    {
-        return [
-           
-            'title'=>$this->events['title']
-        ];
-    }
+   
 
 
     /**
@@ -57,7 +51,8 @@ public  $event;
     public function toArray($notifiable)
     {
         return [
-            'title'=>$this->events['title']
+            'title'=>$this->events['title'],
+            'created_at' => now()->diffForHumans(),
         ];
     }
 }

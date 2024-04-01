@@ -188,7 +188,7 @@
                                                         <p class="mb-1">Check it out we have new events 📆.</p>
                                                     </div>
                                                     <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
-                                                        <span><i class="mdi mdi-clock-outline"></i> 1 min ago</span>
+                                                        <span><i class="mdi mdi-clock-outline" id="notification-time"></i>{{ $notification->created_at->diffForHumans() }}</span>
                                                     </p>
                                                 </div>
                                                 <div class="px-2 fs-15">
@@ -227,10 +227,10 @@
                                                 <img src="assets/images/users/avatar-2.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
                                                 <div class="flex-grow-1">
                                                     <a href="/plantcalendar" class="stretched-link">
-                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">{{ $notification->data['title']}}</h6>
+                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold"></h6>
                                                     </a>
                                                     <div class="fs-13 text-muted">
-                                                        <p class="mb-1">{{ $notification->data['message']}}.</p>
+                                                        <p class="mb-1">.</p>
                                                     </div>
                                                     <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
                                                         <span><i class="mdi mdi-clock-outline"></i> 1 min ago</span>
@@ -781,3 +781,12 @@
             // Display notification
         });
     </script>
+    <script>
+    // Update the time every minute
+    setInterval(() => {
+        const timeElement = document.getElementById('notification-time');
+        if (timeElement) {
+            timeElement.innerText = moment(timeElement.innerText, 'X').add(1, 'minutes').fromNow();
+        }
+    }, 60000); // 60000 milliseconds = 1 minute
+</script>

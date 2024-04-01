@@ -177,13 +177,9 @@ return view('pages.tasks.monitoring', compact('tasks', 'users'));
             'completed' => true,
             'completed_at' => now(),
         ]);     
-        $users = auth()->user();
-        $users = User::all();
+          
+            $task->user->notify(new CompleteTaskNotification($task));
     
-        foreach ($users as $user) {
-            $tasks = new Task();
-            $user->notify(new CompleteTaskNotification($tasks));
-        }
         return redirect()->route('tasks.monitoring')->with('success', 'Task Completed Successfully');
     }
 

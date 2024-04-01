@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
 use App\Models\Event;
+use App\Models\notification;
 use App\Notifications\NewNotificationEvent;
 use App\Events\EventCreated;
 use Illuminate\Http\Request;
@@ -35,14 +36,13 @@ class EventController extends Controller
         $item->status = 1;
         $item->save();
 
-        $title = $request->title;
+       
 
         $users = auth()->user();
             $users = User::all();
-        
             foreach ($users as $user) {
                 $event = new Event();
-                $event->title = $title;
+              
                 $user->notify(new NewNotificationEvent($event));
             }
             sleep(3);

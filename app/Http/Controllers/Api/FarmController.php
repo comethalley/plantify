@@ -518,6 +518,7 @@ public function updateFarm(Request $request, $id)
         'farm_name' => $request->input('farm_name'),
         'address' => $request->input('address'),
         'area' => $request->input('area'),
+        'status' => 'Submitted',
         'barangay_name' => $request->input('barangay_name'),
         'farm_leader' => $selectedUser->id,
         'title_land' => $titleLandPath,
@@ -531,39 +532,45 @@ public function updateFarm(Request $request, $id)
 }
 
 public function SetDateStatus($id, Request $request)
-    {
-        try {
-            // Find the farm by ID
-            $farm = Farm::findOrFail($id);
+{
+    try {
+        // Validate the request data
+        $validatedData = $request->validate([
+            'visit_date' => 'required|date', // Ensure visit_date is required and a valid date
+        ]);
 
-            $farm->status = 'For-Visiting';
+        // Find the farm by ID
+        $farm = Farm::findOrFail($id);
 
-            // Save the changes
-            $farm->save();
+        $farm->status = 'Visiting';
 
-            // Get the authenticated user (assuming it's a regular user)
-            $user = Auth::user();
+        // Save the changes
+        $farm->save();
 
-            // Create a new entry in the RemarkFarm table
-            RemarkFarm::create([
-                'farm_id' => $farm->id,
-                'remarks' => 'For Farm Visiting Date', 
-                'remark_status' => 'For-Visiting',
-                'validated_by' => $user->firstname . ' ' . $user->lastname,
-                'visit_date' => $request->visit_date // Save the selected date
-            ]);
+        // Get the authenticated user (assuming it's a regular user)
+        $user = Auth::user();
 
-            // You can return a success response if needed
-            return response()->json(['success' => true, 'message' => 'Farm status updated successfully']);
+        // Create a new entry in the RemarkFarm table
+        RemarkFarm::create([
+            'farm_id' => $farm->id,
+            'remarks' => 'For Farm Visiting Date', 
+            'remark_status' => 'Visiting',
+            'validated_by' => $user->firstname . ' ' . $user->lastname,
+            'visit_date' => $validatedData['visit_date'] // Save the selected date
+        ]);
 
-        } catch (\Exception $e) {
-            // Log the error for debugging purposes
-            \Log::error('Error updating farm status to "Cancel" for farm ID ' . $id . ': ' . $e->getMessage());
+        // You can return a success response if needed
+        return response()->json(['success' => true, 'message' => 'Farm status updated successfully']);
 
-            // Handle any errors that occur during the update
-            return response()->json(['success' => false, 'message' => 'Error updating farm status to "Set Date"']);
-        }
+    } catch (\Exception $e) {
+        // Log the error for debugging purposes
+        \Log::error('Error updating farm status to "Cancel" for farm ID ' . $id . ': ' . $e->getMessage());
+
+        // Handle any errors that occur during the update
+        return response()->json(['success' => false, 'message' => 'Error updating farm status to "Set Date"']);
     }
+}
+
 
 
 

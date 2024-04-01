@@ -37,7 +37,7 @@
                             <div style="text-align: center;">
                                 <h4 style="font-size: 20px;"><em><strong>Your dashboard will feature updates regarding the status of your application.
                                     <br> In addition to this, you will also receive email notifications whenever there are changes in the status of your application
-                                    <br> or You may also check back here to see the status of your application..</strong></em></h4>
+                                    <br> or You may also check back here to see the status of your application.</strong></em></h4>
                             </div>
                             <br>
 <div class="card-body">
@@ -90,8 +90,10 @@
         <b style="font-family: 'Bahnschrift', sans-serif; font-size: 15px;">Farm Leader :</b> &nbsp;{{ strtoupper($farm->farm_leader_firstname) }} {{ strtoupper($farm->farm_leader_lastname) }}<br>
     </span>
     <span class="farm-name"> <!-- Add class for farm name -->
-        <b style="font-family: 'Bahnschrift', sans-serif; font-size: 15px;">Farm Name :</b> &nbsp;{{ strtoupper($farm->farm_name) }}<br>
-    </span>
+    <b style="font-family: 'Bahnschrift', sans-serif; font-size: 15px;">Farm Name :</b> &nbsp;
+    <span class="farm-name-value">{{ strtoupper($farm->farm_name) }}</span><br>
+</span>
+
     <span class="area"> <!-- Add class for area -->
         <b style="font-family: 'Bahnschrift', sans-serif; font-size: 15px;">Area :</b> &nbsp;{{ strtoupper($farm->area) }}<br>
     </span>
@@ -102,19 +104,25 @@
 
           <td class="status vertical-line">
           @switch(strtolower(str_replace(' ', '-', $farm->status)))
-    @case('created')
-        <label class="badge text-wrap" style="font-size: 12px; margin-bottom: 10px; padding: 2px; background-color: #007BFF; color: #FFF;" onclick="return false;">{{ $farm->status }}</label>
-        <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
-
-        @break
     @case('for-investigation')
-        <label class="badge text-wrap" style="font-size: 12px; margin-bottom: 10px; padding: 2px; background-color: #007BFF; color: #FFF;" onclick="return false;">{{ $farm->status }}</label>
+    @case('created')
+        <label class="badge bg-primary" style="font-size: 12px; margin-bottom: 10px; padding: 2px; color: #FFF;" onclick="return false;">{{ $farm->status }}</label>
         <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
 
         @break
     @case('for-visiting')
+        <label class="badge text-wrap" style="font-size: 12px; margin-bottom: 10px; padding: 2px; background-color: #007BFF; color: #FFF;" onclick="return false;">{{ $farm->status }}</label>
+        <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
+
+        @break
+    @case('submitted')
+    @case('visiting')
+    <label class="badge text-wrap" style="font-size: 12px; margin-bottom: 10px; padding: 2px; background-color: #FF9843; color: #000;" onclick="return false;">{{ $farm->status }}</label>
+        <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
+
+        @break
     @case('resubmit')
-        <label class="badge text-wrap" style="font-size: 12px; margin-bottom: 10px; padding: 2px; background-color: #B3E0FF; color: #000;" onclick="return false;">{{ $farm->status }}</label>
+        <label class="badge text-wrap" style="font-size: 12px; margin-bottom: 10px; padding: 2px; background-color: #747264; color: #FFF;" onclick="return false;">{{ $farm->status }}</label>
         <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
 
         @break
@@ -144,6 +152,7 @@
           </td>
 
                                                     <td class="actions vertical-line">
+                                                    @if($farm->status == 'Created' || $farm->status == 'For-Investigation' || $farm->status == 'For-Visiting' || $farm->status == 'Visiting' || $farm->status == 'Waiting-for-Approval' || $farm->status == 'Approved' || $farm->status == 'Submitted' || $farm->status == 'Disapproved' || $farm->status == 'Cancelled')
                                                         <div class="centered-container times-new-roman-bold">
                                                             <ul class="list-inline hstack gap-2 mb-0">
                                                                 <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="View Application">
@@ -156,6 +165,21 @@
                                                                 </li>
                                                             </ul>
                                                         </div>
+                                                        @endif
+                                                        @if($farm->status == 'Resubmit')
+                                                        <div class="centered-container times-new-roman-bold">
+                                                            <ul class="list-inline hstack gap-2 mb-0">
+                                                                <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Resubmit Application">
+                                                                <a href="#" data-bs-toggle="modal" data-bs-target="#viewModals" class="btn btn-outline-info text-primary d-inline-block edit-item-btn d-flex align-items-center justify-content-center custom-btn mt-2" onclick="showFarmDetails('{{ $farm->id }}', '{{ $farm->farm_name }}', '{{ $farm->barangay_name }}', '{{ $farm->area }}', '{{ $farm->address }}', '{{ $farm->farm_leader }}', '{{ $farm->status }}', '{{ $farm->title_land }}', '{{ $farm->picture_land }}', '{{ $farm->picture_land1 }}', '{{ $farm->picture_land2 }}', '{{ $farm->farm_leader_firstname }}', '{{ $farm->farm_leader_lastname }}'); updateButtonVisibility('{{ $farm->status }}');" style="border-color: #747264;">
+                                                                        <div class="d-flex align-items-center">
+                                                                            <i class="ri-profile-line fs-3 me-2 black"></i>
+                                                                            <span class="black">Resubmit Application</span>
+                                                                        </div>
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                        @endif
                                                         <div class="centered-container times-new-roman-bold">
                                                         @if($farm->status == 'Created')
                                                                 <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Cancel Application">
@@ -168,11 +192,10 @@
                                                                 </li>
                                                                 @endif
                                                         </div>
-                                                        <!-- Insert the provided code snippet here -->
                                                         <div class="centered-container times-new-roman-bold">
                                                             @if($farm->status == 'For-Visiting')
                                                                 <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Set Date Application">
-                                                                    <a href="#" data-bs-toggle="modal" data-bs-target="#SetDateModal" class="btn btn-outline-warning waves-effect waves-light text-primary d-inline-block edit-item-btn d-flex align-items-center justify-content-center custom-btn11 mt-2 btn-custom-width" onclick="setDate('{{ $farm->id }}', '{{ $farm->select_date }}')" >
+                                                                    <a href="#" data-bs-toggle="modal" data-bs-target="#SetDateModal" class="btn btn-outline-warning waves-effect waves-light text-primary d-inline-block edit-item-btn d-flex align-items-center justify-content-center mt-2 btn-custom-width" onclick="setDate('{{ $farm->id }}', '{{ $farm->select_date }}')" >
                                                                         <div class="d-flex align-items-center">
                                                                             <i class="mdi mdi-calendar-check fs-3 me-2 black"></i>
                                                                             <span class="black">Set Visit Date</span>
@@ -245,34 +268,48 @@
                 <hr>
                 <p class="text-left">
                     <span class="badge" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;" >1</span>
-                    <span class="badge" style="background-color: #007BFF; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">For Investigation</span> -
-                    Thorough examination of farming-related issues or processes.
+                    <span class="badge bg-primary" style="color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">For Investigation</span> -
+                    Comprehensive review and assessment of the farming proposal.
                 </p>
                 <p class="text-left">
                     <span class="badge badge-dark" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">2</span>
-                    <span class="badge" style="background-color: #B3E0FF; color: #000; font-size: 13px; padding-left: 5px; padding-right: 5px;">For Visiting</span> -
-                    On-site inspection of farms to assess operations.
+                    <span class="badge" style="background-color: #007BFF; color: #FFF; font-size: 13px; padding-left: 5px; padding-right: 5px;">For Visiting</span> -
+                    Authorized personnel will set a date for an on-site inspection of farms to assess operations.
                 </p>
-                <!-- Add other status tags as needed -->
                 <p class="text-left">
                     <span class="badge badge-dark" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">3</span>
                     <span class="badge" style="background-color: #1F7C33; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">Approved</span> -
-                    Official authorization for proposed actions or plans.
+                    Official authorization indicating the completion and approval of the process.
                 </p>
                 <p class="text-left">
                     <span class="badge badge-dark" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">4</span>
-                    <span class="badge" style="background-color: #DC3545; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">Disapproved</span> -
-                    Rejection of proposed actions or plans.
+                    <span class="badge" style="background-color: #990000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">Disapproved</span> -
+                    The application had been rejected and no further process is possible.
                 </p>
                 <p class="text-left">
                     <span class="badge badge-dark" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">5</span>
-                    <span class="badge" style="background-color: #FFC107; font-size: 13px; padding-left: 5px; padding-right: 5px;">Waiting for Approval</span> -
+                    <span class="badge" style="background-color: #FFC107; color: #000; font-size: 13px; padding-left: 5px; padding-right: 5px;">Waiting for Approval</span> -
                     A pending status for proposals under review.
                 </p>
                 <p class="text-left">
+                    <span class="badge badge-dark" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">4</span>
+                    <span class="badge" style="background-color: #990000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">Cancelled</span> -
+                    The application has been cancelled, resulting in the rejection of proposed actions or plans.
+                </p>
+                <p class="text-left">
                     <span class="badge badge-dark" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">6</span>
-                    <span class="badge" style="background-color: #B3E0FF; font-size: 13px; padding-left: 5px; padding-right: 5px; ">Resubmit</span> -
-                    Instruction to revise and resubmit proposals after rejection.
+                    <span class="badge" style="background-color: #747264; font-size: 13px; padding-left: 5px; padding-right: 5px; ">Resubmit</span> -
+                    To revise and submit the necessary compilation.
+                </p>
+                <p class="text-left">
+                    <span class="badge badge-dark" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">7</span>
+                    <span class="badge" style="background-color: #FF9843; color: #000; font-size: 13px; padding-left: 5px; padding-right: 5px; ">Submitted</span> -
+                    The application has successfully passed compilation and is awaiting to evaluate.
+                </p>
+                <p class="text-left">
+                    <span class="badge badge-dark" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">8</span>
+                    <span class="badge" style="background-color: #FF9843; color: #000; font-size: 13px; padding-left: 5px; padding-right: 5px; ">Visiting</span> -
+                    Application has been processed and dates have been set.
                 </p>
                 <hr>
                 <a role="button" class="btn btn-outline-dark btn-block" style="width: 30%; float: right"data-bs-dismiss="modal" aria-label="Close">Close</a>
@@ -410,8 +447,9 @@
             </div>
         </div>
     </div>
+    <style></style>
 
-<div class="modal fade" id="SetDateModal" tabindex="-1" role="dialog" aria-labelledby="SetDateModalLabel" aria-hidden="true">
+    <div class="modal fade" id="SetDateModal" tabindex="-1" role="dialog" aria-labelledby="SetDateModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header p-4">
@@ -420,6 +458,10 @@
             </div>
             <div class="modal-body">
                 Select the availability dates to visit in your farm.<br><br>
+
+                <!-- Error message for date selection -->
+                <div id="dateErrorMessage" style="color: red; text-align: center; display: none;">Select dates required</div>
+                <!-- Date selection inputs -->
                 <input type="radio" id="availability1" name="availability" value="option1">
                 <label for="availability1"></label><br>
                 <input type="radio" id="availability2" name="availability" value="option2">
@@ -442,7 +484,6 @@
 </div>
 
 
-
 <!-- Add this modal at the end of your Blade file -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -462,7 +503,7 @@ $(document).ready(function() {
         // Loop through each row in the table body
         $('#farmTableBody tr').each(function() {
             var idText = $(this).find('.id').text().toLowerCase(); // Get text of farm id column
-            var farmNameText = $(this).find('.farm-name').text().toLowerCase(); // Get text of farm name column
+            var farmNameText = $(this).find('.farm-name-value').text().trim().toLowerCase(); // Get text of farm name value
             // Define regular expression pattern to match either Farm ID or Farm Name containing the search query
             var pattern = new RegExp(searchText, 'i');
             // Check if search text matches Farm ID exactly or if Farm Name contains the search text
@@ -473,6 +514,7 @@ $(document).ready(function() {
                 $(this).hide(); // Otherwise, hide the row
             }
         });
+
         // Show or hide the "No Farms found" message container based on the count of matching results
         if (resultsCount === 0 && searchText.length > 0) {
             $('#noFarmsMessageContainer').show(); // Show message container if there are no matching results
@@ -481,6 +523,7 @@ $(document).ready(function() {
         }
     });
 });
+
 
 function setDate(id, selectDate) {
     // Calculate the next two dates
@@ -517,36 +560,42 @@ $("#SetDateBtn").click(function () {
     // Get the selected date
     var selectedDate = $('input[name="availability"]:checked').val();
 
-    // Check if availability1 is selected
-    if(selectedDate) {
-        // Send an AJAX request to update the status in the database
-        $.ajax({
-            url: "/set-date-farm/" + id,
-            type: "POST",
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            data: { 
-                status: "For-Visiting",
-                visit_date: selectedDate // Send the selected date
-            },
-            success: function (response) {
-                // Handle the response as needed
-                console.log(response);
-                
-                // Reload the current page after updating the status
-                location.reload();
-            },
-            error: function (error) {
-                console.error("Error updating farm status:", error);
-            }
-        });
+    // Check if a date is selected
+    if (!selectedDate) {
+        // Show the error message
+        $("#dateErrorMessage").show();
+        return; // Exit the function without further processing
+    } else {
+        // Hide the error message if a date is selected
+        $("#dateErrorMessage").hide();
     }
+
+    // Send an AJAX request to update the status in the database
+    $.ajax({
+        url: "/set-date-farm/" + id,
+        type: "POST",
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        data: { 
+            status: "For-Visiting",
+            visit_date: selectedDate // Send the selected date
+        },
+        success: function (response) {
+            // Handle the response as needed
+            console.log(response);
+            
+            // Reload the current page after updating the status
+            location.reload();
+        },
+        error: function (error) {
+            console.error("Error updating farm status:", error);
+        }
+    });
 
     // Close the modal after processing
     $("#SetDateModal").modal("hide");
 });
-
 
 
 
@@ -718,6 +767,8 @@ function createParagraphss(htmlContent, isBold, fontSize) {
             case 'disapproved':
             case 'cancelled':
             case 'waiting-for-approval':
+            case 'submitted':
+            case 'visiting':
                 $('#forInvestigationBtn, #forVisitingBtn, #approvedBtn, #disapprovedBtn, #waitingForApprovalBtn, #updateConfirmButton, #CancelBtnTitleLand, #CancelBtnPictureLand, #CancelBtnPictureLand1, #CancelBtnPictureLand2').hide();
                 break;
             case 'resubmit':
@@ -758,8 +809,8 @@ switch (status.toLowerCase().replace(/\s+/g, '-')) {
         break;
     case 'resubmit':
         $('#status_modal').html('(' + status + ')')
-            .removeClass().addClass('badge bg-secondary fs-4');
-        $('#viewModals .modal-header').removeClass().addClass('modal-header bg-secondary p-3');
+            .removeClass().addClass('badge bg-custom fs-4');
+            $('#viewModals .modal-header').removeClass().addClass('modal-header bg-custom p-3');
         // Remove the 'disabled' attribute from inputs when status is 'for-visiting' or 'resubmit'
         var dropdownHtml = `
                 <div class="input-group">
@@ -802,8 +853,8 @@ switch (status.toLowerCase().replace(/\s+/g, '-')) {
         break;
     case 'waiting-for-approval':
         $('#status_modal').html('(' + status + ')')
-            .removeClass().addClass('badge bg-warning fs-5');
-        $('#viewModals .modal-header').removeClass().addClass('modal-header bg-warning p-3');
+            .removeClass().addClass('badge bg-custom3 fs-5');
+        $('#viewModals .modal-header').removeClass().addClass('modal-header bg-custom3 p-3');
         // Add the 'disabled' attribute to inputs when status is not 'for-visiting' or 'resubmit'
         $('#viewModals input.form-control').attr('disabled', 'disabled');
         $('#viewModals select.form-select').attr('disabled', 'disabled');
@@ -813,8 +864,8 @@ switch (status.toLowerCase().replace(/\s+/g, '-')) {
         break;
     case 'approved':
         $('#status_modal').html('(' + status + ')')
-            .removeClass().addClass('badge bg-success fs-5');
-        $('#viewModals .modal-header').removeClass().addClass('modal-header bg-success p-3');
+            .removeClass().addClass('badge bg-custom1 fs-5');
+        $('#viewModals .modal-header').removeClass().addClass('modal-header bg-custom1 p-3');
         // Add the 'disabled' attribute to inputs when status is not 'for-visiting' or 'resubmit'
         $('#viewModals input.form-control').attr('disabled', 'disabled');
         $('#viewModals select.form-select').attr('disabled', 'disabled');
@@ -824,8 +875,19 @@ switch (status.toLowerCase().replace(/\s+/g, '-')) {
     case 'disapproved':
     case 'cancelled':
         $('#status_modal').html('(' + status + ')')
-            .removeClass().addClass('badge bg-danger fs-5');
-        $('#viewModals .modal-header').removeClass().addClass('modal-header bg-danger p-3');
+            .removeClass().addClass('badge bg-custom2 fs-5');
+        $('#viewModals .modal-header').removeClass().addClass('modal-header bg-custom2 p-3');
+        // Add the 'disabled' attribute to inputs when status is not 'for-visiting' or 'resubmit'
+        $('#viewModals input.form-control').attr('disabled', 'disabled');
+        $('#viewModals select.form-select').attr('disabled', 'disabled');
+        $('#viewModals select#farm_leader_modal').attr('disabled', 'disabled');
+
+        break;
+    case 'submitted':
+    case 'visiting':
+        $('#status_modal').html('(' + status + ')')
+            .removeClass().addClass('badge bg-custom4 fs-5');
+        $('#viewModals .modal-header').removeClass().addClass('modal-header bg-custom4 p-3');
         // Add the 'disabled' attribute to inputs when status is not 'for-visiting' or 'resubmit'
         $('#viewModals input.form-control').attr('disabled', 'disabled');
         $('#viewModals select.form-select').attr('disabled', 'disabled');
@@ -1049,6 +1111,21 @@ $("#updateStatusBtn").click(function () {
 
 </script>
 <style>
+    .bg-custom {
+    background-color: #747264 !important;
+}
+.bg-custom1 {
+    background-color: #1F7C33 !important;
+}
+.bg-custom2 {
+    background-color: #990000 !important;
+}
+.bg-custom3 {
+    background-color: #FFC107 !important;
+}
+.bg-custom4 {
+    background-color: #FF9843 !important;
+}
     .btn-primary:hover {
             background-color: #d3d3d3 !important; /* Light gray background on hover */
     }
@@ -1081,12 +1158,12 @@ $("#updateStatusBtn").click(function () {
 
     }
 .custom-btn1{
-    width:170px;
+    width:190px;
 
 }
-    .custom-btn {
-        width:170px;
-    }
+.custom-btn {
+    width:190px;
+}
  .custom-width {
     width: 200px; /* Adjust the width as per your requirement */
 }                           
@@ -1164,7 +1241,7 @@ $("#updateStatusBtn").click(function () {
 }
 
 .btn-custom-width {
-    width: 170px;
+    width: 190px;
 }
 
     </style> 

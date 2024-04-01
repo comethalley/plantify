@@ -132,13 +132,6 @@
                 <p id="noFarmsMessage" style="text-align: center; font-size: 21px;">No Barangays Farms found.</p>
             </td>
         </div>
-        <div class="row">
-            <div class="col-6">
-                <button class="btn btn-secondary d-flex align-items-center justify-content-center mb-3" onclick="goBack()">
-                    <i class="ri-arrow-left-line me-1"></i> Back
-                </button>
-          </div>
-    </div>
 </div>
 
 
@@ -227,7 +220,7 @@
                 <div class="modal-footer">
                     <div class="hstack gap-2 justify-content-end">
                         <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-success" onclick="submitForm()">Add Farm</button>
+                        <button type="button" class="btn btn-success" onclick="submitForm()">Submit Farm</button>
                     </div>
                 </div>
             </form>
@@ -239,12 +232,6 @@
 
 <script>
 
-       function goBack() {
-        window.location.href = "{{ route('home') }}";
-            window.onload = function() {
-            window.location.reload(true);
-        };
-    }
 
    function cancelUpload(inputName) {
         $('input[name="' + inputName + '"]').val(null);

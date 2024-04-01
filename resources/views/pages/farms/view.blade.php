@@ -112,6 +112,10 @@
                                 @case('resubmit')
                                     <span class="badge bg-secondary fs-5" >{{ $farm->status }}</span>
                                     @break
+                                @case('visiting')
+                                @case('submitted')
+                                    <span class="badge bg-secondary fs-5" >{{ $farm->status }}</span>
+                                    @break
                                 @case('waiting-for-approval')
                                     <span class="badge bg-warning fs-5">{{ $farm->status }}</span>
                                     @break

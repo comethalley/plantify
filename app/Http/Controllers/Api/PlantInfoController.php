@@ -118,7 +118,7 @@ class PlantinfoController extends Controller
         'edit_seasons' => 'required|string|max:55',
         'edit_information' => 'required|string|max:55',
         'edit_companion' => 'required|string|max:55',
-        'edit_days_harvest' => 'required|int|max:55'
+        'edit_days_harvest' => 'required|int|max:255'
     ]);
 
     // If validation fails, return error response

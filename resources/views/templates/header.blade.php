@@ -45,6 +45,9 @@
     <script src="{{ asset('assets/js/farmleader.js') }}"></script>
     <script src="{{ asset('assets/js/plantinfo.js') }}"></script>
     <script src="{{ asset('assets/js/forum.js') }}"></script>
+    <script src="{{ asset('assets/js/fertilizer.js') }}"></script>
+
+
     <!--markusread JS-->
     <script src="{{ asset('assets/js/markasread.js') }}"></script>
 
@@ -660,10 +663,10 @@
                                         <a href="/plant-info" class="nav-link" style="color:white"> Plant Information </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="/piu/pes" class="nav-link" style="color:white"> Pesticide</a>
+                                        <a href="/pesticides" class="nav-link" style="color:white"> Pesticide</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="/piu/fiu" class="nav-link" style="color:white">Fertilizer</a>
+                                        <a href="/fertilizers" class="nav-link" style="color:white">Fertilizer</a>
                                     </li>
                                 </ul>
                             </div>

@@ -156,7 +156,16 @@ Route::post('/plantinfo', [PlantInfoController::class, 'store']);
 Route::post('/archive/{id}', [PlantInfoController::class, 'archive']);
 Route::get('/restore', [PlantInfoController::class, 'restore']);
 Route::post('/unarchive/{id}', [PlantInfoController::class, 'unarchive']);
-//==========================================================================
+//PES=======================================================================
+Route::get('/pesticides', [PlantInfoController::class, 'pesticides']);
+Route::post('/pupdate/{id}', [PlantInfoController::class, 'pupdate']);
+Route::post('/pesticides', [PlantInfoController::class, 'pstore']);
+Route::get('/pedit/{id}', [PlantInfoController::class, 'pedit']);
+//FER=======================================================================
+Route::get('/fertilizers', [PlantInfoController::class, 'fertilizers']);
+Route::post('/fertilizers', [PlantInfoController::class, 'fstore']);    
+Route::post('/fupdate/{id}', [PlantInfoController::class, 'fupdate']);
+Route::get('/fedit/{id}', [PlantInfoController::class, 'fedit']);
 
 //For farm management =======================================================
 
@@ -229,9 +238,18 @@ Route::post('/change-password/{id}', [EmailVerification::class, 'changePassword'
 
 //Botaknows Userside ===================================================
 Route::get('/piu/piu', [PiuController::class, 'index']);
-Route::get('/piu/fiu', [PiuController::class, 'fer']);
-Route::get('/piu/pes', [PiuController::class, 'pes']);
 Route::get('/piu/show/{id}', [PiuController::class, 'show']);
+
+
+Route::get('/piu/pes', [PiuController::class, 'pes']);
+Route::get('/piu/showpes/{id}', [PiuController::class, 'showpes']);
+
+Route::get('/piu/fiu', [PiuController::class, 'fer']);
+Route::get('/piu/showfiu/{id}', [PiuController::class, 'showfiu']);
+
+
+
+
 //===========================================================================================================
 
 Route::middleware(['auth', 'checkrole:1,2,3'])->group(function () {

@@ -55,13 +55,15 @@
 
                                                 </th>
 
-                                                <th class="sort" data-sort="customer_name">Seed Name: </th>
-                                                <th class="sort" data-sort="date">Seeds Amount (g): </th>
-                                                <th class="sort" data-sort="amount">Estimated Plants Harvested (kg): </th>
-                                                <th class="sort" data-sort="payment">Estimated Plants Destroyed (kg): </th>
-                                                <th class="sort" data-sort="payment">Start Date: </th>
-                                                <th class="sort" data-sort="payment">End Date: </th>
-                                                <th class="sort" data-sort="city">Status: </th>
+                                                <th data-sort="customer_name">Seed Name: </th>
+                                                <th data-sort="date">Seeds Amount (g): </th>
+                                                <th data-sort="amount">Plants Harvested (kg): </th>
+                                                <th data-sort="payment">Plants Destroyed (kg): </th>
+                                                <th data-sort="payment">Start Date: </th>
+                                                <th data-sort="payment">End Date: </th>
+                                                <th data-sort="city">Status: </th>
+                                                <th data-sort="city">Barangay: </th>
+                                                <th data-sort="city">Farm: </th>
                                             </tr>
                                         </thead>
                                         <tbody class="list form-check-all">
@@ -82,8 +84,15 @@
                                                     {{ $event->end }}
                                                 </td>
                                                 <td class="payment">{{ $event->status }}</td>
-                                                </td>
+                                                @if($event->barangay_name || $event->farm_name)
+                                                    <td>{{ $event->barangay_name }}</td>
+                                                    <td>{{ $event->farm_name }}</td>
+                                                @else
+                                                    <td>Public Users</td>
+                                                    <td>Public Users</td>
+                                                @endif
 
+                                                
                                             </tr>
                                             @endforeach
                                         </tbody>

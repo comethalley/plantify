@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('supplier_seeds', function (Blueprint $table) {
             $table->id();
             $table->integer('supplier_id');
+            $table->string('image');
             $table->integer('uom_id');
             $table->integer('seed_id');
             $table->integer('qty');

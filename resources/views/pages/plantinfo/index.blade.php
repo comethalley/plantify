@@ -355,4 +355,8 @@
     </div>
 </div> -->
 
+<script>
+
+</script>
+
 @include('templates.footer')

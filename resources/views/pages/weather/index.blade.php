@@ -6,6 +6,7 @@
 
 
 <div class="page-content">
+      <div class="page-content">
 
   <div class="wrapper">
     <div class="sidebar">
@@ -78,7 +79,7 @@
             </div>
           </div>
           <div class="card2">
-            <h4 class="card-heading">Sunrise & Sunset</h4>
+            <h4 class="card-heading">Sunrise | Sunset</h4>
             <div class="content">
               <p class="sun-rise">0</p>
               <p class="sun-set">0</p>

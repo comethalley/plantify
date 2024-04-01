@@ -14,6 +14,7 @@ class RemarkFarm extends Model
         'remarks',
         'remark_status',
         'validated_by',
+        'visit_date',
         
     ];
 }

@@ -176,14 +176,10 @@
                                             </li>
                                             <li class="nav-item waves-effect waves-light">
                                                 <a class="nav-link" data-bs-toggle="tab" href="#messages-tab" role="tab" aria-selected="false">
-                                                    Messages
+                                                    Plantifeed
                                                 </a>
                                             </li>
-                                            <li class="nav-item waves-effect waves-light">
-                                                <a class="nav-link" data-bs-toggle="tab" href="#alerts-tab" role="tab" aria-selected="false">
-                                                    Alerts
-                                                </a>
-                                            </li>
+                                          
                                         </ul>
                                     </div>
                                 </div>
@@ -321,7 +317,7 @@
                                                 <img src="assets/images/event/nt.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
 
                                                 <div class="flex-grow-1">
-                                                    <a href="/inventory/stocks" class="stretched-link">
+                                                    <a href="/tasks" class="stretched-link">
                                                         <h6 class="mt-0 mb-1 fs-13 fw-semibold">TASK</h6>
                                                     </a>
                                                     <div class="fs-13 text-muted">
@@ -348,7 +344,7 @@
                                                 <img src="assets/images/event/complete.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
 
                                                 <div class="flex-grow-1">
-                                                    <a href="/inventory/stocks" class="stretched-link">
+                                                    <a href="/taskshow" class="stretched-link">
                                                         <h6 class="mt-0 mb-1 fs-13 fw-semibold">TASK</h6>
                                                     </a>
                                                     <div class="fs-13 text-muted">
@@ -375,7 +371,7 @@
                                                 <img src="assets/images/event/missing.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
 
                                                 <div class="flex-grow-1">
-                                                    <a href="/inventory/stocks" class="stretched-link">
+                                                    <a href="/missingtasks" class="stretched-link">
                                                         <h6 class="mt-0 mb-1 fs-13 fw-semibold">MISSING TASK</h6>
                                                     </a>
                                                     <div class="fs-13 text-muted">

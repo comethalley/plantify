@@ -105,26 +105,33 @@
                                 @case('created')
                                 @case('for-investigation')
                                     <span class="badge bg-primary fs-5" style="color: #fff; ">{{ $farm->status }}</span>
+                                    <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
                                     @break
                                 @case('for-visiting')
                                     <span class="badge fs-5" style="background-color: #007BFF; color: #FFF; ">{{ $farm->status }}</span>
+                                    <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
                                     @break
                                 @case('resubmit')
                                 <span class="badge fs-5" style="background-color: #747264; color: #FFF; ">{{ $farm->status }}</span>
+                                <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
                                 @break
                                 @case('visiting')
                                 @case('submitted')
                                 <span class="badge fs-5" style="background-color: #FF9843; color: #000;">{{ $farm->status }}</span>
+                                <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
                                     @break
                                 @case('waiting-for-approval')
                                     <span class="badge fs-5" style="background-color: #FFC107; color: #000;">{{ $farm->status }}</span>
+                                    <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
                                     @break
                                 @case('approved')
                                     <span class="badge fs-5" style="background-color: #1F7C33; color: #fff;">{{ $farm->status }}</span>
+                                    <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
                                     @break
                                 @case('disapproved')
                                 @case('cancelled')
                                     <span class="badge fs-5" style="background-color: #990000; color: #fff;">{{ $farm->status }}</span>
+                                    <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
                                     @break
                                 @default
                             @endswitch
@@ -185,6 +192,69 @@
     </div>
 </div>
 
+
+<div class="modal fade" id="statusModal" tabindex="-1" role="dialog" aria-labelledby="statusModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header p-2">
+                <h5 class="modal-title text-danger font-weight-bold" id="statusModalLabel" style="font-size: 20px;">Status Tags</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <hr>
+                <p class="text-left" style="font-size: 13px;">After submitting Farm application form.</p>
+                <hr>
+                <p class="text-left">
+                    <span class="badge" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;" >1</span>
+                    <span class="badge bg-primary" style="color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">For Investigation</span> -
+                    Comprehensive review and assessment of the farming proposal.
+                </p>
+                <p class="text-left">
+                    <span class="badge badge-dark" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">2</span>
+                    <span class="badge" style="background-color: #007BFF; color: #FFF; font-size: 13px; padding-left: 5px; padding-right: 5px;">For Visiting</span> -
+                    Authorized personnel will set a date for an on-site inspection of farms to assess operations.
+                </p>
+                <p class="text-left">
+                    <span class="badge badge-dark" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">3</span>
+                    <span class="badge" style="background-color: #1F7C33; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">Approved</span> -
+                    Official authorization indicating the completion and approval of the process.
+                </p>
+                <p class="text-left">
+                    <span class="badge badge-dark" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">4</span>
+                    <span class="badge" style="background-color: #990000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">Disapproved</span> -
+                    The application had been rejected and no further process is possible.
+                </p>
+                <p class="text-left">
+                    <span class="badge badge-dark" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">5</span>
+                    <span class="badge" style="background-color: #FFC107; color: #000; font-size: 13px; padding-left: 5px; padding-right: 5px;">Waiting for Approval</span> -
+                    A pending status for proposals under review.
+                </p>
+                <p class="text-left">
+                    <span class="badge badge-dark" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">4</span>
+                    <span class="badge" style="background-color: #990000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">Cancelled</span> -
+                    The application has been cancelled, resulting in the rejection of proposed actions or plans.
+                </p>
+                <p class="text-left">
+                    <span class="badge badge-dark" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">6</span>
+                    <span class="badge" style="background-color: #747264; font-size: 13px; padding-left: 5px; padding-right: 5px; ">Resubmit</span> -
+                    To revise and submit the necessary compilation.
+                </p>
+                <p class="text-left">
+                    <span class="badge badge-dark" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">7</span>
+                    <span class="badge" style="background-color: #FF9843; color: #000; font-size: 13px; padding-left: 5px; padding-right: 5px; ">Submitted</span> -
+                    The application has successfully passed compilation and is awaiting to evaluate.
+                </p>
+                <p class="text-left">
+                    <span class="badge badge-dark" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">8</span>
+                    <span class="badge" style="background-color: #FF9843; color: #000; font-size: 13px; padding-left: 5px; padding-right: 5px; ">Visiting</span> -
+                    Application has been processed and dates have been set.
+                </p>
+                <hr>
+                <a role="button" class="btn btn-outline-dark btn-block" style="width: 30%; float: right"data-bs-dismiss="modal" aria-label="Close">Close</a>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="modal fade" id="archiveConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="archiveConfirmationModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -376,7 +446,9 @@
 <script src="https://cdn.lordicon.com/lordicon.js"></script>
 
 <script>
-
+    function openStatusModal() {
+        $('#statusModal').modal('show');
+    }
 function searchTable(value) {
     var searchInput = value.toLowerCase();
     var rows = document.querySelectorAll('#farmTableBody tr');

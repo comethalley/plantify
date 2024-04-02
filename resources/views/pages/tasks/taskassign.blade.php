@@ -141,7 +141,7 @@
                                                 <th>Description</th>
                                                 <th>Due Date</th>
                                                 <th>Priority</th>
-                                                <th>Assignee</th>
+                                                <th>Assigned To</th>
                                                 <th>Status</th>
                                                    
                                                 </tr>

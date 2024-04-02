@@ -22,7 +22,6 @@
                                 <!--end row-->
                                 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <style>
         /* Badge styles */
@@ -91,7 +90,7 @@
 <!-- Include DataTables -->
 <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.6/css/jquery.dataTables.css"> -->
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.6/js/jquery.dataTables.js"></script>
-
+</head>
     <!-- Other meta tags and CSS links -->
     <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"> -->
 <form>
@@ -128,7 +127,7 @@
                     </div>
                     <div class="col-sm-auto">
                         <div class="d-flex gap-1 flex-wrap">
-                    @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 3) 
+                    @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 3) 
                         {{-- Display only for roles 1, 2, or 3 --}}
                         <button type="button" class="btn btn-success add-btn" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModal"><i class="ri-add-line align-bottom me-1"></i> Create</button>
                     @endif
@@ -188,7 +187,7 @@
                                     <th class="sort" data_sort="due_date">Due</th>
                                     <th class="sort" data_sort="priority">Priority</th>
                                     <th class="sort" data_sort="status">Status</th>
-                                    @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 3 ) 
+                                    @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 3 ) 
                                      {{-- Display only for role_id 1,2,3 (Super Admin, Admin, Farmerleader) --}}
                                     <th>Actions</th>
                                     @endif
@@ -219,7 +218,7 @@
                                         <span class="badge badge-<?php echo strtolower($task->status); ?>"><?php echo $task->status; ?></span>
                                     </td>
                                     <td>
-                                    @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 3 ) 
+                                    @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 3 ) 
                                         {{-- Display only for role_id 1, 2, 3 (Super Admin, Admin, Farmerleader) --}}
                                         <a href="#" class="btn btn-primary btn-sm task-edit" data-task-id="{{ $task->id }}" data-task-title="{{ $task->title }}" data-task-description="{{ $task->description }}" data-task-priority="{{ $task->priority }}" data-task-due_date="{{ $task->due_date }}" data-task-user_id="{{ $task->user_id }}" data-task-status="{{ $task->status }}">
                                             <i class="ri-pencil-fill fs-16"></i>
@@ -284,6 +283,7 @@
         <label for="due_date" class="form-label">Date and Time</label>
         <input type="datetime-local" name="due_date" id="due_date" class="form-control" required />
     </div>
+
     <div class="col-md-6">
         <label for="priority" class="form-label">Priority</label>
         <select class="form-control" id="priority" name="priority" required>
@@ -358,11 +358,10 @@
                         <label for="description" class="form-label">Description</label>
                         <input type="text" name="description" id="edit-description" class="form-control" value="{{ isset($task) ? $task->description : '' }}" required />
                     </div>
-
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="due_date" class="form-label">Date and Time</label>
-                            <input type="datetime-local" name="due_date" id="edit-due_date" class="form-control" value="{{ isset($task) ? $task->due_date : '' }}" required />
+                            <input type="datetime-local" name="due_date" id="due_date" class="form-control" value="{{ isset($task) ? $task->due_date : '' }}"  required />
                         </div>
                         <div class="col-md-6">
                             <label for="priority" class="form-label">Priority</label>
@@ -668,10 +667,21 @@
 @endforeach
 
 
+
                                                      
 });
 
-  
+ // Get current date and time
+ var currentDate = new Date();
+    var currentDateTime = currentDate.toISOString().slice(0, 16);
+
+    // Set min attribute of the input to the current date and time
+    document.getElementById("due_date").min = currentDateTime;
+
+    // Add event listener to the input
+    document.getElementById("due_date").addEventListener("change", function() {
+        
+    });  
 
 
     

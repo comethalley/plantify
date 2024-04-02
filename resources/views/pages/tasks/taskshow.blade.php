@@ -74,8 +74,7 @@
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">List Viewed</a></li>
-                                <li class="breadcrumb-item active">Kanban Board</li>
+                                <li class="breadcrumb-item active">Completed Task</li>
                             </ol>
                         </div>
                     </div>
@@ -133,7 +132,7 @@
                                             <th>ID</th>
                                             <th class="sort" data-sort="title">Title  </th>
                                             <th class="sort" data-sort="description">Description</th>
-                                            <th class="sort" data-sort="user_id">Assignee</th>
+                                            <th class="sort" data-sort="user_id">Assigned To</th>
                                             <th class="sort" data-sort="priority">Priority</th>
                                             <th class="sort">Status</th>
                                             <th class="sort" data-sort="condition">Date Completed</th>

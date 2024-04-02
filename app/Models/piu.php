@@ -10,7 +10,8 @@ class piu extends Model
     use HasFactory;
     protected $fillable = [
         'plant_name',
-        'planting_date',
+        'season',
+        'image',
         'information',
         'companion',
         'status',

@@ -45,7 +45,7 @@ Route::get('/signup', [AuthController::class, 'viewSignup']);
 Route::post('/login/process', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
 Route::post('/register', [AuthController::class, 'signup']);
-Route::middleware(['auth'])->get('/authenticated-route', 'AuthController@index');
+//Route::middleware(['auth'])->get('/authenticated-route', 'AuthController@index');
 
 
 Route::get('/planting', [PlantController::class, 'index']);
@@ -96,7 +96,7 @@ Route::get('/search-users', [ChatController::class, 'searchUsers']);
 
 // Group Chats
 Route::get('/groups', [GroupController::class, 'index'])->name('groups.index');
-Route::get('/groups/{group}/{farm}', [GroupController::class, 'show'])->name('groups.show');
+Route::get('/groups/{groupId}', [GroupController::class, 'show'])->name('groups.show'); // Make the farmId parameter optional
 Route::post('/groups/{group}/join', [GroupController::class, 'join'])->name('groups.join');
 Route::get('/groups/create', [GroupController::class, 'create'])->name('groups.create');
 Route::post('/group/{groupId}/store-group-message', [GroupController::class, 'storeGroupMessage'])->name('store.group.message');
@@ -156,7 +156,16 @@ Route::post('/plantinfo', [PlantInfoController::class, 'store']);
 Route::post('/archive/{id}', [PlantInfoController::class, 'archive']);
 Route::get('/restore', [PlantInfoController::class, 'restore']);
 Route::post('/unarchive/{id}', [PlantInfoController::class, 'unarchive']);
-//==========================================================================
+//PES=======================================================================
+Route::get('/pesticides', [PlantInfoController::class, 'pesticides']);
+Route::post('/pupdate/{id}', [PlantInfoController::class, 'pupdate']);
+Route::post('/pesticides', [PlantInfoController::class, 'pstore']);
+Route::get('/pedit/{id}', [PlantInfoController::class, 'pedit']);
+//FER=======================================================================
+Route::get('/fertilizers', [PlantInfoController::class, 'fertilizers']);
+Route::post('/fertilizers', [PlantInfoController::class, 'fstore']);
+Route::post('/fupdate/{id}', [PlantInfoController::class, 'fupdate']);
+Route::get('/fedit/{id}', [PlantInfoController::class, 'fedit']);
 
 //For farm management =======================================================
 
@@ -186,6 +195,10 @@ Route::post('/set-date-farm/{id}', [FarmController::class, 'SetDateStatus'])->na
 Route::get('/farms3', [FarmController::class, 'index']);
 Route::post('/add-farms', [FarmController::class, 'addFarms'])->name('add.farms');
 Route::get('/archive-farm/{id}', [FarmController::class, 'archiveFarm'])->name('archive.farm');
+// Route::get('/', function () {
+//     return view('pages.index');
+// })->name('home');
+
 //=============================================================================================    
 
 //TASK MANAGEMENT ============================================================================
@@ -225,9 +238,18 @@ Route::post('/change-password/{id}', [EmailVerification::class, 'changePassword'
 
 //Botaknows Userside ===================================================
 Route::get('/piu/piu', [PiuController::class, 'index']);
-Route::get('/piu/fiu', [PiuController::class, 'fer']);
-Route::get('/piu/pes', [PiuController::class, 'pes']);
 Route::get('/piu/show/{id}', [PiuController::class, 'show']);
+
+
+Route::get('/piu/pes', [PiuController::class, 'pes']);
+Route::get('/piu/showpes/{id}', [PiuController::class, 'showpes']);
+
+Route::get('/piu/fiu', [PiuController::class, 'fer']);
+Route::get('/piu/showfiu/{id}', [PiuController::class, 'showfiu']);
+
+
+
+
 //===========================================================================================================
 
 Route::middleware(['auth', 'checkrole:1,2,3'])->group(function () {
@@ -241,4 +263,3 @@ Route::get('/farmsAnalyticsData/{num}', [AnalyticsController::class, 'getFarmsDa
 Route::get('/markAsRead', function () {
     auth()->user()->unreadNotifications->markAsRead();
 });
-

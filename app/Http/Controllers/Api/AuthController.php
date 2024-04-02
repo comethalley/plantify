@@ -30,6 +30,9 @@ class AuthController extends Controller
 
     public function index()
     {
+        if (!auth()->check()) {
+            return redirect()->route('login');
+        }
         // $users = DB::table('users')->where('status', 1)->select(
         //     "id",
         //     "email",

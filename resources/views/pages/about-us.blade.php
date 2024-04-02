@@ -112,6 +112,8 @@
 
             <h1 style="font-family: Poppins; font-size: 30px; font-style: normal;
 font-weight: 700; line-height: normal; text-align:center;color:Green; padding: 20px;">QUEZON CITY UNIVERSITY<h1>
+                    
+                    
                     <div style="text-align: center;">
                         <svg width="200" height="189" viewBox="0 0 200 191" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <path d="M199 95.4999C199 147.259 154.727 189.308 99.9999 189.308C45.2728 189.308 0.999878 147.259 0.999878 95.4999C0.999878 43.741 45.2728 1.69238 99.9999 1.69238C154.727 1.69238 199 43.741 199 95.4999Z" fill="url(#pattern0)" stroke="#7D7979" stroke-width="2" />
@@ -204,13 +206,132 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
 </div>
 </div>
 </div>
+
+
+    <div class="green-rectangle" style="background-color:#8BE262; padding: 15px;">
+<h1 style="margin-bottom:50px; background-color:#8BE262; text-align:center; color: Black; font-family: Poppins;font-size: 30px; font-style: normal; font-weight: 700; line-height: normal;"></h1>
+        <div style="background-color:white; padding: 20px; border-radius:21px;">
+
+            <h1 style="font-family: Poppins; font-size: 30px; font-style: normal;
+font-weight: 700; line-height: normal; text-align:center;color:Green; padding: 20px;">CENTER FOR URBAN AGRICULTURE AND INNOVATION <h1>
+                    <div style="text-align: center;">    
+    <img src="/assets/images/plantifeedpics/CUAI.jpg" alt="" class="img-fluid" style="width: 220px; height: 210px;">
+                    </div>
+                            
+
+                            
+                <path d="M199 95.4999C199 147.259 154.727 189.308 99.9999 189.308C45.2728 189.308 0.999878 147.259 0.999878 95.4999C0.999878 43.741 45.2728 1.69238 99.9999 1.69238C154.727 1.69238 199 43.741 199 95.4999Z" fill="url(#pattern0)" stroke="#7D7979" stroke-width="2" />
+
+                        
+
+                    <p style="margin: 20px; color:black; font-size: 16px;font-family: Inter; font-weight: 400; text-align:justify;line-height: normal;text-align:center; text-indent: 2em;">Center for Urban Agriculture and Innovation (CUAI) is one of the many manifestations of Mayor Joy Belmonte's commitment to the program on urban development particularly in her effort to address the "zero hunger" challenge of the city. In QCU through CUAI, we believe engaging in this work on many levels towards improving the social, health and economic outcomes for communities.</p>
+
+<div class="second-container" style="margin-top:50px; display: grid; grid-template-columns:250px 40px 250px 40px 290px; justify-content:center; ">
+
+<div class="card-1" style="display:flex; flex-direction: column; align-items:center;">
+    <svg style="margin-bottom:20px;" width="70" height="70" viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g clip-path="url(#clip0_1931_100)">
+            <path d="M21.41 52.6231L17.1854 48.3985C16.0233 47.2364 15.6132 45.5548 16.1327 43.9962C16.5429 42.7794 17.0897 41.1934 17.746 39.3751H3.28114C2.10536 39.3751 1.01161 38.7462 0.423717 37.7208C-0.164174 36.6954 -0.150502 35.4376 0.45106 34.4259L7.62879 22.3263C9.40614 19.3321 12.619 17.5001 16.0917 17.5001H27.3436C27.6718 16.9532 27.9999 16.4473 28.328 15.9552C39.5253 -0.56047 56.205 -1.10734 66.1581 0.724688C67.744 1.0118 68.9745 2.25594 69.2753 3.84188C71.1073 13.8087 70.5468 30.4747 54.0448 41.672C53.5663 42.0001 53.0468 42.3282 52.4999 42.6563V53.9083C52.4999 57.3809 50.6679 60.6075 47.6737 62.3712L35.5741 69.5489C34.5624 70.1505 33.3046 70.1641 32.2792 69.5762C31.2538 68.9884 30.6249 67.9083 30.6249 66.7188V52.0626C28.6972 52.7325 27.0155 53.2794 25.744 53.6895C24.2128 54.1817 22.5448 53.7579 21.3964 52.6231H21.41ZM52.4999 22.9688C53.9503 22.9688 55.3413 22.3927 56.3669 21.3671C57.3925 20.3415 57.9686 18.9505 57.9686 17.5001C57.9686 16.0497 57.3925 14.6587 56.3669 13.6331C55.3413 12.6075 53.9503 12.0313 52.4999 12.0313C51.0495 12.0313 49.6585 12.6075 48.6329 13.6331C47.6073 14.6587 47.0311 16.0497 47.0311 17.5001C47.0311 18.9505 47.6073 20.3415 48.6329 21.3671C49.6585 22.3927 51.0495 22.9688 52.4999 22.9688Z" fill="#4A9826" />
+        </g>
+        <defs>
+            <clipPath id="clip0_1931_100">
+                <rect width="70" height="70" fill="white" />
+            </clipPath>
+        </defs>
+    </svg>
+
+    <h2 style="font-size: 18px; font-family: Poppins;font-style: normal; font-weight: 700;line-height: normal;"> MISSION</h2>
+
+    <p style="font-size: 16px; font-family: Inter;text-align: center;">To be recognized as the #1 local
+        university of employable graduate</p>
+</div>
+
+<div>
+    <svg style="margin-left:15px; "width="2" height="250" viewBox="0 0 2 250" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="1" y1="4.37114e-08" x2="0.999989" y2="250" stroke="#4A9826" stroke-width="2" />
+    </svg>
+
+</div>
+
+
+<div class="card-1" style="display:flex; flex-direction: column; align-items:center;">
+    <svg style="margin-bottom:20px; "width="70" height="70" viewBox="0 0 58 77" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M44.8896 37.4322C47.0646 34.3342 48.3334 30.5594 48.3334 26.4688C48.3334 15.8361 39.6787 7.21875 29 7.21875C18.3214 7.21875 9.66669 15.8361 9.66669 26.4688C9.66669 30.5594 10.9354 34.3342 13.1104 37.4322C13.6693 38.2293 14.3339 39.1316 15.0438 40.0941C16.9922 42.7561 19.3182 45.9443 21.0552 49.0875C22.6261 51.9449 23.4266 54.9227 23.8193 57.735H16.4636C16.1313 55.9303 15.5724 54.1707 14.6813 52.5465C13.186 49.8395 11.3281 47.2979 9.47033 44.7563C8.68492 43.6885 7.8995 42.6207 7.14429 41.5379C4.16877 37.2818 2.41669 32.0783 2.41669 26.4688C2.41669 11.8508 14.3188 0 29 0C43.6813 0 55.5834 11.8508 55.5834 26.4688C55.5834 32.0783 53.8313 37.2818 50.8406 41.5529C50.0854 42.6357 49.3 43.7035 48.5146 44.7713C46.6568 47.2979 44.799 49.8395 43.3037 52.5615C42.4125 54.1857 41.8537 55.9453 41.5214 57.75H34.1959C34.5886 54.9377 35.3891 51.9449 36.9599 49.1025C38.6969 45.9594 41.0229 42.7711 42.9714 40.1092C43.6813 39.1467 44.3308 38.2443 44.8896 37.4473V37.4322ZM29 19.25C24.9974 19.25 21.75 22.4834 21.75 26.4688C21.75 27.7922 20.6625 28.875 19.3334 28.875C18.0042 28.875 16.9167 27.7922 16.9167 26.4688C16.9167 19.8215 22.324 14.4375 29 14.4375C30.3292 14.4375 31.4167 15.5203 31.4167 16.8438C31.4167 18.1672 30.3292 19.25 29 19.25ZM29 77C22.324 77 16.9167 71.616 16.9167 64.9688V62.5625H41.0834V64.9688C41.0834 71.616 35.6761 77 29 77Z" fill="#4A9826" />
+    </svg>
+
+    <h2 style="font-size: 18px; font-family: Poppins;font-style: normal;
+font-weight: 700;
+line-height: normal;"> VISION</h2>
+
+    <p style="font-size: 16px; font-family: Inter;text-align: center;font-style: normal;
+font-weight: 400;
+line-height: normal;">To be provide a comprehensive education thet enhances the lives of QCU students for nation-buildin</p>
+
+</div>
+
+
+<div>
+    <svg style="margin-left:45px;"width="2" height="250" viewBox="0 0 2 250" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="1" y1="4.37114e-08" x2="0.999989" y2="250" stroke="#4A9826" stroke-width="2" />
+    </svg>
+
+</div>
+
+<div class="card-1" style="display:flex; flex-direction: column; align-items:center;">
+    <svg style="margin-bottom:20px; "width="70" height="70" viewBox="0 0 57 76" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g clip-path="url(#clip0_1931_93)">
+            <path d="M25.7984 0.816418C27.4312 -0.267175 29.5687 -0.267175 31.2015 0.816418L33.8437 2.55314C34.7344 3.13204 35.7734 3.41407 36.8273 3.3547L39.989 3.16173C41.9484 3.04298 43.7891 4.11173 44.6648 5.86329L46.0898 8.69845C46.5648 9.64845 47.3367 10.4055 48.2719 10.8805L51.1367 12.3203C52.8883 13.1961 53.957 15.0367 53.8383 16.9961L53.6453 20.1578C53.5859 21.2117 53.868 22.2656 54.4469 23.1414L56.1984 25.7836C57.282 27.4164 57.282 29.5539 56.1984 31.1867L54.4469 33.8438C53.868 34.7344 53.5859 35.7734 53.6453 36.8274L53.8383 39.9891C53.957 41.9484 52.8883 43.7891 51.1367 44.6649L48.3015 46.0899C47.3516 46.5649 46.5945 47.3367 46.1195 48.2719L44.6797 51.1367C43.8039 52.8883 41.9633 53.957 40.0039 53.8383L36.8422 53.6453C35.7883 53.5859 34.7344 53.868 33.8586 54.4469L31.2164 56.1984C29.5836 57.282 27.4461 57.282 25.8133 56.1984L23.1562 54.4469C22.2656 53.868 21.2265 53.5859 20.1726 53.6453L17.0109 53.8383C15.0515 53.957 13.2109 52.8883 12.3351 51.1367L10.9101 48.3016C10.4351 47.3516 9.66327 46.5945 8.72811 46.1195L5.86327 44.6797C4.11171 43.8039 3.04296 41.9633 3.16171 40.0039L3.35467 36.8422C3.41405 35.7883 3.13202 34.7344 2.55311 33.8586L0.816394 31.2016C-0.2672 29.5688 -0.2672 27.4313 0.816394 25.7984L2.55311 23.1563C3.13202 22.2656 3.41405 21.2266 3.35467 20.1727L3.16171 17.0109C3.04296 15.0516 4.11171 13.2109 5.86327 12.3352L8.69842 10.9102C9.64842 10.4203 10.4203 9.64845 10.8953 8.69845L12.3203 5.86329C13.1961 4.11173 15.0367 3.04298 16.9961 3.16173L20.1578 3.3547C21.2117 3.41407 22.2656 3.13204 23.1414 2.55314L25.7984 0.816418ZM40.375 28.5C40.375 25.3506 39.1239 22.3301 36.8969 20.1031C34.6699 17.8761 31.6494 16.625 28.5 16.625C25.3505 16.625 22.3301 17.8761 20.1031 20.1031C17.8761 22.3301 16.625 25.3506 16.625 28.5C16.625 31.6495 17.8761 34.6699 20.1031 36.8969C22.3301 39.1239 25.3505 40.375 28.5 40.375C31.6494 40.375 34.6699 39.1239 36.8969 36.8969C39.1239 34.6699 40.375 31.6495 40.375 28.5ZM0.192956 65.5797L6.59061 50.3648C6.6203 50.3797 6.63514 50.3945 6.64999 50.4242L8.07499 53.2594C9.81171 56.7031 13.4187 58.7961 17.2781 58.5734L20.4398 58.3805C20.4695 58.3805 20.514 58.3805 20.5437 58.4102L23.1859 60.1617C23.943 60.6516 24.7445 61.0375 25.5758 61.3047L19.9945 74.5602C19.6531 75.3766 18.8961 75.9258 18.0203 76C17.1445 76.0742 16.2984 75.6734 15.8234 74.9313L11.0437 67.6133L2.71639 68.8453C1.8703 68.9641 1.02421 68.6227 0.489831 67.9547C-0.0445439 67.2867 -0.14845 66.3664 0.178112 65.5797H0.192956ZM37.0055 74.5453L31.4242 61.3047C32.2555 61.0375 33.057 60.6664 33.8141 60.1617L36.4562 58.4102C36.4859 58.3953 36.5156 58.3805 36.5601 58.3805L39.7219 58.5734C43.5812 58.7961 47.1883 56.7031 48.925 53.2594L50.35 50.4242C50.3648 50.3945 50.3797 50.3797 50.4094 50.3648L56.8219 65.5797C57.1484 66.3664 57.0297 67.2719 56.5101 67.9547C55.9906 68.6375 55.1297 68.9789 54.2836 68.8453L45.9562 67.6133L41.1765 74.9164C40.7015 75.6586 39.8555 76.0594 38.9797 75.9852C38.1039 75.9109 37.3469 75.3469 37.0055 74.5453Z" fill="#4A9826" />
+        </g>
+        <defs>
+            <clipPath id="clip0_1931_93">
+                <rect width="57" height="76" fill="white" />
+            </clipPath>
+        </defs>
+    </svg>
+
+
+    <h2 style="font-size: 18px; font-family: Poppins;font-style: normal; font-weight: 700;line-height: normal;"> VALUES</h2>
+
+    <p style=" margin-left:39px; font-size: 16px; font-family: Inter;text-align: center;font-style: normal;
+font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational Adaptability Yoke of Efficiency and Effectivesnes</p>
+
+  
+</div>
+</div>
+</div>
+</div>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1364 340" fill="none">
             <path d="M0 151.2L37.8889 176.361C75.7778 201.994 151.556 251.606 227.333 270.861C303.111 289.406 378.889 277.594 454.667 239.439C530.444 201.994 606.222 138.206 682 144.939C757.778 151.2 833.556 226.8 909.333 251.961C985.111 277.594 1060.89 251.606 1136.67 258.339C1212.44 264.6 1288.22 302.4 1326.11 321.3L1364 340.2V-6.92257e-05H1326.11C1288.22 -6.92257e-05 1212.44 -6.92257e-05 1136.67 -6.92257e-05C1060.89 -6.92257e-05 985.111 -6.92257e-05 909.333 -6.92257e-05C833.556 -6.92257e-05 757.778 -6.92257e-05 682 -6.92257e-05C606.222 -6.92257e-05 530.444 -6.92257e-05 454.667 -6.92257e-05C378.889 -6.92257e-05 303.111 -6.92257e-05 227.333 -6.92257e-05C151.556 -6.92257e-05 75.7778 -6.92257e-05 37.8889 -6.92257e-05H0V151.2Z" fill="#8BE262" />
         </svg>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         
-        <div class="row" style="width: 1345px;">
+        
+        
+        
+        
+
+
+
+        <div class="row" style="width: 1360px; justify-content: flex-end;">
                         <div class="col-lg-10 mx-auto text-center">
 <h1 style="margin-bottom:40px; text-align:center; color: Black; font-family: Poppins;font-size: 30px; font-style: normal; font-weight: 700; line-height: normal;">MEET THE TEAM</h1>
 
@@ -286,9 +407,9 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                     </div> 
                     
                     
-                    <div class="row"  style="width: 1345px;">
+                    <div class="row"  style="width: 1360px;">
                         <div class="col-lg-10 mx-auto text-center">
-<!-- <h1 style="margin-bottom:80px; text-align:center; color: Black; font-family: Poppins;font-size: 30px; font-style: normal; font-weight: 700; line-height: normal;">MEET THE TEAM</h1> -->
+
 
                                 <div id="teamlist">
                                     <div class="team-list grid-view-filter row" id="team-member-list">
@@ -363,9 +484,9 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
 
 
 
-                    <div class="row"  style="width: 1345px;">
+                    <div class="row"  style="width: 1360px;">
                         <div class="col-lg-10 mx-auto text-center">
-<!-- <h1 style="margin-bottom:80px; text-align:center; color: Black; font-family: Poppins;font-size: 30px; font-style: normal; font-weight: 700; line-height: normal;"></h1> -->
+
 
                                 <div id="teamlist">
                                     <div class="team-list grid-view-filter row" id="team-member-list">
@@ -500,13 +621,15 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
 
                     <!-- Developer section -->
 
-                    <div class="row" style="padding:0 width:1343px;">
+                    
+                    <div class="row" style="width: 1360px; justify-content: flex-end;">
+                    <div id="teamlist">
                         <div class="col-lg-10 mx-auto text-center"> <br>
                             <div>
                             <h1 style="margin-bottom:40px; text-align:center; color: Black; font-family: Poppins;font-size: 30px; font-style: normal; font-weight: 700; line-height: normal;">Developer</h1>
 
 
-                                <div id="teamlist">
+                               
                                     <div class="team-list grid-view-filter row" id="team-member-list">
                                     
                                     
@@ -1678,7 +1801,7 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
 
                                                <!-- Last-->
                                                
-                       
+
 
                                             </div>
                              
@@ -1686,42 +1809,82 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                              
                          </div>
                          <!-- end col -->
+
+                        
             
 
                      </div>
-
                 
-<div  style="display:flex;">
+</div>
 
-                     <div class="plantify-section" style="display:flex; flex-direction: column; padding:30px;">
-            <h3 style="font-family:Montserrat,sans-serif; ">PLANTIFY</h3>
-            <p style="font-family: Rubik, sans-serif; color:grey; font-size:16px;">Premium Multipurpose Admin & Dashboard Template</p>
-            <p style="font-family: Rubik, sans-serif; color:grey;font-size:16px;margin:0;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas quis aliquam odio, et venenatis erat. Quisque nunc libero, iaculis ut lorem vitae,Quisque nunc libero, iaculis ut lorem vitae,</p>
-        </div>
 
-        <div class="about-section" style="display:flex; flex-direction: column; padding:30px;">
-            <h3 style="font-family:Montserrat,sans-serif;">About</h3>
-            <p style="font-family: Rubik, sans-serif; color:grey; font-size:16px;">About Plantify</p>
-            <p style="font-family: Rubik, sans-serif; color:grey; font-size:16px;">FAQS</p>
-            <p style="font-family: Rubik, sans-serif; color:grey; font-size:16px;">Help</p>
+   
 
-        </div>
 
-        <div class="discover-section" style="display:flex; flex-direction: column; padding:30px;">
-            <h3 style="font-family:Montserrat,sans-serif;">Discover</h3>
-            <p style="font-family: Rubik, sans-serif; color:grey; font-size:16px;">How it works</p>
-            <p style="font-family: Rubik, sans-serif; color:grey; font-size:16px;">Learn More</p>
-            <p style="font-family: Rubik, sans-serif; color:grey; font-size:16px;">To Explore</p>
+<div class="row" style="width: 1370px; justify-content:flex-; background-color:#70CC40; display:grid; grid-template-columns:300px 210px 220px 300px 200px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);">
 
-        </div>
-
-        <div class="address-section" style="display:flex; flex-direction: column; padding:30px;">
-            <h3 style="font-family:Montserrat,sans-serif;">Address</h3>
-            <p style="font-family: Rubik, sans-serif; color:grey; font-size:16px;">673 Quirino Highway, San Bartolome, Novaliches, Quezon City</p>
+<div class="plantify-section" style="flex-direction: column; padding:10px; align-items: center;">
+<a style="font-size:14px; font-family: Montserrat,sans-serif; color:white;" href="#">
+    <img src="/assets/images/bg/white 3.png" alt="Plant Image" class="img-fluid" style="height: 65px;">
+</a>
 
 
 
-        </div>
-        </div>     
-      
-</body>
+</div>
+
+
+
+<div class="about-section" style="display:flex; flex-direction: column; padding:10px;">
+    <h4 style="font-family:Montserrat,sans-serif; color:white;">About</h4>
+    <p style="font-family: Rubik, sans-serif; color:white; font-size:14px; margin-bottom: 5px;">About Plantify</p>
+    <p style="font-family: Rubik, sans-serif; color:white; font-size:14px; margin-bottom: 5px;">FAQS</p>
+    <p style="font-family: Rubik, sans-serif; color:white; font-size:14px; margin-bottom: 5px;">Help</p>
+</div>
+
+<div class="discover-section" style="display:flex; flex-direction: column; padding:10px;">
+    <h4 style="font-family:Montserrat,sans-serif; color:white;">Discover</h4>
+    <p style="font-family: Rubik, sans-serif; color:white; font-size:14px; margin-bottom: 5px;">How it works</p>
+    <p style="font-family: Rubik, sans-serif; color:white; font-size:14px; margin-bottom: 5px;">Learn More</p>
+    <p style="font-family: Rubik, sans-serif; color:white; font-size:14px; margin-bottom: 5px;">To Explore</p>
+</div>
+
+<div class="address-section" style="display:flex; flex-direction: column; padding:10px;">
+<h4 style="font-family:Montserrat,sans-serif; color:white;">Address</h4>
+<p style="font-family: Rubik, sans-serif; color:white; font-size:14px; margin-bottom: 5px;"><i class="fas fa-map-marker-alt"></i>
+673 Quirino Highway, San <br>Bartolome Novaliches Quezon City</p>
+</div>
+
+<div class="contact-section" style="display:flex; flex-direction: column; padding:10px 2px;">
+<h4 style="font-family:Montserrat,sans-serif;  color:white; ">Contact us</i></h4>
+    
+<p style="font-family: Rubik, sans-serif; color: white; font-size: 14px; margin-bottom: 5px; text-align: justify;">Feel free to contact us any time. We will get back to you as soon as we can!</p>
+
+<button id="myBtn" style="padding: 10px 20px; background-color: #ffffff; color: black; border: 1px solid black; border-radius: 8px; cursor: pointer;">Send us a Message!</button>
+
+<!-- The Modal -->
+<div id="myModal" style="display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);">
+<div style="background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 40%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+<form id="contactForm" style="text-align: left;">
+  <span style="color: #aaa; font-size: 28px; font-weight: bold; cursor: pointer; position: absolute; right: 10px; top: 10px;" onclick="document.getElementById('myModal').style.display='none'">&times;</span>
+  
+  <label for="email" style="font-size: 14px; color: #333; text-align: left; display: block; font-weight: bold;">Email:</label>
+  <input type="email" id="email" name="email" placeholder="Enter your Email" style="outline: none; width: calc(100% - 20px); padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; text-align: left;" required><br>
+  
+  <label for="subject" style="font-size: 14px; color: #333; text-align: left; display: block; font-weight: bold;">Subject:</label>
+  <input type="subject" id="subject" name="subject" placeholder="Enter your Subject" style="outline: none; width: calc(100% - 20px); padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; text-align: left;" required><br>
+  
+  <label for="message" style="font-size: 14px; color: #333; text-align: left; display: block; font-weight: bold;">Message:</label>
+  <textarea id="message" placeholder="Enter your Message" name="message" style="resize: none; outline: none; width: calc(100% - 20px); padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; text-align: left;" required></textarea><br>
+  
+  <div style="text-align: right;">
+    <button type="submit" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px;">Send</button>
+    <button type="button" style="padding: 10px 20px; background-color: rgb(237, 94, 94); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; margin-left: 10px;" onclick="document.getElementById('myModal').style.display='none'">Close</button>
+  </div>
+</form>
+</div>
+</div>
+
+
+
+                     
+                    

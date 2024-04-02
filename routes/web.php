@@ -21,6 +21,7 @@ use App\Http\Controllers\TaskController;
 use App\Http\Controllers\AboutUsController;
 use App\Http\Controllers\EmailVerification;
 use App\Http\Controllers\PiuController;
+use App\Http\Controllers\LandingpageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -217,3 +218,5 @@ Route::get('/piu/fiu', [PiuController::class, 'fer']);
 Route::get('/piu/pes', [PiuController::class, 'pes']);
 Route::get('/piu/show/{id}', [PiuController::class, 'show']);
 //===========================================================================================================
+
+Route::get('/landingpage', [LandingpageController::class, 'index']);

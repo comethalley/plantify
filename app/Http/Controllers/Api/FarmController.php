@@ -348,45 +348,36 @@ public function viewFarms3(Request $request)
 
 
 public function addFarms(Request $request)
-    {
-        try {
-            $request->validate([
-                'barangay_name' => 'required|string|max:255',
-                'farm_name' => 'required|string|max:255',
-                'address' => 'required|string|max:255',
-                'area' => 'required|numeric',
-                'farm_leader' => 'required|exists:users,id',
-                'title_land' => 'required|file|mimes:pdf,png,jpg|max:2048',
-                'picture_land' => 'required|file|mimes:jpeg,png|max:2048',
-                'picture_land1' => 'nullable|file|mimes:jpeg,png|max:2048',
-                'picture_land2' => 'nullable|file|mimes:jpeg,png|max:2048',
-                'status' => 'string|max:255',
-            ]);
+{
+    try {
+        $request->validate([
+            'barangay_name' => 'required|string|max:255',
+            'farm_name' => 'required|string|max:255',
+            'address' => 'required|string|max:255',
+            'area' => 'required|numeric',
+            'farm_leader' => 'required|exists:users,id',
+            'title_land' => 'required|file|mimes:pdf,png,jpg|max:2048',
+            'picture_land' => 'required|file|mimes:jpeg,png|max:2048',
+            'picture_land1' => 'nullable|file|mimes:jpeg,png|max:2048',
+            'picture_land2' => 'nullable|file|mimes:jpeg,png|max:2048',
+            'status' => 'string|max:255',
+        ]);
 
-            // Retrieve user details based on the selected farm_leader
-            $selectedUser = User::findOrFail($request->input('farm_leader'));
+        // Retrieve user details based on the selected farm_leader
+        $selectedUser = User::findOrFail($request->input('farm_leader'));
 
-            $barangayName = $request->input('barangay_name');
-            $farmName = $request->input('farm_name');
-            $address = $request->input('address');
-            $area = $request->input('area');
-            $status = $request->input('status', 'Created');
+        $titleLandPath = $request->file('title_land')->store('pdfs', 'public');
+        $pictureLandPath = $request->file('picture_land')->store('images', 'public');
 
-            $titleLandContent = file_get_contents($request->file('title_land')->getRealPath());
-            $pictureLandContent = file_get_contents($request->file('picture_land')->getRealPath());
-
-            $titleLandPath = $request->file('title_land')->store('pdfs', 'public');
-            $pictureLandPath = $request->file('picture_land')->store('images', 'public');
-
-            $pictureLandPath1 = $request->hasFile('picture_land1') ? $request->file('picture_land1')->store('images', 'public') : null;
-            $pictureLandPath2 = $request->hasFile('picture_land2') ? $request->file('picture_land2')->store('images', 'public') : null;
+        $pictureLandPath1 = $request->hasFile('picture_land1') ? $request->file('picture_land1')->store('images', 'public') : null;
+        $pictureLandPath2 = $request->hasFile('picture_land2') ? $request->file('picture_land2')->store('images', 'public') : null;
 
         Farm::create([
             'barangay_name' => $request->input('barangay_name'),
             'farm_name' => $request->input('farm_name'),
             'address' => $request->input('address'),
             'area' => $request->input('area'),
-            'farm_leader' => $selectedUser->id, // Use the id from the selected user
+            'farm_leader' => $selectedUser->id,
             'status' => $request->input('status', 'Created'),
             'title_land' => $titleLandPath,
             'picture_land' => $pictureLandPath,
@@ -400,6 +391,7 @@ public function addFarms(Request $request)
         return response()->json(['success' => false, 'errors' => ['exception' => [$e->getMessage()]]], 500);
     }
 }
+
 public function getFarmDetails($id)
 {
     // Fetch farm details from the "farms" table

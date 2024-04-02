@@ -68,13 +68,8 @@
                                     
                                         <div class="chat-message-list">
                                             <ul class="list-unstyled chat-list chat-user-list" id="userList">
-                                                @forelse($users as $user)
-                                                    @php
-                                                        // Check if the user has any messages
-                                                        $hasMessages = $user->messages->isNotEmpty();
-                                                    @endphp
-
-                                                    @if($hasMessages)
+                                                @foreach($users as $user)
+                                                    @if($user->isPartOfConversation) <!-- Check if user is part of the conversation -->
                                                         <button type="button" class="btn member-button" data-member-id="{{ $user->id }}" data-thread-id="{{ $user->thread_id }}">
                                                             <!-- Your user display content -->
                                                             <div class="d-flex align-items-center">
@@ -89,11 +84,10 @@
                                                             </div>
                                                         </button>
                                                     @endif
-                                                @empty
-                                                    <p>No other users found.</p>
-                                                @endforelse
+                                                @endforeach
                                             </ul>
                                         </div>
+
 
 
 

@@ -7,7 +7,8 @@ use App\Models\CalendarPlanting;
 use App\Models\Expense;
 use App\Models\Farm;
 use App\Models\Harvest;
-use App\Models\Barangay; 
+use App\Models\Barangay;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -31,7 +32,7 @@ class AnalyticsController extends Controller
     } elseif ($user->role_id == 3) {
         // Fetch data for farm leader role
         $expensesData = Expense::where('budget_id', 3)->where('id', $user->id)->get(['description', 'amount', 'created_at'])->toJson();
-        $farmsData = Farm::where('barangay_id', $user->barangay_id)->with('barangay')->get()->toJson();
+        // $farmsData = Farm::where('barangay_id', $user->barangay_id)->with('barangay')->get()->toJson();
         
         
     }
@@ -88,8 +89,20 @@ class AnalyticsController extends Controller
             'monthlyData' => $monthlyData
         ]);
     }
-    
-    
+    public function count()
+    {
+        $farmLeaderCount = User::where('role_id', 3)->count();
+        $farmerCount = User::where('role_id', 4)->count();
+        $totalUserCount = User::count();
+        $farmCount = Farm::distinct()->count('id');
+        
+        return response()->json([
+            'farmLeaderCount' => $farmLeaderCount,
+            'farmerCount' => $farmerCount,
+            'totalUserCount' => $totalUserCount,
+            'farmCount' => $farmCount
+        ]);
+    }
     
 }
     

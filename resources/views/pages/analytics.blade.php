@@ -54,8 +54,9 @@
                                                 <div class="d-flex justify-content-between">
                                                     <div>
                                                         <p class="fw-medium text-muted mb-0">Users</p>
-                                                        <h2 class="mt-4 ff-secondary fw-semibold"><span class="counter-value" data-target="28.05">0</span>k</h2>
-                                                        <p class="mb-0 text-muted"><span class="badge bg-light text-success mb-0"> <i class="ri-arrow-up-line align-middle"></i> 16.24 % </span> vs. previous month</p>
+                                                        <h2 class="mt-4 ff-secondary fw-semibold">
+                                                            <span id="totalUserCounter" class="counter-value" data-target="">0</span>
+                                                        </h2>
                                                     </div>
                                                     <div>
                                                         <div class="avatar-sm flex-shrink-0">
@@ -74,9 +75,9 @@
                                             <div class="card-body">
                                                 <div class="d-flex justify-content-between">
                                                     <div>
-                                                        <p class="fw-medium text-muted mb-0">Sessions</p>
-                                                        <h2 class="mt-4 ff-secondary fw-semibold"><span class="counter-value" data-target="97.66">0</span>k</h2>
-                                                        <p class="mb-0 text-muted"><span class="badge bg-light text-danger mb-0"> <i class="ri-arrow-down-line align-middle"></i> 3.96 % </span> vs. previous month</p>
+                                                        <p class="fw-medium text-muted mb-0">Number of Farms</p>
+                                                        <h2 class="mt-4 ff-secondary fw-semibold">
+                                                            <span id="farmCounter" class="counter-value" data-target="">0</span></h2>
                                                     </div>
                                                     <div>
                                                         <div class="avatar-sm flex-shrink-0">
@@ -97,11 +98,11 @@
                                             <div class="card-body">
                                                 <div class="d-flex justify-content-between">
                                                     <div>
-                                                        <p class="fw-medium text-muted mb-0">Avg. Visit Duration</p>
-                                                        <h2 class="mt-4 ff-secondary fw-semibold"><span class="counter-value" data-target="3">0</span>m
-                                                            <span class="counter-value" data-target="40">0</span>sec
+                                                        <p class="fw-medium text-muted mb-0">Number of Farm Leaders</p>
+                                                        <h2 class="mt-4 ff-secondary fw-semibold">
+                                                            <span id="farmLeaderCounter" class="counter-value" data-target="">0</span>
                                                         </h2>
-                                                        <p class="mb-0 text-muted"><span class="badge bg-light text-danger mb-0"> <i class="ri-arrow-down-line align-middle"></i> 0.24 % </span> vs. previous month</p>
+                                                        
                                                     </div>
                                                     <div>
                                                         <div class="avatar-sm flex-shrink-0">
@@ -120,9 +121,10 @@
                                             <div class="card-body">
                                                 <div class="d-flex justify-content-between">
                                                     <div>
-                                                        <p class="fw-medium text-muted mb-0">Bounce Rate</p>
-                                                        <h2 class="mt-4 ff-secondary fw-semibold"><span class="counter-value" data-target="33.48">0</span>%</h2>
-                                                        <p class="mb-0 text-muted"><span class="badge bg-light text-success mb-0"> <i class="ri-arrow-up-line align-middle"></i> 7.05 % </span> vs. previous month</p>
+                                                        <p class="fw-medium text-muted mb-0">Number of Farmers</p>
+                                                        <h2 class="mt-4 ff-secondary fw-semibold">
+                                                            <span id="farmerCounter" class="counter-value" data-target="">0</span>
+                                                        </h2>
                                                     </div>
                                                     <div>
                                                         <div class="avatar-sm flex-shrink-0">
@@ -337,7 +339,38 @@
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
 <script>
+ function updateCounters() {
+        // Make an AJAX request to fetch counts
+        $.ajax({
+            url: '/analytics/count',
+            type: 'GET',
+            success: function(data) {
+                // Update farm leader counter
+                $('#farmLeaderCounter').text(data.farmLeaderCount);
+                $('#farmLeaderCounter').attr('data-target', data.farmLeaderCount);
+                
+                // Update farmer counter
+                $('#farmerCounter').text(data.farmerCount);
+                $('#farmerCounter').attr('data-target', data.farmerCount);
+                
+                // Update total user counter
+                $('#totalUserCounter').text(data.totalUserCount);
+                $('#totalUserCounter').attr('data-target', data.totalUserCount);
+                
+                // Update farm counter
+                $('#farmCounter').text(data.farmCount);
+                $('#farmCounter').attr('data-target', data.farmCount);
+            },
+            error: function(xhr, status, error) {
+                console.error('Error fetching counts:', error);
+            }
+        });
+    }
 
+    // Call the function when the page loads
+    $(document).ready(function() {
+        updateCounters();
+    });
    document.addEventListener('DOMContentLoaded', function() {
     // Parse the data from the controller
     var expensesData = JSON.parse('{!! $expensesData !!}');

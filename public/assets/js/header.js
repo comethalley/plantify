@@ -2,6 +2,39 @@ const temperaturePlaceholder = document.getElementById("temperature-placeholder"
 const weatherButton = document.getElementById("weather-button");
 const weatherIcon = document.getElementById("weather-icon");
 
+
+function getDateTime() {
+  let now = new Date();
+  let days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  return days[now.getDay()];
+}
+
+function getDateTime() {
+  let now = new Date();
+  let days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  return days[now.getDay()];
+}
+
+// Set the text content of the <p> tag to display the current day name and time
+document.getElementById("current-day").textContent = getDateTime();
+
+
 function updateTemperature(temperature) {
     temperaturePlaceholder.textContent = temperature + "°C";
 }

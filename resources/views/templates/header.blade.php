@@ -176,14 +176,10 @@
                                             </li>
                                             <li class="nav-item waves-effect waves-light">
                                                 <a class="nav-link" data-bs-toggle="tab" href="#messages-tab" role="tab" aria-selected="false">
-                                                    Messages
+                                                    Plantifeed
                                                 </a>
                                             </li>
-                                            <li class="nav-item waves-effect waves-light">
-                                                <a class="nav-link" data-bs-toggle="tab" href="#alerts-tab" role="tab" aria-selected="false">
-                                                    Alerts
-                                                </a>
-                                            </li>
+                                          
                                         </ul>
                                     </div>
                                 </div>

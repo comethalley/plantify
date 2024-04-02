@@ -95,7 +95,32 @@
                             </div>
                         </div>
                     </div>
+
                   
+                    <div class="card-body border border-dashed border-end-0 border-start-0">
+                        <form>
+                            <div class="row g-3">
+                                <div class="col-xl-3 ">
+                                    <div class="mt-0">
+                                        
+                                        <div class="d-flex align-items-center mt-2">
+                                            
+                                        
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><br>
+                            <!--end row-->
+                            <!-- Another Calender -->
+                            <!-- <div >
+                                <label for="exampleInputdate" class="form-label">Input Date</label>
+                                <div class="d-flex align-items-center ">
+                                    <input type="date" class="form-control me-2" id="exampleInputdate">
+                                    <button type="button" class="btn btn-primary bg-gradient
+                                     waves-effect waves-light mdi mdi-magnify search-widget-icon"></button>
+                                </div> -->
+                        </form>
+                    </div>
                     <div class="card-body pt-0">
                         <div>
 

@@ -9,6 +9,7 @@
             <th scope="col">ID</th>
             <th scope="col">Code</th>
             <th scope="col">Seed Name</th>
+            <th scope="col">Image</th>
             <th scope="col">Uom</th>
             <th scope="col">Qty</th>
             <th scope="col">QR Code</th>
@@ -33,6 +34,7 @@
             <td>{{$per_Seeds->suppliers_seedsID}}</td>
             <td>{{$per_Seeds->qr_code}}</td>
             <td>{{$per_Seeds->seedName}}</td>
+            <td><img src="/images/{{$per_Seeds->image}}" alt="" width="100px" height="100px"></td>
             <td>{{$per_Seeds->umoName}}</td>
             <td><input class="form-control form-control-sm update-qty" type="text" name="quantity" data-supplierseed-id="{{$per_Seeds->suppliers_seedsID}}" id="quantity_{{$per_Seeds->suppliers_seedsID}}" value="{{$per_Seeds->qty}}"> </td>
             <td><a href="{{ route('download.image', ['filename' => $per_Seeds->qr_code . '.png']) }}"><i class="ri-download-2-line"></i>&nbsp;Download</a></td>

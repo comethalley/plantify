@@ -1,21 +1,35 @@
-@include('templates.header')
+    @include('templates.header')
 
-<div class="main-content">
+    <div class="main-content">
 
-    <div class="page-content">
-        <div class="container-fluid">
-
+        <div class="page-content">
+            <div class="container-fluid">
+            
             <div class="col-12">
-                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                    <h4 class="mb-sm-0">Plant Information</h4>
+                        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                            <h4 class="mb-sm-0">Plant Information</h4>
 
-                </div>
+                        </div>
             </div>
-            <!-- start page title -->
-            <div class="row">
+            <div class="card-body border border-dashed border-end-0 border-start-0">
+                                <form action="{{url('searchpiu')}}" method="POST">
+                                    @csrf
+                                    <div class="row g-3">
+                                        <div class="col-xxl-5 col-sm-6">
+                                        
+                                            <!-- <div class="search-box">
+                                            <div class="d-flex align-items-center ">
+                                                        <input type="text" id="search" name="plant_name" class="form-control me-2" >
+                                                        <button  type="submit"  class="btn btn-primary bg-gradient waves-effect waves-light mdi mdi-magnify search-widget-icon"></button>
+                                            </div>
+                                        </div> -->
+                                    </div>
+                                    <!--end row-->
+                <!-- start page title -->
+                <div class="row">
 
-
-                @foreach($piu as $plant_info)
+            
+            @foreach($piu as $plant_info)
                 <div class="col-sm-6 col-xl-3" style="padding-top: 6px; padding-left: 12px; padding-right: 12px;">
                     <!-- Simple card -->
                     <div class="card">
@@ -29,20 +43,15 @@
 
                             <div class="text-end">
                                 <a href="{{ url('piu/show', $plant_info->id) }}" class="btn btn-success add-btn d-flex justify-content-center align-items-center">Read more</a>
-
                             </div>
-                        </div>
-                    </div><!-- end card -->
-                </div>
-                @endforeach
+                            @endforeach
+                
 
 
-
+                            </div> 
+                        </div>  
+                </div>   
             </div>
-        </div>
-    </div>
-</div>
-
-<!-- last -->
 
 <@include('templates.footer')
+

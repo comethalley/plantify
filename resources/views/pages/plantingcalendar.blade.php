@@ -245,7 +245,7 @@
                                                 </div>
                                                         <div class="modal-footer">
                                                         <div class="hstack gap-2 justify-content-end">
-                                                        <button type="button" class="btn btn-danger" id="deleteEventBtn" id="deleteEventBtn" hidden>Delete</button>
+                                                        <button type="button" class="btn btn-danger" id="deleteEventBtn" id="deleteEventBtn">Delete</button>
                                                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editexampleModal">Edit</button>
                                                     
                                                           </div>  
@@ -356,7 +356,7 @@
 
         var inputElement = document.getElementById("seed-input");
 
-// Add event listener for input
+
         inputElement.addEventListener("input", function(event) {
             // Get the value entered by the user
             var inputValue = event.target.value;
@@ -533,7 +533,8 @@
         });
 
 
-            if (title && start && end && status && seed && harvested && destroyed) {
+         
+        if (title && start && end && status && seed && harvested && destroyed) {
                 $.ajax({
                     url: "/plantcalendar/" + eventId,
                     type: "PUT",
@@ -564,8 +565,12 @@
                     });
                     },
                     error: function (error) {
-                        console.error("Error updating event:", error);
-                        alert("Error updating event. Please try again.");
+                        $('#updateEventBtn').modal('hide');
+                    Swal.fire({
+                        title: "Error",
+                        text: "Error updating event. Please try again.",
+                        icon: "error"
+                    });
                     }
                 });
             }
@@ -647,6 +652,8 @@
         } else {
             return 'transparent'; // Transparent background for other events
         }
+
+        
     }
 
         flatpickr("#start-datepicker, #updatestart-datepicker", {
@@ -730,15 +737,7 @@
     });
 
      
-    // $("#showModalExample").click(function(){
-    //     $('#addplanting').modal('hide');
-    //     Swal.fire({
-    //         title: "Successfully added",
-    //         text: "Are you ready for the next level?", <br>
-    //         icon: "success",
-    //         showConfirmButton: false // Remove the OK button
-    //     });
-    // });
+
 
 
 

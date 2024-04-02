@@ -28,6 +28,7 @@ class CompleteTaskNotification extends Notification
 
             'message' => 'Your task is completed ',
             'created_at' => now()->diffForHumans(),
+
         ];
     }
 }

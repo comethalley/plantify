@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
+
 
 
 class FarmController extends Controller
@@ -244,48 +246,48 @@ public function archiveFarm(Request $request, $id)
 
 
     public function updateStatus(Request $request, $id)
-{
-    // Validate the request if needed
-    $request->validate([
-        'status' => 'required|in:For-Investigation,For-Visiting,Approved,Disapproved,Waiting-for-Approval,Resubmit',
-        'remarks' => 'nullable|string|max:255',
-    ]);
-
-    // Find the farm by ID
-    $farm = Farm::findOrFail($id);
-
-    // Get the authenticated user (admin)
-    $admin = Auth::user();
-
-    // Update the status in the farms table
-    $farm->status = $request->input('status');
-    $farm->save();
-
-    // Create a new entry in the RemarkFarm table
-    RemarkFarm::create([
-        'farm_id' => $farm->id,
-        'remarks' => $request->input('remarks'),
-        'remark_status' => $request->input('status'),
-        'validated_by' => $admin->firstname . ' ' . $admin->lastname,
-    ]);
-
-    return response()->json(['success' => 'Updated successfully']);
-}
+    {
+        // Validate the request if needed
+        $request->validate([
+            'status' => 'required|in:For-Investigation,For-Visiting,Approved,Disapproved,Waiting-for-Approval,Resubmit',
+            'remarks' => 'nullable|string|max:255',
+            'select_date' => 'nullable|date', // Add validation rule for select_date
+        ]);
+    
+        // Find the farm by ID
+        $farm = Farm::findOrFail($id);
+    
+        // Get the authenticated user (admin)
+        $admin = Auth::user();
+    
+        // Update the status in the farms table
+        $farm->status = $request->input('status');
+    
+        // If select_date is provided, update it only if it's not null and not already set
+        if ($request->has('select_date') && $request->input('select_date') !== null && $farm->select_date === null) {
+            // Parse and format the date using Carbon
+            $selectedDate = Carbon::parse($request->input('select_date'))->toDateString();
+            $farm->select_date = $selectedDate;
+        }
+    
+        $farm->save();
+    
+        // Create a new entry in the RemarkFarm table
+        RemarkFarm::create([
+            'farm_id' => $farm->id,
+            'remarks' => $request->input('remarks'),
+            'remark_status' => $request->input('status'),
+            'validated_by' => $admin->firstname . ' ' . $admin->lastname,
+        ]);
+    
+        return response()->json(['success' => 'Updated successfully']);
+    }
+    
+    
+    
 
 //view farm-management//
 
-public function filterByStatus(Request $request)
-{
-    $status = $request->input('status');
-
-    if (strtolower($status) == 'all') {
-        $farms = Farm::all();
-    } else {
-        $farms = Farm::where('status', $status)->get();
-    }
-
-    return response()->json(['farms' => $farms]);
-}
 
 public function filterByStatus1(Request $request)
 {
@@ -308,7 +310,6 @@ public function viewFarms(Request $request)
     $farms = DB::table('farms')
         ->join('barangays', 'farms.barangay_name', '=', 'barangays.barangay_name')
         ->leftJoin('users', 'farms.farm_leader', '=', 'users.id') // Join with users table for farm leader
-
         ->where('farms.barangay_name', '=', $barangayName)
         ->select('farms.*')
         ->select('farms.*', 'users.firstname as farm_leader_firstname', 'users.lastname as farm_leader_lastname') // Select relevant columns with aliases
@@ -325,6 +326,12 @@ public function viewFarms3(Request $request)
     // Get the authenticated user
     $user = Auth::user();
 
+    // Retrieve farm leaders
+    $farmLeaders = User::where('status', 1)
+                       ->where('role_id', 3)
+                       ->select('id', 'firstname', 'lastname')
+                       ->get();
+
     $farms = DB::table('farms')
         ->join('barangays', 'farms.barangay_name', '=', 'barangays.barangay_name')
         ->leftJoin('users', 'farms.farm_leader', '=', 'users.id') // Join with users table for farm leader
@@ -336,50 +343,41 @@ public function viewFarms3(Request $request)
         ->select('farms.*', 'users.firstname as farm_leader_firstname', 'users.lastname as farm_leader_lastname') // Select relevant columns with aliases
         ->get();
 
-    return view('pages.farms.view1', compact('farms', 'barangayName'));
+    return view('pages.farms.view1', compact('farms', 'barangayName', 'farmLeaders'));
 }
 
 
 public function addFarms(Request $request)
-    {
-        try {
-            $request->validate([
-                'barangay_name' => 'required|string|max:255',
-                'farm_name' => 'required|string|max:255',
-                'address' => 'required|string|max:255',
-                'area' => 'required|numeric',
-                'farm_leader' => 'required|exists:users,id',
-                'title_land' => 'required|file|mimes:pdf,png,jpg|max:2048',
-                'picture_land' => 'required|file|mimes:jpeg,png|max:2048',
-                'picture_land1' => 'nullable|file|mimes:jpeg,png|max:2048',
-                'picture_land2' => 'nullable|file|mimes:jpeg,png|max:2048',
-                'status' => 'string|max:255',
-            ]);
+{
+    try {
+        $request->validate([
+            'barangay_name' => 'required|string|max:255',
+            'farm_name' => 'required|string|max:255',
+            'address' => 'required|string|max:255',
+            'area' => 'required|numeric',
+            'farm_leader' => 'required|exists:users,id',
+            'title_land' => 'required|file|mimes:pdf,png,jpg|max:2048',
+            'picture_land' => 'required|file|mimes:jpeg,png|max:2048',
+            'picture_land1' => 'nullable|file|mimes:jpeg,png|max:2048',
+            'picture_land2' => 'nullable|file|mimes:jpeg,png|max:2048',
+            'status' => 'string|max:255',
+        ]);
 
-            // Retrieve user details based on the selected farm_leader
-            $selectedUser = User::findOrFail($request->input('farm_leader'));
+        // Retrieve user details based on the selected farm_leader
+        $selectedUser = User::findOrFail($request->input('farm_leader'));
 
-            $barangayName = $request->input('barangay_name');
-            $farmName = $request->input('farm_name');
-            $address = $request->input('address');
-            $area = $request->input('area');
-            $status = $request->input('status', 'Created');
+        $titleLandPath = $request->file('title_land')->store('pdfs', 'public');
+        $pictureLandPath = $request->file('picture_land')->store('images', 'public');
 
-            $titleLandContent = file_get_contents($request->file('title_land')->getRealPath());
-            $pictureLandContent = file_get_contents($request->file('picture_land')->getRealPath());
-
-            $titleLandPath = $request->file('title_land')->store('pdfs', 'public');
-            $pictureLandPath = $request->file('picture_land')->store('images', 'public');
-
-            $pictureLandPath1 = $request->hasFile('picture_land1') ? $request->file('picture_land1')->store('images', 'public') : null;
-            $pictureLandPath2 = $request->hasFile('picture_land2') ? $request->file('picture_land2')->store('images', 'public') : null;
+        $pictureLandPath1 = $request->hasFile('picture_land1') ? $request->file('picture_land1')->store('images', 'public') : null;
+        $pictureLandPath2 = $request->hasFile('picture_land2') ? $request->file('picture_land2')->store('images', 'public') : null;
 
         Farm::create([
             'barangay_name' => $request->input('barangay_name'),
             'farm_name' => $request->input('farm_name'),
             'address' => $request->input('address'),
             'area' => $request->input('area'),
-            'farm_leader' => $selectedUser->id, // Use the id from the selected user
+            'farm_leader' => $selectedUser->id,
             'status' => $request->input('status', 'Created'),
             'title_land' => $titleLandPath,
             'picture_land' => $pictureLandPath,
@@ -393,6 +391,7 @@ public function addFarms(Request $request)
         return response()->json(['success' => false, 'errors' => ['exception' => [$e->getMessage()]]], 500);
     }
 }
+
 public function getFarmDetails($id)
 {
     // Fetch farm details from the "farms" table
@@ -410,6 +409,7 @@ public function getFarmDetails($id)
         'remark_status' => $remarkFarms->pluck('remark_status'),
         'validated_by' => $remarkFarms->pluck('validated_by'),
         'created_at' => $remarkFarms->pluck('created_at'),
+        'visit_date' => $remarkFarms->pluck('visit_date'),
     ]);
 }
 
@@ -435,6 +435,8 @@ public function updateStatusCancel($id)
             'remarks' => 'Cancelled', // Set the remark to "Cancelled"
             'remark_status' => 'Cancelled', // Set the remark status to "Cancelled"
             'validated_by' => $user->firstname . ' ' . $user->lastname,
+            'visit_date' => null, // Set visit_date to null
+
         ]);
 
         // You can return a success response if needed
@@ -450,7 +452,14 @@ public function updateStatusCancel($id)
 }
 public function updateFarm(Request $request, $id)
 {
-    // Validate the form data if needed
+    // Validate the form data
+    $request->validate([
+
+        'title_land' => 'nullable|file|mimes:pdf,png,jpg|max:2048',
+        'picture_land' => 'nullable|file|mimes:jpeg,png|max:2048',
+        'picture_land1' => 'nullable|file|mimes:jpeg,png|max:2048',
+        'picture_land2' => 'nullable|file|mimes:jpeg,png|max:2048',
+    ]);
 
     // Update the farm record based on the provided $id
     $farm = Farm::findOrFail($id);
@@ -459,12 +468,108 @@ public function updateFarm(Request $request, $id)
         return response()->json(['error' => 'Farm not found'], 404);
     }
 
+    $selectedUser = User::findOrFail($request->input('farm_leader'));
+
+    // Check if title_land file is provided in the request
+    if ($request->hasFile('title_land')) {
+        // Handle title_land file
+        $titleLandContent = file_get_contents($request->file('title_land')->getRealPath());
+        $titleLandPath = $request->file('title_land')->store('pdfs', 'public');
+    } else {
+        // If title_land file is not provided, use the existing value from the database
+        $titleLandPath = $farm->title_land;
+    }
+
+    if ($request->hasFile('picture_land')) {
+        // Handle title_land file
+        $pictureLandContent = file_get_contents($request->file('picture_land')->getRealPath());
+        $pictureLandPath = $request->file('picture_land')->store('images', 'public');
+    } else {
+        // If title_land file is not provided, use the existing value from the database
+        $pictureLandPath = $farm->picture_land;
+    }
+
+    if ($request->hasFile('picture_land1')) {
+        // Handle title_land file
+        $pictureLandContent1 = file_get_contents($request->file('picture_land1')->getRealPath());
+        $pictureLandPath1 = $request->file('picture_land1')->store('images', 'public');
+    } else {
+        // If title_land file is not provided, use the existing value from the database
+        $pictureLandPath1 = $farm->picture_land1;
+    }
+    if ($request->hasFile('picture_land2')) {
+        // Handle title_land file
+        $pictureLandContent2 = file_get_contents($request->file('picture_land2')->getRealPath());
+        $pictureLandPath2 = $request->file('picture_land2')->store('images', 'public');
+    } else {
+        // If title_land file is not provided, use the existing value from the database
+        $pictureLandPath2 = $farm->picture_land2;
+    }
     // Update farm attributes using $request data
-    $farm->update($request->all());
+    $farm->update([
+        'farm_name' => $request->input('farm_name'),
+        'address' => $request->input('address'),
+        'area' => $request->input('area'),
+        'status' => 'Submitted',
+        'barangay_name' => $request->input('barangay_name'),
+        'farm_leader' => $selectedUser->id,
+        'title_land' => $titleLandPath,
+        'picture_land' => $pictureLandPath,
+        'picture_land1' => $pictureLandPath1,
+        'picture_land2' => $pictureLandPath2,
+
+    ]);
 
     return response()->json(['message' => 'Farm updated successfully', 'farm' => $farm]);
 }
 
+public function SetDateStatus($id, Request $request)
+{
+    try {
+        // Validate the request data
+        $validatedData = $request->validate([
+            'visit_date' => 'required|date', // Ensure visit_date is required and a valid date
+        ]);
+
+        // Find the farm by ID
+        $farm = Farm::findOrFail($id);
+
+        $farm->status = 'Visiting';
+
+        // Save the changes
+        $farm->save();
+
+        // Get the authenticated user (assuming it's a regular user)
+        $user = Auth::user();
+
+        // Create a new entry in the RemarkFarm table
+        RemarkFarm::create([
+            'farm_id' => $farm->id,
+            'remarks' => 'For Farm Visiting Date', 
+            'remark_status' => 'Visiting',
+            'validated_by' => $user->firstname . ' ' . $user->lastname,
+            'visit_date' => $validatedData['visit_date'] // Save the selected date
+        ]);
+
+        // You can return a success response if needed
+        return response()->json(['success' => true, 'message' => 'Farm status updated successfully']);
+
+    } catch (\Exception $e) {
+        // Log the error for debugging purposes
+        \Log::error('Error updating farm status to "Cancel" for farm ID ' . $id . ': ' . $e->getMessage());
+
+        // Handle any errors that occur during the update
+        return response()->json(['success' => false, 'message' => 'Error updating farm status to "Set Date"']);
+    }
+}
+
+
+public function fetchFarmsByBarangay(Request $request)
+{
+    $farms = Farm::where('barangay_id', $request->barangay_id)->get();
+
+    return response()->json($farms);
+}
 
 
 

@@ -29,6 +29,7 @@ class MissingTaskNotification extends Notification
 
             'message' => 'You miss your task ',
             'created_at' => now()->diffForHumans(),
+
         ];
     }
 }

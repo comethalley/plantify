@@ -162,7 +162,7 @@
                                                     <!-- <label for="customername-field" class="form-label">Season</label> -->
                                                     <div class="form-group">
                                                         <label for="mode">Season</label>
-                                                        <select class="form-select" id="season">
+                                                        <select class="form-select" id="seasons">
                                                             <option value="January">January</option>
                                                             <option value="February">February</option>
                                                             <option value="March">March</option>
@@ -192,7 +192,7 @@
 
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Days of Harvest</label>
-                                                    <input type="text" name="day_harvest" id="day_harvest" class="form-control" placeholder="Companion" required />
+                                                    <input type="number" name="day_harvest" id="day_harvest" class="form-control" placeholder="No. of Days" required />
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
@@ -213,13 +213,13 @@
 
 
                             <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-dialog modal-dialog-centered modal-lg">
                                     <div class="modal-content">
                                         <div class="modal-header bg-light p-3">
                                             <h5 class="modal-title" id="exampleModalLabel">Edit Plant Information</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
                                         </div>
-                                        <form action="{{ url('plantinfo/') }}" method="post">
+                                        <form action="{{ url('plantinfo/') }}" method="post" enctype="multipart/form-data">
                                             @csrf
                                             <div class="modal-body">
                                                 <input type="hidden" id="id-field" />
@@ -232,18 +232,38 @@
                                                 </div>
 
                                                 <div class="mb-3">
-                                                    <label for="customername-field" class="form-label">Planting Date</label>
-                                                    <input type="date" name="supplier-name" id="edit_plant_date" class="form-control" placeholder="Plant Name" required />
+                                                <label for="mode">Season</label>            
+                                                        <select class="form-select" id="edit_seasons">
+                                                            <option value="January">January</option>
+                                                            <option value="February">February</option>
+                                                            <option value="March">March</option>
+                                                        </select>
+                                                        
                                                 </div>
-
                                                 <div class="mb-3">
-                                                    <label for="customername-field" class="form-label">Information</label>
-                                                    <input type="text" name="description" id="edit_information" class="form-control" placeholder="Plant Information" required />
+                                                <label for="customername-field" class="form-label">Information</label>
+                                                    <!-- <input type="text" name="information" id="edit_information" class="form-control" placeholder="Plant Information" required /> -->
+                                                    <div id="edit-editor">
+
+                                                    
                                                 </div>
+                                                </div>      
+                                                <div class="mb-3">
+                                                          
+                                                          <img src=""  alt="" srcset="" id="edit_image_preview" width="200px" height="200px" >
+                                                          <label for="formFile" class="form-label"></label>
+                                                        <input class="form-control" type="file" id="edit_image" name="edit_image">
+                                                </div>
+                                                
 
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Companion</label>
                                                     <input type="text" name="address" id="edit_companion" class="form-control" placeholder="Companion" required />
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label for="customername-field" class="form-label">Days to Harvest</label>
+                                                    <input type="text" name="address" id="edit_days_harvest" class="form-control" placeholder="No. of Days" required />
                                                 </div>
 
 
@@ -298,6 +318,32 @@
     <!-- end main content-->
 
 </div>
+
+<script>
+    $(document).ready(function(){
+    $("#").click(function(){
+        $('.modal').modal('hide');
+        $('body').removeClass('modal-open');
+        $('.modal-backdrop').remove();
+        $("#").modal("hide")
+        $("#").modal("show")
+    });
+});
+
+ 
+$("#create").click(function(){
+    $('#showModal').modal('hide');
+    Swal.fire({
+        title: "Successfully added",
+        text: "Are you ready for the next level?", <br>
+        icon: "success",
+        showConfirmButton: false // Remove the OK button
+    });
+});
+
+</script>
+
+
 <!-- END layout-wrapper -->
 <!-- 
 <div class="main-content">
@@ -354,5 +400,15 @@
         </div>
     </div>
 </div> -->
+<script>
+    $('#edit_image').on('change', function() {
+        var file = this.files[0];
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            $('#edit_image_preview').attr('src', e.target.result);
+        };
+        reader.readAsDataURL(file);
+    });
+</script>
 
 @include('templates.footer')

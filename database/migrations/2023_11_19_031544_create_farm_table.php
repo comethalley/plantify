@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('farms', function (Blueprint $table) {
             $table->id();
             $table->string('barangay_name');
+            $table->string('barangay_name');
             $table->string('farm_name');
             $table->string('address');
             $table->string('area');
@@ -27,7 +28,11 @@ return new class extends Migration
             $table->binary('picture_land2')->nullable();
             $table->date('select_date')->nullable();
             $table->timestamps();
+        
+            // Define foreign key constraint
+            $table->foreign('farm_leader')->references('id')->on('users')->onDelete('cascade');
         });
+        
     }
 
     /**

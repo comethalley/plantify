@@ -30,7 +30,7 @@
                                     <i class="ri-search-2-line search-icon"></i>
                                 </div>
 
-                                <ul class="list-unstyled chat-list chat-user-list" id="userList">
+                                <ul class="list-unstyled chat-list chat-user-list" id="listUser">
                                     <!-- User list items will be dynamically added here -->
                                 </ul>
                             </div> <!-- .p-4 -->
@@ -119,48 +119,50 @@
                                         <div class="chat-message-list">
                                             <ul class="list-unstyled chat-list chat-user-list mb-0" id="channelList">
                                                 @forelse($groups as $group)
-                                                @if(auth()->user()->role_id == 2 && $group->group_name == 'Admin and Farm Leaders')
-                                                {{-- Display only for role_id 2 (Admin and Farm Leaders) --}}
-                                                <button type="button" class="btn channel-button" data-group-id="{{ $group->id }}" data-farm-id="{{ optional($farmLeaders)->id }}">
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="ms-2">
-                                                            <h6 class="mb-0">{{ $group->group_name }}</h6>
-                                                            @if ($group->unread_message_count > 0)
-                                                                <span class="position-absolute topbar-badge fs-10 translate-end badge rounded-pill bg-danger">{{ $group->unread_message_count }}</span>
-                                                            @endif
-                                                        </div>
-                                                    </div>
-                                                </button>
-                                                @elseif(auth()->user()->role_id == 3)
-                                                {{-- Display for role_id 3 (both Admin and Farm Leaders, Farm Leader and Farmers) --}}
-                                                <button type="button" class="btn channel-button" data-group-id="{{ $group->id }}" data-farm-id="{{ optional($farmLeaders)->id }}">
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="ms-2">
-                                                            <h6 class="mb-0">{{ $group->group_name }}</h6>
-                                                            @if ($group->unread_message_count > 0)
-                                                                <span class="position-absolute topbar-badge fs-10 translate-end badge rounded-pill bg-danger">{{ $group->unread_message_count }}</span>
-                                                            @endif
-                                                        </div>
-                                                    </div>
-                                                </button>
-                                                @elseif(auth()->user()->role_id == 4 && $group->group_name == 'Farm Leader and Farmers')
-                                                {{-- Display only for role_id 4 (Farm Leader and Farmers) --}}
-                                                <button type="button" class="btn channel-button" data-group-id="{{ $group->id }}" data-farm-id="{{ optional($farmLeaders)->id }}">
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="ms-2">
-                                                            <h6 class="mb-0">{{ $group->group_name }}</h6>
-                                                            @if ($group->unread_message_count > 0)
-                                                                <span class="position-absolute topbar-badge fs-10 translate-end badge rounded-pill bg-danger">{{ $group->unread_message_count }}</span>
-                                                            @endif
-                                                        </div>
-                                                    </div>
-                                                </button>
-                                                @endif
+                                                    @if(auth()->user()->role_id == 2 && $group->group_name == 'Admin and Farm Leaders')
+                                                        {{-- Display only for role_id 2 (Admin and Farm Leaders) --}}
+                                                        <button type="button" class="btn channel-button" data-group-id="{{ $group->id }}" >
+                                                            <div class="d-flex align-items-center">
+                                                                <div class="ms-2">
+                                                                    <h6 class="mb-0">{{ $group->group_name }}</h6>
+                                                                    @if ($group->unread_message_count > 0)
+                                                                        <span class="position-absolute topbar-badge fs-10 translate-end badge rounded-pill bg-danger">{{ $group->unread_message_count }}</span>
+                                                                    @endif
+                                                                </div>
+                                                            </div>
+                                                        </button>
+                                                    @elseif(auth()->user()->role_id == 3)
+                                                        {{-- Display for role_id 3 (both Admin and Farm Leaders, Farm Leader and Farmers) --}}
+                                                        <button type="button" class="btn channel-button" data-group-id="{{ $group->id }}" data-farm-id="{{ optional($farmLeaders)->id }}">
+                                                            <div class="d-flex align-items-center">
+                                                                <div class="ms-2">
+                                                                    <h6 class="mb-0">{{ $group->group_name }}</h6>
+                                                                    @if ($group->unread_message_count > 0)
+                                                                        <span class="position-absolute topbar-badge fs-10 translate-end badge rounded-pill bg-danger">{{ $group->unread_message_count }}</span>
+                                                                    @endif
+                                                                </div>
+                                                            </div>
+                                                        </button>
+                                                    @elseif(auth()->user()->role_id == 4 && $group->group_name == 'Farm Leader and Farmers')
+                                                        {{-- Display only for role_id 4 (Farm Leader and Farmers) --}}
+                                                        <button type="button" class="btn channel-button" data-group-id="{{ $group->id }}" data-farm-id="{{ optional($farmLeaders)->id }}">
+                                                            <div class="d-flex align-items-center">
+                                                                <div class="ms-2">
+                                                                    <h6 class="mb-0">{{ $group->group_name }}</h6>
+                                                                    @if ($group->unread_message_count > 0)
+                                                                        <span class="position-absolute topbar-badge fs-10 translate-end badge rounded-pill bg-danger">{{ $group->unread_message_count }}</span>
+                                                                    @endif
+                                                                </div>
+                                                            </div>
+                                                        </button>
+                                                    @endif
                                                 @empty
-                                                <p>No groups found.</p>
+                                                    <p>No groups found.</p>
                                                 @endforelse
                                             </ul>
                                         </div>
+
+
 
 
                                         <!-- End chat-message-list -->
@@ -373,9 +375,25 @@
         var farmId = $(this).data('farm-id'); // Adjust this based on how you get the farm ID in your HTML
 
         // Redirect to the group details page with both IDs
-        window.location.href = '/groups/' + groupId + '/' + farmId;
+        window.location.href = '/groups/' + groupId;
     });
 });
+
+
+$(document).ready(function () {
+    // Attach a click event handler to each group button
+    $('.channel-button').on('click', function () {
+        // Get the group ID and group thread ID from the data attributes
+        var groupId = $(this).data('group-id');
+        var groupThreadId = $(this).data('group-thread-id');
+
+        // Redirect to the group details page with both IDs
+        window.location.href = '/groups/' + groupId;
+    });
+});
+
+
+
 
 
 
@@ -387,7 +405,7 @@ $(document).ready(function () {
 
         // If the search term is empty, clear the user list and return
         if (searchTerm === '') {
-            $('#userList').empty();
+            $('#listUser').empty();
             return;
         }
 
@@ -410,7 +428,7 @@ $(document).ready(function () {
     });
 
     function updateSearchResults(users) {
-        $('#userList').empty();
+        $('#listUser').empty();
 
         users.forEach(function (user) {
             var userItem = '<li>' +
@@ -423,7 +441,7 @@ $(document).ready(function () {
                 '</div>' +
                 '</button>' +
                 '</li>';
-            $('#userList').append(userItem);
+            $('#listUser').append(userItem);
         });
     }
 
@@ -473,7 +491,9 @@ $(document).ready(function () {
 });
 
 
-
+setInterval(function() {
+        $('#userList').load(window.location.href + ' #userList');
+    }, 500);
 </script>
 
 

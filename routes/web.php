@@ -96,7 +96,7 @@ Route::get('/search-users', [ChatController::class, 'searchUsers']);
 
 // Group Chats
 Route::get('/groups', [GroupController::class, 'index'])->name('groups.index');
-Route::get('/groups/{group}/{farm}', [GroupController::class, 'show'])->name('groups.show');
+Route::get('/groups/{groupId}', [GroupController::class, 'show'])->name('groups.show'); // Make the farmId parameter optional
 Route::post('/groups/{group}/join', [GroupController::class, 'join'])->name('groups.join');
 Route::get('/groups/create', [GroupController::class, 'create'])->name('groups.create');
 Route::post('/group/{groupId}/store-group-message', [GroupController::class, 'storeGroupMessage'])->name('store.group.message');

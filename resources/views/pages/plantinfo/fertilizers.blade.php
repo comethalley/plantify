@@ -93,7 +93,7 @@
                                                             </a>
                                                         </li>
                                                         <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Remove">
-                                                            <a class="text-danger d-inline-block remove-item-btn" data-bs-toggle="modal" href="#deleteOrder" data-plantinfo-id="{{$item->id}}">
+                                                            <a class="text-danger d-inline-block remove-fer-btn" data-bs-toggle="modal" href="#deleteOrder" data-plantinfo-id="{{$item->id}}">
                                                                 <i class="ri-delete-bin-5-fill fs-16"></i>
                                                             </a>
                                                         </li>
@@ -237,8 +237,8 @@
                                                 <div class="hstack gap-2 justify-content-center remove">
                                                     <button class="btn btn-link link-success fw-medium text-decoration-none" id="deleteRecord-close" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i> Close</button>
                                                     <form method="POST" action="" style="display:inline">
-                                                        <input type="hidden" id="archiveID">
-                                                        <button type="button" class="btn btn-danger" id="plantinfo-archive">Yes, Delete It</button>
+                                                        <input type="hidden" id="FertID">
+                                                        <button type="button" class="btn btn-danger" id="fertilzer-archive">Yes, Delete It</button>
                                                     </form>
                                                 </div>
                                             </div>
@@ -247,28 +247,7 @@
                                 </div>
                             </div>
                             <!--end modal -->
-                            <!-- Modal -->
-                            <div class="modal fade flip" id="viewModal" tabindex="-1" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered modal-xl">
-                                    <div class="modal-content">
-                                        <div class="modal-body p-5 text-center">
-                                            <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop" colors="primary:#405189,secondary:#f06548" style="width:90px;height:90px"></lord-icon>
-                                            <div class="mt-4 text-center">
-                                                <h4>You are about to delete a order ?</h4>
-                                                <p class="text-muted fs-15 mb-4">Deleting your order will remove all of your information from our database.</p>
-                                                <div class="hstack gap-2 justify-content-center remove">
-                                                    <button class="btn btn-link link-success fw-medium text-decoration-none" id="deleteRecord-close" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i> Close</button>
-                                                    <form method="POST" action="" style="display:inline">
-                                                        <input type="hidden" id="archiveID">
-                                                        <button type="button" class="btn btn-danger" id="plantinfo-archive">Yes, Delete It</button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--end modal -->
+                           
 
                         </div>
                     </div>

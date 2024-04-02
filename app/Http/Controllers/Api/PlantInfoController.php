@@ -168,10 +168,6 @@ class PlantinfoController extends Controller
 
     public function archive(Request $request, $id)
     {
-        // $plantinfo = Plantinfo::find($id);
-        // $input = $request->all();
-        // $plantinfo->update($input);
-        // return redirect('/plantinfo')->with('flash_message', 'Plant Updated!');
 
         $plantinfo = PlantInfo::where('id', $id)->where('status', 1);
 
@@ -409,6 +405,20 @@ public function fedit($id) {
     // Return response with fertilizer data
     return response()->json(['fertilizer' => $fertilizers], 200);
 }
+
+public function farchive(Request $request, $id)
+    {
+
+        $fertilizers = Fertilizers::where('id', $id)->where('fer_status', 1);
+
+
+
+        $fertilizers->update([
+            "fer_status" => 0
+
+        ]);
+        return response()->json(['fertilizers' => $fertilizers], 200);
+    }
 
 
 

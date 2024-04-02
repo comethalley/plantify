@@ -68,3 +68,29 @@ $(document).on('click', '.edit-fer-btn', function(event) {
         }
     });
 });
+
+
+function archiveFertInfo(){
+    var FertID = $('#FertID').val()
+    
+
+    $.ajax({
+        url: "/farchive/"+FertID,
+        method: "POST",
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+
+        success: function(data) {
+            location.reload();
+
+        },
+        error: function(xhr, status, error) {
+            console.error("Error:", status, error);
+        }
+    });
+}
+
+$('#fertilzer-archive').on('click', function() {
+    archiveFertInfo();
+});

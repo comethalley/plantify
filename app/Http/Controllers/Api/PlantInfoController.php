@@ -113,12 +113,12 @@ class PlantinfoController extends Controller
     $plantinfo = PlantInfo::where('id', $id)->where('status', 1)->first(); // Add first() to retrieve the record
 
     $validator = Validator::make($request->all(), [
-        'edit_plant_name' => 'required|string|max:55',
+        'edit_plant_name' => 'required',
         'edit_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-        'edit_seasons' => 'required|string|max:55',
-        'edit_information' => 'required|string|max:55',
-        'edit_companion' => 'required|string|max:55',
-        'edit_days_harvest' => 'required|int|max:255'
+        'edit_seasons' => 'required',
+        'edit_information' => 'required',
+        'edit_companion' => 'required',
+        'edit_days_harvest' => 'required'
     ]);
 
     // If validation fails, return error response

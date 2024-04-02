@@ -149,7 +149,7 @@
                             <h5 class="modal-title" id="exampleModalLabel">Request Farm &nbsp;</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
                         </div>
-                        <form id="addFarmForm" data-action="/add-farms" method="post">
+                        <form id="addFarmForm" action="" method="post">
                             @csrf
                             <div class="modal-body">
                                 <label for="barangay-name" class="form-label">Barangay: &nbsp;</label>
@@ -264,26 +264,32 @@
                     var form = document.getElementById('addFarmForm');
                     var formData = new FormData(form);
 
-                    fetch(form.getAttribute('data-action'), {
-                            method: 'POST',
-                            body: formData,
-                            headers: {
-                                'X-CSRF-Token': '{{ csrf_token() }}',
-                            },
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                location.reload();
-                            } else {
-                                document.getElementById('error-messages').style.display = 'block';
-                                for (var key in data.errors) {
-                                    document.getElementById('error-messages').innerHTML += '<p>' + data.errors[key][0] + '</p>';
-                                }
+                    fetch('{{ route("add.farms") }}', {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-CSRF-Token': '{{ csrf_token() }}',
+                        },
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.success) {
+                            location.reload();
+                        } else {
+                            document.getElementById('error-messages').style.display = 'block';
+                            for (var key in data.errors) {
+                                document.getElementById('error-messages').innerHTML += '<p>' + data.errors[key][0] + '</p>';
                             }
-                        })
-                        .catch(error => console.error('Error:', error));
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
                 }
+
 
                 $(document).ready(function() {
                     $('#searchMemberList').on('keyup', function() {

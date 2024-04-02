@@ -195,9 +195,7 @@ Route::post('/set-date-farm/{id}', [FarmController::class, 'SetDateStatus'])->na
 Route::get('/farms3', [FarmController::class, 'index']);
 Route::post('/add-farms', [FarmController::class, 'addFarms'])->name('add.farms');
 Route::get('/archive-farm/{id}', [FarmController::class, 'archiveFarm'])->name('archive.farm');
-// Route::get('/', function () {
-//     return view('pages.index');
-// })->name('home');
+
 
 //=============================================================================================    
 

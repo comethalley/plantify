@@ -25,7 +25,7 @@ return new class extends Migration
             $table->text('seed')->nullable();
             $table->timestamps();
 
-            $table->foreign('farm_id')->references('id')->on('farms')->onDelete('cascade');
+            //$table->foreign('farm_id')->references('id')->on('farms')->onDelete('cascade');
 
         });
     }

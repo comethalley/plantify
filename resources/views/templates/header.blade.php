@@ -645,12 +645,7 @@
                             </a>
                         </li>
                         @endif
-                        <li class="nav-item">
-                            <a class="nav-link menu-link" href="{{ route('tasks.monitoring') }}" role="button" style="color:white">
-                                <i class="ri-task-line"></i>
-                                <span data-key="t-faqs">Task</span>
-                            </a>
-                        </li>
+                       
 
                         @if(session('user') && (session('user')->role_id == 1 || session('user')->role_id == 3))
                         <li class="nav-item">

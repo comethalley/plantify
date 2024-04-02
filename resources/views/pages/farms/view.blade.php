@@ -103,28 +103,28 @@
                             <td class="text-center status">
                             @switch(strtolower(str_replace(' ', '-', $farm->status)))
                                 @case('created')
-                                    <span class="badge bg-primary fs-5">{{ $farm->status }}</span>
-                                    @break
                                 @case('for-investigation')
-                                    <span class="badge bg-primary fs-5" >{{ $farm->status }}</span>
+                                    <span class="badge bg-primary fs-5" style="color: #fff; ">{{ $farm->status }}</span>
                                     @break
                                 @case('for-visiting')
-                                @case('resubmit')
-                                    <span class="badge bg-secondary fs-5" >{{ $farm->status }}</span>
+                                    <span class="badge fs-5" style="background-color: #007BFF; color: #FFF; ">{{ $farm->status }}</span>
                                     @break
+                                @case('resubmit')
+                                <span class="badge fs-5" style="background-color: #747264; color: #FFF; ">{{ $farm->status }}</span>
+                                @break
                                 @case('visiting')
                                 @case('submitted')
-                                    <span class="badge bg-secondary fs-5" >{{ $farm->status }}</span>
+                                <span class="badge fs-5" style="background-color: #FF9843; color: #000;">{{ $farm->status }}</span>
                                     @break
                                 @case('waiting-for-approval')
-                                    <span class="badge bg-warning fs-5">{{ $farm->status }}</span>
+                                    <span class="badge fs-5" style="background-color: #FFC107; color: #000;">{{ $farm->status }}</span>
                                     @break
                                 @case('approved')
-                                    <span class="badge bg-success fs-5">{{ $farm->status }}</span>
+                                    <span class="badge fs-5" style="background-color: #1F7C33; color: #fff;">{{ $farm->status }}</span>
                                     @break
                                 @case('disapproved')
                                 @case('cancelled')
-                                    <span class="badge bg-danger fs-5">{{ $farm->status }}</span>
+                                    <span class="badge fs-5" style="background-color: #990000; color: #fff;">{{ $farm->status }}</span>
                                     @break
                                 @default
                             @endswitch
@@ -134,7 +134,7 @@
             <td class="text-center">
     <ul class="list-inline d-flex justify-content-center gap-2 mb-0">
         <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="View Application">
-            <a href="#" data-bs-toggle="modal" data-bs-target="#viewModals" class="text-primary d-inline-block edit-item-btn" onclick="showFarmDetails('{{ $farm->id }}', '{{ $farm->farm_name }}', '{{ $farm->barangay_name }}', '{{ $farm->area }}', '{{ $farm->address }}', '{{ $farm->farm_leader }}', '{{ $farm->status }}', '{{ $farm->title_land }}', '{{ $farm->picture_land }}', '{{ $farm->picture_land1 }}', '{{ $farm->picture_land2 }}', '{{ $farm->farm_leader_firstname }}', '{{ $farm->farm_leader_lastname }}');updateButtonVisibility('{{ $farm->status }}');">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#viewModals" class="text-primary d-inline-block edit-item-btn" onclick="showFarmDetails('{{ $farm->id }}', '{{ $farm->farm_name }}', '{{ $farm->barangay_name }}', '{{ $farm->area }}', '{{ $farm->address }}', '{{ $farm->farm_leader }}', '{{ $farm->status }}', '{{ $farm->title_land }}', '{{ $farm->picture_land }}', '{{ $farm->picture_land1 }}', '{{ $farm->picture_land2 }}', '{{ $farm->farm_leader_firstname }}', '{{ $farm->farm_leader_lastname }}'); updateButtonVisibility('{{ $farm->status }}');" style="border-color: #747264;">
                 <i class="ri-profile-line fs-3"></i>
             </a>
         </li>
@@ -464,37 +464,92 @@ function showFarmDetails(id, farmName, barangayName, area, address, farmLeader, 
     case 'created':
         $('#status_modal').html('(' + status + ')')
             .removeClass().addClass('badge bg-primary fs-5');
-        $('.modal-header').removeClass().addClass('modal-header bg-primary p-3');
+        $('#viewModals .modal-header').removeClass().addClass('modal-header bg-primary p-3');
         break;
     case 'for-visiting':
+        $('#status_modal').html('(' + status + ')')
+            .removeClass().addClass('badge fs-5')
+            .css({
+            'background-color': '#007BFF',
+            'color': '#FFF'
+        });;
+        $('#viewModals .modal-header').removeClass().addClass('modal-header p-3')
+        .css({
+            'background-color': '#007BFF',
+            'color': '#FFF'
+        });;
+        break;
     case 'resubmit':
         $('#status_modal').html('(' + status + ')')
-            .removeClass().addClass('badge bg-secondary fs-4');
-        $('.modal-header').removeClass().addClass('modal-header bg-secondary p-3');
+            .removeClass().addClass('badge fs-4')
+            .css({
+            'background-color': '#747264',
+            'color': '#FFF'
+        });;
+            $('#viewModals .modal-header').removeClass().addClass('modal-header p-3')
+            .css({
+            'background-color': '#747264',
+            'color': '#FFF'
+        });;
         break;
     case 'waiting-for-approval':
         $('#status_modal').html('(' + status + ')')
-            .removeClass().addClass('badge bg-warning fs-5');
-        $('.modal-header').removeClass().addClass('modal-header bg-warning p-3');
+            .removeClass().addClass('badge fs-5')
+            .css({
+            'background-color': '#FFC107',
+            'color': '#FFF'
+        });;
+        $('#viewModals .modal-header').removeClass().addClass('modal-header p-3')
+        .css({
+            'background-color': '#FFC107',
+            'color': '#FFF'
+        });;
         break;
     case 'approved':
         $('#status_modal').html('(' + status + ')')
-            .removeClass().addClass('badge bg-success fs-5');
-        $('.modal-header').removeClass().addClass('modal-header bg-success p-3');
+            .removeClass().addClass('badge fs-5')
+            .css({
+            'background-color': '#1F7C33',
+            'color': '#FFF'
+        });;
+        $('#viewModals .modal-header').removeClass().addClass('modal-header p-3')
+        .css({
+            'background-color': '#1F7C33',
+            'color': '#FFF'
+        });;
         break;
     case 'disapproved':
     case 'cancelled':
         $('#status_modal').html('(' + status + ')')
-            .removeClass().addClass('badge bg-danger fs-5');
-        $('.modal-header').removeClass().addClass('modal-header bg-danger p-3');
+            .removeClass().addClass('badge fs-5')
+            .css({
+            'background-color': '#990000',
+            'color': '#FFF'
+        });;
+        $('#viewModals .modal-header').removeClass().addClass('modal-header p-3')
+        .css({
+            'background-color': '#990000',
+            'color': '#FFF'
+        });;
+        break;
+    case 'submitted':
+    case 'visiting':
+        $('#status_modal').html('(' + status + ')')
+            .removeClass().addClass('badge fs-5')
+            .css({
+            'background-color': '#FF9843',
+            'color': '#FFF'
+        });;
+        $('#viewModals .modal-header').removeClass().addClass('modal-header p-3')
+        .css({
+            'background-color': '#FF9843',
+            'color': '#FFF'
+        });;
         break;
     default:
         $('#status_modal').html('(' + status + ')').removeClass().addClass('status status-' + status.toLowerCase().replace(/\s+/g, '-') + ' btn btn-no-shadow');
-        $('.modal-header').removeClass(); // Reset to default modal header style
+        $('#viewModals .modal-header').removeClass(); // Reset to default modal header style
 }
-
-
-
     // Set values for other fields
     $('#farm_name_modal').val(farmName);
     $('#barangay_name_modal').val(barangayName);

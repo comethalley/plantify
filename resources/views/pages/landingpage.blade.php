@@ -8,7 +8,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.4.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.4.0/dist/js/bootstrap.min.js"></script>
 
-
 </head>
 
 <body style="margin: 0;">
@@ -89,9 +88,8 @@
                     <img src="/assets/images/plantifeedpics/Vector.png" alt="Image Description" class="object-cover rounded-full" style="width: 20px; height: 20px; margin-right: 8px;">
                     Apply Farm
                 </h3>
-                <p style="color:grey; text-align:center;">Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                    Laborum soluta incidunt, nihil eligendi ipsa, dicta cum magnam
-                    impedit et totam, </p>
+                <p style="color: grey; text-align: center;">Simplify the intricate process of requesting urban farm spaces by effortlessly submitting necessary documents, tracking progress updates, and seamlessly receiving notifications upon approvals, ensuring a smooth and efficient experience for all users involved.</p>
+
             </div>
 
             <div class="analytics-card" style="background-color:white;display: flex; align-items:center; flex-direction: column;box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); padding:24px;">
@@ -99,10 +97,7 @@
                     <img src="/assets/images/plantifeedpics/analytics 1.png" alt="Image Description" class="object-cover rounded-full" style="width: 20px; height: 20px; margin-right: 8px;">
                     Analytics
                 </h3>
-                <p style="color:grey; text-align:center;">Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                    Laborum soluta incidunt, nihil eligendi ipsa, dicta cum magnam
-                    impedit et totam, laboriosam vel alias enim id velit iusto
-                    laudantium reprehenderit fugit?</p>
+                <p style="color:grey; text-align:center;">Utilize comprehensive data analysis tools to effectively monitor expenses, inventory levels, and planting schedules, enabling you to enhance productivity and efficiency within your urban farming endeavors.</p>
             </div>
 
             <div class=" calendar-card" style="background-color:white;display: flex; align-items:center; flex-direction: column;box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); padding:24px;">
@@ -110,10 +105,8 @@
                     <img src="/assets/images/plantifeedpics/calendar 1.png" alt="Image Description" class="object-cover rounded-full" style="width: 20px; height: 20px; margin-right: 8px;">
                     Planting Calendar
                 </h3>
-                <p style="color:grey; text-align:center;">Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                    Laborum soluta incidunt, nihil eligendi ipsa, dicta cum magnam
-                    impedit et totam, laboriosam vel alias enim id velit iusto
-                    laudantium reprehenderit fugit?</p>
+                <p style="color: grey; text-align: center;">Discover a user-friendly gardening companion! This simplifies scheduling, adjusts planting dates, and manages your planting history. Easily track crop growth on a twelve-month calendar view. Streamline your gardening with ease and precision.</p>
+
             </div>
 
         </div>
@@ -122,7 +115,7 @@
     <div class="engage-container" style="background-color: #D9D9D9;  ">
 
         <div class="title-container" style="text-align: center; font-family: Poppins,sans-serif;"><br>
-        <h1 style="padding-top:30px; font-size:25px; font-family: Montserrat, sans-serif;  margin-top:0px; text-align:center;">Engage in the commnuntiy using</h1>
+        <h1 style="padding-top:10px; font-size:33px; font-family: Montserrat, sans-serif;  margin-top:20px; text-align:center;">Engage in the community using</h1>
         <h2 style="font-family: Montserrat, sans-serif; margin-top:0;"><span style="color: #74CC4B;"></span>P L A N T I F E E D</h2>
 
         </div>
@@ -209,23 +202,17 @@
 
 
     <div class="footer" style="background-color:#70CC40; display:grid; grid-template-columns:300px 210px 220px 300px 200px; justify-content:center; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);">
-
+                    
     <div class="plantify-section" style="display:flex; flex-direction: column; padding:10px; align-items: center;">
     <a style="font-size:14px; font-family: Montserrat,sans-serif; color:white;" href="#">
         <img src="/assets/images/bg/white 3.png" alt="Plant Image" class="img-fluid" style="height: 65px;">
     </a>
-
-    <a href="https://www.facebook.com/qcu1994" style="flex-direction: column; color: white;"><i class="fab fa-instagram fa-sm"> &nbsp;Instagram</i></a><br>
     <a href="https://www.facebook.com/centerforurbanagri" style="flex-direction: column; color: white;"><i class="fab fa-facebook fa-sm"> &nbsp;Facebook</i></a><br>
-    <a href="https://www.facebook.com/qcu1994" style="display: flex; flex-direction: column; align-items: center; color: white; text-decoration: none;">
-    <i class="fa fa-globe">&nbsp; Website</i>
-
-</a>
+    <a href="https://www.instagram.com/quezon_city_university/" style="flex-direction: column; color: white;"><i class="fab fa-instagram fa-sm"> &nbsp;Instagram</i></a><br>
+    <a href="https://qcu.edu.ph/?fbclid=IwAR3a7_ZPjIIQ-tR_-ySad0LgHlDh--B-ZzLCV_gWn_KSm-lvWmqylfWqG84_aem_AXSN9gWktz1DnNlEh493qDLIZALjzSU-v9kdjLoZpYox4ppN2OG5XWKqwFYkTPSuuKklPKh_0LBWpnhfTHIH-dOg" style="display: flex; flex-direction: column; align-items: center; color: white; text-decoration: none;"><i class="fa fa-globe">&nbsp; Website</i></a>
 
 
 </div>
-
-
 
     <div class="about-section" style="display:flex; flex-direction: column; padding:10px;">
         <h4 style="font-family:Montserrat,sans-serif; color:white;">About</h4>
@@ -298,11 +285,7 @@ window.addEventListener("click", function(event) {
 
 
  
-
-
-
-
-    <script>
+<script>
         function toggleCollapsible(collapsibleNumber) {
             var contentId = 'collapsible' + collapsibleNumber + 'Content';
             var content = document.getElementById(contentId);
@@ -320,9 +303,5 @@ window.addEventListener("click", function(event) {
     </script>
 
 
-
-
-
 </body>
-
 </html>

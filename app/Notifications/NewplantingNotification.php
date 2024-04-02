@@ -52,7 +52,8 @@ class NewplantingNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'title'=>$this->plantings['title']
+            
+            'created_at' => now()->diffForHumans(),
         ];
     }
 }

@@ -253,6 +253,7 @@ Route::get('/piu/showfiu/{id}', [PiuController::class, 'showfiu']);
 Route::middleware(['auth', 'checkrole:1,2,3'])->group(function () {
     Route::get('/analytics', [AnalyticsController::class, 'index']);
 });
+Route::get('/analytics/count', [AnalyticsController::class, 'count']);
 
 Route::get('api/farms', [FarmController::class, 'fetchFarmsByBarangay'])->name('api.farms');
 Route::get('/farmsAnalytics/{slug}', [AnalyticsController::class, 'getFarms']);

@@ -1,7 +1,6 @@
 <?php
 
-use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\FarmController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\PlantController;
 use App\Http\Controllers\Api\FullCalendarController;
@@ -19,6 +18,8 @@ use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\PlantCalendar;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\AboutUsController;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\FarmController;
 use App\Http\Controllers\EmailVerification;
 use App\Http\Controllers\PiuController;
 use App\Http\Controllers\AnalyticsController;
@@ -77,8 +78,9 @@ Route::get('/about-us', [AboutUsController::class, 'index']);
 Route::get('/getAllUom', [InventoryController::class, 'getUom']);
 Route::post('/edit-uom/{id}', [InventoryController::class, 'updateUom']);
 Route::post('/archive-uom/{id}', [InventoryController::class, 'archiveUom']);
-
+Route::get('/getAllStock', [InventoryController::class, 'getAllStock']);
 Route::get('/plantifeed', [ForumController::class, 'index']);
+Route::get('/inventory/fertilizer', [InventoryController::class, 'fertilizer']);
 
 // Direct Messages
 Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
@@ -125,9 +127,10 @@ Route::get('/schedules', [EventController::class, 'index']);
 Route::get('/schedulesget', [EventController::class, 'getEvents']);
 Route::get('/schedulesdata/{id}', [EventController::class, 'getdata']);
 Route::delete('/scheduledelete/{id}', [EventController::class, 'deleteEvent']);
-Route::put('/schedule/{id}', [EventController::class, 'update']);
+Route::put('/scheduleupdate/{id}', [EventController::class, 'update']);
 Route::put('/schedule/{id}/resize', [EventController::class, 'resize']);
 Route::get('/events/search', [EventController::class, 'search']);
+Route::get('/upcomingevent', [EventController::class, 'notifyUpcomingEvents']);
 
 Route::view('add-schedule', 'pages.add');
 Route::post('create-schedule', [EventController::class, 'create']);
@@ -140,6 +143,7 @@ Route::delete('/plantcalendardelete/{eventId}', [PlantCalendar::class, 'deleteEv
 Route::put('/plantcalendar/{id}', [PlantCalendar::class, 'update']);
 Route::put('/plantcalendar/{eventId}/resize', [PlantCalendar::class, 'resize']);
 Route::get('/plantcalendar/search', [PlantCalendar::class, 'search']);
+Route::get('/calendar_list', [PlantCalendar::class, 'calendar_list']);
 
 Route::view('add-plantcalendar', 'pages.add');
 Route::post('create-plantcalendar', [PlantCalendar::class, 'create']);
@@ -186,16 +190,18 @@ Route::get('/archive-farm/{id}', [FarmController::class, 'archiveFarm'])
 
 //TASK MANAGEMENT ============================================================================
 Route::get('/tasks', [TaskController::class, 'index'])->name('tasks.monitoring');
-Route::get('/tasks/create', [TaskController::class, 'create'])->name('tasks.create');
 Route::post('/tasks/store', [TaskController::class, 'store'])->name('tasks.store');
-Route::get('/tasks/{task}', [TaskController::class, 'edit'])->name('tasks.edit');
-Route::put('/tasks/{task}', [TaskController::class, 'update'])->name('tasks.update');
+Route::get('/tasks/{task}/edit', [TaskController::class, 'edit'])->name('tasks.edit');
+Route::post('/tasks/{task}', [TaskController::class, 'update']);
 Route::delete('/tasks/{task}', [TaskController::class, 'destroy'])->name('tasks.destroy');
 Route::post('/tasks/{task}/complete', [TaskController::class, 'complete'])->name('tasks.complete');
 Route::get('taskshow', [TaskController::class, 'showCompleted'])->name('taskshow');
 Route::get('/missingtasks', [TaskController::class, 'missingTasks']);
 Route::get('/taskassign', [TaskController::class, 'tasksAssignedToMe']);
 Route::get('/task/filterByStatus', [TaskController::class, 'filterBystatus']);
+Route::post('/tasks/{task}/archive', [TaskController::class, 'archive'])->name('tasks.archive');
+Route::get('/archived', [TaskController::class, 'showArchived'])->name('archived');
+Route::post('/tasks/{task}/restore', [TaskController::class, 'restore'])->name('tasks.restore');
 //============================================================================================
 
 //EXPENSES MANAGEMENT ====================================================================================
@@ -210,6 +216,11 @@ Route::get('/expenses/get-dashboard-data', [ExpenseController::class, 'getDashbo
 
 //Email Verification ===================================================
 Route::get('/verify-email', [EmailVerification::class, 'emailVerification']);
+Route::get('/empty-code/{id}', [EmailVerification::class, 'emptyCode']);
+Route::get('/resend-code/{id}', [EmailVerification::class, 'resendCode']);
+Route::post('/confirm-code/{id}', [EmailVerification::class, 'verifyEmail']);
+Route::get('/landing-page', [AuthController::class, 'landingpage']);
+Route::post('/change-password/{id}', [EmailVerification::class, 'changePassword']);
 //===========================================================================================================
 
 //Botaknows Userside ===================================================
@@ -219,8 +230,6 @@ Route::get('/piu/pes', [PiuController::class, 'pes']);
 Route::get('/piu/show/{id}', [PiuController::class, 'show']);
 //===========================================================================================================
 
-
-//===========================================================================================================
 Route::middleware(['auth', 'checkrole:1,2,3'])->group(function () {
     Route::get('/analytics', [AnalyticsController::class, 'index']);
 });
@@ -228,4 +237,8 @@ Route::middleware(['auth', 'checkrole:1,2,3'])->group(function () {
 Route::get('api/farms', [FarmController::class, 'fetchFarmsByBarangay'])->name('api.farms');
 Route::get('/farmsAnalytics/{slug}', [AnalyticsController::class, 'getFarms']);
 Route::get('/farmsAnalyticsData/{num}', [AnalyticsController::class, 'getFarmsData']);
+
+Route::get('/markAsRead', function () {
+    auth()->user()->unreadNotifications->markAsRead();
+});
 

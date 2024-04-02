@@ -685,4 +685,13 @@ $(document).ready(function () {
 
 
 
+
+setInterval(function() {
+        $('#users-conversation').load(window.location.href + ' #users-conversation');
+    }, 500);
+
+
+
+
+
 </script>

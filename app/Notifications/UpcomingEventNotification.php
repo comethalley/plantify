@@ -29,6 +29,7 @@ class UpcomingEventNotification extends Notification
         return [
             'title' => $this->event->title,
             'message' => 'Are you ready for the event: ' . $this->event->title . ' on ' . $this->event->start,
+            'created_at' => now()->diffForHumans(),
         ];
     }
 }

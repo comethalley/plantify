@@ -30,6 +30,7 @@ class NewTaskAssignNotification extends Notification
         return [
 
             'message' => 'You have new task assign ',
+            'created_at' => now()->diffForHumans(),
         ];
     }
 }

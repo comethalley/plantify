@@ -195,7 +195,7 @@
                                         <div class="text-reset notification-item d-block dropdown-item position-relative">
                                             @if ($notification->type === 'App\Notifications\NewNotificationEvent')
                                             <div class="d-flex">
-                                                <img src="assets/images/users/avatar-2.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                                <img src="assets/images/event/event.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
                                                 <div class="flex-grow-1">
                                                     <a href="/schedules" class="stretched-link">
                                                         <h6 class="mt-0 mb-1 fs-13 fw-semibold">{{ $notification->data['title']}}</h6>
@@ -204,7 +204,9 @@
                                                         <p class="mb-1">Check it out we have new events 📆.</p>
                                                     </div>
                                                     <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
-                                                        <span><i class="mdi mdi-clock-outline"></i> 1 min ago</span>
+
+                                                        <span><i class="mdi mdi-clock-outline" id="notification-time"></i>{{ $notification->created_at->diffForHumans() }}</span>
+
                                                     </p>
                                                 </div>
                                                 <div class="px-2 fs-15">
@@ -217,16 +219,20 @@
                                             @elseif ($notification->type === 'App\Notifications\NewplantingNotification')
                                             <div class="d-flex">
 
-                                                <img src="assets/images/users/avatar-2.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+
+                                                <img src="assets/images/event/planting.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+
                                                 <div class="flex-grow-1">
                                                     <a href="/plantcalendar" class="stretched-link">
                                                         <h6 class="mt-0 mb-1 fs-13 fw-semibold"></h6>
                                                     </a>
                                                     <div class="fs-13 text-muted">
-                                                        <p class="mb-1">The has been planted 🌱.</p>
+
+                                                        <p class="mb-1">You have just planted a new plant. 🌱.</p>
                                                     </div>
                                                     <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
-                                                        <span><i class="mdi mdi-clock-outline"></i> 1 min ago</span>
+                                                        <span><i class="mdi mdi-clock-outline" id="notification-time"></i> {{ $notification->created_at->diffForHumans() }}</span>
+
                                                     </p>
                                                 </div>
                                                 <div class="px-2 fs-15">
@@ -239,17 +245,16 @@
                                             </div>
                                             @elseif ($notification->type === 'App\Notifications\UpcomingHarvestNotification')
                                             <div class="d-flex">
-
-                                                <img src="assets/images/users/avatar-2.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                                <img src="assets/images/event/planting.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
                                                 <div class="flex-grow-1">
                                                     <a href="/plantcalendar" class="stretched-link">
-                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">{{ $notification->data['title']}}</h6>
+                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold"></h6>
                                                     </a>
                                                     <div class="fs-13 text-muted">
-                                                        <p class="mb-1">{{ $notification->data['message']}}.</p>
+                                                        <p class="mb-1">.</p>
                                                     </div>
                                                     <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
-                                                        <span><i class="mdi mdi-clock-outline"></i> 1 min ago</span>
+                                                        <span><i class="mdi mdi-clock-outline" id="notification-time" ></i> {{ $notification->created_at->diffForHumans() }}</span>
                                                     </p>
                                                 </div>
                                                 <div class="px-2 fs-15">
@@ -263,7 +268,8 @@
                                             @elseif ($notification->type === 'App\Notifications\OutOfStockNotification')
                                             <div class="d-flex">
 
-                                                <img src="assets/images/users/avatar-2.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                                <img src="assets/images/event/oos1.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+
                                                 <div class="flex-grow-1">
                                                     <a href="/inventory/stocks" class="stretched-link">
                                                         <h6 class="mt-0 mb-1 fs-13 fw-semibold">Running out of seeds</h6>
@@ -272,7 +278,7 @@
                                                         <p class="mb-1">{{ $notification->data['message']}}.</p>
                                                     </div>
                                                     <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
-                                                        <span><i class="mdi mdi-clock-outline"></i> 1 min ago</span>
+                                                        <span><i class="mdi mdi-clock-outline" id="notification-time"></i>{{ $notification->created_at->diffForHumans() }}</span>
                                                     </p>
                                                 </div>
                                                 <div class="px-2 fs-15">
@@ -285,7 +291,9 @@
                                             </div>
                                             @elseif ($notification->type === 'App\Notifications\UpcomingEventNotification')
                                             <div class="d-flex">
-                                                <img src="assets/images/notif/avatar-2.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+
+                                                <img src="assets/images/event/event.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+
                                                 <div class="flex-grow-1">
                                                     <a href="/schedules" class="stretched-link">
                                                         <h6 class="mt-0 mb-1 fs-13 fw-semibold">{{ $notification->data['title']}}</h6>
@@ -294,7 +302,9 @@
                                                         <p class="mb-1">{{ $notification->data['message']}}.</p>
                                                     </div>
                                                     <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
-                                                        <span><i class="mdi mdi-clock-outline"></i> 1 min ago</span>
+
+                                                        <span><i class="mdi mdi-clock-outline"id="notification-time"></i>{{ $notification->created_at->diffForHumans() }}</span>
+
                                                     </p>
                                                 </div>
                                                 <div class="px-2 fs-15">
@@ -307,7 +317,9 @@
                                             @elseif ($notification->type === 'App\Notifications\NewTaskAssignNotification')
                                             <div class="d-flex">
 
-                                                <img src="assets/images/users/avatar-2.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+
+                                                <img src="assets/images/event/nt.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+
                                                 <div class="flex-grow-1">
                                                     <a href="/inventory/stocks" class="stretched-link">
                                                         <h6 class="mt-0 mb-1 fs-13 fw-semibold">TASK</h6>
@@ -316,7 +328,9 @@
                                                         <p class="mb-1">{{ $notification->data['message']}}.</p>
                                                     </div>
                                                     <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
-                                                        <span><i class="mdi mdi-clock-outline"></i> 1 min ago</span>
+
+                                                        <span><i class="mdi mdi-clock-outline"id="notification-time"></i>{{ $notification->created_at->diffForHumans() }}</span>
+
                                                     </p>
                                                 </div>
                                                 <div class="px-2 fs-15">
@@ -330,7 +344,9 @@
                                             @elseif ($notification->type === 'App\Notifications\CompleteTaskNotification')
                                             <div class="d-flex">
 
-                                                <img src="assets/images/users/avatar-2.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+
+                                                <img src="assets/images/event/complete.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+
                                                 <div class="flex-grow-1">
                                                     <a href="/inventory/stocks" class="stretched-link">
                                                         <h6 class="mt-0 mb-1 fs-13 fw-semibold">TASK</h6>
@@ -339,7 +355,9 @@
                                                         <p class="mb-1">{{ $notification->data['message']}}.</p>
                                                     </div>
                                                     <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
-                                                        <span><i class="mdi mdi-clock-outline"></i> 1 min ago</span>
+
+                                                        <span><i class="mdi mdi-clock-outline" id="notification-time"></i>{{ $notification->created_at->diffForHumans() }}</span>
+
                                                     </p>
                                                 </div>
                                                 <div class="px-2 fs-15">
@@ -353,7 +371,9 @@
                                             @elseif ($notification->type === 'App\Notifications\MissingTaskNotification')
                                             <div class="d-flex">
 
-                                                <img src="assets/images/users/avatar-2.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+
+                                                <img src="assets/images/event/missing.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+
                                                 <div class="flex-grow-1">
                                                     <a href="/inventory/stocks" class="stretched-link">
                                                         <h6 class="mt-0 mb-1 fs-13 fw-semibold">MISSING TASK</h6>
@@ -362,7 +382,8 @@
                                                         <p class="mb-1">{{ $notification->data['message']}}.</p>
                                                     </div>
                                                     <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
-                                                        <span><i class="mdi mdi-clock-outline"></i> 1 min ago</span>
+
+                                                        <span><i class="mdi mdi-clock-outline" id="notification-time"></i>{{ $notification->created_at->diffForHumans() }}</span>
                                                     </p>
                                                 </div>
                                                 <div class="px-2 fs-15">
@@ -371,6 +392,7 @@
                                                         <label class="form-check-label" for="all-notification-check02"></label>
                                                     </div>
                                                 </div>
+
 
                                             </div>
                                             @endif
@@ -381,6 +403,8 @@
                                         <p>No notifications found.</p>
                                         @endif
                                     </div>
+
+                                 
 
                                     <div class="tab-pane fade py-2 ps-2" id="messages-tab" role="tabpanel" aria-labelledby="messages-tab">
 

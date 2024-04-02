@@ -30,6 +30,7 @@ class UpcomingHarvestNotification extends Notification
             
             'title' => $this->plantName->title,
             'message' => 'Soon to be harvest: ' . $this->plantName->title . ' on ' . $this->plantName->end,
+            'created_at' => now()->diffForHumans(),
         ];
     }
 }

@@ -237,7 +237,7 @@
                                                 <div class="hstack gap-2 justify-content-center remove">
                                                     <button class="btn btn-link link-success fw-medium text-decoration-none" id="deleteRecord-close" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i> Close</button>
                                                     <form method="POST" action="" style="display:inline">
-                                                        <input type="text" id="archiveID">
+                                                        <input type="hidden" id="archiveID">
                                                         <button type="button" class="btn btn-danger" id="fertilizer-archive">Yes, Delete It</button>
                                                     </form>
                                                 </div>

@@ -406,19 +406,41 @@ public function fedit($id) {
     return response()->json(['fertilizer' => $fertilizers], 200);
 }
 
-public function farchive(Request $request, $id)
+public function fertarchive(Request $request, $id)
     {
 
-        $fertilizers = Fertilizers::where('id', $id)->where('fer_status', 1);
+        $fertilizers = Fertilizers::where('id', $id)->where('pes_status', 1);
 
 
 
         $fertilizers->update([
-            "fer_status" => 0
+            "pes_status" => 0
 
         ]);
-        return response()->json(['fertilizers' => $fertilizers], 200);
+        return response()->json(['pesticides' => $pesticides], 200);
     }
+
+    public function pesarchive(Request $request, $id)
+    {
+        // Find the pesticide by id and status
+        $pesticides = Pesticides::where('id', $id)->where('pes_status', 1)->first();
+    
+        // Check if pesticide exists
+        if (!$pesticides) {
+            return response()->json(['error' => 'Pesticide not found'], 404);
+        }
+    
+        // Update the pesticide status
+        $pesticides->update([
+            "pes_status" => 0
+        ]);
+    
+        // Return success response
+        return response()->json(['message' => 'Pesticide archived successfully'], 200);
+    }
+    
+
+
 
 
 

@@ -195,6 +195,7 @@ Route::get('/task/filterByStatus', [TaskController::class, 'filterBystatus']);
 Route::get('/expense', [ExpenseController::class, 'index']);
 Route::post('/expenses/add-budget', [ExpenseController::class, 'addBudget']);
 Route::post('/expenses/save-expense', [ExpenseController::class, 'saveExpense'])->name('saveExpense');
+Route::get('/expenses/get-last-electricity-amount', [ExpenseController::class, 'getLastElectricityAmount'])->name('getLastElectricityAmount');
 Route::get('/compute-total-expenses', [ExpenseController::class, 'computeTotalExpenses'])->name('compute-total-expenses');
 Route::get('/expenses/get-dashboard-data', [ExpenseController::class, 'getDashboardData']);
 Route::post('/expenses/update', [ExpenseController::class, 'updateExpense'])->name('expenses.update');

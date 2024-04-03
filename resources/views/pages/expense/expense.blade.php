@@ -493,50 +493,64 @@
         categorySelect.addEventListener('change', showInputsForCategory);
     });
 
-    function saveNewItem() {
-        var categorySelect = document.getElementById('category');
-        var descriptionInput = document.getElementById('description');
-        var amountInput = document.getElementById('amount');
-        var previousInput = document.getElementById('previous');
-        var currentInput = document.getElementById('current');
-        var kwhInput = document.getElementById('kwh');
-        var imageInput = document.getElementById('image');
-        var farmId = document.getElementById('farm_id').value; // Get the selected farm_id
-        var categoryId = categorySelect.value;
-        var description = '';
-        var totalAmount = 0;
-        var formData = new FormData();
+function saveNewItem() {
+    var categorySelect = document.getElementById('category');
+    var descriptionInput = document.getElementById('description');
+    var amountInput = document.getElementById('amount');
+    var previousInput = document.getElementById('previous');
+    var currentInput = document.getElementById('current');
+    var kwhInput = document.getElementById('kwh');
+    var imageInput = document.getElementById('image');
+    var farmId = document.getElementById('farm_id').value; // Get the selected farm_id
+    var categoryId = categorySelect.value;
+    var description = '';
+    var totalAmount = 0;
+    var formData = new FormData();
 
-        if (categoryId === '1') { // Electricity
-            var previous = parseFloat(previousInput.value);
-            var current = parseFloat(currentInput.value);
-            var kwh = parseFloat(kwhInput.value);
-            totalAmount = (previous - current) * kwh;
-            description = 'Electricity';
-            formData.append('previous', previous);
-            formData.append('current', current);
-            formData.append('kwh', kwh);
-        } else if (categoryId === '2') { // Water
-            var previous = parseFloat(previousInput.value);
-            var current = parseFloat(currentInput.value);
-            totalAmount = previous + current;
-            description = 'Water';
-            formData.append('previous', previous);
-            formData.append('current', current);
-        } else { // Seeds and Others
-            description = descriptionInput.value;
-            totalAmount = amountInput.value;
-        }
+    if (categoryId === '1') { // Electricity
+        // Make AJAX request to fetch last electricity amount
+        fetch('/expenses/get-last-electricity-amount')
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    var previous = parseFloat(previousInput.value);
+                    var current = parseFloat(currentInput.value);
+                    var kwh = parseFloat(kwhInput.value);
+                    totalAmount = (previous - current) * kwh;
+                    description = 'Electricity';
+                    formData.append('previous', previous);
+                    formData.append('current', current);
+                    formData.append('kwh', kwh);
+                    
+                    previousInput.value = data.lastAmount;
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching last electricity amount:', error);
+            });
 
-        formData.append('farm_id', farmId); // Append the farm_id to the form data
-        formData.append('category', categoryId);
-        formData.append('description', description);
-        formData.append('amount', totalAmount);
-        formData.append('image', imageInput.files[0]);
+        
+    } else if (categoryId === '2') { // Water
+        var previous = parseFloat(previousInput.value);
+        var current = parseFloat(currentInput.value);
+        totalAmount = previous + current;
+        description = 'Water';
+        formData.append('previous', previous);
+        formData.append('current', current);
+    } else { // Seeds and Others
+        description = descriptionInput.value;
+        totalAmount = amountInput.value;
+    }
 
-        var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    formData.append('farm_id', farmId); // Append the farm_id to the form data
+    formData.append('category', categoryId);
+    formData.append('description', description);
+    formData.append('amount', totalAmount);
+    formData.append('image', imageInput.files[0]);
 
-        fetch('/expenses/save-expense', {
+    var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+    fetch('/expenses/save-expense', {
             method: 'POST',
             body: formData,
             headers: {
@@ -556,7 +570,8 @@
         .catch(error => {
             console.error('Error:', error);
         });
-    }
+}
+
 
     function calculateTotalAmount() {
         var categorySelect = document.getElementById('category');

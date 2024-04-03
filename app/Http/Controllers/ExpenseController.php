@@ -20,7 +20,7 @@ class ExpenseController extends Controller
         $user = auth()->user();
         $farmId = $user->farm_id;
 
-        $expenses = Expense::whereHas('farm', function ($query) use ($farmId) {
+        $expenses = Expense::with('category')->whereHas('farm', function ($query) use ($farmId) {
             $query->where('id', $farmId);
         })->get();
 
@@ -51,7 +51,7 @@ class ExpenseController extends Controller
             $allottedBudget = Budget::where('farm_id', $farmId)->sum('allotted_budget');
             $totalExpenses = Budget::where('farm_id', $farmId)->sum('total_expenses');
             $balance = Budget::where('farm_id', $farmId)->value('balance');
-            $expenses = Expense::where('farm_id', $farmId)->get();
+            $expenses = Expense::with('category')->where('farm_id', $farmId)->get();
         }
 
         return view("pages.expense.expense", [
@@ -106,9 +106,11 @@ class ExpenseController extends Controller
     public function saveExpense(Request $request)
     {
         $user = auth()->user();
+    
         // Validate the request data
         $validatedData = $request->validate([
             'farm_id' => 'required|exists:farms,id', // Ensure farm_id exists in farms table
+            'category_id' => 'required|exists:categories,id', // Ensure category_id exists in categories table
             'description' => 'required|string|max:255',
             'amount' => 'required|numeric',
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -124,6 +126,7 @@ class ExpenseController extends Controller
             'amount' => $validatedData['amount'],
             'farm_id' => $farmId,
             'budget_id' => $budgetId, // Assuming there's only one budget for now, adjust as needed
+            'category_id' => $validatedData['category_id'], // Assign category_id to the expense
         ]);
     
         // Handle image upload if provided
@@ -146,6 +149,19 @@ class ExpenseController extends Controller
     
         // Return a JSON response indicating success along with the ID of the newly created expense and its image URL if available
         return response()->json(['success' => true, 'id' => $expense->id, 'image_url' => asset($expense->image_path)]);
+    }
+
+    public function getLastElectricityAmount()
+    {
+        $lastElectricityExpense = Expense::whereHas('category', function ($query) {
+            $query->where('category_id', '1');
+        })->latest()->first();
+    
+        if ($lastElectricityExpense) {
+            return response()->json(['success' => true, 'lastAmount' => $lastElectricityExpense->amount]);
+        } else {
+            return response()->json(['success' => false, 'message' => 'No previous electricity expense found.']);
+        }
     }
 
     public function updateExpense(Request $request)

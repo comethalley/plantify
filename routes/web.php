@@ -17,7 +17,13 @@ use App\Http\Controllers\qcmaps;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\PlantCalendar;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\SearchController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\ReportController;
+use App\Models\Questions;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -73,6 +79,51 @@ Route::post('/edit-uom/{id}', [InventoryController::class, 'updateUom']);
 Route::post('/archive-uom/{id}', [InventoryController::class, 'archiveUom']);
 
 Route::get('/plantifeed', [ForumController::class, 'index']);
+
+
+
+// routes/web.php
+
+
+
+Route::get('/forum', [ForumController::class, 'index'])->name('forum.index');
+Route::post('/forum', [ForumController::class, 'store'])->name('forum.store');
+
+
+Route::get('/post', [PostController::class, 'index'])->name('post.index');
+Route::post('/post', [PostController::class, 'store'])->name('post.store');
+
+
+
+
+
+Route::post('/submit-report', [ReportController::class, 'submitReport']);
+
+
+
+Route::get('/search', [SearchController::class, 'search'])->name('forum.search');
+Route::get('/search-results', [SearchController::class, 'index'])->name('pages.search_results');
+
+Route::get('/comments', [CommentController::class, 'index'])->name('comments.index');
+Route::post('/comments/store', [CommentController::class, 'store'])->name('comments.store');
+
+Route::delete('/forum/delete-question/{id}', [ForumController::class, 'deleteQuestion']);
+Route::delete('/forum/delete-post/{id}', [PostController::class, 'deletePost']);
+
+
+Route::post('/edit-question/{id}', [ForumController::class, 'editQuestion']);
+Route::post('/edit-post/{id}', [PostController::class, 'editPost']);
+
+
+
+// routes/web.php
+
+
+
+
+
+
+
 
 // Direct Messages
 Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');

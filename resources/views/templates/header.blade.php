@@ -496,7 +496,7 @@
             <div class="navbar-brand-box" style="background-color:#57aa2c;">
                 <!-- Dark Logo-->
                 </br>
-                <a href="/" class="logo logo-dark">
+                <a href="/dashboard/analytics" class="logo logo-dark">
                     <span class="logo-sm">
                         <img src="{{ asset('assets/images/p-white-small.png') }}" alt="" height="22" />
                     </span>
@@ -505,7 +505,7 @@
                     </span>
                 </a>
                 <!-- Light Logo-->
-                <a href="/" class="logo logo-light">
+                <a href="/dashboard/analytics" class="logo logo-light">
                     <span class="logo-sm">
                         <img src="{{ asset('assets/images/p-white-small.png') }}" alt="" height="22" />
                     </span>
@@ -525,7 +525,7 @@
                         <li class="menu-title"><span data-key="t-menu" style="color:white;"></span></li>
                         </br>
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="/" role="button" style="color:white">
+                            <a class="nav-link menu-link" href="/dashboard/analytics" role="button" style="color:white">
                                 <i class="ri-dashboard-2-line"></i>
                                 <span data-key="t-dashboards">Dashboards</span>
                             </a>
@@ -634,9 +634,9 @@
                                     <li class="nav-item">
                                         <a href="/inventory/uom" class="nav-link" style="color:white"> Unit of Measurements </a>
                                     </li>
-                                    <li class="nav-item">
+                                    <!-- <li class="nav-item">
                                         <a href="/inventory/fertilizer" class="nav-link" style="color:white">Fertilizer</a>
-                                    </li>
+                                    </li> -->
                                 </ul>
                             </div>
                         </li> <!-- end Dashboard Menu -->

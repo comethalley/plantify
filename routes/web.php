@@ -39,7 +39,8 @@ use App\Http\Controllers\AnalyticsController;
 //     return view('email.email');
 // });
 
-Route::get('/', [AuthController::class, 'index'])->middleware('auth');
+Route::get('/', [AuthController::class, 'landingpage']);
+Route::get('/dashboard/analytics', [AuthController::class, 'index'])->middleware('auth');
 Route::get('/login', [AuthController::class, 'viewLogin'])->name('login')->middleware('guest');
 Route::get('/signup', [AuthController::class, 'viewSignup']);
 Route::post('/login/process', [AuthController::class, 'login']);

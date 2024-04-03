@@ -166,6 +166,16 @@
                                                             <option value="January">January</option>
                                                             <option value="February">February</option>
                                                             <option value="March">March</option>
+                                                            <option value="April">April</option>
+                                                            <option value="May">May </option>
+                                                            <option value="June">June</option>
+                                                            <option value="July">July</option>
+                                                            <option value="August">August</option>
+                                                            <option value="September">September</option>
+                                                            <option value="October">October</option>
+                                                            <option value="November">November</option>
+                                                            <option value="December">December</option>
+                                                            <option value="All Season">All Season</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -234,9 +244,19 @@
                                                 <div class="mb-3">
                                                 <label for="mode">Season</label>            
                                                         <select class="form-select" id="edit_seasons">
-                                                            <option value="January">January</option>
+                                                        <option value="January">January</option>
                                                             <option value="February">February</option>
                                                             <option value="March">March</option>
+                                                            <option value="April">April</option>
+                                                            <option value="May">May </option>
+                                                            <option value="June">June</option>
+                                                            <option value="July">July</option>
+                                                            <option value="August">August</option>
+                                                            <option value="September">September</option>
+                                                            <option value="October">October</option>
+                                                            <option value="November">November</option>
+                                                            <option value="December">December</option>
+                                                            <option value="All Season">All Season</option>
                                                         </select>
                                                         
                                                 </div>

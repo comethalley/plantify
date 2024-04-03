@@ -93,7 +93,7 @@
                                                             </a>
                                                         </li>
                                                         <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Remove">
-                                                            <a class="text-danger d-inline-block remove-fer-btn" data-bs-toggle="modal" href="#deleteOrder" data-plantinfo-id="{{$item->id}}">
+                                                            <a class="text-danger d-inline-block remove-fer-btn" data-bs-toggle="modal" href="#deleteOrder" data-fertilizers-id="{{$item->id}}">
                                                                 <i class="ri-delete-bin-5-fill fs-16"></i>
                                                             </a>
                                                         </li>
@@ -237,8 +237,8 @@
                                                 <div class="hstack gap-2 justify-content-center remove">
                                                     <button class="btn btn-link link-success fw-medium text-decoration-none" id="deleteRecord-close" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i> Close</button>
                                                     <form method="POST" action="" style="display:inline">
-                                                        <input type="hidden" id="FertID">
-                                                        <button type="button" class="btn btn-danger" id="fertilzer-archive">Yes, Delete It</button>
+                                                        <input type="text" id="archiveID">
+                                                        <button type="button" class="btn btn-danger" id="fertilizer-archive">Yes, Delete It</button>
                                                     </form>
                                                 </div>
                                             </div>

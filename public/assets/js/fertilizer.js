@@ -70,12 +70,11 @@ $(document).on('click', '.edit-fer-btn', function(event) {
 });
 
 
-function archiveFertInfo(){
-    var FertID = $('#FertID').val()
-    
+function archiveFertInfo() {
+    var FertID = $('#archiveID').val();
 
     $.ajax({
-        url: "/farchive/"+FertID,
+        url: "/farchive/" + FertID,
         method: "POST",
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -83,7 +82,6 @@ function archiveFertInfo(){
 
         success: function(data) {
             location.reload();
-
         },
         error: function(xhr, status, error) {
             console.error("Error:", status, error);
@@ -91,6 +89,18 @@ function archiveFertInfo(){
     });
 }
 
-$('#fertilzer-archive').on('click', function() {
+// Bind click event to the element with id "fertilizer-archive"
+$('#fertilizer-archive').on('click', function() {
     archiveFertInfo();
 });
+
+// Bind click event to elements with class "remove-fer-btn"
+$(document).on('click', '.remove-fer-btn', function(event) {
+    event.preventDefault();
+
+    var FertID = $(this).data('fertilizers-id');
+    console.log(FertID);
+    $('#archiveID').val(FertID);
+});
+
+// Check for error

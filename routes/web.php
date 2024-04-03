@@ -165,7 +165,7 @@ Route::get('/pedit/{id}', [PlantInfoController::class, 'pedit']);
 Route::get('/fertilizers', [PlantInfoController::class, 'fertilizers']);
 Route::post('/fertilizers', [PlantInfoController::class, 'fstore']);    
 Route::post('/fupdate/{id}', [PlantInfoController::class, 'fupdate']);
-Route::get('/fedit/{id}', [PlantInfoController::class, 'fedit']);
+Route::get('/fedit/{FertID}', [PlantInfoController::class, 'fedit']);
 
 //For farm management =======================================================
 

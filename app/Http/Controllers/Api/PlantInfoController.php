@@ -113,12 +113,12 @@ class PlantinfoController extends Controller
     $plantinfo = PlantInfo::where('id', $id)->where('status', 1)->first(); // Add first() to retrieve the record
 
     $validator = Validator::make($request->all(), [
-        'edit_plant_name' => 'required|string|max:55',
+        'edit_plant_name' => 'required',
         'edit_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-        'edit_seasons' => 'required|string|max:55',
-        'edit_information' => 'required|string|max:55',
-        'edit_companion' => 'required|string|max:55',
-        'edit_days_harvest' => 'required|int|max:55'
+        'edit_seasons' => 'required',
+        'edit_information' => 'required',
+        'edit_companion' => 'required',
+        'edit_days_harvest' => 'required'
     ]);
 
     // If validation fails, return error response
@@ -168,10 +168,6 @@ class PlantinfoController extends Controller
 
     public function archive(Request $request, $id)
     {
-        // $plantinfo = Plantinfo::find($id);
-        // $input = $request->all();
-        // $plantinfo->update($input);
-        // return redirect('/plantinfo')->with('flash_message', 'Plant Updated!');
 
         $plantinfo = PlantInfo::where('id', $id)->where('status', 1);
 
@@ -409,6 +405,42 @@ public function fedit($id) {
     // Return response with fertilizer data
     return response()->json(['fertilizer' => $fertilizers], 200);
 }
+
+public function fertarchive(Request $request, $id)
+    {
+
+        $fertilizers = Fertilizers::where('id', $id)->where('pes_status', 1);
+
+
+
+        $fertilizers->update([
+            "pes_status" => 0
+
+        ]);
+        return response()->json(['pesticides' => $pesticides], 200);
+    }
+
+    public function pesarchive(Request $request, $id)
+    {
+        // Find the pesticide by id and status
+        $pesticides = Pesticides::where('id', $id)->where('pes_status', 1)->first();
+    
+        // Check if pesticide exists
+        if (!$pesticides) {
+            return response()->json(['error' => 'Pesticide not found'], 404);
+        }
+    
+        // Update the pesticide status
+        $pesticides->update([
+            "pes_status" => 0
+        ]);
+    
+        // Return success response
+        return response()->json(['message' => 'Pesticide archived successfully'], 200);
+    }
+    
+
+
 
 
 

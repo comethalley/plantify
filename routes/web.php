@@ -162,11 +162,13 @@ Route::get('/pesticides', [PlantInfoController::class, 'pesticides']);
 Route::post('/pupdate/{id}', [PlantInfoController::class, 'pupdate']);
 Route::post('/pesticides', [PlantInfoController::class, 'pstore']);
 Route::get('/pedit/{id}', [PlantInfoController::class, 'pedit']);
+Route::post('/pesarchive/{id}', [PlantInfoController::class, 'pesarchive']);
 //FER=======================================================================
 Route::get('/fertilizers', [PlantInfoController::class, 'fertilizers']);
 Route::post('/fertilizers', [PlantInfoController::class, 'fstore']);
 Route::post('/fupdate/{id}', [PlantInfoController::class, 'fupdate']);
-Route::get('/fedit/{id}', [PlantInfoController::class, 'fedit']);
+Route::get('/fedit/{FertID}', [PlantInfoController::class, 'fedit']);
+Route::post('/fertarchive/{id}', [PlantInfoController::class, 'fertarchive']);
 
 //For farm management =======================================================
 

@@ -32,7 +32,7 @@ class AnalyticsController extends Controller
     } elseif ($user->role_id == 3) {
         // Fetch data for farm leader role
         $expensesData = Expense::where('budget_id', 3)->where('id', $user->id)->get(['description', 'amount', 'created_at'])->toJson();
-        $farmsData = Farm::where('barangay_id', $user->barangay_id)->with('barangay')->get()->toJson();
+        $farmsData = Farm::where('id', $user->id)->with('barangay')->get()->toJson();
         
         
     }

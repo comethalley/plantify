@@ -45,7 +45,7 @@
         <div class="row g-3">
             <div class="col-xxl-2 col-sm-4">
                 <div class="search-box">
-                <input type="text" class="form-control search bg-light border-light" placeholder="Search for Farm ID or Name or Leader..." oninput="searchTable(this.value)">
+                <input type="text" id="searchInput" class="form-control search bg-light border-light" placeholder="Search for Farm ID or Name ..." >
                     <i class="ri-search-line search-icon"></i>
                 </div>
             </div>
@@ -82,61 +82,87 @@
     <table class="table align-middle table-nowrap mb-0 custom-table" id="tasksTable">
             <thead class="table-light text-muted mb-0 custom-table">
                 <tr>  
-                    <th class="poppins-medium-italic" data-sort="id" style="font-weight: bold; color: black;">Farm ID</th>
-                    <th class="poppins-medium-italic" data-sort="farm_name" style="font-weight: bold; color: black;">Farm Name</th>
-                    <th class="poppins-medium-italic" data-sort="area" style="font-weight: bold; color: black;">Area</th>
-                    <th class="poppins-medium-italic" data-sort="address" style="font-weight: bold; color: black;">Address</th>
-                    <th class="poppins-medium-italic" data-sort="farm_leader" style="font-weight: bold; color: black;">Farm Leader</th>
-                    <th class=" text-center poppins-medium-italic" data-sort="status" style="font-weight: bold; color: black;">Status</th>
-                    <th class="text-center poppins-medium-italic" data-sort="actions" style="font-weight: bold; color: black;">Actions </th>
+                    <th class="poppins-medium-italic" data-sort="id" style="font-weight: bold; color: black;">Reference ID Number</th>
+                    <th class="poppins-medium-italic" data-sort="farm_name" style="font-weight: bold; color: black;">Details</th>
+                    <th class="poppins-medium-italic" data-sort="area" style="font-weight: bold; color: black;">Status</th>
+                    <th class="poppins-medium-italic" data-sort="address" style="font-weight: bold; color: black;">Actions</th>
+
                 </tr>
             </thead>
             @endif
-            <tbody id="farmTableBody" class="list form-check-all">
-           
-            <tr class="farm-row {{ strtolower(str_replace(' ', '-', $farm->status)) }}">
-                            <td class="id roboto-regular">{{ $farm->id }}</td>
-                            <td class="farm_name roboto-regular">{{ $farm->farm_name }}</td>
-                            <td class="area roboto-regular">{{ $farm->area }}</td>
-                            <td class="address roboto-regular">{{ $farm->address }}</td>
-                            <td class="farm_leader roboto-regular">{{ strtoupper($farm->farm_leader_firstname) }} {{ strtoupper($farm->farm_leader_lastname) }}</td>
-                            <td class="text-center status">
-                            @switch(strtolower(str_replace(' ', '-', $farm->status)))
-                                @case('created')
-                                @case('for-investigation')
-                                    <span class="badge bg-primary fs-5" style="color: #fff; ">{{ $farm->status }}</span>
-                                    <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
-                                    @break
-                                @case('for-visiting')
-                                    <span class="badge fs-5" style="background-color: #007BFF; color: #FFF; ">{{ $farm->status }}</span>
-                                    <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
-                                    @break
-                                @case('resubmit')
-                                <span class="badge fs-5" style="background-color: #747264; color: #FFF; ">{{ $farm->status }}</span>
-                                <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
-                                @break
-                                @case('visiting')
-                                @case('submitted')
-                                <span class="badge fs-5" style="background-color: #FF9843; color: #000;">{{ $farm->status }}</span>
-                                <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
-                                    @break
-                                @case('waiting-for-approval')
-                                    <span class="badge fs-5" style="background-color: #FFC107; color: #000;">{{ $farm->status }}</span>
-                                    <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
-                                    @break
-                                @case('approved')
-                                    <span class="badge fs-5" style="background-color: #1F7C33; color: #fff;">{{ $farm->status }}</span>
-                                    <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
-                                    @break
-                                @case('disapproved')
-                                @case('cancelled')
-                                    <span class="badge fs-5" style="background-color: #990000; color: #fff;">{{ $farm->status }}</span>
-                                    <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
-                                    @break
-                                @default
-                            @endswitch
+            <tbody id="farmTableBody" class="custom-table list form-check-all">
+        <tr class="farm-row {{ strtolower(str_replace(' ', '-', $farm->status)) }}">
+          <td class=" roboto-regular" style="text-align: left;">
+            <div class="id" style="margin-bottom: 5px;">#{{ $farm->id }}</div>
+            <hr style="margin: 10px 0;">
+            <b style="font-size: 14px;">Date Filled: </b><br>
+            <div>{{ \Carbon\Carbon::parse($farm->created_at)->format('Y-m-d / h:i A') }}</div>
+          </td>
+          <td class="details vertical-line">
+    <b style="color: blue; font-size: 16px;">FARM APPLICATION</b><br>
+    <span class="farm-leader"> <!-- Add class for farm leader -->
+        <b style="font-family: 'Bahnschrift', sans-serif; font-size: 15px;">Farm Leader :</b> &nbsp;{{ strtoupper($farm->farm_leader_firstname) }} {{ strtoupper($farm->farm_leader_lastname) }}<br>
+    </span>
+    <span class="farm-name"> <!-- Add class for farm name -->
+    <b style="font-family: 'Bahnschrift', sans-serif; font-size: 15px;">Farm Name :</b> &nbsp;
+    <span class="farm-name-value">{{ strtoupper($farm->farm_name) }}</span><br>
+</span>
 
-            </td>
+    <span class="area"> <!-- Add class for area -->
+        <b style="font-family: 'Bahnschrift', sans-serif; font-size: 15px;">Area :</b> &nbsp;{{ strtoupper($farm->area) }}<br>
+    </span>
+    <span class="address"> <!-- Add class for address -->
+        <b style="font-family: 'Bahnschrift', sans-serif; font-size: 15px;">Address :</b> &nbsp;{{ strtoupper($farm->address) }}, {{ strtoupper($farm->barangay_name) }}<br>
+    </span>
+</td>
+<td class="status vertical-line">
+          @switch(strtolower(str_replace(' ', '-', $farm->status)))
+    @case('for-investigation')
+    @case('created')
+        <label class="badge bg-primary" style="font-size: 12px; margin-bottom: 10px; padding: 2px; color: #FFF;" onclick="return false;">{{ $farm->status }}</label>
+        <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
+
+        @break
+    @case('for-visiting')
+        <label class="badge text-wrap" style="font-size: 12px; margin-bottom: 10px; padding: 2px; background-color: #007BFF; color: #FFF;" onclick="return false;">{{ $farm->status }}</label>
+        <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
+
+        @break
+    @case('submitted')
+    @case('visiting')
+    <label class="badge text-wrap" style="font-size: 12px; margin-bottom: 10px; padding: 2px; background-color: #FF9843; color: #000;" onclick="return false;">{{ $farm->status }}</label>
+        <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
+
+        @break
+    @case('resubmit')
+        <label class="badge text-wrap" style="font-size: 12px; margin-bottom: 10px; padding: 2px; background-color: #747264; color: #FFF;" onclick="return false;">{{ $farm->status }}</label>
+        <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
+
+        @break
+    @case('waiting-for-approval')
+        <label class="badge text-wrap" style="font-size: 12px; margin-bottom: 10px; padding: 2px; background-color: #FFC107; color: #000;" onclick="return false;">{{ $farm->status }}</label>
+        <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
+
+        @break
+    @case('approved')
+        <label class="badge text-wrap" style="font-size: 12px; margin-bottom: 10px; padding: 2px; background-color: #1F7C33; color: #FFF;" onclick="return false;">{{ $farm->status }}</label>
+        <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
+
+        @break
+    @case('disapproved')
+    @case('cancelled')
+        <label class="badge text-wrap" style="font-size: 12px; margin-bottom: 10px; padding: 2px; background-color: #990000; color: #FFF;" onclick="return false;">{{ $farm->status }}</label>
+        <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
+
+        @break
+    @default
+    @endswitch
+
+            <br>
+            <a href="javascript:void(0);" class="btn btn-success btn-border equal-width-validation" style="font-weight: bold;" onclick="showFarmRemarks('{{ $farm->id }}');">Validation Remarks</a>
+            <br>
+            <i style="font-size: 13px;">Click "Validation Remarks" for more specific updates</i>
+          </td>
                             
             <td class="text-center">
     <ul class="list-inline d-flex justify-content-center gap-2 mb-0">
@@ -171,11 +197,12 @@
                     </td>
                 </tr>
                 @endif
-            </tbody>
-        </table>
+ 
   
 </div>
 </div>
+</tbody>
+        </table>
 <br><br>
 <div id="noFarmsMessageContainer" style="display: none;">
             <td colspan="7">
@@ -183,6 +210,8 @@
                 <p id="noFarmsMessage" style="text-align: center; font-size: 21px;">No Barangays Farms found.</p>
             </td>
         </div>
+    
+</div>
 <div class="row">
         <div class="col-6">
             <button class="btn btn-secondary d-flex align-items-center justify-content-center" onclick="goBack()">
@@ -190,7 +219,6 @@
         </button>
         </div>
     </div>
-</div>
 
 
 <div class="modal fade" id="statusModal" tabindex="-1" role="dialog" aria-labelledby="statusModalLabel" aria-hidden="true">
@@ -449,30 +477,36 @@
     function openStatusModal() {
         $('#statusModal').modal('show');
     }
-function searchTable(value) {
-    var searchInput = value.toLowerCase();
-    var rows = document.querySelectorAll('#farmTableBody tr');
-    var found = 0; // Variable to count the number of matching rows
+    $(document).ready(function() {
+    // Function to handle search
+    $('#searchInput').on('input', function() {
+        var searchText = $(this).val().trim().toLowerCase(); // Get search text and convert to lowercase
+        var resultsCount = 0; // Initialize count of matching results
+        // Loop through each row in the table body
+        $('#farmTableBody tr').each(function() {
+            var idText = $(this).find('.id').text().toLowerCase(); // Get text of farm id column
+            var farmNameText = $(this).find('.farm-name-value').text().trim().toLowerCase(); // Get text of farm name value
+            // Define regular expression pattern to match either Farm ID or Farm Name containing the search query
+            var pattern = new RegExp(searchText, 'i');
+            // Check if search text matches Farm ID exactly or if Farm Name contains the search text
+            if (pattern.test(idText) || pattern.test(farmNameText)) {
+                $(this).show(); // Show row if search text matches
+                resultsCount++; // Increment count of matching results
+            } else {
+                $(this).hide(); // Otherwise, hide the row
+            }
+        });
 
-    rows.forEach(row => {
-        var id = row.querySelector('.id').textContent.toLowerCase();
-        var farmLeader = row.querySelector('.farm_leader').textContent.toLowerCase();
-
-        if (id.includes(searchInput) || farmLeader.includes(searchInput)) {
-            row.style.display = '';
-            found++; // Increment found for each matching row
+        // Show or hide the "No Farms found" message container based on the count of matching results
+        if (resultsCount === 0 && searchText.length > 0) {
+            $('#noFarmsMessageContainer').show(); // Show message container if there are no matching results
         } else {
-            row.style.display = 'none';
+            $('#noFarmsMessageContainer').hide(); // Otherwise, hide the message container
         }
     });
+});
 
-    // If no matching rows are found, display the "No Farms found" message
-    if (found === 0) {
-        document.getElementById('noFarmsMessageContainer').style.display = '';
-    } else {
-        document.getElementById('noFarmsMessageContainer').style.display = 'none';
-    }
-}
+
 
 
     function goBack() {

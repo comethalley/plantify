@@ -81,22 +81,13 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-4 col">
-                                                @if(Auth::check() && Auth::user()->role_id == 3)
-                                                <div class="row text-muted text-center">
-                                                    <div class="col-6  mx-auto">
-                                                        <h5 id="farm-count" class="mb-1 projects-num blade-animation">{{ $barangay->farms_count }}</h5>
-                                                        <p class="text-muted mb-0">Number of Farms</p>
-                                                    </div>
-                                                </div>
-
-                                                @elseif(Auth::check() && (Auth::user()->role_id == 1 || Auth::user()->role_id == 2))
+              
                                                 <div class="row text-muted text-center">
                                                     <div class="col-6  mx-auto">
                                                         <h5 id="farm-count" class="mb-1 projects-num blade-animation">{{ sprintf('%02d', $barangay->farms_count) }}</h5>
                                                         <p class="text-muted mb-0">Number of Farms</p>
                                                     </div>
                                                 </div>
-                                                @endif
                                             </div>
 
                                             <div class="col-lg-2 col">
@@ -227,7 +218,7 @@
                             <div class="modal-footer">
                                 <div class="hstack gap-2 justify-content-end">
                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-success" onclick="submitForm()">Add Farm</button>
+                                    <button type="button" class="btn btn-success" onclick="submitForm()">Submit Farm</button>
                                 </div>
                             </div>
                         </form>

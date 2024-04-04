@@ -25,7 +25,7 @@
                     <div class="card" id="tasksList">
                         <div class="card-header">
                             <div class="d-flex align-items-center">
-                                <h5 class="card-title mb-0 title">&nbsp; qc dashboard of :&nbsp; {{ $farm->barangay_name }} &nbsp;</h5>
+                                <h5 class="card-title mb-0 title">&nbsp; farm dashboard of :&nbsp; {{ $farm->barangay_name }} &nbsp;</h5>
                                 <div class="flex-shrink-0">
                                     <div class="d-flex flex-wrap gap-2">
                                         

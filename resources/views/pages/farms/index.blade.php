@@ -80,23 +80,28 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-4 col">
-              
-                                                <div class="row text-muted text-center">
-                                                    <div class="col-6  mx-auto">
-                                                        <h5 id="farm-count" class="mb-1 projects-num blade-animation">{{ sprintf('%02d', $barangay->farms_count) }}</h5>
-                                                        <p class="text-muted mb-0">Number of Farms</p>
-                                                    </div>
-                                                </div>
-                                            </div>
+
 
                                             <div class="col-lg-2 col">
-                                                @if(Auth::check() && Auth::user()->role_id == 3)
-                                                <div class="text-end">
+                                                @if(Auth::check() && Auth::user()->role_id == 3 || Auth::user()->role_id == 4 || Auth::user()->role_id == 5)
+                                                <div class="col-lg-4 col">
+                                                    <div class="row text-muted text-center">
+                                                        <div class="col-6  mx-auto">
+                                                            <h5 id="farm-count " class="mb-1 projects-num blade-animation">Discover the hidden harvest!</h5>
+                                                        </div>
+                                                    </div>
+                                                </div><div class="text-end">
                                                     <a href="{{ route('farms.view3', ['barangay_name' => $barangay->barangay_name]) }}" class="button-89">View Farms</a>
                                                 </div>
                                                 @elseif(Auth::check() && (Auth::user()->role_id == 1 || Auth::user()->role_id == 2))
-                                                <div class="text-end">
+                                                <div class="col-lg-4 col">
+                                                    <div class="row text-muted text-center">
+                                                        <div class="col-6  mx-auto">
+                                                            <h5 id="farm-count" class="mb-1 projects-num blade-animation">{{ sprintf('%02d', $barangay->farms_count) }}</h5>
+                                                            <p class="text-muted mb-0">Number of Farms</p>
+                                                        </div>
+                                                    </div>
+                                                </div><div class="text-end">
                                                     <a href="{{ route('farms.view', ['barangay_name' => $barangay->barangay_name]) }}" class="button-89">View Farms</a>
                                                 </div>
                                                 @endif
@@ -332,6 +337,9 @@
 
                 .blade-animation {
                     animation: bladeOpen 0.5s ease forwards;
+                    white-space: nowrap;
+    word-wrap: normal;
+    
                 }
 
                 .disabled {

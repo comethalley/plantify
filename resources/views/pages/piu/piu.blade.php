@@ -29,22 +29,25 @@
                 <div class="row">
 
             
-            @foreach($piu as $plant_info)
-                <div class="col-sm-6 col-xl-3" style="padding-top: 6px; padding-left: 12px; padding-right: 12px;">
-                    <!-- Simple card -->
-                    <div class="card">
-                        <img class="card-img-top img-fluid mb-2" src="/assets/images/botaknows/{{$plant_info->information}}" alt="Card image cap">
-                        <div class="card-body">
-                            <h4 class="card-title mb-2 text-center ">{{ $plant_info->plant_name}}</h4><br>
+                @foreach($piu as $plant_info)
+<div class="col-sm-6 col-xl-3" style="padding-top: 6px; padding-left: 12px; padding-right: 12px;">
+    <!-- Simple card -->
+    <div class="card">
+        <img class="card-img-top img-fluid mb-2" src="/assets/images/{{$plant_info->image}}" alt="Card image cap">
+        <div class="card-body">
+            <h4 class="card-title mb-2 text-center ">{{ $plant_info->plant_name}}</h4><br>
 
-                            <h4 class="card-title mb-2 text-center" style="overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
-                                {{ $plant_info->information }}
-                            </h4><br>
+            <!-- <h4 class="card-title mb-2 text-center" style="overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
+                {{ $plant_info->information }}
+            </h4><br> -->
 
-                            <div class="text-end">
-                                <a href="{{ url('piu/show', $plant_info->id) }}" class="btn btn-success add-btn d-flex justify-content-center align-items-center">Read more</a>
-                            </div>
-                            @endforeach
+            <div class="text-end">
+                <a href="{{ url('piu/show', $plant_info->id) }}" class="btn btn-success add-btn d-flex justify-content-center align-items-center">Read more</a>
+            </div>
+        </div>
+    </div>
+</div>
+@endforeach
                 
 
 

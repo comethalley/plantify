@@ -232,7 +232,6 @@
                                 <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" id="dialogBox">
                                         <div class="modal-content">
-                                            
                                             <div class="modal-header">
                                                 <h5 class="modal-title" id="addModalLabel">Add Item</h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -288,7 +287,7 @@
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                <button type="button" class="btn btn-primary" onclick="saveNewItem()">Save Item</button>
+                                                <button type="button" class="btn btn-primary" id="saveItemButton">Save Item</button>
                                             </div>
                                         </div>
                                     </div>
@@ -493,7 +492,7 @@
         categorySelect.addEventListener('change', showInputsForCategory);
     });
 
-function saveNewItem() {
+    document.addEventListener('DOMContentLoaded', function () {
     var categorySelect = document.getElementById('category');
     var descriptionInput = document.getElementById('description');
     var amountInput = document.getElementById('amount');
@@ -501,105 +500,112 @@ function saveNewItem() {
     var currentInput = document.getElementById('current');
     var kwhInput = document.getElementById('kwh');
     var imageInput = document.getElementById('image');
-    var farmId = document.getElementById('farm_id').value; // Get the selected farm_id
-    var categoryId = categorySelect.value;
-    var description = '';
-    var totalAmount = 0;
-    var formData = new FormData();
 
-    if (categoryId === '1') { // Electricity
-        // Make AJAX request to fetch last electricity amount
-        fetch('/expenses/get-last-electricity-amount')
+    // Function to fetch previous amount when category selection changes
+    categorySelect.addEventListener('change', function() {
+        var categoryId = categorySelect.value;
+        var farmId = document.getElementById('farm_id').value; // Get the selected farm_id
+
+        if (categoryId === '1' || categoryId === '2') { // If Electricity or Water category is selected
+            // Make AJAX request to fetch last amount
+            fetch('/expenses/get-last-amount?farm_id=' + farmId + '&category_id=' + categoryId)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        previousInput.value = data.lastAmount;
+                    } else {
+                        console.error('Failed to fetch last amount:', data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching last amount:', error);
+                });
+        }
+    });
+
+    // Function to calculate total amount when inputs change
+    function calculateTotalAmount() {
+        var category = categorySelect.value;
+        var previous = parseFloat(previousInput.value) || 0;
+        var current = parseFloat(currentInput.value) || 0;
+        var kwh = parseFloat(kwhInput.value) || 0;
+        var total = 0;
+
+        if (category === '1') { // Electricity
+            total = (previous - current) * kwh;
+        } else if (category === '2') { // Water
+            total = previous + current;
+        } else { // Seeds and Others
+            total = parseFloat(amountInput.value) || 0;
+        }
+
+        document.getElementById('total').textContent = total.toFixed(2);
+    }
+
+    // Event listeners for input fields to trigger total amount calculation
+    $('#previous, #current, #kwh, #amount').on('input', calculateTotalAmount);
+
+    // Function to save the expense
+    function saveNewItem() {
+        var formData = new FormData();
+
+        var farmId = document.getElementById('farm_id').value; // Get the selected farm_id
+        var categoryId = categorySelect.value;
+        var description = '';
+        var totalAmount = parseFloat(document.getElementById('total').textContent);
+
+        if (categoryId === '1') { // If category is Electricity
+            var previous = parseFloat(previousInput.value);
+            var current = parseFloat(currentInput.value);
+            var kwh = parseFloat(kwhInput.value);
+            description = 'Electricity';
+            formData.append('previous', previous);
+            formData.append('current', current);
+            formData.append('kwh', kwh);
+        } else if (categoryId === '2') { // If category is Water
+            var previous = parseFloat(previousInput.value);
+            var current = parseFloat(currentInput.value);
+            description = 'Water';
+            formData.append('previous', previous);
+            formData.append('current', current);
+        } else { // If category is Seeds and Others
+            description = descriptionInput.value;
+        }
+
+        formData.append('farm_id', farmId); // Append the farm_id to the form data
+        formData.append('category_id', categoryId); // Append the category_id to the form data
+        formData.append('description', description);
+        formData.append('amount', totalAmount);
+        formData.append('image', imageInput.files[0]);
+
+        var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        fetch('/expenses/save-expense', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                }
+            })
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    var previous = parseFloat(previousInput.value);
-                    var current = parseFloat(currentInput.value);
-                    var kwh = parseFloat(kwhInput.value);
-                    totalAmount = (previous - current) * kwh;
-                    description = 'Electricity';
-                    formData.append('previous', previous);
-                    formData.append('current', current);
-                    formData.append('kwh', kwh);
-                    
-                    previousInput.value = data.lastAmount;
+                    console.log('Expense saved successfully:', data);
+                    location.reload();
+                    $('#addModal').modal('hide');
+                } else {
+                    console.error('Failed to save expense:', data.message);
                 }
             })
             .catch(error => {
-                console.error('Error fetching last electricity amount:', error);
+                console.error('Error:', error);
             });
-
-        
-    } else if (categoryId === '2') { // Water
-        var previous = parseFloat(previousInput.value);
-        var current = parseFloat(currentInput.value);
-        totalAmount = previous + current;
-        description = 'Water';
-        formData.append('previous', previous);
-        formData.append('current', current);
-    } else { // Seeds and Others
-        description = descriptionInput.value;
-        totalAmount = amountInput.value;
     }
 
-    formData.append('farm_id', farmId); // Append the farm_id to the form data
-    formData.append('category', categoryId);
-    formData.append('description', description);
-    formData.append('amount', totalAmount);
-    formData.append('image', imageInput.files[0]);
+    // Event listener for Save Item button
+    document.getElementById('saveItemButton').addEventListener('click', saveNewItem);
+});
 
-    var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-    fetch('/expenses/save-expense', {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-CSRF-TOKEN': csrfToken
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                console.log('Expense saved successfully:', data);
-                location.reload();
-                $('#addModal').modal('hide');
-            } else {
-                console.error('Failed to save expense:', data.message);
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-}
-
-
-    function calculateTotalAmount() {
-        var categorySelect = document.getElementById('category');
-        var previousInput = document.getElementById('previous').value;
-        var currentInput = document.getElementById('current').value;
-        var kWhInput = document.getElementById('kwh').value;
-
-        if (categorySelect.value === '1') { // Electricity
-            if (!isNaN(previousInput) && !isNaN(currentInput) && !isNaN(kWhInput)) {
-                var difference = parseFloat(previousInput) - parseFloat(currentInput);
-                var total = difference * kWhInput;
-                document.getElementById('total').textContent = total.toFixed(2);
-            } else {
-                document.getElementById('total').textContent = 'Invalid input'; 
-            }
-        } else if (categorySelect.value === '2') { // Water
-            if (!isNaN(previousInput) && !isNaN(currentInput)) {
-                var total = parseFloat(previousInput) + parseFloat(currentInput);
-                document.getElementById('total').textContent = total.toFixed(2);
-            } else {
-                document.getElementById('total').textContent = 'Invalid input';
-            }
-        }
-    }
-
-    $(document).ready(function() {
-        $('#previous, #current, #kwh').on('input', calculateTotalAmount);
-    });
 
     function showDialog(message, type) {
         var dialogClass = type === 'success' ? 'alert-success' : 'alert-danger';

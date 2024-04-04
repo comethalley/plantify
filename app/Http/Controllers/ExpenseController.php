@@ -151,16 +151,24 @@ class ExpenseController extends Controller
         return response()->json(['success' => true, 'id' => $expense->id, 'image_url' => asset($expense->image_path)]);
     }
 
-    public function getLastElectricityAmount()
+    public function getLastAmount(Request $request)
     {
-        $lastElectricityExpense = Expense::whereHas('category', function ($query) {
-            $query->where('category_id', '1');
-        })->latest()->first();
+        // Retrieve the farm_id and category_id from the request
+        $farmId = $request->input('farm_id');
+        $categoryId = $request->input('category_id');
     
-        if ($lastElectricityExpense) {
-            return response()->json(['success' => true, 'lastAmount' => $lastElectricityExpense->amount]);
+        // Retrieve the last expense for the given farm_id and category_id
+        $lastExpense = Expense::where('farm_id', $farmId)
+            ->where('category_id', $categoryId)
+            ->orderBy('created_at', 'desc')
+            ->first();
+    
+        if ($lastExpense) {
+            // If a valid expense is found, return the last amount
+            return response()->json(['success' => true, 'lastAmount' => $lastExpense->amount]);
         } else {
-            return response()->json(['success' => false, 'message' => 'No previous electricity expense found.']);
+            // If no expense is found, return an error message
+            return response()->json(['success' => false, 'message' => 'No expense found for this category.']);
         }
     }
 

@@ -45,7 +45,6 @@
         </div>
         <div class="location-text">
           <p id="location">location</p>
-          <p>Quezon City, National Capital Region, Philippines</p>
         </div>
       </div>
     </div>

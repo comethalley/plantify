@@ -350,8 +350,9 @@ $(document).ready(function () {
         archivePlantInfo();
     });
 
-    function unarchivePlantInfo() {
-        var plantID = $("#unarchiveID").val();
+
+    function unarchivePlantInfo(){
+        var plantID = $('#unarchiveID').val()
 
         $.ajax({
             url: "/unarchive/" + plantID,
@@ -556,5 +557,85 @@ $(document).ready(function () {
                 console.error("Error:", xhr.responseText);
             },
         });
+
+
+
+        
+    
+    
+        })
+    
+
+    
+    })
+
+
+    $(document).ready(function() {
+        // Bind click event to the element with id "fertilizer-archive"
+        $('#fertilizer-archive').on('click', function() {
+            archiveFertInfo();
+        });
+    
+        // Bind click event to elements with class "remove-fer-btn"
+        $(document).on('click', '.remove-fer-btn', function(event) {
+            event.preventDefault();
+            var FertID = $(this).data('fertilizers-id');
+            $('#archiveID').val(FertID);
+        });
     });
-});
+
+    function archiveFertInfo() {
+        var FertID = $('#archiveID').val();
+    
+        $.ajax({
+            url: "/fertarchive/" + FertID,
+            method: "POST",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+    
+            success: function(data) {
+                location.reload();
+            },
+            error: function(xhr, status, error) {
+                console.error("Error:", status, error);
+            }
+        });
+    }
+
+    $(document).ready(function() {
+        // Bind click event to the element with id "pesticide-archive"
+        $('#pesticide-archive').on('click', function() {
+            archivePesInfo();
+        });
+    
+        // Delegate click event to elements with class "remove-pes-btn"
+        $(document).on('click', '.remove-pes-btn', function(event) {
+            event.preventDefault();
+            var pesID = $(this).data('pesticides-id');
+            $('#archiveID').val(pesID);
+        });
+    });
+    
+    function archivePesInfo() {
+        var pesID = $('#archiveID').val();
+    
+        $.ajax({
+            url: "/pesarchive/" + pesID,
+            method: "POST",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+    
+            success: function(data) {
+                location.reload();
+            },
+            error: function(xhr, status, error) {
+                console.error("Error:", status, error);
+                // You might handle the error here based on your application's requirements
+                alert("An error occurred. Please try again later.");
+            }
+        });
+    }
+    
+ 

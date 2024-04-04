@@ -5,6 +5,10 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Libraries\PlantifyLibrary;
 use App\Mail\MailInvitation;
+use App\Models\Barangay;
+use App\Models\CalendarPlanting;
+use App\Models\Expense;
+use App\Models\Farm;
 use App\Models\User;
 use App\Models\PlantifeedModel;
 use Exception;
@@ -33,14 +37,32 @@ class AuthController extends Controller
         if (!auth()->check()) {
             return redirect()->route('login');
         }
-        // $users = DB::table('users')->where('status', 1)->select(
-        //     "id",
-        //     "email",
-        //     'firstname',
-        //     "lastname",
-        // )->get();
-        // return response()->json($users);
-        return view('pages.index');
+        $user = auth()->user();
+        $barangays = Barangay::all(['id', 'barangay_name'])->toArray();
+        $expensesData = collect();
+        $plantingData = collect();
+        $farmsData = collect();
+
+        if ($user->role_id == 1) {
+            // Fetch data for super admin role
+            $expensesData = Expense::all(['description', 'amount', 'created_at', 'budget_id'])->toJson();
+            $plantingData = CalendarPlanting::all(['title', 'start', 'harvested', 'destroyed', 'start'])->toJson();
+            $farmsData = Farm::with('barangays')->get()->toJson();
+        } elseif ($user->role_id == 3) {
+            // Fetch data for farm leader role
+            $expensesData = Expense::where('budget_id', 3)->where('id', $user->id)->get(['description', 'amount', 'created_at'])->toJson();
+            $farmsData = Farm::where('id', $user->id)->with('barangays')->get()->toJson();
+        }
+
+        $barangayOptions = [];
+        foreach ($barangays as $barangay) {
+            $barangayOptions[] = [
+                'value' => $barangay['id'],
+                'text' => $barangay['barangay_name']
+            ];
+        }
+
+        return view('pages.analytics', compact('expensesData', 'plantingData', 'farmsData', 'barangayOptions'));
     }
 
     public function viewLogin()
@@ -276,7 +298,7 @@ class AuthController extends Controller
             'lastname' => $data['lastname'],
             'email' => $data['email'],
             'password' =>  Hash::make($data['password']),
-            'role_id' => 1,
+            'role_id' => 5,
             'status' => 1,
         ]);
 
@@ -285,7 +307,7 @@ class AuthController extends Controller
 
         auth()->login($user);
 
-        return redirect("/");
+        return redirect("/dashboard/analytics");
     }
 
 
@@ -441,7 +463,7 @@ class AuthController extends Controller
             $user = Auth::user();
             $request->session()->put('user', $user);
 
-            return redirect('/')->with('message', 'Welcome back!');
+            return redirect('/dashboard/analytics')->with('message', 'Welcome back!');
         }
 
         return back()->withErrors(['email' => 'Login failed'])->onlyInput('email');

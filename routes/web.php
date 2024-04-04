@@ -39,7 +39,8 @@ use App\Http\Controllers\AnalyticsController;
 //     return view('email.email');
 // });
 
-Route::get('/', [AuthController::class, 'index'])->middleware('auth');
+Route::get('/', [AuthController::class, 'landingpage']);
+Route::get('/dashboard/analytics', [AuthController::class, 'index'])->middleware('auth');
 Route::get('/login', [AuthController::class, 'viewLogin'])->name('login')->middleware('guest');
 Route::get('/signup', [AuthController::class, 'viewSignup']);
 Route::post('/login/process', [AuthController::class, 'login']);
@@ -161,11 +162,13 @@ Route::get('/pesticides', [PlantInfoController::class, 'pesticides']);
 Route::post('/pupdate/{id}', [PlantInfoController::class, 'pupdate']);
 Route::post('/pesticides', [PlantInfoController::class, 'pstore']);
 Route::get('/pedit/{id}', [PlantInfoController::class, 'pedit']);
+Route::post('/pesarchive/{id}', [PlantInfoController::class, 'pesarchive']);
 //FER=======================================================================
 Route::get('/fertilizers', [PlantInfoController::class, 'fertilizers']);
 Route::post('/fertilizers', [PlantInfoController::class, 'fstore']);
 Route::post('/fupdate/{id}', [PlantInfoController::class, 'fupdate']);
-Route::get('/fedit/{id}', [PlantInfoController::class, 'fedit']);
+Route::get('/fedit/{FertID}', [PlantInfoController::class, 'fedit']);
+Route::post('/fertarchive/{id}', [PlantInfoController::class, 'fertarchive']);
 
 //For farm management =======================================================
 
@@ -253,6 +256,7 @@ Route::get('/piu/showfiu/{id}', [PiuController::class, 'showfiu']);
 Route::middleware(['auth', 'checkrole:1,2,3'])->group(function () {
     Route::get('/analytics', [AnalyticsController::class, 'index']);
 });
+Route::get('/analytics/count', [AnalyticsController::class, 'count']);
 
 Route::get('api/farms', [FarmController::class, 'fetchFarmsByBarangay'])->name('api.farms');
 Route::get('/farmsAnalytics/{slug}', [AnalyticsController::class, 'getFarms']);

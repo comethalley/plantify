@@ -115,12 +115,12 @@
                         <!-- App Search-->
 
                         <div class="ms-1 header-item d-none d-sm-flex">
-                             <span id="current-day"></span> 
+                            <span id="current-day"></span>
                             <button id="weather-button" type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" style="color: rgb(5, 5, 5);">
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;   <img id="weather-icon" src="" alt="">
-                              <span id="temperature-placeholder">--°C</span>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; <img id="weather-icon" src="" alt="">
+                                <span id="temperature-placeholder">--°C</span>
                             </button>
-                          </div>
+                        </div>
                     </div>
 
                     <div class="d-flex align-items-center">
@@ -179,7 +179,7 @@
                                                     Plantifeed
                                                 </a>
                                             </li>
-                                          
+
                                         </ul>
                                     </div>
                                 </div>
@@ -250,7 +250,7 @@
                                                         <p class="mb-1">.</p>
                                                     </div>
                                                     <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
-                                                        <span><i class="mdi mdi-clock-outline" id="notification-time" ></i> {{ $notification->created_at->diffForHumans() }}</span>
+                                                        <span><i class="mdi mdi-clock-outline" id="notification-time"></i> {{ $notification->created_at->diffForHumans() }}</span>
                                                     </p>
                                                 </div>
                                                 <div class="px-2 fs-15">
@@ -299,7 +299,7 @@
                                                     </div>
                                                     <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
 
-                                                        <span><i class="mdi mdi-clock-outline"id="notification-time"></i>{{ $notification->created_at->diffForHumans() }}</span>
+                                                        <span><i class="mdi mdi-clock-outline" id="notification-time"></i>{{ $notification->created_at->diffForHumans() }}</span>
 
                                                     </p>
                                                 </div>
@@ -325,7 +325,7 @@
                                                     </div>
                                                     <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
 
-                                                        <span><i class="mdi mdi-clock-outline"id="notification-time"></i>{{ $notification->created_at->diffForHumans() }}</span>
+                                                        <span><i class="mdi mdi-clock-outline" id="notification-time"></i>{{ $notification->created_at->diffForHumans() }}</span>
 
                                                     </p>
                                                 </div>
@@ -400,7 +400,7 @@
                                         @endif
                                     </div>
 
-                                 
+
 
                                     <div class="tab-pane fade py-2 ps-2" id="messages-tab" role="tabpanel" aria-labelledby="messages-tab">
 
@@ -496,7 +496,7 @@
             <div class="navbar-brand-box" style="background-color:#57aa2c;">
                 <!-- Dark Logo-->
                 </br>
-                <a href="/" class="logo logo-dark">
+                <a href="/dashboard/analytics" class="logo logo-dark">
                     <span class="logo-sm">
                         <img src="{{ asset('assets/images/p-white-small.png') }}" alt="" height="22" />
                     </span>
@@ -505,7 +505,7 @@
                     </span>
                 </a>
                 <!-- Light Logo-->
-                <a href="/" class="logo logo-light">
+                <a href="/dashboard/analytics" class="logo logo-light">
                     <span class="logo-sm">
                         <img src="{{ asset('assets/images/p-white-small.png') }}" alt="" height="22" />
                     </span>
@@ -525,7 +525,7 @@
                         <li class="menu-title"><span data-key="t-menu" style="color:white;"></span></li>
                         </br>
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="/" role="button" style="color:white">
+                            <a class="nav-link menu-link" href="/dashboard/analytics" role="button" style="color:white">
                                 <i class="ri-dashboard-2-line"></i>
                                 <span data-key="t-dashboards">Dashboards</span>
                             </a>
@@ -634,9 +634,9 @@
                                     <li class="nav-item">
                                         <a href="/inventory/uom" class="nav-link" style="color:white"> Unit of Measurements </a>
                                     </li>
-                                    <li class="nav-item">
+                                    <!-- <li class="nav-item">
                                         <a href="/inventory/fertilizer" class="nav-link" style="color:white">Fertilizer</a>
-                                    </li>
+                                    </li> -->
                                 </ul>
                             </div>
                         </li> <!-- end Dashboard Menu -->
@@ -665,7 +665,12 @@
                             </a>
                         </li>
                         @endif
-                       
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="{{ route('tasks.monitoring') }}" role="button" style="color:white">
+                                <i class="ri-task-line"></i>
+                                <span data-key="t-faqs">Task</span>
+                            </a>
+                        </li>
 
                         @if(session('user') && (session('user')->role_id == 1 || session('user')->role_id == 3))
                         <li class="nav-item">

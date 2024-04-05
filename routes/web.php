@@ -157,6 +157,7 @@ Route::post('/plantinfo', [PlantInfoController::class, 'store']);
 Route::post('/archive/{id}', [PlantInfoController::class, 'archive']);
 Route::get('/restore', [PlantInfoController::class, 'restore']);
 Route::post('/unarchive/{id}', [PlantInfoController::class, 'unarchive']);
+Route::get('/piu/show/{id}', [PiuController::class, 'showpiu']);
 //PES=======================================================================
 Route::get('/pesticides', [PlantInfoController::class, 'pesticides']);
 Route::post('/pupdate/{id}', [PlantInfoController::class, 'pupdate']);

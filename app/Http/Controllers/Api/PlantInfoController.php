@@ -440,7 +440,18 @@ public function fertarchive(Request $request, $id)
         return response()->json(['message' => 'Pesticide archived successfully'], 200);
     }
 
-   
+    public function showpiu($id)
+    {
+        $PlantInfo = DB::table('plant_infos')
+        ->where('status', 1)
+        ->where('id', $id)
+        ->select("*")
+        ->first();
+
+        //dd($piu);
+        
+        return view("pages.piu.show", ['piu' => $PlantInfo,]);
+    }
 
 
 

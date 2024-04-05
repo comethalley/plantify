@@ -371,16 +371,17 @@
                                                 <th class="sort" data-sort="description">Description</th>
                                                 <th class="sort" data-sort="amount" style="width: 20%;">Amount</th>
                                                 <th class="sort" data-sort="image" style="width: 10%;">Image</th>
-                                                <th class="sort" data-sort="action" style="width: 20%;">Action</th>
+                                                <!-- <th class="sort" data-sort="action" style="width: 20%;">Action</th> -->
+                                                <th scope="col" style="width: 50px;"></th>
                                             </tr>
                                         </thead>
                                         <tbody class="list form-check-all">
                                             @foreach($expenses as $expense)
                                                 <tr data-expense-id="{{ $expense->id }}">
                                                     <th scope="row">
-                                                        <div class="form-check">
+                                                        <!-- <div class="form-check">
                                                             <input class="form-check-input" type="checkbox" name="chk_child" value="option1">
-                                                        </div>
+                                                        </div> -->
                                                     </th>
                                                     <td class="id" style="display:none;"><a href="javascript:void(0);" class="fw-medium link-primary">#{{ $expense->farm_id }}</a></td>
                                                     <td class="description">{{ $expense->description }}</td>
@@ -392,16 +393,21 @@
                                                             No Image
                                                         @endif
                                                     </td>
-                                                    <td>
+                                                    <!-- <td>
                                                         <div class="d-flex gap-2">
                                                             <div class="edit">
                                                                 <button class="btn btn-sm btn-success edit-item-btn" onclick="editExpenseModal(this.closest('tr'))">Edit</button>
                                                             </div>
-                                                            <!-- <div class="remove">
+                                                            <div class="remove">
                                                                 <button class="btn btn-sm btn-danger remove-item-btn" onclick="removeExpense(this.closest('tr'))">Remove</button>
-                                                            </div> -->
+                                                            </div>
                                                         </div>
-                                                    </td>
+                                                    </td> -->
+                                                    <th scope="row">
+                                                        <!-- <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" name="chk_child" value="option1">
+                                                        </div> -->
+                                                    </th>
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -590,17 +596,40 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    console.log('Expense saved successfully:', data);
-                    location.reload();
-                    $('#addModal').modal('hide');
+                    Swal.fire({
+                    title: 'Are you sure you want to spend this amount?,',
+                    text: 'Make sure all information is correct before submitting as changes cannot be made later.',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#4CAF50',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: 'Cancel',
+                }).then((result) => {
+                        if (result.isConfirmed) {
+                            location.reload();
+                            $('#addModal').modal('hide');
+                        }
+                    });
                 } else {
-                    console.error('Failed to save expense:', data.message);
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'Failed to save expense: ' + data.message,
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Failed to save expense. Please try again later.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
             });
-    }
+}
 
     // Event listener for Save Item button
     document.getElementById('saveItemButton').addEventListener('click', saveNewItem);
@@ -748,10 +777,19 @@ function updateExpense() {
 
 <!-- Budget JavaScript -->
 <script>
-    document.getElementById('addBudgetForm').addEventListener('submit', function(event) {
-        event.preventDefault();
+   document.getElementById('addBudgetForm').addEventListener('submit', function(event) {
+    event.preventDefault();
 
-        if (confirm('Are you sure you want to add this budget?')) {
+    Swal.fire({
+        title: 'Are you sure you want to add this budget?',
+        text: 'Make sure all information is correct before submitting as changes cannot be made later.',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#4CAF50',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, add it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
             var formData = new FormData(this);
 
             fetch('/expenses/add-budget', {
@@ -764,9 +802,8 @@ function updateExpense() {
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'success') {
-                    // Update the UI with the new budget data
                     console.log('Budget added successfully:', data);
-                    updateUI(data); // Call function to update UI
+                    updateUI(data);
                     $('#addBudgetModal').modal('hide');
                 } else {
                     console.error('Failed to add budget:', data.message);
@@ -776,10 +813,11 @@ function updateExpense() {
                 console.error('Error:', error);
             });
         } else {
-            // User canceled the budget addition
             console.log('Budget addition canceled.');
         }
     });
+});
+
 
     function updateUI(data) {
         document.getElementById('allottedBudget').innerText = data.allotted_budget;

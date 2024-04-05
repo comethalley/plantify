@@ -56,27 +56,17 @@
             
             <!-- Your existing "Add Budget" button -->
             <div class="d-flex align-items-center">
-                @if ($userRoleId != 3)
+                @if ($userRoleId != 2)
                 <div class="flex-shrink-0 mb-3">
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addBudgetModal">
                         Add Budget
                     </button>
                 </div>
-                
-                &nbsp&nbsp&nbsp&nbsp
-                <div class="mb-3">
-                    <select class="form-select" id="farm_id" name="farm_id">
-                        <option value="">All Farm</option>
-                        @foreach($farm as $per_farm)
-                            <option value="{{ $per_farm->id }}">{{ $per_farm->farm_name }}</option>
-                        @endforeach
-                    </select>
-                </div>
                 @endif
             </div>
 
             <!-- Add Budget Modal -->
-            @if($userRoleId == 2)
+            @if($userRoleId == 3 && $farm)
             <div class="modal fade" id="addBudgetModal" tabindex="-1" aria-labelledby="addBudgetModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -89,7 +79,6 @@
                                 @csrf
                                 <div class="mb-3">
                                     <select class="form-select" id="farm_id" name="farm_id">
-                                        <option value="" data-farm-id="">All Farm</option>
                                         @foreach($farm as $per_farm)
                                             <option value="{{ $per_farm->id }}" data-farm-id="{{ $per_farm->id }}">{{ $per_farm->farm_name }}</option>
                                         @endforeach
@@ -243,82 +232,136 @@
                                 <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" id="dialogBox">
                                         <div class="modal-content">
-                                            @csrf
                                             <div class="modal-header">
                                                 <h5 class="modal-title" id="addModalLabel">Add Item</h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                <form id="expenseForm">
+                                                <form class="add-expense-form" id="addExpenseForm" action="/expenses/save-expense" method="POST">
+                                                    @csrf
                                                     <div class="mb-3">
+                                                        <select class="form-select" id="category" name="category">
+                                                            <option value="">Select Category</option>
+                                                            @foreach($farmCategory as $category)
+                                                                <option value="{{ $category->id }}">{{ $category->category_name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="mb-3" id="descriptionInput" style="display: none;">
                                                         <label for="description" class="form-label">Description</label>
                                                         <input type="text" class="form-control" id="description" placeholder="Enter description">
                                                     </div>
 
-                                                    <div class="mb-3">
+                                                    <div class="mb-3" id="previousInput" style="display: none;">
+                                                        <label for="previous" class="form-label">Previous</label>
+                                                        <input type="number" class="form-control" id="previous">
+                                                    </div>
+
+                                                    <div class="mb-3" id="currentInput" style="display: none;">
+                                                        <label for="current" class="form-label">Current</label>
+                                                        <input type="number" class="form-control" id="current">
+                                                    </div>
+
+                                                    <div class="mb-3" id="kwhInput" style="display: none;">
+                                                        <label for="kwh" class="form-label">Kilo Watt per Hour</label>
+                                                        <input type="number" class="form-control" id="kwh">
+                                                    </div>
+
+                                                    <div class="mb-3" id="totalAmount" style="display: none;">
+                                                        <label colspan="3"  for="total" class="form-label">Total Amount</label>
+                                                        <label colspan="2"  type="number" class="form-control" id="total" style="color: black; font-weight: bold; font-size: 10pt; padding-top: 5px; padding-bottom: 5px;">0.00</label>
+                                                    </div>
+
+                                                    <div class="mb-3" id="amountInput" style="display: none;">
                                                         <label for="amount" class="form-label">Amount</label>
                                                         <input type="number" class="form-control" id="amount" placeholder="Enter amount">
                                                     </div>
 
-                                                    <div class="mb-3">
-                                                        <label for="image" class="form-label">Upload Proof of Expenses</label>
+                                                    <!-- Image Upload Input -->
+                                                    <div class="mb-3" id="imageInput" style="display: none;">
+                                                        <label for="image" class="form-label">Upload Image</label>
                                                         <input type="file" class="form-control" id="image" accept="image/*">
                                                     </div>
                                                 </form>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                <button type="button" class="btn btn-primary" onclick="saveNewItem()">Save Item</button>
+                                                <button type="button" class="btn btn-primary" id="saveItemButton">Save Item</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
-
-
-
-                                <!-- Edit Modal -->
+                                <!-- Edit Expense Modal -->
                                 <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
+                                    <div class="modal-dialog" id="editDialogBox">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="editModalLabel">Edit Expense</h5>
+                                                <h5 class="modal-title" id="editModalLabel">Edit Item</h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                <form id="editForm" enctype="multipart/form-data">
+                                                <form class="edit-expense-form" id="editExpenseForm" action="/expenses/update" method="POST">
                                                     @csrf
-                                                    @method('PUT')
-
                                                     <div class="mb-3">
+                                                        <label for="editCategory" class="form-label">Category</label>
+                                                        <select class="form-select" id="editCategory" name="category">
+                                                            <option value="">Select Category</option>
+                                                            @foreach($farmCategory as $category)
+                                                                <option value="{{ $category->id }}">{{ $category->category_name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="mb-3" id="editDescriptionInput" style="display: none;">
                                                         <label for="editDescription" class="form-label">Description</label>
-                                                        <input type="text" class="form-control" id="editDescription" name="description" placeholder="Enter description">
+                                                        <input type="text" class="form-control" id="editDescription" placeholder="Enter description">
                                                     </div>
 
-                                                    <div class="mb-3">
+                                                    <div class="mb-3" id="editPreviousInput" style="display: none;">
+                                                        <label for="editPrevious" class="form-label">Previous</label>
+                                                        <input type="number" class="form-control" id="editPrevious">
+                                                    </div>
+
+                                                    <div class="mb-3" id="editCurrentInput" style="display: none;">
+                                                        <label for="editCurrent" class="form-label">Current</label>
+                                                        <input type="number" class="form-control" id="editCurrent">
+                                                    </div>
+
+                                                    <div class="mb-3" id="editKwhInput" style="display: none;">
+                                                        <label for="editKwh" class="form-label">Kilo Watt per Hour</label>
+                                                        <input type="number" class="form-control" id="editKwh">
+                                                    </div>
+
+                                                    <div class="mb-3" id="editTotalAmount" style="display: none;">
+                                                        <label colspan="3" for="editTotal" class="form-label">Total Amount</label>
+                                                        <label colspan="2" type="number" class="form-control" id="editTotal"
+                                                            style="color: black; font-weight: bold; font-size: 10pt; padding-top: 5px; padding-bottom: 5px;">
+                                                            0.00</label>
+                                                    </div>
+
+                                                    <div class="mb-3" id="editAmountInput" style="display: none;">
                                                         <label for="editAmount" class="form-label">Amount</label>
-                                                        <input type="number" class="form-control" id="editAmount" name="amount" placeholder="Enter amount">
+                                                        <input type="number" class="form-control" id="editAmount" placeholder="Enter amount">
                                                     </div>
 
-                                                    <div class="mb-3">
-                                                        <label for="editImage" class="form-label">Upload New Proof of Expenses</label>
-                                                        <input type="file" class="form-control" id="editImage" name="image" accept="image/*">
+                                                    <!-- Image Upload Input -->
+                                                    <div class="mb-3" id="editImageInput" style="display: none;">
+                                                        <label for="editImage" class="form-label">Upload Image</label>
+                                                        <input type="file" class="form-control" id="editImage" accept="image/*">
                                                     </div>
 
-                                                    <input type="hidden" name="expense_id" id="editExpenseId" value="">
-
-                                                    <div id="editImagePreview" class="mb-3"></div>
+                                                    <input type="hidden" id="editExpenseId" name="expense_id">
                                                 </form>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                <button type="button" class="btn btn-primary" onclick="saveEdit()">Save Changes</button>
+                                                <button type="button" class="btn btn-primary" onclick="editExpense()">Save Changes</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
-
 
                                 <div class="table-responsive table-card mt-3 mb-1">
                                     <table class="table align-middle table-nowrap" id="customerTable">
@@ -339,7 +382,7 @@
                                                             <input class="form-check-input" type="checkbox" name="chk_child" value="option1">
                                                         </div>
                                                     </th>
-                                                    <td class="id" style="display:none;"><a href="javascript:void(0);" class="fw-medium link-primary">#{{ $expense->id }}</a></td>
+                                                    <td class="id" style="display:none;"><a href="javascript:void(0);" class="fw-medium link-primary">#{{ $expense->farm_id }}</a></td>
                                                     <td class="description">{{ $expense->description }}</td>
                                                     <td class="amount">{{ $expense->amount }}</td>
                                                     <td class="image">
@@ -352,11 +395,11 @@
                                                     <td>
                                                         <div class="d-flex gap-2">
                                                             <div class="edit">
-                                                                <button class="btn btn-sm btn-success edit-item-btn" data-bs-toggle="modal" data-bs-target="#editModal" onclick="populateEditModal(this.closest('tr'))">Edit</button>
+                                                                <button class="btn btn-sm btn-success edit-item-btn" onclick="editExpenseModal(this.closest('tr'))">Edit</button>
                                                             </div>
-                                                            <div class="remove">
+                                                            <!-- <div class="remove">
                                                                 <button class="btn btn-sm btn-danger remove-item-btn" onclick="removeExpense(this.closest('tr'))">Remove</button>
-                                                            </div>
+                                                            </div> -->
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -402,7 +445,308 @@
 <!-- apexcharts init -->
 <script src="assets/js/pages/apexcharts-column.init.js"></script>
 
+<!-- expenses modal -->
+<script>
+    
+    document.addEventListener('DOMContentLoaded', function () {
 
+        var categorySelect = document.getElementById('category');
+        var descriptionInput = document.getElementById('descriptionInput');
+        var previousInput = document.getElementById('previousInput');
+        var currentInput = document.getElementById('currentInput');
+        var kwhInput = document.getElementById('kwhInput');
+        var totalAmount = document.getElementById('totalAmount');
+        var amountInput = document.getElementById('amountInput');
+        var imageInput = document.getElementById('imageInput');
+
+        function showInputsForCategory() {
+            var selectedCategoryId = categorySelect.value;
+
+            descriptionInput.style.display = 'none';
+            previousInput.style.display = 'none';
+            currentInput.style.display = 'none';
+            kwhInput.style.display = 'none';
+            totalAmount.style.display = 'none';
+            amountInput.style.display = 'none';
+            imageInput.style.display = 'none';
+
+            if (selectedCategoryId === '1') {
+                previousInput.style.display = 'block';
+                currentInput.style.display = 'block';
+                kwhInput.style.display = 'block';
+                totalAmount.style.display = 'block';
+                imageInput.style.display = 'block';
+            } else if (selectedCategoryId === '2') {
+                previousInput.style.display = 'block';
+                currentInput.style.display = 'block';
+                totalAmount.style.display = 'block';
+                imageInput.style.display = 'block';
+            } else if (selectedCategoryId === '3' || selectedCategoryId === '4') {
+                descriptionInput.style.display = 'block';
+                amountInput.style.display = 'block';
+                imageInput.style.display = 'block';
+            }
+        }
+
+        showInputsForCategory();
+        categorySelect.addEventListener('change', showInputsForCategory);
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+    var categorySelect = document.getElementById('category');
+    var descriptionInput = document.getElementById('description');
+    var amountInput = document.getElementById('amount');
+    var previousInput = document.getElementById('previous');
+    var currentInput = document.getElementById('current');
+    var kwhInput = document.getElementById('kwh');
+    var imageInput = document.getElementById('image');
+
+    // Function to fetch previous amount when category selection changes
+    categorySelect.addEventListener('change', function() {
+        var categoryId = categorySelect.value;
+        var farmId = document.getElementById('farm_id').value; // Get the selected farm_id
+
+        if (categoryId === '1' || categoryId === '2') { // If Electricity or Water category is selected
+            // Make AJAX request to fetch last amount
+            fetch('/expenses/get-last-amount?farm_id=' + farmId + '&category_id=' + categoryId)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        previousInput.value = data.lastAmount;
+                    } else {
+                        console.error('Failed to fetch last amount:', data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching last amount:', error);
+                });
+        }
+    });
+
+    // Function to calculate total amount when inputs change
+    function calculateTotalAmount() {
+        var category = categorySelect.value;
+        var previous = parseFloat(previousInput.value) || 0;
+        var current = parseFloat(currentInput.value) || 0;
+        var kwh = parseFloat(kwhInput.value) || 0;
+        var total = 0;
+
+        if (category === '1') { // Electricity
+            total = (previous - current) * kwh;
+        } else if (category === '2') { // Water
+            total = previous + current;
+        } else { // Seeds and Others
+            total = parseFloat(amountInput.value) || 0;
+        }
+
+        document.getElementById('total').textContent = total.toFixed(2);
+    }
+
+    // Event listeners for input fields to trigger total amount calculation
+    $('#previous, #current, #kwh, #amount').on('input', calculateTotalAmount);
+
+    // Function to save the expense
+    function saveNewItem() {
+        var formData = new FormData();
+
+        var farmId = document.getElementById('farm_id').value; // Get the selected farm_id
+        var categoryId = categorySelect.value;
+        var description = '';
+        var totalAmount = parseFloat(document.getElementById('total').textContent);
+
+        if (categoryId === '1') { // If category is Electricity
+            var previous = parseFloat(previousInput.value);
+            var current = parseFloat(currentInput.value);
+            var kwh = parseFloat(kwhInput.value);
+            description = 'Electricity';
+            formData.append('previous', previous);
+            formData.append('current', current);
+            formData.append('kwh', kwh);
+        } else if (categoryId === '2') { // If category is Water
+            var previous = parseFloat(previousInput.value);
+            var current = parseFloat(currentInput.value);
+            description = 'Water';
+            formData.append('previous', previous);
+            formData.append('current', current);
+        } else { // If category is Seeds and Others
+            description = descriptionInput.value;
+        }
+
+        formData.append('farm_id', farmId); // Append the farm_id to the form data
+        formData.append('category_id', categoryId); // Append the category_id to the form data
+        formData.append('description', description);
+        formData.append('amount', totalAmount);
+        formData.append('image', imageInput.files[0]);
+
+        var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        fetch('/expenses/save-expense', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log('Expense saved successfully:', data);
+                    location.reload();
+                    $('#addModal').modal('hide');
+                } else {
+                    console.error('Failed to save expense:', data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+
+    // Event listener for Save Item button
+    document.getElementById('saveItemButton').addEventListener('click', saveNewItem);
+});
+
+
+    function showDialog(message, type) {
+        var dialogClass = type === 'success' ? 'alert-success' : 'alert-danger';
+        var dialogHtml = '<div class="alert ' + dialogClass + ' alert-dismissible fade show" role="alert">' +
+                            message +
+                            '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
+                        '</div>';
+        $('#dialogBox').html(dialogHtml);
+        setTimeout(function() {
+            $('#dialogBox').html('');
+        }, 5000);
+    }
+
+    // <!-- edit expense -->
+
+    document.addEventListener('DOMContentLoaded', function () {
+        
+        var editCategorySelect = document.getElementById('editCategory');
+        var editDescriptionInput = document.getElementById('editDescriptionInput');
+        var editPreviousInput = document.getElementById('editPreviousInput');
+        var editCurrentInput = document.getElementById('editCurrentInput');
+        var editKwhInput = document.getElementById('editKwhInput');
+        var editTotalAmount = document.getElementById('editTotalAmount');
+        var editAmountInput = document.getElementById('editAmountInput');
+        var editImageInput = document.getElementById('editImageInput');
+
+        function showInputsForEditCategory(selectedCategoryId) {
+
+            editDescriptionInput.style.display = 'none';
+            editPreviousInput.style.display = 'none';
+            editCurrentInput.style.display = 'none';
+            editKwhInput.style.display = 'none';
+            editTotalAmount.style.display = 'none';
+            editAmountInput.style.display = 'none';
+            editImageInput.style.display = 'none';
+
+            if (selectedCategoryId === '1') { // Electricity
+                editPreviousInput.style.display = 'block';
+                editCurrentInput.style.display = 'block';
+                editKwhInput.style.display = 'block';
+                editTotalAmount.style.display = 'block';
+                editImageInput.style.display = 'block';
+            } else if (selectedCategoryId === '2') { // Water
+                editPreviousInput.style.display = 'block';
+                editCurrentInput.style.display = 'block';
+                editTotalAmount.style.display = 'block';
+                editImageInput.style.display = 'block';
+            } else if (selectedCategoryId === '3' || selectedCategoryId === '4') { // Seeds and Others
+                editDescriptionInput.style.display = 'block';
+                editAmountInput.style.display = 'block';
+                editImageInput.style.display = 'block';
+            }
+        }
+
+        showInputsForEditCategory(editCategorySelect.value);
+        
+        editCategorySelect.addEventListener('change', function () {
+            showInputsForEditCategory(editCategorySelect.value);
+        });
+    });
+
+    function editExpenseModal(row) {
+    var expenseId = row.getAttribute('data-expense-id');
+    var description = row.querySelector('.description').textContent.trim();
+    var amount = row.querySelector('.amount').textContent.trim();
+    // Populate modal fields with current expense data
+    document.getElementById('editExpenseId').value = expenseId;
+    document.getElementById('editDescription').value = description;
+    document.getElementById('editAmount').value = amount;
+    $('#editModal').modal('show');
+}
+
+function updateExpense() {
+    var expenseId = document.getElementById('editExpenseId').value;
+    var description = document.getElementById('editDescription').value;
+    var amount = document.getElementById('editAmount').value;
+    var formData = new FormData();
+    formData.append('expense_id', expenseId);
+    formData.append('description', description);
+    formData.append('amount', amount);
+    var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    fetch('/expenses/update', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRF-TOKEN': csrfToken
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            console.log('Expense updated successfully:', data);
+            location.reload();
+            $('#editModal').modal('hide');
+        } else {
+            console.error('Failed to update expense:', data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+    function calculateEditTotalAmount() {
+        var categorySelect = document.getElementById('editCategory');
+        var editPreviousInput = parseFloat(document.getElementById('editPrevious').value);
+        var editCurrentInput = parseFloat(document.getElementById('editCurrent').value);
+        var editKwhInput = parseFloat(document.getElementById('editKwh').value);
+        var editTotalElement = document.getElementById('editTotal');
+
+        if (categorySelect.value === '1') {
+            if (!isNaN(editPreviousInput) && !isNaN(editCurrentInput) && !isNaN(editKwhInput)) {
+                var difference = editPreviousInput - editCurrentInput;
+                var total = difference * editKwhInput;
+                editTotalElement.textContent = total.toFixed(2);
+            } else {
+                editTotalElement.textContent = 'Invalid input'; 
+            }
+        } else if (categorySelect.value === '2') {
+            if (!isNaN(editPreviousInput) && !isNaN(editCurrentInput)) {
+                var total = editPreviousInput + editCurrentInput;
+                editTotalElement.textContent = total.toFixed(2);
+            } else {
+                editTotalElement.textContent = 'Invalid input';
+            }
+        }
+    }
+
+    $(document).ready(function() {
+        $('#editPrevious, #editCurrent, #editKwh').on('input', calculateEditTotalAmount);
+    });
+
+    // function removeExpense(row) {
+    //     if (confirm('Are you sure you want to remove this expense?')) {
+    //         row.style.display = 'none';
+    //     }
+    // }
+</script>
+
+
+<!-- Budget JavaScript -->
 <script>
     document.getElementById('addBudgetForm').addEventListener('submit', function(event) {
         event.preventDefault();
@@ -410,7 +754,7 @@
         if (confirm('Are you sure you want to add this budget?')) {
             var formData = new FormData(this);
 
-            fetch(this.action, {
+            fetch('/expenses/add-budget', {
                 method: 'POST',
                 body: formData,
                 headers: {
@@ -420,8 +764,9 @@
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'success') {
-                    // Update the allotted budget displayed on the dashboard
+                    // Update the UI with the new budget data
                     console.log('Budget added successfully:', data);
+                    updateUI(data); // Call function to update UI
                     $('#addBudgetModal').modal('hide');
                 } else {
                     console.error('Failed to add budget:', data.message);
@@ -435,6 +780,10 @@
             console.log('Budget addition canceled.');
         }
     });
+
+    function updateUI(data) {
+        document.getElementById('allottedBudget').innerText = data.allotted_budget;
+    }
     
     $(document).ready(function () {
     $('#farm_id').change(function () {
@@ -458,74 +807,4 @@
         }
     });
 });
-</script>
-
-<!-- Expense function -->
-<script>
-    function saveNewItem() {
-    var formData = new FormData();
-    formData.append('description', document.getElementById('description').value);
-    formData.append('amount', document.getElementById('amount').value);
-    formData.append('image', document.getElementById('image').files[0]);
-
-    fetch('/expenses/save-expense', {
-        method: 'POST',
-        body: formData,
-        headers: {
-            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            console.log('Expense added successfully:', data);
-            $('#addModal').modal('hide');
-            // Update total expenses and balance
-            updateTotalExpensesAndBalance();
-            // Show success dialog
-            showDialog('Expense added successfully!', 'success');
-        } else {
-            console.error('Failed to add expense:', data.message);
-            // Show error dialog
-            showDialog('Failed to add expense. Please try again.', 'error');
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        // Show error dialog
-        showDialog('An error occurred. Please try again later.', 'error');
-    });
-}
-
-function showDialog(message, type) {
-    var dialogClass = type === 'success' ? 'alert-success' : 'alert-danger';
-    var dialogHtml = '<div class="alert ' + dialogClass + ' alert-dismissible fade show" role="alert">' +
-                        message +
-                        '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
-                    '</div>';
-    $('#dialogBox').html(dialogHtml);
-    // Automatically hide the dialog after 5 seconds
-    setTimeout(function() {
-        $('#dialogBox').html('');
-    }, 5000);
-}
-
-    function updateTotalExpensesAndBalance() {
-        fetch('/budget/total-expenses', {
-            method: 'GET',
-            headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            // Update total expenses and balance display on the frontend
-            document.getElementById('totalExpenses').innerText = data.totalExpenses;
-            document.getElementById('balance').innerText = data.balance;
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-    }
-    
 </script>

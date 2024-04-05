@@ -180,10 +180,10 @@ Route::post('/update-status/{id}', [FarmController::class, 'updateStatus'])->nam
 
 
 //view pdf/img farm-management//
-Route::get('/view-pdf/{id}/{title?}', [FarmController::class, 'viewPdf'])->name('view.pdf');
-Route::get('/view-image/{id}', [FarmController::class, 'viewImage'])->name('view.image');
-Route::get('/view-image1/{id}', [FarmController::class, 'viewImage1'])->name('view.image');
-Route::get('/view-image2/{id}', [FarmController::class, 'viewImage2'])->name('view.image');
+// Route::get('/view-pdf/{id}/{title?}', [FarmController::class, 'viewPdf'])->name('view.pdf');
+// Route::get('/view-image/{id}', [FarmController::class, 'viewImage'])->name('view.image');
+// Route::get('/view-image1/{id}', [FarmController::class, 'viewImage1'])->name('view.image');
+// Route::get('/view-image2/{id}', [FarmController::class, 'viewImage2'])->name('view.image');
 
 //xfarms farm-management//
 Route::get('/view-archivefarms', [FarmController::class, 'viewArchiveFarms'])->name('archivefarms.xfarms');
@@ -221,10 +221,12 @@ Route::post('/tasks/{task}/restore', [TaskController::class, 'restore'])->name('
 //EXPENSES MANAGEMENT ====================================================================================
 Route::get('/expense', [ExpenseController::class, 'index']);
 Route::post('/expenses/add-budget', [ExpenseController::class, 'addBudget']);
-Route::get('/dashboard', 'ExpenseController@showDashboard')->name('dashboard');
-Route::post('/expenses/save-expense', [ExpenseController::class, 'saveExpense']);
+Route::post('/expenses/save-expense', [ExpenseController::class, 'saveExpense'])->name('saveExpense');
+Route::get('/expenses/get-last-electricity-amount', [ExpenseController::class, 'getLastElectricityAmount']);
+Route::get('/expenses/get-last-amount', [ExpenseController::class, 'getLastAmount']);
 Route::get('/compute-total-expenses', [ExpenseController::class, 'computeTotalExpenses'])->name('compute-total-expenses');
 Route::get('/expenses/get-dashboard-data', [ExpenseController::class, 'getDashboardData']);
+Route::post('/expenses/update', [ExpenseController::class, 'updateExpense'])->name('expenses.update');
 // Route::get('/expenses', [ExpenseController::class, 'getExpenses']);
 //===========================================================================================================
 

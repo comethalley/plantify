@@ -15,12 +15,12 @@
                                         <div class="row g-0 px-4 py-3">
                                             <div class="col-md-8">
                                                 <div class="card-body">
-                                                <h4 class="card-title mb-0 fw-bold">Pesticide Name: {{$pes->pes_name}}</h4>
+                                                <h4 class="card-title mb-0 fw-bold" style="font-family: Arial, sans-serif; font-size: 16px;">Pesticide Name: {{$pes->pes_name}}</h4>
                                              
                                                    
                                                 </div>
                                                 <div class="card-footer">
-                                                <h4 class="card-title mb-0 fw-bold">{!!$pes->pes_information!!}</h4>
+                                                <h4 class="card-title mb-0 fw-bold" style="font-family: Arial, sans-serif; font-size: 16px;">{!!$pes->pes_information!!}</h4>
                                                 </div>
                                             </div>
                                            

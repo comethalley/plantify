@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Pesticides;
 use App\Models\Fertilizers;
+use App\Models\piu;
 
 
 class PlantinfoController extends Controller
@@ -438,9 +439,8 @@ public function fertarchive(Request $request, $id)
         // Return success response
         return response()->json(['message' => 'Pesticide archived successfully'], 200);
     }
-    
 
-
+   
 
 
 

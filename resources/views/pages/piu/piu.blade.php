@@ -33,7 +33,7 @@
 <div class="col-sm-6 col-xl-3" style="padding-top: 6px; padding-left: 12px; padding-right: 12px;">
     <!-- Simple card -->
     <div class="card">
-        <img class="card-img-top img-fluid mb-2" src="/images/{{$plant_info->image}}" alt="Card image cap">
+        <img class="card-img-top img-fluid mb-2" src="/images/{{$plant_info->image}}" alt="" width="200px" height="200px"></td>>
         <div class="card-body">
             <h4 class="card-title mb-2 text-center ">{{ $plant_info->plant_name}}</h4><br>
 

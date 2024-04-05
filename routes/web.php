@@ -170,6 +170,7 @@ Route::post('/fupdate/{id}', [PlantInfoController::class, 'fupdate']);
 Route::get('/fedit/{FertID}', [PlantInfoController::class, 'fedit']);
 Route::post('/fertarchive/{id}', [PlantInfoController::class, 'fertarchive']);
 
+
 //For farm management =======================================================
 
 //view farm-management//

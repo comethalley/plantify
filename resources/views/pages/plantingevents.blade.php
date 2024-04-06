@@ -8,9 +8,9 @@
                     <h5 class="text-dark"><strong>Seed Name: </strong> {{ $event->title }}</h5>
                 </div>
                 <div class="card-body">
-                    <p class="card-text"><strong>Seeds Amount: </strong>{{ $event->seed }}</p>
-                    <p class="card-text"><strong>Harvested Amount: </strong>{{ $event->harvested }}</p>
-                    <p class="card-text"><strong>Destroyed Amount: </strong>{{ $event->destroyed }}</p>
+                    <p class="card-text"><strong>Seeds Amount (g): </strong>{{ $event->seed }}</p>
+                    <p class="card-text"><strong>Estimated Plants Harvested (kg): </strong>{{ $event->harvested }}</p>
+                    <p class="card-text"><strong>Estimated Plants Destroyed (kg): </strong>{{ $event->destroyed }}</p>
                     <p class="card-text"><strong>Start Date: </strong>{{ $event->start }}</p>
                     <p class="card-text"><strong>End Date: </strong> {{ $event->end }}</p>
                     <p class="card-text">
@@ -59,9 +59,9 @@
             html += '<h5 class="text-dark"><strong>Seed Name: </strong>' + data[i].title + '</h5>';
             html += '</div>';
             html += '<div class="card-body">';
-            html += '<p class="card-text"><strong>Seed Amount: </strong>' + data[i].seed + '</p>';
-            html += '<p class="card-text"><strong>Harvested Amount: </strong>' + data[i].harvested + '</p>';
-            html += '<p class="card-text"><strong>Destroyed Amount: </strong>' + data[i].destroyed + '</p>';
+            html += '<p class="card-text"><strong>Seeds Amount (g): </strong>' + data[i].seed + '</p>';
+            html += '<p class="card-text"><strong>Estimated Plant Harvested (kg): </strong>' + data[i].harvested + '</p>';
+            html += '<p class="card-text"><strong>Estimated Plant Destroyed (kg): </strong>' + data[i].destroyed + '</p>';
             html += '<p class="card-text"><strong>Start Date: </strong>' + data[i].start + '</p>';
             html += '<p class="card-text"><strong>End Date: </strong>' + data[i].end + '</p>';
             html += '<p class="card-text">';

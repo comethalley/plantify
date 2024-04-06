@@ -587,6 +587,19 @@ $(document).ready(function () {
     });
 });
 
+$(document).ready(function () {
+    // Attach a click event handler to each group button
+    $('.channel-button').on('click', function () {
+        // Get the group ID and group thread ID from the data attributes
+        var groupId = $(this).data('group-id');
+        var groupThreadId = $(this).data('group-thread-id');
+
+        // Redirect to the group details page with both IDs
+        window.location.href = '/groups/' + groupId + '/' + groupThreadId;
+    });
+});
+
+
 
 
 $(document).ready(function () {
@@ -681,6 +694,17 @@ $(document).ready(function () {
         $('.username').text(memberName);
     }
 });
+
+
+setInterval(function() {
+        $('#users-conversation').load(window.location.href + ' #users-conversation');
+    }, 500);
+
+
+setInterval(function() {
+        $('#users-conversation').load(window.location.href + ' #users-conversation');
+    }, 500);
+
 
 
 

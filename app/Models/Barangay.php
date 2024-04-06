@@ -7,10 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Barangay extends Model
 {
-    use HasFactory;
-
-    protected $fillable = [
-        'barangay_name',
-        
-    ];
+    public function farms()
+    {
+        return $this->hasMany(Farm::class, 'barangay_name', 'barangay_name');
+    }
 }

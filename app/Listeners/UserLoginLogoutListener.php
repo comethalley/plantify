@@ -18,7 +18,7 @@ class UserLoginLogoutListener implements ShouldQueue
         $user->isOnline = true;
         $user->save();
     }
-    
+
     public function onUserLogout(Logout $event)
     {
         $user = $event->user;

@@ -6,6 +6,7 @@
 
 
 <div class="page-content">
+      <div class="page-content">
 
   <div class="wrapper">
     <div class="sidebar">
@@ -54,8 +55,8 @@
           <button class="week active">week</button>
         </ul>
         <ul class="options units">
-          <button class="celcius active">°C</button>
-          <button class="fahrenheit">°F</button>
+          <button class="fahrenheit ">°F</button>
+          <button class="celcius active" >°C</button>
         </ul>
       </nav>
       <div class="cards" id="weather-cards"></div>
@@ -77,7 +78,7 @@
             </div>
           </div>
           <div class="card2">
-            <h4 class="card-heading">Sunrise & Sunset</h4>
+            <h4 class="card-heading">Sunrise | Sunset</h4>
             <div class="content">
               <p class="sun-rise">0</p>
               <p class="sun-set">0</p>

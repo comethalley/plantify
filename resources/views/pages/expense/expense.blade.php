@@ -78,11 +78,9 @@
                             <form class="add-budget-form" id="addBudgetForm" action="/expenses/add-budget" method="POST">
                                 @csrf
                                 <div class="mb-3">
-                                    @foreach($farm as $per_farm)
                                     <label for="farmName" class="form-label">Farm Name</label>
-                                    <input type="text" class="form-control" id="farmName" name="farm_name" value="{{ $per_farm->farm_name }}" data-farm-id="{{ $per_farm->id }}" readonly>
-                                    <input type="hidden" id="farm_id" name="farm_id" value="{{ $per_farm->id }}">
-                                    @endforeach
+                                    <input type="text" class="form-control" id="farmName" name="farm_name" value="{{ $farm->first()->farm_name }}" data-farm-id="{{ $farm->first()->id }}" readonly>
+                                    <input type="hidden" id="farm_id" name="farm_id" value="{{ $farm->first()->id }}">
                                 </div>
 
                                 <div class="mb-3">
@@ -215,6 +213,14 @@
                                         </div>
                                     </div>
                                     @endif
+                                    <div class="col-sm-auto">
+                                        <select class="form-select" id="expenseCategory">
+                                            <option value="">All Categories</option>
+                                            @foreach($farmCategory as $category)
+                                                <option value="{{ $category->id }}">{{ $category->category_name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                     <div class="col-sm">
                                         <div class="d-flex justify-content-sm-end">
                                             <div class="search-box ms-2">
@@ -613,6 +619,53 @@
             $('#dialogBox').html('');
         }, 5000);
     }
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        $('#expenseCategory').change(function () {
+            var categoryId = $(this).val(); // Get the selected category ID
+            var farmId = $('#farm_id').val(); // Get the farm ID
+            
+            // Make AJAX request to fetch expenses based on selected category and farm
+            $.ajax({
+                url: '/expenses/get-expenses-by-category',
+                type: 'GET',
+                data: { farm_id: farmId, category_id: categoryId },
+                success: function (response) {
+                    // Update the table body with the filtered expenses
+                    var expenseTableBody = $('#customerTable tbody');
+                    expenseTableBody.empty(); // Clear existing rows
+
+                    // Populate the table with filtered expenses
+                    response.forEach(function(expense) {
+                        var expenseRow = '<tr>' +
+                            '<td scope="row">' +
+                                '<div class="form-check">' +
+                                    '<input class="form-check-input" type="checkbox" name="chk_child" value="option1">' +
+                                '</div>' +
+                            '</td>' +
+                            '<td class="id" style="display:none;"><a href="javascript:void(0);" class="fw-medium link-primary">#' + expense.farm_id + '</a></td>' +
+                            '<td class="description">' + expense.description + '</td>' +
+                            '<td class="amount">' + expense.amount + '</td>' +
+                            '<td class="image">';
+                                if (expense.image_path) {
+                                    expenseRow += '<img src="' + expense.image_path + '" alt="Expense Image" style="max-width: 100px;">';
+                                } else {
+                                    expenseRow += 'No Image';
+                                }
+                            expenseRow += '</td>' +
+                        '</tr>';
+                        expenseTableBody.append(expenseRow);
+                    });
+                },
+                error: function () {
+                    alert('Error fetching expenses by category.');
+                }
+            });
+        });
+    });
 </script>
 
 

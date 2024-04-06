@@ -592,15 +592,41 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    console.log('Expense saved successfully:', data);
+                    Swal.fire({
+                    title: 'Are you sure you want to spend this amount?,',
+                    text: 'Make sure all information is correct before submitting as changes cannot be made later.',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#4CAF50',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, add it!',
+                    cancelButtonText: 'Cancel',
+
+                }).then((result) => {
+                if (result.isConfirmed) {
                     location.reload();
                     $('#addModal').modal('hide');
+                }
+            });
                 } else {
-                    console.error('Failed to save expense:', data.message);
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'Failed to save expense: ' + data.message,
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Failed to save expense. Please try again later.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+
             });
         }
 
@@ -674,7 +700,18 @@
     document.getElementById('addBudgetForm').addEventListener('submit', function(event) {
         event.preventDefault();
 
-        if (confirm('Are you sure you want to add this budget?')) {
+        Swal.fire({
+        title: 'Are you sure you want to add this budget?',
+        text: 'Make sure all information is correct before submitting as changes cannot be made later.',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#4CAF50',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, add it!',
+         cancelButtonText: 'Cancel',
+
+    }).then((result) => {
+        if (result.isConfirmed) {
             var formData = new FormData(this);
 
             fetch('/expenses/add-budget', {
@@ -688,10 +725,8 @@
             .then(data => {
                 if (data.status === 'success') {
                     console.log('Budget added successfully:', data);
-                    updateUI(data); 
+                    updateUI(data);
                     $('#addBudgetModal').modal('hide');
-
-                    reloadDashboardData();
                 } else {
                     console.error('Failed to add budget:', data.message);
                 }
@@ -703,6 +738,8 @@
             console.log('Budget addition canceled.');
         }
     });
+});
+
 
     function updateUI(data) {
         document.getElementById('allottedBudget').innerText = data.allotted_budget;

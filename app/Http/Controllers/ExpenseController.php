@@ -70,6 +70,7 @@ class ExpenseController extends Controller
             'farm_id' => 'required|exists:farms,id',
             'category_id' => 'required|exists:categories,id',
             'description' => 'required|string|max:255',
+            'current_rdg' => 'required|numeric',
             'amount' => 'required|numeric',
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
@@ -80,6 +81,7 @@ class ExpenseController extends Controller
         $expense = new Expense([
             'description' => $validatedData['description'],
             'amount' => $validatedData['amount'],
+            'current_rdg' => $validatedData['current_rdg'],
             'farm_id' => $farmId,
             'budget_id' => $budgetId,
             'category_id' => $validatedData['category_id'],
@@ -114,7 +116,7 @@ class ExpenseController extends Controller
             ->first();
     
         if ($lastExpense) {
-            return response()->json(['success' => true, 'lastAmount' => $lastExpense->amount]);
+            return response()->json(['success' => true, 'lastAmount' => $lastExpense->current_rdg]);
         } else {
             return response()->json(['success' => false, 'message' => 'No expense found for this category.']);
         }

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('budget_id');
             $table->unsignedBigInteger('category_id');
             $table->string('description');
+            $table->decimal('current_rdg', 10, 2);
             $table->decimal('amount', 10, 2);
             $table->string('image_path')->nullable();
             $table->timestamps();

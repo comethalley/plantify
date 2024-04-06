@@ -120,6 +120,31 @@ class ExpenseController extends Controller
         }
     }
 
+    public function getExpensesByCategory(Request $request)
+    {
+        try {
+            $farmId = $request->input('farm_id');
+            $categoryId = $request->input('category_id');
+
+            $expensesQuery = Expense::where('farm_id', $farmId);
+
+            // If a category is selected, filter expenses by category
+            if ($categoryId) {
+                $expensesQuery->where('category_id', $categoryId);
+            }
+
+            $expenses = $expensesQuery->get();
+
+            return response()->json($expenses);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Failed to fetch expenses by category. Please try again later.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
     public function addBudget(Request $request)
     {
         try {
@@ -186,7 +211,6 @@ class ExpenseController extends Controller
             ]);
         }
     }
-
 
     public function computeTotalExpenses()
     {

@@ -212,15 +212,15 @@
                                             </button>
                                         </div>
                                     </div>
-                                    @endif
                                     <div class="col-sm-auto">
                                         <select class="form-select" id="expenseCategory">
                                             <option value="">All Categories</option>
-                                            @foreach($farmCategory as $category)
-                                                <option value="{{ $category->id }}">{{ $category->category_name }}</option>
+                                            @foreach($farmCategory as $categories)
+                                                <option value="{{ $categories->id }}">{{ $categories->category_name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
+                                    @endif
                                     <div class="col-sm">
                                         <div class="d-flex justify-content-sm-end">
                                             <div class="search-box ms-2">
@@ -294,6 +294,7 @@
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                                 <button type="button" class="btn btn-primary" id="saveItemButton">Save Item</button>
                                             </div>
+                                            <div id="balance" style="display: none;">{{$balance}}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -500,15 +501,15 @@
     });
 
     document.addEventListener('DOMContentLoaded', function () {
-        var categorySelect = document.getElementById('category');
-        var descriptionInput = document.getElementById('description');
-        var amountInput = document.getElementById('amount');
-        var previousInput = document.getElementById('previous');
-        var currentInput = document.getElementById('current');
-        var kwhInput = document.getElementById('kwh');
-        var imageInput = document.getElementById('image');
+    var categorySelect = document.getElementById('category');
+    var descriptionInput = document.getElementById('description');
+    var amountInput = document.getElementById('amount');
+    var previousInput = document.getElementById('previous');
+    var currentInput = document.getElementById('current');
+    var kwhInput = document.getElementById('kwh');
+    var imageInput = document.getElementById('image');
 
-    categorySelect.addEventListener('change', function() {
+    categorySelect.addEventListener('change', function () {
         var categoryId = categorySelect.value;
         var farmId = document.getElementById('farm_id').value;
 
@@ -518,13 +519,19 @@
                 .then(data => {
                     if (data.success) {
                         previousInput.value = data.lastAmount;
+                        // Disable previousInput if it has a value
+                        if (data.lastAmount !== null && data.lastAmount !== '') {
+                            previousInput.disabled = true;
+                        } else {
+                            previousInput.disabled = false;
+                        }
                     } else {
                         console.error('Failed to fetch last amount:', data.message);
                     }
                 })
-                .catch(error => {
-                    console.error('Error fetching last amount:', error);
-                });
+            .catch(error => {
+                console.error('Error fetching last amount:', error);
+            });
         }
     });
 
@@ -536,10 +543,16 @@
         var total = 0;
 
         if (category === '1') {
-            total = (previous - current) * kwh;
+            if (previous <= current) { // Check if previous is less than or equal to current
+                total = (current - previous) * kwh;
+            } else {
+                // Handle the case where previous is greater than current
+                console.error('Previous reading cannot be higher than current reading for electricity.');
+                return; // Return without calculating total
+            }
         } else if (category === '2') {
             total = previous + current;
-        } else { 
+        } else {
             total = parseFloat(amountInput.value) || 0;
         }
 
@@ -555,6 +568,16 @@
         var categoryId = categorySelect.value;
         var description = '';
         var totalAmount = parseFloat(document.getElementById('total').textContent);
+        var currentReading = parseFloat(currentInput.value); // Get current reading
+
+        // Get the balance value
+        var balance = parseFloat(document.getElementById('balance').textContent);
+
+        // Check if balance is enough
+        if (balance < totalAmount) {
+            alert('The balance is not enough for this expense. Please add budget before saving expenses.');
+            return; // Prevent form submission
+        }
 
         if (categoryId === '1') { 
             var previous = parseFloat(previousInput.value);
@@ -578,6 +601,7 @@
         formData.append('category_id', categoryId);
         formData.append('description', description);
         formData.append('amount', totalAmount);
+        formData.append('current_rdg', currentReading); // Append current reading
         formData.append('image', imageInput.files[0]);
 
         var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -618,6 +642,7 @@
 
                 }
             })
+
             .catch(error => {
                 console.error('Error:', error);
                 Swal.fire({

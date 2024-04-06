@@ -718,12 +718,12 @@
                                 <span data-key="t-faqs">Plantifeed</span>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a class="nav-link" href="/analytics" role="button" style="color:white">
                                 <i class="ri-wechat-line"></i>
                                 <span data-key="t-faqs">Analytics</span>
                             </a>
-                        </li>
+                        </li> -->
 
 
 

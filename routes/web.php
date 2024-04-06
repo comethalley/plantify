@@ -95,9 +95,7 @@ Route::post('/post', [PostController::class, 'store'])->name('post.store');
 
 
 
-
-
-Route::post('/submit-report', [ReportController::class, 'submitReport']);
+Route::post('/reports', [ReportController::class, 'store'])->name('reports.store');
 
 
 

@@ -2,40 +2,34 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ReportReason;
 use Illuminate\Http\Request;
-use App\Models\Report;
 
 class ReportController extends Controller
 {
-    public function submitReport(Request $request)
+    public function store(Request $request)
     {
-        $data = $request->all();
-
-        // Validate ang request base sa iyong kinakailangan
-        $request->validate([
-            'report' => 'required', // Siguruhin na ang "report" field ay hindi empty
+        $data = $request->validate([
+            'question_report' => 'required',
+            // 'other_reason' => 'required', Remove this line
         ]);
 
-        $this->saveReport($data);
-
-        $message = "Question added successfully.";
-        return redirect()->back()->with('validationmessage', 'Thanks we will report your .');;
-    }
-
-    private function saveReport($data)
-    {
-        // Gumawa ng bagong instance ng Report model
-        $report = new Report();
-
-        // Itakda ang mga column ng database base sa data na naipasa mula sa form
-        $report->content = $data['report']; // Assuming 'report' ang pangalan ng field
-
-        // Kung may laman ang "Other" field, isama ito sa content ng report
-        if (!empty($data['content-8'])) {
-            $report->content .= ": " . $data['content-8'];
+        // Check if the selected reason is "Other"
+        if ($data['question_report'] === 'Other') {
+            $otherReasonData = $request->validate([
+                'other_reason' => 'required|string|max:255',
+            ]);
+            $otherReason = $otherReasonData['other_reason'];
+        } else {
+            $otherReason = null;
         }
 
-        // I-save ang report sa database
-        $report->save();
+        // Save the data to the database
+        ReportReason::create([
+            'reason' => $data['question_report'],
+            'other_reason' => $otherReason, // Set the other_reason here
+        ]);
+
+        return redirect()->back()->with('message', 'Report submitted successfully!');
     }
 }

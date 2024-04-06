@@ -42,7 +42,10 @@ class PostController extends Controller
 
         $post->delete();
 
-        return response()->json(['message' => 'Post deleted successfully'], 200);
+        $message = "Post deleted successfully.";
+        session()->flash('message', $message); // Save the message to session
+
+        return response()->json(['message' => $message]);
     }
     public function editPost(Request $request, $id)
     {
@@ -61,9 +64,9 @@ class PostController extends Controller
         }
 
         $post->save();
+        session()->flash('message', 'Question updated successfully');
 
-        // Return a JSON response with success message
-        return response()->json(['success' => true, 'message' => 'Post updated successfully'], 200);
+        return response()->json(['message' => 'Post updated successfully'], 200);
     }
 
 

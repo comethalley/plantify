@@ -321,7 +321,7 @@
 
                                     @if(Auth::check() && Auth::user()->id == $question->user_id)
 
-                                    <button onclick="openEditModal()" style=" width:100%; background-color:white; border:none; color:black; text-align:center; text-decoration:none; display:inline-block; font-size:13px; padding:20px; cursor:pointer;" onmouseover="this.style.backgroundColor='lightgray'" onmouseout="this.style.backgroundColor='white'">
+                                    <button onclick="openEditModal('{{ $question->id }}')" style="width:100%; background-color:white; border:none; color:black; text-align:center; text-decoration:none; display:inline-block; font-size:13px; padding:20px; cursor:pointer;" onmouseover="this.style.backgroundColor='lightgray'" onmouseout="this.style.backgroundColor='white'">
                                         <div style="display: flex; ">
 
                                             <img src="/assets/images/plantifeedpics/edits.png" alt="Edit" style="height:20px; width:20px; margin-right:15px;">
@@ -330,41 +330,36 @@
                                         </div>
                                     </button>
 
-                                    <div id="questionModal" style="display:none; position:fixed; z-index:1; left:0; top:0; width:100%; height:100%; overflow:auto; background-color:rgba(0,0,0,0.4);">
+                                    <div id="questionModal{{ $question->id }}" style="display:none; position:fixed; z-index:1; left:0; top:0; width:100%; height:100%; overflow:auto; background-color:rgba(0,0,0,0.4);">
                                         <!-- Modal content -->
                                         <div style="margin-top:10%; margin-left:30%; background-color:#fefefe; padding:20px; border:1px solid #888; width:40%; ">
-                                            <form id="editQuestionForm">
+                                            <form id="editQuestionForm{{ $question->id }}">
 
                                                 <p style="text-align:center; font-weight:bold; font-size:20px;">Edit Post</p>
 
+                                                <textarea require placeholder="What's on your mind?" id="editQuestionInput{{ $question->id }}" name="question" style="font-size:15px; resize: none; width: 100%; border: none; outline: none;" rows="8"></textarea>
 
-                                                <!-- 
-                                                <label for="editQuestionInput">Question:</label> -->
-                                                <textarea require placeholder="What's on your mind?" id="editQuestionInput" name="question" style="font-size:15px; resize: none; width: 100%; border: none; outline: none;" rows=" 8"></textarea>
+                                                <button type="button" onclick="saveQuestionEdit('{{ $question->id }}')" style="width:100%; background-color:#4CAF50; border:none; color:white; padding:10px 20px; text-align:center; text-decoration:none; display:inline-block; font-size:13px; margin:4px 2px; cursor:pointer;">Save</button> <br>
+                                                <button type="button" onclick="closeEditModal('{{ $question->id }}')" style="background-color:#f44336; border:none; color:white; padding:10px 20px; text-align:center; text-decoration:none; display:inline-block; font-size:13px; margin:4px 2px; cursor:pointer; width:100%;">Close</button>
 
-
-
-
-                                                <button type="button" onclick="saveQuestionEdit()" style="width:100%; background-color:#4CAF50; border:none; color:white; padding:10px 20px; text-align:center; text-decoration:none; display:inline-block; font-size:13px; margin:4px 2px; cursor:pointer;">Save</button> <br>
-                                                <button type="button" onclick="closeEditModal()" style="background-color:#f44336; border:none; color:white; padding:10px 20px; text-align:center; text-decoration:none; display:inline-block; font-size:13px; margin:4px 2px; cursor:pointer; width:100%;">Close</button>
                                             </form>
                                         </div>
                                     </div>
 
                                     <script>
-                                        function openEditModal() {
-                                            document.getElementById('questionModal').style.display = 'block';
+                                        function openEditModal(questionId) {
+                                            document.getElementById('questionModal' + questionId).style.display = 'block';
                                         }
 
-                                        function closeEditModal() {
-                                            document.getElementById('questionModal').style.display = 'none';
+                                        function closeEditModal(questionId) {
+                                            document.getElementById('questionModal' + questionId).style.display = 'none';
                                         }
 
-                                        function saveQuestionEdit() {
-                                            var form = document.getElementById('editQuestionForm');
+                                        function saveQuestionEdit(questionId) {
+                                            var form = document.getElementById('editQuestionForm' + questionId);
                                             var formData = new FormData(form);
 
-                                            fetch('/edit-question/{{ $question->id }}', {
+                                            fetch('/edit-question/' + questionId, {
                                                     method: 'POST',
                                                     body: formData,
                                                     headers: {
@@ -377,20 +372,28 @@
                                                     }
                                                     return response.json();
                                                 })
+
                                                 .then(data => {
                                                     console.log(data);
-                                                    alert('Question updated successfully');
-                                                    closeEditModal();
-                                                    location.reload(); // Reload the page after successful update
+                                                    setTimeout(function() {
+                                                        window.location.reload();
+                                                    }, 500); // Bawasan ang delay sa 0.5 segundo bago mag-refresh
                                                 })
                                                 .catch(error => {
                                                     console.error('There has been a problem with your fetch operation:', error);
-                                                    alert('There was an error updating the question');
+                                                    swal("Error", "There was an error updating the question", "error");
                                                 });
                                         }
                                     </script>
 
-
+                                    <script>
+                                        document.addEventListener('DOMContentLoaded', function() {
+                                            var message = "{{ session('message') }}";
+                                            if (message) {
+                                                swal("Success", message, "success");
+                                            }
+                                        });
+                                    </script>
 
                                     <br>
 
@@ -405,93 +408,98 @@
 
                                     @else
 
-                                    <button onclick="document.getElementById('reportModal').style.display='block'" style="display: flex; align-items: center; padding: 10px 20px; background-color: white; color: black; border: none; border-radius: 5px; cursor: pointer;" onmouseover="this.style.backgroundColor='#f0f0f0'" onmouseout="this.style.backgroundColor='white'">
-                                        <img src="/assets/images/plantifeedpics/report.png" alt="Report" style="height: 20px; width: 20px; margin-right: 10px;">
+                                    <button onclick="openReportModalQuestion('{{ $question->id }}')" style="display:flex; align-items:center; padding: 10px 20px; background-color: white; color: black; border: none;  cursor: pointer; " onmouseover="this.style.backgroundColor='lightgray'" onmouseout="this.style.backgroundColor='white'">
+                                        <img src=" /assets/images/plantifeedpics/report.png" alt="Report" style="height: 20px; width: 20px; margin-right: 10px;">
                                         Report
                                     </button>
 
+                                    <div id="reportModalQuestion{{ $question->id }}" style="display: none; position: fixed; z-index: 1; left: 70px; top: 20px; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.4);">
 
-                                    <div id="editModal" style="display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%;  background-color: rgba(0,0,0,0.4);">
-                                        <!-- Edit Modal content -->
+                                        <!-- Question Report Modal content -->
                                         <div style="background-color: #fefefe; margin: 5% auto; padding: 40px; border: 1px solid #888; width: 44%;">
-                                            <span onclick="document.getElementById('editModal').style.display='none'" style="color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer;">&times;</span>
-
-                                            <div class="report-container" style="display: flex; flex-direction:column;">
-
-                                                <div>
-                                                    <p>Report content</p>
-                                                </div>
-
-                                                <div>
-                                                    <form action="/submit-report" method="post" style="display: flex; flex-direction: column; align-items:flex-start;">
-                                                        @csrf
-                                                        <div class="label-container" style="display:flex;">
-                                                            <input type="radio" id="content-1" name="report" value="content-1" style="width: 20px; height: 20px;">
-                                                            <label style="margin: 0;" for="content-1">Spam</label>
-                                                        </div>
-                                                        <div style="margin-left:19px;">Selling illegal goods, money scams etc. </div>
-
-                                                        <div class="label-container" style="display:flex;">
-                                                            <input type="radio" id="content-2" name="report" value="content-2" style="width: 20px; height: 20px;">
-                                                            <label style="margin: 0;" for="content-2">Harmful Activities</label>
-
-                                                        </div>
-                                                        <div style="margin-left:19px;">Glorifying violence including self-harm or intent to seriously harm others.</div>
-
-                                                        <div class="label-container" style="display:flex;">
-                                                            <input type="radio" id="content-3" name="report" value="content-3" style="width: 20px; height: 20px;">
-                                                            <label style="margin: 0;" for="content-3">Harassment and Bullying</label>
-
-                                                        </div>
-                                                        <div style="margin-left:19px;"> Harassing or threatening an individual.</div>
+                                            <button onclick="closeReportModalQuestion('{{ $question->id }}')" style="color: #aaa; border: none; padding: 0; background-color: transparent; float: right; font-size: 28px; font-weight: bold; cursor: pointer;" onmouseover="this.style.color='#000';" onmouseout="this.style.color='#aaa';">&times;</button>
 
 
-                                                        <div class="label-container" style="display:flex;">
-                                                            <input type="radio" id="content-4" name="report" value="content-4" style="width: 20px; height: 20px;">
-                                                            <label style="margin: 0;" for="content-4">Hate Speech</label>
+                                            <div class="report-container" style="display: flex; flex-direction: column;">
+                                                <p style="font-weight: bold; font-size:18px;">Report Content</p>
 
-                                                        </div>
-                                                        <div style="margin-left:19px;">Serious attack on a group.</div>
+                                                <form action="{{ route('reports.store') }}" method="post" style=" display: flex; flex-direction: column; align-items: flex-start;">
+                                                    @csrf
+                                                    <!-- Radio buttons for reporting options -->
+                                                    <div class="label-container" style="display:flex;">
+                                                        <input type="radio" id="content-1" name="question_report" value="Spam" style="margin-right:5px; width: 20px; height: 20px;">
+                                                        <label style="font-weight:bold; margin: 0;" for="content-1">Spam</label>
+                                                    </div>
+                                                    <div style="margin-left: 25px;">Selling illegal goods, money scams etc.</div>
 
-                                                        <div class="label-container" style="display:flex;">
-                                                            <input type="radio" id="content-5" name="report" value="content-5" style="width: 20px; height: 20px;">
-                                                            <label style="margin: 0;" for="content-5">Sexual Exploitation</label>
+                                                    <div class="label-container" style="display:flex; margin-top: 10px;">
+                                                        <input type="radio" id="content-2" name="question_report" value="Harmful Activities" style="margin-right:5px; width: 20px; height: 20px;">
+                                                        <label style="font-weight:bold; margin: 0;" for="content-2">Harmful Activities</label>
+                                                    </div>
+                                                    <div style="margin-left:25px;">Glorifying violence including self-harm or intent to seriously harm others.</div>
 
-                                                        </div>
+                                                    <div class="label-container" style="display:flex; margin-top: 10px;">
+                                                        <input type="radio" id="content-3" name="question_report" value="Harassment and Bullying" style="margin-right:5px; width: 20px; height: 20px;">
+                                                        <label style="font-weight:bold; margin: 0;" for="content-3">Harassment and Bullying</label>
+                                                    </div>
+                                                    <div style="margin-left:25px;">Harassing or threatening an individual.</div>
 
-                                                        <div style="margin-left:19px;">Sexually explicit or suggestive imagery or writing involving minors.</div>
+                                                    <div class="label-container" style="display:flex; margin-top: 10px;">
+                                                        <input type="radio" id="content-4" name="question_report" value="Hate Speech" style="margin-right:5px; width: 20px; height: 20px;">
+                                                        <label style="font-weight:bold; margin: 0;" for="content-4">Hate Speech</label>
+                                                    </div>
+                                                    <div style="margin-left:25px;">Serious attack on a group.</div>
 
-                                                        <div class="label-container" style="display:flex;">
-                                                            <input type="radio" id="content-6" name="report" value="content-6" style="width: 20px; height: 20px;">
-                                                            <label style="margin: 0;" for="content-6">Abuse</label>
+                                                    <div class="label-container" style="display:flex; margin-top: 10px;">
+                                                        <input type="radio" id="content-5" name="question_report" value="Sexual Exploitation" style="margin-right:5px; width: 20px; height: 20px;">
+                                                        <label style="font-weight:bold; margin: 0;" for="content-5">Sexual Exploitation</label>
+                                                    </div>
+                                                    <div style="margin-left:25px;">Sexually explicit or suggestive imagery or writing involving minors.</div>
 
-                                                        </div>
-                                                        <div style="margin-left:19px;">various forms of improper use or exploitation of a situation, person, or thing.</div>
+                                                    <div class="label-container" style="display:flex; margin-top: 10px;">
+                                                        <input type="radio" id="content-6" name="question_report" value="Abuse" style="margin-right:5px; width: 20px; height: 20px;">
+                                                        <label style="font-weight:bold; margin: 0;" for="content-6">Abuse</label>
+                                                    </div>
+                                                    <div style="margin-left:25px;">Various forms of improper use or exploitation of a situation, person, or thing.</div>
 
-                                                        <div class="label-container" style="display:flex;">
-                                                            <input type="radio" id="content-7" name="report" value="content-7" style="width: 20px; height: 20px;">
-                                                            <label style="margin: 0;" for="content-7">Plagiarism</label>
+                                                    <div class="label-container" style="display:flex; margin-top: 10px;">
+                                                        <input type="radio" id="content-7" name="question_report" value="Plagiarism" style="margin-right:5px; width: 20px; height: 20px;">
+                                                        <label style="font-weight:bold; margin: 0;" for="content-7">Plagiarism</label>
+                                                    </div>
+                                                    <div style="margin-left:25px;">Reusing content without attribution.</div>
 
-                                                        </div>
-                                                        <div style="margin-left:19px;">Reusing content without attribution.</div>
+                                                    <div class="label-container" style="display:flex; margin-top: 10px; align-items:center;">
+                                                        <label style="font-weight:bold; margin: 0;" for="content-8">Other</label>
+                                                        <input type="text" id="content-8" name="question_report_other" placeholder="Specify here..." style=" outline:none; border:none; border-bottom: 1px solid ; width: 500px; margin-left:5px;">
+                                                    </div>
+                                                    <div style="margin-left:42px;">Other reason for reporting.</div>
 
-                                                        <div class="label-container" style="display:flex;">
-                                                            <label style="margin: 0;" for="content-8">Other</label>
-                                                            <input type="text" id="content-8" name="report" placeholder="Specify here..." style="width: 100%; ">
+                                                    <input type="submit" value="Submit" style="border-radius:10px; margin-left: 84%; margin-top:10px; background-color:#F3F6F9; border:none; padding:8px; width:90px; transition: background-color 0.3s;" onmouseover="this.style.backgroundColor='#E6E6E6'" onmouseout="this.style.backgroundColor='#F3F6F9'">
 
-                                                        </div>
 
-                                                        <div style="margin-left:19px;">Reusing Ex. Illegal content etc.</div>
-
-                                                        <input type="submit" value="Submit">
-                                                    </form>
-
-                                                </div>
+                                                </form>
 
                                             </div>
-
                                         </div>
                                     </div>
+
+                                    <script>
+                                        function openReportModalQuestion(questionId) {
+                                            var modalId = "reportModalQuestion" + questionId;
+                                            var modal = document.getElementById(modalId);
+                                            modal.style.display = "block";
+                                        }
+
+                                        function closeReportModalQuestion(questionId) {
+                                            var modalId = "reportModalQuestion" + questionId;
+                                            var modal = document.getElementById(modalId);
+                                            modal.style.display = "none";
+                                        }
+                                    </script>
+
+
+
+
                                     @endif
 
                                 </div>
@@ -537,16 +545,17 @@
 
                                     <span class="question-text"></span>
 
-                                    @foreach($comments as $comment)
 
+                                    @foreach($comments as $comment)
+                                    @if($comment->question_id == $question->id)
                                     <div>
                                         <p>{{ $comment->content }}</p>
                                         @if($comment->image)
                                         <img src="{{ asset('images/' . $comment->image) }}" alt="Comment Image">
                                         @endif
                                     </div>
-
                                     <button>reply</button>
+                                    @endif
                                     @endforeach
 
 
@@ -575,17 +584,6 @@
 
 
 
-                    <script>
-                        // I-close ang Edit Modal kapag i-click ang (x) button o kung i-click sa labas ng modal
-                        window.onclick = function(event) {
-                            var modal = document.getElementById('editModal');
-                            if (event.target == modal) {
-                                modal.style.display = "none";
-                            }
-                        }
-                    </script>
-
-
 
 
                     <div>
@@ -603,27 +601,27 @@
 
 
                                 <img src="/assets/images/plantifeedpics/edit.png" alt="Image" class="toggle-image" style="height:20px; width: 20px; cursor: pointer; margin-left: 10px;" onclick="toggleDropdownPost(this)">
-                                <div class="dropdown-content" style=" display: none; position: absolute; background-color: #f9f9f9; width: 110px; box-shadow: 0px -8px 16px 0px rgba(0,0,0,0.2); z-index: 1; left: 97%;">
+                                <div class="dropdown-content-pusy" style=" display: none; position: absolute; background-color: #f9f9f9; width: 110px; box-shadow: 0px -8px 16px 0px rgba(0,0,0,0.2); z-index: 1; left: 97%;">
 
                                     @if(Auth::check() && Auth::user()->id == $post->user_id)
 
 
-                                    <button onclick="openPostEditModal()" style="width:100%; background-color:white; border:none; color:black; text-align:center; text-decoration:none; display:inline-block; font-size:13px; padding:20px; cursor:pointer;" onmouseover="this.style.backgroundColor='lightgray'" onmouseout="this.style.backgroundColor='white'">
+                                    <button onclick="openPostEditModal('{{ $post->id }}')" style="width:100%; background-color:white; border:none; color:black; text-align:center; text-decoration:none; display:inline-block; font-size:13px; padding:20px; cursor:pointer;" onmouseover="this.style.backgroundColor='lightgray'" onmouseout="this.style.backgroundColor='white'">
                                         <div style="display: flex;">
                                             <img src="/assets/images/plantifeedpics/edits.png" alt="Edit" style="height:20px; width:20px; margin-right:15px;">
                                             <p>Edit</p>
                                         </div>
                                     </button>
 
-                                    <div id="postEditModal" style="display:none; position:fixed; z-index:1; left:0; top:0; width:100%; height:100%; overflow:auto; background-color:rgba(0,0,0,0.4);">
+                                    <div id="postEditModal{{ $post->id }}" style="display:none; position:fixed; z-index:1; left:0; top:0; width:100%; height:100%; overflow:auto; background-color:rgba(0,0,0,0.4);">
                                         <!-- Modal content -->
                                         <div style="margin-top:10%; margin-left:30%; background-color:#fefefe; padding:20px; border:1px solid #888; width:40%;">
-                                            <form id="editPostForm" enctype="multipart/form-data">
+                                            <form id="editPostForm{{ $post->id }}" enctype="multipart/form-data">
                                                 <p style="text-align:center; font-weight:bold; font-size:20px;">Edit Post</p>
-                                                <textarea require placeholder="What's on your mind?" id="editPostInput" name="post" style="font-size:15px; resize:none; width: 100%; border:none; outline:none;" rows="8"></textarea>
-                                                <input type="file" name="image"> <!-- Dagdag na input field para sa larawan -->
-                                                <button type="button" onclick="savePostEdit()" style="width:100%; background-color:#4CAF50; border:none; color:white; padding:10px 20px; text-align:center; text-decoration:none; display:inline-block; font-size:13px; margin:4px 2px; cursor:pointer;">Save</button> <br>
-                                                <button type="button" onclick="closePostEditModal()" style="background-color:#f44336; border:none; color:white; padding:10px 20px; text-align:center; text-decoration:none; display:inline-block; font-size:13px; margin:4px 2px; cursor:pointer; width:100%;">Close</button>
+                                                <textarea require placeholder="What's on your mind?" id="editPostInput{{ $post->id }}" name="post" style="font-size:15px; resize:none; width: 100%; border:none; outline:none;" rows="8"></textarea>
+                                                <input type="file" name="image"> <!-- Additional input field for image -->
+                                                <button type="button" onclick="savePostEdit('{{ $post->id }}')" style="width:100%; background-color:#4CAF50; border:none; color:white; padding:10px 20px; text-align:center; text-decoration:none; display:inline-block; font-size:13px; margin:4px 2px; cursor:pointer;">Save</button> <br>
+                                                <button type="button" onclick="closePostEditModal('{{ $post->id }}')" style="background-color:#f44336; border:none; color:white; padding:10px 20px; text-align:center; text-decoration:none; display:inline-block; font-size:13px; margin:4px 2px; cursor:pointer; width:100%;">Close</button>
                                             </form>
 
                                         </div>
@@ -631,19 +629,19 @@
 
 
                                     <script>
-                                        function openPostEditModal() {
-                                            document.getElementById('postEditModal').style.display = 'block';
+                                        function openPostEditModal(postId) {
+                                            document.getElementById('postEditModal' + postId).style.display = 'block';
                                         }
 
-                                        function closePostEditModal() {
-                                            document.getElementById('postEditModal').style.display = 'none';
+                                        function closePostEditModal(postId) {
+                                            document.getElementById('postEditModal' + postId).style.display = 'none';
                                         }
 
-                                        function savePostEdit() {
-                                            var form = document.getElementById('editPostForm');
+                                        function savePostEdit(postId) {
+                                            var form = document.getElementById('editPostForm' + postId);
                                             var formData = new FormData(form);
 
-                                            fetch('/edit-post/{{ $post->id }}', {
+                                            fetch('/edit-post/' + postId, {
                                                     method: 'POST',
                                                     body: formData,
                                                     headers: {
@@ -656,28 +654,32 @@
                                                     }
                                                     return response.json();
                                                 })
+
                                                 .then(data => {
                                                     console.log(data);
-                                                    alert('Post updated successfully');
-                                                    closePostEditModal();
-                                                    // I-refresh ang pahina pagkatapos ng pag-update
-                                                    location.reload();
+                                                    setTimeout(function() {
+                                                        window.location.reload();
+                                                    }, 500); // Bawasan ang delay sa 0.5 segundo bago mag-refresh
                                                 })
                                                 .catch(error => {
                                                     console.error('There has been a problem with your fetch operation:', error);
-                                                    alert('There was an error updating the post');
+                                                    swal("Error", "There was an error updating the question", "error");
                                                 });
                                         }
                                     </script>
 
-
-
-
-
+                                    <script>
+                                        document.addEventListener('DOMContentLoaded', function() {
+                                            var message = "{{ session('message') }}";
+                                            if (message) {
+                                                swal("Success", message, "success");
+                                            }
+                                        });
+                                    </script>
 
                                     <br>
 
-                                    <button style="background-color: white; border: none; color: black; text-align: center; text-decoration: none; display: inline-block; font-size: 13px; padding: 20px; cursor: pointer;" class="delete-post" data-post-id="{{ $post->id }}">
+                                    <button style="background-color: white; border: none; color: black; text-align: center; text-decoration: none; display: inline-block; font-size: 13px; padding: 20px; cursor: pointer;" class="delete-post" data-post-id="{{ $post->id }}" onmouseover="this.style.backgroundColor='lightgray'" onmouseout="this.style.backgroundColor='white'">
                                         <img src=" /assets/images/plantifeedpics/delete.png" alt="Delete Post" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;">
                                         Delete
                                     </button>
@@ -685,89 +687,92 @@
 
                                     @else
 
-                                    <button onclick="document.getElementById('reportModal').style.display='block'" style="display:flex; align-items:center; padding: 10px 20px; background-color: white; color: black; border: none; border-radius: 5px; cursor: pointer;"">
+                                    <button onclick="openReportModal('{{ $post->id }}')" style="display:flex; align-items:center; padding: 10px 20px; background-color: white; color: black; border: none; border-radius: 5px; cursor: pointer;" onmouseover="this.style.backgroundColor='lightgray'" onmouseout="this.style.backgroundColor='white'">
+
                                         <img src=" /assets/images/plantifeedpics/report.png" alt="Report" style="height: 20px; width: 20px; margin-right: 10px;">
                                         Report
                                     </button>
 
-                                    <div id="reportModal" style="display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.4);">
+                                    <div id="reportModal{{ $post->id }}" style="display: none; position: fixed; z-index: 1; left: 70px; top: 20px; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.4);">
+
                                         <!-- Report Modal content -->
                                         <div style="background-color: #fefefe; margin: 5% auto; padding: 40px; border: 1px solid #888; width: 44%;">
-                                            <span onclick="closeReportModal()" style="color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer;">&times;</span>
+                                            <button onclick="closeReportModalPost('{{ $post->id }}')" style="color: #aaa; border: none; padding: 0; background-color: transparent; float: right; font-size: 28px; font-weight: bold; cursor: pointer;" onmouseover="this.style.color='#000';" onmouseout="this.style.color='#aaa';">&times;</button>
+
 
                                             <div class="report-container" style="display: flex; flex-direction: column;">
-                                                <p>Report content</p>
+                                                <p style="font-weight: bold; font-size:18px;">Report Content</p>
 
-                                                <form action="/submit-report" method="post" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                                <form action="{{ route('reports.store') }}" method="post" style="display: flex; flex-direction: column; align-items: flex-start;">
                                                     @csrf
+
                                                     <!-- Radio buttons for reporting options -->
                                                     <div class="label-container" style="display:flex;">
-                                                        <input type="radio" id="content-1" name="report" value="content-1" style="width: 20px; height: 20px;">
-                                                        <label style="margin: 0;" for="content-1">Spam</label>
+                                                        <input type="radio" id="content-1" name="question_report" value="Spam" style="margin-right:5px; width: 20px; height: 20px;">
+                                                        <label style="font-weight:bold; margin: 0;" for="content-1">Spam</label>
                                                     </div>
-                                                    <div style="margin-left: 19px;">Selling illegal goods, money scams etc.</div>
+                                                    <div style="margin-left: 25px;">Selling illegal goods, money scams etc.</div>
 
-                                                    <div class="label-container" style="display:flex;">
-                                                        <input type="radio" id="content-2" name="report" value="content-2" style="width: 20px; height: 20px;">
-                                                        <label style="margin: 0;" for="content-2">Harmful Activities</label>
-
+                                                    <div class="label-container" style="display:flex; margin-top: 10px;">
+                                                        <input type="radio" id="content-2" name="question_report" value="Harmful Activities" style="margin-right:5px; width: 20px; height: 20px;">
+                                                        <label style="font-weight:bold; margin: 0;" for="content-2">Harmful Activities</label>
                                                     </div>
-                                                    <div style="margin-left:19px;">Glorifying violence including self-harm or intent to seriously harm others.</div>
+                                                    <div style="margin-left:25px;">Glorifying violence including self-harm or intent to seriously harm others.</div>
 
-                                                    <div class="label-container" style="display:flex;">
-                                                        <input type="radio" id="content-3" name="report" value="content-3" style="width: 20px; height: 20px;">
-                                                        <label style="margin: 0;" for="content-3">Harassment and Bullying</label>
-
+                                                    <div class="label-container" style="display:flex; margin-top: 10px;">
+                                                        <input type="radio" id="content-3" name="question_report" value="Harassment and Bullying" style="margin-right:5px; width: 20px; height: 20px;">
+                                                        <label style="font-weight:bold; margin: 0;" for="content-3">Harassment and Bullying</label>
                                                     </div>
-                                                    <div style="margin-left:19px;"> Harassing or threatening an individual.</div>
+                                                    <div style="margin-left:25px;">Harassing or threatening an individual.</div>
 
-
-                                                    <div class="label-container" style="display:flex;">
-                                                        <input type="radio" id="content-4" name="report" value="content-4" style="width: 20px; height: 20px;">
-                                                        <label style="margin: 0;" for="content-4">Hate Speech</label>
-
+                                                    <div class="label-container" style="display:flex; margin-top: 10px;">
+                                                        <input type="radio" id="content-4" name="question_report" value="Hate Speech" style="margin-right:5px; width: 20px; height: 20px;">
+                                                        <label style="font-weight:bold; margin: 0;" for="content-4">Hate Speech</label>
                                                     </div>
-                                                    <div style="margin-left:19px;">Serious attack on a group.</div>
+                                                    <div style="margin-left:25px;">Serious attack on a group.</div>
 
-                                                    <div class="label-container" style="display:flex;">
-                                                        <input type="radio" id="content-5" name="report" value="content-5" style="width: 20px; height: 20px;">
-                                                        <label style="margin: 0;" for="content-5">Sexual Exploitation</label>
-
+                                                    <div class="label-container" style="display:flex; margin-top: 10px;">
+                                                        <input type="radio" id="content-5" name="question_report" value="Sexual Exploitation" style="margin-right:5px; width: 20px; height: 20px;">
+                                                        <label style="font-weight:bold; margin: 0;" for="content-5">Sexual Exploitation</label>
                                                     </div>
+                                                    <div style="margin-left:25px;">Sexually explicit or suggestive imagery or writing involving minors.</div>
 
-                                                    <div style="margin-left:19px;">Sexually explicit or suggestive imagery or writing involving minors.</div>
-
-                                                    <div class="label-container" style="display:flex;">
-                                                        <input type="radio" id="content-6" name="report" value="content-6" style="width: 20px; height: 20px;">
-                                                        <label style="margin: 0;" for="content-6">Abuse</label>
-
+                                                    <div class="label-container" style="display:flex; margin-top: 10px;">
+                                                        <input type="radio" id="content-6" name="question_report" value="Abuse" style="margin-right:5px; width: 20px; height: 20px;">
+                                                        <label style="font-weight:bold; margin: 0;" for="content-6">Abuse</label>
                                                     </div>
-                                                    <div style="margin-left:19px;">various forms of improper use or exploitation of a situation, person, or thing.</div>
+                                                    <div style="margin-left:25px;">Various forms of improper use or exploitation of a situation, person, or thing.</div>
 
-                                                    <div class="label-container" style="display:flex;">
-                                                        <input type="radio" id="content-7" name="report" value="content-7" style="width: 20px; height: 20px;">
-                                                        <label style="margin: 0;" for="content-7">Plagiarism</label>
-
+                                                    <div class="label-container" style="display:flex; margin-top: 10px;">
+                                                        <input type="radio" id="content-7" name="question_report" value="Plagiarism" style="margin-right:5px; width: 20px; height: 20px;">
+                                                        <label style="font-weight:bold; margin: 0;" for="content-7">Plagiarism</label>
                                                     </div>
-                                                    <div style="margin-left:19px;">Reusing content without attribution.</div>
+                                                    <div style="margin-left:25px;">Reusing content without attribution.</div>
 
-                                                    <div class="label-container" style="display:flex;">
-                                                        <label style="margin: 0;" for="content-8">Other</label>
-                                                        <input type="text" id="content-8" name="report" placeholder="Specify here..." style="width: 100%; ">
-
+                                                    <div class="label-container" style="display:flex; margin-top: 10px; align-items:center;">
+                                                        <label style="font-weight:bold; margin: 0;" for="content-8">Other</label>
+                                                        <input type="text" id="content-8" name="question_report_other" placeholder="Specify here..." style=" outline:none; border:none; border-bottom: 1px solid ; width: 500px; margin-left:5px;">
                                                     </div>
+                                                    <div style="margin-left:42px;">Other reason for reporting.</div>
 
-                                                    <div style="margin-left:19px;">Reusing Ex. Illegal content etc.</div>
+                                                    <input type="submit" value="Submit" style="border-radius:10px; margin-left: 84%; margin-top:10px; background-color:#F3F6F9; border:none; padding:8px; width:90px; transition: background-color 0.3s;" onmouseover="this.style.backgroundColor='#E6E6E6'" onmouseout="this.style.backgroundColor='#F3F6F9'">
 
-                                                    <input type="submit" value="Submit">
                                                 </form>
                                             </div>
                                         </div>
                                     </div>
 
                                     <script>
-                                        function closeReportModal() {
-                                            document.getElementById('reportModal').style.display = 'none';
+                                        function openReportModal(postId) {
+                                            var modalId = "reportModal" + postId;
+                                            var modal = document.getElementById(modalId);
+                                            modal.style.display = "block";
+                                        }
+
+                                        function closeReportModalPost(postId) {
+                                            var modalId = "reportModal" + postId;
+                                            var modal = document.getElementById(modalId);
+                                            modal.style.display = "none";
                                         }
                                     </script>
 
@@ -919,8 +924,10 @@
                                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                                 },
                                 success: function(response) {
-                                    // Refresh or update your view after successful deletion
-                                    window.location.reload(); // Example: Reload the page
+                                    // Refresh the page
+                                    setTimeout(function() {
+                                        window.location.reload();
+                                    }, 500); // Delay for 1 second before refreshing
                                 },
                                 error: function(xhr, status, error) {
                                     console.error(xhr.responseText);
@@ -928,8 +935,15 @@
                             });
                         });
                     });
-                </script>
 
+                    // Display SweetAlert after page refresh
+                    $(window).on('load', function() {
+                        var message = "{{ session('message') }}";
+                        if (message) {
+                            swal("Success", message, "success");
+                        }
+                    });
+                </script>
 
                 <script>
                     $(document).ready(function() {
@@ -943,8 +957,10 @@
                                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                                 },
                                 success: function(response) {
-                                    // Refresh or update your view after successful deletion
-                                    window.location.reload(); // Example: Reload the page
+                                    // Refresh the page
+                                    setTimeout(function() {
+                                        window.location.reload();
+                                    }, 500); // Delay for 1 second before refreshing
                                 },
                                 error: function(xhr, status, error) {
                                     console.error(xhr.responseText);
@@ -952,8 +968,20 @@
                             });
                         });
                     });
+
+                    // Display SweetAlert after page refresh
+                    $(window).on('load', function() {
+                        var message = "{{ session('message') }}";
+                        if (message) {
+                            swal("Success", message, "success");
+                        }
+                    });
                 </script>
 
+
+                <script>
+                    var message = "{{ session('message') }}";
+                </script>
 
 
 

@@ -51,7 +51,10 @@ class ForumController extends Controller
 
         $question->delete();
 
-        return response()->json(['message' => 'Question deleted successfully'], 200);
+        $message = "Post deleted successfully.";
+        session()->flash('message', $message); // Save the message to session
+
+        return response()->json(['message' => $message]);
     }
 
 
@@ -66,6 +69,8 @@ class ForumController extends Controller
         // Update ang tanong mula sa request
         $question->question = $request->question;
         $question->save();
+
+        session()->flash('message', 'Question updated successfully');
 
         return response()->json(['message' => 'Question updated successfully'], 200);
     }

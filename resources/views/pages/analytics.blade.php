@@ -146,54 +146,7 @@
                         <div class="col-xl-6">
                             <div class="card">
                                 <div class="card-header border-0 align-items-center d-flex">
-                                    <h4 class="card-title mb-0 flex-grow-1">Harvesting Metrics</h4>
-                                    <div>
-                                        <button type="button" class="btn btn-soft-secondary btn-sm" onclick="updateChart('ALL')">
-                                            ALL
-                                        </button>
-                                        <button type="button" class="btn btn-soft-secondary btn-sm" onclick="updateChart('1MONTH')">
-                                            1M
-                                        </button>
-                                        <button type="button" class="btn btn-soft-secondary btn-sm" onclick="updateChart('6M')">
-                                            6M
-                                        </button>
-                                        <button type="button" class="btn btn-soft-primary btn-sm" onclick="updateChart('1Y')">
-                                            1Y
-                                        </button>
-                                    </div>
-                                  
-                                </div><!-- end card header -->
-                                <div class="card-header p-0 border-0 bg-light-subtle">
-                                    <div class="row g-0 text-center">
-                                        <div class="col-6 col-sm-4">
-                                            <div class="p-3 border border-dashed border-start-0">
-                                                <h5 class="mb-1"><span class="counter-value" data-target="854">0</span>
-                                                    <span class="text-success ms-1 fs-12">49%<i class="ri-arrow-right-up-line ms-1 align-middle"></i></span>
-                                                </h5>
-                                                <p class="text-muted mb-0">Avg. Session</p>
-                                            </div>
-                                        </div>
-                                        <!--end col-->
-                                        <div class="col-6 col-sm-4">
-                                            <div class="p-3 border border-dashed border-start-0">
-                                                <h5 class="mb-1"><span class="counter-value" data-target="1278">0</span>
-                                                    <span class="text-success ms-1 fs-12">60%<i class="ri-arrow-right-up-line ms-1 align-middle"></i></span>
-                                                </h5>
-                                                <p class="text-muted mb-0">Conversion Rate</p>
-                                            </div>
-                                        </div>
-                                        <!--end col-->
-                                        <div class="col-6 col-sm-4">
-                                            <div class="p-3 border border-dashed border-start-0 border-end-0">
-                                                <h5 class="mb-1"><span class="counter-value" data-target="3">0</span>m
-                                                    <span class="counter-value" data-target="40">0</span>sec
-                                                    <span class="text-success ms-1 fs-12">37%<i class="ri-arrow-right-up-line ms-1 align-middle"></i></span>
-                                                </h5>
-                                                <p class="text-muted mb-0">Avg. Session Duration</p>
-                                            </div>
-                                        </div>
-                                        <!--end col-->
-                                    </div>
+                                    <h4 class="card-title mb-0 flex-grow-1">Harvesting Metrics</h4>             
                                 </div><!-- end card header -->
                                 <div class="card-body p-0 pb-2">
                                     <div>

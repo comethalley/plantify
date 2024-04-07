@@ -9,6 +9,6 @@ class Barangay extends Model
 {
     public function farms()
     {
-        return $this->hasMany(Farm::class, 'barangay_name', 'barangay_name');
+        return $this->hasMany(Farm::class, 'farm_name', 'barangay_name');
     }
 }

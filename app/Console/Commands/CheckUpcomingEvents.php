@@ -17,7 +17,14 @@ class CheckUpcomingEvents extends Command
 
     public function handle()
     {
-        $upcomingevents = Event::whereDate('end', '=', Carbon::today()->addDays(3)->toDateString())->get();
+        $today = Carbon::today();
+        $notificationDays = [1, 3, 5]; // Days before harvest to send notification
+        $notificationDates = array_map(function($days) use ($today) {
+            return $today->copy()->addDays($days)->toDateString();
+        }, $notificationDays);
+     
+        $upcomingevents = Event::where('status', 1)
+        ->whereIn('start', $notificationDates)->get();
             $users = User::all();
             
             foreach ($users as $user) {

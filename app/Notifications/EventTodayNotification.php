@@ -7,15 +7,15 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class UpcomingHarvestNotification extends Notification
+class EventTodayNotification extends Notification
 {
     use Queueable;
 
-    protected $title;
+    public $event;
 
-    public function __construct($title)
+    public function __construct($event)
     {
-        $this->plantName = $title;
+        $this->event = $event;
     }
 
     public function via($notifiable)
@@ -25,11 +25,10 @@ class UpcomingHarvestNotification extends Notification
 
     public function toDatabase($notifiable)
     {
-        $formattedDate = date('F jS, Y', strtotime($this->plantName->end));
-        
         return [
-            'message' => 'Soon to be harvested: ' . $this->plantName->title . ' on ' . $formattedDate,
-            'created_at' => now()->diffForHumans(),
+            
+           
+            'message' => 'Today is the day! Join us for the exciting event: ' .  $this->event->title,
         ];
     }
 }

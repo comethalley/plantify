@@ -74,24 +74,32 @@
                                                     </div>
                                                     <div class="team-content">
                                                         <a class="member-name" data-bs-toggle="offcanvas" href="#member-overview" aria-controls="member-overview">
-                                                            <h5 style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">{{ $barangay->barangay_name }}</h5>
+                                                            <h5 style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 2em;">{{ $barangay->barangay_name }}</h5>
                                                         </a>
-                                                        <p>Barangay</p>
+                                                        <p style="margin-bottom: 0em;">Barangay</p>
                                                     </div>
                                                 </div>
+                                                <hr class="my-2 hr-animation">
+
                                             </div>
-
-
-                                            <div class="col-lg-2 col">
+                                            <div class="col-lg-4 col">
                                                 @if(Auth::check() && Auth::user()->role_id == 3 || Auth::user()->role_id == 4 || Auth::user()->role_id == 5)
                                                 <div class="col-lg-4 col">
-                                                    <div class="row text-muted text-center">
-                                                        <div class="col-6  mx-auto">
-                                                            <h5 id="farm-count " class="mb-1 projects-num blade-animation">Discover the hidden harvest!</h5>
+                                                    <div class="row text-muted">
+                                                        <div class="col-6  mx-auto text-center">
+                                                            <h5 class="mb-1 blade-animation">" Discover the &nbsp;<br> hidden harvest! "</h5>
                                                         </div>
                                                     </div>
-                                                </div><div class="text-end">
-                                                    <a href="{{ route('farms.view3', ['barangay_name' => $barangay->barangay_name]) }}" class="button-89">View Farms</a>
+                                                </div>
+                                                <hr class="my-2 hr-animation">
+                                                <div class="text-end mx-auto text-center">
+                                                    <div style="display: inline-block;">
+                                                        <a href="{{ route('farms.view3', ['barangay_name' => $barangay->barangay_name]) }}" class="button-89">
+                                                            View Farms
+                                                        </a>
+                                                        <br>
+                                                        <span style="color: red; display: block; margin-top: 5px;">(Click this!)</span>
+                                                    </div>
                                                 </div>
                                                 @elseif(Auth::check() && (Auth::user()->role_id == 1 || Auth::user()->role_id == 2))
                                                 <div class="col-lg-4 col">
@@ -101,8 +109,17 @@
                                                             <p class="text-muted mb-0">Number of Farms</p>
                                                         </div>
                                                     </div>
-                                                </div><div class="text-end">
-                                                    <a href="{{ route('farms.view', ['barangay_name' => $barangay->barangay_name]) }}" class="button-89">View Farms</a>
+                                                    <hr class="my-2 hr-animation">
+
+                                                </div>
+                                                <div class="text-end mx-auto text-center">
+                                                    <div style="display: inline-block;">
+                                                        <a href="{{ route('farms.view', ['barangay_name' => $barangay->barangay_name]) }}" class="button-89">
+                                                            View Farms
+                                                        </a>
+                                                        <br>
+                                                        <span style="color: red; display: block; margin-top: 5px;">(Click this!)</span>
+                                                    </div>
                                                 </div>
                                                 @endif
                                             </div>
@@ -235,7 +252,7 @@
 
             <script>
                 function goBack() {
-                    window.location.href = "/";
+                    window.location.href = "/dashboard/analytics";
                     window.onload = function() {
                         window.location.reload(true);
                     };
@@ -261,29 +278,29 @@
                     var formData = new FormData(form);
 
                     fetch('{{ route("add.farms") }}', {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'X-CSRF-Token': '{{ csrf_token() }}',
-                        },
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        if (data.success) {
-                            location.reload();
-                        } else {
-                            document.getElementById('error-messages').style.display = 'block';
-                            for (var key in data.errors) {
-                                document.getElementById('error-messages').innerHTML += '<p>' + data.errors[key][0] + '</p>';
+                            method: 'POST',
+                            body: formData,
+                            headers: {
+                                'X-CSRF-Token': '{{ csrf_token() }}',
+                            },
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
                             }
-                        }
-                    })
-                    .catch(error => console.error('Error:', error));
+                            return response.json();
+                        })
+                        .then(data => {
+                            if (data.success) {
+                                location.reload();
+                            } else {
+                                document.getElementById('error-messages').style.display = 'block';
+                                for (var key in data.errors) {
+                                    document.getElementById('error-messages').innerHTML += '<p>' + data.errors[key][0] + '</p>';
+                                }
+                            }
+                        })
+                        .catch(error => console.error('Error:', error));
                 }
 
 
@@ -300,14 +317,19 @@
                                 $(this).closest('.col').hide();
                             }
                         });
-                        // Display message if no results found or if search input is empty
-                        if (resultCount === 0 || searchText === "") {
+                        // Display message if no results found
+                        if (resultCount === 0) {
                             $('#noFarmsMessageContainer').show();
                         } else {
                             $('#noFarmsMessageContainer').hide();
                         }
+                        // Hide message if search input is empty
+                        if (searchText === "") {
+                            $('#noFarmsMessageContainer').hide();
+                        }
                     });
                 });
+
 
 
 
@@ -335,12 +357,48 @@
                     }
                 }
 
-                .blade-animation {
-                    animation: bladeOpen 0.5s ease forwards;
-                    white-space: nowrap;
-    word-wrap: normal;
-    
+                .hr-animation {
+                    animation: hrOpen 1s ease forwards;
+                    width: 100%;
+                    /* Ensure the <hr> spans the entire width */
+                    opacity: 0;
+                    /* Start the animation with element hidden */
                 }
+
+                @keyframes hrOpen {
+                    from {
+                        opacity: 0;
+                        transform: scaleX(0);
+                        /* Start with the <hr> completely collapsed */
+                    }
+
+                    to {
+                        opacity: 1;
+                        transform: scaleX(1);
+                        /* Expand the <hr> to its full width */
+                    }
+                }
+
+                .blade-animation {
+                    animation: bladeOpen 1s ease forwards;
+                    white-space: nowrap;
+                    word-wrap: normal;
+                    opacity: 0;
+                    /* Start the animation with element hidden */
+                }
+
+                @keyframes bladeOpen {
+                    from {
+                        opacity: 0;
+                        transform: translateX(-100%);
+                    }
+
+                    to {
+                        opacity: 1;
+                        transform: translateX(0);
+                    }
+                }
+
 
                 .disabled {
                     pointer-events: none;

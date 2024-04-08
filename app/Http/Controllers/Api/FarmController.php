@@ -19,7 +19,6 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
 
-
 class FarmController extends Controller
 {
     //View PDF - IMG ///
@@ -332,7 +331,7 @@ class FarmController extends Controller
             ->where('role_id', 3)
             ->select('id', 'firstname', 'lastname')
             ->get();
-            
+
 
         $farms = DB::table('farms')
             //->leftJoin('barangays', 'farms.barangay_name', '=', 'barangays.barangay_name')

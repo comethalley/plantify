@@ -51,11 +51,12 @@ class ForumController extends Controller
 
         $question->delete();
 
-        $message = "Post deleted successfully.";
+        $message = "Question deleted successfully.";
         session()->flash('message', $message); // Save the message to session
 
         return response()->json(['message' => $message]);
     }
+
 
 
     public function editQuestion(Request $request, $id)
@@ -66,14 +67,41 @@ class ForumController extends Controller
             return response()->json(['error' => 'Question not found'], 404);
         }
 
+        // Gumawa ng validation rules
+        $rules = [
+            'question' => 'required|string',
+        ];
+
+        // Gumawa ng custom validation rule para sa bad words
+        Validator::extend('bad_words', function ($attribute, $value, $parameters, $validator) {
+            $badWords = ['badword1', 'badword2', 'badword3']; // Ilagay dito ang mga bad words
+            foreach ($badWords as $word) {
+                if (stripos($value, $word) !== false) {
+                    return false;
+                }
+            }
+            return true;
+        });
+
+        // Mag-validate ng request
+        $validator = Validator::make($request->all(), $rules);
+        $validator->sometimes('question', 'bad_words', function ($input) {
+            return true; // Dito mo mase-set kung kailan mo gustong i-apply ang custom validation rule
+        });
+
+        if ($validator->fails()) {
+            $validationmessage = "The question contains inappropriate language. Please refrain from using offensive words.";
+            return redirect()->back()->with('validationmessage', $validationmessage)->with('message_type', 'warning');
+        }
+
         // Update ang tanong mula sa request
         $question->question = $request->question;
         $question->save();
 
-        session()->flash('message', 'Question updated successfully');
-
-        return response()->json(['message' => 'Question updated successfully'], 200);
+        $message = "Question updated successfully.";
+        return redirect()->back()->with('message', $message)->with('message_type', 'success');
     }
+
 
 
 

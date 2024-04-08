@@ -22,7 +22,7 @@ use App\Http\Controllers\TaskController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ReportController;
-use App\Models\Questions;
+
 
 
 /*
@@ -110,7 +110,13 @@ Route::delete('/forum/delete-post/{id}', [PostController::class, 'deletePost']);
 
 
 Route::post('/edit-question/{id}', [ForumController::class, 'editQuestion']);
+Route::put('/edit-question/{id}', [ForumController::class, 'editQuestion'])->name('editQuestion');
+
 Route::post('/edit-post/{id}', [PostController::class, 'editPost']);
+Route::put('/edit-post/{id}', [PostController::class, 'editPost'])->name('editPost');
+
+
+
 
 
 

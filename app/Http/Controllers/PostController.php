@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
-
+use Intervention\Image\Facades\Image;
 use App\Models\Forum;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -47,6 +47,7 @@ class PostController extends Controller
 
         return response()->json(['message' => $message]);
     }
+
     public function editPost(Request $request, $id)
     {
         $post = Post::find($id);
@@ -55,18 +56,51 @@ class PostController extends Controller
             return response()->json(['error' => 'Post not found'], 404);
         }
 
-        // Update the post from the request
+        // Define validation rules
+        $rules = [
+            'post' => 'required|string',
+        ];
+
+        // Define custom validation rule for bad words
+        Validator::extend('bad_words', function ($attribute, $value, $parameters, $validator) {
+            $badWords = ['badword1', 'badword2', 'badword3']; // Add your bad words here
+            foreach ($badWords as $word) {
+                if (stripos($value, $word) !== false) {
+                    return false;
+                }
+            }
+            return true;
+        });
+
+        // Validate the request
+        $validator = Validator::make($request->all(), $rules);
+        $validator->sometimes('post', 'bad_words', function ($input) {
+            return true; // Set when you want to apply the custom validation rule
+        });
+
+        if ($validator->fails()) {
+            $validationmessage = "The post contains inappropriate language. Please refrain from using offensive words.";
+            return redirect()->back()->with('validationmessage', $validationmessage)->with('message_type', 'warning');
+        }
+
+        // Update the post content from the request
         $post->createpost = $request->post;
 
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('images', 'public');
+
+            // Resize the image
+            $img = Image::make(public_path("storage/{$imagePath}"));
+            $img->resize(500, 300);
+            $img->save();
+
             $post->image = $imagePath;
         }
 
         $post->save();
-        session()->flash('message', 'Question updated successfully');
 
-        return response()->json(['message' => 'Post updated successfully'], 200);
+        $message = "Post updated successfully.";
+        return redirect()->back()->with('message', $message)->with('message_type', 'success');
     }
 
 
@@ -111,6 +145,10 @@ class PostController extends Controller
 
 
         $imagePath = $request->file('image')->store('images', 'public');
+
+        $img = Image::make(public_path("storage/{$imagePath}")); // Load the image
+        $img->resize(500, 300); // Set the desired width and height
+        $img->save();
 
 
         Post::create([

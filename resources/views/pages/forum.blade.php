@@ -308,7 +308,7 @@
 
                             <div style="display: flex; justify-content:space-between;">
                                 <p style="margin: 0;">
-                                    <strong>{{ $question->firstname }} {{ $question->lastname }}</strong> - <span style="color: grey;">{{ $question->language }}</span>
+                                    <strong>{{ $question->firstname }} {{ $question->lastname }}</strong> <span style="color: grey;"></span>
                                     <br> <span style="color: grey;">{{ date('h:i:s A', strtotime($question->created_at)) }}</span>
                                 </p>
 
@@ -330,22 +330,32 @@
                                         </div>
                                     </button>
 
-                                    <div id="questionModal{{ $question->id }}" style="display:none; position:fixed; z-index:1; left:0; top:0; width:100%; height:100%; overflow:auto; background-color:rgba(0,0,0,0.4);">
+                                    <div id="questionModal{{ $question->id }}" style="display:none; position:fixed; z-index:1; left:50px; top:0px; width:100%; height:100%; overflow:auto; background-color:rgba(0,0,0,0.4);">
                                         <!-- Modal content -->
                                         <div style="margin-top:10%; margin-left:30%; background-color:#fefefe; padding:20px; border:1px solid #888; width:40%; ">
-                                            <form id="editQuestionForm{{ $question->id }}">
+                                            <form id="editQuestionForm{{ $question->id }}" action="{{ route('editQuestion', ['id' => $question->id]) }}" method="POST">
+                                                @csrf
+                                                @method('PUT')
 
                                                 <p style="text-align:center; font-weight:bold; font-size:20px;">Edit Post</p>
 
-                                                <textarea require placeholder="What's on your mind?" id="editQuestionInput{{ $question->id }}" name="question" style="font-size:15px; resize: none; width: 100%; border: none; outline: none;" rows="8"></textarea>
+                                                <textarea required placeholder="What's on your mind?" id="editQuestionInput{{ $question->id }}" name="question" style="font-size:15px; resize: none; width: 100%; border: none; outline: none;" rows="8"></textarea>
 
-                                                <button type="button" onclick="saveQuestionEdit('{{ $question->id }}')" style="width:100%; background-color:#4CAF50; border:none; color:white; padding:10px 20px; text-align:center; text-decoration:none; display:inline-block; font-size:13px; margin:4px 2px; cursor:pointer;">Save</button> <br>
-                                                <button type="button" onclick="closeEditModal('{{ $question->id }}')" style="background-color:#f44336; border:none; color:white; padding:10px 20px; text-align:center; text-decoration:none; display:inline-block; font-size:13px; margin:4px 2px; cursor:pointer; width:100%;">Close</button>
+                                                @error('question')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                                @enderror
 
+                                                <div style="display: flex;">
+                                                    <button type="button" onclick="closeEditModal('{{ $question->id }}')" style="background-color:#F6F6F6; border:none; color:black; padding:10px 20px; text-align:center; text-decoration:none; display:inline-block; font-size:13px; margin:4px 2px; cursor:pointer; width:100%;" onmouseover="this.style.backgroundColor='lightgray'" onmouseout="this.style.backgroundColor='#F6F6F6'">
+                                                        Close
+                                                    </button>
+
+                                                    <button type="submit" style="width:100%; background-color:#364574; border:none; color:white; padding:10px 20px; text-align:center; text-decoration:none; display:inline-block; font-size:13px; margin:4px 2px; cursor:pointer;" onmouseover="this.style.backgroundColor='#364574'" onmouseout="this.style.backgroundColor='#405189'">Save</button>
+                                                </div>
                                             </form>
+
                                         </div>
                                     </div>
-
                                     <script>
                                         function openEditModal(questionId) {
                                             document.getElementById('questionModal' + questionId).style.display = 'block';
@@ -372,7 +382,6 @@
                                                     }
                                                     return response.json();
                                                 })
-
                                                 .then(data => {
                                                     console.log(data);
                                                     setTimeout(function() {
@@ -381,18 +390,10 @@
                                                 })
                                                 .catch(error => {
                                                     console.error('There has been a problem with your fetch operation:', error);
-                                                    swal("Error", "There was an error updating the question", "error");
+                                                    // swal("Error", "There was an error updating the question", "error");
+                                                    // ^ Tinanggal ko ang bahaging ito na nagpapakita ng SweetAlert
                                                 });
                                         }
-                                    </script>
-
-                                    <script>
-                                        document.addEventListener('DOMContentLoaded', function() {
-                                            var message = "{{ session('message') }}";
-                                            if (message) {
-                                                swal("Success", message, "success");
-                                            }
-                                        });
                                     </script>
 
                                     <br>
@@ -427,43 +428,43 @@
                                                     @csrf
                                                     <!-- Radio buttons for reporting options -->
                                                     <div class="label-container" style="display:flex;">
-                                                        <input type="radio" id="content-1" name="question_report" value="Spam" style="margin-right:5px; width: 20px; height: 20px;">
+                                                        <input required type="radio" id="content-1" name="question_report" value="Spam" style="margin-right:5px; width: 20px; height: 20px;">
                                                         <label style="font-weight:bold; margin: 0;" for="content-1">Spam</label>
                                                     </div>
                                                     <div style="margin-left: 25px;">Selling illegal goods, money scams etc.</div>
 
                                                     <div class="label-container" style="display:flex; margin-top: 10px;">
-                                                        <input type="radio" id="content-2" name="question_report" value="Harmful Activities" style="margin-right:5px; width: 20px; height: 20px;">
+                                                        <input required type="radio" id="content-2" name="question_report" value="Harmful Activities" style="margin-right:5px; width: 20px; height: 20px;">
                                                         <label style="font-weight:bold; margin: 0;" for="content-2">Harmful Activities</label>
                                                     </div>
                                                     <div style="margin-left:25px;">Glorifying violence including self-harm or intent to seriously harm others.</div>
 
                                                     <div class="label-container" style="display:flex; margin-top: 10px;">
-                                                        <input type="radio" id="content-3" name="question_report" value="Harassment and Bullying" style="margin-right:5px; width: 20px; height: 20px;">
+                                                        <input required type="radio" id="content-3" name="question_report" value="Harassment and Bullying" style="margin-right:5px; width: 20px; height: 20px;">
                                                         <label style="font-weight:bold; margin: 0;" for="content-3">Harassment and Bullying</label>
                                                     </div>
                                                     <div style="margin-left:25px;">Harassing or threatening an individual.</div>
 
                                                     <div class="label-container" style="display:flex; margin-top: 10px;">
-                                                        <input type="radio" id="content-4" name="question_report" value="Hate Speech" style="margin-right:5px; width: 20px; height: 20px;">
+                                                        <input required type="radio" id="content-4" name="question_report" value="Hate Speech" style="margin-right:5px; width: 20px; height: 20px;">
                                                         <label style="font-weight:bold; margin: 0;" for="content-4">Hate Speech</label>
                                                     </div>
                                                     <div style="margin-left:25px;">Serious attack on a group.</div>
 
                                                     <div class="label-container" style="display:flex; margin-top: 10px;">
-                                                        <input type="radio" id="content-5" name="question_report" value="Sexual Exploitation" style="margin-right:5px; width: 20px; height: 20px;">
+                                                        <input required type="radio" id="content-5" name="question_report" value="Sexual Exploitation" style="margin-right:5px; width: 20px; height: 20px;">
                                                         <label style="font-weight:bold; margin: 0;" for="content-5">Sexual Exploitation</label>
                                                     </div>
                                                     <div style="margin-left:25px;">Sexually explicit or suggestive imagery or writing involving minors.</div>
 
                                                     <div class="label-container" style="display:flex; margin-top: 10px;">
-                                                        <input type="radio" id="content-6" name="question_report" value="Abuse" style="margin-right:5px; width: 20px; height: 20px;">
+                                                        <input required type="radio" id="content-6" name="question_report" value="Abuse" style="margin-right:5px; width: 20px; height: 20px;">
                                                         <label style="font-weight:bold; margin: 0;" for="content-6">Abuse</label>
                                                     </div>
                                                     <div style="margin-left:25px;">Various forms of improper use or exploitation of a situation, person, or thing.</div>
 
                                                     <div class="label-container" style="display:flex; margin-top: 10px;">
-                                                        <input type="radio" id="content-7" name="question_report" value="Plagiarism" style="margin-right:5px; width: 20px; height: 20px;">
+                                                        <input required type="radio" id="content-7" name="question_report" value="Plagiarism" style="margin-right:5px; width: 20px; height: 20px;">
                                                         <label style="font-weight:bold; margin: 0;" for="content-7">Plagiarism</label>
                                                     </div>
                                                     <div style="margin-left:25px;">Reusing content without attribution.</div>
@@ -511,12 +512,75 @@
 
                             <div style="margin-top: 10px; display:flex; justify-content:space-evenly;">
 
-                                <button>
-                                    <img src="assets/images/plantifeedpics/like.png" alt="like">
+                                <button onclick="toggleLike('{{ $question->id }}')" style="border: none; background-color:transparent;">
+                                    <img src="assets/images/plantifeedpics/like.png" alt="like" id="likeIcon{{ $question->id }}" style="padding:10px;" onmouseover="this.style.backgroundColor='lightgray';this.style.borderRadius='25px';" onmouseout="this.style.backgroundColor='transparent'; this.style.borderRadius='25px';">
+                                    <span id="likeCount{{ $question->id }}">0</span>
                                 </button>
 
 
-                                <button type="button" onclick="openCommentModal('{{ $question->question }}', '{{ $question->language }}')" style="display: flex; align-items:center; padding: 10px 20px; background-color: white; color: black; border: none; border-radius: 5px; cursor: pointer;">
+                                <style>
+                                    /* Define animation keyframes */
+                                    @keyframes pulse {
+                                        0% {
+                                            transform: scale(1);
+                                        }
+
+                                        50% {
+                                            transform: scale(1.2);
+                                        }
+
+                                        100% {
+                                            transform: scale(1);
+                                        }
+                                    }
+
+                                    /* Apply animation to the like icon */
+                                    .liked {
+                                        animation: pulse 0.5s ease-in-out;
+                                    }
+                                </style>
+
+                                <script>
+                                    // Initialize like status and counters for each question
+                                    var likeStatus = {}; // Object to store like status for each question
+                                    var likeCounters = {}; // Object to store like counters for each question
+
+                                    function toggleLike(questionId) {
+                                        // Initialize like counter and status for the current question if not already set
+                                        if (!likeCounters[questionId]) {
+                                            likeCounters[questionId] = 0;
+                                            likeStatus[questionId] = false;
+                                        }
+
+                                        // Increment or decrement like counter and toggle like status for the current question
+                                        if (!likeStatus[questionId]) {
+                                            likeCounters[questionId]++;
+                                            likeStatus[questionId] = true;
+                                        } else {
+                                            likeCounters[questionId]--;
+                                            likeStatus[questionId] = false;
+                                        }
+
+                                        // Update like count display for the current question
+                                        document.getElementById('likeCount' + questionId).innerText = likeCounters[questionId];
+
+                                        // Add 'liked' class to trigger animation for the current question
+                                        document.getElementById('likeIcon' + questionId).classList.add('liked');
+
+                                        // Remove 'liked' class after animation ends for the current question
+                                        setTimeout(function() {
+                                            document.getElementById('likeIcon' + questionId).classList.remove('liked');
+                                        }, 500);
+
+                                        // You can include AJAX request here to send like status to the server
+                                    }
+                                </script>
+
+
+
+
+
+                                <button type="button" onclick="openCommentModal('{{ $question->question }}', '{{ $question->language }}')" style="display: flex; align-items:center; padding: 10px 20px; background-color: white; color: black; border: none; border-radius: 5px; cursor: pointer;" onmouseover="this.style.backgroundColor='lightgray';" onmouseout="this.style.backgroundColor='white';">
                                     <img src="assets/images/plantifeedpics/comment.png" alt="Comment" style="height: 20px; width: 20px; margin-right: 10px;">
                                     Comment
                                 </button>
@@ -547,15 +611,15 @@
 
 
                                     @foreach($comments as $comment)
-                                    @if($comment->question_id == $question->id)
+
                                     <div>
                                         <p>{{ $comment->content }}</p>
                                         @if($comment->image)
                                         <img src="{{ asset('images/' . $comment->image) }}" alt="Comment Image">
                                         @endif
                                     </div>
+
                                     <button>reply</button>
-                                    @endif
                                     @endforeach
 
 
@@ -613,16 +677,33 @@
                                         </div>
                                     </button>
 
-                                    <div id="postEditModal{{ $post->id }}" style="display:none; position:fixed; z-index:1; left:0; top:0; width:100%; height:100%; overflow:auto; background-color:rgba(0,0,0,0.4);">
+                                    <div id="postEditModal{{ $post->id }}" style="display:none; position:fixed; z-index:1; left:50px; top:0; width:100%; height:100%; overflow:auto; background-color:rgba(0,0,0,0.4);">
                                         <!-- Modal content -->
                                         <div style="margin-top:10%; margin-left:30%; background-color:#fefefe; padding:20px; border:1px solid #888; width:40%;">
-                                            <form id="editPostForm{{ $post->id }}" enctype="multipart/form-data">
+                                            <form id="editPostForm{{ $post->id }}" action="{{ route('editPost', ['id' => $post->id]) }}" method="POST" enctype="multipart/form-data">
+                                                @csrf
+                                                @method('PUT')
+
                                                 <p style="text-align:center; font-weight:bold; font-size:20px;">Edit Post</p>
-                                                <textarea require placeholder="What's on your mind?" id="editPostInput{{ $post->id }}" name="post" style="font-size:15px; resize:none; width: 100%; border:none; outline:none;" rows="8"></textarea>
+
+                                                <textarea required placeholder="What's on your mind?" id="editPostInput{{ $post->id }}" name="post" style="font-size:15px; resize:none; width: 100%; border:none; outline:none;" rows="8"></textarea>
+
+                                                <!-- Display error message if there's a validation error for 'post' field -->
+                                                @error('post')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                                @enderror
+
                                                 <input type="file" name="image"> <!-- Additional input field for image -->
-                                                <button type="button" onclick="savePostEdit('{{ $post->id }}')" style="width:100%; background-color:#4CAF50; border:none; color:white; padding:10px 20px; text-align:center; text-decoration:none; display:inline-block; font-size:13px; margin:4px 2px; cursor:pointer;">Save</button> <br>
-                                                <button type="button" onclick="closePostEditModal('{{ $post->id }}')" style="background-color:#f44336; border:none; color:white; padding:10px 20px; text-align:center; text-decoration:none; display:inline-block; font-size:13px; margin:4px 2px; cursor:pointer; width:100%;">Close</button>
+
+                                                <div style="display: flex;">
+                                                    <button type="button" onclick="closeEditModal('{{ $post->id }}')" style="background-color:#F6F6F6; border:none; color:black; padding:10px 20px; text-align:center; text-decoration:none; display:inline-block; font-size:13px; margin:4px 2px; cursor:pointer; width:100%;" onmouseover="this.style.backgroundColor='lightgray'" onmouseout="this.style.backgroundColor='#F6F6F6'">
+                                                        Close
+                                                    </button>
+
+                                                    <button type="submit" style="width:100%; background-color:#364574; border:none; color:white; padding:10px 20px; text-align:center; text-decoration:none; display:inline-block; font-size:13px; margin:4px 2px; cursor:pointer;" onmouseover="this.style.backgroundColor='#364574'" onmouseout="this.style.backgroundColor='#405189'">Save</button>
+                                                </div>
                                             </form>
+
 
                                         </div>
                                     </div>
@@ -654,7 +735,6 @@
                                                     }
                                                     return response.json();
                                                 })
-
                                                 .then(data => {
                                                     console.log(data);
                                                     setTimeout(function() {
@@ -668,14 +748,6 @@
                                         }
                                     </script>
 
-                                    <script>
-                                        document.addEventListener('DOMContentLoaded', function() {
-                                            var message = "{{ session('message') }}";
-                                            if (message) {
-                                                swal("Success", message, "success");
-                                            }
-                                        });
-                                    </script>
 
                                     <br>
 
@@ -708,43 +780,43 @@
 
                                                     <!-- Radio buttons for reporting options -->
                                                     <div class="label-container" style="display:flex;">
-                                                        <input type="radio" id="content-1" name="question_report" value="Spam" style="margin-right:5px; width: 20px; height: 20px;">
+                                                        <input required type="radio" id="content-1" name="question_report" value="Spam" style="margin-right:5px; width: 20px; height: 20px;">
                                                         <label style="font-weight:bold; margin: 0;" for="content-1">Spam</label>
                                                     </div>
                                                     <div style="margin-left: 25px;">Selling illegal goods, money scams etc.</div>
 
                                                     <div class="label-container" style="display:flex; margin-top: 10px;">
-                                                        <input type="radio" id="content-2" name="question_report" value="Harmful Activities" style="margin-right:5px; width: 20px; height: 20px;">
+                                                        <input required type="radio" id="content-2" name="question_report" value="Harmful Activities" style="margin-right:5px; width: 20px; height: 20px;">
                                                         <label style="font-weight:bold; margin: 0;" for="content-2">Harmful Activities</label>
                                                     </div>
                                                     <div style="margin-left:25px;">Glorifying violence including self-harm or intent to seriously harm others.</div>
 
                                                     <div class="label-container" style="display:flex; margin-top: 10px;">
-                                                        <input type="radio" id="content-3" name="question_report" value="Harassment and Bullying" style="margin-right:5px; width: 20px; height: 20px;">
+                                                        <input required type="radio" id="content-3" name="question_report" value="Harassment and Bullying" style="margin-right:5px; width: 20px; height: 20px;">
                                                         <label style="font-weight:bold; margin: 0;" for="content-3">Harassment and Bullying</label>
                                                     </div>
                                                     <div style="margin-left:25px;">Harassing or threatening an individual.</div>
 
                                                     <div class="label-container" style="display:flex; margin-top: 10px;">
-                                                        <input type="radio" id="content-4" name="question_report" value="Hate Speech" style="margin-right:5px; width: 20px; height: 20px;">
+                                                        <input required type="radio" id="content-4" name="question_report" value="Hate Speech" style="margin-right:5px; width: 20px; height: 20px;">
                                                         <label style="font-weight:bold; margin: 0;" for="content-4">Hate Speech</label>
                                                     </div>
                                                     <div style="margin-left:25px;">Serious attack on a group.</div>
 
                                                     <div class="label-container" style="display:flex; margin-top: 10px;">
-                                                        <input type="radio" id="content-5" name="question_report" value="Sexual Exploitation" style="margin-right:5px; width: 20px; height: 20px;">
+                                                        <input required type="radio" id="content-5" name="question_report" value="Sexual Exploitation" style="margin-right:5px; width: 20px; height: 20px;">
                                                         <label style="font-weight:bold; margin: 0;" for="content-5">Sexual Exploitation</label>
                                                     </div>
                                                     <div style="margin-left:25px;">Sexually explicit or suggestive imagery or writing involving minors.</div>
 
                                                     <div class="label-container" style="display:flex; margin-top: 10px;">
-                                                        <input type="radio" id="content-6" name="question_report" value="Abuse" style="margin-right:5px; width: 20px; height: 20px;">
+                                                        <input required type="radio" id="content-6" name="question_report" value="Abuse" style="margin-right:5px; width: 20px; height: 20px;">
                                                         <label style="font-weight:bold; margin: 0;" for="content-6">Abuse</label>
                                                     </div>
                                                     <div style="margin-left:25px;">Various forms of improper use or exploitation of a situation, person, or thing.</div>
 
                                                     <div class="label-container" style="display:flex; margin-top: 10px;">
-                                                        <input type="radio" id="content-7" name="question_report" value="Plagiarism" style="margin-right:5px; width: 20px; height: 20px;">
+                                                        <input required type="radio" id="content-7" name="question_report" value="Plagiarism" style="margin-right:5px; width: 20px; height: 20px;">
                                                         <label style="font-weight:bold; margin: 0;" for="content-7">Plagiarism</label>
                                                     </div>
                                                     <div style="margin-left:25px;">Reusing content without attribution.</div>
@@ -828,13 +900,52 @@
 
 
                             <div style="margin-top: 10px; display:flex; justify-content:space-evenly;">
-                                <button class=" like-button" onclick="toggleLike()">
-                                    <img src="/assets/images/plantifeedpics/like.png" alt="Like">
-                                    <span class="like-count">0</span>
+
+                                <button onclick="togglePostLike('{{ $post->id }}')" style="border: none; background-color: transparent; cursor: pointer;">
+                                    <img src="assets/images/plantifeedpics/like.png" alt="like" id="postLikeIcon{{ $post->id }}" style="padding: 10px;" onmouseover="this.style.backgroundColor='lightgray';this.style.borderRadius='25px';" onmouseout="this.style.backgroundColor='transparent'; this.style.borderRadius='25px';">
+                                    <span id="postLikeCount{{ $post->id }}">0</span>
                                 </button>
 
 
-                                <button onclick="openPostModal('{{ $post->selection }}', '{{ $post->selectiontwo }}', '{{ $post->createpost }}')" style="display: flex; align-items:center; padding: 10px 20px; background-color: white; color: black; border: none; border-radius: 5px; cursor: pointer;">
+
+                                <script>
+                                    // Initialize like status and counters for each post
+                                    var postLikeStatus = {};
+                                    var postLikeCounters = {};
+
+                                    function togglePostLike(postId) {
+                                        // Initialize like counter and status for the current post if not already set
+                                        if (!postLikeCounters[postId]) {
+                                            postLikeCounters[postId] = 0;
+                                            postLikeStatus[postId] = false;
+                                        }
+
+                                        // Increment or decrement like counter and toggle like status for the current post
+                                        if (!postLikeStatus[postId]) {
+                                            postLikeCounters[postId]++;
+                                            postLikeStatus[postId] = true;
+                                        } else {
+                                            postLikeCounters[postId]--;
+                                            postLikeStatus[postId] = false;
+                                        }
+
+                                        // Update like count display for the current post
+                                        document.getElementById('postLikeCount' + postId).innerText = postLikeCounters[postId];
+
+                                        // Add 'liked' class to trigger animation for the current post
+                                        document.getElementById('postLikeIcon' + postId).classList.add('liked');
+
+                                        // Remove 'liked' class after animation ends for the current post
+                                        setTimeout(function() {
+                                            document.getElementById('postLikeIcon' + postId).classList.remove('liked');
+                                        }, 500);
+
+                                        // You can include AJAX request here to send like status to the server
+                                    }
+                                </script>
+
+
+                                <button onclick="openPostModal('{{ $post->selection }}', '{{ $post->selectiontwo }}', '{{ $post->createpost }}')" style="display: flex; align-items:center; padding: 10px 20px; background-color: white; color: black; border: none; border-radius: 5px; cursor: pointer;" onmouseover="this.style.backgroundColor='lightgray';" onmouseout="this.style.backgroundColor='white';">
                                     <img src="/assets/images/plantifeedpics/comment.png"" alt=" Comment" style="height: 20px; width: 20px; margin-right: 10px;">
                                     Comment
                                 </button>
@@ -935,15 +1046,8 @@
                             });
                         });
                     });
-
-                    // Display SweetAlert after page refresh
-                    $(window).on('load', function() {
-                        var message = "{{ session('message') }}";
-                        if (message) {
-                            swal("Success", message, "success");
-                        }
-                    });
                 </script>
+
 
                 <script>
                     $(document).ready(function() {
@@ -960,7 +1064,7 @@
                                     // Refresh the page
                                     setTimeout(function() {
                                         window.location.reload();
-                                    }, 500); // Delay for 1 second before refreshing
+                                    }, 500); // Delay for 0.5 seconds before refreshing
                                 },
                                 error: function(xhr, status, error) {
                                     console.error(xhr.responseText);
@@ -968,19 +1072,6 @@
                             });
                         });
                     });
-
-                    // Display SweetAlert after page refresh
-                    $(window).on('load', function() {
-                        var message = "{{ session('message') }}";
-                        if (message) {
-                            swal("Success", message, "success");
-                        }
-                    });
-                </script>
-
-
-                <script>
-                    var message = "{{ session('message') }}";
                 </script>
 
 

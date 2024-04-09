@@ -65,7 +65,7 @@
                                         <!-- Display the chat list -->
                                         <div class="chat-message-list">
                                             <ul class="list-unstyled chat-list chat-user-list" id="userList">
-                                                @forelse($users as $user)
+                                                @forelse($filteredUsers as $user) <!-- Change $users to $filteredUsers -->
                                                     @php
                                                         // Check if the user has any messages
                                                         $hasMessages = $user->messages->isNotEmpty();
@@ -320,16 +320,16 @@
                                         <div class="chat-input-section p-3 p-lg-4">
                                             <form id="chatinput-form" enctype="multipart/form-data">
                                                 <div class="row g-0 align-items-center">
-                                                    <div class="col-auto">
-                                                        <div class="chat-input-links me-2">
-                                                            <div class="links-list-item">
-                                                                <button type="button" class="btn btn-link text-decoration-none emoji-btn" id="emoji-btn">
-                                                                    <i class="bx bx-smile align-middle"></i>
-                                                                </button>
-                                                            </div>
+                                                <div class="col-auto">
+                                                    <div class="chat-input-links me-2">
+                                                        <div class="links-list-item">
+                                                            <input type="file" class="btn btn-link text-decoration-none file-btn" id="file-input" style="display: none;">
+                                                            <label for="file-input">
+                                                                <i class="bx bx-paperclip align-middle"></i>
+                                                            </label>
                                                         </div>
                                                     </div>
-
+                                                </div>
                                                     <div class="col">
                                                         <div class="chat-input-feedback">
                                                             Please Enter a Message
@@ -702,7 +702,7 @@ setInterval(function() {
 
 
 setInterval(function() {
-        $('#users-conversation').load(window.location.href + ' #users-conversation');
+        $('#userList').load(window.location.href + ' #userList');
     }, 500);
 
 

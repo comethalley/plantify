@@ -38,86 +38,94 @@ class GroupController extends Controller
      * @return \Illuminate\View\View
      */
     public function show($groupId, $farmId = null)
-    {
-        try {
-            // Retrieve the group
-            $group = Group::findOrFail($groupId);
-    
-            // Initialize $groupThread to null
-            $groupThread = null;
-    
-            // Check if the group is "Admin and Farm Leaders"
-            if ($group->group_name === 'Admin and Farm Leaders') {
-                // No need to provide farm ID for Admin, set farmId to null
-                $farmId = null;
-            } elseif ($group->group_name === 'Farm Leader and Farmers' && (auth()->user()->role_id == 3 || auth()->user()->role_id == 4)) {
-                // For Farm Leader and Farmers group, check if user is Farm Leader or Farmer
-                // Retrieve the user's farm ID
-                $userFarmId = DB::table('farms')
-                    ->select("id")
-                    ->where('farm_leader', auth()->user()->id)
-                    ->first();
-    
-                // Set the farmId to the user's farm ID
-                $farmId = $userFarmId;
-            }
-    
-            // Check if there is a group thread for the specified group and farm
-           // Check if there is a group thread for the specified group and farm
-$groupThreadsQuery = GroupThread::where('group_id', $groupId);
+{
+    try {
+        // Retrieve the group
+        $group = Group::findOrFail($groupId);
 
-// Check if farmId is not null before adding farm_id condition
-if ($farmId !== null) {
-    $groupThreadsQuery->where('farm_id', $farmId->id);
-}
+        // Initialize $groupThread to null
+        $groupThread = null;
 
-$groupThreads = $groupThreadsQuery->get();
+        // Check if the group is "Admin and Farm Leaders"
+        if ($group->group_name === 'Admin and Farm Leaders') {
+            // No need to provide farm ID for Admin, set farmId to null
+            $farmId = null;
+        } elseif ($group->group_name === 'Farm Leader and Farmers' && (auth()->user()->role_id == 3 || auth()->user()->role_id == 4)) {
+            // For Farm Leader and Farmers group, check if user is Farm Leader or Farmer
+            // Retrieve the user's farm ID
+            $userFarmId = DB::table('farms')
+                ->select("id")
+                ->where('farm_leader', auth()->user()->id)
+                ->first();
 
-    
-            // If the group thread does not exist, create a new one
-            if ($groupThreads->isEmpty()) {
-                $groupThread = GroupThread::create([
-                    'group_id' => $groupId,
-                    'farm_id' => $farmId->id,
-                ]);
-            } else {
-                // Retrieve messages for each group thread
-                $groupThreads->each(function ($thread) {
-                    $thread->messages; // This will retrieve messages for each thread
-                });
-    
-                // Assign the first thread to $groupThread
-                $groupThread = $groupThreads->first();
-            }
+            // Set the farmId to the user's farm ID
+            $farmId = $userFarmId;
+        }
 
-            // Get the currently logged-in user
+        // Check if there is a group thread for the specified group and farm
+        $groupThreadsQuery = GroupThread::where('group_id', $groupId);
+
+        // Check if farmId is not null before adding farm_id condition
+        if ($farmId !== null) {
+            $groupThreadsQuery->where('farm_id', $farmId->id);
+        }
+
+        $groupThreads = $groupThreadsQuery->get();
+
+        // If the group thread does not exist, create a new one
+        if ($groupThreads->isEmpty()) {
+            $groupThread = GroupThread::create([
+                'group_id' => $groupId,
+                'farm_id' => $farmId->id,
+            ]);
+        } else {
+            // Retrieve messages for each group thread
+            $groupThreads->each(function ($thread) {
+                $thread->messages; // This will retrieve messages for each thread
+            });
+
+            // Assign the first thread to $groupThread
+            $groupThread = $groupThreads->first();
+        }
+
+        // Get the currently logged-in user
         $currentUser = Auth::user();
 
         // Retrieve all other users for the chat list (excluding the logged-in user)
         $users = User::where('id', '!=', $currentUser->id)->get();
 
-    
-            // Retrieve messages for the current group thread
-            $messages = $groupThread ? $groupThread->messages : collect();
-    
-            // Get a list of groups
-            $groups = Group::all();
-    
-            // Retrieve farm leaders
-            $id = Auth::user()->id;
-            $farmLeaders = DB::table('farms')
-                ->where('status', 1)
-                ->where('farm_leader', $id)
-                ->select("*")
-                ->first();
-    
-            // Return to the view with the updated data
-            return view('pages.groups', compact('groupThread', 'users','messages', 'groups', 'farmLeaders'));
-        } catch (ModelNotFoundException $e) {
-            // If the group is not found, return a 404 response
-            abort(404);
-        }
+        // Filter users based on their participation in group threads with the current user
+        $filteredUsers = $users->filter(function ($user) use ($currentUser, $groupId) {
+            return GroupThread::where('group_id', $groupId)
+                ->whereHas('messages', function ($query) use ($user, $currentUser) {
+                    $query->where('sender_id', $user->id)
+                        ->orWhere('sender_id', $currentUser->id);
+                })
+                ->exists();
+        });
+        
+
+        // Retrieve messages for the current group thread
+        $messages = $groupThread ? $groupThread->messages : collect();
+
+        // Get a list of groups
+        $groups = Group::all();
+
+        // Retrieve farm leaders
+        $id = Auth::user()->id;
+        $farmLeaders = DB::table('farms')
+            ->where('status', 1)
+            ->where('farm_leader', $id)
+            ->select("*")
+            ->first();
+
+        // Return to the view with the updated data
+        return view('pages.groups', compact('groupThread', 'filteredUsers', 'messages', 'groups', 'farmLeaders'));
+    } catch (ModelNotFoundException $e) {
+        // If the group is not found, return a 404 response
+        abort(404);
     }
+}
     
 
 

@@ -41,6 +41,17 @@ public function showThread($threadId)
     // Retrieve all other users for the chat list (excluding the logged-in user)
     $users = User::where('id', '!=', $currentUser->id)->get();
 
+    // Filter users based on their participation in threads with the current user
+    $filteredUsers = $users->filter(function ($user) use ($currentUser) {
+        return Thread::where('user_id_1', $currentUser->id)
+            ->where('user_id_2', $user->id)
+            ->orWhere(function ($query) use ($currentUser, $user) {
+                $query->where('user_id_1', $user->id)
+                    ->where('user_id_2', $currentUser->id);
+            })
+            ->exists();
+    });
+
     // Retrieve messages for the current thread
     $messages = $thread->messages;
 
@@ -55,32 +66,33 @@ public function showThread($threadId)
         ->first();
 
     // Return to the view with the updated data
-    return view('pages.thread', compact('thread', 'users', 'messages', 'groups', 'farmLeaders'));
+    return view('pages.thread', compact('thread', 'filteredUsers', 'messages', 'groups', 'farmLeaders'));
 }
+
 
 
 
 
     
 
-public function storeMessage(Request $request, $threadId)
-{
-    // Validate the incoming request data
-    $request->validate([
-        'content' => 'required|string',
-    ]);
+    public function storeMessage(Request $request, $threadId)
+    {
+        // Validate the incoming request data
+        $request->validate([
+            'content' => 'required|string',
+        ]);
 
-    // Create a new message in the specified thread
-    Message::create([
-        'thread_id' => $threadId,
-        'sender_id' => auth()->user()->id,
-        'content' => $request->input('content'),
-        'create_date' => now(),
-    ]);
+        // Create a new message in the specified thread
+        Message::create([
+            'thread_id' => $threadId,
+            'sender_id' => auth()->user()->id,
+            'content' => $request->input('content'),
+            'create_date' => now(),
+        ]);
 
-    // You might need to return a response or redirect based on your application flow
-    return response()->json(['success' => true]);
-}
+        // You might need to return a response or redirect based on your application flow
+        return response()->json(['success' => true]);
+    }
 
 
     /**

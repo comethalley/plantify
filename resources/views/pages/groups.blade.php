@@ -55,7 +55,7 @@
 
                                 <div class="chat-message-list">
                                     <ul class="list-unstyled chat-list chat-user-list" id="userList">
-                                        @forelse($users as $user)
+                                        @forelse($filteredUsers as $user) <!-- Change $users to $filteredUsers -->
                                             @php
                                                 // Check if the user has any messages
                                                 $hasMessages = $user->messages->isNotEmpty();

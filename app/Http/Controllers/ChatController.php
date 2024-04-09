@@ -19,29 +19,40 @@ class ChatController extends Controller
      * @return \Illuminate\View\View
      */
     public function index()
-    {
-        // Get the currently logged-in user
-        $currentUser = Auth::user();
-    
-        // Retrieve all other users for the chat list (excluding the logged-in user)
-        $users = User::where('id', '!=', $currentUser->id)->get();
-    
-        // Add your logic to retrieve chat threads (modify as per your actual implementation)
-        $threads = Thread::with('messages')->get();
+{
+    // Get the currently logged-in user
+    $currentUser = Auth::user();
 
-        // Get a list of groups
-        $groups = Group::all();
+    // Retrieve all other users for the chat list (excluding the logged-in user)
+    $users = User::where('id', '!=', $currentUser->id)->get();
 
-        $id = Auth::user()->id; 
-        $farmLeaders = DB::table('farms')
-            ->where('status', 1)
-            ->where('farm_leader', $id)
-            ->select("*")
-            ->first();
-            
-    
-        return view('pages.chat', compact('users', 'threads', 'groups', 'farmLeaders'));
-    }
+    // Filter the users based on whether there is a thread between them and the current user
+    $filteredUsers = $users->filter(function ($user) use ($currentUser) {
+        return Thread::where('user_id_1', $currentUser->id)
+            ->where('user_id_2', $user->id)
+            ->orWhere(function ($query) use ($currentUser, $user) {
+                $query->where('user_id_1', $user->id)
+                    ->where('user_id_2', $currentUser->id);
+            })
+            ->exists();
+    });
+
+    // Add your logic to retrieve chat threads (modify as per your actual implementation)
+    $threads = Thread::with('messages')->get();
+
+    // Get a list of groups
+    $groups = Group::all();
+
+    $id = Auth::user()->id; 
+    $farmLeaders = DB::table('farms')
+        ->where('status', 1)
+        ->where('farm_leader', $id)
+        ->select("*")
+        ->first();
+
+    return view('pages.chat', compact('filteredUsers', 'threads', 'groups', 'farmLeaders'));
+}
+
 
     /**
      * Display the messages for a specific thread.
@@ -104,21 +115,6 @@ class ChatController extends Controller
 
         return view('chat.users', ['users' => $chatUsers]);
     }
-
-    /**
-     * Get the users to display in the chat list based on the current user.
-     *
-     * @param  \App\Models\User  $currentUser
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
-    private function getChatUsers($currentUser)
-    {
-        // Implement your logic to fetch the relevant users here
-        // For example, if you want to display only users not equal to the current user
-        return User::where('id', '!=', $currentUser->id)->get();
-    }
-
-
     
 
     public function markMessagesAsRead($userId)

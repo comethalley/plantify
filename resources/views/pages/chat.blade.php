@@ -68,8 +68,13 @@
                                     
                                         <div class="chat-message-list">
                                             <ul class="list-unstyled chat-list chat-user-list" id="userList">
-                                                @foreach($users as $user)
-                                                    @if($user->isPartOfConversation) <!-- Check if user is part of the conversation -->
+                                                @forelse($filteredUsers as $user) <!-- Change $users to $filteredUsers -->
+                                                    @php
+                                                        // Check if the user has any messages
+                                                        $hasMessages = $user->messages->isNotEmpty();
+                                                    @endphp
+
+                                                    @if($hasMessages)
                                                         <button type="button" class="btn member-button" data-member-id="{{ $user->id }}" data-thread-id="{{ $user->thread_id }}">
                                                             <!-- Your user display content -->
                                                             <div class="d-flex align-items-center">
@@ -84,7 +89,9 @@
                                                             </div>
                                                         </button>
                                                     @endif
-                                                @endforeach
+                                                @empty
+                                                    <p>No other users found.</p>
+                                                @endforelse
                                             </ul>
                                         </div>
 
@@ -115,7 +122,7 @@
                                                 @forelse($groups as $group)
                                                     @if(auth()->user()->role_id == 2 && $group->group_name == 'Admin and Farm Leaders')
                                                         {{-- Display only for role_id 2 (Admin and Farm Leaders) --}}
-                                                        <button type="button" class="btn channel-button" data-group-id="{{ $group->id }}" >
+                                                        <button type="button" class="btn channel-button" data-group-id="{{ $group->id }}" data-farm-id="{{ optional($farmLeaders)->id }}">
                                                             <div class="d-flex align-items-center">
                                                                 <div class="ms-2">
                                                                     <h6 class="mb-0">{{ $group->group_name }}</h6>

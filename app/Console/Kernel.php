@@ -18,6 +18,9 @@ class Kernel extends ConsoleKernel
         $schedule->command('check:out-of-stock-items')->everyMinute();
         $schedule->command('harvests:check')->everyMinute();
         $schedule->command('notify:upcoming-events')->everyMinute();
+        $schedule->command('notify:events-today')->everyMinute();
+        $schedule->command('notify:harvest-today')->everyMinute();
+
     }
     
 
@@ -31,6 +34,8 @@ class Kernel extends ConsoleKernel
         Commands\CheckOutOfStockItems::class,
         Commands\CheckHarvestEvents::class,
         Commands\CheckUpcomingEvents::class,
+        Commands\NotifyEventsToday::class,
+        Commands\NotifyHarvestToday::class,
     ];
     
 }

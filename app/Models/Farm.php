@@ -24,16 +24,16 @@ class Farm extends Model
         'picture_land2',
         'select_date',
     ];
-    // public function barangays()
-    // {
-    //     return $this->hasMany(Barangay::class, 'farm_id', 'id');
-    // }
+    public function barangays()
+    {
+        return $this->hasMany(Barangay::class, 'farm_id', 'id');
+    }
 
-    // public function scopeWithBarangayName($query, $barangayId = null)
-    // {
-    //     $query->select(['id', 'farm_name'])
-    //         ->when($barangayId, function ($query, $barangayId) {
-    //             $query->where('barangay_id', $barangayId);
-    //         });
-    // }
+    public function scopeWithBarangayName($query, $barangayId = null)
+    {
+        $query->select(['id', 'farm_name'])
+            ->when($barangayId, function ($query, $barangayId) {
+                $query->where('barangay_id', $barangayId);
+            });
+    }
 }

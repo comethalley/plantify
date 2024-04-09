@@ -52,21 +52,9 @@ class EventController extends Controller
     }
 
 
-    public function notifyUpcomingEvents()
+    public function checkEventsToday()
     {
-        $user = auth()->user();
-
-        // Check if there are upcoming events in the calendar
-        // Replace this with your logic to check for upcoming events
-        $upcomingEvents = Event::where('start', '>=', now())->count();
-    
-        if ($upcomingEvents > 0) {
-            $user->notify(new UpcomingEventsNotification());
-            return response()->json(['message' => 'Notification sent if there are upcoming events.']);
-        }
-    dd($upcomingEvents);
-        return response()->json(['message' => 'No upcoming events.']);
-
+       
     }
 
     public function getEvents()
@@ -141,10 +129,11 @@ class EventController extends Controller
 
     public function search(Request $request)
     {
-        $searchKeywords = $request->input('title');
+        $ $searchKeywords = $request->input('title');
 
-        $matchingEvents = Event::where('title', 'like', '%' . $searchKeywords . '%')->get();
+        $matchingEvents = CalendarPlanting::where('title', 'like', '%' . $searchKeywords . '%')->get();
 
         return response()->json($matchingEvents);
     }
+    
 }

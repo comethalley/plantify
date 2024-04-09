@@ -129,7 +129,7 @@ Route::get('/schedulesget', [EventController::class, 'getEvents']);
 Route::get('/schedulesdata/{id}', [EventController::class, 'getdata']);
 Route::delete('/scheduledelete/{id}', [EventController::class, 'deleteEvent']);
 Route::put('/scheduleupdate/{id}', [EventController::class, 'update']);
-Route::put('/schedule/{id}/resize', [EventController::class, 'resize']);
+
 Route::get('/events/search', [EventController::class, 'search']);
 Route::get('/upcomingevent', [EventController::class, 'notifyUpcomingEvents']);
 
@@ -162,11 +162,13 @@ Route::get('/pesticides', [PlantInfoController::class, 'pesticides']);
 Route::post('/pupdate/{id}', [PlantInfoController::class, 'pupdate']);
 Route::post('/pesticides', [PlantInfoController::class, 'pstore']);
 Route::get('/pedit/{id}', [PlantInfoController::class, 'pedit']);
+Route::post('/pesarchive/{id}', [PlantInfoController::class, 'pesarchive']);
 //FER=======================================================================
 Route::get('/fertilizers', [PlantInfoController::class, 'fertilizers']);
 Route::post('/fertilizers', [PlantInfoController::class, 'fstore']);
 Route::post('/fupdate/{id}', [PlantInfoController::class, 'fupdate']);
-Route::get('/fedit/{id}', [PlantInfoController::class, 'fedit']);
+Route::get('/fedit/{FertID}', [PlantInfoController::class, 'fedit']);
+Route::post('/fertarchive/{id}', [PlantInfoController::class, 'fertarchive']);
 
 //For farm management =======================================================
 
@@ -183,10 +185,10 @@ Route::post('/update-status/{id}', [FarmController::class, 'updateStatus'])->nam
 
 
 //view pdf/img farm-management//
-Route::get('/view-pdf/{id}/{title?}', [FarmController::class, 'viewPdf'])->name('view.pdf');
-Route::get('/view-image/{id}', [FarmController::class, 'viewImage'])->name('view.image');
-Route::get('/view-image1/{id}', [FarmController::class, 'viewImage1'])->name('view.image');
-Route::get('/view-image2/{id}', [FarmController::class, 'viewImage2'])->name('view.image');
+// Route::get('/view-pdf/{id}/{title?}', [FarmController::class, 'viewPdf'])->name('view.pdf');
+// Route::get('/view-image/{id}', [FarmController::class, 'viewImage'])->name('view.image');
+// Route::get('/view-image1/{id}', [FarmController::class, 'viewImage1'])->name('view.image');
+// Route::get('/view-image2/{id}', [FarmController::class, 'viewImage2'])->name('view.image');
 
 //xfarms farm-management//
 Route::get('/view-archivefarms', [FarmController::class, 'viewArchiveFarms'])->name('archivefarms.xfarms');
@@ -219,10 +221,11 @@ Route::post('/tasks/{task}/restore', [TaskController::class, 'restore'])->name('
 //EXPENSES MANAGEMENT ====================================================================================
 Route::get('/expense', [ExpenseController::class, 'index']);
 Route::post('/expenses/add-budget', [ExpenseController::class, 'addBudget']);
-Route::get('/dashboard', 'ExpenseController@showDashboard')->name('dashboard');
-Route::post('/expenses/save-expense', [ExpenseController::class, 'saveExpense']);
+Route::post('/expenses/save-expense', [ExpenseController::class, 'saveExpense'])->name('saveExpense');
+Route::get('/expenses/get-last-amount', [ExpenseController::class, 'getLastAmount']);
 Route::get('/compute-total-expenses', [ExpenseController::class, 'computeTotalExpenses'])->name('compute-total-expenses');
 Route::get('/expenses/get-dashboard-data', [ExpenseController::class, 'getDashboardData']);
+Route::get('/expenses/get-expenses-by-category', [ExpenseController::class, 'getExpensesByCategory']);
 // Route::get('/expenses', [ExpenseController::class, 'getExpenses']);
 //===========================================================================================================
 

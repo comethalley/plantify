@@ -194,7 +194,7 @@
                                                 <img src="assets/images/event/event.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
                                                 <div class="flex-grow-1">
                                                     <a href="/schedules" class="stretched-link">
-                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">{{ $notification->data['title']}}</h6>
+                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">New Events</h6>
                                                     </a>
                                                     <div class="fs-13 text-muted">
                                                         <p class="mb-1">Check it out we have new events 📆.</p>
@@ -220,7 +220,7 @@
 
                                                 <div class="flex-grow-1">
                                                     <a href="/plantcalendar" class="stretched-link">
-                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold"></h6>
+                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">New Planted</h6>
                                                     </a>
                                                     <div class="fs-13 text-muted">
 
@@ -244,10 +244,32 @@
                                                 <img src="assets/images/event/planting.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
                                                 <div class="flex-grow-1">
                                                     <a href="/plantcalendar" class="stretched-link">
-                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold"></h6>
+                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">Upcoming Harvest Alert!</h6>
                                                     </a>
                                                     <div class="fs-13 text-muted">
-                                                        <p class="mb-1">.</p>
+                                                        <p class="mb-1">{{ $notification->data['message']}}</p>
+                                                    </div>
+                                                    <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+                                                        <span><i class="mdi mdi-clock-outline" id="notification-time" ></i> {{ $notification->created_at->diffForHumans() }}</span>
+                                                    </p>
+                                                </div>
+                                                <div class="px-2 fs-15">
+                                                    <div class="form-check notification-check">
+                                                        <input class="form-check-input" type="checkbox" value="" id="all-notification-check02">
+                                                        <label class="form-check-label" for="all-notification-check02"></label>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            @elseif ($notification->type === 'App\Notifications\HarvestTodayNotification')
+                                            <div class="d-flex">
+                                                <img src="assets/images/event/planting.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                                <div class="flex-grow-1">
+                                                    <a href="/plantcalendar" class="stretched-link">
+                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">Harvest Day: Time to Reap the Rewards!</h6>
+                                                    </a>
+                                                    <div class="fs-13 text-muted">
+                                                        <p class="mb-1">{{ $notification->data['message']}}</p>
                                                     </div>
                                                     <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
                                                         <span><i class="mdi mdi-clock-outline" id="notification-time"></i> {{ $notification->created_at->diffForHumans() }}</span>
@@ -292,10 +314,35 @@
 
                                                 <div class="flex-grow-1">
                                                     <a href="/schedules" class="stretched-link">
-                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">{{ $notification->data['title']}}</h6>
+                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">Event Reminder!</h6>
                                                     </a>
                                                     <div class="fs-13 text-muted">
-                                                        <p class="mb-1">{{ $notification->data['message']}}.</p>
+                                                        <p class="mb-1">"{{ $notification->data['message']}}"</p>
+                                                    </div>
+                                                    <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+
+                                                        <span><i class="mdi mdi-clock-outline"id="notification-time"></i>{{ $notification->created_at->diffForHumans() }}</span>
+
+                                                    </p>
+                                                </div>
+                                                <div class="px-2 fs-15">
+                                                    <div class="form-check notification-check">
+                                                        <input class="form-check-input" type="checkbox" value="" id="all-notification-check02">
+                                                        <label class="form-check-label" for="all-notification-check02"></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @elseif ($notification->type === 'App\Notifications\EventTodayNotification')
+                                            <div class="d-flex">
+
+                                                <img src="assets/images/event/event.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+
+                                                <div class="flex-grow-1">
+                                                    <a href="/schedules" class="stretched-link">
+                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">Event Reminder: Happening Today!</h6>
+                                                    </a>
+                                                    <div class="fs-13 text-muted">
+                                                        <p class="mb-1">"{{ $notification->data['message']}}"</p>
                                                     </div>
                                                     <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
 
@@ -718,12 +765,12 @@
                                 <span data-key="t-faqs">Plantifeed</span>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a class="nav-link" href="/analytics" role="button" style="color:white">
                                 <i class="ri-wechat-line"></i>
                                 <span data-key="t-faqs">Analytics</span>
                             </a>
-                        </li>
+                        </li> -->
 
 
 

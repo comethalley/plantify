@@ -19,9 +19,10 @@ class CheckOutOfStockItems extends Command
 
     public function handle()
     {
-        $outOfStockItems = Stock::where('available_seed', '<=', 5)->get();
-        $users = User::where('role_id', 1)->get();
-        
+        $outOfStockItems = Stock::where('status', 1)
+        ->where('available_seed', '<=', 5)->get();
+      
+        $users = User::where('role_id', 3)->get();
     
     foreach ($users as $user) {
         foreach ($outOfStockItems as $item) {

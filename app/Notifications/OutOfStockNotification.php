@@ -25,7 +25,7 @@ class OutOfStockNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'message' => 'Item ' . $this->item->supplier_seeds_id. ' is out of stock.',
+            'message' => 'Item '  . $this->item->supplier_seeds_id.  ' is out of stock.',
             'created_at' => now()->diffForHumans(),
         ];
     }

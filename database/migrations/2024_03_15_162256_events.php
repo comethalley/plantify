@@ -13,18 +13,24 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('expenses', function (Blueprint $table) {
+        Schema::create('events', function (Blueprint $table) {
             $table->id();
-            $table->string('budget_id');
-            $table->string('description');
-            $table->decimal('amount', 10, 2);
-            $table->string('image_path')->nullable();
+            $table->string('title');
+            $table->date('start');
+            $table->date('end');
+            $table->text('location')->nullable();
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }
 
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
     public function down()
     {
-        Schema::dropIfExists('expenses');
+        Schema::dropIfExists('events');
     }
 };

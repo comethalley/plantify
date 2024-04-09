@@ -25,11 +25,10 @@ class UpcomingHarvestNotification extends Notification
 
     public function toDatabase($notifiable)
     {
+        $formattedDate = date('F jS, Y', strtotime($this->plantName->end));
+        
         return [
-          
-            
-            'title' => $this->plantName->title,
-            'message' => 'Soon to be harvest: ' . $this->plantName->title . ' on ' . $this->plantName->end,
+            'message' => 'Soon to be harvested: ' . $this->plantName->title . ' on ' . $formattedDate,
             'created_at' => now()->diffForHumans(),
         ];
     }

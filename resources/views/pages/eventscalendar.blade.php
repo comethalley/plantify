@@ -121,22 +121,22 @@
 
                                                 <div class="mb-3">
                                                     <label for="start-datepicker" class="form-label">Start</label>
-                                                    <input type="text" name="start" id="start-datepicker" class="form-control" />
+                                                    <input type="text" name="start" id="start-datepicker" class="form-control" placeholder="Enter Start Date" required/>
                                                 </div>
 
                                                 <div class="mb-3">
                                                     <label for="end-datepicker" class="form-label">End</label>
-                                                    <input type="text" name="end" id="end-datepicker" class="form-control" />
+                                                    <input type="text" name="end" id="end-datepicker" class="form-control" placeholder="Enter End Date" required/>
                                                 </div>
 
                                                 <div class="mb-3">
                                                     <label for="location" class="form-label">Location</label>
-                                                    <input type="text" name="location" id="customername-field" class="form-control" placeholder="Enter Location" />
+                                                    <input type="text" name="location" id="customername-field" class="form-control" placeholder="Enter Location"  required/>
                                                 </div>
 
                                                 <div class="mb-3">
                                                     <label for="description" class="form-label">Description</label>
-                                                    <input type="text" name="description" id="description" class="form-control" placeholder="Enter description" />
+                                                    <input type="text" name="description" id="description" class="form-control" placeholder="Enter description" required/>
                                                 </div>
 
                                             </div>
@@ -156,7 +156,7 @@
     <div class="modal fade" id="EventdetailModal" tabindex="-1" role="dialog" aria-labelledby="EventdetailModal" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content border-0">
-                                        <div class="modal-header p-3 bg-info-subtle">
+                                        <div class="modal-header p-3 bg-soft-success">
                                             <h5 class="modal-title" id="modal-title">Event details</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
                                         </div>
@@ -171,7 +171,7 @@
                                                             </div>
                                                             
                                                             <div class="flex-grow-1">
-                                                            <h6 class="d-block - fw-semibold semibold mb-0">Event Name: <span id="eventtitle"></span></h6>
+                                                            <h5 class="d-block - fw-semibold semibold mb-0">Event Name: <span id="eventtitle"></span></h5>
                                         
                                                             </div>
                                                         </div>
@@ -182,7 +182,7 @@
                                                             <i class="ri-time-line text-muted fs-16"></i>
                                                         </div>
                                                         <div class="flex-grow-1">
-                                                            <h6 class="d-block fw-semibold mb-0">Start: <span id="eventstart"></span></h6>
+                                                            <h5 class="d-block fw-semibold mb-0">Start: <span id="eventstart"></span></h5>
                                                         </div>
                                                     </div>
 
@@ -191,7 +191,7 @@
                                                             <i class="ri-time-line text-muted fs-16"></i>
                                                         </div>
                                                         <div class="flex-grow-1">
-                                                            <h6 class="d-block fw-semibold mb-0">End: <span id="eventend"></span></h6>
+                                                            <h5 class="d-block fw-semibold mb-0">End: <span id="eventend"></span></h5>
                                                         </div>
                                                     </div>
                                                     <div class="d-flex align-items-center mb-2">
@@ -199,7 +199,7 @@
                                                             <i class="ri-map-pin-line text fs-16"></i>
                                                         </div>
                                                         <div class="flex-grow-1">
-                                                            <h6 class="d-block fw-semibold mb-0">Location: <span id="eventlocation"></span></h6>
+                                                            <h5 class="d-block fw-semibold mb-0">Location: <span id="eventlocation"></span></h5>
                                                         </div>
                                                     </div>
                                                     <div class="d-flex mb-3">
@@ -207,18 +207,18 @@
                                                             <i class="ri-discuss-line text-muted fs-16"></i>
                                                         </div>
                                                         <div class="flex-grow-1">
-                                                        <h6 class="d-block fw-semibold mb-0">Description: <span id="eventdescription"></span></h6>
+                                                        <h5 class="d-block fw-semibold mb-0">Description: <span id="eventdescription"></span></h5>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 
 
-                                                        <div class="modal-footer">
+                                                        
                                                         <div class="hstack gap-2 justify-content-end">
                                                         <button type="button" class="btn btn-danger"data-bs-toggle="modal" data-bs-target="#archiveModal">Delete</button>
                                                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editexampleModal">Edit</button>
                                                     
-                                                          </div>  
+                                                          
                                                         </div>
 
                                                     </div>
@@ -545,27 +545,25 @@ function handleEventDelete(eventId) {
 
         calendar.render();
 
-        document.getElementById('searchButton').addEventListener('click', function() {
-            var searchKeywords = document.getElementById('searchInput').value.toLowerCase();
-            filterAndDisplayEvents(searchKeywords);
-        });
-
-        
-
-
-        function filterAndDisplayEvents(searchKeywords) {
+document.getElementById('searchButton').addEventListener('click', function () {
+    var searchKeywords = document.getElementById('searchInput').value.toLowerCase();
+    filterAndDisplayEvents(searchKeywords);
+});
+function filterAndDisplayEvents(searchKeywords) {
             $.ajax({
                 method: 'GET',
                 url: `/events/search?title=${searchKeywords}`,
-                success: function(response) {
+                success: function (response) {
                     calendar.removeAllEvents();
                     calendar.addEventSource(response);
                 },
-                error: function(error) {
+                error: function (error) {
                     console.error('Error searching events:', error);
                 }
             });
         }
+</script>
+       
      
                         // Update Event Button Click
                      
@@ -640,8 +638,27 @@ $("#addEvent").click(function(){
 });
 
 </script>
+<script>
+calendar.render();
 
-
+document.getElementById('searchButton').addEventListener('click', function () {
+    var searchKeywords = document.getElementById('searchInput').value.toLowerCase();
+    filterAndDisplayEvents(searchKeywords);
+});
+function filterAndDisplayEvents(searchKeywords) {
+            $.ajax({
+                method: 'GET',
+                url: `/events/search?title=${searchKeywords}`,
+                success: function (response) {
+                    calendar.removeAllEvents();
+                    calendar.addEventSource(response);
+                },
+                error: function (error) {
+                    console.error('Error searching events:', error);
+                }
+            });
+        }
+</script>
 
 
 @include('templates.footer')

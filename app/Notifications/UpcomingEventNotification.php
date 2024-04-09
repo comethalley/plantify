@@ -26,9 +26,10 @@ class UpcomingEventNotification extends Notification
  
     public function toArray($notifiable)
     {
+        $formattedDate = date('F jS, Y', strtotime($this->event->start));
         return [
-            'title' => $this->event->title,
-            'message' => 'Are you ready for the event: ' . $this->event->title . ' on ' . $this->event->start,
+            
+            'message' => 'Get ready for our upcoming event happening' . ' on ' .   $formattedDate,
             'created_at' => now()->diffForHumans(),
         ];
     }

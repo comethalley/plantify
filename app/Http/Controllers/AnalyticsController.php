@@ -17,36 +17,32 @@ use Illuminate\Support\Facades\Http;
 class AnalyticsController extends Controller
 {
     public function index()
-{
-    $user = auth()->user();
-    $barangays = Barangay::all(['id', 'barangay_name'])->toArray();
-    $expensesData = collect();
-    $plantingData = collect();
-    $farmsData = collect();
-
-    if ($user->role_id == 1) {
-        // Fetch data for super admin role
-        $expensesData = Expense::all(['description', 'amount', 'created_at', 'budget_id'])->toJson();
-        $plantingData = CalendarPlanting::all(['title', 'start', 'harvested', 'destroyed', 'start'])->toJson();
-        $farmsData = Farm::with('barangays')->get()->toJson();
-    } elseif ($user->role_id == 3) {
-        // Fetch data for farm leader role
-        $expensesData = Expense::where('budget_id', 3)->where('id', $user->id)->get(['description', 'amount', 'created_at'])->toJson();
-        $farmsData = Farm::where('id', $user->id)->with('barangay')->get()->toJson();
-        
-        
+    {
+        $user = auth()->user();
+        $barangays = Barangay::all(['id', 'barangay_name'])->toArray();
+        $expensesData = collect();
+        $plantingData = collect();
+        $farmsData = collect();
+    
+        if ($user->role_id == 1 || $user->role_id == 2) {
+            $expensesData = Expense::all(['description', 'amount', 'created_at', 'budget_id'])->toJson();
+            $plantingData = CalendarPlanting::all(['title', 'start', 'harvested', 'destroyed', 'start'])->toJson();
+            $farmsData = Farm::with('barangays')->get()->toJson();
+        } elseif ($user->role_id == 3 || $user->role_id == 4) {
+            $expensesData = Expense::where('budget_id', $user->id)->get(['description', 'amount', 'created_at'])->toJson();
+            $farmsData = Farm::where('id', $user->id)->with('barangay')->get()->toJson();
+        }
+    
+        $barangayOptions = [];
+        foreach ($barangays as $barangay) {
+            $barangayOptions[] = [
+                'value' => $barangay['id'],
+                'text' => $barangay['barangay_name']
+            ];
+        }
+    
+        return view('pages.analytics', compact('expensesData', 'plantingData', 'farmsData', 'barangayOptions'));
     }
-
-    $barangayOptions = [];
-    foreach ($barangays as $barangay) {
-        $barangayOptions[] = [
-            'value' => $barangay['id'],
-            'text' => $barangay['barangay_name']
-        ];
-    }
-
-    return view('pages.analytics', compact('expensesData', 'plantingData', 'farmsData', 'barangayOptions'));
-}
     
 
     public function getFarms($barangayName)

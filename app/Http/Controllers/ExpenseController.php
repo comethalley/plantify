@@ -40,6 +40,22 @@ class ExpenseController extends Controller
         ]);
     }
 
+    public function store(Request $request)
+    {
+        $expense = new Expense();
+        $expense->user = auth()->user();
+        $expense->description = $request->description;
+        $expense->amount = $request->amount;
+    
+        if (!$expense->budget_id && auth()->check() && auth()->user()->role_id == 3) {
+            $expense->budget_id = auth()->user()->id;
+        }
+    
+        $expense->save();
+    
+        return redirect()->route('expenses.index');
+    }
+
     // public function saveExpense(Request $request)
     // {
     //     $request->validate([
@@ -86,15 +102,21 @@ class ExpenseController extends Controller
             'amount' => 'required|numeric',
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-
+    
         // Create a new Expense instance
         $expense = new Expense([
             'description' => $validatedData['description'],
             'amount' => $validatedData['amount'],
             'farm_id' => auth()->user()->farm_id, // Associate expense with the authenticated user's farm
-            'budget_id' => 1, // Assuming there's only one budget for now, you may adjust this as needed
         ]);
-
+    
+       
+        if (auth()->user()->role_id == 3) {
+            $expense->budget_id = auth()->user()->id;
+        } else {
+            $expense->budget_id = 1;
+        }
+    
         // Handle image upload if provided
         if ($request->hasFile('image')) {
             $image = $request->file('image');
@@ -102,21 +124,20 @@ class ExpenseController extends Controller
             $image->move(public_path('images/expenses'), $imageName);
             $expense->image_path = 'images/expenses/' . $imageName;
         }
-
+    
         // Save the expense
         $expense->save();
-
+    
         // Update the total expenses in the associated budget
-        $budget = Budget::findOrFail(1); // Assuming budget id 1, update this as needed
+        $budget = Budget::findOrFail($expense->budget_id);
         $totalExpenses = Expense::where('budget_id', $budget->id)->sum('amount');
         $budget->total_expenses = $totalExpenses;
         $budget->balance = $budget->allotted_budget - $budget->total_expenses;
         $budget->save();
-
+    
         // Return a JSON response indicating success along with the ID of the newly created expense and its image URL if available
         return response()->json(['success' => true, 'id' => $expense->id, 'image_url' => asset($expense->image_path)]);
     }
-
 
     public function addBudget(Request $request)
     {

@@ -91,7 +91,7 @@ class PostController extends Controller
 
             // Resize the image
             $img = Image::make(public_path("storage/{$imagePath}"));
-            $img->resize(500, 300);
+            $img->resize(541, 300);
             $img->save();
 
             $post->image = $imagePath;
@@ -147,7 +147,7 @@ class PostController extends Controller
         $imagePath = $request->file('image')->store('images', 'public');
 
         $img = Image::make(public_path("storage/{$imagePath}")); // Load the image
-        $img->resize(500, 300); // Set the desired width and height
+        $img->resize(541, 300); // Set the desired width and height
         $img->save();
 
 

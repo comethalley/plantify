@@ -337,7 +337,7 @@
                                                 @csrf
                                                 @method('PUT')
 
-                                                <p style="text-align:center; font-weight:bold; font-size:20px;">Edit Post</p>
+                                                <p style="text-align:center; font-weight:bold; font-size:20px;">Edit Question</p>
 
                                                 <textarea required placeholder="What's on your mind?" id="editQuestionInput{{ $question->id }}" name="question" style="font-size:15px; resize: none; width: 100%; border: none; outline: none;" rows="8"></textarea>
 
@@ -696,7 +696,7 @@
                                                 <input type="file" name="image"> <!-- Additional input field for image -->
 
                                                 <div style="display: flex;">
-                                                    <button type="button" onclick="closeEditModal('{{ $post->id }}')" style="background-color:#F6F6F6; border:none; color:black; padding:10px 20px; text-align:center; text-decoration:none; display:inline-block; font-size:13px; margin:4px 2px; cursor:pointer; width:100%;" onmouseover="this.style.backgroundColor='lightgray'" onmouseout="this.style.backgroundColor='#F6F6F6'">
+                                                    <button type="button" onclick="closePostEditModal('{{ $post->id }}')" style="background-color:#F6F6F6; border:none; color:black; padding:10px 20px; text-align:center; text-decoration:none; display:inline-block; font-size:13px; margin:4px 2px; cursor:pointer; width:100%;" onmouseover="this.style.backgroundColor='lightgray'" onmouseout="this.style.backgroundColor='#F6F6F6'">
                                                         Close
                                                     </button>
 

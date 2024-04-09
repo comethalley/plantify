@@ -1190,4 +1190,3 @@
                 </style>
 
 
-                @include('templates.footer')

@@ -15,4 +15,9 @@ class Budget extends Model
     {
         return $this->belongsTo(Farm::class);
     }
+
+    public function expenses()
+    {
+        return $this->hasMany(Expense::class);
+    }
 }

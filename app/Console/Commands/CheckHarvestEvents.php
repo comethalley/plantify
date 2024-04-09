@@ -13,10 +13,16 @@ class CheckHarvestEvents extends Command
 
     public function handle()
     {
-        $upcomingHarvests = CalendarPlanting::whereDate('end', '=', Carbon::today()->addDays(3)->toDateString())
-        ->get();
+        $today = Carbon::today();
+$notificationDays = [1, 3, 7]; // Days before harvest to send notification
+$notificationDates = array_map(function($days) use ($today) {
+    return $today->copy()->addDays($days)->toDateString();
+}, $notificationDays);
+
+$upcomingHarvests = CalendarPlanting::whereIn('end', $notificationDates)->get();
+
     
-    $users = User::all();
+        $users = User::whereIn('role_id', [3, 4])->get();
     
     foreach ($users as $user) {
         foreach ($upcomingHarvests as $harvest) {

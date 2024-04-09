@@ -500,4 +500,3 @@
             </footer>
         </div>
 
-        @include('templates.footer')

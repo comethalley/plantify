@@ -172,9 +172,14 @@ Route::post('/fertarchive/{id}', [PlantInfoController::class, 'fertarchive']);
 
 //For farm management =======================================================
 
+//index farm-mamangement//
+Route::get('/Farms-District-5', [FarmController::class, 'index']);
+Route::post('/add-farms', [FarmController::class, 'addFarms'])->name('add.farms');
+Route::get('/archive-farm/{id}', [FarmController::class, 'archiveFarm'])->name('archive.farm');
+
 //view farm-management//
-Route::get('/view-farms', [FarmController::class, 'viewFarms'])->name('farms.view');
-Route::get('/view-farms3', [FarmController::class, 'viewFarms3'])->name('farms.view3');
+Route::get('/Farm-Management-High', [FarmController::class, 'viewFarms'])->name('farms.view');
+Route::get('/Farm-Management', [FarmController::class, 'viewFarms3'])->name('farms.view3');
 Route::get('/farms/filterByStatus', [FarmController::class, 'filterByStatus']);
 Route::post('/update-status/{id}', [FarmController::class, 'updateStatus'])->name('update.status');
 
@@ -193,11 +198,6 @@ Route::post('/update-farm-status-cancel/{id}', [FarmController::class, 'updateSt
 Route::post('/update-farms/{id}', [FarmController::class, 'updateFarm'])->name('farms.update');
 Route::post('/set-date-farm/{id}', [FarmController::class, 'SetDateStatus'])->name('set.date.farm');
 
-
-//index farm-mamangement//
-Route::get('/farms3', [FarmController::class, 'index']);
-Route::post('/add-farms', [FarmController::class, 'addFarms'])->name('add.farms');
-Route::get('/archive-farm/{id}', [FarmController::class, 'archiveFarm'])->name('archive.farm');
 
 
 //=============================================================================================    

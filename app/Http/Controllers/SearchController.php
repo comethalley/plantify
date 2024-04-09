@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Forum;
 use App\Models\Post;
@@ -22,14 +23,14 @@ class SearchController extends Controller
         // Check if a search term was provided
         if (!empty($searchTerm)) {
             // If a search term is provided, perform search and get recommendations
-            $questions = Forum::where('question', 'like', '%' . $searchTerm . '%')->pluck('question');
+            $questions = Forum::where('question', 'like', '%' . $searchTerm . '%')->get();
             $posts = Post::where('createpost', 'like', '%' . $searchTerm . '%')->pluck('createpost');
 
             $recommendations = $questions->merge($posts);
         }
 
         // Pass data to the view
-        return view('pages.search_results', compact('recommendations', 'searchTerm'));
+        return view('pages.search_results', compact('recommendations', 'searchTerm', 'questions', 'posts'));
     }
 
     public function search(Request $request)

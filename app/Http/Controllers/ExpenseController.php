@@ -62,6 +62,24 @@ class ExpenseController extends Controller
         ]);
     }
     
+    public function store(Request $request)
+    {
+        $expense = new Expense();
+        $expense->user = auth()->user();
+        $expense->description = $request->description;
+        $expense->amount = $request->amount;
+    
+        if (!$expense->budget_id && auth()->check() && auth()->user()->role_id == 3) {
+            $expense->budget_id = auth()->user()->id;
+        }
+    
+        $expense->save();
+    
+        return redirect()->route('expenses.index');
+    }
+
+
+
     public function saveExpense(Request $request)
     {
         $user = auth()->user();
@@ -86,6 +104,13 @@ class ExpenseController extends Controller
             'budget_id' => $budgetId,
             'category_id' => $validatedData['category_id'],
         ]);
+
+        
+        if (auth()->user()->role_id == 3) {
+            $expense->budget_id = auth()->user()->id;
+        } else {
+            $expense->budget_id = 1;
+        }
     
         if ($request->hasFile('image')) {
             $image = $request->file('image');

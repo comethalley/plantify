@@ -25,4 +25,17 @@ class Expense extends Model
     {
         return $this->belongsTo(Farm::class);
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+    
+        static::creating(function ($expense) {
+            if ($expense->user && $expense->user->role_id == 3 && !$expense->budget_id) {
+                $expense->budget_id = 3;
+            }
+        });
+    }
+
+
 }

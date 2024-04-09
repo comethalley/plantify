@@ -98,3 +98,52 @@ select:focus,
     color: #000000;
     font-weight: bold;
 }
+
+.barangaySelector,
+.yearSelector,
+.farmSelector {
+  margin-bottom: 1rem;
+}
+
+.barangaySelector label,
+.yearSelector label,
+.farmSelector label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  margin-left: 15px;
+}
+
+.barangaySelector select,
+.yearSelector select,
+.farmSelector select {
+  appearance: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  display: block;
+  padding: 0.5rem;
+  width: 100%;
+  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1));
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.barangaySelector select:focus,
+.yearSelector select:focus,
+.farmSelector select:focus {
+  outline: none;
+  box-shadow: 0 0 4px 1px #007bff;
+  border-color: #007bff;
+}
+
+.barangaySelector select:hover,
+.yearSelector select:hover,
+.farmSelector select:hover {
+  border-color: #007bff;
+}
+
+#barangaySelect,
+#farmSelect,
+#yearSelect {
+  width: 50%;
+  margin-left: 15px;
+}

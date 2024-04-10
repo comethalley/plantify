@@ -94,23 +94,21 @@ class ExpenseController extends Controller
         ]);
         
         $farmId = $validatedData['farm_id'];
-        $budgetId = Budget::where('farm_id', $farmId)->value('id');
+        $budget = Budget::where('farm_id', $farmId)->firstOrFail();
+    
+        // Check if the balance is enough for the expense
+        if ($budget->balance < $validatedData['amount']) {
+            return response()->json(['success' => false, 'message' => 'Your expenses cannot be saved due to low balance.']);
+        }
     
         $expense = new Expense([
             'description' => $validatedData['description'],
             'amount' => $validatedData['amount'],
             'current_rdg' => $validatedData['current_rdg'],
             'farm_id' => $farmId,
-            'budget_id' => $budgetId,
+            'budget_id' => $budget->id,
             'category_id' => $validatedData['category_id'],
         ]);
-
-        
-        if (auth()->user()->role_id == 3) {
-            $expense->budget_id = auth()->user()->id;
-        } else {
-            $expense->budget_id = 1;
-        }
     
         if ($request->hasFile('image')) {
             $image = $request->file('image');
@@ -121,10 +119,9 @@ class ExpenseController extends Controller
     
         $expense->save();
     
-        $budget = Budget::findOrFail($expense->budget_id);
-        $totalExpenses = Expense::where('budget_id', $budget->id)->sum('amount');
-        $budget->total_expenses = $totalExpenses;
-        $budget->balance = $budget->allotted_budget - $budget->total_expenses;
+        // Update budget details
+        $budget->total_expenses += $validatedData['amount'];
+        $budget->balance -= $validatedData['amount'];
         $budget->save();
     
         return response()->json(['success' => true, 'id' => $expense->id, 'image_url' => asset($expense->image_path)]);

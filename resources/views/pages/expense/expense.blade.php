@@ -221,14 +221,6 @@
                                         </select>
                                     </div>
                                     @endif
-                                    <div class="col-sm">
-                                        <div class="d-flex justify-content-sm-end">
-                                            <div class="search-box ms-2">
-                                                <input type="text" class="form-control search" placeholder="Search...">
-                                                <i class="ri-search-line search-icon"></i>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                                 
                                 
@@ -273,6 +265,11 @@
                                                         <input type="number" class="form-control" id="kwh">
                                                     </div>
 
+                                                    <div class="mb-3" id="rateInput" style="display: none;">
+                                                        <label for="rate" class="form-label">Rate</label>
+                                                        <input type="number" class="form-control" id="rate">
+                                                    </div>
+
                                                     <div class="mb-3" id="totalAmount" style="display: none;">
                                                         <label colspan="3"  for="total" class="form-label">Total Amount</label>
                                                         <label colspan="2"  type="number" class="form-control" id="total" style="color: black; font-weight: bold; font-size: 10pt; padding-top: 5px; padding-bottom: 5px;">0.00</label>
@@ -294,7 +291,6 @@
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                                 <button type="button" class="btn btn-primary" id="saveItemButton">Save Item</button>
                                             </div>
-                                            <div id="balance" style="display: none;">{{$balance}}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -385,7 +381,7 @@
                                                 <tr data-expense-id="{{ $expense->id }}">
                                                     <th scope="row">
                                                         <div class="form-check">
-                                                            <input class="form-check-input" type="checkbox" name="chk_child" value="option1">
+                                                            <!-- <input class="form-check-input" type="checkbox" name="chk_child" value="option1"> -->
                                                         </div>
                                                     </th>
                                                     <td class="id" style="display:none;"><a href="javascript:void(0);" class="fw-medium link-primary">#{{ $expense->farm_id }}</a></td>
@@ -463,6 +459,7 @@
         var previousInput = document.getElementById('previousInput');
         var currentInput = document.getElementById('currentInput');
         var kwhInput = document.getElementById('kwhInput');
+        var rateInput = document.getElementById('rateInput');
         var totalAmount = document.getElementById('totalAmount');
         var amountInput = document.getElementById('amountInput');
         var imageInput = document.getElementById('imageInput');
@@ -474,6 +471,7 @@
             previousInput.style.display = 'none';
             currentInput.style.display = 'none';
             kwhInput.style.display = 'none';
+            rateInput.style.display = 'none';
             totalAmount.style.display = 'none';
             amountInput.style.display = 'none';
             imageInput.style.display = 'none';
@@ -487,6 +485,7 @@
             } else if (selectedCategoryId === '2') {
                 previousInput.style.display = 'block';
                 currentInput.style.display = 'block';
+                rateInput.style.display = 'block';
                 totalAmount.style.display = 'block';
                 imageInput.style.display = 'block';
             } else if (selectedCategoryId === '3' || selectedCategoryId === '4') {
@@ -507,6 +506,7 @@
     var previousInput = document.getElementById('previous');
     var currentInput = document.getElementById('current');
     var kwhInput = document.getElementById('kwh');
+    var rateInput = document.getElementById('rate');
     var imageInput = document.getElementById('image');
 
     categorySelect.addEventListener('change', function () {
@@ -540,21 +540,28 @@
         var previous = parseFloat(previousInput.value) || 0;
         var current = parseFloat(currentInput.value) || 0;
         var kwh = parseFloat(kwhInput.value) || 0;
+        var rate = parseFloat(rateInput.value) || 0;
         var total = 0;
 
         if (category === '1') {
-            if (previous <= current) { // Check if previous is less than or equal to current
-                total = (current - previous) * kwh;
+            if (previous > current) {
+                total = (previous - current) * kwh;
+                total = Math.abs(total);
             } else {
-                // Handle the case where previous is greater than current
-                console.error('Previous reading cannot be higher than current reading for electricity.');
-                return; // Return without calculating total
+                total = (current - previous) * kwh;
             }
         } else if (category === '2') {
-            total = previous + current;
+            if (previous > current) {
+                total = (previous - current) * rate;
+                total = Math.abs(total);
+            } else {
+                total = (previous - current) * rate;
+            }
         } else {
             total = parseFloat(amountInput.value) || 0;
         }
+
+        total = Math.abs(total);
 
         document.getElementById('total').textContent = total.toFixed(2);
     }
@@ -568,31 +575,24 @@
         var categoryId = categorySelect.value;
         var description = '';
         var totalAmount = parseFloat(document.getElementById('total').textContent);
-        var currentReading = parseFloat(currentInput.value); // Get current reading
-
-        // Get the balance value
-        var balance = parseFloat(document.getElementById('balance').textContent);
-
-        // Check if balance is enough
-        if (balance < totalAmount) {
-            alert('The balance is not enough for this expense. Please add budget before saving expenses.');
-            return; // Prevent form submission
-        }
+        var currentReading = 0;
 
         if (categoryId === '1') { 
             var previous = parseFloat(previousInput.value);
-            var current = parseFloat(currentInput.value);
+            var currentReading = parseFloat(currentInput.value);
             var kwh = parseFloat(kwhInput.value);
             description = 'Electricity';
             formData.append('previous', previous);
-            formData.append('current', current);
+            formData.append('current', currentReading);
             formData.append('kwh', kwh);
         } else if (categoryId === '2') { 
             var previous = parseFloat(previousInput.value);
-            var current = parseFloat(currentInput.value);
+            var currentReading = parseFloat(currentInput.value);
+            var rate = parseFloat(rateInput.value);
             description = 'Water';
             formData.append('previous', previous);
-            formData.append('current', current);
+            formData.append('current', currentReading);
+            formData.append('rate', rate);
         } else { 
             description = descriptionInput.value;
         }
@@ -600,8 +600,8 @@
         formData.append('farm_id', farmId);
         formData.append('category_id', categoryId);
         formData.append('description', description);
+        formData.append('current_rdg', currentReading);
         formData.append('amount', totalAmount);
-        formData.append('current_rdg', currentReading); // Append current reading
         formData.append('image', imageInput.files[0]);
 
         var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -616,42 +616,18 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    Swal.fire({
-                    title: 'Are you sure you want to spend this amount?,',
-                    text: 'Make sure all information is correct before submitting as changes cannot be made later.',
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonColor: '#4CAF50',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, add it!',
-                    cancelButtonText: 'Cancel',
-
-                }).then((result) => {
-                if (result.isConfirmed) {
+                    console.log('Expense saved successfully:', data);
                     location.reload();
                     $('#addModal').modal('hide');
-                }
-            });
                 } else {
-                    Swal.fire({
-                        title: 'Error!',
-                        text: 'Failed to save expense: ' + data.message,
-                        icon: 'error',
-                        confirmButtonText: 'OK'
-                    });
-
+                    console.error('Failed to save expense:', data.message);
+                    if (data.message) {
+                        alert(data.message);
+                    }
                 }
             })
-
             .catch(error => {
                 console.error('Error:', error);
-                Swal.fire({
-                    title: 'Error!',
-                    text: 'Failed to save expense. Please try again later.',
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                });
-
             });
         }
 
@@ -733,7 +709,7 @@
         confirmButtonColor: '#4CAF50',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Yes, add it!',
-         cancelButtonText: 'Cancel',
+        cancelButtonText: 'Cancel',
 
     }).then((result) => {
         if (result.isConfirmed) {
@@ -750,8 +726,10 @@
             .then(data => {
                 if (data.status === 'success') {
                     console.log('Budget added successfully:', data);
-                    updateUI(data);
+                    updateUI(data); 
                     $('#addBudgetModal').modal('hide');
+
+                    reloadDashboardData();
                 } else {
                     console.error('Failed to add budget:', data.message);
                 }
@@ -764,7 +742,6 @@
         }
     });
 });
-
 
     function updateUI(data) {
         document.getElementById('allottedBudget').innerText = data.allotted_budget;

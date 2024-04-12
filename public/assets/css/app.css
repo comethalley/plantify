@@ -12458,8 +12458,8 @@ span.flatpickr-weekday {
 }
 
 .auth-one-bg .bg-overlay {
-  background: -webkit-gradient(linear, left top, right top, from(#364574), to(#405189));
-  background: linear-gradient(to right, #364574, #405189);
+  background: -webkit-gradient(linear,left top,right top,from(#7DDA58),to(#7DDA67));
+  background: linear-gradient(to right, #7DDA58, #7DDA67);
   opacity: 0.9;
 }
 
@@ -16089,11 +16089,6 @@ span.flatpickr-weekday {
   position: absolute;
   bottom: -18px;
   right: -35px;
-}edia (max-width: 576.98px) {
-  .about-img-section::before {
-    left: 20px;
-    top: 20px;
-  }
 }
 
 .features-company-widgets {

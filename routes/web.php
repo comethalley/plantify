@@ -40,7 +40,7 @@ use App\Http\Controllers\AnalyticsController;
 // });
 
 Route::get('/', [AuthController::class, 'landingpage']);
-Route::get('/dashboard/analytics', [AuthController::class, 'index'])->middleware('auth');
+Route::get('/dashboard/analytics', [AnalyticsController::class, 'index'])->middleware('auth');
 Route::get('/login', [AuthController::class, 'viewLogin'])->name('login')->middleware('guest');
 Route::get('/signup', [AuthController::class, 'viewSignup']);
 Route::post('/login/process', [AuthController::class, 'login']);
@@ -82,6 +82,11 @@ Route::post('/archive-uom/{id}', [InventoryController::class, 'archiveUom']);
 Route::get('/getAllStock', [InventoryController::class, 'getAllStock']);
 Route::get('/plantifeed', [ForumController::class, 'index']);
 Route::get('/inventory/fertilizer', [InventoryController::class, 'fertilizer']);
+Route::post('/add-fertilizer', [InventoryController::class, 'addFertilizer']);
+Route::get('/get-fertilizer', [InventoryController::class, 'getFertilizer']);
+Route::post('/edit-fertilizer/{id}', [InventoryController::class, 'updateFertilizer']);
+Route::post('/archive-fertilizer/{id}', [InventoryController::class, 'archiveFertilizer']);
+Route::get('/inventory/tools', [InventoryController::class, 'tools']);
 
 // Direct Messages
 Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');

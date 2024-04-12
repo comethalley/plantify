@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\InventoryFertilizer;
 use App\Models\Log;
 use App\Models\Stock;
 use App\Models\Supplier;
@@ -696,5 +697,126 @@ class InventoryController extends Controller
 
     public function fertilizer()
     {
+        return view('pages.inventory.fertilizer');
+    }
+
+    public function getFertilizer()
+    {
+        $id = Auth::user()->id;
+
+        $user = User::select('users.*', 'farms.id AS farm_id')
+            ->leftJoin('farms', 'farms.farm_leader', '=', 'users.id')
+            ->where('users.id', $id)
+            ->first();
+
+        if ($user->farm_id == null) {
+            return response()->json(['errors' => 'Please make sure you have a farm assigned to you']);
+        }
+
+        $fertilizers = DB::table('inventory_fertilizers')->where('farm_id', $user->farm_id)->where('status', '1')->orderBy('id', 'DESC')->get();
+
+        return response()->json(['fertilizers' => $fertilizers], 200);
+    }
+
+    public function addFertilizer(Request $request)
+    {
+        $data = $request->validate([
+            'fertilizerName' => 'required',
+            'fertilizerImage' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        if ($request->hasFile('fertilizerImage')) {
+            $image = $request->file('fertilizerImage');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images'), $imageName);
+            //$input['image'] = $imageName;
+        }
+        $id = Auth::user()->id;
+
+        $user = User::select('users.*', 'farms.id AS farm_id')
+            ->leftJoin('farms', 'farms.farm_leader', '=', 'users.id')
+            ->where('users.id', $id)
+            ->first();
+
+        if ($user->farm_id == null) {
+            return response()->json(['errors' => 'Please make sure you have a farm assigned to you']);
+        }
+
+        $fertilizer = InventoryFertilizer::create([
+            'farm_id' => $user->farm_id,
+            'fertilizer_name' => $data['fertilizerName'],
+            'image' => $imageName,
+            'status' => 1,
+        ]);
+
+        if ($fertilizer) {
+            return response()->json(['message' => 'Fertilizer added successfully'], 200);
+        }
+    }
+
+    public function updateFertilizer(Request $request, $id)
+    {
+        try {
+            $uoms = InventoryFertilizer::findOrFail($id);
+
+            $validator = Validator::make($request->all(), [
+                "fertilizerName" => "required|string|max:55",
+                'fertilizerImage' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json(['errors' => $validator->errors()], 422);
+            }
+
+            if ($request->hasFile('fertilizerImage')) {
+                $image = $request->file('fertilizerImage');
+                $imageName = time() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('images'), $imageName);
+                //$input['image'] = $imageName;
+            }
+
+
+            $data = $validator->validated();
+
+            $uoms->update([
+                'fertilizer_name' => $data['fertilizerName'],
+                'image' => $imageName,
+            ]);
+
+            if ($uoms) {
+                return response()->json(['message' => 'Measurement Updated Successfully'], 200);
+            } else {
+                return response()->json(['error' => 'Internal Server Error'], 500);
+            }
+        } catch (ModelNotFoundException $e) {
+
+            return response()->json(['error' => 'UOM not found'], 404);
+        } catch (\Exception $e) {
+
+            return response()->json(['error' => 'Internal Server Error'], 500);
+        }
+    }
+
+    public function archiveFertilizer(Request $request, $id)
+    {
+        try {
+            $uoms = InventoryFertilizer::findOrFail($id);
+
+            $uoms->update([
+                'status' => 0
+            ]);
+
+            if ($uoms) {
+                return response()->json(['message' => 'Measurement Updated Successfully'], 200);
+            } else {
+                return response()->json(['error' => 'Internal Server Error'], 500);
+            }
+        } catch (ModelNotFoundException $e) {
+
+            return response()->json(['error' => 'UOM not found'], 404);
+        } catch (\Exception $e) {
+
+            return response()->json(['error' => 'Internal Server Error'], 500);
+        }
     }
 }

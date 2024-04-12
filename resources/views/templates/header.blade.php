@@ -48,6 +48,7 @@
     <script src="{{ asset('assets/js/plantinfo.js') }}"></script>
     <script src="{{ asset('assets/js/forum.js') }}"></script>
     <script src="{{ asset('assets/js/fertilizer.js') }}"></script>
+    <script src="{{ asset('assets/js/inventory_fertilizer.js') }}"></script>
 
 
     <!--markusread JS-->
@@ -250,7 +251,7 @@
                                                         <p class="mb-1">{{ $notification->data['message']}}</p>
                                                     </div>
                                                     <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
-                                                        <span><i class="mdi mdi-clock-outline" id="notification-time" ></i> {{ $notification->created_at->diffForHumans() }}</span>
+                                                        <span><i class="mdi mdi-clock-outline" id="notification-time"></i> {{ $notification->created_at->diffForHumans() }}</span>
                                                     </p>
                                                 </div>
                                                 <div class="px-2 fs-15">
@@ -321,7 +322,7 @@
                                                     </div>
                                                     <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
 
-                                                        <span><i class="mdi mdi-clock-outline"id="notification-time"></i>{{ $notification->created_at->diffForHumans() }}</span>
+                                                        <span><i class="mdi mdi-clock-outline" id="notification-time"></i>{{ $notification->created_at->diffForHumans() }}</span>
 
                                                     </p>
                                                 </div>
@@ -478,8 +479,23 @@
                                     <span class="text-start ms-xl-2">
                                         @if (Auth::check())
                                         <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">{{ Auth::user()->firstname }}</span>
+                                        @if (Auth::user()->role_id == 1)
+                                        <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text">Super Admin</span>
                                         @endif
+                                        @if (Auth::user()->role_id == 2)
                                         <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text">Admin</span>
+                                        @endif
+                                        @if (Auth::user()->role_id == 3)
+                                        <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text">Farm Leader</span>
+                                        @endif
+                                        @if (Auth::user()->role_id == 4)
+                                        <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text">Farmer</span>
+                                        @endif
+                                        @if (Auth::user()->role_id == 5)
+                                        <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text">User</span>
+                                        @endif
+                                        @endif
+
                                     </span>
                                 </span>
                             </button>
@@ -681,9 +697,12 @@
                                     <li class="nav-item">
                                         <a href="/inventory/uom" class="nav-link" style="color:white"> Unit of Measurements </a>
                                     </li>
-                                    <!-- <li class="nav-item">
+                                    <li class="nav-item">
                                         <a href="/inventory/fertilizer" class="nav-link" style="color:white">Fertilizer</a>
-                                    </li> -->
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/inventory/tools" class="nav-link" style="color:white">Tools</a>
+                                    </li>
                                 </ul>
                             </div>
                         </li> <!-- end Dashboard Menu -->

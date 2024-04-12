@@ -23,6 +23,7 @@ use App\Http\Controllers\Api\FarmController;
 use App\Http\Controllers\EmailVerification;
 use App\Http\Controllers\PiuController;
 use App\Http\Controllers\AnalyticsController;
+use App\Http\Controllers\ProfilefeedController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,6 +49,8 @@ Route::post('/logout', [AuthController::class, 'logout']);
 Route::post('/register', [AuthController::class, 'signup']);
 //Route::middleware(['auth'])->get('/authenticated-route', 'AuthController@index');
 
+
+Route::get('/profile', [ProfilefeedController::class, 'index']);
 
 Route::get('/planting', [PlantController::class, 'index']);
 Route::post('/planting/create', [PlantController::class, 'create']);

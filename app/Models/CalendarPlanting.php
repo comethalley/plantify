@@ -4,11 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Notifications\Notifiable;
 class CalendarPlanting extends Model
 {
     use HasFactory;
-
+    use Notifiable;
     protected $table = 'createplantings'; // Specify the correct table name
 
     protected $fillable = [
@@ -16,6 +16,10 @@ class CalendarPlanting extends Model
         'start',
         'end',
         'status',
-        'description',
+        'farm_id',
+        'harvested',
+        'destroyed',
+        'seed',
     ];
+    
 }

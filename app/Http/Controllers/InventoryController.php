@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\InventoryFertilizer;
 use App\Models\Log;
 use App\Models\Stock;
 use App\Models\Supplier;
 use App\Models\SupplierSeed;
 use App\Models\Uom;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
@@ -26,7 +28,13 @@ class InventoryController extends Controller
     public function index()
     {
 
-        $supplier = DB::table('suppliers')->where('status', '1')->orderBy('id', 'DESC')->get();
+        $id = Auth::user()->id;
+
+        $user = User::select('users.*', 'farms.id AS farm_id')
+            ->leftJoin('farms', 'farms.farm_leader', '=', 'users.id')
+            ->where('users.id', $id)
+            ->first();
+        $supplier = DB::table('suppliers')->where('status', '1')->where('farm_id', $user->farm_id)->orderBy('id', 'DESC')->get();
         $uom = DB::table('uoms')->where('status', '1')->get();
         $seeds = DB::table('seeds')->where('status', '1')->get();
         return view("pages.inventory.inventory", ['supplier' => $supplier, 'uom' => $uom, 'seeds' => $seeds]);
@@ -34,7 +42,13 @@ class InventoryController extends Controller
 
     public function getAllSupplier()
     {
-        $supplier = DB::table('suppliers')->where('status', '1')->orderBy('id', 'DESC')->get();
+        $id = Auth::user()->id;
+
+        $user = User::select('users.*', 'farms.id AS farm_id')
+            ->leftJoin('farms', 'farms.farm_leader', '=', 'users.id')
+            ->where('users.id', $id)
+            ->first();
+        $supplier = DB::table('suppliers')->where('status', '1')->where('farm_id', $user->farm_id)->orderBy('id', 'DESC')->get();
         $uom = DB::table('uoms')->where('status', '1')->get();
         $seeds = DB::table('seeds')->where('status', '1')->get();
         return view("pages.inventory.suppliertable", ['supplier' => $supplier, 'uom' => $uom, 'seeds' => $seeds]);
@@ -58,6 +72,7 @@ class InventoryController extends Controller
             ->leftJoin('seeds', 'seeds.id', '=', 'supplier_seeds.seed_id')
             ->select(
                 'supplier_seeds.id as suppliers_seedsID',
+                'supplier_seeds.image',
                 'supplier_seeds.qty as qty',
                 'supplier_seeds.qr_code as qr_code',
                 'suppliers.id as supplierID',
@@ -93,12 +108,20 @@ class InventoryController extends Controller
             'seed_id' => 'required',
             'uom_id' => 'required',
             'quantity' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         try {
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $imageName = time() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('images'), $imageName);
+                //$input['image'] = $imageName;
+            }
             $qrText = $this->generateCode();
             $supplierSeed = SupplierSeed::create([
                 'supplier_id' => $data['supplier_id'],
+                'image' => $imageName,
                 'uom_id' => $data['uom_id'],
                 'seed_id' => $data['seed_id'],
                 'qty' =>  $data['quantity'],
@@ -188,9 +211,19 @@ class InventoryController extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
+        $id = Auth::user()->id;
 
+        $user = User::select('users.*', 'farms.id AS farm_id')
+            ->leftJoin('farms', 'farms.farm_leader', '=', 'users.id')
+            ->where('users.id', $id)
+            ->first();
+
+        if ($user->farm_id == null) {
+            return response()->json(['errors' => 'Please make sure you have a farm assigned to you']);
+        }
         Supplier::create([
             'name' => $request['supplier-name'],
+            'farm_id' => $user->farm_id,
             'description' => $request['description'],
             'address' => $request['address'],
             'contact' => $request['contact'],
@@ -622,6 +655,159 @@ class InventoryController extends Controller
 
             if ($uoms) {
                 return response()->json(['message' => 'Measurement Archive Successfully'], 200);
+            } else {
+                return response()->json(['error' => 'Internal Server Error'], 500);
+            }
+        } catch (ModelNotFoundException $e) {
+
+            return response()->json(['error' => 'UOM not found'], 404);
+        } catch (\Exception $e) {
+
+            return response()->json(['error' => 'Internal Server Error'], 500);
+        }
+    }
+
+    public function getAllStock()
+    {
+        $stocks = DB::table('stocks')
+            ->leftJoin('supplier_seeds', 'supplier_seeds.id', '=', 'stocks.supplier_seeds_id')
+            ->leftJoin('suppliers', 'suppliers.id', '=', 'supplier_seeds.supplier_id')
+            ->leftJoin('uoms', 'uoms.id', '=', 'supplier_seeds.uom_id')
+            ->leftJoin('seeds', 'seeds.id', '=', 'supplier_seeds.seed_id')
+            ->select(
+                'stocks.id as stocksID',
+                'stocks.available_seed as available',
+                'stocks.used_seed as used',
+                'stocks.total as total',
+                'supplier_seeds.id as suppliers_seedsID',
+                'supplier_seeds.qty as qty',
+                'supplier_seeds.qr_code as qr_code',
+                'suppliers.id as supplierID',
+                'suppliers.name as supplier_name',
+                'uoms.id as umoID',
+                'uoms.description as umoName',
+                'seeds.id as seedID',
+                'seeds.name as seedName',
+            )
+            ->orderBy('stocks.id', 'DESC')
+            ->get();
+
+        return response()->json(['stocks' => $stocks], 200);
+    }
+
+    public function fertilizer()
+    {
+        return view('pages.inventory.fertilizer');
+    }
+
+    public function getFertilizer()
+    {
+        $id = Auth::user()->id;
+
+        $user = User::select('users.*', 'farms.id AS farm_id')
+            ->leftJoin('farms', 'farms.farm_leader', '=', 'users.id')
+            ->where('users.id', $id)
+            ->first();
+
+        if ($user->farm_id == null) {
+            return response()->json(['errors' => 'Please make sure you have a farm assigned to you']);
+        }
+
+        $fertilizers = DB::table('inventory_fertilizers')->where('farm_id', $user->farm_id)->where('status', '1')->orderBy('id', 'DESC')->get();
+
+        return response()->json(['fertilizers' => $fertilizers], 200);
+    }
+
+    public function addFertilizer(Request $request)
+    {
+        $data = $request->validate([
+            'fertilizerName' => 'required',
+            'fertilizerImage' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        if ($request->hasFile('fertilizerImage')) {
+            $image = $request->file('fertilizerImage');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images'), $imageName);
+            //$input['image'] = $imageName;
+        }
+        $id = Auth::user()->id;
+
+        $user = User::select('users.*', 'farms.id AS farm_id')
+            ->leftJoin('farms', 'farms.farm_leader', '=', 'users.id')
+            ->where('users.id', $id)
+            ->first();
+
+        if ($user->farm_id == null) {
+            return response()->json(['errors' => 'Please make sure you have a farm assigned to you']);
+        }
+
+        $fertilizer = InventoryFertilizer::create([
+            'farm_id' => $user->farm_id,
+            'fertilizer_name' => $data['fertilizerName'],
+            'image' => $imageName,
+            'status' => 1,
+        ]);
+
+        if ($fertilizer) {
+            return response()->json(['message' => 'Fertilizer added successfully'], 200);
+        }
+    }
+
+    public function updateFertilizer(Request $request, $id)
+    {
+        try {
+            $uoms = InventoryFertilizer::findOrFail($id);
+
+            $validator = Validator::make($request->all(), [
+                "fertilizerName" => "required|string|max:55",
+                'fertilizerImage' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json(['errors' => $validator->errors()], 422);
+            }
+
+            if ($request->hasFile('fertilizerImage')) {
+                $image = $request->file('fertilizerImage');
+                $imageName = time() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('images'), $imageName);
+                //$input['image'] = $imageName;
+            }
+
+
+            $data = $validator->validated();
+
+            $uoms->update([
+                'fertilizer_name' => $data['fertilizerName'],
+                'image' => $imageName,
+            ]);
+
+            if ($uoms) {
+                return response()->json(['message' => 'Measurement Updated Successfully'], 200);
+            } else {
+                return response()->json(['error' => 'Internal Server Error'], 500);
+            }
+        } catch (ModelNotFoundException $e) {
+
+            return response()->json(['error' => 'UOM not found'], 404);
+        } catch (\Exception $e) {
+
+            return response()->json(['error' => 'Internal Server Error'], 500);
+        }
+    }
+
+    public function archiveFertilizer(Request $request, $id)
+    {
+        try {
+            $uoms = InventoryFertilizer::findOrFail($id);
+
+            $uoms->update([
+                'status' => 0
+            ]);
+
+            if ($uoms) {
+                return response()->json(['message' => 'Measurement Updated Successfully'], 200);
             } else {
                 return response()->json(['error' => 'Internal Server Error'], 500);
             }

@@ -18,6 +18,8 @@ return new class extends Migration
             $table->bigInteger('farm_id');
             $table->string('remarks')->nullable();
             $table->string('remark_status');
+            $table->string('validated_by');
+            $table->date('visit_date')->nullable();
             $table->timestamps();
         });
     }

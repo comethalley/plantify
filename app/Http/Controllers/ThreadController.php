@@ -47,8 +47,15 @@ public function showThread($threadId)
     // Get a list of groups
     $groups = Group::all();
 
+    $id = Auth::user()->id; 
+    $farmLeaders = DB::table('farms')
+        ->where('status', 1)
+        ->where('farm_leader', $id)
+        ->select("*")
+        ->first();
+
     // Return to the view with the updated data
-    return view('pages.thread', compact('thread', 'users', 'messages', 'groups'));
+    return view('pages.thread', compact('thread', 'users', 'messages', 'groups', 'farmLeaders'));
 }
 
 

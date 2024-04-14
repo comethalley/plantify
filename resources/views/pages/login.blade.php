@@ -22,20 +22,15 @@
     <!-- custom Css-->
     <link href="assets/css/custom.min.css" rel="stylesheet" type="text/css" />
 
+   
 </head>
 
-<body>
+<body style="background-color: #8BE262;">
 
     <div class="auth-page-wrapper pt-5">
         <!-- auth page bg -->
-        <div class="auth-one-bg-position auth-one-bg" id="auth-particles">
-            <div class="bg-overlay"></div>
-
-            <div class="shape">
-                <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1440 120">
-                    <path d="M 0,36 C 144,53.6 432,123.2 720,124 C 1008,124.8 1296,56.8 1440,40L1440 140L0 140z"></path>
-                </svg>
-            </div>
+        <div class="auth-one-bg-position " id="auth-particles">
+            
         </div>
 
         <!-- auth page content -->
@@ -67,13 +62,19 @@
                                 <div class="p-2 mt-4">
                                     <form action="/login/process" method="POST">
                                         @csrf
-                                        @error('email')
-                                        <p class="text-red-500 text-xs p-1">{{$message}}</p>
-                                        @enderror
+                                        @if ($errors->any())
+                                        <div class="alert alert-danger text-center">
+
+                                            @foreach ($errors->all() as $error)
+                                            <p>{{ $error }}</p>
+                                            @endforeach
+
+                                        </div>
+                                        @endif
 
                                         <div class="mb-3">
                                             <label for="username" class="form-label">Email</label>
-                                            <input type="email" class="form-control" id="username" name="email" placeholder="Enter username">
+                                            <input type="email" class="form-control" id="username" name="email" placeholder="Enter Email Address">
                                         </div>
 
                                         <div class="mb-3">
@@ -87,16 +88,16 @@
                                             </div>
                                         </div>
 
-                                        <div class="form-check">
+                                        <!-- <div class="form-check">
                                             <input class="form-check-input" type="checkbox" value="" id="auth-remember-check">
                                             <label class="form-check-label" for="auth-remember-check">Remember me</label>
-                                        </div>
+                                        </div> -->
 
                                         <div class="mt-4">
                                             <button class="btn btn-success w-100" type="submit">Sign In</button>
                                         </div>
 
-                                        <div class="mt-4 text-center">
+                                        <!-- <div class="mt-4 text-center">
                                             <div class="signin-other-title">
                                                 <h5 class="fs-13 mb-4 title">Sign In with</h5>
                                             </div>
@@ -106,7 +107,7 @@
                                                 <button type="button" class="btn btn-dark btn-icon waves-effect waves-light"><i class="ri-github-fill fs-16"></i></button>
                                                 <button type="button" class="btn btn-info btn-icon waves-effect waves-light"><i class="ri-twitter-fill fs-16"></i></button>
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </form>
                                 </div>
                             </div>

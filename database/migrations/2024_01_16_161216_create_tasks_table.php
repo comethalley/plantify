@@ -17,12 +17,15 @@ class CreateTasksTable extends Migration
             $table->id();
             $table->string('title', 255);
             $table->text('description')->nullable();
-            $table->enum('priority', ['low', 'mid', 'high']);
-            $table->date('due_date')->nullable();
+            $table->enum('priority', ['low', 'medium', 'high']);
+            $table->enum('status', ['New', 'Inprogress', 'Pending','Missing','Completed']);
+            $table->datetime('due_date')->nullable();
             $table->boolean('completed')->default(false);
             $table->timestamps();
             $table->timestamp('completed_at')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
+            $table->boolean('archived')->default(false);
+            $table->timestamp('archived_at')->nullable();
         });
     }
 

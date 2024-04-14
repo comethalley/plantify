@@ -3,7 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Libraries\PlantifyLibrary;
 use App\Mail\MailInvitation;
+use App\Models\Barangay;
+use App\Models\CalendarPlanting;
+use App\Models\Expense;
+use App\Models\Farm;
 use App\Models\User;
 use App\Models\PlantifeedModel;
 use Exception;
@@ -20,17 +25,45 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class AuthController extends Controller
 {
+    protected $plantifyLibrary;
+
+    public function __construct(PlantifyLibrary $plantifyLibrary)
+    {
+        $this->plantifyLibrary = $plantifyLibrary;
+    }
 
     public function index()
     {
-        // $users = DB::table('users')->where('status', 1)->select(
-        //     "id",
-        //     "email",
-        //     'firstname',
-        //     "lastname",
-        // )->get();
-        // return response()->json($users);
-        return view('pages.index');
+        if (!auth()->check()) {
+            return redirect()->route('login');
+        }
+        $user = auth()->user();
+        $barangays = Barangay::all(['id', 'barangay_name'])->toArray();
+        $expensesData = collect();
+        $plantingData = collect();
+        $farmsData = collect();
+
+        if ($user->role_id == 1) {
+            // Fetch data for super admin role
+            $expensesData = Expense::all(['description', 'amount', 'created_at', 'budget_id'])->toJson();
+            $plantingData = CalendarPlanting::all(['title', 'start', 'harvested', 'destroyed', 'start'])->toJson();
+            //$farmsData = Farm::with('barangays')->get()->toJson();
+        } elseif ($user->role_id == 3) {
+            // Fetch data for farm leader role
+            $expensesData = Expense::where('budget_id', 3)->where('id', $user->id)->get(['description', 'amount', 'created_at'])->toJson();
+
+            $farmsData = Farm::where('id', $user->id)->with('barangays')->get()->toJson();
+        }
+
+        $barangayOptions = [];
+        foreach ($barangays as $barangay) {
+            $barangayOptions[] = [
+                'value' => $barangay['id'],
+                'text' => $barangay['barangay_name']
+            ];
+        }
+
+        return view('pages.analytics', compact('expensesData', 'plantingData', 'farmsData', 'barangayOptions'));
     }
 
     public function viewLogin()
@@ -259,28 +292,25 @@ class AuthController extends Controller
             'lastname'  => 'required|string|max:55',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|confirmed|min:6',
-            // 'role_id' => 'required|integer|digits:1'
         ]);
-
-        // $generate_password = $this->generate_password(10);
-
-        $email = $data['email'];
-        $firstname = $data['firstname'];
-        // $this->emailInvitation($email, $firstname, $generate_password);
 
         $user = User::create([
             'firstname' => $data['firstname'],
             'lastname' => $data['lastname'],
             'email' => $data['email'],
             'password' =>  Hash::make($data['password']),
-            'role_id' => 1,
+            'role_id' => 5,
             'status' => 1,
         ]);
 
+        // Store user data in the session
+        $request->session()->put('user', $user);
+
         auth()->login($user);
 
-        return redirect("/");
+        return redirect("/dashboard/analytics");
     }
+
 
     public function createAdmin(Request $request)
     {
@@ -296,7 +326,14 @@ class AuthController extends Controller
             }
 
             $data = $validator->validated();
+
+            // print_r($data);
+            // exit;
             $generate_password = $this->generate_password(10);
+
+
+            // print_r($emailInvitation);
+            // exit;
 
             $admins = User::create([
                 'firstname'  => $data['firstname'],
@@ -307,8 +344,15 @@ class AuthController extends Controller
                 'status' => 1
             ]);
 
+
             if ($admins) {
-                return response()->json(['message' => 'Admin Invited Successfully', 'data' => $admins], 200);
+                $id = $admins->id;
+                $hash = $this->plantifyLibrary->generatehash($id);
+                $emailInvitation = $this->emailInvitation($data['email'], $data['firstname'], $generate_password, $hash);
+                if ($emailInvitation) {
+
+                    return response()->json(['message' => 'Admin Invited Successfully', 'data' => $admins], 200);
+                }
             } else {
                 return response()->json(['error' => 'Admin cant add Internal Server Error'], 500);
             }
@@ -344,7 +388,13 @@ class AuthController extends Controller
             ]);
 
             if ($farmLeaders) {
-                return response()->json(['message' => 'Admin Invited Successfully', 'data' => $farmLeaders], 200);
+                $id = $farmLeaders->id;
+                $hash = $this->plantifyLibrary->generatehash($id);
+                $emailInvitation = $this->emailInvitation($data['email'], $data['firstname'], $generate_password, $hash);
+                if ($emailInvitation) {
+
+                    return response()->json(['message' => 'Admin Invited Successfully', 'data' => $farmLeaders], 200);
+                }
             } else {
                 return response()->json(['error' => 'Admin cant add Internal Server Error'], 500);
             }
@@ -369,14 +419,15 @@ class AuthController extends Controller
         return $password;
     }
 
-    public function emailInvitation($email, $firstname, $generate_password)
+    public function emailInvitation($email, $firstname, $generate_password, $hash)
     {
         $data = [
             "subject" => "Plantify Invitation Mail",
             "firstname" => $firstname,
             "email" => $email,
-            "password" => $generate_password,
-            "body" => "Join the urban green revolution !"
+            // "password" => $generate_password,
+            "body" => "Join the urban green revolution !",
+            "hash" => $hash
         ];
         // return json_encode($data);
 
@@ -397,17 +448,26 @@ class AuthController extends Controller
             'password' => 'required'
         ]);
 
-        if (auth()->attempt($validated)) {
+        $user = Auth::getProvider()->retrieveByCredentials($validated);
+
+        if (!$user || !Auth::getProvider()->validateCredentials($user, $validated)) {
+            return back()->withErrors(['email' => 'Login failed'])->onlyInput('email');
+        }
+
+        if (!$user->hasVerifiedEmail()) {
+            return back()->withErrors(['email' => 'Please verify your email before logging in']);
+        }
+
+        if (Auth::attempt($validated)) {
             $request->session()->regenerate();
 
-            return redirect('/')->with('message', 'Welcome back!');
+            $user = Auth::user();
+            $request->session()->put('user', $user);
+
+            return redirect('/dashboard/analytics')->with('message', 'Welcome back!');
         }
 
         return back()->withErrors(['email' => 'Login failed'])->onlyInput('email');
-        // /** @var \App\Models\User $user */
-        // $user = Auth::user();
-        // $token = $user->createToken('main')->plainTextToken;
-        // return response(compact('user', 'token'));
     }
 
     public function logout(Request $request)
@@ -478,5 +538,10 @@ class AuthController extends Controller
     public function getFarmers()
     {
         return view('pages.users.farmers');
+    }
+
+    public function landingpage()
+    {
+        return view('landingpage');
     }
 }

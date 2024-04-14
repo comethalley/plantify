@@ -13,6 +13,8 @@ class RemarkFarm extends Model
         'farm_id',
         'remarks',
         'remark_status',
+        'validated_by',
+        'visit_date',
         
     ];
 }

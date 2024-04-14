@@ -1,7 +1,6 @@
 <?php
 
-use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\FarmController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\PlantController;
 use App\Http\Controllers\Api\FullCalendarController;
@@ -19,6 +18,12 @@ use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\PlantCalendar;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\AboutUsController;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\FarmController;
+use App\Http\Controllers\EmailVerification;
+use App\Http\Controllers\PiuController;
+use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ReportController;
@@ -40,13 +45,14 @@ use App\Http\Controllers\ReportController;
 //     return view('email.email');
 // });
 
-Route::get('/', [AuthController::class, 'index'])->middleware('auth');
+Route::get('/', [AuthController::class, 'landingpage']);
+Route::get('/dashboard/analytics', [AnalyticsController::class, 'index'])->middleware('auth');
 Route::get('/login', [AuthController::class, 'viewLogin'])->name('login')->middleware('guest');
 Route::get('/signup', [AuthController::class, 'viewSignup']);
 Route::post('/login/process', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
 Route::post('/register', [AuthController::class, 'signup']);
-Route::middleware(['auth'])->get('/authenticated-route', 'AuthController@index');
+//Route::middleware(['auth'])->get('/authenticated-route', 'AuthController@index');
 
 
 Route::get('/planting', [PlantController::class, 'index']);
@@ -74,11 +80,19 @@ Route::get('/download-qrCode/{filename}', [InventoryController::class, 'download
 Route::get('/getLogs/{id}', [InventoryController::class, 'logs']);
 Route::get('/inventory/uom', [InventoryController::class, 'uom']);
 Route::post('/add-uom', [InventoryController::class, 'addUom']);
+Route::get('/getUom', [InventoryController::class, 'getUom']);
+Route::get('/about-us', [AboutUsController::class, 'index']);
 Route::get('/getAllUom', [InventoryController::class, 'getUom']);
 Route::post('/edit-uom/{id}', [InventoryController::class, 'updateUom']);
 Route::post('/archive-uom/{id}', [InventoryController::class, 'archiveUom']);
-
+Route::get('/getAllStock', [InventoryController::class, 'getAllStock']);
 Route::get('/plantifeed', [ForumController::class, 'index']);
+Route::get('/inventory/fertilizer', [InventoryController::class, 'fertilizer']);
+Route::post('/add-fertilizer', [InventoryController::class, 'addFertilizer']);
+Route::get('/get-fertilizer', [InventoryController::class, 'getFertilizer']);
+Route::post('/edit-fertilizer/{id}', [InventoryController::class, 'updateFertilizer']);
+Route::post('/archive-fertilizer/{id}', [InventoryController::class, 'archiveFertilizer']);
+Route::get('/inventory/tools', [InventoryController::class, 'tools']);
 
 
 
@@ -138,13 +152,16 @@ Route::post('/create-thread/{userId}', [ThreadController::class, 'createThread']
 Route::get('/thread/{threadId}', [ThreadController::class, 'showThread'])->name('show.thread');
 Route::post('/thread/{threadId}/store-message', [ThreadController::class, 'storeMessage'])->name('store.message');
 Route::post('/mark-messages-as-read/{userId}', [ChatController::class, 'markMessagesAsRead']);
+Route::get('/search-users', [ChatController::class, 'searchUsers']);
+
 
 // Group Chats
 Route::get('/groups', [GroupController::class, 'index'])->name('groups.index');
-Route::get('/groups/{group}/{farm}', [GroupController::class, 'show'])->name('groups.show');
+Route::get('/groups/{groupId}', [GroupController::class, 'show'])->name('groups.show'); // Make the farmId parameter optional
 Route::post('/groups/{group}/join', [GroupController::class, 'join'])->name('groups.join');
 Route::get('/groups/create', [GroupController::class, 'create'])->name('groups.create');
 Route::post('/group/{groupId}/store-group-message', [GroupController::class, 'storeGroupMessage'])->name('store.group.message');
+Route::post('/mark-group-messages-as-read/{groupId}', [GroupController::class, 'markGroupMessagesAsRead']);
 
 Route::get('/weather', [WeatherController::class, 'index']);
 Route::get('/pastweather', [WeatherController::class, 'pastweather']);
@@ -171,9 +188,10 @@ Route::get('/schedules', [EventController::class, 'index']);
 Route::get('/schedulesget', [EventController::class, 'getEvents']);
 Route::get('/schedulesdata/{id}', [EventController::class, 'getdata']);
 Route::delete('/scheduledelete/{id}', [EventController::class, 'deleteEvent']);
-Route::put('/schedule/{id}', [EventController::class, 'update']);
-Route::put('/schedule/{id}/resize', [EventController::class, 'resize']);
+Route::put('/scheduleupdate/{id}', [EventController::class, 'update']);
+
 Route::get('/events/search', [EventController::class, 'search']);
+Route::get('/upcomingevent', [EventController::class, 'notifyUpcomingEvents']);
 
 Route::view('add-schedule', 'pages.add');
 Route::post('create-schedule', [EventController::class, 'create']);
@@ -186,6 +204,7 @@ Route::delete('/plantcalendardelete/{eventId}', [PlantCalendar::class, 'deleteEv
 Route::put('/plantcalendar/{id}', [PlantCalendar::class, 'update']);
 Route::put('/plantcalendar/{eventId}/resize', [PlantCalendar::class, 'resize']);
 Route::get('/plantcalendar/search', [PlantCalendar::class, 'search']);
+Route::get('/calendar_list', [PlantCalendar::class, 'calendar_list']);
 
 Route::view('add-plantcalendar', 'pages.add');
 Route::post('create-plantcalendar', [PlantCalendar::class, 'create']);
@@ -198,53 +217,112 @@ Route::post('/plantinfo', [PlantInfoController::class, 'store']);
 Route::post('/archive/{id}', [PlantInfoController::class, 'archive']);
 Route::get('/restore', [PlantInfoController::class, 'restore']);
 Route::post('/unarchive/{id}', [PlantInfoController::class, 'unarchive']);
-//==========================================================================
+//PES=======================================================================
+Route::get('/pesticides', [PlantInfoController::class, 'pesticides']);
+Route::post('/pupdate/{id}', [PlantInfoController::class, 'pupdate']);
+Route::post('/pesticides', [PlantInfoController::class, 'pstore']);
+Route::get('/pedit/{id}', [PlantInfoController::class, 'pedit']);
+Route::post('/pesarchive/{id}', [PlantInfoController::class, 'pesarchive']);
+//FER=======================================================================
+Route::get('/fertilizers', [PlantInfoController::class, 'fertilizers']);
+Route::post('/fertilizers', [PlantInfoController::class, 'fstore']);
+Route::post('/fupdate/{id}', [PlantInfoController::class, 'fupdate']);
+Route::get('/fedit/{FertID}', [PlantInfoController::class, 'fedit']);
+Route::post('/fertarchive/{id}', [PlantInfoController::class, 'fertarchive']);
 
 //For farm management =======================================================
 
+//index farm-mamangement//
+Route::get('/Farms-District-5', [FarmController::class, 'index']);
+Route::post('/add-farms', [FarmController::class, 'addFarms'])->name('add.farms');
+Route::get('/archive-farm/{id}', [FarmController::class, 'archiveFarm'])->name('archive.farm');
+
 //view farm-management//
-Route::get('/view-farms', [FarmController::class, 'viewFarms'])->name('farms.view');
-Route::get('/view-farms3', [FarmController::class, 'viewFarms3'])->name('farms.view3');
+Route::get('/Farm-Management-High', [FarmController::class, 'viewFarms'])->name('farms.view');
+Route::get('/Farm-Management', [FarmController::class, 'viewFarms3'])->name('farms.view3');
 Route::get('/farms/filterByStatus', [FarmController::class, 'filterByStatus']);
 Route::post('/update-status/{id}', [FarmController::class, 'updateStatus'])->name('update.status');
 
 
 //view pdf/img farm-management//
-Route::get('/view-pdf/{id}/{title?}', [FarmController::class, 'viewPdf'])->name('view.pdf');
-Route::get('/view-image/{id}', [FarmController::class, 'viewImage'])->name('view.image');
-Route::get('/view-image1/{id}', [FarmController::class, 'viewImage1'])->name('view.image');
-Route::get('/view-image2/{id}', [FarmController::class, 'viewImage2'])->name('view.image');
+// Route::get('/view-pdf/{id}/{title?}', [FarmController::class, 'viewPdf'])->name('view.pdf');
+// Route::get('/view-image/{id}', [FarmController::class, 'viewImage'])->name('view.image');
+// Route::get('/view-image1/{id}', [FarmController::class, 'viewImage1'])->name('view.image');
+// Route::get('/view-image2/{id}', [FarmController::class, 'viewImage2'])->name('view.image');
 
 //xfarms farm-management//
 Route::get('/view-archivefarms', [FarmController::class, 'viewArchiveFarms'])->name('archivefarms.xfarms');
 Route::get('/farms/filterByStatus1', [FarmController::class, 'filterByStatus1']);
+Route::get('/farm/{id}/details', [FarmController::class, 'getFarmDetails']);
+Route::post('/update-farm-status-cancel/{id}', [FarmController::class, 'updateStatusCancel']);
+Route::post('/update-farms/{id}', [FarmController::class, 'updateFarm'])->name('farms.update');
+Route::post('/set-date-farm/{id}', [FarmController::class, 'SetDateStatus'])->name('set.date.farm');
 
-//index farm-mamangement//
-Route::get('/farms3', [FarmController::class, 'index']);
-Route::post('/add-farms', [FarmController::class, 'addFarms'])->name('add.farms');
-Route::get('/archive-farm/{id}', [FarmController::class, 'archiveFarm'])
-    ->name('archive.farm');
+
+
 //=============================================================================================    
 
 //TASK MANAGEMENT ============================================================================
 Route::get('/tasks', [TaskController::class, 'index'])->name('tasks.monitoring');
-Route::get('/tasks/create', [TaskController::class, 'create'])->name('tasks.create');
-Route::post('/tasks', [TaskController::class, 'store'])->name('tasks.store');
-Route::get('/tasks/{task}', [TaskController::class, 'edit'])->name('tasks.edit');
-Route::put('/tasks/{task}', [TaskController::class, 'update'])->name('tasks.update');
+Route::post('/tasks/store', [TaskController::class, 'store'])->name('tasks.store');
+Route::get('/tasks/{task}/edit', [TaskController::class, 'edit'])->name('tasks.edit');
+Route::post('/tasks/{task}', [TaskController::class, 'update']);
 Route::delete('/tasks/{task}', [TaskController::class, 'destroy'])->name('tasks.destroy');
 Route::post('/tasks/{task}/complete', [TaskController::class, 'complete'])->name('tasks.complete');
 Route::get('taskshow', [TaskController::class, 'showCompleted'])->name('taskshow');
 Route::get('/missingtasks', [TaskController::class, 'missingTasks']);
 Route::get('/taskassign', [TaskController::class, 'tasksAssignedToMe']);
+Route::get('/task/filterByStatus', [TaskController::class, 'filterBystatus']);
+Route::post('/tasks/{task}/archive', [TaskController::class, 'archive'])->name('tasks.archive');
+Route::get('/archived', [TaskController::class, 'showArchived'])->name('archived');
+Route::post('/tasks/{task}/restore', [TaskController::class, 'restore'])->name('tasks.restore');
 //============================================================================================
 
 //EXPENSES MANAGEMENT ====================================================================================
 Route::get('/expense', [ExpenseController::class, 'index']);
 Route::post('/expenses/add-budget', [ExpenseController::class, 'addBudget']);
-Route::get('/dashboard', 'ExpenseController@showDashboard')->name('dashboard');
-Route::post('/expenses/save-expense', [ExpenseController::class, 'saveExpense']);
+Route::post('/expenses/save-expense', [ExpenseController::class, 'saveExpense'])->name('saveExpense');
+Route::get('/expenses/get-last-amount', [ExpenseController::class, 'getLastAmount']);
 Route::get('/compute-total-expenses', [ExpenseController::class, 'computeTotalExpenses'])->name('compute-total-expenses');
 Route::get('/expenses/get-dashboard-data', [ExpenseController::class, 'getDashboardData']);
+Route::get('/expenses/get-expenses-by-category', [ExpenseController::class, 'getExpensesByCategory']);
 // Route::get('/expenses', [ExpenseController::class, 'getExpenses']);
 //===========================================================================================================
+
+//Email Verification ===================================================
+Route::get('/verify-email', [EmailVerification::class, 'emailVerification']);
+Route::get('/empty-code/{id}', [EmailVerification::class, 'emptyCode']);
+Route::get('/resend-code/{id}', [EmailVerification::class, 'resendCode']);
+Route::post('/confirm-code/{id}', [EmailVerification::class, 'verifyEmail']);
+Route::get('/landing-page', [AuthController::class, 'landingpage']);
+Route::post('/change-password/{id}', [EmailVerification::class, 'changePassword']);
+//===========================================================================================================
+
+//Botaknows Userside ===================================================
+Route::get('/piu/piu', [PiuController::class, 'index']);
+Route::get('/piu/show/{id}', [PiuController::class, 'show']);
+
+
+Route::get('/piu/pes', [PiuController::class, 'pes']);
+Route::get('/piu/showpes/{id}', [PiuController::class, 'showpes']);
+
+Route::get('/piu/fiu', [PiuController::class, 'fer']);
+Route::get('/piu/showfiu/{id}', [PiuController::class, 'showfiu']);
+
+
+
+
+//===========================================================================================================
+
+Route::middleware(['auth', 'checkrole:1,2,3'])->group(function () {
+    Route::get('/analytics', [AnalyticsController::class, 'index']);
+});
+Route::get('/analytics/count', [AnalyticsController::class, 'count']);
+
+Route::get('api/farms', [FarmController::class, 'fetchFarmsByBarangay'])->name('api.farms');
+Route::get('/farmsAnalytics/{slug}', [AnalyticsController::class, 'getFarms']);
+Route::get('/farmsAnalyticsData/{num}', [AnalyticsController::class, 'getFarmsData']);
+
+Route::get('/markAsRead', function () {
+    auth()->user()->unreadNotifications->markAsRead();
+});

@@ -6,6 +6,7 @@
 
 
 <div class="page-content">
+      <div class="page-content">
 
   <div class="wrapper">
     <div class="sidebar">
@@ -16,6 +17,8 @@
             <input type="text" id="query" placeholder="Search..." />
             <button><i class="fas fa-search"></i></button>
           </form> -->
+
+
         <div class="weather-icon">
           <img id="icon" src="assets/weather-icon/icons/sun/27.png" alt="" />
         </div>
@@ -54,11 +57,17 @@
           <button class="week active">week</button>
         </ul>
         <ul class="options units">
-          <button class="celcius active">°C</button>
-          <button class="fahrenheit">°F</button>
+          <button class="fahrenheit ">°F</button>
+          <button class="celcius active" >°C</button>
         </ul>
       </nav>
       <div class="cards" id="weather-cards"></div>
+      <div id="detailModal" style="display:none;">
+        <p>Chance of Rain: <span id="modalRainChance">--</span>%</p>
+        <p>Humidity: <span id="modalHumidity">--</span>%</p>
+        <p>Sunrise:  <span id="modalSunrise">--</span></p>
+        <p>Sunset: <span id="modalSunset">--</span></p>
+      </div>
       <div class="highlights">
         <h2 class="heading">today's highlights</h2>
         <div class="cards">
@@ -77,7 +86,7 @@
             </div>
           </div>
           <div class="card2">
-            <h4 class="card-heading">Sunrise & Sunset</h4>
+            <h4 class="card-heading">Sunrise | Sunset</h4>
             <div class="content">
               <p class="sun-rise">0</p>
               <p class="sun-set">0</p>

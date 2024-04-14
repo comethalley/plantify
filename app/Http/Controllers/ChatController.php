@@ -118,16 +118,7 @@ class ChatController extends Controller
         return User::where('id', '!=', $currentUser->id)->get();
     }
 
-    public function unread()
-    {
-        // Assuming you are fetching users somewhere
-        $users = User::with(['messages' => function ($query) {
-            $query->where('isRead', false);
-        }])->get();
-    
-        // Pass the $users collection to your view
-        return view('your.view', compact('users'));
-    }
+
     
 
     public function markMessagesAsRead($userId)
@@ -150,6 +141,17 @@ class ChatController extends Controller
         }
     
         return response()->json(['success' => false]);
+    }
+    
+
+    public function searchUsers(Request $request)
+    {
+        $term = $request->input('term');
+    
+        // Perform a case-insensitive search on the firstname and lastname columns
+        $users = User::where('firstname', 'LIKE', '%' . $term . '%')->orWhere('lastname', 'LIKE', '%' . $term . '%')->get();
+    
+        return response()->json($users);
     }
     
     

@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\DB;
 
 use Illuminate\Validation\Rule;
 
+use Pusher\Pusher;
+
 class ForumController extends Controller
 {
     public function index()
@@ -110,7 +112,6 @@ class ForumController extends Controller
     public function store(Request $request)
     {
 
-
         $id =  Auth::user()->id;
 
 
@@ -146,6 +147,18 @@ class ForumController extends Controller
             'question' => $request->askquestions,
             'language' => $request->language,
         ]);
+
+        $pusher = new Pusher(env('PUSHER_APP_KEY'), env('PUSHER_APP_SECRET'), env('PUSHER_APP_ID'), [
+            'cluster' => env('PUSHER_APP_CLUSTER'),
+            'encrypted' => true,
+            'curl_options' => [
+                CURLOPT_SSL_VERIFYPEER => false,
+            ],
+        ]);
+
+        $data = ['message' => 'Hello'];
+
+        $pusher->trigger('my-channel', 'my-event', $data);
 
         // If successful
         $message = "Question added successfully.";

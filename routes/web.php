@@ -23,6 +23,7 @@ use App\Http\Controllers\Api\FarmController;
 use App\Http\Controllers\EmailVerification;
 use App\Http\Controllers\PiuController;
 use App\Http\Controllers\AnalyticsController;
+use App\Http\Controllers\SendMessageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -87,6 +88,7 @@ Route::get('/get-fertilizer', [InventoryController::class, 'getFertilizer']);
 Route::post('/edit-fertilizer/{id}', [InventoryController::class, 'updateFertilizer']);
 Route::post('/archive-fertilizer/{id}', [InventoryController::class, 'archiveFertilizer']);
 Route::get('/inventory/tools', [InventoryController::class, 'tools']);
+Route::get('/send-message', [SendMessageController::class, 'index']);
 
 // Direct Messages
 Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');

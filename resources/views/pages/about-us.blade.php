@@ -372,8 +372,8 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
                             <h5 class="mb-1"><a href="pages-profile.html" class="text-body">Edman Cabote</a></h5>
                             <p class="text-muted mb-0 ff-secondary">Developer</p>
                             <a href="https://www.facebook.com/edmanerss/" class="text-body"><i class="fab fa-facebook"></i></a>
-                            <a href="https://www.linkedin.com/in/edman-cabote-1955652ba/" class="text-body"><i class="fab fa-github"></i></a>
-                            <a href="https://github.com/Edmaners" class="text-body"><i class="fab fa-linkedin"></i></a>
+                            <a href="https://github.com/Edmaners"class="text-body"><i class="fab fa-github"></i></a>
+                            <a href="https://www.linkedin.com/in/edman-cabote-1955652ba/"class="text-body"><i class="fab fa-linkedin"></i></a>
                         </div>
                     </div>
                     <!-- end card -->

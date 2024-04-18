@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<link rel="shortcut icon" type="image/x-icon" href="assets/images/plantifeedpics/plants.png" class="img-fluid" />
 @include('templates.header')
 
 <meta name="csrf-token" content="{{ csrf_token() }}" />

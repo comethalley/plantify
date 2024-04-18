@@ -2,7 +2,7 @@
 
 {{-- <script src="{{ asset('assets/js/donut.js') }}"></script>
 {{-- <script src="assets/js/donut.js"></script> --}}
-
+<link rel="shortcut icon" type="image/x-icon" href="assets/images/plantifeedpics/plants.png" class="img-fluid" />
 <link href="{{ asset('assets/css/analytics.css') }}" rel="stylesheet" type="text/css" />
 
 

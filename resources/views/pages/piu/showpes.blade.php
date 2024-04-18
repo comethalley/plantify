@@ -6,27 +6,21 @@
     <div class="page-content">
         <div class="container-fluid">
         <a href="/piu/pes"   class="btn btn-success waves-effect waves-light mb-4" class="col-xl-3 col-lg-4 col-sm-6"><i class="ri-arrow-left-line"></i></div></a>
-                <!-- start page title -->
-                  <div class="row">
-                  
-                                  
-                                <div class="col-xxl-6">
-                                    <div class="card">
-                                        <div class="row g-0 px-4 py-3">
-                                            <div class="col-md-8">
-                                                <div class="card-body">
-                                                <h4 class="card-title mb-0 fw-bold">Pesticide Name: {{$pes->pes_name}}</h4>
-                                             
-                                                   
-                                                </div>
-                                                <div class="card-footer">
-                                                <h4 class="card-title mb-0 fw-bold">{!!$pes->pes_information!!}</h4>
-                                                </div>
-                                            </div>
-                                           
-                                    </div><!-- end card -->
-                                </div>
-                        
+   
+ <!-- start page title -->
+ <div class="container-fluid">
+    <div class="row">
+        <div class="col-xxl-6">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title mb-0 fw-bold" style="font-size: 20px; font-weight: bold; font-weight: bold;">Pesticide Name: {{$pes->pes_name}}</h4>
+                    <p class="card-text mb-0 fw-bold" style="font-size: 20px; font-weight: bold; font-weight: bold;">{!!$pes->pes_information!!}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
                               
                                 <div class="col-xxl-6">
                                     <div class="card">

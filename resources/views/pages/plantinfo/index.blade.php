@@ -62,9 +62,9 @@
 
                                                 <th class="sort" data-sort="">#</th>
                                                 <th class="sort" data-sort="">Plant Name</th>
-                                                <th class="sort" data-sort="">Image</th>
+                                                <th class="sort" data-sort="">Image <alt="" width="200px" height="200px"></th>
                                                 <th class="sort" data-sort="">Season</th>
-                                                <th class="sort" data-sort="">Information</th>
+                                                <!-- <th class="sort" data-sort="">Information</th> -->
                                                 <th class="sort" data-sort="">Companion</th>
                                                 <th class="sort" data-sort="">Days of Harvest</th>
                                                 <th class="sort" data-sort="">Action</th>
@@ -78,7 +78,7 @@
                                                 <td>{{ $item->plant_name }}</td>
                                                 <td><img src="/images/{{ $item->image }}" alt="" width="200px" height="200px"></td>
                                                 <td>{{ $item->seasons }}</td>
-                                                <td>{!! $item->information !!}</td>
+                                                <!-- <td>{!! $item->information !!}</td> -->
                                                 <td>{{ $item->companion }}</td>
                                                 <td>{{ $item->days_harvest }}</td>
                                                 <td>

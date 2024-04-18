@@ -23,7 +23,7 @@
     <!-- custom Css-->
     <link href="assets/css/custom.min.css" rel="stylesheet" type="text/css" />
 
-   
+
 </head>
 
 <body style="background-color: #8BE262;">
@@ -31,7 +31,7 @@
     <div class="auth-page-wrapper pt-5">
         <!-- auth page bg -->
         <div class="auth-one-bg-position " id="auth-particles">
-            
+
         </div>
 
         <!-- auth page content -->
@@ -95,7 +95,7 @@
                                         </div> -->
 
                                         <div class="mt-4">
-                                            <button class="btn btn-success w-100" type="submit">Sign In</button>
+                                            <button class="btn btn-success w-100" type="submit">Log In</button>
                                         </div>
 
                                         <!-- <div class="mt-4 text-center">

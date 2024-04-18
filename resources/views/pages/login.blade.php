@@ -4,7 +4,7 @@
 <head>
 
     <meta charset="utf-8" />
-    <title>Sign In | Plantify</title>
+    <title>Login | Plantify</title>
     <link rel="shortcut icon" type="image/x-icon" href="assets/images/plantifeedpics/plants.png" class="img-fluid" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
@@ -58,7 +58,7 @@
                             <div class="card-body p-4">
                                 <div class="text-center mt-2">
                                     <h5 class="text-primary">Welcome Back !</h5>
-                                    <p class="text-muted">Sign in to continue to Plantify.</p>
+                                    <p class="text-muted">Login to continue to Plantify.</p>
                                 </div>
                                 <div class="p-2 mt-4">
                                     <form action="/login/process" method="POST">

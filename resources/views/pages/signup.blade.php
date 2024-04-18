@@ -122,7 +122,7 @@
                         <!-- end card -->
 
                         <div class="mt-3 mb-4 text-center">
-                            <p class="mb-4">Already have an account ? <a href="/login" class="fw-semibold text-primary text-decoration-underline"> Sign in </a> </p>
+                            <p class="mb-4">Already have an account ? <a href="/login" class="fw-semibold text-primary text-decoration-underline"> Login </a> </p>
                         </div>
 
                     </div>

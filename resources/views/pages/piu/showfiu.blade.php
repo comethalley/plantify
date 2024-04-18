@@ -21,24 +21,25 @@
 </div>
 
                               
-                                <div class="col-xxl-6">
-                                    <div class="card">
-                                        <div class="row g-0 px-4 py-3">
-                                            <div class="col-md-8">
-                                                <div class="card-body">
-                                                <h4 class="card-text mb-4 fw-bold">Another Information</h4>
-                                                   
-                                                </div>
-                                                <div class="card-footer">
-                                                     
-                                                     <p class="card-text mb-4 fw-bold" style="font-family: Arial, sans-serif; font-size: 16px;"></p>
-                                                    <p class="card-text mb-4 fw-bold" style="font-family: Arial, sans-serif; font-size: 16px;"></p>
-
-                                                </div>
-                                            </div>
-                                           
-                                    </div><!-- end card -->
-                                </div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12"> <!-- Set column to take up full width -->
+            <div class="card">
+                <div class="row g-0 px-4 py-3">
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h4 class="card-text mb-4 fw-bold">Another Information</h4>
+                        </div>
+                        <div class="card-footer">
+                            <p class="card-text mb-4 fw-bold" style="font-family: Arial, sans-serif; font-size: 16px;"></p>
+                            <p class="card-text mb-4 fw-bold" style="font-family: Arial, sans-serif; font-size: 16px;"></p>
+                        </div>
+                    </div>
+                </div><!-- end row -->
+            </div><!-- end card -->
+        </div>
+    </div>
+</div>
 
                             
                         

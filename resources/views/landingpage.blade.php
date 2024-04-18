@@ -134,16 +134,18 @@
                                     <div class="d-flex align-items-center ">
                                         <div class="flex-grow-1">
                                             <h4 class="mb-1 fw-semibold text-center">
-                                                <img src="assets/images/plantifeedpics/Vector.png" alt="" class="img-fluid"> Apply Farm
+                                                <img src="assets/images/plantifeedpics/weather 1.png" alt="" class="img-fluid"> Weather Monitoring <hr>
                                             </h4><br>
-                                            <p class="text-muted mb-0" style="text-align: justify;">Simplify the intricate process of requesting urban farm spaces by effortlessly submitting necessary documents, tracking progress updates, and seamlessly receiving notifications upon approvals, ensuring a smooth and efficient experience for all users involved.</p>
+                                            <p class="text-muted mb-0" style="text-align: justify;">Stay ahead of the weather curve with Weather Monitoring, your essential tool for urban farming success. Track current conditions, 7-day accurate weather data, and access to past weather data history to optimize your farming strategy.</p>
 
                                         </div>
                                     </div>
                                     <div>
+
                                         <div class="mt-4">
                                             <a href="javascript:void(0);" class="btn btn-soft-success w-100" style="background-color: #57AA2C; color: white;">Read More</a>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -156,15 +158,17 @@
                                     <div class="d-flex align-items-center">
                                         <div class="flex-grow-1">
                                             <h4 class="mb-1 fw-semibold text-center">
-                                                <img src="assets/images/plantifeedpics/analytics 1.png" alt="" class="img-fluid"> Analytics
+                                                <img src="assets/images/plantifeedpics/analytics 1.png" alt="" class="img-fluid"> Analytics <hr>
                                             </h4><br>
                                             <p class="text-muted mb-0" style="text-align: justify;">Utilize comprehensive data analysis tools to effectively monitor expenses, inventory levels, and planting schedules, enabling you to enhance productivity and efficiency within your urban farming endeavors.</p>
                                         </div>
                                     </div>
                                     <div>
+
                                         <div class="mt-4"><br><br>
                                             <a href="javascript:void(0);" class="btn btn-soft-success w-100" style="background-color: #57AA2C; color: white;">Read More</a>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -177,15 +181,17 @@
                                     <div class="d-flex align-items-center">
                                         <div class="flex-grow-1">
                                             <h4 class="mb-1 fw-semibold text-center">
-                                                <img src="assets/images/plantifeedpics/calendar 1.png" alt="" class="img-fluid"> Planting Calendar
+                                                <img src="assets/images/plantifeedpics/calendar 1.png" alt="" class="img-fluid"> Planting Calendar <hr>
                                             </h4><br>
-                                            <p class="text-muted mb-0" style="text-align: justify;">Discover a user-friendly gardening companion! This simplifies scheduling, adjusts planting dates, and manages your planting history. Easily track crop growth on a twelve-month calendar view. Streamline your gardening with ease and precision.</p>
+                                            <p class="text-muted mb-0" style="text-align: justify;"> Discover a user-friendly gardening companion! This simplifies scheduling, adjusts planting dates, and manages your planting history. Easily track crop growth on a twelve-month calendar view. Streamline your gardening with ease and precision.</p>
                                         </div>
                                     </div>
                                     <div>
+
                                         <div class="mt-4"><br>
                                             <a href="javascript:void(0);" class="btn btn-soft-success w-100" style="background-color: #57AA2C; color: white;">Read More</a>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -245,12 +251,6 @@
                     </div>
             </section>
 
-
-
-
-
-
-
             <!-- start faqs -->
             <section class="section" id="try">
                 <div class="container">
@@ -268,95 +268,109 @@
                     </div>
                     <!-- end row -->
 
-                    <div class="col-lg-6">
-                        <div class="d-flex align-items-center mb-1">
-                        </div>
-                    </div>
 
-                    <div class="p-4">
-                        <div class="row justify-content-center">
-                            <div class="accordion custom-accordionwithicon custom-accordion-border accordion-border-box" id="genques-accordion" style="width: 700px;">
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header" id="genques-headingOne">
-                                        <button style="padding-top:30px; padding-bottom:30px;" class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#genques-collapseOne" aria-expanded="true" aria-controls="genques-collapseOne">
-                                            What is Plantify ?
-                                        </button>
-                                    </h2>
-                                    <div id="genques-collapseOne" class="accordion-collapse collapse show" aria-labelledby="genques-headingOne" data-bs-parent="#genques-accordion">
-                                        <div class="accordion-body ff-secondary" style="padding-top:30px; padding-bottom:30px; text-align: justify; text-justify: inter-word;">
-                                            <strong>"Plantify:</strong> A Web-Based Urban Planting Management System" is a sophisticated platform designed to support the operations of the Center for Urban Agriculture and Innovation. It serves as a comprehensive toolset for managing urban planting initiatives, optimizing resources, and fostering community engagement. Here's an overview of its key features:<br><br>
-                                            <strong>Analytics:</strong> Provides data-driven insights and analytics based on various metrics collected from planting projects, helping the farmers make informed decisions and assess the impact of their efforts.<br><br>
-                                            <strong>Weather Forecast:</strong> Integrates weather forecasting functionalities to help users plan planting activities effectively and mitigate risks associated with adverse weather conditions.<br><br>
-                                            <strong>Chat System:</strong> Facilitates real-time communication and collaboration among stakeholders, enabling seamless coordination of tasks, sharing of ideas, and support among team members.<br><br>
-                                            <strong>Task Monitoring:</strong> Allows users to create and assign tasks, track their progress, and receive notifications and updates, ensuring efficient project management and accountability.<br><br>
-                                            <strong> Planting Calendar:</strong> Offers a centralized calendar for scheduling and managing planting activities, including planting dates, maintenance tasks, and harvest times, helping users stay organized and on track.<br><br>
-                                            <strong>Event Calendar:</strong> Provides a platform for scheduling and promoting events related to urban agriculture and innovation, fostering community engagement and participation.<br><br>
-                                            <strong>Expense Tracker:</strong> Enables users to monitor and track expenses associated with planting projects, including materials, labor, and other costs, facilitating budget management and financial planning.<br><br>
-                                            <strong>Farm Management:</strong> Offers tools for managing and optimizing farm operations, including crop rotation, soil management, and irrigation scheduling, promoting sustainable and efficient agricultural practices.<br><br>
-                                            <strong>Inventory Management:</strong> Allows users to track the inventory of plants, seeds, tools, and other resources needed for planting projects, ensuring adequate supply and efficient resource allocation.<br><br>
-                                            <strong>Plantifeed:</strong> Provides a platform for sharing updates, tips, and resources related to urban planting and agriculture, fostering knowledge exchange and community building among farmers.<br><br>
-                                            <strong>Plant Information:</strong> Offers a comprehensive database of plant species suitable for urban environments, including their characteristics, growth requirements, and maintenance needs, aiding in informed plant selection and care.<br><br>
-                                            <strong>Maps:</strong> Integrates mapping functionalities to visualize planting projects, identify suitable planting locations, and share project locations with stakeholders, enhancing planning and communication.
+    <div class="accordion accordion-flush" id="accordionFlushExample">
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="flush-headingOne">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+      <h5>What is Plantify ?<h5>
+      </button>
+    </h2>
+    <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+      <div class="accordion-body"style="text-align: justify;">
+        <strong>"Plantify:</strong> A Web-Based Urban Planting Management System" is a sophisticated platform designed to support the operations of the Center for Urban Agriculture and Innovation. It serves as a comprehensive toolset for managing urban planting initiatives, optimizing resources, and fostering community engagement. Here's an overview of its key features:<br><br>
+        <strong>Analytics:</strong> Provides data-driven insights and analytics based on various metrics collected from planting projects, helping the farmers make informed decisions and assess the impact of their efforts.<br><br>
+        <strong>Weather Forecast:</strong> Integrates weather forecasting functionalities to help users plan planting activities effectively and mitigate risks associated with adverse weather conditions.<br><br>
+        <strong>Chat System:</strong> Facilitates real-time communication and collaboration among stakeholders, enabling seamless coordination of tasks, sharing of ideas, and support among team members.<br><br>
+        <strong>Task Monitoring:</strong> Allows users to create and assign tasks, track their progress, and receive notifications and updates, ensuring efficient project management and accountability.<br><br>
+        <strong> Planting Calendar:</strong> Offers a centralized calendar for scheduling and managing planting activities, including planting dates, maintenance tasks, and harvest times, helping users stay organized and on track.<br><br>
+        <strong>Event Calendar:</strong> Provides a platform for scheduling and promoting events related to urban agriculture and innovation, fostering community engagement and participation.<br><br>
+        <strong>Expense Tracker:</strong> Enables users to monitor and track expenses associated with planting projects, including materials, labor, and other costs, facilitating budget management and financial planning.<br><br>
+        <strong>Farm Management:</strong> Offers tools for managing and optimizing farm operations, including crop rotation, soil management, and irrigation scheduling, promoting sustainable and efficient agricultural practices.<br><br>
+        <strong>Inventory Management:</strong> Allows users to track the inventory of plants, seeds, tools, and other resources needed for planting projects, ensuring adequate supply and efficient resource allocation.<br><br>
+        <strong>Plantifeed:</strong> Provides a platform for sharing updates, tips, and resources related to urban planting and agriculture, fostering knowledge exchange and community building among farmers.<br><br>
+        <strong>Plant Information:</strong> Offers a comprehensive database of plant species suitable for urban environments, including their characteristics, growth requirements, and maintenance needs, aiding in informed plant selection and care.<br><br>
+        <strong>Maps:</strong> Integrates mapping functionalities to visualize planting projects, identify suitable planting locations, and share project locations with stakeholders, enhancing planning and communication.
 
-                                        </div>
-                                    </div>
+      </div>
+    </div>
+  </div>
 
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header" id="genques-headingTwo">
-                                            <button style="padding-top:30px; padding-bottom:30px;" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#genques-collapseTwo" aria-expanded="false" aria-controls="genques-collapseTwo">
-                                                Who can use Plantify?
-                                            </button>
-                                        </h2>
-                                        <div id="genques-collapseTwo" class="accordion-collapse collapse" aria-labelledby="genques-headingTwo" data-bs-parent="#genques-accordion">
-                                            <div class="accordion-body ff-secondary" style="padding-top:30px; padding-bottom:30px; text-align: justify; text-justify: inter-word;">
-                                                <strong>Plantifeed</strong> is an open platform where anyone can share their urban planting stories. Whether you're a seasoned gardener or new to the green scene, your experiences and insights are valuable contributions to our community. Join us in inspiring and learning from each other as we work towards greener, more sustainable cities together.
-                                            </div>
-                                        </div>
-                                    </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="flush-headingTwo">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+      <h5>Who can use Plantify?</h5>
+      </button>
+    </h2>
+    <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+      <div class="accordion-body"style="text-align: justify;"> <strong>Plantifeed:</strong> is an open platform where anyone can share their urban planting stories. Whether you're a seasoned gardener or new to the green scene, your experiences and insights are valuable contributions to our community. Join us in inspiring and learning from each other as we work towards greener, more sustainable cities together.</div>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="flush-headingThree">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+      <h5>Can I use Plantify in my Smartphones?<h5>
+      </button>
+    </h2>
+    <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+      <div class="accordion-body"style="text-align: justify;"> Absolutely! Plantify offers the flexibility and convenience of access from any mobile device, including smartphones, as well as web browsers. This means whether you're out in the field overseeing planting projects, attending community events, or simply on the move, you can stay connected and manage your urban greening initiatives effortlessly. With Plantify, there's no need to be tied to a desktop computer – you have the freedom to plan, monitor, and engage with your projects wherever you are, ensuring that your efforts in creating vibrant green spaces in urban environments are always at your fingertips.</div>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="flush-headingFour">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
+      <h5>Can anyone share their story in Plantifeed?</h5>
+      </button>
+    </h2>
+    <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour" data-bs-parent="#accordionFlushExample">
+      <div class="accordion-body"style="text-align: justify;"> Yes! Plantifeed is an inclusive platform where everyone is invited to share their urban planting stories. Whether you're an experienced gardener or just starting out, your voice matters. Join us in inspiring and learning from each other as we cultivate greener, more sustainable cities together.</div>
+       
+    </div>
+  </div>
+</div>
+</div>
 
 
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header" id="genques-headingTwo">
-                                            <button style="padding-top:30px; padding-bottom:30px;" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#genques-collapseTwo" aria-expanded="false" aria-controls="genques-collapseTwo">
-                                                Can I use Plantify in my Smartphones?
-                                            </button>
-                                        </h2>
-                                        <div id="genques-collapseTwo" class="accordion-collapse collapse" aria-labelledby="genques-headingTwo" data-bs-parent="#genques-accordion">
-                                            <div class="accordion-body ff-secondary" style="padding-top:30px; padding-bottom:30px; text-align: justify; text-justify: inter-word;">
-                                                Absolutely! Plantify offers the flexibility and convenience of access from any mobile device, including smartphones, as well as web browsers. This means whether you're out in the field overseeing planting projects, attending community events, or simply on the move, you can stay connected and manage your urban greening initiatives effortlessly. With Plantify, there's no need to be tied to a desktop computer – you have the freedom to plan, monitor, and engage with your projects wherever you are, ensuring that your efforts in creating vibrant green spaces in urban environments are always at your fingertips.
-                                            </div>
-                                        </div>
-                                    </div>
 
 
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header" id="genques-headingThree">
-                                            <button style="padding-top:30px; padding-bottom:30px;" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#genques-collapseThree" aria-expanded="false" aria-controls="genques-collapseThree">
-                                                Can anyone share their story in Plantifeed?
-                                            </button>
-                                        </h2>
-                                        <div id="genques-collapseThree" class="accordion-collapse collapse" aria-labelledby="genques-headingThree" data-bs-parent="#genques-accordion">
-                                            <div class="accordion-body ff-secondary" style="padding-top:30px; padding-bottom:30px; text-align: justify; text-justify: inter-word;">
-                                                Yes! Plantifeed is an inclusive platform where everyone is invited to share their urban planting stories. Whether you're an experienced gardener or just starting out, your voice matters. Join us in inspiring and learning from each other as we cultivate greener, more sustainable cities together.
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header" id="genques-headingFour">
-                                            <button style="padding-top:30px; padding-bottom:30px;" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#genques-collapseFour" aria-expanded="false" aria-controls="genques-collapseFour">
-                                                How to apply for a Farm?
-                                            </button>
-                                        </h2>
-                                        <div id="genques-collapseFour" class="accordion-collapse collapse" aria-labelledby="genques-headingFour" data-bs-parent="#genques-accordion">
-                                            <div class="accordion-body ff-secondary" style="padding-top:30px; padding-bottom:30px; text-align: justify; text-justify: inter-word;">
 
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--end accordion-->
-                        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        <!--end accordion-->
+
                     </div>
             </section>
 

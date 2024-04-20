@@ -105,7 +105,7 @@
         
                                         <div class="d-flex align-items-center px-4 mt-4 pt-2 mb-2">
                                             <div class="flex-grow-1">
-                                                <h4 class="mb-0 fs-11 text-muted text-uppercase">Channels</h4>
+                                                <h4 class="mb-0 fs-11 text-muted text-uppercase">Group Chats</h4>
                                             </div>
                                             <div class="flex-shrink-0">
                                                 <!-- <div data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="bottom" title="Create group">
@@ -180,8 +180,11 @@
                         </div>
                         <!-- end chat leftsidebar -->
                         <!-- Start User chat -->
-                        <div class="user-chat w-100 overflow-hidden" style="background-image: url('{{ asset('assets/images/chat_bg.png') }}'); background-size: cover; ">
-
+                        <div class="user-chat w-100 overflow-hidden" style="background-image: url('{{ asset('storage/images/chat_bg.png') }}'); background-size: cover; position: relative;">
+                            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
+                                <p style="font-size: 27px;">Select a chat or start a new conversation</p>
+                            </div>
+                        </div>
                             <div class="chat-content d-lg-flex">
                                 <!-- start chat conversation section -->
                                 <div class="w-100 overflow-hidden position-relative">
@@ -492,9 +495,7 @@ $(document).ready(function () {
 });
 
 
-setInterval(function() {
-        $('#userList').load(window.location.href + ' #userList');
-    }, 500);
+
 </script>
 
 

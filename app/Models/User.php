@@ -65,11 +65,21 @@ public function messages()
 }
 public function farm()
 {
-    return $this->hasOne(Farm::class);
+    return $this->hasOne(Farm::class, 'farm_leader');
 }
 public function tasks()
 {
     return $this->hasMany(Task::class);
 }
+public function groupMembers()
+    {
+        return $this->hasMany(GroupMember::class, 'user_id');
+    }
+
+    // Define the relationship with groups
+    public function groups()
+    {
+        return $this->belongsToMany(Group::class, 'group_members', 'user_id', 'group_id');
+    }
 
 }

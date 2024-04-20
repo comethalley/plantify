@@ -9,10 +9,8 @@ class GroupMessage extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'message_id';
-
     protected $fillable = [
-        'thread_id', 'sender_id', 'content', 'create_date',
+        'thread_id', 'sender_id', 'content', 'image_path', 'status', 'create_date',
     ];
 
     public function thread()
@@ -27,6 +25,7 @@ class GroupMessage extends Model
 
     public function group()
     {
-        return $this->belongsTo(Group::class, 'group_id');
+        return $this->belongsTo(Group::class, 'group_id'); // Assuming you have a 'group_id' column
     }
 }
+

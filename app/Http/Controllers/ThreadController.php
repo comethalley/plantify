@@ -6,6 +6,7 @@ use App\Models\Thread;
 use App\Models\Message;
 use App\Models\Reply;
 use App\Models\User;
+use App\Models\Farm;
 use App\Models\Group;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,8 +21,14 @@ class ThreadController extends Controller
      */
     public function index()
     {
-        $threads = Thread::with('messages')->get();
-        return view('pages.thread', compact('threads'));
+        // Assuming you have the authenticated user available
+        $user = auth()->user();
+    
+        // Fetch the user's associated farm (if any)
+        $farm = Farm::where('farm_leader', $user->id)->first();
+    
+        // Pass the user and farm data to the view
+        return view('pages.thread', compact('user', 'farm'));
     }
 
 /**
@@ -37,6 +44,10 @@ public function showThread($threadId)
 
     // Get the currently logged-in user
     $currentUser = Auth::user();
+
+    $user = auth()->user();
+
+    $farm = Farm::where('farm_leader', $user->id)->first();
 
     // Retrieve all other users for the chat list (excluding the logged-in user)
     $users = User::where('id', '!=', $currentUser->id)->get();
@@ -66,7 +77,7 @@ public function showThread($threadId)
         ->first();
 
     // Return to the view with the updated data
-    return view('pages.thread', compact('thread', 'filteredUsers', 'messages', 'groups', 'farmLeaders'));
+    return view('pages.thread', compact('thread', 'filteredUsers', 'messages', 'groups', 'farmLeaders', 'farm', 'user'));
 }
 
 
@@ -75,24 +86,54 @@ public function showThread($threadId)
 
     
 
-    public function storeMessage(Request $request, $threadId)
-    {
-        // Validate the incoming request data
-        $request->validate([
-            'content' => 'required|string',
-        ]);
+public function storeMessage(Request $request, $threadId)
+{
+    // Validate the incoming request data
+    $request->validate([
+        'text_content' => 'nullable|string',
+        'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048', // Adjust the validation rules as needed
+    ]);
 
-        // Create a new message in the specified thread
+    // Check if an image is included in the request
+    if ($request->hasFile('photo')) {
+        // Handle image upload
+        $photo = $request->file('photo');
+        $imagePath = $request->file('photo')->store('images', 'public');
+
+        // Create a new message with image path
         Message::create([
             'thread_id' => $threadId,
             'sender_id' => auth()->user()->id,
-            'content' => $request->input('content'),
+            'image_path' => $imagePath,
             'create_date' => now(),
         ]);
-
-        // You might need to return a response or redirect based on your application flow
-        return response()->json(['success' => true]);
+    } else {
+        // Create a new message with text content
+        Message::create([
+            'thread_id' => $threadId,
+            'sender_id' => auth()->user()->id,
+            'text_content' => $request->input('text_content'),
+            'create_date' => now(),
+        ]);
     }
+
+    // You might need to return a response or redirect based on your application flow
+    return response()->json(['success' => true]);
+}
+
+
+    public function deleteMessage($messageId)
+{
+    $message = Message::find($messageId);
+
+    if ($message) {
+        // Update the status of the message to false
+        $message->update(['status' => false]);
+        return response()->json(['success' => true]);
+    } else {
+        return response()->json(['error' => 'Message not found'], 404);
+    }
+}
 
 
     /**

@@ -36,4 +36,8 @@ class Farm extends Model
                 $query->where('barangay_id', $barangayId);
             });
     }
+    public function users()
+    {
+        return $this->hasMany(User::class, 'farm_leader');
+    }
 }

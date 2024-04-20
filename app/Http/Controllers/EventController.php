@@ -32,6 +32,7 @@ class EventController extends Controller
         $item->end = $request->end;
         $item->location = $request->location;
         $item->description = $request->description;
+        $item->image = $request->image;
         $item->status = 1;
         $item->save();
 
@@ -51,10 +52,11 @@ class EventController extends Controller
         return redirect('/schedules');
     }
 
-
-    public function checkEventsToday()
+    public function show($id)
     {
-       
+        $event = Event::findOrFail($id); // Assuming Event is your model representing events
+
+        return response()->json($event);
     }
 
     public function getEvents()

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->date('end');
             $table->text('location')->nullable();
             $table->text('description')->nullable();
+            $table->string('image')->nullable();
             $table->string('status');
             $table->timestamps();
         });

@@ -32,7 +32,16 @@ class EventController extends Controller
         $item->end = $request->end;
         $item->location = $request->location;
         $item->description = $request->description;
-        $item->image = $request->image;
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('assests/images/event'), $imageName);
+            //$input['image'] = $imageName;
+        }
+
+
+        $item->image = $imageName;
         $item->status = 1;
         $item->save();
 

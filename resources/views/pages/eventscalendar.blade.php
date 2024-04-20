@@ -108,7 +108,7 @@
                                             <h5 class="modal-title" id="exampleModalLabel">Create Events</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
                                         </div>
-                                        <form method="post" action="{{ URL('/create-schedule') }}"  id="form-event">
+                                        <form method="post" action="{{ URL('/create-schedule') }}"  id="form-event" enctype="multipart/form-data">
                                             @csrf
                                             <div class="modal-body">
                                                 <input type="hidden" id="id-field" />
@@ -169,7 +169,7 @@
                     <div class="d-flex">
                         <div class="me-4">
                             <!-- Image -->
-                            <img src="assets/images/event/missing.png" alt="Event Image" class="img-fluid" style="max-width: 200px;">
+                            <img src="" alt="Event Image" class="img-fluid" style="max-width: 200px;" id="eventimage">
                         </div>
                         <div class="flex-grow-1">
                             <!-- Event details -->
@@ -443,12 +443,15 @@
         url: '/events/' + eventId,
         type: 'GET',
         success: function(response) {
+            
             $('#eventtitle').text(response.title);
             $('#eventstart').text(moment(response.start).format('MMMM D, YYYY'));
             $('#eventend').text(moment(response.end).format('MMMM D, YYYY'));
             $('#eventlocation').text(response.location);
             $('#eventdescription').text(response.description);
-            $('#eventimage').attr('src', response.image);
+            var imageUrl = "assests/images/event/"+response.image;
+            console.log("Image Event"+imageUrl)
+            $('#eventimage').attr('src', imageUrl);
             // Show the modal
             $('#EventdetailModal').modal('show');
         },

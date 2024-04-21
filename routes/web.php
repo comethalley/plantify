@@ -154,8 +154,10 @@ Route::get('/chat/{userId}', [ChatController::class, 'show'])->name('chat.show')
 Route::post('/chat/{messageId}/reply', [ChatController::class, 'storeReply'])->name('chat.storeReply');
 Route::get('/chat/users', [ChatController::class, 'displayChatUsers'])->name('chat.displayUsers');
 Route::post('/create-thread/{userId}', [ThreadController::class, 'createThread'])->name('create.thread');
+Route::get('/thread', [ThreadController::class, 'index'])->name('thread.index');
 Route::get('/thread/{threadId}', [ThreadController::class, 'showThread'])->name('show.thread');
 Route::post('/thread/{threadId}/store-message', [ThreadController::class, 'storeMessage'])->name('store.message');
+Route::delete('/delete-message/{messageId}', [ThreadController::class, 'deleteMessage'])->name('delete.message');
 Route::post('/mark-messages-as-read/{userId}', [ChatController::class, 'markMessagesAsRead']);
 Route::get('/search-users', [ChatController::class, 'searchUsers']);
 
@@ -165,7 +167,8 @@ Route::get('/groups', [GroupController::class, 'index'])->name('groups.index');
 Route::get('/groups/{groupId}', [GroupController::class, 'show'])->name('groups.show'); // Make the farmId parameter optional
 Route::post('/groups/{group}/join', [GroupController::class, 'join'])->name('groups.join');
 Route::get('/groups/create', [GroupController::class, 'create'])->name('groups.create');
-Route::post('/group/{groupId}/store-group-message', [GroupController::class, 'storeGroupMessage'])->name('store.group.message');
+Route::post('/store-group-message/{groupId}', [GroupController::class, 'storeGroupMessage'])->name('store.group.message');
+Route::delete('/delete-group-message/{messageId}', [GroupController::class, 'deleteMessage'])->name('delete.group.message');
 Route::post('/mark-group-messages-as-read/{groupId}', [GroupController::class, 'markGroupMessagesAsRead']);
 
 Route::get('/weather', [WeatherController::class, 'index']);

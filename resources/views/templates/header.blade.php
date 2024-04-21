@@ -726,7 +726,7 @@
                         </li>
                         @endif
 
-                        @if( session('user') && session('user')->role_id != 4)
+                        @if( session('user') && session('user')->role_id != 5)
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="/chat" role="button" style="color:white">
                                 <i class="ri-wechat-line"></i>

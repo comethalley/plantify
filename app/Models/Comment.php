@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Comment extends Model
 {
-    protected $fillable = ['content', 'image']; // Define fillable fields
+    protected $fillable = ['forums_id', 'commented_by', 'content', 'image']; // Define fillable fields
 }

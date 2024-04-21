@@ -331,3 +331,8 @@ Route::get('/farmsAnalyticsData/{num}', [AnalyticsController::class, 'getFarmsDa
 Route::get('/markAsRead', function () {
     auth()->user()->unreadNotifications->markAsRead();
 });
+
+//PLANTIFEED ===============================================
+
+Route::get('/getPost', [ForumController::class, 'getPost']);
+Route::get('/getComment/{num}', [CommentController::class, 'getComment']);

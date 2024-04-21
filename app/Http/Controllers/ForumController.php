@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Validation\Rule;
-
+use App\Events\MyEvent;
 use Pusher\Pusher;
 
 class ForumController extends Controller
@@ -142,26 +142,46 @@ class ForumController extends Controller
         }
 
         // Create forum post if validation passes
-        Forum::create([
+        $forum =  Forum::create([
             'user_id' => $id,
             'question' => $request->askquestions,
             'language' => $request->language,
         ]);
 
-        $pusher = new Pusher(env('PUSHER_APP_KEY'), env('PUSHER_APP_SECRET'), env('PUSHER_APP_ID'), [
-            'cluster' => env('PUSHER_APP_CLUSTER'),
-            'encrypted' => true,
-            'curl_options' => [
-                CURLOPT_SSL_VERIFYPEER => false,
-            ],
-        ]);
+        $hey = "Hello world";
+        // print $hey;
+        // exit;
 
-        $data = ['message' => 'Hello'];
+        $pusher = new Pusher(
+            env('PUSHER_APP_KEY'),
+            env('PUSHER_APP_SECRET'),
+            env('PUSHER_APP_ID'),
+            [
+                'cluster' => env('PUSHER_APP_CLUSTER'),
+                'useTLS' => true,
+            ]
+        );
+
+        $data['message'] = "Hell sa imong tanan";
 
         $pusher->trigger('my-channel', 'my-event', $data);
+
 
         // If successful
         $message = "Question added successfully.";
         return redirect()->back()->with('message', $message)->with('message_type', 'success');
+    }
+
+    public function getPost()
+    {
+        $questions = DB::table('forums')
+            ->leftJoin('users', 'users.id', '=', 'forums.user_id')
+            ->select('users.*', 'forums.*', 'forums.created_at as question_created_at') // Ilagay ang 'created_at' sa forum table bilang 'question_created_at'
+            ->orderBy('forums.created_at', 'desc')
+            ->get();
+
+        $comments = Comment::all();
+
+        return view('pages.post', compact('questions', 'comments'));
     }
 }

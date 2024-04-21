@@ -10,6 +10,7 @@ class CreateCommentsTable extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
+            $table->string('forums_id');
             $table->text('content');
             $table->string('image')->nullable();
             $table->timestamps();

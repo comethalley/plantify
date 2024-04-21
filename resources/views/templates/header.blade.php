@@ -66,6 +66,9 @@
     <link href="https://unpkg.com/quill-image-uploader@1.2.4/dist/quill.imageUploader.min.css" rel="stylesheet" />
     <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
     <script src="https://unpkg.com/quill-image-uploader@1.2.4/dist/quill.imageUploader.min.js"></script>
+
+    <!--Pusher JS-->
+    <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
     <style>
         .tab-content {
             max-height: 400px;
@@ -889,13 +892,27 @@
 
 
 
-        const pusher = new Pusher('932fdd5849f2e8b782a5', {
-            cluster: 'ap1',
-            encrypted: true
-        });
+        // const pusher = new Pusher('932fdd5849f2e8b782a5', {
+        //     cluster: 'ap1',
+        //     encrypted: true
+        // });
 
-        const channel = pusher.subscribe('channel-name');
-        channel.bind('event-name', function(data) {
-            // Display notification
-        });
+        // const channel = pusher.subscribe('channel-name');
+        // channel.bind('event-name', function(data) {
+        //     // Display notification
+        // });
+    </script>
+
+    <script>
+        // Pusher.logToConsole = true;
+
+        // var pusher = new Pusher('54f1c49cb67ee0620dac', {
+        //     cluster: 'ap1'
+        // });
+
+        // var channel = pusher.subscribe('my-channel');
+        // channel.bind('my-event', function(data) {
+        //     console.log("Data received:", data);
+        //     alert(JSON.stringify(data));
+        // });
     </script>

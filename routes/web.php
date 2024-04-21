@@ -170,8 +170,8 @@ Route::get('/fedit/{id}', [PlantInfoController::class, 'fedit']);
 //For farm management =======================================================
 
 //view farm-management//
-Route::get('/view-farms', [FarmController::class, 'viewFarms'])->name('farms.view');
-Route::get('/view-farms3', [FarmController::class, 'viewFarms3'])->name('farms.view3');
+Route::get('/Farm-Management-High', [FarmController::class, 'viewFarms'])->name('farms.view');
+Route::get('/Farm-Management', [FarmController::class, 'viewFarms3'])->name('farms.view3');
 Route::get('/farms/filterByStatus', [FarmController::class, 'filterByStatus']);
 Route::post('/update-status/{id}', [FarmController::class, 'updateStatus'])->name('update.status');
 
@@ -192,12 +192,9 @@ Route::post('/set-date-farm/{id}', [FarmController::class, 'SetDateStatus'])->na
 
 
 //index farm-mamangement//
-Route::get('/farms3', [FarmController::class, 'index']);
+Route::get('/Farms-District-5', [FarmController::class, 'index']);
 Route::post('/add-farms', [FarmController::class, 'addFarms'])->name('add.farms');
 Route::get('/archive-farm/{id}', [FarmController::class, 'archiveFarm'])->name('archive.farm');
-// Route::get('/', function () {
-//     return view('pages.index');
-// })->name('home');
 
 //=============================================================================================    
 

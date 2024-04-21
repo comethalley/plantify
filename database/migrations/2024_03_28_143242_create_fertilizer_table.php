@@ -6,31 +6,31 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
-        Schema::create('fertilizers', function (Blueprint $table) {
-            $table->id();
-            $table->string('farm_id');
-            $table->string('name');
-            $table->text('uom_id');
-            $table->string('qty');
-            $table->string('status');
-            $table->timestamps();
-        });
-    }
+    // /**
+    //  * Run the migrations.
+    //  *
+    //  * @return void
+    //  */
+    // public function up()
+    // {
+    //     Schema::create('fertilizers', function (Blueprint $table) {
+    //         $table->id();
+    //         $table->string('farm_id');
+    //         $table->string('name');
+    //         $table->text('uom_id');
+    //         $table->string('qty');
+    //         $table->string('status');
+    //         $table->timestamps();
+    //     });
+    // }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::dropIfExists('fertilizers');
-    }
+    // /**
+    //  * Reverse the migrations.
+    //  *
+    //  * @return void
+    //  */
+    // public function down()
+    // {
+    //     Schema::dropIfExists('fertilizers');
+    // }
 };

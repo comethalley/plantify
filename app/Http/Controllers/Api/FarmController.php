@@ -308,7 +308,7 @@ public function viewFarms(Request $request)
 
 
     $farms = DB::table('farms')
-        ->join('barangays', 'farms.barangay_name', '=', 'barangays.barangay_name')
+        // ->join('barangays', 'farms.barangay_name', '=', 'barangays.barangay_name')
         ->leftJoin('users', 'farms.farm_leader', '=', 'users.id') // Join with users table for farm leader
         ->where('farms.barangay_name', '=', $barangayName)
         ->select('farms.*')
@@ -333,7 +333,7 @@ public function viewFarms3(Request $request)
                        ->get();
 
     $farms = DB::table('farms')
-        ->join('barangays', 'farms.barangay_name', '=', 'barangays.barangay_name')
+        // ->join('barangays', 'farms.barangay_name', '=', 'barangays.barangay_name')
         ->leftJoin('users', 'farms.farm_leader', '=', 'users.id') // Join with users table for farm leader
         ->when($user, function ($query) use ($user) {
             // If the user is a farm leader, retrieve farms based on their farm_leader value and barangay_name

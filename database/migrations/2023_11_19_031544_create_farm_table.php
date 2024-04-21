@@ -26,6 +26,7 @@ return new class extends Migration
             $table->binary('picture_land1')->nullable();
             $table->binary('picture_land2')->nullable();
             $table->date('select_date')->nullable();
+            $table->string('email')->nullable();
             $table->timestamps();
         
             // Define foreign key constraint

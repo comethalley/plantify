@@ -355,7 +355,7 @@ public function addFarms(Request $request)
             'farm_name' => 'required|string|max:255',
             'address' => 'required|string|max:255',
             'area' => 'required|numeric',
-            'farm_leader' => 'required|exists:users,id',
+            'farm_leader' => 'required|exists:users,id', // Update the validation rule
             'title_land' => 'required|file|mimes:pdf,png,jpg|max:2048',
             'picture_land' => 'required|file|mimes:jpeg,png|max:2048',
             'picture_land1' => 'nullable|file|mimes:jpeg,png|max:2048',
@@ -366,18 +366,21 @@ public function addFarms(Request $request)
         // Retrieve user details based on the selected farm_leader
         $selectedUser = User::findOrFail($request->input('farm_leader'));
 
+        // Assuming the farms are in the default database connection
         $titleLandPath = $request->file('title_land')->store('pdfs', 'public');
         $pictureLandPath = $request->file('picture_land')->store('images', 'public');
 
         $pictureLandPath1 = $request->hasFile('picture_land1') ? $request->file('picture_land1')->store('images', 'public') : null;
         $pictureLandPath2 = $request->hasFile('picture_land2') ? $request->file('picture_land2')->store('images', 'public') : null;
 
+        // Create the farm record including the email of the farm leader
         Farm::create([
             'barangay_name' => $request->input('barangay_name'),
             'farm_name' => $request->input('farm_name'),
             'address' => $request->input('address'),
             'area' => $request->input('area'),
             'farm_leader' => $selectedUser->id,
+            'email' => $selectedUser->email, // Save the email of the farm leader
             'status' => $request->input('status', 'Created'),
             'title_land' => $titleLandPath,
             'picture_land' => $pictureLandPath,

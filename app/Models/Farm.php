@@ -7,6 +7,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class Farm extends Model
 {
+
+    public function barangays()
+    {
+        return $this->hasMany(Barangay::class, 'farm_id', 'id');
+    }
+
+    public function scopeWithBarangayName($query, $barangayId = null)
+    {
+        $query->select(['id', 'farm_name'])
+            ->when($barangayId, function ($query, $barangayId) {
+                $query->where('barangay_id', $barangayId);
+            });
+    }
+    
     use HasFactory;
     
     protected $fillable = [
@@ -22,17 +36,6 @@ class Farm extends Model
         'picture_land1',
         'picture_land2',
         'select_date',
+        'email',
     ];
-    public function barangays()
-    {
-        return $this->hasMany(Barangay::class, 'farm_id', 'id');
-    }
-
-    public function scopeWithBarangayName($query, $barangayId = null)
-    {
-        $query->select(['id', 'farm_name'])
-            ->when($barangayId, function ($query, $barangayId) {
-                $query->where('barangay_id', $barangayId);
-            });
-    }
 }

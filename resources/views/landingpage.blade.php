@@ -64,12 +64,10 @@
 
                 <div class="">
 
-                    <a class="btn btn-link text-white  fw-bold" href="/login">Log in</a>
-                    <a class="btn btn-link text-white  fw-bold" style="background-color: #F94354;" href="/signup">Sign Up</a>
-
-                    <!-- <a href="/login" class=" text-white btn btn-link  text-decoration-none text-body">Sign in</a>
-                    <a href="/signup" class="btn btn-primary text-white fw-bold" style="background-color: red; border:none;">Sign Up</a> -->
-
+                    <a class="btn btn-link text-white  fw-bold" href="/login">Login</a>
+                    <a class="btn btn-link text-white  fw-bold"  style="background-color: #F94354;" href="/signup">Sign Up</a>
+                    
+                   
                 </div>
             </div>
 
@@ -87,22 +85,23 @@
                 <div class="col-lg-6 order-2 order-lg-1">
                     <div class="text-muted">
 
-                        <h1 class="display-10 fw-semibold mb-3 lh-base">Rooted in the city, flourishing in the <span style="color: #57AA2C;">community!</span></h1>
+                    <h1 class="display-10 fw-semibold mb-3 lh-base">Rooted in the city, flourishing in the <span style="color: #57AA2C;">community!</span></h1>
 
                         <p class="lead text-muted lh-base">Join the urban green revolution, easily grow crops in the city, and connect with a passionate community online. Start making a difference today!</p>
 
-                        <div class="mt-4">
-                            <a href="/signup" class="btn btn-primary " style="background-color: #F94354; border:none; width: 250px;">Get Started <i class="ri-arrow-right-line align-middle ms-1"></i></a>
+                       <div class="mt-4 d-flex justify-content-center">
+    <a href="/signup" class="btn btn-primary" style="background-color: #F94354; border:none; width: 250px;">Get Started <i class="ri-arrow-right-line align-middle ms-1"></i></a>
+</div>
 
-                        </div>
                     </div>
                 </div>
                 <!-- end col -->
-                <div class="col-lg-6 col-sm-7 col-10 ms-auto order-1 order-lg-2 text-end">
-                    <div>
-                        <img src="assets/images/plantifeedpics/landing-page.png" alt="" class="img-fluid">
-                    </div>
-                </div>
+                <div class="col-lg-6 col-sm-7 col-10 ms-auto order-1 order-lg-2 d-flex justify-content-center">
+    <div>
+        <img src="assets/images/plantifeedpics/landing-page.png" alt="" class="img-fluid">
+    </div>
+</div>
+
             </div>
         </div>
 
@@ -141,11 +140,7 @@
                                         </div>
                                     </div>
                                     <div>
-
-                                        <div class="mt-4">
-                                            <a href="javascript:void(0);" class="btn btn-soft-success w-100" style="background-color: #57AA2C; color: white;">Read More</a>
-                                        </div>
-
+                                       
                                     </div>
                                 </div>
                             </div>
@@ -164,11 +159,7 @@
                                         </div>
                                     </div>
                                     <div>
-
-                                        <div class="mt-4"><br><br>
-                                            <a href="javascript:void(0);" class="btn btn-soft-success w-100" style="background-color: #57AA2C; color: white;">Read More</a>
-                                        </div>
-
+                                       
                                     </div>
                                 </div>
                             </div>
@@ -187,11 +178,7 @@
                                         </div>
                                     </div>
                                     <div>
-
-                                        <div class="mt-4"><br>
-                                            <a href="javascript:void(0);" class="btn btn-soft-success w-100" style="background-color: #57AA2C; color: white;">Read More</a>
-                                        </div>
-
+                                    
                                     </div>
                                 </div>
                             </div>
@@ -214,8 +201,7 @@
                         <div class="col-sm">
                             <div>
                                 <h3 class="text-black mb-0 text-center">Engage in the community using</h3>
-                                <h4 class="text-black mb-0 text-center"><strong>P L A N T I F E E D </strong>
-                                    <h4>
+                                <h4 class="text-black mb-0 text-center"><strong>P L A N T I F E E D </strong><h4>
 
                             </div>
                             <div class="align-items-center gy-4 row">
@@ -331,47 +317,9 @@
   </div>
 </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                         <!--end accordion-->
-
                     </div>
+                </div>
             </section>
 
             <!-- Start footer -->

@@ -50,7 +50,7 @@ use App\Http\Controllers\ReportController;
 // });
 
 Route::get('/', [AuthController::class, 'landingpage']);
-Route::get('/dashboard/analytics', [AnalyticsController::class, 'index'])->middleware('auth');
+Route::get('/dashboard/analytics', [AnalyticsController::class, 'index'])->name('dashboard.analytics')->middleware('auth');
 Route::get('/login', [AuthController::class, 'viewLogin'])->name('login')->middleware('guest');
 Route::get('/signup', [AuthController::class, 'viewSignup']);
 Route::post('/login/process', [AuthController::class, 'login']);
@@ -336,3 +336,5 @@ Route::get('/markAsRead', function () {
 
 Route::get('/getPost', [ForumController::class, 'getPost']);
 Route::get('/getComment/{num}', [CommentController::class, 'getComment']);
+Route::get('/getReply/{num}', [CommentController::class, 'getReply']);
+Route::post('/reply/store', [CommentController::class, 'createReply']);

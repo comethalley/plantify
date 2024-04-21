@@ -17,12 +17,17 @@
 
 <hr>
 <div id="comment-section">
+    <h5>
+        Total Comments: {{ $comment->count() }}
+    </h5>
+    <br>
+
     @foreach ($comment as $per_comment)
     <div class="row">
-        <div class="col-sm-1">
-            <img src="/assets/images/plantifeedpics/rounded.png" alt="Image Description" class="object-cover rounded-full" style="width: 30px; height: 30px;">
+        <div class="col-sm-1 col-2 flex-shrink-0">
+            <img src="/assets/images/plantifeedpics/rounded.png" alt="Image Description" class="object-cover rounded-full" style="max-width: 30px; max-height: 30px;">
         </div>
-        <div class="col-sm-11 bg-light p-2" style="margin-left: -15px;">
+        <div class="col-sm-11 col-10 bg-light p-2" style="margin-left: -15px;">
             <p style="font-size: 12px;">
                 <strong>
                     {{ $per_comment->firstname }}{{ $per_comment->lastname }}
@@ -32,7 +37,7 @@
             <p style="font-size: 12px;">
                 {{ $per_comment->content }}
             </p>
-            <a href="#">Like</a> <a href="#" onclick="getReply()">Reply</a>
+            <a href="#">Like</a> <a href="#" onclick="showReply('{{ $per_comment->id }}','{{ $per_comment->firstname }}');return false;">Reply</a>
         </div>
     </div>
     <br>

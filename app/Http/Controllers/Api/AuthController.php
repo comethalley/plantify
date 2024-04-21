@@ -542,6 +542,9 @@ class AuthController extends Controller
 
     public function landingpage()
     {
+        if (auth()->check()) {
+            return redirect()->route('dashboard.analytics');
+        }
         return view('landingpage');
     }
 }

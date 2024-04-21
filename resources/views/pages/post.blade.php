@@ -279,7 +279,7 @@
 
 
 
-        <button type="button" onclick="getComments('{{ $question->id }}','{{ $question->firstname }}')" style="display: flex; align-items:center; padding: 10px 20px; background-color: white; color: black; border: none; border-radius: 5px; cursor: pointer;" onmouseover="this.style.backgroundColor='lightgray';" onmouseout="this.style.backgroundColor='white';">
+        <button type="button" onclick="showComments('{{ $question->id }}','{{ $question->firstname }}')" style="display: flex; align-items:center; padding: 10px 20px; background-color: white; color: black; border: none; border-radius: 5px; cursor: pointer;" onmouseover="this.style.backgroundColor='lightgray';" onmouseout="this.style.backgroundColor='white';">
             <img src="assets/images/plantifeedpics/comment.png" alt="Comment" style="height: 20px; width: 20px; margin-right: 10px;">
             Comment
         </button>
@@ -334,6 +334,25 @@
 
                 </div><!-- /.modal-content -->
             </form>
+            <form action="/reply/store" id="replyForm" method="POST" style="display: none;">
+                @csrf
+                <h6 style="margin-left: 20px;margin-top:10px;">Reply to <span id="replyTo"></span>'s Comment</h6>
+                <div class="modal-footer" style="display: flex;justify-content:space-between;">
+
+                    <input type="hidden" id="comment_id" name="comment_id">
+                    <div>
+                        <img src="/assets/images/plantifeedpics/rounded.png" alt="Image Description" class="object-cover rounded-full" style="width: 30px; height: 30px;">
+                    </div>
+                    <div style="flex:1;">
+                        <input type="text" class="form-control" name="content" id="replyInput">
+                    </div>
+                    <div>
+                        <button id="submitReply" type="submit" class="btn btn-secondary waves-effect waves-light">Reply</button>
+                    </div>
+
+
+                </div><!-- /.modal-content -->
+            </form>
         </div><!-- /.modal-dialog -->
     </div>
 
@@ -350,10 +369,21 @@
             getComments(data.id)
         });
 
-        function getComments(id, username) {
-            $('#userFirstname').text(username)
+        var replychannel = pusher.subscribe('reply-channel');
+        replychannel.bind('reply-event', function(data) {
+            //alert(JSON.stringify(data));
+            getReply(data.id)
+        });
 
+        function showComments(id, username) {
+            $('#userFirstname').text(username)
             $('#forum_id').val(id)
+            getComments(id)
+            $('#exampleModalScrollable').modal('show')
+        }
+
+        function getComments(id) {
+
             $.ajax({
                 url: '/getComment/' + id, // Example URL for demonstration
                 method: 'GET',
@@ -361,7 +391,7 @@
                     // Handle success response
                     //$('#post').html(response)
                     $('#comments_body').html(response)
-                    $('#exampleModalScrollable').modal('show')
+
                 },
                 error: function(xhr, status, error) {
                     // Handle error response
@@ -394,9 +424,57 @@
             });
         });
 
+        function showReply(id, name) {
+            $('#comment-section').hide()
+            getReply(id)
+            $('#reply_body').show()
+            $('#commentForm').hide()
+            $('#replyTo').text(name)
+            $('#comment_id').val(id)
+            $('#replyForm').show()
+        }
+
         function getReply(id) {
             //alert('you clicked the reply button')
-            $('#comment-section').hide()
-            $('#reply_body').show()
+
+            $.ajax({
+                url: '/getReply/' + id, // Example URL for demonstration
+                method: 'GET',
+                success: function(response) {
+                    // Handle success response
+                    //$('#post').html(response)
+                    // $('#comment-section').hide()
+                    $('#reply_body').html(response)
+                    //$('#reply_body').show()
+                },
+                error: function(xhr, status, error) {
+                    // Handle error response
+                    $('#reply_body').html('Error occurred: ' + error);
+                }
+            });
         }
+
+        $('#submitReply').click(function(e) {
+            e.preventDefault(); // Prevent default form submission
+
+            // Serialize form data
+            var formData = $('#replyForm').serialize();
+
+            // Send AJAX request
+            $.ajax({
+                type: 'POST',
+                url: $('#replyForm').attr('action'),
+                data: formData,
+                success: function(response) {
+
+                    console.log(response);
+                    $('#replyInput').val('');
+
+                },
+                error: function(xhr, status, error) {
+
+                    console.error(xhr.responseText);
+                }
+            });
+        });
     </script>

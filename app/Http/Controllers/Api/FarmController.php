@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use App\Mail\StatusUpdateNotification;
+use Illuminate\Support\Facades\Mail;
 
 
 class FarmController extends Controller
@@ -252,25 +254,33 @@ class FarmController extends Controller
             'remarks' => 'nullable|string|max:255',
             'select_date' => 'nullable|date', // Add validation rule for select_date
         ]);
-
+    
         // Find the farm by ID
         $farm = Farm::findOrFail($id);
-
+    
         // Get the authenticated user (admin)
         $admin = Auth::user();
-
+    
         // Update the status in the farms table
         $farm->status = $request->input('status');
-
+    
         // If select_date is provided, update it only if it's not null and not already set
         if ($request->has('select_date') && $request->input('select_date') !== null && $farm->select_date === null) {
             // Parse and format the date using Carbon
             $selectedDate = Carbon::parse($request->input('select_date'))->toDateString();
             $farm->select_date = $selectedDate;
         }
-
+    
+        // Save the changes
         $farm->save();
-
+    
+        // Retrieve the associated user's email from the users table
+        $user = User::findOrFail($farm->farm_leader); // Assuming farm_leader is the user ID
+        $userEmail = $user->email;
+    
+        // Send SMTP email notification
+        Mail::to($userEmail)->send(new StatusUpdateNotification($farm->id, $farm->status));
+    
         // Create a new entry in the RemarkFarm table
         RemarkFarm::create([
             'farm_id' => $farm->id,
@@ -278,7 +288,7 @@ class FarmController extends Controller
             'remark_status' => $request->input('status'),
             'validated_by' => $admin->firstname . ' ' . $admin->lastname,
         ]);
-
+    
         return response()->json(['success' => 'Updated successfully']);
     }
 

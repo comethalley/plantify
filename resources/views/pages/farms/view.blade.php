@@ -1188,5 +1188,6 @@
                         /* Box-shadow for Remark Status and Validated By container */
                     }
                 </style>
+@include('templates.footer')
 
 

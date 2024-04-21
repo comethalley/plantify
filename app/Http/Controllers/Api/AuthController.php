@@ -52,7 +52,7 @@ class AuthController extends Controller
             // Fetch data for farm leader role
             $expensesData = Expense::where('budget_id', 3)->where('id', $user->id)->get(['description', 'amount', 'created_at'])->toJson();
 
-            $farmsData = Farm::where('id', $user->id)->with('barangays')->get()->toJson();
+            // $farmsData = Farm::where('id', $user->id)->with('barangays')->get()->toJson();
         }
 
         $barangayOptions = [];

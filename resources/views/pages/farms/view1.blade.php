@@ -1300,4 +1300,5 @@
                         width: 190px;
                     }
                 </style>
+@include('templates.footer')
 

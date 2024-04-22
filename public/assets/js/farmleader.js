@@ -156,7 +156,7 @@ $(document).ready(function () {
                 getFarmLeader();
                 $("#farmLeadershowModal").modal("hide");
                 Swal.fire({
-                    title: "Successfully Archived",
+                    title: "Successfully Invited",
                     // text: "Are you ready for the next level?",
                     icon: "success",
                     timer: 3000,

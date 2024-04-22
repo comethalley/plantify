@@ -740,44 +740,97 @@
         reloadDashboardData();
     });
 
+    // $(document).ready(function() {
+    //     $('#filterForm').submit(function(event) {
+    //         event.preventDefault();
+
+    //         var month = $('#expenseMonth').val();
+    //         var year = $('#expenseYear').val();
+
+    //         if (!month || !year) {
+    //             alert('Please select both month and year.');
+    //             return;
+    //         }
+
+    //         $.ajax({
+    //             type: 'GET',
+    //             url: '/expenses/get-dashboard-data',
+    //             data: {
+    //                 farm_id: $('#farm_id').val(),
+    //                 month: month,
+    //                 year: year
+    //             },
+    //             success: function(response) {
+    //                 if (response.success) {
+    //                     $('#allottedBudget').text(response.allottedBudget);
+    //                     $('#balance').text(response.balance);
+    //                     $('#totalExpenses').text(response.totalExpenses);
+    //                 } else {
+    //                     alert('No budget found for the selected month and year.');
+    //                     $('#allottedBudget').text('0');
+    //                     $('#balance').text('0');
+    //                     $('#totalExpenses').text('0');
+    //                 }
+    //             },
+    //             error: function(xhr, status, error) {
+    //                 console.error(error);
+    //                 alert('Error fetching budget data. Please try again.');
+    //             }
+    //         });
+    //     });
+    // });
+
     $(document).ready(function() {
-        $('#filterForm').submit(function(event) {
-            event.preventDefault();
+    $('#filterForm').submit(function(event) {
+        event.preventDefault();
 
-            var month = $('#expenseMonth').val();
-            var year = $('#expenseYear').val();
+        var month = $('#expenseMonth').val();
+        var year = $('#expenseYear').val();
 
-            if (!month || !year) {
-                alert('Please select both month and year.');
-                return;
-            }
-
-            $.ajax({
-                type: 'GET',
-                url: '/expenses/get-dashboard-data',
-                data: {
-                    farm_id: $('#farm_id').val(),
-                    month: month,
-                    year: year
-                },
-                success: function(response) {
-                    if (response.success) {
-                        $('#allottedBudget').text(response.allottedBudget);
-                        $('#balance').text(response.balance);
-                        $('#totalExpenses').text(response.totalExpenses);
-                    } else {
-                        alert('No budget found for the selected month and year.');
-                        $('#allottedBudget').text('0');
-                        $('#balance').text('0');
-                        $('#totalExpenses').text('0');
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error(error);
-                    alert('Error fetching budget data. Please try again.');
-                }
+        if (!month || !year) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Please select both month and year.'
             });
+            return;
+        }
+
+        $.ajax({
+            type: 'GET',
+            url: '/expenses/get-dashboard-data',
+            data: {
+                farm_id: $('#farm_id').val(),
+                month: month,
+                year: year
+            },
+            success: function(response) {
+                if (response.success) {
+                    $('#allottedBudget').text(response.allottedBudget);
+                    $('#balance').text(response.balance);
+                    $('#totalExpenses').text(response.totalExpenses);
+                } else {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'No budget found',
+                        text: 'No budget found for the selected month and year.'
+                    });
+                    $('#allottedBudget').text('0');
+                    $('#balance').text('0');
+                    $('#totalExpenses').text('0');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error fetching budget data. Please try again.'
+                });
+            }
         });
     });
+});
+
 
 </script>

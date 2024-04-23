@@ -1,4 +1,3 @@
-
 <?php
 
 use Illuminate\Database\Migrations\Migration;
@@ -14,14 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('events', function (Blueprint $table) {
+        Schema::create('cover_photos', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->date('start');
-            $table->date('end');
-            $table->text('location')->nullable();
-            $table->text('description')->nullable();
-            $table->string('status');
+            $table->string('user_id');
+            $table->string('user_photo');
             $table->timestamps();
         });
     }
@@ -33,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('events');
+        Schema::dropIfExists('cover_photos');
     }
 };

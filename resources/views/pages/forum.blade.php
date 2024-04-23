@@ -610,20 +610,6 @@
                                     <span class="question-text"></span>
 
 
-                                    @foreach($comments as $comment)
-
-                                    <div>
-                                        <p>{{ $comment->content }}</p>
-                                        @if($comment->image)
-                                        <img src="{{ asset('images/' . $comment->image) }}" alt="Comment Image">
-                                        @endif
-                                    </div>
-
-                                    <button>reply</button>
-                                    @endforeach
-
-
-
 
                                     <form method="POST" action="{{ route('comments.store') }}" enctype="multipart/form-data">
                                         @csrf
@@ -863,6 +849,7 @@
                                     <br> {{ date('h:i:s A', strtotime($post->created_at)) }}
                                     <img src="{{ asset('storage/' . $post->image) }}" alt="Post Image">
 
+
                                     <form method="POST" action="{{ route('comments.store') }}" enctype="multipart/form-data">
                                         @csrf
                                         <textarea required style="width:100%; resize:none; outline: none; border-radius:20px; padding:10px; border:none; background-color:#F0F0F0;" name="content" placeholder="Enter your comment"></textarea> <br>
@@ -962,6 +949,8 @@
                     </div>
 
                 </div>
+
+
 
                 <script>
                     function toggleDropdown(element) {

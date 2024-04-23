@@ -9,7 +9,6 @@ use App\Models\Comment;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-
 use Illuminate\Validation\Rule;
 
 use Pusher\Pusher;

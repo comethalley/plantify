@@ -28,6 +28,7 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ReportController;
 
+use App\Http\Controllers\UserPhotoController;
 
 
 /*
@@ -109,9 +110,8 @@ Route::post('/post', [PostController::class, 'store'])->name('post.store');
 
 
 
+
 Route::post('/reports', [ReportController::class, 'store'])->name('reports.store');
-
-
 
 Route::get('/search', [SearchController::class, 'search'])->name('forum.search');
 Route::get('/search-results', [SearchController::class, 'index'])->name('pages.search_results');
@@ -129,6 +129,13 @@ Route::put('/edit-question/{id}', [ForumController::class, 'editQuestion'])->nam
 Route::post('/edit-post/{id}', [PostController::class, 'editPost']);
 Route::put('/edit-post/{id}', [PostController::class, 'editPost'])->name('editPost');
 
+
+Route::get('/profilefeed', [UserPhotoController::class, 'index']);
+Route::get('pages/profilefeed', [UserPhotoController::class, 'index'])->name('profile');
+
+
+// Route for updating profile information
+Route::post('/update-profile', [UserPhotoController::class, 'updateProfile'])->name('update.profile');
 
 
 

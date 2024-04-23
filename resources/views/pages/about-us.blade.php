@@ -60,7 +60,7 @@
                 </ul>
 
                 <div class="">
-                    <a class="btn btn-link text-white  fw-bold" href="/login">Sign in</a>
+                    <a class="btn btn-link text-white  fw-bold" href="/login">Login</a>
                     <!-- <a href="" class="btn btn-primary text-white fw-bold" style="background-color: #F94354; border:none;">Sign Up</a> -->
                     <a class="btn btn-link text-white  fw-bold"  style="background-color:red; border:none;" href="/signup">Sign Up</a>
                 </div>
@@ -70,52 +70,54 @@
     </nav>
 
     <!-- end navbar -->
-    <section class="mt-5" style="height: auto; overflow: hidden; background-image: url('path_to_your_image.jpg'); background-size: cover; background-position: center; background-color:white;">
-   
+    <div class="vertical-overlay" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent.show"></div><br><br><br><br>
 
-    <!-- <section class="mt-5" style="height: auto; overflow: hidden; background-color:white;"><br> -->
-        <div class="container">
-            <div class="row align-items-center mt-5 pt-lg-1 gy-4">
-                <div class="col-lg-6 col-sm-7 col-10 mx-auto d-flex justify-content-center align-items-center">
-                    <div>
-                        <img src="assets/images/bg/abtlogo.png" alt="" class="img-fluid" style="height: 350px;">
-                    </div>
-                </div>
-
-                <div class="col-lg-6">
-                    <div class="text-muted ps-lg-10">
-                        <h3 class="mb-3" style="font-family: Poppins, sans-serif;"><strong>Why Plantify was created?</strong></h3>
-                        <p class="mb-4" style="font-family: Poppins; font-style: normal; font-size: 15px; color: black;">Plantify was created to efficiently help the farmers of the Center of Urban Agriculture and Innovations within Quezon City-District 5. The system helps the farmers in the following ways<strong>:</strong></p>
-
-                        <ul class="list-unstyled">
-                      
-                        <li style="font-size: 14px; color: black; font-family: Poppins; font-style: normal;"><i class="fas fa-check-circle" style="color: #4A9826;"></i> Manage urban farms in a timely manner</li>
-                        <li style="font-size: 14px; color: black; font-family: Poppins; font-style: normal;"><i class="fas fa-check-circle" style="color: #4A9826;"></i> Create data reports for District Leaders</li>
-                        <li style="font-size: 14px; color: black; font-family: Poppins; font-style: normal;"><i class="fas fa-check-circle" style="color: #4A9826;"></i> Track expenses for farms</li>
-                        <li style="font-size: 14px; color: black; font-family: Poppins; font-style: normal;"><i class="fas fa-check-circle" style="color: #4A9826;"></i> Farm based on planting calendar</li>
-            </ul>
+  
+    <section class="section bg-light py-5" id="features">
+            <div class="container">
+                <div class="row align-items-center gy-4">
+                    <div class="col-lg-6 col-sm-7 mx-auto">
+                        <div>
+                            <img src="assets/images/bg/abtlogo.png" alt="" class="img-fluid"style="height:350px; display:block; margin:auto;">
                         </div>
                     </div>
+                    <div class="col-lg-6">
+                        <div class="text-muted">
+                            
+                            <h3 class="mb-3 fs-20">Why Plantify was created?</h3>
+                            <p class="mb-4 ff-secondary fs-16"style="color: black; text-justify";>Plantify was created to efficiently help the farmers of the Center of Urban Agriculture and Innovations within Quezon City-District 5. The system helps the farmers in the following ways: </p>
+                            
+                            <ul class="list-unstyled">
+    <li style="font-size: 14px; color: black; font-family: Poppins; font-style: normal; margin-bottom: 8px;">
+        <i class="fas fa-check-circle" style="color: #4A9826;"></i> Manage urban farms in a timely manner
+    </li>
+    <li style="font-size: 14px; color: black; font-family: Poppins; font-style: normal; margin-bottom: 8px;">
+        <i class="fas fa-check-circle" style="color: #4A9826;"></i> Create data reports for District Leaders
+    </li>
+    <li style="font-size: 14px; color: black; font-family: Poppins; font-style: normal; margin-bottom: 8px;">
+        <i class="fas fa-check-circle" style="color: #4A9826;"></i> Track expenses for farms
+    </li>
+    <li style="font-size: 14px; color: black; font-family: Poppins; font-style: normal; margin-bottom: 8px;">
+        <i class="fas fa-check-circle" style="color: #4A9826;"></i> Farm based on planting calendar
+    </li>
+</ul>
+
                     
+                        </div>
+                    </div>
+                    <!-- end col -->
                 </div>
-                
-                <!-- end col -->
+                <!-- end row -->
             </div>
             
-            <!-- end row -->
-        </div>
-    
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1365 168" fill="none">
-<path d="M1365 153.889L1327.06 133.402C1289.11 112.531 1213.22 72.1354 1137.33 56.458C1061.44 41.3576 985.556 50.9757 909.667 82.042C833.778 112.531 757.889 164.469 682 158.986C606.111 153.889 530.222 92.3333 454.333 71.8468C378.444 50.9756 302.556 72.1354 226.667 66.6531C150.778 61.5555 74.8888 30.7777 36.9445 15.3888L-1 -8.17194e-05L-1.00004 277L36.9444 277C74.8888 277 150.778 277 226.667 277C302.556 277 378.444 277 454.333 277C530.222 277 606.111 277 682 277C757.889 277 833.778 277 909.667 277C985.556 277 1061.44 277 1137.33 277C1213.22 277 1289.11 277 1327.06 277L1365 277L1365 153.889Z" fill="#57AA2C"/>
+            <!-- end container -->
+        </section>
+        <!-- end features -->
+
+      
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1365 294" fill="none" >
+<path d="M1365 163.333L1327.06 141.59C1289.11 119.438 1213.22 76.5625 1137.33 59.9229C1061.44 43.8958 985.556 54.1042 909.667 87.0771C833.778 119.438 757.889 174.563 682 168.744C606.111 163.333 530.222 98 454.333 76.2562C378.444 54.1041 302.556 76.5625 226.667 70.7437C150.778 65.3333 74.8888 32.6666 36.9444 16.3333L-1.00004 -8.17194e-05L-1.00008 294L36.9444 294C74.8888 294 150.778 294 226.667 294C302.555 294 378.444 294 454.333 294C530.222 294 606.111 294 682 294C757.889 294 833.778 294 909.667 294C985.556 294 1061.44 294 1137.33 294C1213.22 294 1289.11 294 1327.06 294L1365 294L1365 163.333Z" fill="#57AA2C"/>
 </svg>
-
-        <!-- end container -->
-    </section>
-    <!-- end features -->
-   
-    
-
-
     <!-- start Work Process -->
     <section class="section" style="background-color: #57AA2C;">
         <div class="container" style="background-color: white; padding:50px; border-radius:20px; border:solid 1px;">
@@ -174,52 +176,21 @@ font-weight: 400; line-height: normal;">Jointness of Undertakings Organizational
     </section>
     <!-- end Work Process -->
 
-
-
      <!-- start Work Process -->
      <section class="section" style="background-color: #57AA2C;">
         <div class="container" style="background-color: white; padding:50px; border-radius:20px; border:solid 1px;">
             <div class="row justify-content-center">
                 <div class="col-lg-16">
-                    <div class="text-center mb-5">
+                    <div class="text-center mb-5"><br>
                       
-                        <h1 style="font-weight: bold; color: green;">CENTER FOR URBAN AGRICULTURE AND INNOVATIONS</h1>
+                        <h1 style="font-weight: bold; color: green;">CENTER FOR URBAN AGRICULTURE AND INNOVATIONS</h1><br>
 
-                        <img src="/assets/images/plantifeedpics/CUAI.jpg" alt="" class="img-fluid" style="width: 220px; height: 210px;">
+                        <img src="/assets/images/plantifeedpics/CUAI.jpg" alt="" class="img-fluid" style="width: 220px; height: 210px;"><br>
 
-                        <p style="text-muted ff-secondary; margin: 20px; color:black; font-size: 15px; font-weight: 400; text-align:justify;line-height: normal;"><strong>Center for Urban Agriculture and Innovation (CUAI)</strong> is one of the many manifestations of <strong>Mayor Joy Belmonte's </strong> commitment to the program on urban development particularly in her effort to address the <strong>"zero hunger"</strong> challenge of the city. In <strong>QCU</strong> through <strong>CUAI,</strong> we believe engaging in this work on many levels towards improving the <strong>social, health and economic outcomes for communities.</strong></p>
-
+                        <br><p style="text-muted ff-secondary; margin: 20px; color:black; font-size: 15px; font-weight: 400; text-align:justify;line-height: normal;"><strong>Center for Urban Agriculture and Innovation (CUAI)</strong> is one of the many manifestations of <strong>Mayor Joy Belmonte's </strong> commitment to the program on urban development particularly in her effort to address the <strong>"zero hunger"</strong> challenge of the city. In <strong>QCU</strong> through <strong>CUAI,</strong> we believe engaging in this work on many levels towards improving the <strong>social, health and economic outcomes for communities.</strong></p>
 
                     </div>
                 </div>
-            </div>
-            <!-- end row -->
-
-            <div class="row text-center">
-                <div class="col-lg-4">
-                    <div class="process-card mt-4">
-                        
-                        <h5> </h5>
-                        <p class="text-muted ff-secondary"></p>
-                    </div>
-                </div>
-                <!-- end col -->
-                <div class="col-lg-4">
-                    <div class="process-card mt-4">
-                
-                        <h5> </h5>
-                        <p class="text-muted ff-secondary"></p>
-                    </div>
-                </div>
-                <!-- end col -->
-                <div class="col-lg-4">
-                    <div class="process-card mt-4">
-             
-                        <h5> </h5>
-                        <p class="text-muted ff-secondary"></p>
-                    </div>
-                </div>
-                <!-- end col -->
             </div>
             <!-- end row -->
         </div>

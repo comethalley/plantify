@@ -39,7 +39,7 @@
 
                                     <div class="position-relative h-100 d-flex flex-column">
                                         <div class="mb-4">
-                                            <!-- <a href="index.html" class="d-block"> -->
+                                            <a href="/" class="d-block">
                                             <img src="assets/images/plantifeedpics/landing-page.png" alt="" class="img-fluid">
 
                                             </a>

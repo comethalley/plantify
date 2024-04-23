@@ -79,31 +79,35 @@
     <!-- end navbar -->
     <div class="vertical-overlay" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent.show"></div>
 
-    <section class="section p-0 ">
-        <div class="container"><br><br><br><br><br><br><br>
-            <div class="row align-items-center gy-4">
-                <div class="col-lg-6 order-2 order-lg-1">
-                    <div class="text-muted">
-
-                    <h1 class="display-10 fw-semibold mb-3 lh-base">Rooted in the city, flourishing in the <span style="color: #57AA2C;">community!</span></h1>
-
-                        <p class="lead text-muted lh-base">Join the urban green revolution, easily grow crops in the city, and connect with a passionate community online. Start making a difference today!</p>
-
-                       <div class="mt-4 d-flex justify-content-center">
-    <a href="/signup" class="btn btn-primary" style="background-color: #F94354; border:none; width: 250px;">Get Started <i class="ri-arrow-right-line align-middle ms-1"></i></a>
-</div>
+     <!-- start hero section -->
+    <!-- <section class="section job-hero-section bg-light pb-0" id="hero"> -->
+        <!-- <section class="section job-hero-section bg-light pb-0" id="hero"> -->
+            <section>
+                <div class="container"><br><br><br><br><br><br>
+                    <div class="row justify-content-between align-items-center">
+                        <div class="col-lg-6">
+                            <div>
+                            <h1 class="display-10 fw-semibold mb-3 lh-base">Rooted in the city, flourishing in the <span style="color: #57AA2C;">community!</span></h1>
+                            <p class="lead text-muted lh-base">Join the urban green revolution, easily grow crops in the city, and connect with a passionate community online. Start making a difference today!</p>
+                            </div>
+                            
+                            <div class="mt-4 d-flex justify-content-center">
+                                <a href="/signup" class="btn btn-primary" style="background-color: #57AA2C; border:none; width: 250px;">Get Started <i class="ri-arrow-right-line align-middle ms-1"></i></a>
+                            </div>
+                        </div>
+                        <!--end col-->
+                        <div class="col-lg-6 mt-10">
+                        
+                        <div style="display: flex; justify-content: center;">
+                            <img src="assets/images/plantifeedpics/landing-page.png" alt="" class="img-fluid" />    
+                        </div>
 
                     </div>
+                    <!-- end row -->
                 </div>
-                <!-- end col -->
-                <div class="col-lg-6 col-sm-7 col-10 ms-auto order-1 order-lg-2 d-flex justify-content-center">
-    <div>
-        <img src="assets/images/plantifeedpics/landing-page.png" alt="" class="img-fluid">
-    </div>
-</div>
-
-            </div>
-        </div>
+                <!-- end container -->
+            </section>
+            <!-- end hero section -->
 
         <section class="section p-0 " id="wallet" style="margin-top: 10%;">
 
@@ -190,55 +194,70 @@
                 <!-- end container -->
             </section>
             <!-- end plan -->
-
-
-
             <!-- end features -->
-
-            <section class="bg-white position-relative">
+                
+             <!-- start features -->
+           
+             <section  class="section bg-white py-5">
                 <div class="container">
-                    <div class="row align-items-center gy-4">
-                        <div class="col-sm">
-                            <div>
-                                <h3 class="text-black mb-0 text-center">Engage in the community using</h3>
-                                <h4 class="text-black mb-0 text-center"><strong>P L A N T I F E E D </strong><h4>
+                    <div class="row align-items-center justify-content-lg-between justify-content-center gy-4">
+                    <div class="col-lg-5 col-sm-7">
+                        <div class="ratio ratio-16x9" style="border: 10px solid #57AA2C;">
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/Fne6fIzQViA?si=1Jd3T_kfbLUgEnU-" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                        </div>
+                        </div>
 
-                            </div>
-                            <div class="align-items-center gy-4 row">
-                                <div class="col-lg-6 order-2 order-lg-1">
-                                    <div class="text-muted">
-                                        <h4 class="mb-3 bold-black">1. Share your Knowledge</h4>
-                                        <p class="mb-4">Spill the Beans! Share your garden gold in this planting community by swapping tips & tricks to your fellow urban garden farmers enabling the exploration and unlocking of new planting technique journey!</p>
+                        <div class="col-lg-6">
+                            <div class="text-muted">
+                                <h2 class="mb-4  text-center">Engage in the community using <span style="color: #57AA2C;"> <strong>PLANTIFEED</strong></span></h2>
+                                <div class="vstack gap-1 mb-4 pb-2">
 
-                                        <h4 class="mb-3">2. Create Inspiring Story</h4>
-                                        <p class="mb-4">Plant your story, inspire your city! Spread the journey of your planting, allowing other urban garden farmers to be inspired and relate on your planting plot!.</p>
+                                    <h4>1. Share your knowledge</h4>
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-grow-1">
+                                        <p class="mb-1" style="text-align: justify;">
+                                        Spill the Beans! Share your garden gold in this planting community by swapping tips & tricks to your fellow urban garden farmers enabling the exploration and unlocking of new planting technique journey!
+                                        </p>
+                                            </div>
+                                        </div>
 
-                                        <h4 class="mb-3">3. Like, Comment, Share</h4>
-                                        <p class="mb-4">Dig in Deep, Share Your Harvest! Engage with your co-urban garden farmers and express yourself with this interactive buttons by liking posts, commenting thoughts and opinions and sharing to allow a continuously growth of this planting community!</p>
 
+                                    <h4>2. Create Inspiring Story</h4>
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-grow-1">
+
+                                            <p class="mb-1" style="text-align: justify;">Plant your story, inspire your city! Spread the journey of your planting, allowing other urban garden farmers to be inspired and relate on your planting plot!.</p></p>
+                                        </div>
+                                    </div>
+
+                                    <h4>3. Like, Comment, Share</h4>
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-grow-1">
+                                            <p class="mb-1"style="text-align: justify;">Dig in Deep, Share Your Harvest! Engage with your co-urban garden farmers and express yourself with this interactive buttons by liking posts, commenting thoughts and opinions and sharing to allow a continuously growth of this planting community!</p></p>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-7 col-lg-6 col-10 ms-auto order-1 order-lg-2">
-                                    <div class="ratio ratio-16x9">
-                                        <iframe width="560" height="315" src="https://www.youtube.com/embed/Fne6fIzQViA?si=1Jd3T_kfbLUgEnU-" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                                    </div>
 
-
-                                </div>
                             </div>
-                            <!-- end col -->
+                            
                         </div>
                         <!-- end col -->
                     </div>
-                    <div>
+                    <!-- end row -->
+                </div>
+                <div>
 
-                        <h3 class="text-black mb-0 text-center">A platform that connects the urban farmers across the city !<h3><br>
+            <h3 class="text-black mb-0 text-center">A platform that connects the urban farmers across the city !<h3><br>
 
-                    </div>
+            </div>
+                <!-- end container -->
             </section>
+            <!-- end features -->
+
+        
 
             <!-- start faqs -->
-            <section class="section" id="try">
+            <section class="section" id="try" style="padding-top:8px;">
                 <div class="container">
                     <div class="row justify-content-center">
                         <div class="col-lg-8">
@@ -386,7 +405,6 @@
             <!--start back-to-top-->
             <button onclick="topFunction()" class="btn btn-success btn-icon landing-back-top" id="back-to-top">
                 <i class="ri-arrow-up-line"></i>
-            </button>
             <!--end back-to-top-->
 
             </div>

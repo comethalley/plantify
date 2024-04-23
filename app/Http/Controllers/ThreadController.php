@@ -10,7 +10,9 @@ use App\Models\Farm;
 use App\Models\Group;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Pusher\Pusher;
 
 class ThreadController extends Controller
 {
@@ -101,7 +103,7 @@ public function storeMessage(Request $request, $threadId)
         $imagePath = $request->file('photo')->store('images', 'public');
 
         // Create a new message with image path
-        Message::create([
+        $message = Message::create([
             'thread_id' => $threadId,
             'sender_id' => auth()->user()->id,
             'image_path' => $imagePath,
@@ -109,7 +111,7 @@ public function storeMessage(Request $request, $threadId)
         ]);
     } else {
         // Create a new message with text content
-        Message::create([
+        $message = Message::create([
             'thread_id' => $threadId,
             'sender_id' => auth()->user()->id,
             'text_content' => $request->input('text_content'),
@@ -117,7 +119,20 @@ public function storeMessage(Request $request, $threadId)
         ]);
     }
 
-    // You might need to return a response or redirect based on your application flow
+    // Broadcast the message using Pusher
+    $pusher = new Pusher(
+        env('PUSHER_APP_KEY'),
+        env('PUSHER_APP_SECRET'),
+        env('PUSHER_APP_ID'),
+        [
+            'cluster' => env('PUSHER_APP_CLUSTER'),
+            'useTLS' => true,
+        ]
+    );
+
+    $pusher->trigger('chat', 'new-message', $message);
+
+    // Return a success response
     return response()->json(['success' => true]);
 }
 

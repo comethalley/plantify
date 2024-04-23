@@ -65,6 +65,8 @@
     <link href="https://unpkg.com/quill-image-uploader@1.2.4/dist/quill.imageUploader.min.css" rel="stylesheet" />
     <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
     <script src="https://unpkg.com/quill-image-uploader@1.2.4/dist/quill.imageUploader.min.js"></script>
+    <!--Pusher JS-->
+    <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
     <style>
         .tab-content {
             max-height: 400px;

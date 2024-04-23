@@ -69,24 +69,6 @@
                                             </ul>
                                         </div>
 
-                                        <!-- Display the thread messages -->
-                                        <!-- <div class="chat-conversation"> -->
-                                            <!-- Loop through $thread messages and display them -->
-                                            <!-- @foreach($thread->messages as $message) -->
-                                                <!-- Your message display content -->
-                                                <!-- <div class="message"> -->
-                                                    <!-- Display message content, sender, etc. -->
-                                                <!-- </div>
-                                            @endforeach
-                                        </div> -->
-
-
-
-
-
-
-
-        
                                         <div class="d-flex align-items-center px-4 mt-4 pt-2 mb-2">
                                             <div class="flex-grow-1">
                                                 <h4 class="mb-0 fs-11 text-muted text-uppercase">Group Chats</h4>
@@ -218,56 +200,27 @@
                                                     {{-- Check if the message status is true --}}
                                                     @if($message->status)
                                                         {{-- Display the actual message content --}}
-                                                        @if($message->text_content)
-                                                            {{-- Display text message --}}
-                                                            @if($message->sender_id == auth()->user()->id)
-                                                                {{-- Sender's message (right) --}}
-                                                                <li class="chat-list right">
-                                                            @else
-                                                                {{-- Reply (left) --}}
-                                                                <li class="chat-list left">
-                                                            @endif
+                                                        @if($message->text_content || $message->image_path)
+                                                            {{-- Display text or image message --}}
+                                                            <li class="chat-list {{ $message->sender_id == auth()->user()->id ? 'right' : 'left' }}">
                                                                 <div class="conversation-list">
                                                                     <div class="user-chat-content">
                                                                         <div class="ctext-wrap">
                                                                             <div class="ctext-wrap-content">
                                                                                 <div class="message-dropdown">
-                                                                                    <p class="mb-0 ctext-content" onclick="toggleDropdown(this)" data-message-id="{{ $message->id }}">{{ $message->text_content }}</p>
-                                                                                    <div class="dropdown-menu">
-                                                                                        <a class="dropdown-item" onclick="deleteMessage(this)">Delete</a>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="conversation-name">
-                                                                                <br>
-                                                                                <small class="text-muted time">{{ $message->created_at->format('H:i') }}</small>
-                                                                                <span class="text-success check-message-icon">
-                                                                                    <i class="ri-check-double-line align-bottom"></i>
-                                                                                </span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </li>
-                                                        @elseif($message->image_path)
-                                                            {{-- Display image message --}}
-                                                            @if($message->sender_id == auth()->user()->id)
-                                                                {{-- Sender's message (right) --}}
-                                                                <li class="chat-list right">
-                                                            @else
-                                                                {{-- Reply (left) --}}
-                                                                <li class="chat-list left">
-                                                            @endif
-                                                                <div class="conversation-list">
-                                                                    <div class="user-chat-content">
-                                                                        <div class="ctext-wrap">
-                                                                            <div class="ctext-wrap-content">
-                                                                                <div class="message-dropdown">
-                                                                                    {{-- Display image --}}
-                                                                                    <img src="{{ asset('storage/' . $message->image_path) }}"  style="max-width: 400px; max-height: 400px;" class="img-fluid" alt="Image">
-                                                                                    <div class="dropdown-menu">
-                                                                                        <a class="dropdown-item" onclick="deleteMessage(this)">Delete</a>
-                                                                                    </div>
+                                                                                    @if($message->text_content)
+                                                                                        {{-- Display text message --}}
+                                                                                        <p class="mb-0 ctext-content" onclick="toggleDropdown(this)" data-message-id="{{ $message->id }}">{{ $message->text_content }}</p>
+                                                                                    @elseif($message->image_path)
+                                                                                        {{-- Display image message --}}
+                                                                                        <img src="{{ asset('storage/' . $message->image_path) }}"  style="max-width: 400px; max-height: 400px;" class="img-fluid" alt="Image">
+                                                                                    @endif
+                                                                                    {{-- Display delete option only for messages sent by the authenticated user --}}
+                                                                                    @if($message->sender_id == auth()->user()->id)
+                                                                                        <div class="dropdown-menu">
+                                                                                            <a class="dropdown-item" onclick="deleteMessage(this)">Delete</a>
+                                                                                        </div>
+                                                                                    @endif
                                                                                 </div>
                                                                             </div>
                                                                             <div class="conversation-name">
@@ -284,13 +237,13 @@
                                                         @endif
                                                     {{-- If the message status is false, display "You unsent a message" --}}
                                                     @else
-                                                        <li class="chat-list right">
+                                                        <li class="chat-list {{ $message->sender_id == auth()->user()->id ? 'right' : 'left' }}">
                                                             <div class="conversation-list">
                                                                 <div class="user-chat-content">
                                                                     <div class="ctext-wrap">
-                                                                        <div class="ctext-wrap-content">
+                                                                        <div class="ctext-wrap-content" style="font-style: italic; border-radius: 25px;">
                                                                             <div class="message-dropdown">
-                                                                                <p class="mb-0 ctext-content">You unsent a message</p>
+                                                                                <p class="mb-0 ctext-content">Unsent a message</p>
                                                                                 <div class="dropdown-menu">
                                                                                     <a class="dropdown-item" onclick="deleteMessage(this)">Delete</a>
                                                                                 </div>
@@ -312,6 +265,9 @@
                                             </ul>
                                             <!-- end chat-conversation-list -->
                                         </div>
+
+
+
 
 
 
@@ -541,6 +497,17 @@ document.getElementById("chatinput-form").addEventListener("submit", function (e
     }
 });
 
+Pusher.logToConsole = true;
+
+var pusher = new Pusher('d7630bf7a930051c0329', {
+    cluster: 'ap1'
+});
+
+var channel = pusher.subscribe('chat');
+channel.bind('new-message', function(data) {
+    alert("si Andrei ito")
+    appendMessageToConversation(data);
+}); 
 
 
 function appendMessageToConversation(message) {
@@ -584,6 +551,7 @@ function toggleDropdown(element) {
     dropdownMenu.classList.toggle("show");
 }
 
+
 function deleteMessage(element) {
     var messageItem = element.closest(".chat-list");
     var messageId = messageItem.querySelector('.ctext-content').getAttribute('data-message-id');
@@ -600,7 +568,8 @@ function deleteMessage(element) {
             if (response.success) {
                 // Update the message content in the conversation area
                 var messageContent = messageItem.querySelector('.ctext-content');
-                messageContent.textContent = 'You unsent a message';
+                messageContent.textContent = 'Unsent a message';
+                messageContent.style.fontStyle = 'italic';
                 // Remove the dropdown menu
                 var dropdownMenu = messageItem.querySelector('.dropdown-menu');
                 dropdownMenu.remove();

@@ -99,7 +99,7 @@
                                             <td class=" roboto-regular" style="text-align: left;">
                                                 <div class="id" style="margin-bottom: 5px;">#{{ $farm->id }}</div>
                                                 <hr style="margin: 10px 0;">
-                                                <b style="font-size: 14px;">Date Filled: </b><br>
+                                                <b style="font-size: 14px;">Date Filed: </b><br>
                                                 <div>{{ \Carbon\Carbon::parse($farm->created_at)->format('Y-m-d / h:i A') }}</div>
                                             </td>
                                             <td class="details vertical-line">

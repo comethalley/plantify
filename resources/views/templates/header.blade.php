@@ -598,6 +598,7 @@
                             </div>
                         </li>
                         @endif
+                        @if(Auth::check() && (Auth::user()->role_id == 1 || Auth::user()->role_id == 2))
 
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="/Farms-District-5" role="button" style="color:white">
@@ -605,7 +606,14 @@
                                 <span data-key="t-dashboards">Farms</span>
                             </a>
                         </li>
-
+                        @elseif(Auth::check() && (Auth::user()->role_id == 3 || Auth::user()->role_id == 4 || Auth::user()->role_id == 5))
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="/Farm-Management" role="button" style="color:white">
+                                <i class="ri-home-4-line"></i>
+                                <span data-key="t-dashboards">Farms</span>
+                            </a>
+                        </li>
+@endif
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="#sidebarDashboards" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards" style="color:white">
                                 <i class="ri-calendar-2-line"></i> <span>Calendar</span>

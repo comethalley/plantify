@@ -45,12 +45,12 @@ class AuthController extends Controller
 
         if ($user->role_id == 1) {
             // Fetch data for super admin role
-            $expensesData = Expense::all(['description', 'amount', 'created_at', 'budget_id'])->toJson();
+            // $expensesData = Expense::all(['description', 'amount', 'created_at', 'budget_id'])->toJson();
             $plantingData = CalendarPlanting::all(['title', 'start', 'harvested', 'destroyed', 'start'])->toJson();
             //$farmsData = Farm::with('barangays')->get()->toJson();
         } elseif ($user->role_id == 3) {
             // Fetch data for farm leader role
-            $expensesData = Expense::where('budget_id', 3)->where('id', $user->id)->get(['description', 'amount', 'created_at'])->toJson();
+            // $expensesData = Expense::where('budget_id', 3)->where('id', $user->id)->get(['description', 'amount', 'created_at'])->toJson();
 
             // $farmsData = Farm::where('id', $user->id)->with('barangays')->get()->toJson();
         }

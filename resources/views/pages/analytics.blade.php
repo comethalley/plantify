@@ -1,12 +1,17 @@
 @include('templates.header')
 
-{{-- <script src="{{ asset('assets/js/donut.js') }}"></script>
-{{-- <script src="assets/js/donut.js"></script> --}}
-
-<link href="{{ asset('assets/css/analytics.css') }}" rel="stylesheet" type="text/css" />
-
-
-<body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link href="{{ asset('assets/css/analytics.css') }}" rel="stylesheet" type="text/css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.debug.js" integrity="sha512-+dBKPkFZW8e2RJv00jKz8d5MsWjI9g6I78I/zfE6hW7dPWGw/DLtCeEI+X3k/tEs+cOjDvg6Tbz5JG+LnVQQg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script   script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.3/html2canvas.min.js"></script>
+</head>
+    <body>
 
     <!-- Begin page -->
   
@@ -22,12 +27,12 @@
         <!-- Start right Content here -->
         <!-- ============================================================== -->
         <div class="main-content">
-
-            <div class="page-content">
-                <div class="container-fluid">
-
+        
                     <!-- start page title -->
                     <div class="row">
+                        
+            <div class="page-content">
+                <div class="container-fluid">             
                         <div class="col-12">
                             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                                 <h4 class="mb-sm-0">Analytics</h4>
@@ -35,10 +40,10 @@
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
                                         <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboards</a></li>
+                                        <li class="breadcrumb-item"><a href="javascript:void(0);" onclick="downloadPDF()">Download PDF</a></li>
                                         <li class="breadcrumb-item active">Analytics</li>
                                     </ol>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -183,7 +188,7 @@
                         <div class="col-xl-6">
                             <div class="card card-height-100">
                                 <div class="card-header align-items-center d-flex">
-                                    <h4 class="card-title mb-0 flex-grow-1">Users by Device</h4>
+                                    <h4 class="card-title mb-0 flex-grow-1">Expense Analytics</h4>
                                     <div class="flex-shrink-0">
                                         <div class="dropdown card-header-dropdown">
                                             <a class="text-reset dropdown-btn" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -261,6 +266,8 @@
         <!-- end main content-->
 
     </div>
+</div>
+
     <!-- END layout-wrapper -->
 
 
@@ -290,40 +297,50 @@
     <script src="assets/js/app.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
+
 
 <script>
- function updateCounters() {
-        // Make an AJAX request to fetch counts
-        $.ajax({
-            url: '/analytics/count',
-            type: 'GET',
-            success: function(data) {
-                // Update farm leader counter
-                $('#farmLeaderCounter').text(data.farmLeaderCount);
-                $('#farmLeaderCounter').attr('data-target', data.farmLeaderCount);
-                
-                // Update farmer counter
-                $('#farmerCounter').text(data.farmerCount);
-                $('#farmerCounter').attr('data-target', data.farmerCount);
-                
-                // Update total user counter
-                $('#totalUserCounter').text(data.totalUserCount);
-                $('#totalUserCounter').attr('data-target', data.totalUserCount);
-                
-                // Update farm counter
-                $('#farmCounter').text(data.farmCount);
-                $('#farmCounter').attr('data-target', data.farmCount);
-            },
-            error: function(xhr, status, error) {
-                console.error('Error fetching counts:', error);
-            }
-        });
-    }
+    function downloadPDF() {
+    window.location.href = '{{ route('analytics.pdf') }}';
+}
 
+
+        function updateCounters() {
+            // Make an AJAX request to fetch counts
+            $.ajax({
+                url: '/analytics/count',
+                type: 'GET',
+                success: function(data) {
+                    // Update farm leader counter
+                    $('#farmLeaderCounter').text(data.farmLeaderCount);
+                    $('#farmLeaderCounter').attr('data-target', data.farmLeaderCount);
+
+                    // Update farmer counter
+                    $('#farmerCounter').text(data.farmerCount);
+                    $('#farmerCounter').attr('data-target', data.farmerCount);
+
+                    // Update total user counter
+                    $('#totalUserCounter').text(data.totalUserCount);
+                    $('#totalUserCounter').attr('data-target', data.totalUserCount);
+
+                    // Update farm counter
+                    $('#farmCounter').text(data.farmCount);
+                    $('#farmCounter').attr('data-target', data.farmCount);
+
+                    // Update analytics report details paragraph
+                    $('#analyticsReportDetails').text(`Total numbers of users: ${data.totalUserCount}, Farms: ${data.farmCount}, Farm Leaders: ${data.farmLeaderCount}, and Farmers: ${data.farmerCount}`);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching counts:', error);
+                }
+            });
+        }
     // Call the function when the page loads
     $(document).ready(function() {
         updateCounters();
     });
+    
    document.addEventListener('DOMContentLoaded', function() {
     // Parse the data from the controller
     var expensesData = JSON.parse('{!! $expensesData !!}');
@@ -433,37 +450,58 @@ $(document).ready(function() {
                     console.log("AJAX response:", response);
 
                     if (response && response.monthlyData) {
-                        var harvestedData = [];
-                        var destroyedData = [];
-                        var categories = Object.keys(response.monthlyData);
+        var harvestedData = [];
+        var destroyedData = [];
+        var categories = Object.keys(response.monthlyData);
 
-                        categories.forEach(function(month) {
-                            harvestedData.push(parseFloat(response.monthlyData[month].harvested));
-                            destroyedData.push(parseFloat(response.monthlyData[month].destroyed));
-                        });
+        categories.forEach(function(month) {
+            harvestedData.push(parseFloat(response.monthlyData[month].harvested));
+            destroyedData.push(parseFloat(response.monthlyData[month].destroyed));
+        });
 
-                        // Store the farms data in a global variable for access in the dataPointSelection event
-                        window.farmData = response.farms;
+        // Store the farms data in a global variable for access in the dataPointSelection event
+        window.farmData = response.farms;
 
-                        // Update the chart with new data and months
-                        farmChart.updateOptions({
-                            series: [
-                                {
-                                    name: 'Harvested',
-                                    data: harvestedData
-                                },
-                                {
-                                    name: 'Destroyed',
-                                    data: destroyedData
-                                }
-                            ],
-                            xaxis: {
-                                categories: categories
-                            }
-                        });
-                    } else {
-                        console.error('Fetched data is not in the expected format', response);
-                    }
+        // Update the chart with new data and months
+        farmChart.updateOptions({
+            series: [
+                {
+                    name: 'Harvested',
+                    data: harvestedData
+                },
+                {
+                    name: 'Destroyed',
+                    data: destroyedData
+                }
+            ],
+            xaxis: {
+                categories: categories
+            }
+        });
+
+        // Generate the PDF with the chart data
+        var formData = new FormData();
+        formData.append('imageData', chart.exportChart({ format: 'png' }));
+        formData.append('monthlyData', JSON.stringify(response.monthlyData));
+        formData.append('farms', JSON.stringify(response.farms));
+
+        $.ajax({
+            url: '/generatePdf',
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(pdfData) {
+                console.log("PDF response:", pdfData);
+                // Display or download the PDF as needed
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+    } else {
+        console.error('Fetched data is not in the expected format', response);
+    }
                 },
                 error: function(xhr, status, error) {
                     console.error(xhr.responseText);
@@ -477,7 +515,7 @@ $(document).ready(function() {
 
 
 
-    // DONUT CHART  
+    // DONUT CHART  0
 
         // Prepare the data for the expenses donut chart
         var expensesSeries = expensesData.map(function(data) {

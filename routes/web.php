@@ -23,6 +23,9 @@ use App\Http\Controllers\Api\FarmController;
 use App\Http\Controllers\EmailVerification;
 use App\Http\Controllers\PiuController;
 use App\Http\Controllers\AnalyticsController;
+use App\Http\Requests\PdfRequest;
+use Endroid\QrCode\Writer\Result\PdfResult;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -258,6 +261,9 @@ Route::middleware(['auth', 'checkrole:1,2,3'])->group(function () {
     Route::get('/analytics', [AnalyticsController::class, 'index']);
 });
 Route::get('/analytics/count', [AnalyticsController::class, 'count']);
+Route::get('/analytics/pdf', [AnalyticsController::class, 'downloadPdf'])->name('analytics.pdf');
+
+
 
 Route::get('api/farms', [FarmController::class, 'fetchFarmsByBarangay'])->name('api.farms');
 Route::get('/farmsAnalytics/{slug}', [AnalyticsController::class, 'getFarms']);

@@ -17,8 +17,10 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('thread_id');
             $table->unsignedBigInteger('sender_id');
-            $table->text('content');
+            $table->text('text_content')->nullable();
+            $table->string('image_path')->nullable();
             $table->boolean('isRead')->default(false);
+            $table->boolean('status')->default(true);
             $table->date('create_date');
             $table->timestamps();
 

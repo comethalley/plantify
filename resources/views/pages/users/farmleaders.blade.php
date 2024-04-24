@@ -52,7 +52,7 @@
                                 </div>
                                 <div class="col-sm-auto">
                                     <div class="d-flex gap-1 flex-wrap">
-                                        <button type="button" class="btn btn-secondary waves-effect waves-light" data-bs-toggle="modal" id="create-btn" data-bs-target="#csv"><i class="ri-add-line align-bottom me-1"></i> Download CSV </button>
+                                        <button type="button" class="btn btn-secondary waves-effect waves-light download-farmleaders"><i class="ri-download-2-line"></i> Download CSV </button>
                                         <button type="button" class="btn btn-success add-btn" data-bs-toggle="modal" id="create-btn" data-bs-target="#farmLeadershowModal"><i class="ri-add-line align-bottom me-1"></i> Add Farm Leader</button>
                                         <button class="btn btn-soft-danger" id="remove-actions" onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button>
                                     </div>
@@ -338,6 +338,38 @@
 
 </div>
 <!-- END layout-wrapper -->
+
+<script>
+    $(document).ready(function() {
+        function downloadAdminTableAsExcel(tableId, filename) {
+            var table = document.getElementById(tableId);
+            if (!table) {
+                console.error("Table element with ID '" + tableId + "' not found.");
+                return;
+            }
+
+            // Clone the table to manipulate without affecting the original table
+            var clonedTable = table.cloneNode(true);
+
+            // Remove the action column from the cloned table
+            $(clonedTable).find("th[data-sort='city'], td[data-column='city']").remove();
+
+            var ws = XLSX.utils.table_to_sheet(clonedTable);
+
+            // Create a workbook with a single worksheet
+            var wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+            // Convert the workbook to a binary Excel file and trigger the download
+            XLSX.writeFile(wb, filename + '.xlsx');
+        }
+
+        $(document).on("click", ".download-farmleaders", function() {
+            //console.log("Download button clicked");
+            downloadAdminTableAsExcel('farmerLeader-tbl', 'farmleaders_data');
+        });
+    });
+</script>
 
 
 @include('templates.footer')

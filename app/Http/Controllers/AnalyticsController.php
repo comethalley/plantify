@@ -106,16 +106,16 @@ class AnalyticsController extends Controller
         $expensesData = collect();
         $plantingData = collect();
         $farmsData = collect();
-    
+
         if ($user->role_id == 1 || $user->role_id == 2) {
             $expensesData = Expense::all(['description', 'amount', 'created_at', 'budget_id'])->toJson();
             $plantingData = CalendarPlanting::all(['title', 'start', 'harvested', 'destroyed', 'start'])->toJson();
             $farmsData = Farm::with('barangays')->get()->toJson();
         } elseif ($user->role_id == 3 || $user->role_id == 4) {
             $expensesData = Expense::where('budget_id', $user->id)->get(['description', 'amount', 'created_at'])->toJson();
-            $farmsData = Farm::where('id', $user->id)->with('barangay')->get()->toJson();
+            $farmsData = Farm::where('id', $user->id)->with('barangays')->get()->toJson();
         }
-    
+
         $barangayOptions = [];
         foreach ($barangays as $barangay) {
             $barangayOptions[] = [
@@ -123,7 +123,7 @@ class AnalyticsController extends Controller
                 'text' => $barangay['barangay_name']
             ];
         }
-    
+
         return view('pages.analytics', compact('expensesData', 'plantingData', 'farmsData', 'barangayOptions'));
     }
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Thread;
 use App\Models\Group;
 use App\Models\GroupMember;
 use App\Models\GroupThread;
@@ -38,86 +39,79 @@ class GroupController extends Controller
      * @return \Illuminate\View\View
      */
     public function show($groupId, $farmId = null)
-    {
-        try {
-            // Retrieve the group
-            $group = Group::findOrFail($groupId);
-    
-            // Initialize $groupThread to null
-            $groupThread = null;
-    
-            // Check if the group is "Admin and Farm Leaders"
-            if ($group->group_name === 'Admin and Farm Leaders') {
-                // No need to provide farm ID for Admin, set farmId to null
-                $farmId = null;
-            } elseif ($group->group_name === 'Farm Leader and Farmers' && (auth()->user()->role_id == 3 || auth()->user()->role_id == 4)) {
-                // For Farm Leader and Farmers group, check if user is Farm Leader or Farmer
-                // Retrieve the user's farm ID
-                $userFarmId = DB::table('farms')
-                    ->select("id")
-                    ->where('farm_leader', auth()->user()->id)
-                    ->first();
-    
-                // Set the farmId to the user's farm ID
-                $farmId = $userFarmId;
-            }
-    
-            // Check if there is a group thread for the specified group and farm
-           // Check if there is a group thread for the specified group and farm
-$groupThreadsQuery = GroupThread::where('group_id', $groupId);
+{
+    try {
+        // Retrieve the group
+        $group = Group::findOrFail($groupId);
 
-// Check if farmId is not null before adding farm_id condition
-if ($farmId !== null) {
-    $groupThreadsQuery->where('farm_id', $farmId->id);
+        // Initialize $groupThread to null
+        $groupThread = null;
+
+        // Check if the group is "Admin and Farm Leaders"
+        if ($group->group_name === 'Admin and Farm Leaders') {
+            // No need to provide farm ID for Admin, set farmId to null
+            $farmId = null;
+        } elseif ($group->group_name === 'Farm Leader and Farmers' && (auth()->user()->role_id == 3 || auth()->user()->role_id == 4)) {
+            // For Farm Leader and Farmers group, check if user is Farm Leader or Farmer
+            // Retrieve the user's farm ID
+            $userFarmId = DB::table('farms')
+                ->select("id")
+                ->where('farm_leader', auth()->user()->id)
+                ->first();
+
+            // Set the farmId to the user's farm ID
+            $farmId = $userFarmId->id; // Use $userFarmId->id instead of $userFarmId
+        }
+
+        // Check if there is a group thread for the specified group and farm
+        $groupThreadQuery = GroupThread::where('group_id', $groupId);
+
+        // Check if farmId is not null before adding farm_id condition
+        if ($farmId !== null) {
+            $groupThreadQuery->where('farm_id', $farmId); // Use farm_id instead of farm_id->id
+        }
+
+        // Retrieve the first matching group thread
+        $groupThread = $groupThreadQuery->first();
+
+        // If the group thread does not exist, create a new one
+        if (!$groupThread) {
+            $groupThread = GroupThread::create([
+                'group_id' => $groupId,
+                'farm_id' => $farmId, // Set the farm_id when creating a new thread
+            ]);
+        } else {
+            // Retrieve messages for the group thread
+            $groupThread->load('messages'); // Eager load messages
+        }
+
+        // Retrieve other necessary data for the view
+        $currentUser = Auth::user();
+        $users = User::where('id', '!=', $currentUser->id)->get();
+        $filteredUsers = $users->filter(function ($user) use ($currentUser) {
+            return Thread::where('user_id_1', $currentUser->id)
+                ->where('user_id_2', $user->id)
+                ->orWhere(function ($query) use ($currentUser, $user) {
+                    $query->where('user_id_1', $user->id)
+                        ->where('user_id_2', $currentUser->id);
+                })
+                ->exists();
+        });
+        $messages = $groupThread ? $groupThread->messages : collect();
+        $groups = Group::all();
+        $farmLeaders = DB::table('farms')
+            ->where('status', 1)
+            ->where('farm_leader', $currentUser->id)
+            ->first();
+
+        // Return the view with the necessary data
+        return view('pages.groups', compact('groupThread', 'filteredUsers', 'messages', 'groups', 'farmLeaders'));
+    } catch (ModelNotFoundException $e) {
+        // If the group is not found, return a 404 response
+        abort(404);
+    }
 }
 
-$groupThreads = $groupThreadsQuery->get();
-
-    
-            // If the group thread does not exist, create a new one
-            if ($groupThreads->isEmpty()) {
-                $groupThread = GroupThread::create([
-                    'group_id' => $groupId,
-                    'farm_id' => $farmId->id,
-                ]);
-            } else {
-                // Retrieve messages for each group thread
-                $groupThreads->each(function ($thread) {
-                    $thread->messages; // This will retrieve messages for each thread
-                });
-    
-                // Assign the first thread to $groupThread
-                $groupThread = $groupThreads->first();
-            }
-
-            // Get the currently logged-in user
-        $currentUser = Auth::user();
-
-        // Retrieve all other users for the chat list (excluding the logged-in user)
-        $users = User::where('id', '!=', $currentUser->id)->get();
-
-    
-            // Retrieve messages for the current group thread
-            $messages = $groupThread ? $groupThread->messages : collect();
-    
-            // Get a list of groups
-            $groups = Group::all();
-    
-            // Retrieve farm leaders
-            $id = Auth::user()->id;
-            $farmLeaders = DB::table('farms')
-                ->where('status', 1)
-                ->where('farm_leader', $id)
-                ->select("*")
-                ->first();
-    
-            // Return to the view with the updated data
-            return view('pages.groups', compact('groupThread', 'users','messages', 'groups', 'farmLeaders'));
-        } catch (ModelNotFoundException $e) {
-            // If the group is not found, return a 404 response
-            abort(404);
-        }
-    }
     
 
 
@@ -135,26 +129,61 @@ $groupThreads = $groupThreadsQuery->get();
      * @param  int  $groupId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function storeGroupMessage(Request $request, $threadId)
+    public function storeGroupMessage(Request $request, $groupId)
     {
         // Validate the incoming request data
         $request->validate([
-            'content' => 'required|string',
+            'content' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048', // Adjust the validation rules as needed
         ]);
     
-        // Create a new message in the specified group thread
-        GroupMessage::create([
-            'thread_id' => $threadId, // Use the correct thread ID
-            'sender_id' => auth()->user()->id,
-            'content' => $request->input('content'),
-            'create_date' => now(),
-        ]);
+        // Check if an image is included in the request
+        if ($request->hasFile('image')) {
+            // Handle image upload
+            $photo = $request->file('image');
+            $imagePath = $request->file('image')->store('images', 'public');
+    
+            // Create a new message with image path
+            GroupMessage::create([
+                'thread_id' => $groupId,
+                'sender_id' => auth()->user()->id,
+                'image_path' => $imagePath,
+                'create_date' => now(),
+            ]);
+        } elseif ($request->filled('content')) {
+            // Create a new message with text content only
+            GroupMessage::create([
+                'thread_id' => $groupId,
+                'sender_id' => auth()->user()->id,
+                'content' => $request->input('content'),
+                'create_date' => now(),
+            ]);
+        } else {
+            // If neither content nor image is provided, return an error response
+            return response()->json(['error' => 'Please provide either text or an image'], 400);
+        }
     
         // You might need to return a response or redirect based on your application flow
         return response()->json(['success' => true]);
     }
     
     
+
+    
+    
+    
+    public function deleteMessage($messageId)
+    {
+        $message = GroupMessage::find($messageId);
+    
+        if ($message) {
+            // Update the status of the message to false
+            $message->update(['status' => false]);
+            return response()->json(['success' => true]);
+        } else {
+            return response()->json(['error' => 'Message not found'], 404);
+        }
+    }
     
 
     

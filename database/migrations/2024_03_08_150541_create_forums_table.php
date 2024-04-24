@@ -13,9 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('barangays', function (Blueprint $table) {
-            $table->unsignedBigInteger('farm_id')->unsigned()->nullable();
-            $table->foreign('farm_id')->references('id')->on('farms')->onDelete('cascade');
+        Schema::create('forums', function (Blueprint $table) {
+            $table->id();
+            $table->string('user_id');
+            $table->string('question');
+            $table->string('language');
+            $table->timestamps();
         });
     }
 
@@ -26,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('barangays');
+        Schema::dropIfExists('forums');
     }
 };

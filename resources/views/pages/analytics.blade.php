@@ -1,5 +1,6 @@
 @include('templates.header')
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,8 +11,15 @@
     <link href="{{ asset('assets/css/analytics.css') }}" rel="stylesheet" type="text/css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.debug.js" integrity="sha512-+dBKPkFZW8e2RJv00jKz8d5MsWjI9g6I78I/zfE6hW7dPWGw/DLtCeEI+X3k/tEs+cOjDvg6Tbz5JG+LnVQQg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script   script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.3/html2canvas.min.js"></script>
+    {{-- <script src="{{ asset('assets/js/donut.js') }}"></script>
+    {{-- <script src="assets/js/donut.js"></script> --}}
+    <link rel="shortcut icon" type="image/x-icon" href="assets/images/plantifeedpics/plants.png" class="img-fluid" />
+    <link href="{{ asset('assets/css/analytics.css') }}" rel="stylesheet" type="text/css" />
 </head>
-    <body>
+
+
+<body>
+
 
     <!-- Begin page -->
   

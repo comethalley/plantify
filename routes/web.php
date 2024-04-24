@@ -16,6 +16,7 @@ use App\Http\Controllers\qcmaps;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\PlantCalendar;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\AboutUsController;
 use App\Http\Controllers\Api\AuthController;
@@ -26,6 +27,15 @@ use App\Http\Controllers\AnalyticsController;
 use App\Http\Requests\PdfRequest;
 use Endroid\QrCode\Writer\Result\PdfResult;
 use Illuminate\Http\Request;
+
+use App\Http\Controllers\SendMessageController;
+
+use App\Http\Controllers\SearchController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\ReportController;
+
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -43,7 +53,7 @@ use Illuminate\Http\Request;
 // });
 
 Route::get('/', [AuthController::class, 'landingpage']);
-Route::get('/dashboard/analytics', [AuthController::class, 'index'])->middleware('auth');
+Route::get('/dashboard/analytics', [AnalyticsController::class, 'index'])->name('dashboard.analytics')->middleware('auth');
 Route::get('/login', [AuthController::class, 'viewLogin'])->name('login')->middleware('guest');
 Route::get('/signup', [AuthController::class, 'viewSignup']);
 Route::post('/login/process', [AuthController::class, 'login']);
@@ -85,6 +95,61 @@ Route::post('/archive-uom/{id}', [InventoryController::class, 'archiveUom']);
 Route::get('/getAllStock', [InventoryController::class, 'getAllStock']);
 Route::get('/plantifeed', [ForumController::class, 'index']);
 Route::get('/inventory/fertilizer', [InventoryController::class, 'fertilizer']);
+Route::post('/add-fertilizer', [InventoryController::class, 'addFertilizer']);
+Route::get('/get-fertilizer', [InventoryController::class, 'getFertilizer']);
+Route::post('/edit-fertilizer/{id}', [InventoryController::class, 'updateFertilizer']);
+Route::post('/archive-fertilizer/{id}', [InventoryController::class, 'archiveFertilizer']);
+Route::get('/inventory/tools', [InventoryController::class, 'tools']);
+Route::get('/send-message', [SendMessageController::class, 'index']);
+
+
+
+// routes/web.php
+
+
+
+Route::get('/forum', [ForumController::class, 'index'])->name('forum.index');
+Route::post('/forum', [ForumController::class, 'store'])->name('forum.store');
+
+
+Route::get('/post', [PostController::class, 'index'])->name('post.index');
+Route::post('/post', [PostController::class, 'store'])->name('post.store');
+
+
+
+Route::post('/reports', [ReportController::class, 'store'])->name('reports.store');
+
+
+
+Route::get('/search', [SearchController::class, 'search'])->name('forum.search');
+Route::get('/search-results', [SearchController::class, 'index'])->name('pages.search_results');
+
+Route::get('/comments', [CommentController::class, 'index'])->name('comments.index');
+Route::post('/comments/store', [CommentController::class, 'store'])->name('comments.store');
+
+Route::delete('/forum/delete-question/{id}', [ForumController::class, 'deleteQuestion']);
+Route::delete('/forum/delete-post/{id}', [PostController::class, 'deletePost']);
+
+
+Route::post('/edit-question/{id}', [ForumController::class, 'editQuestion']);
+Route::put('/edit-question/{id}', [ForumController::class, 'editQuestion'])->name('editQuestion');
+
+Route::post('/edit-post/{id}', [PostController::class, 'editPost']);
+Route::put('/edit-post/{id}', [PostController::class, 'editPost'])->name('editPost');
+
+
+
+
+
+
+// routes/web.php
+
+
+
+
+
+
+
 
 // Direct Messages
 Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
@@ -92,8 +157,10 @@ Route::get('/chat/{userId}', [ChatController::class, 'show'])->name('chat.show')
 Route::post('/chat/{messageId}/reply', [ChatController::class, 'storeReply'])->name('chat.storeReply');
 Route::get('/chat/users', [ChatController::class, 'displayChatUsers'])->name('chat.displayUsers');
 Route::post('/create-thread/{userId}', [ThreadController::class, 'createThread'])->name('create.thread');
+Route::get('/thread', [ThreadController::class, 'index'])->name('thread.index');
 Route::get('/thread/{threadId}', [ThreadController::class, 'showThread'])->name('show.thread');
 Route::post('/thread/{threadId}/store-message', [ThreadController::class, 'storeMessage'])->name('store.message');
+Route::delete('/delete-message/{messageId}', [ThreadController::class, 'deleteMessage'])->name('delete.message');
 Route::post('/mark-messages-as-read/{userId}', [ChatController::class, 'markMessagesAsRead']);
 Route::get('/search-users', [ChatController::class, 'searchUsers']);
 
@@ -103,7 +170,8 @@ Route::get('/groups', [GroupController::class, 'index'])->name('groups.index');
 Route::get('/groups/{groupId}', [GroupController::class, 'show'])->name('groups.show'); // Make the farmId parameter optional
 Route::post('/groups/{group}/join', [GroupController::class, 'join'])->name('groups.join');
 Route::get('/groups/create', [GroupController::class, 'create'])->name('groups.create');
-Route::post('/group/{groupId}/store-group-message', [GroupController::class, 'storeGroupMessage'])->name('store.group.message');
+Route::post('/store-group-message/{groupId}', [GroupController::class, 'storeGroupMessage'])->name('store.group.message');
+Route::delete('/delete-group-message/{messageId}', [GroupController::class, 'deleteMessage'])->name('delete.group.message');
 Route::post('/mark-group-messages-as-read/{groupId}', [GroupController::class, 'markGroupMessagesAsRead']);
 
 Route::get('/weather', [WeatherController::class, 'index']);
@@ -175,9 +243,14 @@ Route::post('/fertarchive/{id}', [PlantInfoController::class, 'fertarchive']);
 
 //For farm management =======================================================
 
+//index farm-mamangement//
+Route::get('/Farms-District-5', [FarmController::class, 'index']);
+Route::post('/add-farms', [FarmController::class, 'addFarms'])->name('add.farms');
+Route::get('/archive-farm/{id}', [FarmController::class, 'archiveFarm'])->name('archive.farm');
+
 //view farm-management//
-Route::get('/view-farms', [FarmController::class, 'viewFarms'])->name('farms.view');
-Route::get('/view-farms3', [FarmController::class, 'viewFarms3'])->name('farms.view3');
+Route::get('/Farm-Management-High', [FarmController::class, 'viewFarms'])->name('farms.view');
+Route::get('/Farm-Management', [FarmController::class, 'viewFarms3'])->name('farms.view3');
 Route::get('/farms/filterByStatus', [FarmController::class, 'filterByStatus']);
 Route::post('/update-status/{id}', [FarmController::class, 'updateStatus'])->name('update.status');
 
@@ -196,11 +269,6 @@ Route::post('/update-farm-status-cancel/{id}', [FarmController::class, 'updateSt
 Route::post('/update-farms/{id}', [FarmController::class, 'updateFarm'])->name('farms.update');
 Route::post('/set-date-farm/{id}', [FarmController::class, 'SetDateStatus'])->name('set.date.farm');
 
-
-//index farm-mamangement//
-Route::get('/farms3', [FarmController::class, 'index']);
-Route::post('/add-farms', [FarmController::class, 'addFarms'])->name('add.farms');
-Route::get('/archive-farm/{id}', [FarmController::class, 'archiveFarm'])->name('archive.farm');
 
 
 //=============================================================================================    
@@ -272,3 +340,10 @@ Route::get('/farmsAnalyticsData/{num}', [AnalyticsController::class, 'getFarmsDa
 Route::get('/markAsRead', function () {
     auth()->user()->unreadNotifications->markAsRead();
 });
+
+//PLANTIFEED ===============================================
+
+Route::get('/getPost', [ForumController::class, 'getPost']);
+Route::get('/getComment/{num}', [CommentController::class, 'getComment']);
+Route::get('/getReply/{num}', [CommentController::class, 'getReply']);
+Route::post('/reply/store', [CommentController::class, 'createReply']);

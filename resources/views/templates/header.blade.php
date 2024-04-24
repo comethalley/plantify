@@ -48,6 +48,7 @@
     <script src="{{ asset('assets/js/plantinfo.js') }}"></script>
     <script src="{{ asset('assets/js/forum.js') }}"></script>
     <script src="{{ asset('assets/js/fertilizer.js') }}"></script>
+    <script src="{{ asset('assets/js/inventory_fertilizer.js') }}"></script>
 
 
     <!--markusread JS-->
@@ -65,6 +66,9 @@
     <link href="https://unpkg.com/quill-image-uploader@1.2.4/dist/quill.imageUploader.min.css" rel="stylesheet" />
     <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
     <script src="https://unpkg.com/quill-image-uploader@1.2.4/dist/quill.imageUploader.min.js"></script>
+
+    <!--Pusher JS-->
+    <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
     <style>
         .tab-content {
             max-height: 400px;
@@ -190,7 +194,7 @@
                                         <div class="text-reset notification-item d-block dropdown-item position-relative">
                                             @if ($notification->type === 'App\Notifications\NewNotificationEvent')
                                             <div class="d-flex">
-                                                <img src="assets/images/event/event.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                                <img src="../assets/images/event/event.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
                                                 <div class="flex-grow-1">
                                                     <a href="/schedules" class="stretched-link">
                                                         <h6 class="mt-0 mb-1 fs-13 fw-semibold">New Events</h6>
@@ -204,18 +208,18 @@
 
                                                     </p>
                                                 </div>
-                                                <div class="px-2 fs-15">
+                                                <!-- <div class="px-2 fs-15">
                                                     <div class="form-check notification-check">
                                                         <input class="form-check-input" type="checkbox" value="" id="all-notification-check02">
                                                         <label class="form-check-label" for="all-notification-check02"></label>
                                                     </div>
-                                                </div>
+                                                </div> -->
                                             </div>
                                             @elseif ($notification->type === 'App\Notifications\NewplantingNotification')
                                             <div class="d-flex">
 
 
-                                                <img src="assets/images/event/planting.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                                <img src="../assets/images/event/planting.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
 
                                                 <div class="flex-grow-1">
                                                     <a href="/plantcalendar" class="stretched-link">
@@ -230,17 +234,17 @@
 
                                                     </p>
                                                 </div>
-                                                <div class="px-2 fs-15">
+                                                <!-- <div class="px-2 fs-15">
                                                     <div class="form-check notification-check">
                                                         <input class="form-check-input" type="checkbox" value="" id="all-notification-check02">
                                                         <label class="form-check-label" for="all-notification-check02"></label>
                                                     </div>
-                                                </div>
+                                                </div> -->
 
                                             </div>
                                             @elseif ($notification->type === 'App\Notifications\UpcomingHarvestNotification')
                                             <div class="d-flex">
-                                                <img src="assets/images/event/planting.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                                <img src="../assets/images/event/planting.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
                                                 <div class="flex-grow-1">
                                                     <a href="/plantcalendar" class="stretched-link">
                                                         <h6 class="mt-0 mb-1 fs-13 fw-semibold">Upcoming Harvest Alert!</h6>
@@ -249,20 +253,20 @@
                                                         <p class="mb-1">{{ $notification->data['message']}}</p>
                                                     </div>
                                                     <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
-                                                        <span><i class="mdi mdi-clock-outline" id="notification-time" ></i> {{ $notification->created_at->diffForHumans() }}</span>
+                                                        <span><i class="mdi mdi-clock-outline" id="notification-time"></i> {{ $notification->created_at->diffForHumans() }}</span>
                                                     </p>
                                                 </div>
-                                                <div class="px-2 fs-15">
+                                                <!-- <div class="px-2 fs-15">
                                                     <div class="form-check notification-check">
                                                         <input class="form-check-input" type="checkbox" value="" id="all-notification-check02">
                                                         <label class="form-check-label" for="all-notification-check02"></label>
                                                     </div>
-                                                </div>
+                                                </div> -->
 
                                             </div>
                                             @elseif ($notification->type === 'App\Notifications\HarvestTodayNotification')
                                             <div class="d-flex">
-                                                <img src="assets/images/event/planting.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                                <img src="../assets/images/event/planting.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
                                                 <div class="flex-grow-1">
                                                     <a href="/plantcalendar" class="stretched-link">
                                                         <h6 class="mt-0 mb-1 fs-13 fw-semibold">Harvest Day: Time to Reap the Rewards!</h6>
@@ -274,18 +278,18 @@
                                                         <span><i class="mdi mdi-clock-outline" id="notification-time"></i> {{ $notification->created_at->diffForHumans() }}</span>
                                                     </p>
                                                 </div>
-                                                <div class="px-2 fs-15">
+                                                <!-- <div class="px-2 fs-15">
                                                     <div class="form-check notification-check">
                                                         <input class="form-check-input" type="checkbox" value="" id="all-notification-check02">
                                                         <label class="form-check-label" for="all-notification-check02"></label>
                                                     </div>
-                                                </div>
+                                                </div> -->
 
                                             </div>
                                             @elseif ($notification->type === 'App\Notifications\OutOfStockNotification')
                                             <div class="d-flex">
 
-                                                <img src="assets/images/event/oos1.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                                <img src="../assets/images/event/oos1.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
 
                                                 <div class="flex-grow-1">
                                                     <a href="/inventory/stocks" class="stretched-link">
@@ -298,18 +302,18 @@
                                                         <span><i class="mdi mdi-clock-outline" id="notification-time"></i>{{ $notification->created_at->diffForHumans() }}</span>
                                                     </p>
                                                 </div>
-                                                <div class="px-2 fs-15">
+                                                <!-- <div class="px-2 fs-15">
                                                     <div class="form-check notification-check">
                                                         <input class="form-check-input" type="checkbox" value="" id="all-notification-check02">
                                                         <label class="form-check-label" for="all-notification-check02"></label>
                                                     </div>
-                                                </div>
+                                                </div> -->
 
                                             </div>
                                             @elseif ($notification->type === 'App\Notifications\UpcomingEventNotification')
                                             <div class="d-flex">
 
-                                                <img src="assets/images/event/event.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                                <img src="../assets/images/event/event.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
 
                                                 <div class="flex-grow-1">
                                                     <a href="/schedules" class="stretched-link">
@@ -320,21 +324,21 @@
                                                     </div>
                                                     <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
 
-                                                        <span><i class="mdi mdi-clock-outline"id="notification-time"></i>{{ $notification->created_at->diffForHumans() }}</span>
+                                                        <span><i class="mdi mdi-clock-outline" id="notification-time"></i>{{ $notification->created_at->diffForHumans() }}</span>
 
                                                     </p>
                                                 </div>
-                                                <div class="px-2 fs-15">
+                                                <!-- <div class="px-2 fs-15">
                                                     <div class="form-check notification-check">
                                                         <input class="form-check-input" type="checkbox" value="" id="all-notification-check02">
                                                         <label class="form-check-label" for="all-notification-check02"></label>
                                                     </div>
-                                                </div>
+                                                </div> -->
                                             </div>
                                             @elseif ($notification->type === 'App\Notifications\EventTodayNotification')
                                             <div class="d-flex">
 
-                                                <img src="assets/images/event/event.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                                <img src="../assets/images/event/event.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
 
                                                 <div class="flex-grow-1">
                                                     <a href="/schedules" class="stretched-link">
@@ -349,18 +353,18 @@
 
                                                     </p>
                                                 </div>
-                                                <div class="px-2 fs-15">
+                                                <!-- <div class="px-2 fs-15">
                                                     <div class="form-check notification-check">
                                                         <input class="form-check-input" type="checkbox" value="" id="all-notification-check02">
                                                         <label class="form-check-label" for="all-notification-check02"></label>
                                                     </div>
-                                                </div>
+                                                </div> -->
                                             </div>
                                             @elseif ($notification->type === 'App\Notifications\NewTaskAssignNotification')
                                             <div class="d-flex">
 
 
-                                                <img src="assets/images/event/nt.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                                <img src="../assets/images/event/nt.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
 
                                                 <div class="flex-grow-1">
                                                     <a href="/tasks" class="stretched-link">
@@ -375,19 +379,19 @@
 
                                                     </p>
                                                 </div>
-                                                <div class="px-2 fs-15">
+                                                <!-- <div class="px-2 fs-15">
                                                     <div class="form-check notification-check">
                                                         <input class="form-check-input" type="checkbox" value="" id="all-notification-check02">
                                                         <label class="form-check-label" for="all-notification-check02"></label>
                                                     </div>
-                                                </div>
+                                                </div> -->
 
                                             </div>
                                             @elseif ($notification->type === 'App\Notifications\CompleteTaskNotification')
                                             <div class="d-flex">
 
 
-                                                <img src="assets/images/event/complete.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                                <img src="../assets/images/event/complete.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
 
                                                 <div class="flex-grow-1">
                                                     <a href="/taskshow" class="stretched-link">
@@ -402,19 +406,19 @@
 
                                                     </p>
                                                 </div>
-                                                <div class="px-2 fs-15">
+                                                <!-- <div class="px-2 fs-15">
                                                     <div class="form-check notification-check">
                                                         <input class="form-check-input" type="checkbox" value="" id="all-notification-check02">
                                                         <label class="form-check-label" for="all-notification-check02"></label>
                                                     </div>
-                                                </div>
+                                                </div> -->
 
                                             </div>
                                             @elseif ($notification->type === 'App\Notifications\MissingTaskNotification')
                                             <div class="d-flex">
 
 
-                                                <img src="assets/images/event/missing.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                                <img src="../assets/images/event/missing.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
 
                                                 <div class="flex-grow-1">
                                                     <a href="/missingtasks" class="stretched-link">
@@ -428,12 +432,12 @@
                                                         <span><i class="mdi mdi-clock-outline" id="notification-time"></i>{{ $notification->created_at->diffForHumans() }}</span>
                                                     </p>
                                                 </div>
-                                                <div class="px-2 fs-15">
+                                                <!-- <div class="px-2 fs-15">
                                                     <div class="form-check notification-check">
                                                         <input class="form-check-input" type="checkbox" value="" id="all-notification-check02">
                                                         <label class="form-check-label" for="all-notification-check02"></label>
                                                     </div>
-                                                </div>
+                                                </div> -->
 
 
                                             </div>
@@ -477,8 +481,23 @@
                                     <span class="text-start ms-xl-2">
                                         @if (Auth::check())
                                         <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">{{ Auth::user()->firstname }}</span>
+                                        @if (Auth::user()->role_id == 1)
+                                        <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text">Super Admin</span>
                                         @endif
+                                        @if (Auth::user()->role_id == 2)
                                         <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text">Admin</span>
+                                        @endif
+                                        @if (Auth::user()->role_id == 3)
+                                        <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text">Farm Leader</span>
+                                        @endif
+                                        @if (Auth::user()->role_id == 4)
+                                        <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text">Farmer</span>
+                                        @endif
+                                        @if (Auth::user()->role_id == 5)
+                                        <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text">User</span>
+                                        @endif
+                                        @endif
+
                                     </span>
                                 </span>
                             </button>
@@ -544,19 +563,25 @@
                 </br>
                 <a href="/dashboard/analytics" class="logo logo-dark">
                     <span class="logo-sm">
-                        <img src="{{ asset('assets/images/p-white-small.png') }}" alt="" height="22" />
+                        <img src="{{ asset('assets/images/bg/pwhitesmall.png') }}" alt="" height="22" />
                     </span>
                     <span class="logo-lg">
-                        <img src="{{ asset('assets/images/p-white.png') }}" alt="" height="17" />
+                    <div style="display: flex; justify-content: center;">
+                        <img src="{{ asset('assets/images/bg/dash.png') }}" alt="" height="50" />
+                    </div>
                     </span>
                 </a>
                 <!-- Light Logo-->
                 <a href="/dashboard/analytics" class="logo logo-light">
                     <span class="logo-sm">
-                        <img src="{{ asset('assets/images/p-white-small.png') }}" alt="" height="22" />
+                        <img src="{{ asset('assets/images/bg/pwhitesmall.png') }}" alt="" height="22" />
                     </span>
+
                     <span class="logo-lg">
-                        <img src="{{ asset('assets/images/p-white.png') }}" alt="" height="40" />
+                    <div style="display: flex; justify-content: center;">
+                        <img src="{{ asset('assets/images/bg/dash.png') }}" alt="" height="50" />
+                    </div>
+
                     </span>
                 </a>
                 <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover" id="vertical-hover">
@@ -568,8 +593,8 @@
                 <div class="container-fluid">
                     <div id="two-column-menu"></div>
                     <ul class="navbar-nav" id="navbar-nav">
-                        <li class="menu-title"><span data-key="t-menu" style="color:white;"></span></li>
-                        </br>
+                        <!-- <li class="menu-title"><span data-key="t-menu" style="color:white;"></span></li> -->
+                        <br>
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="/dashboard/analytics" role="button" style="color:white">
                                 <i class="ri-dashboard-2-line"></i>
@@ -599,7 +624,7 @@
                         @endif
 
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="/farms3" role="button" style="color:white">
+                            <a class="nav-link menu-link" href="/Farms-District-5" role="button" style="color:white">
                                 <i class="ri-home-4-line"></i>
                                 <span data-key="t-dashboards">Farms</span>
                             </a>
@@ -680,9 +705,12 @@
                                     <li class="nav-item">
                                         <a href="/inventory/uom" class="nav-link" style="color:white"> Unit of Measurements </a>
                                     </li>
-                                    <!-- <li class="nav-item">
+                                    <li class="nav-item">
                                         <a href="/inventory/fertilizer" class="nav-link" style="color:white">Fertilizer</a>
-                                    </li> -->
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/inventory/tools" class="nav-link" style="color:white">Tools</a>
+                                    </li>
                                 </ul>
                             </div>
                         </li> <!-- end Dashboard Menu -->
@@ -703,7 +731,7 @@
                         </li>
                         @endif
 
-                        @if( session('user') && session('user')->role_id != 4)
+                        @if( session('user') && session('user')->role_id != 5)
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="/chat" role="button" style="color:white">
                                 <i class="ri-wechat-line"></i>
@@ -869,13 +897,27 @@
 
 
 
-        const pusher = new Pusher('932fdd5849f2e8b782a5', {
-            cluster: 'ap1',
-            encrypted: true
-        });
+        // const pusher = new Pusher('932fdd5849f2e8b782a5', {
+        //     cluster: 'ap1',
+        //     encrypted: true
+        // });
 
-        const channel = pusher.subscribe('channel-name');
-        channel.bind('event-name', function(data) {
-            // Display notification
-        });
+        // const channel = pusher.subscribe('channel-name');
+        // channel.bind('event-name', function(data) {
+        //     // Display notification
+        // });
+    </script>
+
+    <script>
+        // Pusher.logToConsole = true;
+
+        // var pusher = new Pusher('54f1c49cb67ee0620dac', {
+        //     cluster: 'ap1'
+        // });
+
+        // var channel = pusher.subscribe('my-channel');
+        // channel.bind('my-event', function(data) {
+        //     console.log("Data received:", data);
+        //     alert(JSON.stringify(data));
+        // });
     </script>

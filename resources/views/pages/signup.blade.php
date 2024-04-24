@@ -5,6 +5,7 @@
 
     <meta charset="utf-8" />
     <title>Sign Up | Plantify</title>
+    <link rel="shortcut icon" type="image/x-icon" href="assets/images/plantifeedpics/plants.png" class="img-fluid" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
@@ -25,130 +26,127 @@
 </head>
 
 <body>
+    <div class="auth-page-content overflow-hidden pt-lg-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card overflow-hidden">
+                        <div class="row g-0">
+                            <div class="col-lg-6">
+                                <div class="p-lg-5 p-4 auth-one-bg h-100">
 
-    <div class="auth-page-wrapper pt-5">
-        <!-- auth page bg -->
-        <div class="auth-one-bg-position auth-one-bg" id="auth-particles">
-            <div class="bg-overlay"></div>
+                                    <div class="position-relative h-100 d-flex flex-column">
+                                        <div class="mb-4">
+                                            <a href="/" class="d-block"><br><br><br>
+                                                <img src="assets/images/plantifeedpics/landing-page.png" alt="" class="img-fluid">
 
-            <div class="shape">
-                <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1440 120">
-                    <path d="M 0,36 C 144,53.6 432,123.2 720,124 C 1008,124.8 1296,56.8 1440,40L1440 140L0 140z"></path>
-                </svg>
-            </div>
-        </div>
-
-        <!-- auth page content -->
-        <div class="auth-page-content">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="text-center mt-sm-5 mb-4 text-white-50">
-                            <div>
-                                <a href="index.html" class="d-inline-block auth-logo">
-                                    <img src="assets/images/logo-light.png" alt="" height="20">
-                                </a>
-                            </div>
-                            <p class="mt-3 fs-15 fw-medium"></p>
-                        </div>
-                    </div>
-                </div>
-                <!-- end row -->
-
-                <div class="row justify-content-center">
-                    <div class="col-md-8 col-lg-6 col-xl-5">
-                        <div class="card mt-4">
-
-                            <div class="card-body p-4">
-                                <div class="text-center mt-2">
-                                    <h5 class="text-primary">Create New Account</h5>
-                                    <p class="text-muted"></p>
-                                </div>
-                                <div class="p-2 mt-4">
-                                    <form action="/register" method="POST">
-                                        @csrf
-                                        @error('email')
-                                        <p class="text-red-500 text-xs p-1">{{$message}}</p>
-                                        @enderror
-                                        <div class="mb-3">
-                                            <label for="firstname" class="form-label">Firstname <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" name="firstname" id="firstname" placeholder="Enter Firstname Address" required>
+                                            </a>
                                         </div>
 
-                                        <div class="mb-3">
-                                            <label for="lastname" class="form-label">Lastname <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" name="lastname" id="lastname" placeholder="Enter email address" required>
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label for="useremail" class="form-label">Email <span class="text-danger">*</span></label>
-                                            <input type="email" class="form-control" name="email" id="useremail" placeholder="Enter email address" required>
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label class="form-label" for="password-input">Password</label>
-                                            <div class="position-relative auth-pass-inputgroup">
-                                                <input type="password" class="form-control pe-5 password-input" placeholder="Enter password" id="password-input" required name="password">
-                                                <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
-                                            </div>
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label class="form-label" for="password-input">Confirm Password</label>
-                                            <div class="position-relative auth-pass-inputgroup">
-                                                <input type="password" class="form-control pe-5 password-input" placeholder="Enter password" id="password-input" required name="password_confirmation">
-                                                <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
-                                            </div>
-                                        </div>
-
-                                        <div class="mt-4">
-                                            <button class="btn btn-success w-100" type="submit">Sign Up</button>
-                                        </div>
-
-                                        <!-- <div class="mt-4 text-center">
-                                            <div class="signin-other-title">
-                                                <h5 class="fs-13 mb-4 title text-muted">Create account with</h5>
-                                            </div>
-
-                                            <div>
-                                                <button type="button" class="btn btn-primary btn-icon waves-effect waves-light"><i class="ri-facebook-fill fs-16"></i></button>
-                                                <button type="button" class="btn btn-danger btn-icon waves-effect waves-light"><i class="ri-google-fill fs-16"></i></button>
-                                                <button type="button" class="btn btn-dark btn-icon waves-effect waves-light"><i class="ri-github-fill fs-16"></i></button>
-                                                <button type="button" class="btn btn-info btn-icon waves-effect waves-light"><i class="ri-twitter-fill fs-16"></i></button>
-                                            </div>
-                                        </div> -->
-                                    </form>
-
+                                    </div>
                                 </div>
                             </div>
-                            <!-- end card body -->
-                        </div>
-                        <!-- end card -->
+                            <!-- end col -->
 
-                        <div class="mt-4 text-center">
-                            <p class="mb-0">Already have an account ? <a href="/login" class="fw-semibold text-primary text-decoration-underline"> Sign in </a> </p>
-                        </div>
 
+                            <div class="col-md-8 col-lg-6 col-xl-5">
+                                <div class="card mt-4">
+
+                                    <div class="card-body p-4">
+                                        <div class="text-center mt-2">
+                                            <h5 style="color: #57AA2C;">Create New Account</h5>
+
+                                            <p class="text-muted"></p>
+                                        </div>
+                                        <div class="p-2 mt-4">
+                                            <form action="/register" method="POST">
+                                                @csrf
+                                                @error('email')
+                                                <p class="text-red-500 text-xs p-1">{{$message}}</p>
+                                                @enderror
+
+
+                                                <div class="mb-3">
+                                                    <label for="firstname" class="form-label">Firstname <span class="text-danger">*</span></label>
+                                                    <input type="firstname" class="form-control" name="firstname" id="firstname" placeholder="Enter firstname" required>
+                                                    <div class="invalid-feedback">
+
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="mb-3">
+                                                    <label for="lastname" class="form-label">Lastname <span class="text-danger">*</span></label>
+                                                    <input type="lastname" class="form-control" name="lastname" id="lastname" placeholder="Enter lastname" required>
+                                                    <div class="invalid-feedback">
+
+                                                    </div>
+                                                </div>
+
+
+
+                                                <div class="mb-3">
+                                                    <label for="usermail" class="form-label">Email <span class="text-danger">*</span></label>
+                                                    <input type="usermail" class="form-control" name="email" id="usermail" placeholder="Enter email address" required>
+                                                    <div class="invalid-feedback">
+
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="mb-3">
+                                                    <label class="form-label" for="password-input">Password</label>
+                                                    <div class="position-relative auth-pass-inputgroup">
+                                                        <input type="password" class="form-control pe-5 password-input" placeholder="Enter password" id="password-input" required name="password">
+                                                        <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
+                                                    </div>
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label class="form-label" for="password-input">Confirm Password</label>
+                                                    <div class="position-relative auth-pass-inputgroup">
+                                                        <input type="password" class="form-control pe-5 password-input" placeholder="Enter password" id="password-input" required name="password_confirmation">
+                                                        <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
+                                                    </div>
+                                                </div>
+
+
+
+
+                                                <div class="mt-4">
+                                                    <button type="submit" class="btn btn-link text-white w-100" style="background-color: #57AA2C;" href="">Sign Up</a>
+
+                                                </div>
+
+                                            </form>
+
+                                        </div>
+                                    </div>
+                                    <!-- end card body -->
+                                </div>
+                                <!-- end card -->
+
+
+
+
+                            </div>
+                        </div>
+                        <!-- end col -->
                     </div>
+                    <!-- end row -->
                 </div>
-                <!-- end row -->
+                <!-- end card -->
             </div>
-            <!-- end container -->
+            <!-- end col -->
+
         </div>
-        <!-- end auth page content -->
+        <!-- end row -->
+    </div>
+    <!-- end container -->
+    </div>
+    <!-- end auth page content -->
 
-        <!-- footer -->
-        <footer class="footer">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="text-center">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
-        <!-- end Footer -->
+
     </div>
     <!-- end auth-page-wrapper -->
 
@@ -160,14 +158,8 @@
     <script src="assets/js/pages/plugins/lord-icon-2.1.0.js"></script>
     <script src="assets/js/plugins.js"></script>
 
-    <!-- particles js -->
-    <script src="assets/libs/particles.js/particles.js"></script>
-    <!-- particles app js -->
-    <script src="assets/js/pages/particles.app.js"></script>
-    <!-- validation init -->
-    <script src="assets/js/pages/form-validation.init.js"></script>
-    <!-- password create init -->
-    <script src="assets/js/pages/passowrd-create.init.js"></script>
+    <!-- password-addon init -->
+    <script src="assets/js/pages/password-addon.init.js"></script>
 </body>
 
 </html>

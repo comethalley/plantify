@@ -17,13 +17,16 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('thread_id');
             $table->unsignedBigInteger('sender_id');
-            $table->text('content');
+            $table->text('content')->nullable();
+            $table->string('image_path')->nullable();
+            $table->boolean('status')->default(true);
             $table->date('create_date');
             $table->timestamps();
-
+        
             $table->foreign('thread_id')->references('id')->on('group_threads')->onDelete('cascade');
             $table->foreign('sender_id')->references('id')->on('users')->onDelete('cascade');
         });
+        
     }
 
     /**

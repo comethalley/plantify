@@ -51,26 +51,35 @@ class PlantCalendar extends Controller
             ->leftJoin('farms', 'farms.farm_leader', '=', 'users.id')
             ->where('users.id', $id)
             ->first();
+            
+        $farm_id = "";
 
-        $farm_id = $user->farm_id;
+        if($user->role_id == "5"){
+            $farm_id  = "00".$user->id;
+        }else{
+            $farm_id = $user->farm_id;
+        }
+
+        // dd($farm_id);
 
         $item = new CalendarPlanting();
         $item->title = $request->title;
         $item->start = $request->start;
         $item->end = $request->end;
         $item->status = $request->status;
-        $item->farm_id = $user->farm_id;
+        $item->farm_id = $farm_id;
         $item->seed = $request->seed;
         $item->harvested = $request->harvested;
         $item->destroyed = $request->destroyed;
         $item->save();
 
+        $title = $request->title;
 
         // $users = auth()->user();
         //     $users = User::all();
         
                 $planting = new CalendarPlanting();
-                
+                $planting->title = $title;
                 $user->notify(new NewplantingNotification($planting));
         return redirect('/plantcalendar');
     }
@@ -209,11 +218,47 @@ class PlantCalendar extends Controller
         // If the user is authenticated and is a farm leader
         if ($user->role_id === '3') {
             // Retrieve events for the farm associated with the farm leader
-            $events = CalendarPlanting::where('farm_id', $user->farm_id)->orderBy('id', 'DESC')->get();
+            //$events = CalendarPlanting::where('farm_id', $user->farm_id)->orderBy('id', 'DESC')->get();
+
+            $events = DB::table('createplantings')
+            ->leftJoin('farms', 'createplantings.farm_id', '=', 'farms.id')
+            ->select(
+                'createplantings.*',
+                'farms.farm_name',
+                'farms.barangay_name'
+            )
+            ->where('createplantings.farm_id', $user->farm_id)
+            ->orderBy('createplantings.id', 'DESC')
+            ->get();
+        } elseif ($user->role_id === '5') {
+            $farmID = (int)$user->farm_id;
+        
+            $events = DB::table('createplantings')
+                ->leftJoin('users', 'createplantings.farm_id', '=', 'users.id')
+                ->select('createplantings.*')
+                ->where('users.id', $farmID)
+                ->orderBy('createplantings.id', 'DESC')
+                ->get();
+                
         } else {
             // If the user is not a farm leader, retrieve all events
-            $events = CalendarPlanting::orderBy('id', 'DESC')->get();
+            // $events = CalendarPlanting::orderBy('createplantings.id', 'DESC')
+            // ->leftjoin('farms', 'createplantings.farm_id', '=', 'farms.id')
+            // ->get();
+
+            $events = DB::table('createplantings')
+            ->leftJoin('farms', 'createplantings.farm_id', '=', 'farms.id')
+            ->select(
+                'createplantings.*',
+                'farms.farm_name',
+                'farms.barangay_name'
+            )
+            ->orderBy('createplantings.id', 'DESC')
+            ->get();
+    
         }
+
+    //   var_dump($events);
 
         return view('pages.calendar_list', [
             'createplantings' => $events,

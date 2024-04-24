@@ -192,6 +192,7 @@ Route::post('/archiveFL/{id}', [AuthController::class, 'archiveFarmLeader']);
 Route::get('/users/farmers', [AuthController::class, 'getFarmers']);
 
 Route::get('/farm_locations', [qcmaps::class, 'index']);
+Route::get('/get_maps', [qcmaps::class, 'getMaps']);
 Route::post('/farm_locations', [qcmaps::class, 'store']);
 
 // Start Full Calender=================================================================

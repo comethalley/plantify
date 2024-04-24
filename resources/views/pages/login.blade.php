@@ -22,35 +22,58 @@
     <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" />
     <!-- custom Css-->
     <link href="assets/css/custom.min.css" rel="stylesheet" type="text/css" />
+    <style>
+        body,
+        html {
+            height: 100%;
+            background: darkgreen;
+            overflow: hidden; /* Prevent scrollbars */
+        }
+        .container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
+        .auth-one-bg-position {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
 </head>
 
-<body>
-
-
-    <div class="auth-page-content overflow-hidden pt-lg-5">
+<body> 
+<div class="auth-one-bg-position auth-one-bg" id="auth-particles">
+<!-- <div class="bg-overlay"></div> -->
+        <canvas class="particles-js-canvas-el" width="100%" height="100%" style="width: 100%; height: 100%;"></canvas></div>
+        
+    <div class="auth-page-content d-flex justify-content-center">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="card overflow-hidden">
-                        <div class="row g-0">
+                    <div class="card mx-auto">
+                        <div class="row d-flex justify-content-center">
                             <div class="col-lg-6">
-                                <div class="p-lg-5 p-4 auth-one-bg h-100">
-
-                                    <div class="position-relative h-100 d-flex flex-column">
+                                <div class="p-lg-5 p-4">
                                         <div class="mb-4">
                                             <a href="/" class="d-block">
                                             <img src="assets/images/plantifeedpics/landing-page.png" alt="" class="img-fluid">
 
                                             </a>
-                                        </div>
-
-                                    </div>
+                                        </div>    
                                 </div>
                             </div>
                             <!-- end col -->
 
-                            <div class="col-lg-6"><br>
+                            <div class="col-lg-6">
                                 <div class="p-lg-5 p-4">
                                     <div>
                                         <div class="card-body p-1">
@@ -100,7 +123,6 @@
 
                                         <div class="mt-1 text-center">
                                             <p class="mb-0">Don't have an account ? <a href="/signup" class="fw-semibold text-decoration-underline" style="color: #57AA2C;"> SignUp</a> </p>
-
                                         </div>
                                     </div>
                                 </div>
@@ -113,6 +135,7 @@
                     <!-- end col -->
 
                 </div>
+                
                 <!-- end row -->
             </div>
             <!-- end container -->
@@ -121,6 +144,14 @@
 
 
     </div>
+                <!-- end row -->
+            </div>
+            <!-- end container -->
+        </div>
+        
+
+
+   
     <!-- end auth-page-wrapper -->
 
     <!-- JAVASCRIPT -->
@@ -130,6 +161,8 @@
     <script src="assets/libs/feather-icons/feather.min.js"></script>
     <script src="assets/js/pages/plugins/lord-icon-2.1.0.js"></script>
     <script src="assets/js/plugins.js"></script>
+    <script src="assets/libs/particles.js/particles.js"></script>
+    <script src="assets/js/pages/particles.app.js"></script>
 
     <!-- password-addon init -->
     <script src="assets/js/pages/password-addon.init.js"></script>

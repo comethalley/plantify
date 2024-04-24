@@ -159,8 +159,8 @@ class PlantCalendar extends Controller
             ->where('users.id', $id)
             ->first();
 
-        $start = $request->input('start') ? Carbon::parse($request->input('start'))->format('Y-m-d H:i:s') : null;
-        $end = $request->input('end') ? Carbon::parse($request->input('end'))->format('Y-m-d H:i:s') : null;
+        $start = $request->input('start') ? Carbon::parse($request->input('start'))->format('Y-m-d') : null;
+        $end = $request->input('end') ? Carbon::parse($request->input('end'))->format('Y-m-d') : null;
 
         $event->update([
             'title' => $request->input('title'),

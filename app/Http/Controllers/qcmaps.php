@@ -4,33 +4,34 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\FarmLocation;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class qcmaps extends Controller
 {
     public function index()
     {
-        $farmLocations = FarmLocation::all();
-    
-        $formattedLocations = $farmLocations->map(function ($location) {
-            return [
-                'latitude' => $location->latitude,
-                'longitude' => $location->longitude,
-                'location_name' => $location->location_name,
-            ];
-        });
-        return view('pages.qcmaps', compact('formattedLocations'));
+        $id = Auth::user()->id;
+        return view('pages.qcmaps');
     }
     
+    public function getMaps()
+    {
+        $id = Auth::user()->id;
+        $farmLocations = FarmLocation::all();
+        return response()->json($farmLocations);
+    }
 
     public function store(Request $request)
-{
-    $item = new FarmLocation();
-    $item->latitude = $request->latitude;
-    $item->longitude = $request->longitude;
-    $item->location_name = $request->location_name;
-    $item->save();
+    {
+        $item = new FarmLocation();
+        $item->latitude = $request->latitude;
+        $item->longitude = $request->longitude;
+        $item->location_name = $request->location_name;
+        $item->address = $request->address;
+        $item->save();
 
-    return redirect('/farm_locations');
-}
+        return redirect('/farm_locations');
+    }
 
 }

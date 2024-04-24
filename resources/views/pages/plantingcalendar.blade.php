@@ -36,14 +36,13 @@
                             {{-- Display only for role_id 1 (Admin) --}}
                             <button type="button" class="btn btn-success w-100" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModalExample"><i class="mdi mdi-plus"></i>Create New Plantings</button>
                             @elseif(auth()->user()->role_id == 2)
-                            {{-- Display only for role_id 2 (
-                                 Admin) --}}
+                            {{-- Display only for role_id 2 (Admin) --}}
                             <button type="button" class="btn btn-success w-100" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModalExample"><i class="mdi mdi-plus"></i>Create New Plantings</button>
                             @elseif(auth()->user()->role_id == 3)
                             {{-- Display for role_id 3 (Farm Leader) --}}
                             <button type="button" class="btn btn-success w-100" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModalExample"><i class="mdi mdi-plus"></i>Create New Plantings</button>
                             @elseif(auth()->user()->role_id == 4 )
-                            {{-- Display only for role_id 4 ( Farmers) --}}
+                            {{-- Display only for role_id 4 (Farmers) --}}
                             <button hidden type="button" class="btn btn-success w-100" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModalExample"><i class="mdi mdi-plus"></i>Create New Plantings</button>
                             @elseif(auth()->user()->role_id == 5 )
                             {{-- Display only for role_id 5 (Public Users) --}}
@@ -68,14 +67,14 @@
                                     <div class="flex-grow-1 ms-3 text-center" >
                                         <h6 class="fs-15"><strong>LEGEND</strong></h6>
                                         <td style="width: 180px;">
-                                                        <div class="bg-soft-primary p-2 mb-1">
-                                                        <span class="text-black mb-0" >Planted</span>
+                                                        <div class="bg-primary p-2 mb-1">
+                                                        <span class="text-white mb-0" >Planted</span>
                                                         </div>
-                                                        <div class="bg-soft-success p-2 mb-1">
-                                                        <span class="text-black mb-0" >Harvested</span>
+                                                        <div class="bg-success p-2 mb-1">
+                                                        <span class="text-white mb-0" >Harvested</span>
                                                         </div>
-                                                        <div class="bg-soft-danger p-2 mb-1">
-                                                        <span class="text-black mb-0" >Destroyed</span>
+                                                        <div class="bg-danger p-2 mb-1">
+                                                        <span class="text-white mb-0" >Destroyed</span>
                                                         </div>
                                         </td>
                                         
@@ -89,7 +88,7 @@
 
                     <div class="col-xl-9">
                         <div class="input-group mb-3">
-                            <input type="text" id="searchInput" class="form-control" placeholder="Search events">
+                            <input type="text" id="searchInput" class="form-control" placeholder="Search Planting">
                             <div class="input-group-append">
                                 <button id="searchButton" class="btn btn-primary">{{__('Search')}}</button>
                             </div>
@@ -143,7 +142,7 @@
                                                 </div>
 
                                                 <div class="mb-3">
-                                                    <label for="start-datepicker" class="form-label">Start</label>
+                                                    <label for="start-datepicker" class="form-label">Planting Date</label>
                                                     <div class="input-group">
                                                         <span class="input-group-text"><i class="ri-calendar-event-line"></i></span>
                                                         <input type="text" name="start" id="start-datepicker" class="form-control" placeholder="Select Start Date" required/>
@@ -151,7 +150,7 @@
                                                 </div>
 
                                                 <div class="mb-3">
-                                                    <label for="end-datepicker" class="form-label">End</label>
+                                                    <label for="end-datepicker" class="form-label">Harvested Date</label>
                                                     <div class="input-group">
                                                         <span class="input-group-text"><i class="ri-calendar-event-line"></i></span>
                                                         <input type="text" name="end" id="end-datepicker" class="form-control" placeholder="Select End Date" required/>
@@ -235,7 +234,7 @@
                                                             <i class="ri-calendar-check-fill text-muted fs-16"></i>
                                                         </div>
                                                         <div class="flex-grow-1">
-                                                            <h6 class="d-block fw-semibold mb-0">Start Date: <span id="eventstart"></span></h6>
+                                                            <h6 class="d-block fw-semibold mb-0">Planting Date: <span id="eventstart"></span></h6>
                                                         </div>
                                                     </div>
 
@@ -244,7 +243,7 @@
                                                             <i class="ri-calendar-event-fill text-muted fs-16"></i>
                                                         </div>
                                                         <div class="flex-grow-1">
-                                                            <h6 class="d-block fw-semibold mb-0">End Date: <span id="eventend"></span></h6>
+                                                            <h6 class="d-block fw-semibold mb-0">Harvested Date: <span id="eventend"></span></h6>
                                                         </div>
                                                     </div>
                                                     <div class="d-flex align-items-center mb-2">
@@ -259,9 +258,27 @@
                                                 </div>
                                                         <div class="modal-footer">
                                                         <div class="hstack gap-2 justify-content-end">
+                                                        @if(auth()->user()->role_id == 1)
+                                                        {{-- Display only for role_id 1 (Admin) --}}
                                                         <button type="button" class="btn btn-danger" id="deleteEventBtn" id="deleteEventBtn">Delete</button>
                                                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editexampleModal">Edit</button>
-                                                    
+                                                        @elseif(auth()->user()->role_id == 2)
+                                                        {{-- Display only for role_id 2 (Admin) --}}
+                                                        <button type="button" class="btn btn-danger" id="deleteEventBtn" id="deleteEventBtn">Delete</button>
+                                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editexampleModal">Edit</button>
+                                                        @elseif(auth()->user()->role_id == 3)
+                                                        {{-- Display for role_id 3 (Farm Leader) --}}
+                                                        <button type="button" class="btn btn-danger" id="deleteEventBtn" id="deleteEventBtn">Delete</button>
+                                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editexampleModal">Edit</button>
+                                                        @elseif(auth()->user()->role_id == 4)
+                                                        {{-- Display for role_id 4 (Farmers) --}}
+                                                        <button hidden type="button" class="btn btn-danger" id="deleteEventBtn" id="deleteEventBtn">Delete</button>
+                                                        <button hidden type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editexampleModal">Edit</button>
+                                                        @elseif(auth()->user()->role_id == 5)
+                                                        {{-- Display for role_id 5 (Public Users) --}}
+                                                        <button type="button" class="btn btn-danger" id="deleteEventBtn" id="deleteEventBtn">Delete</button>
+                                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editexampleModal">Edit</button>
+                                                        @endif
                                                           </div>  
                                                         </div>
 
@@ -316,7 +333,7 @@
                                             </div>
 
                                             <div class="mb-3">
-                                                <label for="updatestart-datepicker" class="form-label">Start</label>
+                                                <label for="updatestart-datepicker" class="form-label">Planting Date</label>
                                                 <div class="input-group">
                                                     <span class="input-group-text"><i class="ri-calendar-event-line"></i></span>
                                                     <input type="text" name="start" id="updatestart-datepicker" class="form-control" data-toggle="flatpickr" data-flatpickr-enable-time="true" data-flatpickr-date-format="Y-m-d" placeholder="Enter Start Date" required />
@@ -324,7 +341,7 @@
                                             </div>
 
                                             <div class="mb-3">
-                                                <label for="updateend-datepicker" class="form-label">End</label>
+                                                <label for="updateend-datepicker" class="form-label">Harvested Date</label>
                                                 <div class="input-group">
                                                     <span class="input-group-text"><i class="ri-calendar-event-line"></i></span>
                                                     <input type="text" name="end" id="updateend-datepicker" class="form-control" data-toggle="flatpickr" data-flatpickr-enable-time="true" data-flatpickr-date-format="Y-m-d" placeholder="Enter End Date" required />
@@ -440,23 +457,6 @@
             editable: true,
             selectable: true,
             selectHelper: true,
-            @if(auth()->user()->role_id == 1)
-                            {{-- Display only for role_id 1 (Admin) --}}
-            selectable: true,
-            @elseif(auth()->user()->role_id == 2)
-                            {{-- Display only for role_id 2 (Super Admin) --}}
-           selectable: true,         
-           @elseif(auth()->user()->role_id == 3)
-                            {{-- Display for role_id 3 (Farm Leader) --}}    
-            selectable: true,
-            @elseif(auth()->user()->role_id == 4 )
-                             {{-- Display only for role_id 4 ( Farmers) --}}
-            selectable: false,
-            @elseif(auth()->user()->role_id == 5 )
-                             {{-- Display only for role_id 5 (Public Users) --}}
-            selectable: true,
-            @endif
-            selectHelper: true,
             select: function (start, end, allDay) {
                 // Close Update/Delete Event Modal if open
                 $('#EventdetailModal').modal('hide');
@@ -529,7 +529,7 @@
                 var backgroundColor = getEventBackgroundColor(eventStatus);
 
                 return {
-                    html: '<div style="background-color: ' + backgroundColor + '; border: none;">' + info.event.title + '</div>',
+                    html: '<div style="background: ' + backgroundColor + '">' + info.event.title + '</div>',
                 };
             },
         });
@@ -676,16 +676,15 @@
         }
 
         function getEventBackgroundColor(status) {
-        if (status === 'Harvested') {
-            return 'rgba(40, 167, 69, 0.5)'; // Green background for Harvested
-        } else if (status === 'Destroyed') {
-            return 'rgba(220, 53, 69, 0.5)'; // Red background for Destroyed
-        } else {
-            return 'transparent'; // Transparent background for other events
+            if (status === 'Harvested') {
+                return '#009d88'; // Green background for Harvested
+            } else if (status === 'Destroyed') {
+                return '#d9534f'; // Red background for Destroyed
+            } else {
+                return; // Transparent background for Planted
+            }
         }
 
-        
-    }
 
         flatpickr("#start-datepicker, #updatestart-datepicker", {
             enableTime: false,

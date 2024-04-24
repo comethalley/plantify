@@ -667,7 +667,7 @@
 
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="#weather" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards" style="color:white">
-                                <i class="ri-sun-foggy-fill"></i> <span>Weather</span>
+                                <i class="ri-sun-foggy-fill"></i> <span>Weather Monitoring</span>
                             </a>
                             <div class="collapse menu-dropdown" id="weather">
                                 <ul class="nav nav-sm flex-column">

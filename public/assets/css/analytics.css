@@ -63,13 +63,15 @@ select:focus,
 #details-section:target {
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
+
 /* CSS variable for theme management */
 :root {
     --card-bg-color: #ffffff;
 }
+
 /* Style the container of each planting detail */
 #month-details > div,
-#details-section > div {
+#details-section {
     background-color: #f7f7f7;
     border-left: 5px solid #5cb85c; /* This adds a left border for some visual accent */
     margin-bottom: 10px;
@@ -92,6 +94,7 @@ select:focus,
     line-height: 1.5;
     font-size: 0.9em;
 }
+
 /* Optional: If you want the created date to stand out */
 #month-details p:first-of-type,
 #details-section p:first-of-type {
@@ -99,6 +102,10 @@ select:focus,
     font-weight: bold;
 }
 
+/* Style for the details section */
+#details-section {
+    display: none;
+}
 .barangaySelector,
 .yearSelector,
 .farmSelector {

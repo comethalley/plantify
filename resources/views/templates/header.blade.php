@@ -78,8 +78,7 @@
         }
     </style>
 </head>
-
-<body onload="">>
+<body onload="">
 
     <!-- Begin page -->
     <div id="layout-wrapper">

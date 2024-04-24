@@ -333,7 +333,7 @@
                                             </div>
 
                                             <div class="mb-3">
-                                                <label for="updatestart-datepicker" class="form-label">Planting Date</label>
+                                                <label for="updatestart-datepicker" class="form-label">Planting Date:</label>
                                                 <div class="input-group">
                                                     <span class="input-group-text"><i class="ri-calendar-event-line"></i></span>
                                                     <input type="text" name="start" id="updatestart-datepicker" class="form-control" data-toggle="flatpickr" data-flatpickr-enable-time="true" data-flatpickr-date-format="Y-m-d" placeholder="Enter Start Date" required />
@@ -341,7 +341,7 @@
                                             </div>
 
                                             <div class="mb-3">
-                                                <label for="updateend-datepicker" class="form-label">Harvested Date</label>
+                                                <label for="updateend-datepicker" class="form-label">Harvested Date:</label>
                                                 <div class="input-group">
                                                     <span class="input-group-text"><i class="ri-calendar-event-line"></i></span>
                                                     <input type="text" name="end" id="updateend-datepicker" class="form-control" data-toggle="flatpickr" data-flatpickr-enable-time="true" data-flatpickr-date-format="Y-m-d" placeholder="Enter End Date" required />

@@ -84,13 +84,14 @@
                                                     {{ $event->end }}
                                                 </td>
                                                 <td class="payment">{{ $event->status }}</td>
-                                                @if($event->barangay_name || $event->farm_name)
+                                                @if(property_exists($event, 'barangay_name') && property_exists($event, 'farm_name'))
                                                     <td>{{ $event->barangay_name }}</td>
                                                     <td>{{ $event->farm_name }}</td>
                                                 @else
                                                     <td>Public Users</td>
                                                     <td>Public Users</td>
                                                 @endif
+
 
                                                 
                                             </tr>

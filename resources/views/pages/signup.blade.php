@@ -27,7 +27,7 @@
         html {
             height: 100%;
             background: darkgreen;
-            overflow: hidden; /* Prevent scrollbars */
+             /* Prevent scrollbars */
         }
         .container {
             position: absolute;
@@ -41,7 +41,7 @@
         }
 
         .auth-one-bg-position {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;

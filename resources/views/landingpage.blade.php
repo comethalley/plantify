@@ -30,12 +30,31 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 
+    <style>
+        body,
+        html {
+            height: 100%;
+            background: darkgreen;
+        }
+        .auth-one-bg-position {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+       
+        
+    </style>
 </head>
 
 <body data-bs-spy="scroll" data-bs-target="#navbar-example">
+<div class="auth-one-bg-position auth-one-bg" id="auth-particles">
+<!-- <div class="bg-overlay"></div> -->
+        <canvas class="particles-js-canvas-el" width="100%" height="100%" style="width: 1000%; height: 1000%;"></canvas></div>
 
     <!-- Begin page -->
-    <nav class="navbar navbar-expand-lg navbar-landing fixed-top" id="navbar" style="background-color: #57AA2C; padding: 5px;">
+    <nav class="navbar navbar-expand-lg navbar-landing fixed-top" id="navbar" style="background-color: green; padding: 5px;">
         <div class="container">
             <a class="navbar-brand" href="/">
                 <img src="assets/images/plantifeedpics/p-white.png" class="Plantify" alt="Plantify" height="25">
@@ -43,32 +62,33 @@
             <button class="navbar-toggler py-0 fs-16 text-body" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <i class="mdi mdi-menu"></i>
             </button>
-
+    
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                
                 <ul class="navbar-nav mx-auto mt-2 mt-lg-0" id="navbar-example">
 
                     <li class="nav-item">
-                        <a class="nav-link text-white  fw-bold" href="/">Home</a>
+                        <a class="nav-link text-white fw-bold" href="/">Home</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link text-white  fw-bold" href="/about-us">About us</a>
+                        <a class="nav-link text-white fw-bold" href="/about-us">About us</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white  fw-bold" href="/">FAQs</a>
+                        <a class="nav-link text-white fw-bold" href="/">FAQs</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white  fw-bold" href="/send-message">Contact us</a>
+                        <a class="nav-link text-white fw-bold" href="/send-message">Contact us</a>
                     </li>
-                </ul>
-
-                <div class="">
-
-                    <a class="btn btn-link text-white  fw-bold" href="/login">Login</a>
-                    <a class="btn btn-link text-white  fw-bold"  style="background-color: #F94354;" href="/signup">Sign Up</a>
                     
-                   
+
+                </ul>
+                <div>
+                    <a class="btn btn-link text-white fw-bold" href="/login">Login</a>
+                    <a class="btn btn-link text-white fw-bold" style="background-color: #F94354;" href="/signup">Sign Up</a>
                 </div>
+                
+                
             </div>
 
         </div>
@@ -79,20 +99,17 @@
     <!-- end navbar -->
     <div class="vertical-overlay" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent.show"></div>
 
-     <!-- start hero section -->
-    <!-- <section class="section job-hero-section bg-light pb-0" id="hero"> -->
-        <!-- <section class="section job-hero-section bg-light pb-0" id="hero"> -->
-            <section>
-                <div class="container"><br><br><br><br><br><br>
-                    <div class="row justify-content-between align-items-center">
+   
+                <div class="container mt-xl-4"><br><br><br>
+                    <div class="row justify-content-between align-items-center ">
                         <div class="col-lg-6">
                             <div>
-                            <h1 class="display-10 fw-semibold mb-3 lh-base">Rooted in the city, flourishing in the <span style="color: #57AA2C;">community!</span></h1>
-                            <p class="lead text-muted lh-base">Join the urban green revolution, easily grow crops in the city, and connect with a passionate community online. Start making a difference today!</p>
+                            <h1 class="display-10 fw-semibold mb-3 lh-base text-white">Rooted in the city, flourishing in the <span style="color: #57AA2C;">community!</span></h1>
+                            <p class="lead text-white lh-base">Join the urban green revolution, easily grow crops in the city, and connect with a passionate community online. Start making a difference today!</p>
                             </div>
                             
                             <div class="mt-4 d-flex justify-content-center">
-                                <a href="/signup" class="btn btn-primary" style="background-color: #57AA2C; border:none; width: 250px;">Get Started <i class="ri-arrow-right-line align-middle ms-1"></i></a>
+                                <a href="/login" class="btn btn-primary" style="background-color: #57AA2C; border:none; width: 100%;">Get Started <i class="ri-arrow-right-line align-middle ms-1"></i></a>
                             </div>
                         </div>
                         <!--end col-->
@@ -106,24 +123,11 @@
                     <!-- end row -->
                 </div>
                 <!-- end container -->
-            </section>
+            
             <!-- end hero section -->
 
-        <section class="section p-0 " id="wallet" style="margin-top: 10%;">
 
-            <div class="container">
-                <div class="row justify-content-center">
-
-                    <div class="text-center mb-1">
-                        <h1 class="mb-3 fw-semibold lh-base">Manage your Urban Farm</h1>
-                        <hr style="border: none; border-top: 2px solid #57AA2C;">
-
-                    </div>
-                </div><!-- end col -->
-            </div><!-- end row -->
-
-
-            <section class="section bg-light" id="plans">
+            <section class="section" id="plans">
                 <!-- <div class="bg-overlay bg-overlay-pattern"></div> -->
                 <div class="container">
                     <div class="row justify-content-center">
@@ -198,18 +202,23 @@
                 
              <!-- start features -->
            
-             <section  class="section bg-white py-5">
-                <div class="container">
+             <section class="section" id="try" style="padding-top:8px;">
+            <div class="auth-page-content overflow-hidden pt-lg-5">
+                <div class="container card">
+                <div class="card-body">
+                <h2 class="mb-4  text-center">Engage in the community using <span style="color: #57AA2C;"> <strong>PLANTIFEED</strong></span></h2>
                     <div class="row align-items-center justify-content-lg-between justify-content-center gy-4">
-                    <div class="col-lg-5 col-sm-7">
-                        <div class="ratio ratio-16x9" style="border: 10px solid #57AA2C;">
-                        <iframe width="560" height="315" src="https://www.youtube.com/embed/Fne6fIzQViA?si=1Jd3T_kfbLUgEnU-" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                        </div>
+
+                        <div class="col-lg-5 col-sm-7">
+                            <div class="ratio ratio-16x9" style="border: 7px solid #57AA2C;">
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/Fne6fIzQViA?si=1Jd3T_kfbLUgEnU-" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                            </div>
                         </div>
 
                         <div class="col-lg-6">
+                            
                             <div class="text-muted">
-                                <h2 class="mb-4  text-center">Engage in the community using <span style="color: #57AA2C;"> <strong>PLANTIFEED</strong></span></h2>
+                                
                                 <div class="vstack gap-1 mb-4 pb-2">
 
                                     <h4>1. Share your knowledge</h4>
@@ -225,7 +234,6 @@
                                     <h4>2. Create Inspiring Story</h4>
                                     <div class="d-flex align-items-center">
                                         <div class="flex-grow-1">
-
                                             <p class="mb-1" style="text-align: justify;">Plant your story, inspire your city! Spread the journey of your planting, allowing other urban garden farmers to be inspired and relate on your planting plot!.</p></p>
                                         </div>
                                     </div>
@@ -243,13 +251,16 @@
                         </div>
                         <!-- end col -->
                     </div>
+                    <h3 class="text-black mb-0 text-center">A platform that connects the urban farmers across the city !<h3>
+                            </div>
                     <!-- end row -->
                 </div>
                 <div>
 
-            <h3 class="text-black mb-0 text-center">A platform that connects the urban farmers across the city !<h3><br>
+            
 
             </div>
+            <div>
                 <!-- end container -->
             </section>
             <!-- end features -->
@@ -257,14 +268,14 @@
         
 
             <!-- start faqs -->
-            <section class="section" id="try" style="padding-top:8px;">
-                <div class="container">
+            <section class="section" style="padding-top:10px;"><br>
+                <div class="container card">
+                <div class="card-body">
                     <div class="row justify-content-center">
                         <div class="col-lg-8">
-                            <div class="text-center mb-5">
+                            <div class="text-center mb-2 mt-3">
                                 <h3 class="mb-3">
-
-                                    <img src="assets/images/plantifeedpics/Question.png" alt="FAQ Image" style="vertical-align: middle; margin-right: 10px;"> Frequently Asked Questions
+                                    <img src="assets/images/plantifeedpics/Question.png" alt="FAQ Image" style="vertical-align: middle; margin-right: 10px;">FREQUENTLY ASKED QUESTIONS
                                 </h3>
                                 <h3 class="mb-3 fw-semibold" style="color:#57AA2C; ">Questions? <span style="color: black;"><strong>Find Here</strong></span></h3>
 
@@ -339,10 +350,125 @@
                         <!--end accordion-->
                     </div>
                 </div>
+                </div>
             </section>
 
+            <section class="section" id="try" style="padding-top:8px;">
+            <div class="container">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card overflow-hidden m-0">
+                            <div class="row justify-content-center g-0">
+                            
+                                <div class="col-lg-8 mt-3">
+                                    <div class="text-center mt-3">
+                                        <h3 style="vertical-align: middle; margin-right: 10px;"><i class="ri-phone-fill"></i> CONTACT US
+                                        </h3>
+                                        
+                                    </div>
+                                </div>
+                    
+                                <div class="col-lg-6">
+                                    <div class="p-lg-4 p-4 auth-one-bg h-100">
+                                        
+                                        <div class="position-relative h-100 d-flex flex-column">
+                                            <div>
+                                                <a href="/" class="d-block">
+                                              
+                                                    <img src="assets/images/plantifeedpics/landing-page.png" alt="" class="img-fluid">
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <div class="p-lg-4 p-4">
+                                        <div>
+                                            <h5 class="text-center">Let us know how we can help you!</h5>
+                                            <p class="text-muted">Send us a message and we’ll get back to you as soon as we can.</p>
+                                        </div>
+
+                                        <div class="mt-4">
+                                            <form class="needs-validation" novalidate action="index.html">
+
+
+                                            <div class="mb-3">
+                                                    <label for="useremail" class="form-label">Name</label>
+                                                    <input type="email" class="form-control" id="useremail" placeholder="Enter your name" required>
+                                                    <div class="invalid-feedback">
+                                                        Please enter email
+                                                    </div>
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label for="useremail" class="form-label">Email</label>
+                                                    <input type="email" class="form-control" id="useremail" placeholder="Enter email address" required>
+                                                    <div class="invalid-feedback">
+                                                        Please enter email
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="username" class="form-label">Subject</label>
+                                                    <input type="text" class="form-control" id="username" placeholder="Enter subject" required>
+                                                    <div class="invalid-feedback">
+                                                        Please enter username
+                                                    </div>
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label for="message" class="form-label">Message</label>
+                                                    <textarea class="form-control" id="message" placeholder="Enter your message" required></textarea>
+                                                    <div class="invalid-feedback">
+                                                      Please enter a message
+                                                  </div>
+                                              </div>
+                                               
+                                              
+                                              <button class="btn btn-success w-100" type="submit" style="background-color: #57AA2C;">
+                                                      <i class="fas fa-paper-plane"></i> Send message
+                                                  </button>
+
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="row">
+                    <div class="col-lg-12">
+                        <div class="text-center">
+                            <p class="mb-4">&copy;
+                                <script>document.write(new Date().getFullYear())</script> Plantify <i class="mdi mdi-heart"style="color: darkgreen; "></i>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end card -->
+                    </div>
+                    <!-- end col -->
+                    
+                   
+              
+          
+
+                </div>
+                <!-- end row -->
+            </div>
+            
+            <!-- end container -->
+        
+        </div>
+        </div>
+        </section>
+
+            
+
             <!-- Start footer -->
-            <footer class="custom-footer py-2 position-relative" style="background-color: #57AA2C;">
+            <footer class="custom-footer py-2 position-relative" style="background-color: green;">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-4 mt-4">
@@ -388,8 +514,8 @@
                                     <div class="text-muted mt-2">
                                         <ul class="list-unstyled ff-secondary footer-list">
                                             <li><a href="https://maps.app.goo.gl/cjvbhDUpdak8g4Fs5" class="text-white "><i class="fas fa-map-marker-alt"></i> 673 Quirino High-way, San Bartolome, Novaliches, Quezon City</a></li>
-                                            <li><a href="" class="text-white "><i class="fas fa-phone-alt"></i> 0927 116 8609</a></li>
-                                            <li><a href="/send-message" class="text-white "><i class="fas fa-envelope"></i> Send us a Message</a></li>
+                                            <li><a href="/" class="text-white "><i class="fas fa-phone-alt"></i> (+63) 927-1168-609</a></li>
+                                            <li><a href="/" class="text-white "><i class="fas fa-envelope"></i> Send us a Message</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -424,6 +550,8 @@
 
             <!-- landing init -->
             <script src="assets/js/pages/landing.init.js"></script>
+            <script src="assets/libs/particles.js/particles.js"></script>
+    <script src="assets/js/pages/particles.app.js"></script>
 </body>
 
 </html>

@@ -52,7 +52,7 @@ class PlantinfoController extends Controller
             'seasons' => 'required',
             'information' => 'required',
             'companion' => 'required',  
-            'days_harvest' => 'required|int|max:55',
+            'days_harvest' => 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Example validation for image upload
         ]);
 

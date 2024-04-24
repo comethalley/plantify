@@ -62,7 +62,7 @@
 
                                                 <th class="sort" data-sort="">#</th>
                                                 <th class="sort" data-sort="">Plant Name</th>
-                                                <th class="sort" data-sort="">Image <alt="" width="200px" height="200px"></th>
+                                                <th class="sort" data-sort="">Image </th>
                                                 <th class="sort" data-sort="">Season</th>
                                                 <!-- <th class="sort" data-sort="">Information</th> -->
                                                 <th class="sort" data-sort="">Companion</th>
@@ -76,7 +76,7 @@
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $item->plant_name }}</td>
-                                                <td><img src="/images/{{ $item->image }}" alt="" width="200px" height="200px"></td>
+                                                <td><img src="/images/{{ $item->image }}"></td>
                                                 <td>{{ $item->seasons }}</td>
                                                 <!-- <td>{!! $item->information !!}</td> -->
                                                 <td>{{ $item->companion }}</td>

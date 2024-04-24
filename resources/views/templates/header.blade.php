@@ -749,18 +749,12 @@
                         @if(session('user') && (session('user')->role_id == 1 || session('user')->role_id == 3))
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="#pimaintenance" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards" style="color:white">
-                                <i class="ri-leaf-line"></i> <span>Botaknows Maintenance</span>
+                                <i class="ri-leaf-line"></i> <span>Crop Production Maintenance</span>
                             </a>
                             <div class="collapse menu-dropdown" id="pimaintenance">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item">
                                         <a href="/plant-info" class="nav-link" style="color:white"> Plant Information </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="/pesticides" class="nav-link" style="color:white"> Pesticide</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="/fertilizers" class="nav-link" style="color:white">Fertilizer</a>
                                     </li>
                                 </ul>
                             </div>
@@ -769,18 +763,13 @@
 
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="#piuser" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards" style="color:white">
-                                <i class="ri-leaf-line"></i> <span>Botaknows</span>
+                                <i class="ri-leaf-line"></i> <span>Crop Production</span>
                             </a>
                             <div class="collapse menu-dropdown" id="piuser">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item">
                                         <a href="/piu/piu" class="nav-link" style="color:white"> Plant Information </a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a href="/piu/pes" class="nav-link" style="color:white"> Pesticide</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="/piu/fiu" class="nav-link" style="color:white">Fertilizer</a>
                                     </li>
                                 </ul>
                             </div>

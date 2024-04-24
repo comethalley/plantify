@@ -73,7 +73,7 @@
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $item->pes_name }}</td>
-                                                <td><img src="/images/{{ $item->pes_image }}" alt="" width="200px" height="200px"></td>
+                                                <td><img src="/images/{{ $item->pes_image }}" alt=""  height="100px" width="200px"></td>
                                                 <td>{{ $item->pes_information }}</td>
                                                
                                             

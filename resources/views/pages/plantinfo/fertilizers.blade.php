@@ -73,7 +73,7 @@
                                             <tr>    
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $item->fer_name }}</td>
-                                                <td><img src="/images/{{ $item->fer_image }}" alt="" width="200px" height="200px"></td>
+                                                <td><img src="/images/{{ $item->fer_image }}" alt="" width="100px" height="100px"></td>
                                                 <td>{{ $item->fer_information }}</td>
                                                 
                                                 

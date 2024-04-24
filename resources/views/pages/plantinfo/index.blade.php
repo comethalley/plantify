@@ -76,7 +76,7 @@
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $item->plant_name }}</td>
-                                                <td><img src="/images/{{ $item->image }}" alt="" width="200px" height="200px"></td>
+                                                <td><img src="/images/{{ $item->image }}" alt="" width="50px" height="100px"></td>
                                                 <td>{{ $item->seasons }}</td>
                                                 <td>{!! $item->information !!}</td>
                                                 <td>{{ $item->companion }}</td>

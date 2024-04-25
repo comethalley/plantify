@@ -93,7 +93,7 @@ public function storeMessage(Request $request, $threadId)
     // Validate the incoming request data
     $request->validate([
         'text_content' => 'nullable|string',
-        'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048', // Adjust the validation rules as needed
+        'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:25000', // Adjust the validation rules as needed
     ]);
 
     // Check if an image is included in the request
@@ -130,25 +130,40 @@ public function storeMessage(Request $request, $threadId)
         ]
     );
 
-    $pusher->trigger('chat', 'new-message', $message);
+    $pusher->trigger('chat-channel', 'new-message', $message);
 
     // Return a success response
     return response()->json(['success' => true]);
 }
 
 
-    public function deleteMessage($messageId)
+public function deleteMessage($messageId)
 {
     $message = Message::find($messageId);
 
     if ($message) {
         // Update the status of the message to false
         $message->update(['status' => false]);
+
+        // Broadcast the message deletion using Pusher
+        $pusher = new Pusher(
+            env('PUSHER_APP_KEY'),
+            env('PUSHER_APP_SECRET'),
+            env('PUSHER_APP_ID'),
+            [
+                'cluster' => env('PUSHER_APP_CLUSTER'),
+                'useTLS' => true,
+            ]
+        );
+
+        $pusher->trigger('deleted-channel', 'deleted-message', ['message_id' => $messageId]);
+
         return response()->json(['success' => true]);
     } else {
         return response()->json(['error' => 'Message not found'], 404);
     }
 }
+
 
 
     /**
@@ -164,6 +179,19 @@ public function storeMessage(Request $request, $threadId)
         // ...
 
         return back();
+    }
+
+
+    public function fetchMessages(Request $request, $threadId)
+    {
+        // Retrieve the thread and related messages
+        $thread = Thread::with('messages')->findOrFail($threadId);
+    
+        // Retrieve messages for the current thread
+        $messages = $thread->messages;
+    
+        // Return messages as JSON response
+        return response()->json(['messages' => $messages]);
     }
 
 /**

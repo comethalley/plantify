@@ -95,7 +95,7 @@ Route::post('/thread/{threadId}/store-message', [ThreadController::class, 'store
 Route::delete('/delete-message/{messageId}', [ThreadController::class, 'deleteMessage'])->name('delete.message');
 Route::post('/mark-messages-as-read/{userId}', [ChatController::class, 'markMessagesAsRead']);
 Route::get('/search-users', [ChatController::class, 'searchUsers']);
-
+Route::get('/threads/{threadId}/messages', [ThreadController::class, 'fetchMessages']);
 
 // Group Chats
 Route::get('/groups', [GroupController::class, 'index'])->name('groups.index');
@@ -105,6 +105,7 @@ Route::get('/groups/create', [GroupController::class, 'create'])->name('groups.c
 Route::post('/store-group-message/{groupId}', [GroupController::class, 'storeGroupMessage'])->name('store.group.message');
 Route::delete('/delete-group-message/{messageId}', [GroupController::class, 'deleteMessage'])->name('delete.group.message');
 Route::post('/mark-group-messages-as-read/{groupId}', [GroupController::class, 'markGroupMessagesAsRead']);
+Route::get('/fetch-messages/{groupId}', [GroupController::class, 'fetchMessages'])->name('fetch.messages');
 
 Route::get('/weather', [WeatherController::class, 'index']);
 Route::get('/pastweather', [WeatherController::class, 'pastweather']);

@@ -336,8 +336,8 @@ class AuthController extends Controller
             // exit;
 
             $admins = User::create([
-                'firstname'  => $data['firstname'],
-                'lastname'  => $data['lastname'],
+                'firstname'  => '',
+                'lastname'  => '',
                 'email' => $data['email'],
                 'password' => Hash::make($generate_password),
                 'role_id' => 2,
@@ -348,7 +348,7 @@ class AuthController extends Controller
             if ($admins) {
                 $id = $admins->id;
                 $hash = $this->plantifyLibrary->generatehash($id);
-                $emailInvitation = $this->emailInvitation($data['email'], $data['firstname'], $generate_password, $hash);
+                $emailInvitation = $this->emailInvitation($data['email'], $data['email'], $generate_password, $hash);
                 if ($emailInvitation) {
 
                     return response()->json(['message' => 'Admin Invited Successfully', 'data' => $admins], 200);
@@ -366,8 +366,8 @@ class AuthController extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                'firstname'  => 'required|string|max:55',
-                'lastname'  => 'required|string|max:55',
+                // 'firstname'  => 'required|string|max:55',
+                // 'lastname'  => 'required|string|max:55',
                 'email' => 'required|email|unique:users,email',
             ]);
 
@@ -379,8 +379,8 @@ class AuthController extends Controller
             $generate_password = $this->generate_password(10);
 
             $farmLeaders = User::create([
-                'firstname'  => $data['firstname'],
-                'lastname'  => $data['lastname'],
+                'firstname'  => '',
+                'lastname'  => '',
                 'email' => $data['email'],
                 'password' => Hash::make($generate_password),
                 'role_id' => 3,
@@ -390,7 +390,7 @@ class AuthController extends Controller
             if ($farmLeaders) {
                 $id = $farmLeaders->id;
                 $hash = $this->plantifyLibrary->generatehash($id);
-                $emailInvitation = $this->emailInvitation($data['email'], $data['firstname'], $generate_password, $hash);
+                $emailInvitation = $this->emailInvitation($data['email'], $data['email'], $generate_password, $hash);
                 if ($emailInvitation) {
 
                     return response()->json(['message' => 'Admin Invited Successfully', 'data' => $farmLeaders], 200);

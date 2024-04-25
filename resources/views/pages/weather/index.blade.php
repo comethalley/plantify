@@ -11,8 +11,7 @@
   <div class="wrapper">
     <div class="sidebar">
       <div>
-        <br>
-        <br>
+     
         <!-- <form class="search" id="search">
             <input type="text" id="query" placeholder="Search..." />
             <button><i class="fas fa-search"></i></button>

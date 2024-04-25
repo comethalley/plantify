@@ -57,6 +57,7 @@ class PlantCalendar extends Controller
 
         if($user->role_id == "5"){
             $farm_id  = "00".$user->id;
+            
         }else{
             $farm_id = $user->farm_id;
         }

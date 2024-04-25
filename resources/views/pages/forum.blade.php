@@ -560,7 +560,7 @@
                             <div style="margin-top: 10px; display:flex; justify-content:space-evenly;">
 
                                 <button onclick="togglePostLike('{{ $post->id }}')" style="border: none; background-color: transparent; cursor: pointer;">
-                                    <img src="assets/images/plantifeedpics/like.png" alt="like" id="postLikeIcon{{ $post->id }}" style="padding: 10px;" onmouseover="this.style.backgroundColor='lightgray';this.style.borderRadius='25px';" onmouseout="this.style.backgroundColor='transparent'; this.style.borderRadius='25px';">
+                                    <img src="assets/images/plantifeedpics/unlike.png" alt="like" id="postLikeIcon{{ $post->id }}" style="padding: 10px;" onmouseover="this.style.backgroundColor='lightgray';this.style.borderRadius='25px';" onmouseout="this.style.backgroundColor='transparent'; this.style.borderRadius='25px';">
                                     <span id="postLikeCount{{ $post->id }}">0</span>
                                 </button>
 

@@ -748,31 +748,18 @@
 
                         @if(session('user') && (session('user')->role_id == 1 || session('user')->role_id == 3))
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="#pimaintenance" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards" style="color:white">
-                                <i class="ri-leaf-line"></i> <span>Crop Production Maintenance</span>
+                            <a class="nav-link menu-link" href="/plant-info" role="button"  style="color:white">
+                                <i class="ri-leaf-line"></i> 
+                                <span>Crop Production Maintenance</span>
                             </a>
-                            <div class="collapse menu-dropdown" id="pimaintenance">
-                                <ul class="nav nav-sm flex-column">
-                                    <li class="nav-item">
-                                        <a href="/plant-info" class="nav-link" style="color:white"> Plant Information </a>
-                                    </li>
-                                </ul>
-                            </div>
                         </li>
                         @endif
 
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="#piuser" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards" style="color:white">
-                                <i class="ri-leaf-line"></i> <span>Crop Production</span>
+                            <a class="nav-link menu-link" href="/piu/piu" role="button" aria-expanded="false" aria-controls="sidebarDashboards" style="color:white">
+                                <i class="ri-leaf-line"></i>
+                                 <span>Crop Production</span>
                             </a>
-                            <div class="collapse menu-dropdown" id="piuser">
-                                <ul class="nav nav-sm flex-column">
-                                    <li class="nav-item">
-                                        <a href="/piu/piu" class="nav-link" style="color:white"> Plant Information </a>
-                                    </li>
-                                    </li>
-                                </ul>
-                            </div>
                         </li> <!-- end Dashboard Menu -->
 
                         <li class="nav-item">

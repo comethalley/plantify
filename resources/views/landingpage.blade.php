@@ -34,7 +34,7 @@
         body,
         html {
             height: 100%;
-            background: darkgreen;
+            background:;
         }
         .auth-one-bg-position {
             position: fixed;
@@ -42,23 +42,29 @@
             left: 0;
             width: 100%;
             height: 100%;
+
+            
         }
-       
-        
+        .card {
+  margin: 1em auto;
+}
+          
     </style>
 </head>
 
 <body data-bs-spy="scroll" data-bs-target="#navbar-example">
-<div class="auth-one-bg-position auth-one-bg" id="auth-particles">
-<!-- <div class="bg-overlay"></div> -->
-        <canvas class="particles-js-canvas-el" width="100%" height="100%" style="width: 1000%; height: 1000%;"></canvas></div>
 
-    <!-- Begin page -->
-    <nav class="navbar navbar-expand-lg navbar-landing fixed-top" id="navbar" style="background-color: green; padding: 5px;">
-        <div class="container">
-            <a class="navbar-brand" href="/">
-                <img src="assets/images/plantifeedpics/p-white.png" class="Plantify" alt="Plantify" height="25">
-            </a>
+    <nav class="navbar navbar-expand-lg navbar-landing fixed-top" id="navbar" style="background-color:#025830; padding: 4px;">
+        
+    <div class="container">
+        <a class="navbar-brand text-white" href="/">
+            <img src="assets/images/plantifeedpics/cuai.png" class="mr-2" alt="Plantify" height="45">
+        </a>
+
+        <!-- <a class="navbar-brand text-white" href="/">
+            <img src="assets/images/plantifeedpics/Center for Urban Agriculture and Innovation.png" class="mr-2" alt="Plantify" height="27">
+        </a> -->
+
             <button class="navbar-toggler py-0 fs-16 text-body" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <i class="mdi mdi-menu"></i>
             </button>
@@ -72,64 +78,60 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link text-white fw-bold" href="/about-us">About us</a>
+                        <a class="nav-link text-white fw-bold" href="/about-us">About Us</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-white fw-bold" href="/">FAQs</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white fw-bold" href="/send-message">Contact us</a>
+                        <a class="nav-link text-white fw-bold" href="/send-message">Contact Us</a>
                     </li>
-                    
-
+                
                 </ul>
+
                 <div>
                     <a class="btn btn-link text-white fw-bold" href="/login">Login</a>
-                    <a class="btn btn-link text-white fw-bold" style="background-color: #F94354;" href="/signup">Sign Up</a>
+                    <a class="btn btn-link text-white fw-semibold" style="background-color:#FFAB2D;" href="/signup">Sign Up</a>
                 </div>
                 
-                
             </div>
-
         </div>
-
     </nav>
-
 
     <!-- end navbar -->
     <div class="vertical-overlay" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent.show"></div>
 
-   
-                <div class="container mt-xl-4"><br><br><br>
-                    <div class="row justify-content-between align-items-center ">
+  
+    <section class="section nft-hero" id="hero" style="background-image: url('assets/images/plantifeedpics/bg2.png'); background-size: cover; background-position: center center;">
+    <div class="container">
+    <div class="row justify-content-between align-items-center ">
                         <div class="col-lg-6">
                             <div>
-                            <h1 class="display-10 fw-semibold mb-3 lh-base text-white">Rooted in the city, flourishing in the <span style="color: #57AA2C;">community!</span></h1>
-                            <p class="lead text-white lh-base">Join the urban green revolution, easily grow crops in the city, and connect with a passionate community online. Start making a difference today!</p>
+                            <h1 class="display-10 fw-bold mb-4 lh-base text-white" style="font-size: 35px; font-weight: 800;">Nagmula sa siyudad,<br>lumalago sa komunidad!</h1>
+                            <p class="lead text-white lh-base">Palaguin ang mga pananim sa siyudad, sumali sa urban green activities, at makipag-ugnayan sa online community. Tara na!</p>
                             </div>
                             
-                            <div class="mt-4 d-flex justify-content-center">
-                                <a href="/login" class="btn btn-primary" style="background-color: #57AA2C; border:none; width: 100%;">Get Started <i class="ri-arrow-right-line align-middle ms-1"></i></a>
+                            <div class="mt-4 d-flex">
+                                <a href="/login" class="btn btn-primary" style="background-color: #FFAB2D; border:none; width: 250px;">Get Started<i class="ri-arrow-right-line align-middle ms-1"></i></a>
                             </div>
                         </div>
-                        <!--end col-->
-                        <div class="col-lg-6 mt-10">
-                        
-                        <div style="display: flex; justify-content: center;">
-                            <img src="assets/images/plantifeedpics/landing-page.png" alt="" class="img-fluid" />    
-                        </div>
-
-                    </div>
-                    <!-- end row -->
-                </div>
-                <!-- end container -->
-            
-            <!-- end hero section -->
+        </div>
+        <!-- end row -->
+    </div>
+    <!-- end container -->
+</section>
+<!-- end hero section -->
 
 
-            <section class="section" id="plans">
-                <!-- <div class="bg-overlay bg-overlay-pattern"></div> -->
-                <div class="container">
+  
+<br>
+  <!-- <div class="container text-center"> -->
+  <h1 class="display-10 fw-semibold mb-4 lh-base text-black text-center" style="font-size: 35px; font-weight: 800;">Manage your Urban Garden</h1>
+  <p class="lead text-black lh-base text-center" style="max-width: 800px; margin: 0 auto;">Magandang araw sa ating lumalaking komunidad! Subaybayan nang mabilis at mas maayos ang iyong urban garden gamit ang mga tools na hatid namin sa inyo. Tara na at sabay tayong palaguin ang iyong urban garden!</p>
+
+
+
+  <div class="container">
                     <div class="row justify-content-center">
                     </div>
                     <!-- end row -->
@@ -143,7 +145,7 @@
                                             <h4 class="mb-1 fw-semibold text-center">
                                                 <img src="assets/images/plantifeedpics/weather 1.png" alt="" class="img-fluid"> Weather Monitoring <hr>
                                             </h4><br>
-                                            <p class="text-muted mb-0" style="text-align: justify;">Stay ahead of the weather curve with Weather Monitoring, your essential tool for urban farming success. Track current conditions, 7-day accurate weather data, and access to past weather data history to optimize your farming strategy.</p>
+                                            <p class="text-muted mb-0" style="text-align: justify;">Subaybayan ang panahon hanggang sa 7 araw gamit ang feature na ito na makakatulong sa araw nang pagtatanim.</p>
 
                                         </div>
                                     </div>
@@ -163,7 +165,7 @@
                                             <h4 class="mb-1 fw-semibold text-center">
                                                 <img src="assets/images/plantifeedpics/analytics 1.png" alt="" class="img-fluid"> Analytics <hr>
                                             </h4><br>
-                                            <p class="text-muted mb-0" style="text-align: justify;">Utilize comprehensive data analysis tools to effectively monitor expenses, inventory levels, and planting schedules, enabling you to enhance productivity and efficiency within your urban farming endeavors.</p>
+                                            <p class="text-muted mb-0" style="text-align: justify;">Ang analytics ay makakatulong upang malaman kung ilan ang iyong maha-harvest at masisirang pananim depende sa panahon.</p>
                                         </div>
                                     </div>
                                     <div>
@@ -182,7 +184,7 @@
                                             <h4 class="mb-1 fw-semibold text-center">
                                                 <img src="assets/images/plantifeedpics/calendar 1.png" alt="" class="img-fluid"> Planting Calendar <hr>
                                             </h4><br>
-                                            <p class="text-muted mb-0" style="text-align: justify;"> Discover a user-friendly gardening companion! This simplifies scheduling, adjusts planting dates, and manages your planting history. Easily track crop growth on a twelve-month calendar view. Streamline your gardening with ease and precision.</p>
+                                            <p class="text-muted mb-0" style="text-align: justify;">Ito ang iyong magsisilbing gardening friend! Pinapadali nito ang pag-schedule ng pagtatanim upang madali mong masubaybayan ang paglaki ng iyong halaman.</p>
                                         </div>
                                     </div>
                                     <div>
@@ -196,88 +198,84 @@
                     <!--end row-->
                 </div>
                 <!-- end container -->
-            </section>
+            </section><br>
             <!-- end plan -->
-            <!-- end features -->
-                
-             <!-- start features -->
+
            
-             <section class="section" id="try" style="padding-top:8px;">
-            <div class="auth-page-content overflow-hidden pt-lg-5">
-                <div class="container card">
+             <!-- start features -->
+            <section class="section" id="try" style="padding-top:2px;">
+            <div class="auth-page-content overflow-hidden pt-lg-3">
+            <div class="container-fluid card" style="background-color: #025830;">
                 <div class="card-body">
-                <h2 class="mb-4  text-center">Engage in the community using <span style="color: #57AA2C;"> <strong>PLANTIFEED</strong></span></h2>
+                <h2 class="mb-4 text-center" style="color: #ffffff;">Sumali sa aming community gamit ang <br><span style="color: #ffffff;"><strong>COMMUNITY FORUM</strong></span></h2>
                     <div class="row align-items-center justify-content-lg-between justify-content-center gy-4">
 
                         <div class="col-lg-5 col-sm-7">
-                            <div class="ratio ratio-16x9" style="border: 7px solid #57AA2C;">
+                            <div class="ratio ratio-16x9" style="border: 7px solid #ffffff;">
                             <iframe width="560" height="315" src="https://www.youtube.com/embed/Fne6fIzQViA?si=1Jd3T_kfbLUgEnU-" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                             </div>
                         </div>
 
-                        <div class="col-lg-6">
-                            
-                            <div class="text-muted">
-                                
-                                <div class="vstack gap-1 mb-4 pb-2">
+        <div class="col-lg-6">
+        <div class="text-muted">
+        <div class="vstack gap-0 mb-4 pb-1">
 
-                                    <h4>1. Share your knowledge</h4>
-                                    <div class="d-flex align-items-center">
-                                        <div class="flex-grow-1">
-                                        <p class="mb-1" style="text-align: justify;">
-                                        Spill the Beans! Share your garden gold in this planting community by swapping tips & tricks to your fellow urban garden farmers enabling the exploration and unlocking of new planting technique journey!
-                                        </p>
-                                            </div>
-                                        </div>
-
-
-                                    <h4>2. Create Inspiring Story</h4>
-                                    <div class="d-flex align-items-center">
-                                        <div class="flex-grow-1">
-                                            <p class="mb-1" style="text-align: justify;">Plant your story, inspire your city! Spread the journey of your planting, allowing other urban garden farmers to be inspired and relate on your planting plot!.</p></p>
-                                        </div>
-                                    </div>
-
-                                    <h4>3. Like, Comment, Share</h4>
-                                    <div class="d-flex align-items-center">
-                                        <div class="flex-grow-1">
-                                            <p class="mb-1"style="text-align: justify;">Dig in Deep, Share Your Harvest! Engage with your co-urban garden farmers and express yourself with this interactive buttons by liking posts, commenting thoughts and opinions and sharing to allow a continuously growth of this planting community!</p></p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                            
-                        </div>
-                        <!-- end col -->
-                    </div>
-                    <h3 class="text-black mb-0 text-center">A platform that connects the urban farmers across the city !<h3>
-                            </div>
-                    <!-- end row -->
+        <h4 style="color: #ffffff;">1. Share your knowledge</h4>
+            <div class="d-flex col">
+                <div class="flex-grow-1">
+                    <p class="lead text-lightwhite" style="text-align: justify;">
+                        Spill the Beans! Share your garden gold in this planting community by swapping tips & tricks to your fellow urban garden farmers enabling the exploration and unlocking of new planting technique journey!
+                    </p>
                 </div>
-                <div>
-
-            
-
             </div>
-            <div>
-                <!-- end container -->
-            </section>
-            <!-- end features -->
+
+            <h4 style="color: #ffffff;">2. Create Inspiring Story</h4>
+            <div class="d-flex align-items-center">
+                <div class="flex-grow-1">
+                    <p class="lead text-lightwhite" style="text-align: justify;">Plant your story, inspire your city! Spread the journey of your planting, allowing other urban garden farmers to be inspired and relate on your planting plot!.</p>
+                </div>
+            </div>
+
+            <h4 style="color: #ffffff;">3. Like, Comment, Share</h4>
+            <div class="d-flex align-items-center">
+                <div class="flex-grow-1">
+                    <p class="lead text-lightwhite" style="text-align: justify;">Dig in Deep, Share Your Harvest! Engage with your co-urban garden farmers and express yourself with this interactive buttons by liking posts, commenting thoughts and opinions and sharing to allow a continuously growth of this planting community!</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<!-- end col -->
+</div>
+<h3 class="text-white mb-0 text-center">Ito ang platform na nag-uugnay sa mga urban farmers sa siyudad!</h3>
+<!-- end row -->
+</div>
+<div>
+</div>
+<div>
+    <!-- end container -->
+</section>
+<!-- end features -->
+
+
+
+
 
         
 
-            <!-- start faqs -->
-            <section class="section" style="padding-top:10px;"><br>
-                <div class="container card">
+     <!-- start faqs -->
+     <section class="section" style="padding-top:0px;"><br>
+                <!-- <div class="container card"> -->
                 <div class="card-body">
                     <div class="row justify-content-center">
-                        <div class="col-lg-8">
+                        <div class="col-lg-20">
                             <div class="text-center mb-2 mt-3">
                                 <h3 class="mb-3">
-                                    <img src="assets/images/plantifeedpics/Question.png" alt="FAQ Image" style="vertical-align: middle; margin-right: 10px;">FREQUENTLY ASKED QUESTIONS
+                                    <img src="assets/images/plantifeedpics/Question.png" alt="FAQ Image" style="vertical-align: middle; margin-right: 10px;">Mga Kadalasang Katanungan
                                 </h3>
-                                <h3 class="mb-3 fw-semibold" style="color:#57AA2C; ">Questions? <span style="color: black;"><strong>Find Here</strong></span></h3>
+                                <h3 class="mb-3 fw-semibold" style="color:#025830;">Mga katanungan? <span style="color: black;"><strong>Nandito yan!</strong></span></h3>
 
                             </div>
                         </div>
@@ -285,18 +283,18 @@
                     <!-- end row -->
 
 
-    <div class="accordion accordion-flush" id="accordionFlushExample">
+  <div class="accordion accordion-flush" id="accordionFlushExample" style="width: 900px; margin-left: auto; margin-right: auto;">
   <div class="accordion-item">
     <h2 class="accordion-header" id="flush-headingOne">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-      <h5>What is Plantify ?<h5>
+      <h5>Para saan ang platform na ito?<h5>
       </button>
     </h2>
     <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
       <div class="accordion-body"style="text-align: justify;">
         <strong>"Plantify:</strong> A Web-Based Urban Planting Management System" is a sophisticated platform designed to support the operations of the Center for Urban Agriculture and Innovation. It serves as a comprehensive toolset for managing urban planting initiatives, optimizing resources, and fostering community engagement. Here's an overview of its key features:<br><br>
         <strong>Analytics:</strong> Provides data-driven insights and analytics based on various metrics collected from planting projects, helping the farmers make informed decisions and assess the impact of their efforts.<br><br>
-        <strong>Weather Forecast:</strong> Integrates weather forecasting functionalities to help users plan planting activities effectively and mitigate risks associated with adverse weather conditions.<br><br>
+        <strong>Weather Monitoring:</strong> Integrates weather monitoring functionalities to help users plan planting activities effectively and mitigate risks associated with adverse weather conditions.<br><br>
         <strong>Chat System:</strong> Facilitates real-time communication and collaboration among stakeholders, enabling seamless coordination of tasks, sharing of ideas, and support among team members.<br><br>
         <strong>Task Monitoring:</strong> Allows users to create and assign tasks, track their progress, and receive notifications and updates, ensuring efficient project management and accountability.<br><br>
         <strong> Planting Calendar:</strong> Offers a centralized calendar for scheduling and managing planting activities, including planting dates, maintenance tasks, and harvest times, helping users stay organized and on track.<br><br>
@@ -315,33 +313,34 @@
   <div class="accordion-item">
     <h2 class="accordion-header" id="flush-headingTwo">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-      <h5>Who can use Plantify?</h5>
+      <h5>Sino ang mga taong pwedeng gumamit nito?</h5>
       </button>
     </h2>
     <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
-      <div class="accordion-body"style="text-align: justify;"> <strong>Plantifeed:</strong> is an open platform where anyone can share their urban planting stories. Whether you're a seasoned gardener or new to the green scene, your experiences and insights are valuable contributions to our community. Join us in inspiring and learning from each other as we work towards greener, more sustainable cities together.</div>
+      <div class="accordion-body"style="text-align: justify;"> 
+    Maaring gamitin ng kahit sino ang platform na ito upang gawing organized ang kanilang urban gardens. Ito ay dinesenyo para sa mga farmers, farmer leaders, at public urban farmers na naglalayon na mapdali ang kanilang mga gawain habang nagtatanim.
     </div>
   </div>
 
   <div class="accordion-item">
     <h2 class="accordion-header" id="flush-headingThree">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-      <h5>Can I use Plantify in my Smartphones?<h5>
+      <h5>Maaari ba itong gamitin sa smartphone?<h5>
       </button>
     </h2>
     <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
-      <div class="accordion-body"style="text-align: justify;"> Absolutely! Plantify offers the flexibility and convenience of access from any mobile device, including smartphones, as well as web browsers. This means whether you're out in the field overseeing planting projects, attending community events, or simply on the move, you can stay connected and manage your urban greening initiatives effortlessly. With Plantify, there's no need to be tied to a desktop computer – you have the freedom to plan, monitor, and engage with your projects wherever you are, ensuring that your efforts in creating vibrant green spaces in urban environments are always at your fingertips.</div>
+      <div class="accordion-body"style="text-align: justify;">Maaaring ma-access ang platform sa mga mobile devices at mga web browsers. Kahit ikaw ay nasa labas o nasa iyong urban garden, maaari mong magamit ang platform.</div>
     </div>
   </div>
 
   <div class="accordion-item">
     <h2 class="accordion-header" id="flush-headingFour">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
-      <h5>Can anyone share their story in Plantifeed?</h5>
+      <h5>Pwede ba magbahagi ng kanilang kwento ang kahit sino sa community forum? </h5>
       </button>
     </h2>
     <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour" data-bs-parent="#accordionFlushExample">
-      <div class="accordion-body"style="text-align: justify;"> Yes! Plantifeed is an inclusive platform where everyone is invited to share their urban planting stories. Whether you're an experienced gardener or just starting out, your voice matters. Join us in inspiring and learning from each other as we cultivate greener, more sustainable cities together.</div>
+      <div class="accordion-body"style="text-align: justify;">Ang lahat ay pwedeng magbahagi ng kanilang kwento sa community forum dahil ito ay dinisenyo upang pakinggan ang boses ng bawat urban farmers. Kahit ikaw ay isang public user, farmer, o farmer leader, ang bawat post mo ay mahalaga sa amin.</div>
        
     </div>
   </div>
@@ -353,179 +352,68 @@
                 </div>
             </section>
 
-            <section class="section" id="try" style="padding-top:8px;">
+            
+
+            <footer class="custom-footer py-2 position-relative" style="background-color: #025830;">
             <div class="container">
-            <div class="card-body">
                 <div class="row">
-                    <div class="col-lg-12">
-                        <div class="card overflow-hidden m-0">
-                            <div class="row justify-content-center g-0">
-                            
-                                <div class="col-lg-8 mt-3">
-                                    <div class="text-center mt-3">
-                                        <h3 style="vertical-align: middle; margin-right: 10px;"><i class="ri-phone-fill"></i> CONTACT US
-                                        </h3>
-                                        
-                                    </div>
-                                </div>
-                    
-                                <div class="col-lg-6">
-                                    <div class="p-lg-4 p-4 auth-one-bg h-100">
-                                        
-                                        <div class="position-relative h-100 d-flex flex-column">
-                                            <div>
-                                                <a href="/" class="d-block">
-                                              
-                                                    <img src="assets/images/plantifeedpics/landing-page.png" alt="" class="img-fluid">
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                    <div class="col-lg-4 mt-4">
+                        <div>
+                            <div>
+                                <img src="assets/images/plantifeedpics/cuai.png" alt="logo light" height="45"><br>
+                            </div>
 
-                                <div class="col-lg-6">
-                                    <div class="p-lg-4 p-4">
-                                        <div>
-                                            <h5 class="text-center">Let us know how we can help you!</h5>
-                                            <p class="text-muted">Send us a message and we’ll get back to you as soon as we can.</p>
-                                        </div>
-
-                                        <div class="mt-4">
-                                            <form class="needs-validation" novalidate action="index.html">
-
-
-                                            <div class="mb-3">
-                                                    <label for="useremail" class="form-label">Name</label>
-                                                    <input type="email" class="form-control" id="useremail" placeholder="Enter your name" required>
-                                                    <div class="invalid-feedback">
-                                                        Please enter email
-                                                    </div>
-                                                </div>
-
-                                                <div class="mb-3">
-                                                    <label for="useremail" class="form-label">Email</label>
-                                                    <input type="email" class="form-control" id="useremail" placeholder="Enter email address" required>
-                                                    <div class="invalid-feedback">
-                                                        Please enter email
-                                                    </div>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="username" class="form-label">Subject</label>
-                                                    <input type="text" class="form-control" id="username" placeholder="Enter subject" required>
-                                                    <div class="invalid-feedback">
-                                                        Please enter username
-                                                    </div>
-                                                </div>
-
-                                                <div class="mb-3">
-                                                    <label for="message" class="form-label">Message</label>
-                                                    <textarea class="form-control" id="message" placeholder="Enter your message" required></textarea>
-                                                    <div class="invalid-feedback">
-                                                      Please enter a message
-                                                  </div>
-                                              </div>
-                                               
-                                              
-                                              <button class="btn btn-success w-100" type="submit" style="background-color: #57AA2C;">
-                                                      <i class="fas fa-paper-plane"></i> Send message
-                                                  </button>
-
-                                                </div>
-                                            </form>
-                                        </div>
-                                        <div class="row">
-                    <div class="col-lg-12">
-                        <div class="text-center">
-                            <p class="mb-4">&copy;
-                                <script>document.write(new Date().getFullYear())</script> Plantify <i class="mdi mdi-heart"style="color: darkgreen; "></i>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                                    </div>
-                                </div>
+                            <div class="text-muted mt-2">
+                                <ul class="list-unstyled ff-secondary footer-list">
+                                    <li><a href="https://qcu.edu.ph/" class="text-white "><i class="fas fa-globe"></i> Quezon City University</a></li>
+                                    <li><a href="https://www.facebook.com/centerforurbanagri" class="text-white "><i class="fab fa-facebook"></i> Center for Urban Agriculture and Innovation</a></li>
+                                    <li><a href="https://www.youtube.com/@qcenterforurbanagri" class="text-white "><i class="fab fa-youtube"></i> QCU Center for Urban Agriculture and Innovation</a></li>
+                                </ul>
                             </div>
                         </div>
-                        <!-- end card -->
                     </div>
-                    <!-- end col -->
-                    
-                   
-              
-          
 
-                </div>
-                <!-- end row -->
-            </div>
-            
-            <!-- end container -->
-        
-        </div>
-        </div>
-        </section>
-
-            
-
-            <!-- Start footer -->
-            <footer class="custom-footer py-2 position-relative" style="background-color: green;">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-4 mt-4">
-                            <div>
-                                <div>
-                                    <img src="assets/images/plantifeedpics/p-white.png" alt="logo light" height="26"><br>
+                    <div class="col-lg-8 ms-lg-auto">
+                        <div class="row">
+                            <div class="col-sm-4 mt-4">
+                                <h5 class="text-white mb-0 fs-14">About</h5>
+                                <div class="text-muted mt-2">
+                                    <ul class="list-unstyled ff-secondary footer-list ">
+                                        <li><a href="" class="text-white ">About Plantify </a></li>
+                                        <li><a href="" class="text-white ">FAQS</a></li>
+                                        <li><a href="" class="text-white ">Help</a></li>
+                                    </ul>
                                 </div>
-
+                            </div>
+                            <div class="col-sm-4 mt-4">
+                                <h5 class="text-white mb-0 fs-14">Discover</h5>
                                 <div class="text-muted mt-2">
                                     <ul class="list-unstyled ff-secondary footer-list">
-                                        <li><a href="https://qcu.edu.ph/" class="text-white "><i class="fas fa-globe"></i> Quezon City University</a></li>
-                                        <li><a href="https://www.facebook.com/centerforurbanagri" class="text-white "><i class="fab fa-facebook"></i> Center for Urban Agriculture and Innovation</a></li>
-                                        <li><a href="https://www.youtube.com/@qcenterforurbanagri" class="text-white "><i class="fab fa-youtube"></i> QCU Center for Urban Agriculture and Innovation</a></li>
+                                        <li><a href="" class="text-white ">How it works</a></li>
+                                        <li><a href="" class="text-white">Learn More</a></li>
+                                        <li><a href="" class="text-white ">To Explore</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-sm-4 mt-4">
+                                <h5 class="text-white mb-0 fs-14">Address</h5>
+                                <div class="text-muted mt-2">
+                                    <ul class="list-unstyled ff-secondary footer-list">
+                                        <li><a href="https://maps.app.goo.gl/cjvbhDUpdak8g4Fs5" class="text-white "><i class="fas fa-map-marker-alt"></i> 673 Quirino High-way, San Bartolome, Novaliches, Quezon City</a></li>
+                                        <li><a href="/" class="text-white "><i class="fas fa-phone-alt"></i> (+63) 927-1168-609</a></li>
+                                        <li><a href="/" class="text-white "><i class="fas fa-envelope"></i> Send us a Message</a></li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div>
+                    </div>
 
-                        <div class="col-lg-8 ms-lg-auto">
-                            <div class="row">
-                                <div class="col-sm-4 mt-4">
-                                    <h5 class="text-white mb-0 fs-14">About</h5>
-                                    <div class="text-muted mt-2">
-                                        <ul class="list-unstyled ff-secondary footer-list ">
-                                            <li><a href="" class="text-white ">About Plantify </a></li>
-                                            <li><a href="" class="text-white ">FAQS</a></li>
-                                            <li><a href="" class="text-white ">Help</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4 mt-4">
-                                    <h5 class="text-white mb-0 fs-14">Discover</h5>
-                                    <div class="text-muted mt-2">
-                                        <ul class="list-unstyled ff-secondary footer-list">
-                                            <li><a href="" class="text-white ">How it works</a></li>
-                                            <li><a href="" class="text-white">Learn More</a></li>
-                                            <li><a href="" class="text-white ">To Explore</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4 mt-4">
-                                    <h5 class="text-white mb-0 fs-14">Address</h5>
-                                    <div class="text-muted mt-2">
-                                        <ul class="list-unstyled ff-secondary footer-list">
-                                            <li><a href="https://maps.app.goo.gl/cjvbhDUpdak8g4Fs5" class="text-white "><i class="fas fa-map-marker-alt"></i> 673 Quirino High-way, San Bartolome, Novaliches, Quezon City</a></li>
-                                            <li><a href="/" class="text-white "><i class="fas fa-phone-alt"></i> (+63) 927-1168-609</a></li>
-                                            <li><a href="/" class="text-white "><i class="fas fa-envelope"></i> Send us a Message</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                        </div>
+        </footer>
+        <!-- end footer -->
 
-            </footer>
-            <!-- end footer -->
+
 
 
             <!--start back-to-top-->

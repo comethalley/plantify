@@ -62,7 +62,7 @@
 
                                                 <th class="sort" data-sort="">#</th>
                                                 <th class="sort" data-sort="">Plant Name</th>
-                                                <th class="sort" data-sort="">Image </th>
+                                                <th class="sort" data-sort="">Image  </th>
                                                 <th class="sort" data-sort="">Season</th>
                                                 <!-- <th class="sort" data-sort="">Information</th> -->
                                                 <th class="sort" data-sort="">Companion</th>
@@ -76,7 +76,7 @@
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $item->plant_name }}</td>
-                                                <td><img src="/images/{{ $item->image }} "width="200" height="200" > </td>
+                                                <td width="200px" height="100px"><img src="/images/{{ $item->image }}" > </td>
                                                 <td>{{ $item->seasons }}</td>
                                                 <!-- <td>{!! $item->information !!}</td> -->
                                                 <td>{{ $item->companion }}</td>
@@ -283,7 +283,7 @@
 
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Days to Harvest</label>
-                                                    <input type="text" name="address" id="edit_days_harvest" class="form-control" placeholder="No. of Days" required />
+                                                    <input type="number" name="address" id="edit_days_harvest" class="form-control" placeholder="No. of Days" required />
                                                 </div>
 
 

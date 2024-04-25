@@ -203,7 +203,7 @@
                 
              <!-- start features -->
            
-             <section class="section" id="try" style="padding-top:8px;">
+            <section class="section" id="try" style="padding-top:8px;">
             <div class="auth-page-content overflow-hidden pt-lg-5">
                 <div class="container card">
                 <div class="card-body">

@@ -134,7 +134,7 @@
                     <div class="d-flex align-items-center">
                     
                     <div class="ms-1 header-item d-none d-sm-flex">
-                        <button id="google_translate_element" type="button">
+                        <button id="google_translate_element" >
                             
                         </button>
                     </div>
@@ -571,23 +571,23 @@
                 </br>
                 <a href="/dashboard/analytics" class="logo logo-dark">
                     <span class="logo-sm">
-                        <img src="{{ asset('assets/images/bg/pwhitesmall.png') }}" alt="" height="22" />
+                        <img src="{{ asset('assets/images/plantifeedpics/rounded.png') }}" alt="" height="20" width="20" />
                     </span>
                     <span class="logo-lg">
                         <div style="display: flex; justify-content: center;">
-                            <img src="{{ asset('assets/images/bg/dash.png') }}" alt="" height="50" />
+                            <img src="{{ asset('assets/images/plantifeedpics/cuai.png') }}" alt="" height="50" />
                         </div>
                     </span>
                 </a>
                 <!-- Light Logo-->
                 <a href="/dashboard/analytics" class="logo logo-light">
                     <span class="logo-sm">
-                        <img src="{{ asset('assets/images/bg/pwhitesmall.png') }}" alt="" height="22" />
+                        <img src="{{ asset('assets/images/plantifeedpics/rounded.png') }}" alt="" height="20" width="20" />
                     </span>
 
                     <span class="logo-lg">
                         <div style="display: flex; justify-content: center;">
-                            <img src="{{ asset('assets/images/bg/dash.png') }}" alt="" height="50" />
+                            <img src="{{ asset('assets/images/plantifeedpics/cuai.png') }}" alt="" height="50" />
                         </div>
 
                     </span>
@@ -816,11 +816,11 @@
                         <div class="col-sm-6">
                             <script>
                                 document.write(new Date().getFullYear())
-                            </script> © Plantify.
+                            </script> © Center For Urban Agriculture and Innovation.
                         </div>
                         <div class="col-sm-6">
                             <div class="text-sm-end d-none d-sm-block">
-                                Plantify
+                                 CUAI
                             </div>
                         </div>
                     </div>

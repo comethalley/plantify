@@ -26,11 +26,11 @@
         body,
         html {
             height: 100%;
-            background: darkgreen;
+            /* background: darkgreen; */
              /* Prevent scrollbars */
         }
         .container {
-            position: absolute;
+            /* position: absolute; */
             top: 0;
             left: 0;
             right: 0;
@@ -40,23 +40,62 @@
             align-items: center;
         }
 
-        .auth-one-bg-position {
+        /* .auth-one-bg-position {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-        }
+        } */
     </style>
 </head>
 
-<body>
-<div class="auth-one-bg-position auth-one-bg" id="auth-particles">
-<!-- <div class="bg-overlay"></div> -->
-        <canvas class="particles-js-canvas-el" width="100%" height="100%" style="width: 100%; height: 100%;"></canvas></div>
+<body data-bs-spy="scroll" data-bs-target="#navbar-example">
+
+    <nav class="navbar navbar-expand-lg navbar-landing fixed-top" id="navbar" style="background-color:#025830; padding: 4px;">
         
-    <div class="auth-page-content d-flex justify-content-center">
-        <div class="container">
+    <div class="container">
+        <a class="navbar-brand text-white" href="/">
+            <img src="assets/images/plantifeedpics/cuai.png" class="mr-2" alt="Plantify" height="45">
+        </a>
+
+  
+
+            <button class="navbar-toggler py-0 fs-16 text-body" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="mdi mdi-menu"></i>
+            </button>
+    
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                
+                <ul class="navbar-nav mx-auto mt-2 mt-lg-0" id="navbar-example">
+
+                    <li class="nav-item">
+                        <a class="nav-link text-white fw-bold" href="/">Home</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link text-white fw-bold" href="/about-us">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link text-white fw-bold" href="javascript:void(0);" onclick="scrollToFAQ()">FAQs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white fw-bold" href="/send-message">Contact Us</a>
+                    </li>
+                
+                </ul>
+
+                <div>
+                    <a class="btn btn-link text-white fw-bold" href="/login">Login</a>
+                    <a class="btn btn-link text-white fw-semibold" style="background-color:#FFAB2D;" href="/signup">Sign Up</a>
+                </div>
+                
+            </div>
+        </div>
+    </nav>
+
+    <!-- end navbar -->
+    <div class="vertical-overlay" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent.show"></div>
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card mx-auto">
@@ -74,13 +113,13 @@
                             </div>
                             <!-- end col -->
 
-
-                            <div class="col-md-8 col-lg-6 col-xl-5">
+                            <div class="col-md-5 col-lg-5 col-xl-5">
                                 <div class="card mt-4">
 
                                     <div class="card-body p-4">
                                         <div class="text-center mt-2">
-                                            <h5 style="color: #57AA2C;">Create New Account</h5>
+<br><br>
+                                            <h6 style="color: #57AA2C;">Sign Up for Public User</h6>
 
                                             <p class="text-muted"></p>
                                         </div>

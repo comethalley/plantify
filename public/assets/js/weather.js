@@ -203,7 +203,7 @@ function getWeatherData(city, unit, hourlyorWeek) {
       windSpeed.innerText = today.windspeed;
       measureUvIndex(today.uvindex);
       mainIcon.src = getIcon(today.icon);
-      changeBackground(today.icon);
+      // changeBackground(today.icon);
       humidity.innerText = today.humidity + "%";
       updateHumidityStatus(today.humidity);
       visibilty.innerText = today.visibility;

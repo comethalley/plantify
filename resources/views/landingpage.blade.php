@@ -90,6 +90,7 @@
                 </ul>
 
                 <div>
+                    <div id="google_translate_element"></div>
                     <a class="btn btn-link text-white fw-bold" href="/login">Login</a>
                     <a class="btn btn-link text-white fw-semibold" style="background-color:#FFAB2D;" href="/signup">Sign Up</a>
                 </div>
@@ -202,10 +203,12 @@
             <!-- end plan -->
 
            
+
              <!-- start features -->
             <section class="section" id="try" style="padding-top:2px;">
             <div class="auth-page-content overflow-hidden pt-lg-3">
             <div class="container-fluid card" style="background-color: #025830;">
+
                 <div class="card-body">
                 <h2 class="mb-4 text-center" style="color: #ffffff;">Sumali sa aming community gamit ang <br><span style="color: #ffffff;"><strong>COMMUNITY FORUM</strong></span></h2>
                     <div class="row align-items-center justify-content-lg-between justify-content-center gy-4">
@@ -426,6 +429,7 @@
 
 
             <!-- JAVASCRIPT -->
+            
             <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
             <script src="assets/libs/simplebar/simplebar.min.js"></script>
             <script src="assets/libs/node-waves/waves.min.js"></script>
@@ -439,7 +443,14 @@
             <!-- landing init -->
             <script src="assets/js/pages/landing.init.js"></script>
             <script src="assets/libs/particles.js/particles.js"></script>
-    <script src="assets/js/pages/particles.app.js"></script>
+            <script src="assets/js/pages/particles.app.js"></script>
 </body>
 
 </html>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+        new google.translate.TranslateElement({ pageLanguage: 'en', includedLanguages: 'tl', layout: google.translate.TranslateElement.InlineLayout.SIMPLE }, 'google_translate_element');
+    }
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>

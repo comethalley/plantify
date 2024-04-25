@@ -176,9 +176,10 @@ class ForumController extends Controller
     {
         $questions = DB::table('forums')
             ->leftJoin('users', 'users.id', '=', 'forums.user_id')
-            ->select('users.*', 'forums.*', 'forums.created_at as question_created_at') // Ilagay ang 'created_at' sa forum table bilang 'question_created_at'
+            ->select('users.*', 'forums.*', 'forums.created_at as question_created_at', DB::raw('(SELECT COUNT(*) FROM comments WHERE comments.forums_id = forums.id) as comment_count'))
             ->orderBy('forums.created_at', 'desc')
             ->get();
+
 
         $comments = Comment::all();
 

@@ -212,7 +212,7 @@
     <div style="margin-top: 10px; display:flex; justify-content:space-evenly;">
 
         <button onclick="toggleLike('{{ $question->id }}')" style="border: none; background-color:transparent;">
-            <img src="assets/images/plantifeedpics/like.png" alt="like" id="likeIcon{{ $question->id }}" style="padding:10px;" onmouseover="this.style.backgroundColor='lightgray';this.style.borderRadius='25px';" onmouseout="this.style.backgroundColor='transparent'; this.style.borderRadius='25px';">
+            <img src="assets/images/plantifeedpics/unlike.png" alt="like" id="likeIcon{{ $question->id }}" style="padding:10px;width:50px;height:50px;" onmouseover="this.style.backgroundColor='lightgray';this.style.borderRadius='25px';" onmouseout="this.style.backgroundColor='transparent'; this.style.borderRadius='25px';">
             <span id="likeCount{{ $question->id }}">0</span>
         </button>
 
@@ -281,7 +281,7 @@
 
         <button type="button" onclick="showComments('{{ $question->id }}','{{ $question->firstname }}')" style="display: flex; align-items:center; padding: 10px 20px; background-color: white; color: black; border: none; border-radius: 5px; cursor: pointer;" onmouseover="this.style.backgroundColor='lightgray';" onmouseout="this.style.backgroundColor='white';">
             <img src="assets/images/plantifeedpics/comment.png" alt="Comment" style="height: 20px; width: 20px; margin-right: 10px;">
-            Comment
+            {{ $question->comment_count }}
         </button>
 
     </div>
@@ -380,6 +380,18 @@
             $('#forum_id').val(id)
             getComments(id)
             $('#exampleModalScrollable').modal('show')
+            $('#comment-section').hide()
+            $('#commentForm').show()
+            $('#reply_body').hide()
+            $('#replyForm').hide()
+        }
+
+        function backComment(id, username) {
+
+            $('#comment-section').show()
+            $('#commentForm').show()
+            $('#reply_body').hide()
+            $('#replyForm').hide()
         }
 
         function getComments(id) {

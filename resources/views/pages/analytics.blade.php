@@ -102,11 +102,8 @@
                                             <div class="flex-grow-1">
                                                 
                                             @if (Auth::check())
-                                            <h4 class="fs-16 mb-1">Good Morning, {{ Auth::user()->firstname }}!</h4>
+                                            <h4 class="fs-16 mb-1">Welcome back!, {{ Auth::user()->firstname }}!</h4>
                                             @endif
-
-
-
 
                                                 <p class="text-muted mb-0">Here's what's happening with your farm today.</p>
                                             </div>  

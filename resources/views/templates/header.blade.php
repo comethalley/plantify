@@ -132,12 +132,12 @@
                     </div>
 
                     <div class="d-flex align-items-center">
-                    
-                    <div class="ms-1 header-item d-none d-sm-flex">
-                        <button id="google_translate_element" >
-                            
-                        </button>
-                    </div>
+
+                        <div class="ms-1 header-item d-none d-sm-flex">
+                            <button id="google_translate_element">
+
+                            </button>
+                        </div>
 
                         <div class="ms-1 header-item d-none d-sm-flex">
                             <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" data-toggle="fullscreen">
@@ -746,13 +746,14 @@
                                 <span data-key="t-faqs">Chat</span>
                             </a>
                         </li>
-                        @endif
+
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="{{ route('tasks.monitoring') }}" role="button" style="color:white">
                                 <i class="ri-task-line"></i>
                                 <span data-key="t-faqs">Task</span>
                             </a>
                         </li>
+                        @endif
 
                         @if(session('user') && (session('user')->role_id == 1 || session('user')->role_id == 2))
                         <li class="nav-item">
@@ -820,7 +821,7 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="text-sm-end d-none d-sm-block">
-                                 CUAI
+                                CUAI
                             </div>
                         </div>
                     </div>
@@ -865,50 +866,53 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
-    function markNotificationAsRead(notificationCount) {
-        if (notificationCount !== '0') {
-            $.get('/markAsRead');
+        function markNotificationAsRead(notificationCount) {
+            if (notificationCount !== '0') {
+                $.get('/markAsRead');
+            }
         }
-    }
-    
-    function googleTranslateElementInit() {
-        // Initialize Google Translate element
-        new google.translate.TranslateElement({ 
-            pageLanguage: 'en', 
-            includedLanguages: 'en,tl', 
-            autoDisplay: false, // Set autoDisplay to false
-            layout: google.translate.TranslateElement.InlineLayout.SIMPLE 
-        }, 'google_translate_element');
 
-        // Wait for the translate iframe to load
-        var observer = new MutationObserver(function(mutations) {
-            mutations.forEach(function(mutation) {
-                if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
-                    // Check if the added node is the Google Translate iframe
-                    var iframe = document.querySelector('.goog-te-banner-frame.skiptranslate');
-                    if (iframe) {
-                        // Hide the "Skip Translate" option
-                        iframe.style.display = 'none';
-                        // Disconnect the observer since we don't need to listen for changes anymore
-                        observer.disconnect();
+        function googleTranslateElementInit() {
+            // Initialize Google Translate element
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'en,tl',
+                autoDisplay: false, // Set autoDisplay to false
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+
+            // Wait for the translate iframe to load
+            var observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+                        // Check if the added node is the Google Translate iframe
+                        var iframe = document.querySelector('.goog-te-banner-frame.skiptranslate');
+                        if (iframe) {
+                            // Hide the "Skip Translate" option
+                            iframe.style.display = 'none';
+                            // Disconnect the observer since we don't need to listen for changes anymore
+                            observer.disconnect();
+                        }
                     }
-                }
+                });
             });
+
+            // Observe changes in the document
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+        }
+
+        $(document).ready(function() {
+            $('#markasread').on('click', function() {
+                $('#reload-section').load(location.href + ' #reload-section');
+            });
+
+            // Scroll down to the bottom of the notification content
+            $('#notificationItemsTabContent').scrollTop($('#notificationItemsTabContent')[0].scrollHeight);
         });
+    </script>
 
-        // Observe changes in the document
-        observer.observe(document.body, { childList: true, subtree: true });
-    }
-
-    $(document).ready(function() {
-        $('#markasread').on('click', function() {
-            $('#reload-section').load(location.href + ' #reload-section');
-        });
-
-        // Scroll down to the bottom of the notification content
-        $('#notificationItemsTabContent').scrollTop($('#notificationItemsTabContent')[0].scrollHeight);
-    });
-</script>
-
-<div id="google_translate_element"></div>
-<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <div id="google_translate_element"></div>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>

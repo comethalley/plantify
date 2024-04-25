@@ -245,7 +245,7 @@
                                                             <select class="form-select" id="seed">
                                                                 <option selected="" value="0">Choose Seed</option>
                                                                 @foreach($seeds as $per_seeds)
-                                                                <option value="{{ $per_seeds->id }}">{{ $per_seeds->name }}</option>
+                                                                <option value="{{ $per_seeds->id }}">{{ $per_seeds->plant_name }}</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>

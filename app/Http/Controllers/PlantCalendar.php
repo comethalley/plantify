@@ -52,13 +52,12 @@ class PlantCalendar extends Controller
             ->leftJoin('farms', 'farms.farm_leader', '=', 'users.id')
             ->where('users.id', $id)
             ->first();
-        
+
         $farm_id = "";
 
-        if($user->role_id == "5"){
-            $farm_id  = "00".$user->id;
-            
-        }else{
+        if ($user->role_id == "5") {
+            $farm_id  = "00" . $user->id;
+        } else {
             $farm_id = $user->farm_id;
         }
 
@@ -79,11 +78,13 @@ class PlantCalendar extends Controller
 
         // $users = auth()->user();
         //     $users = User::all();
-        
-                $planting = new CalendarPlanting();
-                $planting->title = $title;
-                $user->notify(new NewplantingNotification($planting));
-        return redirect('/plantcalendar');
+
+        $planting = new CalendarPlanting();
+        $planting->title = $title;
+        $user->notify(new NewplantingNotification($planting));
+        //return redirect('/plantcalendar');
+
+        return response()->json(['message' => 'Data updated successfully'], 200);
     }
 
     public function getEvents()
@@ -122,9 +123,8 @@ class PlantCalendar extends Controller
                 'destroyed' => $event->destroyed,
                 'seed' => $event->seed,
                 // Add other fields as needed
-                
+
             ];
-        
         });
 
         return response()->json($formattedEvents);

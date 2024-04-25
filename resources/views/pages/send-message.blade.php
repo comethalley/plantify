@@ -28,8 +28,51 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
-<body>
 
+
+<body data-bs-spy="scroll" data-bs-target="#navbar-example">
+
+    <nav class="navbar navbar-expand-lg navbar-landing fixed-top" id="navbar" style="background-color:#025830; padding: 4px;">
+        
+    <div class="container">
+        <a class="navbar-brand text-white" href="/">
+            <img src="assets/images/plantifeedpics/cuai.png" class="mr-2" alt="Plantify" height="45">
+        </a>
+
+  
+
+            <button class="navbar-toggler py-0 fs-16 text-body" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="mdi mdi-menu"></i>
+            </button>
+    
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                
+                <ul class="navbar-nav mx-auto mt-2 mt-lg-0" id="navbar-example">
+
+                    <li class="nav-item">
+                        <a class="nav-link text-white fw-bold" href="/">Home</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link text-white fw-bold" href="/about-us">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link text-white fw-bold" href="javascript:void(0);" onclick="scrollToFAQ()">FAQs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white fw-bold" href="/send-message">Contact Us</a>
+                    </li>
+                
+                </ul>
+
+                <div>
+                    <a class="btn btn-link text-white fw-bold" href="/login">Login</a>
+                    <a class="btn btn-link text-white fw-semibold" style="background-color:#FFAB2D;" href="/signup">Sign Up</a>
+                </div>
+                
+            </div>
+        </div>
+    </nav>
         <!-- auth-page content -->
         <div class="auth-page-content overflow-hidden pt-lg-5">
             <div class="container">
@@ -52,7 +95,7 @@
                                 </div>
 
                                 <div class="col-lg-6">
-                                    <div class="p-lg-5 p-4">
+                                    <div class="p-lg-5 p-4"><br>
                                         <div>
                                             <h5 class="text-center">Let us know how we can help you!</h5>
                                             <p class="text-muted">Send us a message and we’ll get back to you as soon as we can.</p>
@@ -94,22 +137,14 @@
                                               </div>
                                                
                                               
-                                              <button class="btn btn-success w-100" type="submit" style="background-color: #57AA2C;">
+                                              <button class="btn btn-success w-100" type="submit" style="background-color: #025830;">
                                                       <i class="fas fa-paper-plane"></i> Send message
                                                   </button>
 
                                                 </div>
                                             </form>
                                         </div>
-                                        <div class="row">
-                    <div class="col-lg-12">
-                        <div class="text-center">
-                            <p class="mb-0">&copy;
-                                <script>document.write(new Date().getFullYear())</script> Plantify <i class="mdi mdi-heart"style="color: #57AA2C; "></i>
-                            </p>
-                        </div>
-                    </div>
-                </div>
+                                        
 
                                     </div>
                                 </div>

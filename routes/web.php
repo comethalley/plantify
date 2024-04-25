@@ -201,7 +201,7 @@ Route::get('/schedulesget', [EventController::class, 'getEvents']);
 Route::get('/schedulesdata/{id}', [EventController::class, 'getdata']);
 Route::delete('/scheduledelete/{id}', [EventController::class, 'deleteEvent']);
 Route::put('/scheduleupdate/{id}', [EventController::class, 'update']);
-
+Route::get('/events/{id}', [EventController::class, 'show']);
 Route::get('/events/search', [EventController::class, 'search']);
 Route::get('/upcomingevent', [EventController::class, 'notifyUpcomingEvents']);
 

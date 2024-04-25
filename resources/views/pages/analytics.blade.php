@@ -32,8 +32,8 @@
     }
 
     .main nav .units button {
-        width: 35px;
-        height: 35px;
+        width: 28px;
+        height: 23px;
         border-radius: 45%;
         color: #1a1a1a;
         background-color: #fff;
@@ -86,20 +86,46 @@
                 <div class="col-lg-12">
                     <div class="col-12">
                         <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                <h4 class="mb-sm-0">Analytics</h4>
+                                <h4 class="mb-sm-0">Dashboard</h4>
 
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
-                                        <li class="breadcrumb-item active">Dashboards</a></li>
-                                        {{-- <li class="breadcrumb-item active">Analytics</li> --}}
-                                        <li class="breadcrumb-item"><a href="javascript:void(0);" onclick="downloadPDF()">Download Report</a></li>
-
+                                        <li class="breadcrumb-item active">Dashboard</a></li>
                                     </ol>
                                 </div>
                         </div>
                     </div>
-                <div class="row justify-content-center">
-                    <div class="row justify-content-center">
+
+                    
+                                    <div class="col-12">
+                                        <div class="d-flex align-items-lg-center flex-lg-row flex-column">
+                                            <div class="flex-grow-1">
+                                                
+                                            @if (Auth::check())
+                                            <h4 class="fs-16 mb-1">Welcome back!, {{ Auth::user()->firstname }}!</h4>
+                                            @endif
+
+                                                <p class="text-muted mb-0">Here's what's happening with your farm today.</p>
+                                            </div>  
+                                            <div class="mt-3 mt-lg-0">
+                                                <form action="javascript:void(0);">
+                                                    <div class="row g-3 mb-0 align-items-center">
+                                                        <!--end col-->
+                                                        <div class="col-auto">
+                                                            <button type="button" class="btn btn-soft-success material-shadow-none" onclick="downloadPDF()"><i class="ri-add-circle-line align-middle"></i>Download Report</button>
+                                                        </div>
+                                                        
+                                                    <!--end row-->
+                                                </form>
+                                            </div>                                 
+                                        </div><!-- end card header -->
+                                    </div>
+                                    <br>
+                                    <!--end col-->
+                    
+
+                
+                    <div class="row ">
                         <div class="col-xl-6">
                             <div class="card">
                                 <div class="card-body">
@@ -141,7 +167,7 @@
                                     <div class="main">
                                     <h2 class="mb-4 text-center"><span style="color: #57AA2C;"> <strong>Weather Monitoring</strong></span></h2><hr>
                                         <nav class="d-flex justify-content-end">
-                                            <ul class="options">
+                                            <ul class="options ">
                                                 <button class="hourly">today</button>
                                                 <button class="week active">week</button>
                                             </ul> 
@@ -214,55 +240,55 @@
                         <div class="col-xl-6">
                             <div class="card">
                                 <div class="card-body">
-                                    <div class="row justify-content-center">
+                                    <div class="row ">
                                     <h2 class="mb-4 text-center"><span style="color: #57AA2C;"> <strong>Farming Community Overview</strong></span></h2><hr>
                                         <div class="col-xl-3">
-                                            <div class="py-4">
+                                            <div class="">
                                                 <h5 class="text-muted text-uppercase fs-12">Number of Users</h5>
                                                 <div class="d-flex align-items-center">
                                                     <div class="flex-shrink-0">
                                                         <i class="bx bx-user-circle display-6 text-muted"></i>
                                                     </div>
-                                                    <div class="flex-grow-1 ms-3">
+                                                    <div class="flex-grow-0 ms-3">
                                                         <h2 class="mb-0"><span id="totalUserCounter" class="counter-value" data-target="">0</span></h2>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-xl-3">
-                                            <div class="py-4">
+                                            <div class="">
                                                 <h5 class="text-muted text-uppercase fs-12">Number of Farm Leaders</h5>
                                                 <div class="d-flex align-items-center">
                                                     <div class="flex-shrink-0">
                                                         <i class="bx bx-user display-6 text-muted"></i>
                                                     </div>
-                                                    <div class="flex-grow-1 ms-3">  
+                                                    <div class="flex-grow-0 ms-3">  
                                                         <h2 class="mb-0"><span id="farmLeaderCounter" class="counter-value" data-target="">0</span></h2>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div><!-- end col -->
                                         <div class="col-xl-3">
-                                            <div class="py-4">
+                                            <div class="">
                                                 <h5 class="text-muted text-uppercase fs-12">Number of Farms</h5>
                                                 <div class="d-flex align-items-center">
-                                                    <div class="flex-shrink-0">
+                                                    <div class="flex-shrink-">
                                                         <i class="ri-plant-line display-6 text-muted"></i>
                                                     </div>
-                                                    <div class="flex-grow-1 ms-3">
+                                                    <div class="flex-grow-0 ms-3">
                                                         <h2 class="mb-0"><span id="farmCounter" class="counter-value" data-target="">0</span></h2>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div><!-- end col -->
                                         <div class="col-xl-3">
-                                            <div class="py-4">
+                                            <div class="">
                                                 <h5 class="text-muted text-uppercase fs-12">Number of Farmers</h5>
                                                 <div class="d-flex align-items-center">
                                                     <div class="flex-shrink-0">
                                                         <i class="ri-user-6-line display-6 text-muted"></i>
                                                     </div>
-                                                    <div class="flex-grow-1 ms-3">
+                                                    <div class="flex-grow-0 ms-3">
                                                         <h2 class="mb-0"><span id="farmerCounter" class="counter-value" data-target="">0</span></h2>
                                                     </div>
                                                 </div>
@@ -274,16 +300,16 @@
                         </div><!-- end col-xl-6 -->
                     </div><!-- end row -->
         
-                    <div class="row justify-content-center">
-                        <div class="col-xl-6">
-                            <div class="card">
+                    <div class="row ">
+                        <div class="col-xl-4">
+                            <div class="card" >
                                 <div class="card-body">
-                                    <h2 class="mb-4 text-center"><span style="color: #57AA2C;"> <strong>Harvesting Metrics</strong></span></h2><hr>
-                                        <div class="row">
-                                            <div class="col-md-6">
+                                    <h2 class="mb-4 text-center"><span style="color: #57AA2C;"> <strong>Harvesting Metrics</strong></span></h2>
+                                        <div class="row position-relative overflow-auto" style="height: 40vh;">
+                                            <div class="col-md-5">
                                                 <div class="align-items-center justify-content-center ">
                                                     <div class="col-xl-12 barangaySelector">
-                                                        <label for="barangaySelect">Select Barangay:</label>
+                                                        <label for="">Barangay:</label>
                                                         <select id="barangaySelect" class="w-100">
                                                             <option value="" selected disabled>Select Barangay</option>
                                                             @foreach($barangayOptions as $option)
@@ -292,16 +318,16 @@
                                                         </select>
                                                     </div>
                                                     <div class="mt-3 col-xl-12 barangaySelector">
-                                                        <label for="farmSelect">Selected Farm:</label>
+                                                        <label for="">Farm:</label>
                                                         <select id="farmSelect" class="w-100">
                                                             <option value="" selected disabled>Select Farm</option>
                                                         </select>
                                                     </div>
                                                     <div class="mt-3 col-xl-12 barangaySelector">
-                                                        <label for="yearSelect">Select Year:</label>
+                                                        <label for="">Year:</label>
                                                         <select id="yearSelect" class="w-100">
-                                                            <option value="" selected disabled>Select Year</option>
-                                                            <option value="2024">2024</option>
+                                                            <option value="" disabled>Select Year</option>
+                                                            <option value="2024" selected>2024</option>
                                                             <option value="2023">2023</option>
                                                             <option value="2022">2022</option>
                                                             <!-- Add more years as needed -->
@@ -323,13 +349,22 @@
                         </div>
                      
                             <!-- INSERT HERE NEW ROW  -->
-                        
-                        <div class="col-xl-6">
+                        <div class="col-xl-5">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h2 class="mb-4 text-center"><span style="color: #57AA2C;"> <strong>Quezon City District 5 Farms</strong></span></h2>
+                    
+                                        <div id="leaflet-map" class="leaflet-map" style="height: 40vh; width: 100%"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3">
                             <div class="card">
                                 <div class="card-body"> 
-                                <h2 class="mb-4 text-center"><span style="color: #57AA2C;"> <strong>Notifications</strong></span></h2><hr>
-                                            <div class="tab-content position-relative overflow-auto" id="notificationItemsTabContent">
-                                                <div class="tab-pane fade show active py-2 ps-2" id="all-noti-tab" role="tabpanel">
+                                    <h2 class="mb-4 text-center"><span style="color: #57AA2C;"> <strong>Notifications</strong></span></h2>
+                                            <div class="position-relative overflow-auto" style="height: 40vh;" id="notificationItemsTabContent">
+                                                <div class="tab-pane fade show active" id="all-noti-tab" role="tabpanel">
                                                     @if(auth()->user() && auth()->user()->notifications)
                                                     @foreach (auth()->user()->notifications as $notification)
                                                     <div class="text-reset notification-item d-block dropdown-item position-relative">
@@ -598,26 +633,23 @@
                                                 </div>
                                                 <div class="tab-pane fade p-4" id="alerts-tab" role="tabpanel" aria-labelledby="alerts-tab"></div>
 
-                                                <div class="notification-actions" id="notification-actions">
-                                                    <div class="d-flex text-muted justify-content-center">
-                                                        Select
-                                                        <div id="select-content" class="text-body fw-semibold px-1">
-                                                            0
-                                                        </div>
-                                                        Result
-                                                        <button type="button" class="btn btn-link link-danger p-0 ms-3" data-bs-toggle="modal" data-bs-target="#removeNotificationModal">
-                                                            Remove
-                                                        </button>
-                                                    </div>
-                                                </div>
+                                                
                                             </div>
                                         </div>
                                     
                                 </div> 
                             </div>
                         </div>
+
+                        
                         
                     <div> <!-- end of row  -->
+
+                    <div class="row justify-content-center">
+                        
+
+
+                    </div><!-- end of row  -->
 
                 <div> <!-- end of OVERALL ROW  -->
 
@@ -654,8 +686,18 @@
     <!-- App js -->
     <script src="assets/js/app.js"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
+    <!-- Include Leaflet library -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <!-- Include Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 
 <script>
@@ -957,6 +999,60 @@ $(document).ready(function() {
     createPlantingBarChart();
 });
 
+   
+$.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    // Initialize the map
+    var map = L.map('leaflet-map').setView([14.717499241909843, 121.04829782475622], 14);
+
+    var redIcon = new L.Icon({
+        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+        shadowUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    });
+
+    // Add OpenStreetMap tile layer
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© CUAI'
+    }).addTo(map);
+
+    $(document).ready(function () {
+        // Fetch farm locations from the server on page load
+        $.ajax({
+            url: '/get_maps',
+            method: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                console.log('Farm locations retrieved successfully:', data);
+                displayFarmLocations(data); // Display farm locations on the map
+            },
+            error: function (xhr, status, error) {
+                console.error('Error retrieving farm locations:', error);
+            },
+        });
+    });
+
+    // Function to display farm locations on the map
+    function displayFarmLocations(farmLocations) {
+    farmLocations.forEach(function (location) {
+        if (location.latitude && location.longitude) {
+            // Create a custom HTML string for the popup content
+            var popupContent = "<b>Farm Name: " + location.location_name + "</b><br>Address: " + location.address;
+
+            // Create a marker and bind a popup with custom content
+            L.marker([parseFloat(location.latitude), parseFloat(location.longitude)], { icon: redIcon })
+                .addTo(map)
+                .bindPopup(popupContent);
+        }
+    });
+}
 </script>
 </body>
 </html>

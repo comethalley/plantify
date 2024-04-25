@@ -82,6 +82,7 @@
         }
     </style>
 </head>
+
 <body onload="">
 
     <!-- Begin page -->
@@ -521,9 +522,9 @@
                                     <span class="align-middle">Profile</span></a>
                                 <a class="dropdown-item" href="/tasks"><i class="mdi mdi-calendar-check-outline text-muted fs-16 align-middle me-1"></i>
                                     <span class="align-middle">Taskboard</span></a>
-                                
+
                                 <div class="dropdown-divider"></div>
-                                
+
                                 <form action="/logout" method="POST">
                                     @csrf
                                     <button type="submit" class="dropdown-item" href="#"><i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i>
@@ -573,9 +574,9 @@
                         <img src="{{ asset('assets/images/bg/pwhitesmall.png') }}" alt="" height="22" />
                     </span>
                     <span class="logo-lg">
-                    <div style="display: flex; justify-content: center;">
-                        <img src="{{ asset('assets/images/bg/dash.png') }}" alt="" height="50" />
-                    </div>
+                        <div style="display: flex; justify-content: center;">
+                            <img src="{{ asset('assets/images/bg/dash.png') }}" alt="" height="50" />
+                        </div>
                     </span>
                 </a>
                 <!-- Light Logo-->
@@ -585,9 +586,9 @@
                     </span>
 
                     <span class="logo-lg">
-                    <div style="display: flex; justify-content: center;">
-                        <img src="{{ asset('assets/images/bg/dash.png') }}" alt="" height="50" />
-                    </div>
+                        <div style="display: flex; justify-content: center;">
+                            <img src="{{ asset('assets/images/bg/dash.png') }}" alt="" height="50" />
+                        </div>
 
                     </span>
                 </a>
@@ -674,7 +675,7 @@
 
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="#weather" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards" style="color:white">
-                                <i class="ri-sun-foggy-fill"></i> <span>Weather</span>
+                                <i class="ri-sun-foggy-fill"></i> <span>Weather Monitoring</span>
                             </a>
                             <div class="collapse menu-dropdown" id="weather">
                                 <ul class="nav nav-sm flex-column">
@@ -712,12 +713,12 @@
                                     <li class="nav-item">
                                         <a href="/inventory/uom" class="nav-link" style="color:white"> Unit of Measurements </a>
                                     </li>
-                                    <li class="nav-item">
+                                    <!-- <li class="nav-item">
                                         <a href="/inventory/fertilizer" class="nav-link" style="color:white">Fertilizer</a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="/inventory/tools" class="nav-link" style="color:white">Tools</a>
-                                    </li>
+                                    </li> -->
                                 </ul>
                             </div>
                         </li> <!-- end Dashboard Menu -->
@@ -753,44 +754,21 @@
                             </a>
                         </li>
 
-                        @if(session('user') && (session('user')->role_id == 1 || session('user')->role_id == 3))
+                        @if(session('user') && (session('user')->role_id == 1 || session('user')->role_id == 2))
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="#pimaintenance" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards" style="color:white">
-                                <i class="ri-leaf-line"></i> <span>Botaknows Maintenance</span>
+                            <a class="nav-link menu-link" href="/plant-info" role="button" style="color:white">
+                                <i class="ri-leaf-line"></i>
+                                <span>Crop Production Maintenance</span>
                             </a>
-                            <div class="collapse menu-dropdown" id="pimaintenance">
-                                <ul class="nav nav-sm flex-column">
-                                    <li class="nav-item">
-                                        <a href="/plant-info" class="nav-link" style="color:white"> Plant Information </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="/pesticides" class="nav-link" style="color:white"> Pesticide</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="/fertilizers" class="nav-link" style="color:white">Fertilizer</a>
-                                    </li>
-                                </ul>
-                            </div>
                         </li>
                         @endif
 
+
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="#piuser" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards" style="color:white">
-                                <i class="ri-leaf-line"></i> <span>Botaknows</span>
+                            <a class="nav-link menu-link" href="/piu/piu" role="button" aria-expanded="false" aria-controls="sidebarDashboards" style="color:white">
+                                <i class="ri-leaf-line"></i>
+                                <span>Crop Production</span>
                             </a>
-                            <div class="collapse menu-dropdown" id="piuser">
-                                <ul class="nav nav-sm flex-column">
-                                    <li class="nav-item">
-                                        <a href="/piu/piu" class="nav-link" style="color:white"> Plant Information </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="/piu/pes" class="nav-link" style="color:white"> Pesticide</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="/piu/fiu" class="nav-link" style="color:white">Fertilizer</a>
-                                    </li>
-                                </ul>
-                            </div>
                         </li> <!-- end Dashboard Menu -->
 
                         <li class="nav-item">

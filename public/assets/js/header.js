@@ -55,7 +55,7 @@ function getTemperatureData(city) {
     })
     .catch(err => {
         console.error('Error fetching temperature data:', err);
-        alert("Temperature data for Quezon City is unavailable.");
+        // alert("Temperature data for Quezon City is unavailable.");
     });
 }
 

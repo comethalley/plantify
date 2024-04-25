@@ -35,10 +35,6 @@
         <!-- Start right Content here -->
         <!-- ============================================================== -->
         <div class="main-content">
-        
-                    <!-- start page title -->
-                    <div class="row">
-                        
             <div class="page-content">
                 <div class="container-fluid">             
                         <div class="col-12">
@@ -47,9 +43,10 @@
 
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
-                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboards</a></li>
-                                        <li class="breadcrumb-item"><a href="javascript:void(0);" onclick="downloadPDF()">Download PDF</a></li>
-                                        <li class="breadcrumb-item active">Analytics</li>
+                                        <li class="breadcrumb-item active">Dashboards</a></li>
+                                        {{-- <li class="breadcrumb-item active">Analytics</li> --}}
+                                        <li class="breadcrumb-item"><a href="javascript:void(0);" onclick="downloadPDF()">Download Report</a></li>
+
                                     </ol>
                                 </div>
                             </div>
@@ -57,109 +54,77 @@
                     </div>
                     <!-- end page title -->
 
-                    <div class="row">
-                        <div class="col-xxl-5">
-                            <div class="d-flex flex-column h-100">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="card card-animate">
-                                            <div class="card-body">
-                                                <div class="d-flex justify-content-between">
-                                                    <div>
-                                                        <p class="fw-medium text-muted mb-0">Users</p>
-                                                        <h2 class="mt-4 ff-secondary fw-semibold">
-                                                            <span id="totalUserCounter" class="counter-value" data-target="">0</span>
-                                                        </h2>
-                                                    </div>
-                                                    <div>
-                                                        <div class="avatar-sm flex-shrink-0">
-                                                            <span class="avatar-title bg-info-subtle rounded-circle fs-2">
-                                                                <i data-feather="users" class="text-info"></i>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div><!-- end card body -->
-                                        </div> <!-- end card-->
-                                    </div> <!-- end col-->
-
-                                    <div class="col-md-6">
-                                        <div class="card card-animate">
-                                            <div class="card-body">
-                                                <div class="d-flex justify-content-between">
-                                                    <div>
-                                                        <p class="fw-medium text-muted mb-0">Number of Farms</p>
-                                                        <h2 class="mt-4 ff-secondary fw-semibold">
-                                                            <span id="farmCounter" class="counter-value" data-target="">0</span></h2>
-                                                    </div>
-                                                    <div>
-                                                        <div class="avatar-sm flex-shrink-0">
-                                                            <span class="avatar-title bg-info-subtle rounded-circle fs-2">
-                                                                <i data-feather="activity" class="text-info"></i>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div><!-- end card body -->
-                                        </div> <!-- end card-->
-                                    </div> <!-- end col-->
-                                </div> <!-- end row-->
-
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="card card-animate">
-                                            <div class="card-body">
-                                                <div class="d-flex justify-content-between">
-                                                    <div>
-                                                        <p class="fw-medium text-muted mb-0">Number of Farm Leaders</p>
-                                                        <h2 class="mt-4 ff-secondary fw-semibold">
-                                                            <span id="farmLeaderCounter" class="counter-value" data-target="">0</span>
-                                                        </h2>
-                                                        
-                                                    </div>
-                                                    <div>
-                                                        <div class="avatar-sm flex-shrink-0">
-                                                            <span class="avatar-title bg-info-subtle rounded-circle fs-2">
-                                                                <i data-feather="clock" class="text-info"></i>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div><!-- end card body -->
-                                        </div> <!-- end card-->
-                                    </div> <!-- end col-->
-
-                                    <div class="col-md-6">
-                                        <div class="card card-animate">
-                                            <div class="card-body">
-                                                <div class="d-flex justify-content-between">
-                                                    <div>
-                                                        <p class="fw-medium text-muted mb-0">Number of Farmers</p>
-                                                        <h2 class="mt-4 ff-secondary fw-semibold">
-                                                            <span id="farmerCounter" class="counter-value" data-target="">0</span>
-                                                        </h2>
-                                                    </div>
-                                                    <div>
-                                                        <div class="avatar-sm flex-shrink-0">
-                                                            <span class="avatar-title bg-info-subtle rounded-circle fs-2">
-                                                                <i data-feather="external-link" class="text-info"></i>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div><!-- end card body -->
-                                        </div> <!-- end card-->
-                                    </div> <!-- end col-->
-                                </div> <!-- end row-->
-                            </div>
-                        </div> <!-- end col-->
-                    </div> <!-- end row-->
 
                     <div class="row">
-                        <div class="col-xl-6">
+                        <div class="col-xl-12">
+                            <div class="card crm-widget">
+                                <div class="card-body p-0">
+                                    <div class="row row-cols-xxl-5 row-cols-md-3 row-cols-1 g-0">
+                                        <div class="col">
+                                            <div class="py-4 px-3">
+                                                <h5 class="text-muted text-uppercase fs-13">Number of Users </h5>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="flex-shrink-0">
+                                                        <i class=" ri-user-3-fill display-6 text-muted"></i>
+                                                    </div>
+                                                    <div class="flex-grow-1 ms-3">
+                                                        <h2 class="mb-0"><span id="totalUserCounter" class="counter-value" data-target="">0</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div><!-- end col -->
+                                        <div class="col">
+                                            <div class="mt-3 mt-lg-0 py-4 px-3">
+                                                <h5 class="text-muted text-uppercase fs-13">Number of Farm Leaders</h5>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="flex-shrink-0">
+                                                        <i class="bx bx-user display-6 text-muted"></i>
+                                                    </div>
+                                                    <div class="flex-grow-1 ms-3">  
+                                                        <h2 class="mb-0"> <span id="farmLeaderCounter" class="counter-value" data-target="">0</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="mt-3 mt-md-0 py-4 px-3">
+                                                <h5 class="text-muted text-uppercase fs-13">Number of Farms </h5>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="flex-shrink-0">
+                                                        <i class=" bx bx-scatter-chart display-6 text-muted"></i>
+                                                    </div>
+                                                    <div class="flex-grow-1 ms-3">
+                                                        <h2 class="mb-0">  <span id="farmCounter" class="counter-value" data-target="">0</span></h2>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div><!-- end col -->
+                                        <div class="col">
+                                            <div class="mt-3 mt-md-0 py-4 px-3">
+                                                <h5 class="text-muted text-uppercase fs-13">Number of Farmers</h5>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="flex-shrink-0">
+                                                        <i class="bx bx-user display-6 text-muted"></i>
+                                                    </div>
+                                                    <div class="flex-grow-1 ms-3">
+                                                        <h2 class="mb-0">   <span id="farmerCounter" class="counter-value" data-target="">0</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div><!-- end col -->
+                                       
+                                    </div><!-- end row -->
+                                </div><!-- end card body -->
+                            </div><!-- end card -->
+                        </div><!-- end col -->
+                    </div><!-- end row -->
+
+
+                    
+
+                    <div class="row">
+                        {{-- <div class="col-xl-6"> --}}
                             <div class="card">
-                                <div class="card-header align-items-center d-flex">
-                                    <h4 class="card-title mb-0 flex-grow-1">Harvesting Metrics</h4>             
+                                <div class="card-header align-items-center d-flex justify-content-center">
+                                    <h4 class="card-title mb-0">Harvesting Metrics</h4>             
                                 </div><!-- end card header -->
                                 <div class="card-body p-0 pb-2">
                                     <div>
@@ -193,7 +158,7 @@
                             </div><!-- end card -->
                         </div><!-- end col -->
                         </div>
-                        <div class="col-xl-6">
+                        {{-- <div class="col-xl-6">
                             <div class="card card-height-100">
                                 <div class="card-header align-items-center d-flex">
                                     <h4 class="card-title mb-0 flex-grow-1">Expense Analytics</h4>
@@ -219,7 +184,7 @@
                                         <p id="details-description"></p>
                                         <p id="details-amount"></p>
                                         <p id="details-created-at"></p>
-                                    </div>
+                                    </div> --}}
 
                                     {{-- <div class="table-responsive mt-3">
                                         <table class="table table-borderless table-sm table-centered align-middle table-nowrap mb-0">

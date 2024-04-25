@@ -101,10 +101,6 @@ function getLocationDetails(position) {
       // Assuming you have the getWeatherData function defined somewhere
       currentCity = city;
       getWeatherData(city);
-      
-      //  // Assuming you have the getWeatherData function defined somewhere
-      //  currentCity = city;
-      //  getWeatherData(city);
        
        document.getElementById("location").innerHTML = `${city}, ${country}`;
      })
@@ -226,9 +222,6 @@ function getWeatherData(city, unit, hourlyorWeek) {
       console.error("Error fetching weather data:", err);
     });
 }
-
-
-
 
 //function to update Forecast
 function updateForecast(data, unit, type) {
@@ -430,15 +423,6 @@ function updateAirQualityStatus(airquality) {
   }
 }
 
-// function to handle search form
-// searchForm.addEventListener("submit", (e) => {
-//   e.preventDefault();
-//   let location = search.values;
-//   if (location) {
-//     currentCity = location;
-//     getWeatherData(location, currentUnit, hourlyorWeek);
-//   }
-// });
 
 // function to conver celcius to fahrenheit
 function celciusToFahrenheit(temp) {
@@ -591,31 +575,5 @@ function changeTimeSpan(unit) {
     getWeatherData(currentCity, currentUnit, hourlyorWeek);
   }
 }
-
-
-
-// Cities add your own to get in search
-
-// cities = [
-//   {
-//     country: "PK",
-//     name: "Abbottabad",
-//     lat: "34.1463",
-//     lng: "73.21168",
-//   },
-//   {
-//     country: "PK",
-//     name: "Adilpur",
-//     lat: "27.93677",
-//     lng: "69.31941",
-//   },
-//   {
-//     country: "PK",
-//     name: "Ahmadpur East",
-//     lat: "29.14269",
-//     lng: "71.25771",
-//   },
-  
-// ];
 
 

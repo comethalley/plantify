@@ -62,7 +62,7 @@
 
                                                 <th class="sort" data-sort="">#</th>
                                                 <th class="sort" data-sort="">Plant Name</th>
-                                                <th class="sort" data-sort="">Image <alt="" width="200px" height="200px"></th>
+                                                <th class="sort" data-sort="">Image  </th>
                                                 <th class="sort" data-sort="">Season</th>
                                                 <!-- <th class="sort" data-sort="">Information</th> -->
                                                 <th class="sort" data-sort="">Companion</th>
@@ -76,18 +76,18 @@
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $item->plant_name }}</td>
-                                                <td><img src="/images/{{ $item->image }}" alt="" width="200px" height="200px"></td>
+                                                <td width="200px" height="100px"><img src="/images/{{ $item->image }}" > </td>
                                                 <td>{{ $item->seasons }}</td>
                                                 <!-- <td>{!! $item->information !!}</td> -->
                                                 <td>{{ $item->companion }}</td>
                                                 <td>{{ $item->days_harvest }}</td>
                                                 <td>
                                                     <ul class="list-inline hstack gap-2 mb-0">
-                                                        <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="View">
+                                                        <!-- <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="View">
                                                             <a href="" class="text-primary d-inline-block supplier_btn" data-bs-target="#viewModal" data-bs-toggle="modal" data-supplier-id="">
                                                                 <i class="ri-eye-fill fs-16"></i>
                                                             </a>
-                                                        </li>
+                                                        </li> -->
                                                         <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Edit">
                                                             <a href="" class="text-primary d-inline-block edit-item-btn" data-plantinfo-id="{{$item->id}}">
                                                                 <i class="ri-pencil-fill fs-16"></i>
@@ -283,7 +283,7 @@
 
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Days to Harvest</label>
-                                                    <input type="text" name="address" id="edit_days_harvest" class="form-control" placeholder="No. of Days" required />
+                                                    <input type="number" name="address" id="edit_days_harvest" class="form-control" placeholder="No. of Days" required />
                                                 </div>
 
 

@@ -31,8 +31,8 @@
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">Inventory</a></li>
-                                <li class="breadcrumb-item active">Suppliers</li>
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Users</a></li>
+                                <li class="breadcrumb-item active">Admins</li>
                             </ol>
                         </div>
 
@@ -168,7 +168,7 @@
 
                                                 <input type="text" id="orderId" class="form-control" placeholder="ID" readonly hidden />
 
-                                                <div class="mb-3">
+                                                <!-- <div class="mb-3">
                                                     <label for="customername-field" class="form-label">First Name</label>
                                                     <input type="text" name="supplier-name" id="firstname" class="form-control" placeholder="Enter name" required />
                                                 </div>
@@ -176,14 +176,14 @@
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Last Name</label>
                                                     <input type="text" name="description" id="lastname" class="form-control" placeholder="Enter Description" required />
-                                                </div>
+                                                </div> -->
 
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Email Address</label>
                                                     <input type="email" name="email" id="email" class="form-control" placeholder="Enter Email" required />
                                                 </div>
 
-                                                <div class="mb-3">
+                                                <!-- <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Address</label>
                                                     <input type="address" name="address" id="address" class="form-control" placeholder="Enter Address" required />
                                                 </div>
@@ -191,7 +191,7 @@
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Contact</label>
                                                     <input type="contact" name="contact" id="contact" class="form-control" placeholder="Enter Contact" required />
-                                                </div>
+                                                </div> -->
 
                                             </div>
                                             <div class="modal-footer">

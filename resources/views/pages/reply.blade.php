@@ -1,6 +1,13 @@
-<h5>
-    Total Replies: {{ $reply->count() }}
-</h5>
+<div style="display: flex;align-items:center;">
+    <a href="#" onclick="backComment();return false;">
+        <i class="bx bxs-chevron-left" style="font-size: 25px;"></i>
+    </a>
+    <h5 style="flex: 1;">
+
+        Total Replies: {{ $reply->count() }}
+    </h5>
+</div>
+
 <br>
 <div class="row">
     <div class="col-sm-1">

@@ -746,7 +746,7 @@
                             </a>
                         </li>
 
-                        @if(session('user') && (session('user')->role_id == 1 || session('user')->role_id == 3))
+                        @if(session('user') && (session('user')->role_id == 1 || session('user')->role_id == 2))
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="/plant-info" role="button"  style="color:white">
                                 <i class="ri-leaf-line"></i> 

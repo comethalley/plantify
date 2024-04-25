@@ -11,34 +11,81 @@
     <link href="{{ asset('assets/css/analytics.css') }}" rel="stylesheet" type="text/css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.debug.js" integrity="sha512-+dBKPkFZW8e2RJv00jKz8d5MsWjI9g6I78I/zfE6hW7dPWGw/DLtCeEI+X3k/tEs+cOjDvg6Tbz5JG+LnVQQg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script   script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.3/html2canvas.min.js"></script>
-    {{-- <script src="{{ asset('assets/js/donut.js') }}"></script>
-    {{-- <script src="assets/js/donut.js"></script> --}}
+    <script src="{{ asset('assets/js/donut.js') }}"></script>
+    <script src="assets/js/donut.js"></script>
     <link rel="shortcut icon" type="image/x-icon" href="assets/images/plantifeedpics/plants.png" class="img-fluid" />
-    <link href="{{ asset('assets/css/analytics.css') }}" rel="stylesheet" type="text/css" />
+    <script src="https://kit.fontawesome.com/8ff31c595e.js" crossorigin="anonymous"></script>
+
+    <style>
+
+    .main nav .options button {
+        border: none;
+        background: none;
+        font-size: 13px;
+        font-weight: 600;
+        color: #495057;
+        cursor: pointer;
+        text-transform: capitalize;
+    }
+    .main nav .options button.active {
+        color: var(--primary-color);
+    }
+
+    .main nav .units button {
+        width: 35px;
+        height: 35px;
+        border-radius: 45%;
+        color: #1a1a1a;
+        background-color: #fff;
+    }
+    .main nav .units button.active {
+        color: #fff;
+        background-color: #1a1a1a;
+    }
+
+    .main .cards {
+    display: flex;
+    gap: 30px;
+    }
+
+    .cards .card {
+        width: 100px;
+        height: 130px;
+        text-align: center;
+        padding: 10px 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    .card h2 {
+        font-size: 15px;
+        font-weight: 600;
+    }
+    .card .card-icon {
+        width: 50%;
+        margin: 0 auto;
+    }
+    .card .day-temp {
+        font-size: 12px;
+        display: flex;
+        justify-content: center;
+    }
+        </style>
 </head>
 
 
 <body>
 
 
-    <!-- Begin page -->
-  
-                <!-- Sidebar -->
-{{-- 
-            <div class="sidebar-background"></div>
-        </div>
-        <!-- Left Sidebar End -->
-        <!-- Vertical Overlay-->
-        <div class="vertical-overlay"></div> --}}
-
         <!-- ============================================================== -->
         <!-- Start right Content here -->
         <!-- ============================================================== -->
-        <div class="main-content">
-            <div class="page-content">
-                <div class="container-fluid">             
-                        <div class="col-12">
-                            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+    <div class="main-content">
+        <div class="page-content">
+            <div class="container-fluid">      
+                <div class="col-lg-12">
+                    <div class="col-12">
+                        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                                 <h4 class="mb-sm-0">Analytics</h4>
 
                                 <div class="page-title-right">
@@ -49,197 +96,535 @@
 
                                     </ol>
                                 </div>
-                            </div>
                         </div>
                     </div>
-                    <!-- end page title -->
-
-
-                    <div class="row">
-                        <div class="col-xl-12">
-                            <div class="card crm-widget">
-                                <div class="card-body p-0">
-                                    <div class="row row-cols-xxl-5 row-cols-md-3 row-cols-1 g-0">
-                                        <div class="col">
-                                            <div class="py-4 px-3">
-                                                <h5 class="text-muted text-uppercase fs-13">Number of Users </h5>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="flex-shrink-0">
-                                                        <i class=" ri-user-3-fill display-6 text-muted"></i>
+                <div class="row justify-content-center">
+                    <div class="row justify-content-center">
+                        <div class="col-xl-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="sidebar" hidden>
+                                        <div>
+                                            <div class="weather-icon" >
+                                                <img id="icon" src="assets/weather-icon/icons/sun/27.png" alt="" />
+                                            </div>
+                                            
+                                            <div class="temperature">
+                                                <h1 id="temp">0</h1>
+                                                <span class="temp-unit">°C</span>
+                                            </div>
+                                            <div class="date-time">
+                                                <p id="date-time">Monday, 12:00</p>
+                                            </div>
+                                            <div class="divider"></div>
+                                                <div class="condition-rain">
+                                                    <div class="condition">
+                                                        <i class="fas fa-cloud"></i>
+                                                        <p id="condition">condition</p>
                                                     </div>
-                                                    <div class="flex-grow-1 ms-3">
-                                                        <h2 class="mb-0"><span id="totalUserCounter" class="counter-value" data-target="">0</span>
+                                                    <div class="rain">
+                                                        <i class="fas fa-tint"></i>
+                                                        <p id="rain">perc - 0%</p>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div><!-- end col -->
-                                        <div class="col">
-                                            <div class="mt-3 mt-lg-0 py-4 px-3">
-                                                <h5 class="text-muted text-uppercase fs-13">Number of Farm Leaders</h5>
+
+                                        <div class="location">
+                                            <div class="location-icon">
+                                                <i class="fas fa-map-marker-alt"></i>
+                                            </div>
+                                            <div class="location-text">
+                                                <p id="location">location</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="main">
+                                    <h2 class="mb-4 text-center"><span style="color: #57AA2C;"> <strong>Weather Monitoring</strong></span></h2><hr>
+                                        <nav class="d-flex justify-content-end">
+                                            <ul class="options">
+                                                <button class="hourly">today</button>
+                                                <button class="week active">week</button>
+                                            </ul> 
+                                            <ul class="options units">
+                                                <button class="fahrenheit ">°F</button>
+                                                <button class="celcius active" >°C</button>
+                                            </ul>
+                                        </nav>
+                                        <div class="cards" id="weather-cards"></div>
+                                            <div id="detailModal" style="display:none;" hidden>
+                                                <p>Chance of Rain: <span id="modalRainChance">--</span>%</p>
+                                                <p>Humidity: <span id="modalHumidity">--</span>%</p>
+                                                <p>Sunrise:  <span id="modalSunrise">--</span></p>
+                                                <p>Sunset: <span id="modalSunset">--</span></p>
+                                            </div>
+                                        <div class="highlights" hidden>
+                                        <h2 class="heading">today's highlights</h2>
+                                        <div class="cards">
+                                        <div class="card2">
+                                            <h4 class="card-heading">UV Index</h4>
+                                            <div class="content">
+                                            <p class="uv-index">0</p>
+                                            <p class="uv-text">Low</p>
+                                            </div>
+                                        </div>
+                                        <div class="card2">
+                                            <h4 class="card-heading">Wind Status</h4>
+                                            <div class="content">
+                                            <p class="wind-speed">0</p>
+                                            <p class="">Low</p>
+                                            </div>
+                                        </div>
+                                        <div class="card2">
+                                            <h4 class="card-heading">Sunrise | Sunset</h4>
+                                            <div class="content">
+                                            <p class="sun-rise">0</p>
+                                            <p class="sun-set">0</p>
+                                            </div>
+                                        </div>
+                                        <div class="card2">
+                                            <h4 class="card-heading">Humidity</h4>
+                                            <div class="content">
+                                            <p class="humidity">0</p>
+                                            <p class="humidity-status">Normal</p>
+                                            </div>
+                                        </div>
+                                        <div class="card2">
+                                            <h4 class="card-heading">Visibility</h4>
+                                            <div class="content">
+                                            <p class="visibilty">0</p>
+                                            <p class="visibilty-status">Normal</p>
+                                            </div>
+                                        </div>
+                                        <div class="card2">
+                                            <h4 class="card-heading">Air Quality</h4>
+                                            <div class="content">
+                                            <p class="air-quality">0</p>
+                                            <p class="air-quality-status">Normal</p>
+                                            </div>
+                                        </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    <script src="{{ asset('assets/js/weather.js') }}"></script>
+                                    <script src="https://cdn.db-ip.com/js/dbip.js" data-api-key="p6bcac47ae71f0285cb6343d9697e56e41a2cb92"></script>
+                                </div>
+                            </div>
+                        </div>
+                    
+                        <div class="col-xl-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row justify-content-center">
+                                    <h2 class="mb-4 text-center"><span style="color: #57AA2C;"> <strong>Farming Community Overview</strong></span></h2><hr>
+                                        <div class="col-xl-3">
+                                            <div class="py-4">
+                                                <h5 class="text-muted text-uppercase fs-12">Number of Users</h5>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="flex-shrink-0">
+                                                        <i class="bx bx-user-circle display-6 text-muted"></i>
+                                                    </div>
+                                                    <div class="flex-grow-1 ms-3">
+                                                        <h2 class="mb-0"><span id="totalUserCounter" class="counter-value" data-target="">0</span></h2>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3">
+                                            <div class="py-4">
+                                                <h5 class="text-muted text-uppercase fs-12">Number of Farm Leaders</h5>
                                                 <div class="d-flex align-items-center">
                                                     <div class="flex-shrink-0">
                                                         <i class="bx bx-user display-6 text-muted"></i>
                                                     </div>
                                                     <div class="flex-grow-1 ms-3">  
-                                                        <h2 class="mb-0"> <span id="farmLeaderCounter" class="counter-value" data-target="">0</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="mt-3 mt-md-0 py-4 px-3">
-                                                <h5 class="text-muted text-uppercase fs-13">Number of Farms </h5>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="flex-shrink-0">
-                                                        <i class=" bx bx-scatter-chart display-6 text-muted"></i>
-                                                    </div>
-                                                    <div class="flex-grow-1 ms-3">
-                                                        <h2 class="mb-0">  <span id="farmCounter" class="counter-value" data-target="">0</span></h2>
+                                                        <h2 class="mb-0"><span id="farmLeaderCounter" class="counter-value" data-target="">0</span></h2>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div><!-- end col -->
-                                        <div class="col">
-                                            <div class="mt-3 mt-md-0 py-4 px-3">
-                                                <h5 class="text-muted text-uppercase fs-13">Number of Farmers</h5>
+                                        <div class="col-xl-3">
+                                            <div class="py-4">
+                                                <h5 class="text-muted text-uppercase fs-12">Number of Farms</h5>
                                                 <div class="d-flex align-items-center">
                                                     <div class="flex-shrink-0">
-                                                        <i class="bx bx-user display-6 text-muted"></i>
+                                                        <i class="ri-plant-line display-6 text-muted"></i>
                                                     </div>
                                                     <div class="flex-grow-1 ms-3">
-                                                        <h2 class="mb-0">   <span id="farmerCounter" class="counter-value" data-target="">0</span>
+                                                        <h2 class="mb-0"><span id="farmCounter" class="counter-value" data-target="">0</span></h2>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div><!-- end col -->
-                                       
+                                        <div class="col-xl-3">
+                                            <div class="py-4">
+                                                <h5 class="text-muted text-uppercase fs-12">Number of Farmers</h5>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="flex-shrink-0">
+                                                        <i class="ri-user-6-line display-6 text-muted"></i>
+                                                    </div>
+                                                    <div class="flex-grow-1 ms-3">
+                                                        <h2 class="mb-0"><span id="farmerCounter" class="counter-value" data-target="">0</span></h2>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div><!-- end row -->
                                 </div><!-- end card body -->
                             </div><!-- end card -->
-                        </div><!-- end col -->
+                        </div><!-- end col-xl-6 -->
                     </div><!-- end row -->
-
-
-                    
-
-                    <div class="row">
-                        {{-- <div class="col-xl-6"> --}}
+        
+                    <div class="row justify-content-center">
+                        <div class="col-xl-6">
                             <div class="card">
-                                <div class="card-header align-items-center d-flex justify-content-center">
-                                    <h4 class="card-title mb-0">Harvesting Metrics</h4>             
-                                </div><!-- end card header -->
-                                <div class="card-body p-0 pb-2">
-                                    <div>
-                                        <div class="barangaySelector">
-                                            <label for="barangaySelect">Select Barangay:</label>
-                                            <select id="barangaySelect" class="form-control">
-                                            @foreach($barangayOptions as $option)
-                                                <option value="{{ $option['text'] }}">{{ $option['text'] }}</option>
-                                            @endforeach
-                                            </select>
-                                            <div class="farmSelector">
-                                            <label for="farmSelect">Selected Farm:</label>
-                                            <select id="farmSelect" class="form-control" >
-                                                <option></option>
-                                            </select>
-                                            </div>
-                                        <div class="year-selector">
-                                            <label for="yearSelect">Select Year:</label>
-                                            <select id="yearSelect" class="form-control">
-                                                <option value="2024">2024</option>
-                                                <option value="2023">2023</option>
-                                                <option value="2022">2022</option>
-                                                <!-- Add more years as needed -->
-                                            </select>
-                                        </div>
-                                        <div id="farmChart"></div>
-                                        <hr>
-                                        <div id="month-details" style="display: none;"></div>
-                                    </div>
-                                </div><!-- end card body -->
-                            </div><!-- end card -->
-                        </div><!-- end col -->
-                        </div>
-                        {{-- <div class="col-xl-6">
-                            <div class="card card-height-100">
-                                <div class="card-header align-items-center d-flex">
-                                    <h4 class="card-title mb-0 flex-grow-1">Expense Analytics</h4>
-                                    <div class="flex-shrink-0">
-                                        <div class="dropdown card-header-dropdown">
-                                            <a class="text-reset dropdown-btn" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <span class="text-muted fs-16"><i class="mdi mdi-dots-vertical align-middle"></i></span>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-end">
-                                                <a class="dropdown-item" href="#">Today</a>
-                                                <a class="dropdown-item" href="#">Last Week</a>
-                                                <a class="dropdown-item" href="#">Last Month</a>
-                                                <a class="dropdown-item" href="#">Current Year</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div><!-- end card header -->
                                 <div class="card-body">
-                                    <div id="donut-chart"></div>
-                                    <hr>
-                                    <div id="details-section" style="display: none;">
-                                        <h4>Details</h4>
-                                        <p id="details-description"></p>
-                                        <p id="details-amount"></p>
-                                        <p id="details-created-at"></p>
-                                    </div> --}}
+                                    <h2 class="mb-4 text-center"><span style="color: #57AA2C;"> <strong>Harvesting Metrics</strong></span></h2><hr>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="align-items-center justify-content-center ">
+                                                    <div class="col-xl-12 barangaySelector">
+                                                        <label for="barangaySelect">Select Barangay:</label>
+                                                        <select id="barangaySelect" class="w-100">
+                                                            <option value="" selected disabled>Select Barangay</option>
+                                                            @foreach($barangayOptions as $option)
+                                                                <option value="{{ $option['text'] }}">{{ $option['text'] }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <div class="mt-3 col-xl-12 barangaySelector">
+                                                        <label for="farmSelect">Selected Farm:</label>
+                                                        <select id="farmSelect" class="w-100">
+                                                            <option value="" selected disabled>Select Farm</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="mt-3 col-xl-12 barangaySelector">
+                                                        <label for="yearSelect">Select Year:</label>
+                                                        <select id="yearSelect" class="w-100">
+                                                            <option value="" selected disabled>Select Year</option>
+                                                            <option value="2024">2024</option>
+                                                            <option value="2023">2023</option>
+                                                            <option value="2022">2022</option>
+                                                            <!-- Add more years as needed -->
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
 
-                                    {{-- <div class="table-responsive mt-3">
-                                        <table class="table table-borderless table-sm table-centered align-middle table-nowrap mb-0">
-                                            <tbody class="border-0">
-                                                <tr>
-                                                    <td>
-                                                        <h4 class="text-truncate fs-14 fs-medium mb-0"><i class="ri-stop-fill align-middle fs-18 text-primary me-2"></i>Desktop Users</h4>
-                                                    </td>
-                                                    <td>
-                                                        <p class="text-muted mb-0"><i data-feather="users" class="me-2 icon-sm"></i>78.56k</p>
-                                                    </td>
-                                                    <td class="text-end">
-                                                        <p class="text-success fw-medium fs-12 mb-0"><i class="ri-arrow-up-s-fill fs-5 align-middle"></i>2.08% </p>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <h4 class="text-truncate fs-14 fs-medium mb-0"><i class="ri-stop-fill align-middle fs-18 text-warning me-2"></i>Mobile Users</h4>
-                                                    </td>
-                                                    <td>
-                                                        <p class="text-muted mb-0"><i data-feather="users" class="me-2 icon-sm"></i>105.02k</p>
-                                                    </td>
-                                                    <td class="text-end">
-                                                        <p class="text-danger fw-medium fs-12 mb-0"><i class="ri-arrow-down-s-fill fs-5 align-middle"></i>10.52%
-                                                        </p>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <h4 class="text-truncate fs-14 fs-medium mb-0"><i class="ri-stop-fill align-middle fs-18 text-info me-2"></i>Tablet Users</h4>
-                                                    </td>
-                                                    <td>
-                                                        <p class="text-muted mb-0"><i data-feather="users" class="me-2 icon-sm"></i>42.89k</p>
-                                                    </td>
-                                                    <td class="text-end">
-                                                        <p class="text-danger fw-medium fs-12 mb-0"><i class="ri-arrow-down-s-fill fs-5 align-middle"></i>7.36%
-                                                        </p>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div> --}}
-                                </div><!-- end card body -->
-                            </div><!-- end card -->
-                        </div><!-- end col -->
-                    </div><!-- end row -->
-                </div>
-                <!-- container-fluid -->
+                                            <div class="col-lg-6"> 
+                                                <div class="text-muted">                         
+                                                    <div id="farmChart"></div>
+                                                    <div id="month-details" style="display: none;"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                </div>
+                            </div>
+                        </div>
+                     
+                            <!-- INSERT HERE NEW ROW  -->
+                        
+                        <div class="col-xl-6">
+                            <div class="card">
+                                <div class="card-body"> 
+                                <h2 class="mb-4 text-center"><span style="color: #57AA2C;"> <strong>Notifications</strong></span></h2><hr>
+                                            <div class="tab-content position-relative overflow-auto" id="notificationItemsTabContent">
+                                                <div class="tab-pane fade show active py-2 ps-2" id="all-noti-tab" role="tabpanel">
+                                                    @if(auth()->user() && auth()->user()->notifications)
+                                                    @foreach (auth()->user()->notifications as $notification)
+                                                    <div class="text-reset notification-item d-block dropdown-item position-relative">
+                                                        @if ($notification->type === 'App\Notifications\NewNotificationEvent')
+                                                        <div class="d-flex">
+                                                            <img src="../assets/images/event/event.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                                            <div class="flex-grow-1">
+                                                                <a href="/schedules" class="stretched-link">
+                                                                    <h6 class="mt-0 mb-1 fs-13 fw-semibold">New Events</h6>
+                                                                </a>
+                                                                <div class="fs-13 text-muted">
+                                                                    <p class="mb-1">Check it out we have new events 📆.</p>
+                                                                </div>
+                                                                <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+
+                                                                    <span><i class="mdi mdi-clock-outline" id="notification-time"></i>{{ $notification->created_at->diffForHumans() }}</span>
+
+                                                                </p>
+                                                            </div>
+                                                            <!-- <div class="px-2 fs-15">
+                                                                <div class="form-check notification-check">
+                                                                    <input class="form-check-input" type="checkbox" value="" id="all-notification-check02">
+                                                                    <label class="form-check-label" for="all-notification-check02"></label>
+                                                                </div>
+                                                            </div> -->
+                                                        </div>
+                                                        @elseif ($notification->type === 'App\Notifications\NewplantingNotification')
+                                                        <div class="d-flex">
+
+
+                                                            <img src="../assets/images/event/planting.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+
+                                                            <div class="flex-grow-1">
+                                                                <a href="/plantcalendar" class="stretched-link">
+                                                                    <h6 class="mt-0 mb-1 fs-13 fw-semibold">New Planted</h6>
+                                                                </a>
+                                                                <div class="fs-13 text-muted">
+
+                                                                    <p class="mb-1">You have just planted a new plant. 🌱.</p>
+                                                                </div>
+                                                                <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+                                                                    <span><i class="mdi mdi-clock-outline" id="notification-time"></i> {{ $notification->created_at->diffForHumans() }}</span>
+
+                                                                </p>
+                                                            </div>
+                                                            <!-- <div class="px-2 fs-15">
+                                                                <div class="form-check notification-check">
+                                                                    <input class="form-check-input" type="checkbox" value="" id="all-notification-check02">
+                                                                    <label class="form-check-label" for="all-notification-check02"></label>
+                                                                </div>
+                                                            </div> -->
+
+                                                        </div>
+                                                        @elseif ($notification->type === 'App\Notifications\UpcomingHarvestNotification')
+                                                        <div class="d-flex">
+                                                            <img src="../assets/images/event/planting.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                                            <div class="flex-grow-1">
+                                                                <a href="/plantcalendar" class="stretched-link">
+                                                                    <h6 class="mt-0 mb-1 fs-13 fw-semibold">Upcoming Harvest Alert!</h6>
+                                                                </a>
+                                                                <div class="fs-13 text-muted">
+                                                                    <p class="mb-1">{{ $notification->data['message']}}</p>
+                                                                </div>
+                                                                <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+                                                                    <span><i class="mdi mdi-clock-outline" id="notification-time"></i> {{ $notification->created_at->diffForHumans() }}</span>
+                                                                </p>
+                                                            </div>
+                                                            <!-- <div class="px-2 fs-15">
+                                                                <div class="form-check notification-check">
+                                                                    <input class="form-check-input" type="checkbox" value="" id="all-notification-check02">
+                                                                    <label class="form-check-label" for="all-notification-check02"></label>
+                                                                </div>
+                                                            </div> -->
+
+                                                        </div>
+                                                        @elseif ($notification->type === 'App\Notifications\HarvestTodayNotification')
+                                                        <div class="d-flex">
+                                                            <img src="../assets/images/event/planting.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                                            <div class="flex-grow-1">
+                                                                <a href="/plantcalendar" class="stretched-link">
+                                                                    <h6 class="mt-0 mb-1 fs-13 fw-semibold">Harvest Day: Time to Reap the Rewards!</h6>
+                                                                </a>
+                                                                <div class="fs-13 text-muted">
+                                                                    <p class="mb-1">{{ $notification->data['message']}}</p>
+                                                                </div>
+                                                                <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+                                                                    <span><i class="mdi mdi-clock-outline" id="notification-time"></i> {{ $notification->created_at->diffForHumans() }}</span>
+                                                                </p>
+                                                            </div>
+                                                            <!-- <div class="px-2 fs-15">
+                                                                <div class="form-check notification-check">
+                                                                    <input class="form-check-input" type="checkbox" value="" id="all-notification-check02">
+                                                                    <label class="form-check-label" for="all-notification-check02"></label>
+                                                                </div>
+                                                            </div> -->
+
+                                                        </div>
+                                                        @elseif ($notification->type === 'App\Notifications\OutOfStockNotification')
+                                                        <div class="d-flex">
+
+                                                            <img src="../assets/images/event/oos1.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+
+                                                            <div class="flex-grow-1">
+                                                                <a href="/inventory/stocks" class="stretched-link">
+                                                                    <h6 class="mt-0 mb-1 fs-13 fw-semibold">Running out of seeds</h6>
+                                                                </a>
+                                                                <div class="fs-13 text-muted">
+                                                                    <p class="mb-1">{{ $notification->data['message']}}.</p>
+                                                                </div>
+                                                                <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+                                                                    <span><i class="mdi mdi-clock-outline" id="notification-time"></i>{{ $notification->created_at->diffForHumans() }}</span>
+                                                                </p>
+                                                            </div>
+                                                            <!-- <div class="px-2 fs-15">
+                                                                <div class="form-check notification-check">
+                                                                    <input class="form-check-input" type="checkbox" value="" id="all-notification-check02">
+                                                                    <label class="form-check-label" for="all-notification-check02"></label>
+                                                                </div>
+                                                            </div> -->
+
+                                                        </div>
+                                                        @elseif ($notification->type === 'App\Notifications\UpcomingEventNotification')
+                                                        <div class="d-flex">
+
+                                                            <img src="../assets/images/event/event.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+
+                                                            <div class="flex-grow-1">
+                                                                <a href="/schedules" class="stretched-link">
+                                                                    <h6 class="mt-0 mb-1 fs-13 fw-semibold">Event Reminder!</h6>
+                                                                </a>
+                                                                <div class="fs-13 text-muted">
+                                                                    <p class="mb-1">"{{ $notification->data['message']}}"</p>
+                                                                </div>
+                                                                <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+
+                                                                    <span><i class="mdi mdi-clock-outline" id="notification-time"></i>{{ $notification->created_at->diffForHumans() }}</span>
+
+                                                                </p>
+                                                            </div>
+                                                            <!-- <div class="px-2 fs-15">
+                                                                <div class="form-check notification-check">
+                                                                    <input class="form-check-input" type="checkbox" value="" id="all-notification-check02">
+                                                                    <label class="form-check-label" for="all-notification-check02"></label>
+                                                                </div>
+                                                            </div> -->
+                                                        </div>
+                                                        @elseif ($notification->type === 'App\Notifications\EventTodayNotification')
+                                                        <div class="d-flex">
+
+                                                            <img src="../assets/images/event/event.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+
+                                                            <div class="flex-grow-1">
+                                                                <a href="/schedules" class="stretched-link">
+                                                                    <h6 class="mt-0 mb-1 fs-13 fw-semibold">Event Reminder: Happening Today!</h6>
+                                                                </a>
+                                                                <div class="fs-13 text-muted">
+                                                                    <p class="mb-1">"{{ $notification->data['message']}}"</p>
+                                                                </div>
+                                                                <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+
+                                                                    <span><i class="mdi mdi-clock-outline" id="notification-time"></i>{{ $notification->created_at->diffForHumans() }}</span>
+
+                                                                </p>
+                                                            </div>
+                                                            <!-- <div class="px-2 fs-15">
+                                                                <div class="form-check notification-check">
+                                                                    <input class="form-check-input" type="checkbox" value="" id="all-notification-check02">
+                                                                    <label class="form-check-label" for="all-notification-check02"></label>
+                                                                </div>
+                                                            </div> -->
+                                                        </div>
+                                                        @elseif ($notification->type === 'App\Notifications\NewTaskAssignNotification')
+                                                        <div class="d-flex">
+
+
+                                                            <img src="../assets/images/event/nt.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+
+                                                            <div class="flex-grow-1">
+                                                                <a href="/tasks" class="stretched-link">
+                                                                    <h6 class="mt-0 mb-1 fs-13 fw-semibold">TASK</h6>
+                                                                </a>
+                                                                <div class="fs-13 text-muted">
+                                                                    <p class="mb-1">{{ $notification->data['message']}}.</p>
+                                                                </div>
+                                                                <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+
+                                                                    <span><i class="mdi mdi-clock-outline" id="notification-time"></i>{{ $notification->created_at->diffForHumans() }}</span>
+
+                                                                </p>
+                                                            </div>
+                                                            <!-- <div class="px-2 fs-15">
+                                                                <div class="form-check notification-check">
+                                                                    <input class="form-check-input" type="checkbox" value="" id="all-notification-check02">
+                                                                    <label class="form-check-label" for="all-notification-check02"></label>
+                                                                </div>
+                                                            </div> -->
+
+                                                        </div>
+                                                        @elseif ($notification->type === 'App\Notifications\CompleteTaskNotification')
+                                                        <div class="d-flex">
+
+
+                                                            <img src="../assets/images/event/complete.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+
+                                                            <div class="flex-grow-1">
+                                                                <a href="/taskshow" class="stretched-link">
+                                                                    <h6 class="mt-0 mb-1 fs-13 fw-semibold">TASK</h6>
+                                                                </a>
+                                                                <div class="fs-13 text-muted">
+                                                                    <p class="mb-1">{{ $notification->data['message']}}.</p>
+                                                                </div>
+                                                                <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+
+                                                                    <span><i class="mdi mdi-clock-outline" id="notification-time"></i>{{ $notification->created_at->diffForHumans() }}</span>
+
+                                                                </p>
+                                                            </div>
+                                                            <!-- <div class="px-2 fs-15">
+                                                                <div class="form-check notification-check">
+                                                                    <input class="form-check-input" type="checkbox" value="" id="all-notification-check02">
+                                                                    <label class="form-check-label" for="all-notification-check02"></label>
+                                                                </div>
+                                                            </div> -->
+
+                                                        </div>
+                                                        @elseif ($notification->type === 'App\Notifications\MissingTaskNotification')
+                                                        <div class="d-flex">
+
+
+                                                            <img src="../assets/images/event/missing.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+
+                                                            <div class="flex-grow-1">
+                                                                <a href="/missingtasks" class="stretched-link">
+                                                                    <h6 class="mt-0 mb-1 fs-13 fw-semibold">MISSING TASK</h6>
+                                                                </a>
+                                                                <div class="fs-13 text-muted">
+                                                                    <p class="mb-1">{{ $notification->data['message']}}.</p>
+                                                                </div>
+                                                                <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+
+                                                                    <span><i class="mdi mdi-clock-outline" id="notification-time"></i>{{ $notification->created_at->diffForHumans() }}</span>
+                                                                </p>
+                                                            </div>
+                                                            <!-- <div class="px-2 fs-15">
+                                                                <div class="form-check notification-check">
+                                                                    <input class="form-check-input" type="checkbox" value="" id="all-notification-check02">
+                                                                    <label class="form-check-label" for="all-notification-check02"></label>
+                                                                </div>
+                                                            </div> -->
+
+
+                                                        </div>
+                                                        @endif
+                                                    </div>
+
+                                                    @endforeach
+                                                    @else
+                                                    <p>No notifications found.</p>
+                                                    @endif
+                                                </div>
+
+
+
+                                                <div class="tab-pane fade py-2 ps-2" id="messages-tab" role="tabpanel" aria-labelledby="messages-tab">
+
+                                                </div>
+                                                <div class="tab-pane fade p-4" id="alerts-tab" role="tabpanel" aria-labelledby="alerts-tab"></div>
+
+                                                <div class="notification-actions" id="notification-actions">
+                                                    <div class="d-flex text-muted justify-content-center">
+                                                        Select
+                                                        <div id="select-content" class="text-body fw-semibold px-1">
+                                                            0
+                                                        </div>
+                                                        Result
+                                                        <button type="button" class="btn btn-link link-danger p-0 ms-3" data-bs-toggle="modal" data-bs-target="#removeNotificationModal">
+                                                            Remove
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    
+                                </div> 
+                            </div>
+                        </div>
+                        
+                    <div> <!-- end of row  -->
+
+                <div> <!-- end of OVERALL ROW  -->
+
+                </div> 
             </div>
-            <!-- End Page-content -->
         </div>
-        <!-- end main content-->
-
     </div>
-</div>
 
     <!-- END layout-wrapper -->
 

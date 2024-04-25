@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('title');
             $table->date('start');
             $table->date('end');
+            $table->time('starttime');
+            $table->time('endtime');
             $table->text('location')->nullable();
             $table->text('description')->nullable();
             $table->string('image')->nullable();

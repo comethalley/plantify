@@ -30,6 +30,8 @@ class EventController extends Controller
         $item->title = $request->title;
         $item->start = $request->start;
         $item->end = $request->end;
+        $item->starttime = $request->starttime;
+        $item->endtime = $request->endtime;
         $item->location = $request->location;
         $item->description = $request->description;
 

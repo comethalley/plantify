@@ -129,7 +129,28 @@
                                                     <label for="end-datepicker" class="form-label">End</label>
                                                     <input type="text" name="end" id="end-datepicker" class="form-control" placeholder="Enter End Date" required/>
                                                 </div>
-
+                                                <div class="col-12" id="event-time">
+                                                        <div class="row">
+                                                            <div class="col-6">
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">Start Time</label>
+                                                                    <div class="input-group">
+                                                                        <input id="timepicker1" name="starttime"type="text" class="form-control flatpickr flatpickr-input active" placeholder="Select start time" readonly="readonly" required>
+                                                                        <span class="input-group-text"><i class="ri-time-line"></i></span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">End Time</label>
+                                                                    <div class="input-group">
+                                                                        <input id="timepicker2" name="endtime" type="text" class="form-control flatpickr flatpickr-input" placeholder="Select end time" readonly="readonly" required>
+                                                                        <span class="input-group-text"><i class="ri-time-line"></i></span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 <div class="mb-3">
                                                     <label for="location" class="form-label">Location</label>
                                                     <input type="text" name="location" id="customername-field" class="form-control" placeholder="Enter Location"  required/>
@@ -208,7 +229,7 @@
                                         <i class="ri-map-pin-line text fs-16"></i>
                                     </div>
                                     <div class="flex-grow-1">
-                                        <h5 class="d-block fw-semibold mb-0">Location: <span id="eventlocation"></span></h5>
+                                        <h5 class="d-block fw-semibold mb-0">Location: <span id="eventlocation"></span> <br> <span id="timepicker2"></h5>
                                     </div>
                                 </div>
                                 <div class="d-flex mb-3">
@@ -291,7 +312,28 @@
                                                     <input type="text" name="end" id="Eventend-datepicker" class="form-control" data-toggle="flatpickr" data-flatpickr-enable-time="true" data-flatpickr-date-format="Y-m-d" placeholder="Enter End Date" required />
                                                 </div>
                                             </div>
-
+                                            <div class="col-12" id="event-time">
+                                                        <div class="row">
+                                                            <div class="col-6">
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">Start Time</label>
+                                                                    <div class="input-group">
+                                                                        <input id="timepicker1" name="starttime" type="text" class="form-control flatpickr flatpickr-input active" placeholder="Select start time" readonly="readonly" required>
+                                                                        <span class="input-group-text"><i class="ri-time-line"></i></span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">End Time</label>
+                                                                    <div class="input-group">
+                                                                        <input id="timepicker2" name="endtime" type="text" class="form-control flatpickr flatpickr-input" placeholder="Select end time" readonly="readonly" required>
+                                                                        <span class="input-group-text"><i class="ri-time-line"></i></span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                             <div class="form-group mb-3">
                                                 <label for="updateLocation">Location:</label>
                                                 <input type="text" class="form-control" id="updateLocation" placeholder="Enter location" required>
@@ -447,6 +489,8 @@
             $('#eventtitle').text(response.title);
             $('#eventstart').text(moment(response.start).format('MMMM D, YYYY'));
             $('#eventend').text(moment(response.end).format('MMMM D, YYYY'));
+            $('#timepicker1').text(response.starttime);
+$('#timepicker2').val(response.endtime);
             $('#eventlocation').text(response.location);
             $('#eventdescription').text(response.description);
             var imageUrl = "assests/images/event/"+response.image;
@@ -466,6 +510,8 @@
                         $('#Eventstart-datepicker').val(moment(eventStart).format("YYYY-MM-DD"));
                         $('#Eventend-datepicker').val(moment(eventEnd).format("YYYY-MM-DD"));
                         $('#updateLocation').val(eventLocation);
+                        $('#timepicker1').val(starttime);
+            $('#timepicker2').val(endtime);
                         $('#updateDescription').val(eventDescription);
                         $('#updateimage').attr('src', event.image); 
                     // Store event ID fo var eventId = event.id;r update and delete
@@ -516,17 +562,21 @@ function handleEventDelete(eventId) {
             var end = $('#Eventend-datepicker').val();
             var location = $('#updateLocation').val();
             var description = $('#updateDescription').val();
-            
+            var starttime = $('#timepicker1').val();
+            var endtime = $('#timepicker2').val();
+
             console.log("Data Sent:", {
             title: title,
             start: start,
             end: end,
             location: location,
             description: description,
+            starttime: starttime,
+            endtime: endtime,
         });
 
 
-            if (title && start && end && location && description) {
+            if (title && start && end && location && description && starttime && endtime) {
                 $.ajax({
                     url: "/scheduleupdate/" + eventId,
                     type: "PUT",
@@ -539,6 +589,8 @@ function handleEventDelete(eventId) {
                         end: end,
                         location: location,
                         description: description,
+                        starttime: starttime,
+            endtime: endtime,
                     },
 
                     
@@ -623,6 +675,8 @@ function filterAndDisplayEvents(searchKeywords) {
    altFormat: "F j, Y",
    dateFormat: "Y-m-d",
    minDate: "today",
+
+  
    });
    flatpickr("#end-datepicker", {
     
@@ -630,6 +684,7 @@ function filterAndDisplayEvents(searchKeywords) {
    altFormat: "F j, Y",
    dateFormat: "Y-m-d",
    minDate: "today",
+ 
    });
   
 
@@ -639,6 +694,7 @@ function filterAndDisplayEvents(searchKeywords) {
    altFormat: "F j, Y",
    dateFormat: "Y-m-d",
    minDate: "today",
+
    });
    flatpickr("#Eventend-datepicker", {
     enableTime: false,
@@ -646,12 +702,21 @@ function filterAndDisplayEvents(searchKeywords) {
    altFormat: "F j, Y",
    dateFormat: "Y-m-d",
    minDate: "today",
+
    });
 
     
- 
+   flatpickr("#timepicker1",{
+    enableTime: true,
+    noCalendar: true,
+    dateFormat: "H:i",
+});
 
-   
+flatpickr("#timepicker2",{
+    enableTime: true,
+    noCalendar: true,
+    dateFormat: "H:i",
+});
 
        
 </script>

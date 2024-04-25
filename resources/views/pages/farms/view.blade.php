@@ -369,6 +369,8 @@
                             <div class="modal-body">
                                 <div class="row">
                                     <div class="col-md-5">
+                                    <input type="text" id="id_modal" name="id_modal" class="form-control">
+
                                         <!-- Status -->
                                         <label for="farm_name_modal" class="form-label custom-label">Farm Name:</label>
                                         <input type="text" id="farm_name_modal" class="form-control" disabled placeholder="Farm Name">
@@ -807,6 +809,7 @@
                                 $('#viewModals .modal-header').removeClass(); // Reset to default modal header style
                         }
                         // Set values for other fields
+                        $('#id_modal').val(id);
                         $('#farm_name_modal').val(farmName);
                         $('#barangay_name_modal').val(barangayName);
                         $('#area_modal').val(area);

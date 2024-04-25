@@ -27,16 +27,12 @@
                         </div>
                         <div class="col-sm-auto ms-auto">
                             <div class="list-grid-nav hstack gap-1">
-                                @if(Auth::check())
-                                @if(Auth::check() && (Auth::user()->role_id == 1 || Auth::user()->role_id == 2))
+
                                 <button class="btn btn-primary btn-label waves-effect waves-light" onclick="openTestPage()">
                                     <i class="ri-inbox-archive-line label-icon align-middle fs-16 me-2"></i> View Archive Farm
                                 </button>
-                                @endif
-                                @endif
-                                <button class="btn btn-danger addFarms-modal" data-bs-toggle="modal" data-bs-target="#addfarmModal">
-                                    <i class="ri-add-line align-bottom me-1"></i> Request Farm
-                                </button>
+
+
                             </div>
                         </div>
                     </div>

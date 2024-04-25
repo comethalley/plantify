@@ -50,11 +50,14 @@
                                             <div class="col-xxl-3 col-sm-6 d-flex justify-content-end">
 
 
-
                                                 <div class="hstack flex-wrap gap-2 mb-3 mb-lg-0">
+                                                <button class="btn btn-danger addFarms-modal" data-bs-toggle="modal" data-bs-target="#addfarmModal">
+                                                <i class="ri-add-line align-bottom me-1"></i> Request Farm
+                                            </button>
                                                     <button type="button" class="btn btn-soft-dark btn-border refresh-button custom-width" onclick="location.reload()">
                                                         <span class="icon-on"><i class="ri-refresh-line align-bottom"></i> Refresh</span>
                                                     </button>
+                                                    
                                                 </div>
                                             </div>
                                         </div>
@@ -224,7 +227,12 @@
 
                                         <br><br>
                                     </div>
-
+                                    <div id="noFarmsMessageContainer" style="display: none;">
+                            <td colspan="7">
+                                <div id="lordIconContainer1" style="text-align: center;"></div>
+                                <p id="noFarmsMessage" style="text-align: center; font-size: 21px;">No Barangays Farms found.</p>
+                            </td>
+                        </div>
                                     <div class="row">
                                         <div class="col-6">
                                             <button type="button" class="btn btn-secondary d-flex align-items-center justify-content-center" onclick="goBack()">
@@ -237,6 +245,8 @@
 
                             </div>
 
+
+                            
 
                 <div class="modal fade" id="remarkModals" tabindex="-1" aria-labelledby="remarkModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-lg"> <!-- Add the modal-lg class here -->
@@ -484,6 +494,99 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="modal fade" id="addfarmModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-light p-3">
+                            <h5 class="modal-title" id="exampleModalLabel">Request Farm &nbsp;</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+                        </div>
+                        <form id="addFarmForm" action="" method="post">
+                            @csrf
+                            <div class="modal-body">
+                                <label for="barangay-name" class="form-label">Barangay: &nbsp;</label>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="selectedBarangayBtn" title="This field is required to select">Select barangay</button>
+                                    <div class="dropdown-menu">
+                                        <!-- Add your barangay dropdown items here -->
+                                        <a class="dropdown-item" href="#" onclick="selectBarangay('BagBag')">BagBag</a>
+                                        <a class="dropdown-item" href="#" onclick="selectBarangay('Capri')">Capri</a>
+                                        <a class="dropdown-item" href="#" onclick="selectBarangay('Fairview')">Fairview</a>
+                                        <a class="dropdown-item" href="#" onclick="selectBarangay('Gulod')">Gulod</a>
+                                        <a class="dropdown-item" href="#" onclick="selectBarangay('Greater Lagro')">Greater Lagro</a>
+                                        <a class="dropdown-item" href="#" onclick="selectBarangay('Kaligayahan')">Kaligayahan</a>
+                                        <a class="dropdown-item" href="#" onclick="selectBarangay('Nagkaisang Nayon')">Nagkaisang Nayon</a>
+                                        <a class="dropdown-item" href="#" onclick="selectBarangay('North Fairview')">North Fairview</a>
+                                        <a class="dropdown-item" href="#" onclick="selectBarangay('Novaliches Proper')">Novaliches Proper</a>
+                                        <a class="dropdown-item" href="#" onclick="selectBarangay('Pasong Putik Proper')">Pasong Putik Proper</a>
+                                        <a class="dropdown-item" href="#" onclick="selectBarangay('San Agustin')">San Agustin</a>
+                                        <a class="dropdown-item" href="#" onclick="selectBarangay('San Bartolome')">San Bartolome</a>
+                                        <a class="dropdown-item" href="#" onclick="selectBarangay('Sta. Lucia')">Sta. Lucia</a>
+                                        <a class="dropdown-item" href="#" onclick="selectBarangay('Sta. Monica')">Sta. Monica</a>
+                                    </div>
+                                    <input type="hidden" name="barangay_name" id="selectedBarangay" required>
+                                </div>
+                                <br><br>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="farm_name" class="form-label">Farm Name</label>
+                                        <input type="text" name="farm_name" class="form-control" title="This field is required to fill up" placeholder="Enter Farm Name" required />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="farm_leader" class="form-label">Farm Leader</label>
+                                        <select name="farm_leader" id="farmLeaderDropdown" class="form-select" title="This field is required to select">
+                                            <option disabled selected>Select Farm Leader</option>
+                                            @foreach ($farmLeaders as $user)
+                                            <option value="{{ $user->id }}">{{ $user->firstname }} {{ $user->lastname }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="address" class="form-label"> &nbsp; Address</label>
+                                        <input type="text" name="address" class="form-control" title="This field is required to fill up" placeholder="Enter Address" required />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="area" class="form-label"> &nbsp; Area</label>
+                                        <input type="text" name="area" class="form-control" title="This field is required to fill up" placeholder="Enter Area" required />
+                                    </div>
+                                </div>
+
+                                <label for="title_land" class="form-label">Title Land</label>
+                                <input type="file" name="title_land" class="form-control" title="This field is required to fill up" accept=".pdf, .doc, .docx" required />
+                                <br>
+                                <label for="picture_land" class="form-label">Picture Land</label>
+                                <input type="file" name="picture_land" class="form-control" title="This field is required to fill up" accept="image/*" required />
+                                <br>
+
+                                <div class="file-input-container">
+                                    <div class="file-input-wrapper">
+                                        <input type="file" name="picture_land1" class="form-control file-input" accept="image/*">
+                                        <button type="button" class="btn btn-danger cancel-btn" onclick="cancelUpload('picture_land1')">Cancel</button>
+                                    </div>
+                                </div>
+
+                                <div class="file-input-container">
+                                    <div class="file-input-wrapper">
+                                        <input type="file" name="picture_land2" class="form-control file-input" accept="image/*">
+                                        <button type="button" class="btn btn-danger cancel-btn" onclick="cancelUpload('picture_land2')">Cancel</button>
+                                    </div>
+                                </div>
+                                <br>
+                            </div>
+                            <div class="alert alert-danger" style="display:none" id="error-messages"></div>
+                            <div class="modal-footer">
+                                <div class="hstack gap-2 justify-content-end">
+                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-success" onclick="submitForm()">Submit Farm</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
 
 
                 <!-- Add this modal at the end of your Blade file -->
@@ -1134,8 +1237,70 @@
                     lordIcon.setAttribute("style", "width:250px;height:250px"); // Adjust size as needed
                     lordIconContainer.appendChild(lordIcon);
                     
+                    function selectBarangay(barangay) {
+                    document.getElementById('selectedBarangayBtn').innerHTML = barangay;
+                    document.getElementById('selectedBarangay').value = barangay;
+                }
+
+                function cancelUpload(inputName) {
+                    $('input[name="' + inputName + '"]').val(null);
+                }
+
+                function submitForm() {
+                    document.getElementById('error-messages').style.display = 'none';
+                    var form = document.getElementById('addFarmForm');
+                    var formData = new FormData(form);
+
+                    fetch('{{ route("add.farms") }}', {
+                            method: 'POST',
+                            body: formData,
+                            headers: {
+                                'X-CSRF-Token': '{{ csrf_token() }}',
+                            },
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            if (data.success) {
+                                location.reload();
+                            } else {
+                                document.getElementById('error-messages').style.display = 'block';
+                                for (var key in data.errors) {
+                                    document.getElementById('error-messages').innerHTML += '<p>' + data.errors[key][0] + '</p>';
+                                }
+                            }
+                        })
+                        .catch(error => console.error('Error:', error));
+                }
+
                 </script>
                 <style>
+                                    .file-input-container {
+                    margin-bottom: 10px;
+                }
+
+                .file-label {
+                    display: inline-block;
+                    margin-bottom: 5px;
+                }
+
+                .file-input-wrapper {
+                    position: relative;
+                }
+
+                .file-input {
+                    width: calc(100% - 78px);
+                    display: inline-block;
+                }
+
+                .cancel-btn {
+                    position: absolute;
+                    right: 0;
+                }
                     .bg-custom {
                         background-color: #747264 !important;
                     }

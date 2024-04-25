@@ -350,7 +350,7 @@ class FarmController extends Controller
                 // If the user is a farm leader, retrieve farms based on their farm_leader value and barangay_name
                 return $query->where('farms.farm_leader', '=', $user->id);
             })
-            ->where('farms.barangay_name', '=', $barangayName)
+            // ->where('farms.barangay_name', '=', $barangayName)
             ->select('farms.*', 'users.firstname as farm_leader_firstname', 'users.lastname as farm_leader_lastname') // Select relevant columns with aliases
             ->get();
 

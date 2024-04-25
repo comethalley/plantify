@@ -119,7 +119,7 @@
                                     <div class="card-body p-4">
                                         <div class="text-center mt-2">
 <br><br>
-                                            <h6 style="color: #57AA2C;">Sign Up for Public User</h6>
+                                            <h5 style="color: #025830;">Create new Account</h5>
 
                                             <p class="text-muted"></p>
                                         </div>
@@ -179,10 +179,10 @@
 
 
                                                 <div class="mt-4">
-                                                    <button type="submit" class="btn btn-link text-white w-100" style="background-color: #57AA2C;" href="">Sign Up</a>
+                                                    <button type="submit" class="btn btn-link text-white w-100" style="background-color: #025830;" href="">Sign Up for Public user</a>
                                                 </div>
                                                 <div class="mt-1 text-center">
-                                                 <p class="mb-0">Already have an account ? <a href="/login" class="fw-semibold text-decoration-underline" style="color: #57AA2C;"> Sign In</a> </p>
+                                                 <p class="mb-0">Already have an account ? <a href="/login" class="fw-semibold text-decoration-underline" style="color:#025830;"> Sign In</a> </p>
                                                 </div>
 
                                             </form>

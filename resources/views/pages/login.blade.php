@@ -26,7 +26,7 @@
         body,
         html {
             height: 100%;
-            background: darkgreen;
+            background: #025830;
             /* Prevent scrollbars */
         }
         .container {
@@ -41,7 +41,7 @@
         }
 
         .auth-one-bg-position {
-            position: fixed;
+            /* position: fixed; */
             top: 0;
             left: 0;
             width: 100%;
@@ -77,7 +77,7 @@
                                 <div class="p-lg-5 p-4">
                                     <div>
                                         <div class="card-body p-1">
-                                            <h5 class="text-center" style="color: #57AA2C;">Welcome Back!</h5>
+                                            <h5 class="text-center" style="color: #025830;">Welcome Back!</h5>
                                             <p class="text-muted text-center">Login to continue to Plantify.</p>
                                         </div><br>
 
@@ -114,7 +114,7 @@
 
                                                 <div class="mt-5">
 
-                                                    <button type="submit" class="btn btn-link text-white w-100" style="background-color: #57AA2C;" href="">Login</a>
+                                                    <button type="submit" class="btn btn-link text-white w-100" style="background-color:#025830;" href="">Login</a>
                                                 </div>
 
                                                 <br>
@@ -122,7 +122,7 @@
                                         </div>
 
                                         <div class="mt-1 text-center">
-                                            <p class="mb-0">Don't have an account ? <a href="/signup" class="fw-semibold text-decoration-underline" style="color: #57AA2C;"> SignUp</a> </p>
+                                            <p class="mb-0">Don't have an account ? <a href="/signup" class="fw-semibold text-decoration-underline" style="color: #025830;"> SignUp</a> </p>
                                         </div>
                                     </div>
                                 </div>

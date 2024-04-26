@@ -33,6 +33,8 @@ use App\Http\Controllers\SendMessageController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\UserPhotoController;
+use App\Http\Controllers\UserProfileController;
 
 
 
@@ -138,7 +140,12 @@ Route::post('/edit-post/{id}', [PostController::class, 'editPost']);
 Route::put('/edit-post/{id}', [PostController::class, 'editPost'])->name('editPost');
 
 
+Route::get('/profilefeed', [UserPhotoController::class, 'index']);
+Route::get('pages/profilefeed', [UserPhotoController::class, 'index'])->name('profile');
 
+
+// Route for updating profile information
+Route::post('/update-profile', [UserPhotoController::class, 'updateProfile'])->name('update.profile');
 
 
 

@@ -4,9 +4,9 @@
 
 
 <head>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.7.2/dist/umd/popper.min.js"></script>
+
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <!-- SweetAlert -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -47,7 +47,7 @@
             @if($userPhotos)
 
             @if($userPhotos->cover_photo)
-            <img style="background-color:#FFFFFF; box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);  object-fit: cover;  border-radius: 0 0 10px 10px; width: 1080px; height:400px;" src="{{ asset('storage/cover_photos/' . $userPhotos->cover_photo) }}" alt="Cover Photo">
+            <img style="background-color:#FFFFFF; box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);  object-fit: cover;  border-radius: 0 0 10px 10px; width: 100%; height:400px;" src="{{ asset('storage/cover_photos/' . $userPhotos->cover_photo) }}" alt="Cover Photo">
             @else
             <img src="{{ asset('assets/images/plantifeedpics/comment.png') }}" alt="Default Cover Photo">
             @endif
@@ -55,7 +55,7 @@
                 @if($userPhotos->profile_photo)
 
                 <div style="display: flex;">
-                    <img style="width: 160px; height:160px;" src="{{ asset('storage/profile_photos/' . $userPhotos->profile_photo) }}" alt="Profile Photo">
+                    <img style="background-color: #FFFFFF; box-shadow: 0 3px 10px rgb(0 0 0 / 0.2); border-radius: 100px; width: 160px; height:160px;" src="{{ asset('storage/profile_photos/' . $userPhotos->profile_photo) }}" alt="Profile Photo">
                     @else
                     <img src="{{ asset('assets/images/plantifeedpics/comment.png') }}" alt="Default Profile Photo">
                     @endif
@@ -82,9 +82,10 @@
                     </span>
                 </div>
 
+                <!-- Profile Settings Button -->
                 <div style="display: flex; align-items:flex-end;">
-                    <button style=" width: 150px; height:50px; font-weight:bold;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#editProfileModal">
-                        Edit Profile
+                    <button style="width: 150px; height: 50px; font-weight: bold;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#editProfileSettingsModal">
+                        Profile Settings
                     </button>
                 </div>
 
@@ -138,7 +139,14 @@
 
                     <div style="display: flex; flex-direction:column; row-gap:20px; ">
 
-                        <p style="font-weight: bold; font-size:18px;">About</p>
+
+                        <div style="display:flex; justify-content:space-between;">
+
+                            <p style="font-weight: bold; font-size:18px;">About</p>
+                            <button style="width: 150px; height: 50px; font-weight: bold;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#editProfileModal">
+                                Edit Profile
+                            </button>
+                        </div>
 
 
                         <span>
@@ -468,7 +476,7 @@
                                 <div style="margin-top: 10px; display:flex; justify-content:space-evenly;">
 
                                     <button onclick="toggleLike('{{ $question->id }}')" style="border: none; background-color:transparent;">
-                                        <img src="assets/images/plantifeedpics/like.png" alt="like" id="likeIcon{{ $question->id }}" style="padding:10px;" onmouseover="this.style.backgroundColor='lightgray';this.style.borderRadius='25px';" onmouseout="this.style.backgroundColor='transparent'; this.style.borderRadius='25px';">
+                                        <img src="../assets/images/plantifeedpics/unlike.png" alt="like" id="likeIcon{{ $question->id }}" style="height: 50px; width:50px; padding:10px;" onmouseover="this.style.backgroundColor='lightgray';this.style.borderRadius='25px';" onmouseout="this.style.backgroundColor='transparent'; this.style.borderRadius='25px';">
                                         <span id="likeCount{{ $question->id }}">0</span>
                                     </button>
 
@@ -538,7 +546,7 @@
 
 
                                     <button type="button" onclick="openCommentModal('{{ $question->question }}', '{{ $question->language }}')" style="display: flex; align-items:center; padding: 10px 20px; background-color: white; color: black; border: none; border-radius: 5px; cursor: pointer;" onmouseover="this.style.backgroundColor='lightgray';" onmouseout="this.style.backgroundColor='white';">
-                                        <img src="assets/images/plantifeedpics/comment.png" alt="Comment" style="height: 20px; width: 20px; margin-right: 10px;">
+                                        <img src="../assets/images/plantifeedpics/comment.png" alt="Comment" style="height: 20px; width: 20px; margin-right: 10px;">
                                         Comment
                                     </button>
 
@@ -847,7 +855,7 @@
                                 <div style="margin-top: 10px; display:flex; justify-content:space-evenly;">
 
                                     <button onclick="togglePostLike('{{ $post->id }}')" style="border: none; background-color: transparent; cursor: pointer;">
-                                        <img src="assets/images/plantifeedpics/like.png" alt="like" id="postLikeIcon{{ $post->id }}" style="padding: 10px;" onmouseover="this.style.backgroundColor='lightgray';this.style.borderRadius='25px';" onmouseout="this.style.backgroundColor='transparent'; this.style.borderRadius='25px';">
+                                        <img src="/assets/images/plantifeedpics/nike.png" alt="like" id="postLikeIcon{{ $post->id }}" style="padding: 10px;" onmouseover="this.style.backgroundColor='lightgray';this.style.borderRadius='25px';" onmouseout="this.style.backgroundColor='transparent'; this.style.borderRadius='25px';">
                                         <span id="postLikeCount{{ $post->id }}">0</span>
                                     </button>
 
@@ -911,6 +919,105 @@
 
             </div>
         </div>
+
+        <!-- Personal Detail Modal -->
+        <div class="modal fade" id="editProfileSettingsModal" tabindex="-1" role="dialog" aria-labelledby="editProfileSettingsModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editProfileSettingsModalLabel">Personal Details</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Personal Detail Form -->
+                        <form id="personalDetailForm" method="POST">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label class="form-label form-label" for="firstnameInput">First Name</label>
+                                        <input id="firstnameInput" class="form-control form-control" type="text" name="" placeholder="Enter your firstname" fdprocessedid="vgsl2h">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label class="form-label form-label" for="lastnameInput">Last Name</label>
+                                        <input id="lastnameInput" class="form-control form-control" type="text" name="" placeholder="Enter your lastname" fdprocessedid="ncaft">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        <label class="form-label form-label" for="emailInput">Email Address</label>
+                                        <input id="emailInput" class="form-control form-control" type="email" name="" placeholder="Enter your email" fdprocessedid="tjdt">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div><label class="form-label form-label" for="newpasswordInput">New Password*</label> <input id="newpasswordInput" class="form-control form-control" type="password" name="" placeholder="Enter new password"> </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div><label class="form-label form-label" for="confirmpasswordInput">Confirm Password*</label> <input id="confirmpasswordInput" class="form-control form-control" type="password" name="" placeholder="Confirm password"> </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" form="personalDetailForm" fdprocessedid="4ghfs">Update Profile</button>
+                        <button type="button" class="btn btn-soft-success" fdprocessedid="xm3h9e" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bootstrap JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.min.js"></script>
+
+        <!-- JavaScript to handle form submission -->
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                // Get the form element
+                const updateProfileForm = document.getElementById("personalDetailForm");
+
+                // Add an event listener to the form submission
+                updateProfileForm.addEventListener("submit", function(event) {
+                    // Prevent the default form submission
+                    event.preventDefault();
+
+                    // Fetch the form data
+                    const formData = new FormData(updateProfileForm);
+
+                    // Get the user ID
+                    const userId = "{{ Auth::user()->id }}";
+
+                    // Construct the update URL
+                    const updateUrl = `/users/${userId}/update`;
+
+                    // Send a POST request to the update route
+                    fetch(updateUrl, {
+                            method: 'POST',
+                            body: formData
+                        })
+                        .then(response => {
+                            if (response.ok) {
+                                // Optionally, you can handle success response here
+                                console.log('Profile updated successfully');
+                                // You can also reload the page or show a success message
+                                window.location.reload(); // Reload the page
+                            } else {
+                                // Handle error response here
+                                console.error('Error updating profile');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+                });
+            });
+        </script>
+
+
 
 
         <!-- Modal -->

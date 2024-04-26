@@ -186,11 +186,14 @@ Route::post('/archiveAdmin/{id}', [AuthController::class, 'archiveAdmin']);
 Route::get('/getAdmin/{id}', [AuthController::class, 'viewAdmin']);
 Route::get('/users/farm-leader', [AuthController::class, 'getFarmerLeader']);
 Route::get('/getAllFarmLeaders', [AuthController::class, 'farmLeaders']);
+Route::get('/getAllFarmers', [AuthController::class, 'farmers']);
 Route::get('/getFL/{id}', [AuthController::class, 'viewfarmLeaders']);
 Route::post('/addFarmLeader', [AuthController::class, 'createFarmLeader']);
 Route::post('/editFarmLeader/{id}', [AuthController::class, 'updateFarmLeader']);
 Route::post('/archiveFL/{id}', [AuthController::class, 'archiveFarmLeader']);
 Route::get('/users/farmers', [AuthController::class, 'getFarmers']);
+
+Route::post('/addFarmers', [AuthController::class, 'createFarmers']);
 
 Route::get('/farm_locations', [qcmaps::class, 'index']);
 Route::get('/get_maps', [qcmaps::class, 'getMaps']);

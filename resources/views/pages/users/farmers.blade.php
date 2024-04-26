@@ -53,7 +53,7 @@
                                 <div class="col-sm-auto">
                                     <div class="d-flex gap-1 flex-wrap">
                                         <button type="button" class="btn btn-secondary waves-effect waves-light" data-bs-toggle="modal" id="create-btn" data-bs-target="#csv"><i class="ri-add-line align-bottom me-1"></i> Download CSV </button>
-                                        <button type="button" class="btn btn-success add-btn" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModal"><i class="ri-add-line align-bottom me-1"></i> Invite Farmer</button>
+                                        <button type="button" class="btn btn-success add-btn" data-bs-toggle="modal" id="create-btn" data-bs-target="#farmerShowModal"><i class="ri-add-line align-bottom me-1"></i> Invite Farmer</button>
                                         <button class="btn btn-soft-danger" id="remove-actions" onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button>
                                     </div>
                                 </div>
@@ -76,27 +76,24 @@
                             <div>
 
                                 <div class="table-responsive table-card mb-1">
-                                    <table class="table table-nowrap align-middle" id="orderTable">
+                                    <table class="table table-nowrap align-middle" id="farmers-tbl">
                                         <thead class="text-muted table-light">
                                             <tr class="text-uppercase">
-                                                <th scope="col" style="width: 25px;">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" id="checkAll" value="option">
-                                                    </div>
-                                                </th>
+
 
                                                 <th class="sort" data-sort="id">ID</th>
                                                 <th class="sort" data-sort="first_name">First Name</th>
                                                 <th class="sort" data-sort="last_name">Last Name</th>
                                                 <th class="sort" data-sort="payment">Email Address</th>
-                                                <th class="sort" data-sort="address">Address</th>
-                                                <th class="sort" data-sort="contact">Contact</th>
+                                                <!-- <th class="sort" data-sort="address">Address</th>
+                                                <th class="sort" data-sort="contact">Contact</th> -->
                                                 <th class="sort" data-sort="city">Action</th>
 
 
 
                                             </tr>
                                         </thead>
+                                        <tbody></tbody>
 
                                     </table>
                                     <div class="noresult" style="display: none">
@@ -157,7 +154,7 @@
                             </div>
 
                             <!--Create Admin Modal-->
-                            <div class="modal fade" id="showModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="farmerShowModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header bg-light p-3">
@@ -183,7 +180,7 @@
 
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Email Address</label>
-                                                    <input type="email" name="email" id="customername-field" class="form-control" placeholder="Enter Email" required />
+                                                    <input type="email" name="email" id="email" class="form-control" placeholder="Enter Email" required />
                                                 </div>
 
                                                 <!-- <div class="mb-3">
@@ -200,7 +197,7 @@
                                             <div class="modal-footer">
                                                 <div class="hstack gap-2 justify-content-end">
                                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                                                    <button type="submit" class="btn btn-success">Add</button>
+                                                    <button id="add-farmers-btn" type="button" class="btn btn-success">Invite</button>
                                                 </div>
                                             </div>
                                         </form>

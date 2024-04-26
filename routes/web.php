@@ -28,6 +28,7 @@ use App\Http\Requests\PdfRequest;
 use Endroid\QrCode\Writer\Result\PdfResult;
 use Illuminate\Http\Request;
 
+use App\Http\Controllers\UserPhotoController;
 use App\Http\Controllers\SendMessageController;
 
 use App\Http\Controllers\SearchController;
@@ -137,9 +138,11 @@ Route::put('/edit-question/{id}', [ForumController::class, 'editQuestion'])->nam
 Route::post('/edit-post/{id}', [PostController::class, 'editPost']);
 Route::put('/edit-post/{id}', [PostController::class, 'editPost'])->name('editPost');
 
+Route::get('/profilefeed', [UserPhotoController::class, 'index']);
+Route::get('pages/profilefeed', [UserPhotoController::class, 'index'])->name('profile');
 
-
-
+// Route for updating profile information
+Route::post('/update-profile', [UserPhotoController::class, 'updateProfile'])->name('update.profile');
 
 
 // routes/web.php

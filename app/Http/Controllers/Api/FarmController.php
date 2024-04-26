@@ -208,6 +208,14 @@ class FarmController extends Controller
         ]);
     }
 
+    public function index1()
+    {
+
+
+        return view('pages.tools.index');
+
+    }
+
 
     public function viewArchiveFarms()
     {

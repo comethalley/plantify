@@ -11,12 +11,13 @@
   <div class="wrapper">
     <div class="sidebar">
       <div>
-        <br>
-        <br>
+     
         <!-- <form class="search" id="search">
             <input type="text" id="query" placeholder="Search..." />
             <button><i class="fas fa-search"></i></button>
           </form> -->
+
+
         <div class="weather-icon">
           <img id="icon" src="assets/weather-icon/icons/sun/27.png" alt="" />
         </div>
@@ -60,6 +61,12 @@
         </ul>
       </nav>
       <div class="cards" id="weather-cards"></div>
+      <div id="detailModal" style="display:none;">
+        <p>Chance of Rain: <span id="modalRainChance">--</span>%</p>
+        <p>Humidity: <span id="modalHumidity">--</span>%</p>
+        <p>Sunrise:  <span id="modalSunrise">--</span></p>
+        <p>Sunset: <span id="modalSunset">--</span></p>
+      </div>
       <div class="highlights">
         <h2 class="heading">today's highlights</h2>
         <div class="cards">

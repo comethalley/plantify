@@ -9,11 +9,11 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Planting Calendar List</h4>
+                        <h4 class="mb-sm-0">Planting List</h4>
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">Planting Calendar List</a></li>
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Planting List</a></li>
 
                             </ol>
                         </div>
@@ -55,13 +55,15 @@
 
                                                 </th>
 
-                                                <th class="sort" data-sort="customer_name">Seed Name: </th>
-                                                <th class="sort" data-sort="date">Seeds Amount (g): </th>
-                                                <th class="sort" data-sort="amount">Estimated Plants Harvested (kg): </th>
-                                                <th class="sort" data-sort="payment">Estimated Plants Destroyed (kg): </th>
-                                                <th class="sort" data-sort="payment">Start Date: </th>
-                                                <th class="sort" data-sort="payment">End Date: </th>
-                                                <th class="sort" data-sort="city">Status: </th>
+                                                <th data-sort="customer_name">Seed Name: </th>
+                                                <th data-sort="date">Seeds Amount (g): </th>
+                                                <th data-sort="amount">Plants Harvested (kg): </th>
+                                                <th data-sort="payment">Plants Destroyed (kg): </th>
+                                                <th data-sort="payment">Planting Date: </th>
+                                                <th data-sort="payment">Harvested Date: </th>
+                                                <th data-sort="city">Status: </th>
+                                                <th data-sort="city">Barangay: </th>
+                                                <th data-sort="city">Farm: </th>
                                             </tr>
                                         </thead>
                                         <tbody class="list form-check-all">
@@ -82,8 +84,16 @@
                                                     {{ $event->end }}
                                                 </td>
                                                 <td class="payment">{{ $event->status }}</td>
-                                                </td>
+                                                @if(property_exists($event, 'barangay_name') && property_exists($event, 'farm_name'))
+                                                    <td>{{ $event->barangay_name }}</td>
+                                                    <td>{{ $event->farm_name }}</td>
+                                                @else
+                                                    <td>Public Users</td>
+                                                    <td>Public Users</td>
+                                                @endif
 
+
+                                                
                                             </tr>
                                             @endforeach
                                         </tbody>

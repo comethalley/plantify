@@ -11,30 +11,23 @@
 
                     </div>
         </div>
-            <!-- start page title -->
-            <div class="row">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-xl-4">
+    @foreach($pes as $pes)
+    <div class="col-sm-6 col-xl-3" style="padding: 6px;">
+        <!-- Simple card -->
+        <div class="card" style="width: 100%; height: 100%;">
+            <img class="card-img-top img-fluid mb-2" src="/images/{{ $pes->pes_image}}" alt="Card image cap" style="object-fit: cover; height: 200px;">
+            <div class="card-body">
+                <h4 class="card-title mb-2 text-center">{{ $pes->pes_name}}</h4><br>
+                <div class="text-end">
+                    <a href="{{ url('piu/showpes', $pes->id) }}" class="btn btn-success add-btn d-flex justify-content-center align-items-center">Read more</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endforeach
+</div>
 
-           
-           @foreach($pes as $pes)
-            <div class="col-sm-6 col-xl-3" style="padding-top: 6px; padding-left: 12px; padding-right: 12px;">
-                            <!-- Simple card -->
-                            <div class="card" >
-                            <img class="card-img-top img-fluid mb-2" src="/images/{{ $pes->pes_image}}" alt="Card image cap">
-                                <div class="card-body" >
-                                    <h4 class="card-title mb-2 text-center ">{{ $pes->pes_name}}</h4><br>
-                                    
-                                    <div class="text-end">
-                                    <a href="{{ url('piu/showpes', $pes->id) }}" class="btn btn-success add-btn d-flex justify-content-center align-items-center" >Read more</a>
-                                   
-                                    </div>
-                                </div>
-                            </div><!-- end card -->
-                        </div>
-                        @endforeach
-             
-
-
-                         </div> 
                     </div>  
               </div>   
          </div>

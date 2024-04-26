@@ -217,4 +217,3 @@ $(document).ready(function () {
         font-size: 1rem; 
     }
     </style>   
-@include('templates.footer')

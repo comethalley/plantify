@@ -1,4 +1,5 @@
 console.log("Hello JS is here!");
+// alert("Inventroy JS is HERE!")
 
 $(document).ready(function () {
     getAllSupplier();
@@ -470,108 +471,6 @@ $(document).ready(function () {
     $("#void-btn").on("click", function () {
         console.log("void-btn is clicked");
         voidItem();
-    });
-
-    
-
-    let usingScanner;
-    let usingModal = document.getElementById("usingModal");
-
-    function usedItem(lastUsedScannedContent, parsedMultipleUsed, mode) {
-        if (lastUsedScannedContent == "") {
-            //alert("QR code is empty!");
-            Swal.fire({
-                title: "QR code is empty !",
-                text: "Please show appropriate QR Code",
-                icon: "error",
-                showConfirmButton: false,
-                timer: 2000,
-            });
-        } else {
-            // alert(lastUsedScannedContent);
-            stopUsedScanner();
-            $.ajax({
-                url: "/remove-stock",
-                method: "POST",
-                headers: {
-                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
-                        "content"
-                    ),
-                },
-                data: {
-                    qrcode: lastUsedScannedContent,
-                    multiplier: parsedMultipleUsed,
-                    mode: mode,
-                },
-                success: function (data) {
-                    getStocksList();
-                    console.log(data);
-                    lastUsedScannedContent = "";
-                    $("#multiple-used").val("1");
-                    $("#used-qr").text(" ");
-                    Swal.fire({
-                        title: "Successfully Receive",
-                        text: "Item has been remove to inventory",
-                        icon: "success",
-                        showConfirmButton: false,
-                        timer: 2000,
-                    });
-                    startUsedScanner();
-                },
-                error: function (xhr, status, error) {
-                    console.error("Error:", status, error);
-                },
-            });
-        }
-    }
-
-    function startUsedScanner() {
-        usingScanner = new Instascan.Scanner({
-            video: document.getElementById("using-preview"),
-        });
-
-        var lastUsedScannedContent = "";
-
-        usingScanner.addListener("scan", function (content) {
-            console.log(content);
-            lastUsedScannedContent = content;
-            $("#used-qr").text(lastUsedScannedContent);
-            var multipleUsed = $("#multiple-used").val();
-            var parsedMultipleUsed = parseInt(multipleUsed);
-            var mode = $("#mode").val();
-            usedItem(lastUsedScannedContent, parsedMultipleUsed, mode);
-        });
-
-        // $('#using-scan').on('click', function () {
-        //     var multipleUsed = $("#multiple-used").val();
-        //     var parsedMultipleUsed = parseInt(multipleUsed);
-        //     var mode = $("#mode").val();
-        //     usedItem(lastUsedScannedContent, parsedMultipleUsed, mode);
-        //     lastUsedScannedContent = "";
-        // });
-
-        Instascan.Camera.getCameras().then(function (cameras) {
-            if (cameras.length > 0) {
-                usingScanner.start(cameras[0]);
-            } else {
-                console.error("No cameras found.");
-            }
-        });
-    }
-
-    function stopUsedScanner() {
-        if (usingScanner) {
-            usingScanner.stop();
-        }
-    }
-
-    usingModal.addEventListener("shown.bs.modal", function () {
-        startUsedScanner();
-    });
-
-    usingModal.addEventListener("hidden.bs.modal", function () {
-        stopUsedScanner();
-        lastUsedScannedContent = "";
     });
 
   

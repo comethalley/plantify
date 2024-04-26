@@ -47,10 +47,11 @@ class AuthController extends Controller
             // Fetch data for super admin role
             $expensesData = Expense::all(['description', 'amount', 'created_at', 'budget_id'])->toJson();
             $plantingData = CalendarPlanting::all(['title', 'start', 'harvested', 'destroyed', 'start'])->toJson();
-            $farmsData = Farm::with('barangays')->get()->toJson();
+            //$farmsData = Farm::with('barangays')->get()->toJson();
         } elseif ($user->role_id == 3) {
             // Fetch data for farm leader role
             $expensesData = Expense::where('budget_id', 3)->where('id', $user->id)->get(['description', 'amount', 'created_at'])->toJson();
+
             $farmsData = Farm::where('id', $user->id)->with('barangays')->get()->toJson();
         }
 
@@ -335,8 +336,8 @@ class AuthController extends Controller
             // exit;
 
             $admins = User::create([
-                'firstname'  => $data['firstname'],
-                'lastname'  => $data['lastname'],
+                'firstname'  => '',
+                'lastname'  => '',
                 'email' => $data['email'],
                 'password' => Hash::make($generate_password),
                 'role_id' => 2,
@@ -347,7 +348,7 @@ class AuthController extends Controller
             if ($admins) {
                 $id = $admins->id;
                 $hash = $this->plantifyLibrary->generatehash($id);
-                $emailInvitation = $this->emailInvitation($data['email'], $data['firstname'], $generate_password, $hash);
+                $emailInvitation = $this->emailInvitation($data['email'], $data['email'], $generate_password, $hash);
                 if ($emailInvitation) {
 
                     return response()->json(['message' => 'Admin Invited Successfully', 'data' => $admins], 200);
@@ -365,8 +366,8 @@ class AuthController extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                'firstname'  => 'required|string|max:55',
-                'lastname'  => 'required|string|max:55',
+                // 'firstname'  => 'required|string|max:55',
+                // 'lastname'  => 'required|string|max:55',
                 'email' => 'required|email|unique:users,email',
             ]);
 
@@ -378,8 +379,8 @@ class AuthController extends Controller
             $generate_password = $this->generate_password(10);
 
             $farmLeaders = User::create([
-                'firstname'  => $data['firstname'],
-                'lastname'  => $data['lastname'],
+                'firstname'  => '',
+                'lastname'  => '',
                 'email' => $data['email'],
                 'password' => Hash::make($generate_password),
                 'role_id' => 3,
@@ -389,7 +390,7 @@ class AuthController extends Controller
             if ($farmLeaders) {
                 $id = $farmLeaders->id;
                 $hash = $this->plantifyLibrary->generatehash($id);
-                $emailInvitation = $this->emailInvitation($data['email'], $data['firstname'], $generate_password, $hash);
+                $emailInvitation = $this->emailInvitation($data['email'], $data['email'], $generate_password, $hash);
                 if ($emailInvitation) {
 
                     return response()->json(['message' => 'Admin Invited Successfully', 'data' => $farmLeaders], 200);
@@ -481,7 +482,7 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/login');
+        return redirect('/');
     }
 
 
@@ -541,6 +542,9 @@ class AuthController extends Controller
 
     public function landingpage()
     {
+        if (auth()->check()) {
+            return redirect()->route('dashboard.analytics');
+        }
         return view('landingpage');
     }
 }

@@ -19,7 +19,6 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
 
-
 class FarmController extends Controller
 {
     //View PDF - IMG ///
@@ -333,8 +332,9 @@ class FarmController extends Controller
             ->select('id', 'firstname', 'lastname')
             ->get();
 
+
         $farms = DB::table('farms')
-            ->leftJoin('barangays', 'farms.barangay_name', '=', 'barangays.barangay_name')
+            //->leftJoin('barangays', 'farms.barangay_name', '=', 'barangays.barangay_name')
             ->leftJoin('users', 'farms.farm_leader', '=', 'users.id') // Join with users table for farm leader
             ->when($user, function ($query) use ($user) {
                 // If the user is a farm leader, retrieve farms based on their farm_leader value and barangay_name

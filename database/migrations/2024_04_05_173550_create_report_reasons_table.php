@@ -13,9 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('barangays', function (Blueprint $table) {
-            $table->unsignedBigInteger('farm_id')->unsigned()->nullable();
-            $table->foreign('farm_id')->references('id')->on('farms')->onDelete('cascade');
+        Schema::create('report_reasons', function (Blueprint $table) {
+            $table->id();
+            $table->string('reason');
+            $table->string('other_reason')->nullable(); // Set to nullable
+            $table->timestamps();
         });
     }
 
@@ -26,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('barangays');
+        Schema::dropIfExists('report_reasons');
     }
 };

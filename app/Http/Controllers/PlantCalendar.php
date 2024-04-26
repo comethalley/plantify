@@ -82,9 +82,12 @@ class PlantCalendar extends Controller
         $planting = new CalendarPlanting();
         $planting->title = $title;
         $user->notify(new NewplantingNotification($planting));
-        //return redirect('/plantcalendar');
 
-        return response()->json(['message' => 'Data updated successfully'], 200);
+        if ($user->role_id == "5") {
+            return redirect('/plantcalendar');
+        } else {
+            return response()->json(['message' => 'Data updated successfully'], 200);
+        }
     }
 
     public function getEvents()

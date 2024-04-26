@@ -53,7 +53,7 @@
                                 <div class="col-sm-auto">
                                     <div class="d-flex gap-1 flex-wrap">
                                         <button type="button" class="btn btn-secondary waves-effect waves-light" data-bs-toggle="modal" id="create-btn" data-bs-target="#csv"><i class="ri-add-line align-bottom me-1"></i> Download CSV </button>
-                                        <button type="button" class="btn btn-success add-btn" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModal"><i class="ri-add-line align-bottom me-1"></i> Add Farmer</button>
+                                        <button type="button" class="btn btn-success add-btn" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModal"><i class="ri-add-line align-bottom me-1"></i> Invite Farmer</button>
                                         <button class="btn btn-soft-danger" id="remove-actions" onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button>
                                     </div>
                                 </div>
@@ -171,7 +171,7 @@
 
                                                 <input type="text" id="orderId" class="form-control" placeholder="ID" readonly hidden />
 
-                                                <div class="mb-3">
+                                                <!-- <div class="mb-3">
                                                     <label for="customername-field" class="form-label">First Name</label>
                                                     <input type="text" name="supplier-name" id="customername-field" class="form-control" placeholder="Enter name" required />
                                                 </div>
@@ -179,14 +179,14 @@
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Last Name</label>
                                                     <input type="text" name="description" id="customername-field" class="form-control" placeholder="Enter Description" required />
-                                                </div>
+                                                </div> -->
 
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Email Address</label>
                                                     <input type="email" name="email" id="customername-field" class="form-control" placeholder="Enter Email" required />
                                                 </div>
 
-                                                <div class="mb-3">
+                                                <!-- <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Address</label>
                                                     <input type="address" name="address" id="customername-field" class="form-control" placeholder="Enter Address" required />
                                                 </div>
@@ -194,7 +194,7 @@
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Contact</label>
                                                     <input type="contact" name="contact" id="customername-field" class="form-control" placeholder="Enter Contact" required />
-                                                </div>
+                                                </div> -->
 
                                             </div>
                                             <div class="modal-footer">

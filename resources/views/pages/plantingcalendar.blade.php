@@ -400,6 +400,9 @@
                             <label for="status" class="form-label">Status</label>
                             <input type="text" name="status" id="customername-field" class="form-control" value="Planted" required readonly />
                         </div>
+                        <center>
+                            <p class="text-muted">Scan the Seed's Qr Code Generated from the Inventory</p>
+                        </center><br>
                         <video id="using-preview" style="width: 100%;"></video>
                         <center>
                             <p class="lead text-danger" id="used-qr"></p>
@@ -518,7 +521,9 @@
                     $('#EventdetailModal').modal('hide');
 
                     // Open Add Event Modal
-                    $('#showModalExample').modal('show');
+                    //$('#showModalExample').modal('show');
+
+
                 },
 
                 eventClick: function(info) {

@@ -13,19 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('farms', function (Blueprint $table) {
+        Schema::create('tools', function (Blueprint $table) {
             $table->id();
-            $table->string('barangay_name');
             $table->string('farm_name');
-            $table->string('address');
-            $table->string('area');
             $table->string('farm_leader');
+            $table->string('address');
+            $table->string('borrow_tool');
+            $table->string('status');
+            $table->binary('request_letter');
             $table->timestamps();
-        
-            // Define foreign key constraint
-        //    
         });
-        
     }
 
     /**
@@ -35,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('farms');
+        Schema::dropIfExists('tools');
     }
 };

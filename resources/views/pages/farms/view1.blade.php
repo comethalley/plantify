@@ -238,8 +238,6 @@
                             </div>
                         </div>
                     </div>
-
-
                 </div>
 
 
@@ -1301,3 +1299,4 @@
                     }
                 </style>
 
+@include('templates.footer')

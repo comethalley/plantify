@@ -60,9 +60,6 @@
                                                 <div class="row">
                                                     <div class="col">
                                                         <div class="flex-shrink-0 me-2">
-                                                            <button type="button" class="btn btn-light btn-icon rounded-circle btn-sm favourite-btn disabled">
-                                                                <i class=" ri-folder-5-line fs-14"></i>
-                                                            </button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -83,25 +80,7 @@
 
                                             </div>
                                             <div class="col-lg-4 col">
-                                                @if(Auth::check() && Auth::user()->role_id == 3 || Auth::user()->role_id == 4 || Auth::user()->role_id == 5)
-                                                <div class="col-lg-4 col">
-                                                    <div class="row text-muted">
-                                                        <div class="col-6  mx-auto text-center">
-                                                            <h5 class="mb-1 blade-animation">" Discover the &nbsp;<br> hidden harvest! "</h5>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <hr class="my-2 hr-animation">
-                                                <div class="text-end mx-auto text-center">
-                                                    <div style="display: inline-block;">
-                                                        <a href="{{ route('farms.view3', ['barangay_name' => $barangay->barangay_name]) }}" class="button-89">
-                                                            View Farms
-                                                        </a>
-                                                        <br>
-                                                        <span style="color: red; display: block; margin-top: 5px;">(Click this!)</span>
-                                                    </div>
-                                                </div>
-                                                @elseif(Auth::check() && (Auth::user()->role_id == 1 || Auth::user()->role_id == 2))
+                                                @if(Auth::check() && (Auth::user()->role_id == 1 || Auth::user()->role_id == 2))
                                                 <div class="col-lg-4 col">
                                                     <div class="row text-muted text-center">
                                                         <div class="col-6  mx-auto">
@@ -114,11 +93,12 @@
                                                 </div>
                                                 <div class="text-end mx-auto text-center">
                                                     <div style="display: inline-block;">
-                                                        <a href="{{ route('farms.view', ['barangay_name' => $barangay->barangay_name]) }}" class="button-89">
-                                                            View Farms
-                                                        </a>
-                                                        <br>
-                                                        <span style="color: red; display: block; margin-top: 5px;">(Click this!)</span>
+                                                    <a href="{{ route('farms.view', ['barangay_name' => $barangay->barangay_name]) }}" class="btn btn-custom">
+                                                        View Farm Applications
+                                                    </a>
+                                                    <br>
+                                                    <br>
+                                                    <i style="font-size: 13px;">Click "View Farm Applications" to see the farms</i>
                                                     </div>
                                                 </div>
                                                 @endif
@@ -347,6 +327,41 @@
             </script>
 
             <style>
+                                .btn-custom {
+    background: linear-gradient(to bottom, #4CAF50, #45a049);
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    border-radius: 20px; /* Rounded corners */
+}
+
+.btn-custom:hover {
+    background: linear-gradient(to bottom, #45a049, #4CAF50);
+}
+                @keyframes bladeOpen {
+                    0% {
+                        transform: translateY(100%);
+                    }
+
+                    100% {
+                        transform: translateY(0);
+                    }
+                }
+
+                .hr-animation {
+                    animation: hrOpen 1s ease forwards;
+                    width: 100%;
+                    /* Ensure the <hr> spans the entire width */
+                    opacity: 0;
+                    /* Start the animation with element hidden */
+                }
                 @keyframes bladeOpen {
                     0% {
                         transform: translateY(100%);

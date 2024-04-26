@@ -45,14 +45,15 @@
 
     .main .cards {
     display: flex;
-    gap: 30px;
+    gap: 25px;
+    justify-content: space-between;
     }
 
     .cards .card {
         width: 100px;
         height: 130px;
         text-align: center;
-        padding: 10px 0;
+        padding: 0;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -126,7 +127,7 @@
 
                 
                     <div class="row ">
-                        <div class="col-xl-6">
+                        <div class="col-xl-12">
                             <div class="card">
                                 <div class="card-body">
                                     <div class="sidebar" hidden>
@@ -165,13 +166,14 @@
                                         </div>
                                     </div>
                                     <div class="main">
-                                    <h2 class="mb-4 text-center"><span style="color: #57AA2C;"> <strong>Weather Monitoring</strong></span></h2><hr>
-                                        <nav class="d-flex justify-content-end">
-                                            <ul class="options ">
+                                    
+                                        <nav class="">
+                                            <ul class="options" hidden>
                                                 <button class="hourly">today</button>
                                                 <button class="week active">week</button>
                                             </ul> 
-                                            <ul class="options units">
+                                            <h2 class="mb-4 text-center"><span style="color: #57AA2C;"> <strong>Weather Monitoring</strong></span></h2><hr>
+                                            <ul class="options units d-flex justify-content-end">
                                                 <button class="fahrenheit ">°F</button>
                                                 <button class="celcius active" >°C</button>
                                             </ul>
@@ -240,10 +242,10 @@
                         <div class="col-xl-6">
                             <div class="card">
                                 <div class="card-body">
-                                    <div class="row ">
                                     <h2 class="mb-4 text-center"><span style="color: #57AA2C;"> <strong>Farming Community Overview</strong></span></h2><hr>
-                                        <div class="col-xl-3">
-                                            <div class="">
+                                    <div class="row " style="height: 40vh;">
+                                        <div class="col-xl-6">
+                                            <div class=" ">
                                                 <h5 class="text-muted text-uppercase fs-12">Number of Users</h5>
                                                 <div class="d-flex align-items-center">
                                                     <div class="flex-shrink-0">
@@ -255,7 +257,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-xl-3">
+                                        <div class="col-xl-6 ">
                                             <div class="">
                                                 <h5 class="text-muted text-uppercase fs-12">Number of Farm Leaders</h5>
                                                 <div class="d-flex align-items-center">
@@ -268,7 +270,7 @@
                                                 </div>
                                             </div>
                                         </div><!-- end col -->
-                                        <div class="col-xl-3">
+                                        <div class="col-xl-6 ">
                                             <div class="">
                                                 <h5 class="text-muted text-uppercase fs-12">Number of Farms</h5>
                                                 <div class="d-flex align-items-center">
@@ -281,7 +283,7 @@
                                                 </div>
                                             </div>
                                         </div><!-- end col -->
-                                        <div class="col-xl-3">
+                                        <div class="col-xl-6">
                                             <div class="">
                                                 <h5 class="text-muted text-uppercase fs-12">Number of Farmers</h5>
                                                 <div class="d-flex align-items-center">
@@ -298,68 +300,18 @@
                                 </div><!-- end card body -->
                             </div><!-- end card -->
                         </div><!-- end col-xl-6 -->
-                    </div><!-- end row -->
-        
-                    <div class="row ">
-                        <div class="col-xl-4">
-                            <div class="card" >
-                                <div class="card-body">
-                                    <h2 class="mb-4 text-center"><span style="color: #57AA2C;"> <strong>Harvesting Metrics</strong></span></h2>
-                                        <div class="row position-relative overflow-auto" style="height: 40vh;">
-                                            <div class="col-md-5">
-                                                <div class="align-items-center justify-content-center ">
-                                                    <div class="col-xl-12 barangaySelector">
-                                                        <label for="">Barangay:</label>
-                                                        <select id="barangaySelect" class="w-100">
-                                                            <option value="" selected disabled>Select Barangay</option>
-                                                            @foreach($barangayOptions as $option)
-                                                                <option value="{{ $option['text'] }}">{{ $option['text'] }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    <div class="mt-3 col-xl-12 barangaySelector">
-                                                        <label for="">Farm:</label>
-                                                        <select id="farmSelect" class="w-100">
-                                                            <option value="" selected disabled>Select Farm</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="mt-3 col-xl-12 barangaySelector">
-                                                        <label for="">Year:</label>
-                                                        <select id="yearSelect" class="w-100">
-                                                            <option value="" disabled>Select Year</option>
-                                                            <option value="2024" selected>2024</option>
-                                                            <option value="2023">2023</option>
-                                                            <option value="2022">2022</option>
-                                                            <!-- Add more years as needed -->
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-6"> 
-                                                <div class="text-muted">                         
-                                                    <div id="farmChart"></div>
-                                                    <div id="month-details" style="display: none;"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                </div>
-                            </div>
-                        </div>
-                     
-                            <!-- INSERT HERE NEW ROW  -->
-                        <div class="col-xl-5">
+                    
+                        <div class="col-xl-6">
                             <div class="card">
                                 <div class="card-body">
-                                    <h2 class="mb-4 text-center"><span style="color: #57AA2C;"> <strong>Quezon City District 5 Farms</strong></span></h2>
+                                    <h2 class="mb-4 text-center"><span style="color: #57AA2C;"> <strong>Quezon City District 5 Farms</strong></span></h2><hr>
                     
                                         <div id="leaflet-map" class="leaflet-map" style="height: 40vh; width: 100%"></div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="col-xl-3">
+                        {{-- <div class="col-xl-6">
                             <div class="card">
                                 <div class="card-body"> 
                                     <h2 class="mb-4 text-center"><span style="color: #57AA2C;"> <strong>Notifications</strong></span></h2>
@@ -639,7 +591,57 @@
                                     
                                 </div> 
                             </div>
+                        </div> --}}
+
+                        <div class="col-xl-12">
+                            <div class="card" >
+                                <div class="card-body">
+                                    <h2 class="mb-4 text-center"><span style="color: #57AA2C;"> <strong>Harvesting Metrics</strong></span></h2>
+                                        <div class="row position-relative " style="height: 65vh;">
+                                            <div class="col-md-3">
+                                                <div class="align-items-center justify-content-center ">
+                                                    <div class="col-xl-12 barangaySelector">
+                                                        <label for="">Barangay:</label>
+                                                        <select id="barangaySelect" class="w-100">
+                                                            <option value="" selected disabled>Select Barangay</option>
+                                                            @foreach($barangayOptions as $option)
+                                                                <option value="{{ $option['text'] }}">{{ $option['text'] }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <div class="mt-3 col-xl-12 barangaySelector">
+                                                        <label for="">Farm:</label>
+                                                        <select id="farmSelect" class="w-100">
+                                                            <option value="" selected disabled>Select Farm</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="mt-3 col-xl-12 barangaySelector">
+                                                        <label for="">Year:</label>
+                                                        <select id="yearSelect" class="w-100">
+                                                            <option value="" disabled>Select Year</option>
+                                                            <option value="2024" selected>2024</option>
+                                                            <option value="2023">2023</option>
+                                                            <option value="2022">2022</option>
+                                                            <!-- Add more years as needed -->
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-9"> 
+                                                <div class="text-muted">                         
+                                                    <div id="farmChart"></div>
+                                                    <div id="month-details" style="display: none;"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                </div>
+                            </div>
                         </div>
+                     
+                            <!-- INSERT HERE NEW ROW  -->
+                        
 
                         
                         

@@ -11,18 +11,11 @@ class Farm extends Model
     
     protected $fillable = [
         'id',
-         'barangay_name',
+        'barangay_name',
         'farm_name',
         'address',
         'area',
-        'area',
         'farm_leader',
-        'status',
-        'title_land',
-        'picture_land',
-        'picture_land1',
-        'picture_land2',
-        'select_date',
     ];
     public function barangays()
     {

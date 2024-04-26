@@ -55,7 +55,7 @@
                                 </div>
                                 <!--end col-->
 
-                                <div class="col-xxl-2 col-sm-3 ms-auto d-flex">
+                                <!-- <div class="col-xxl-2 col-sm-3 ms-auto d-flex">
                                     <div class="btn-group" style="width: 200px;">
                                         <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuClickableOutside" data-bs-toggle="dropdown" data-bs-auto-close="inside" aria-expanded="false">
                                             All
@@ -72,7 +72,7 @@
                                             <li><a class="dropdown-item" href="javascript:void(0);">Cancelled</a></li>
                                         </ul>
                                     </div>
-                                </div>
+                                </div> -->
                                 <!--end col-->
                             </div>
                             <!--end row-->
@@ -88,7 +88,7 @@
                                         <tr>
                                             <th class="poppins-medium-italic" data-sort="id" style="font-weight: bold; color: black;">Reference ID Number</th>
                                             <th class="poppins-medium-italic" data-sort="farm_name" style="font-weight: bold; color: black;">Details</th>
-                                            <th class="poppins-medium-italic" data-sort="area" style="font-weight: bold; color: black;">Status</th>
+                                            <!-- <th class="poppins-medium-italic" data-sort="area" style="font-weight: bold; color: black;">Status</th> -->
                                             <th class="poppins-medium-italic" data-sort="address" style="font-weight: bold; color: black;">Actions</th>
 
                                         </tr>
@@ -103,7 +103,7 @@
                                                 <div>{{ \Carbon\Carbon::parse($farm->created_at)->format('Y-m-d / h:i A') }}</div>
                                             </td>
                                             <td class="details vertical-line">
-                                                <b style="color: blue; font-size: 16px;">FARM APPLICATION</b><br>
+                                                <!-- <b style="color: blue; font-size: 16px;">FARM APPLICATION</b><br> -->
                                                 <span class="farm-leader"> <!-- Add class for farm leader -->
                                                     <b style="font-family: 'Bahnschrift', sans-serif; font-size: 15px;">Farm Leader :</b> &nbsp;{{ strtoupper($farm->farm_leader_firstname) }} {{ strtoupper($farm->farm_leader_lastname) }}<br>
                                                 </span>
@@ -119,7 +119,7 @@
                                                     <b style="font-family: 'Bahnschrift', sans-serif; font-size: 15px;">Address :</b> &nbsp;{{ strtoupper($farm->address) }}, {{ strtoupper($farm->barangay_name) }}<br>
                                                 </span>
                                             </td>
-                                            <td class="status vertical-line">
+                                            <!-- <td class="status vertical-line">
                                                 @switch(strtolower(str_replace(' ', '-', $farm->status)))
                                                 @case('for-investigation')
                                                 @case('created')
@@ -166,7 +166,7 @@
                                                 <a href="javascript:void(0);" class="btn btn-success btn-border equal-width-validation" style="font-weight: bold;" onclick="showFarmRemarks('{{ $farm->id }}');">Validation Remarks</a>
                                                 <br>
                                                 <i style="font-size: 13px;">Click "Validation Remarks" for more specific updates</i>
-                                            </td>
+                                            </td> -->
 
                                             <td class="text-center">
                                                 <ul class="list-inline d-flex justify-content-center gap-2 mb-0">
@@ -362,7 +362,7 @@
                         <div class="modal-content">
                             <div class="modal-header bg-light p-2">
                                 <h5 class="modal-title" id="exampleModalLabel" style="color: white; font-size: 24px;">Farm Details</h5>
-                                <h4 id="status_modal" style="color: white; font-size: 18px;"></h4>
+                                <!-- <h4 id="status_modal" style="color: white; font-size: 18px;"></h4> -->
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
                             </div>
 
@@ -384,7 +384,7 @@
                                             <input type="text" id="address_modal" class="form-control" disabled placeholder="Title of Land">
                                             <br>
 
-                                            <div class="list-group-item nested-2">
+                                            <!-- <div class="list-group-item nested-2">
                                                 <i class="mdi mdi-folder fs-16 align-middle text-warning me-2"></i> Picture of land (Images)
                                                 <div class="list-group nested-list nested-sortable">
                                                     <div class="list-group-item nested-4">
@@ -400,7 +400,7 @@
                                                         <a id="picture_land_modal2" href="#" target="_blank" class="pdf-link"></a>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                         </div>
 
                                         <div class="col-md-6">
@@ -412,7 +412,7 @@
                                             <input type="text" id="area_modal" class="form-control" disabled placeholder="Area">
                                             <br>
 
-                                            <div class="list-group-item nested-2">
+                                            <!-- <div class="list-group-item nested-2">
                                                 <i class="mdi mdi-folder fs-16 align-middle text-warning me-2"></i> Title of land (PDF)
                                                 <div class="list-group nested-list nested-sortable">
                                                     <div class="list-group-item nested-3">
@@ -422,13 +422,13 @@
                                                         </a>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                         </div>
                                     </div>
 
                                     <!-- Additional row with buttons -->
-                                    <div class="row mt-3 ">
-                                        <!-- For Investigation and For Visiting buttons -->
+                                    <!-- <div class="row mt-3 ">
+
                                         <div class="col-md-4">
                                             <a href="#" class="text-primary d-inline-block edit-item-btn text-start" id="forInvestigationBtn" data-bs-toggle="modal" data-bs-target="#confirmationModal" data-farm-id="your-farm-id" data-status="For-Investigation" onclick="updateStatus('For-Investigation')">
                                                 <button id="forInvestigationBtn" class="farm-btn btn btn-primary btn-label waves-effect waves-light equal-width-btn equal-height-btn">
@@ -437,7 +437,7 @@
                                             </a>
                                         </div>
 
-                                        <!-- For Visiting button -->
+
                                         <div class="col-md-4">
                                             <a href="#" class="text-primary d-inline-block edit-item-btn" id="forVisitingBtn" data-bs-toggle="modal" data-bs-target="#confirmationModal" data-farm-id="your-farm-id" data-status="For-Visiting" onclick="updateStatus('For-Visiting')">
                                                 <button id="forVisitingBtn" class="farm-btn btn btn-secondary btn-label waves-effect waves-light equal-width-btn1 equal-height-btn">
@@ -446,7 +446,7 @@
                                             </a>
                                         </div>
 
-                                        <!-- Approved button -->
+
                                         <div class="col-md-4">
                                             <a href="#" class="text-primary d-inline-block edit-item-btn" id="approvedBtn" data-bs-toggle="modal" data-bs-target="#confirmationModal" data-farm-id="your-farm-id" data-status="Approved" onclick="updateStatus('Approved')">
                                                 <button id="approvedBtn" class="farm-btn btn btn-success btn-label waves-effect waves-light equal-width-btn6 equal-height-btn">
@@ -454,11 +454,11 @@
                                                 </button>
                                             </a>
                                         </div>
-                                    </div>
+                                    </div> -->
 
-                                    <!-- Additional row for other buttons -->
-                                    <div class="row mt-3">
-                                        <!-- Disapproved button -->
+
+                                    <!-- <div class="row mt-3">
+                                        
                                         <div class="col-md-4">
                                             <a href="#" class="text-primary d-inline-block edit-item-btn" id="disapprovedBtn" data-bs-toggle="modal" data-bs-target="#confirmationModal" data-farm-id="your-farm-id" data-status="Disapproved" onclick="updateStatus('Disapproved')">
                                                 <button id="disapprovedBtn" class="farm-btn btn btn-danger btn-label waves-effect waves-light equal-width-btn3 equal-height-btn">
@@ -467,7 +467,7 @@
                                             </a>
                                         </div>
 
-                                        <!-- Waiting-for-approval button -->
+                                       
                                         <div class="col-md-4">
                                             <a href="#" class="text-primary d-inline-block edit-item-btn" id="waitingForApprovalBtn" data-bs-toggle="modal" data-bs-target="#confirmationModal" data-farm-id="your-farm-id" data-status="Waiting-for-Approval" onclick="updateStatus('Waiting-for-Approval')">
                                                 <button id="waitingForApprovalBtn" class="farm-btn btn btn-warning btn-label waves-effect waves-light equal-width-btn4 equal-height-btn">
@@ -476,7 +476,7 @@
                                             </a>
                                         </div>
 
-                                        <!-- Resubmit button -->
+                                       
                                         <div class="col-md-4">
                                             <a href="#" class="text-primary d-inline-block edit-item-btn" id="resubmitBtn" data-bs-toggle="modal" data-bs-target="#confirmationModal" data-farm-id="your-farm-id" data-status="Resubmit" onclick="updateStatus('Resubmit')">
                                                 <button id="resubmitBtn" class="farm-btn btn btn-info btn-label waves-effect waves-light equal-width-btn5 equal-height-btn">
@@ -484,7 +484,7 @@
                                                 </button>
                                             </a>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>
@@ -1188,5 +1188,3 @@
                         /* Box-shadow for Remark Status and Validated By container */
                     }
                 </style>
-
-

@@ -157,7 +157,7 @@ $(document).ready(function () {
                 $("#showModal").modal("hide");
                 Swal.fire({
                     title: "Successfully Invited",
-                    text: "Are you ready for the next level?",
+                    // text: "Are you ready for the next level?",
                     icon: "success",
                 });
             },

@@ -30,8 +30,20 @@ class EventController extends Controller
         $item->title = $request->title;
         $item->start = $request->start;
         $item->end = $request->end;
+        $item->starttime = $request->starttime;
+        $item->endtime = $request->endtime;
         $item->location = $request->location;
         $item->description = $request->description;
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('assests/images/event'), $imageName);
+            //$input['image'] = $imageName;
+        }
+
+
+        $item->image = $imageName;
         $item->status = 1;
         $item->save();
 
@@ -51,10 +63,11 @@ class EventController extends Controller
         return redirect('/schedules');
     }
 
-
-    public function checkEventsToday()
+    public function show($id)
     {
-       
+        $event = Event::findOrFail($id); // Assuming Event is your model representing events
+
+        return response()->json($event);
     }
 
     public function getEvents()

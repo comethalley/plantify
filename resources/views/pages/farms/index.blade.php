@@ -35,7 +35,7 @@
                                 @endif
                                 @endif
                                 <button class="btn btn-danger addFarms-modal" data-bs-toggle="modal" data-bs-target="#addfarmModal">
-                                    <i class="ri-add-line align-bottom me-1"></i> Request Farm
+                                    <i class="ri-add-line align-bottom me-1"></i> Add Farm
                                 </button>
                             </div>
                         </div>
@@ -159,7 +159,7 @@
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header bg-light p-3">
-                            <h5 class="modal-title" id="exampleModalLabel">Request Farm &nbsp;</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Add Farm &nbsp;</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
                         </div>
                         <form id="addFarmForm" action="" method="post">
@@ -189,11 +189,11 @@
                                 </div>
                                 <br><br>
                                 <div class="row mb-3">
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <label for="farm_name" class="form-label">Farm Name</label>
                                         <input type="text" name="farm_name" class="form-control" title="This field is required to fill up" placeholder="Enter Farm Name" required />
                                     </div>
-                                    <div class="col-md-6">
+                                    <!-- <div class="col-md-6">
                                         <label for="farm_leader" class="form-label">Farm Leader</label>
                                         <select name="farm_leader" id="farmLeaderDropdown" class="form-select" title="This field is required to select">
                                             <option disabled selected>Select Farm Leader</option>
@@ -201,7 +201,7 @@
                                             <option value="{{ $user->id }}">{{ $user->firstname }} {{ $user->lastname }}</option>
                                             @endforeach
                                         </select>
-                                    </div>
+                                    </div> -->
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col-md-6">
@@ -214,7 +214,7 @@
                                     </div>
                                 </div>
 
-                                <label for="title_land" class="form-label">Title Land</label>
+                                <!-- <label for="title_land" class="form-label">Title Land</label>
                                 <input type="file" name="title_land" class="form-control" title="This field is required to fill up" accept=".pdf, .doc, .docx" required />
                                 <br>
                                 <label for="picture_land" class="form-label">Picture Land</label>
@@ -234,7 +234,7 @@
                                         <button type="button" class="btn btn-danger cancel-btn" onclick="cancelUpload('picture_land2')">Cancel</button>
                                     </div>
                                 </div>
-                                <br>
+                                <br> -->
                             </div>
                             <div class="alert alert-danger" style="display:none" id="error-messages"></div>
                             <div class="modal-footer">
@@ -499,4 +499,3 @@
                 </div>
             </footer>
         </div>
-

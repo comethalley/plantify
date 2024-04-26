@@ -9,7 +9,7 @@ class Message extends Model
 {
     use HasFactory;
     
-    protected $fillable = ['thread_id', 'sender_id', 'content', 'create_date', 'isRead'];
+    protected $fillable = ['thread_id', 'sender_id', 'text_content', 'image_path', 'create_date', 'isRead', 'status'];
 
     public function thread()
     {

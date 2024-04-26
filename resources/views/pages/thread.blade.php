@@ -3,6 +3,7 @@
         <!-- ============================================================== -->
         <!-- Start right Content here -->
         <!-- ============================================================== -->
+        <link rel="shortcut icon" type="image/x-icon" href="assets/images/plantifeedpics/plants.png" class="img-fluid" />
         <div class="main-content">
 
             <div class="page-content">
@@ -13,15 +14,6 @@
                                 <div class="d-flex align-items-start">
                                     <div class="flex-grow-1">
                                         <h5 class="mb-4">Chats</h5>
-                                    </div>
-                                    <div class="flex-shrink-0">
-                                        <div data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="bottom" title="Add Contact">
-
-                                            <!-- Button trigger modal -->
-                                            <button type="button" class="btn btn-soft-success btn-sm">
-                                                <i class="ri-add-line align-bottom"></i>
-                                            </button>
-                                        </div>
                                     </div>
                                 </div>
                                 <div class="search-box">
@@ -36,11 +28,6 @@
                                         Chats
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" data-bs-toggle="tab" href="#contacts" role="tab">
-                                        Contacts
-                                    </a>
-                                </li>
                             </ul>
                             
 
@@ -51,21 +38,12 @@
                                             <div class="flex-grow-1">
                                                 <h4 class="mb-0 fs-11 text-muted text-uppercase">Direct Messages</h4>
                                             </div>
-                                            <div class="flex-shrink-0">
-                                                <div data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="bottom" title="New Message">
-        
-                                                    <!-- Button trigger modal -->
-                                                    <button type="button" class="btn btn-soft-success btn-sm shadow-none">
-                                                        <i class="ri-add-line align-bottom"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
                                         </div>
                                     
                                         <!-- Display the chat list -->
                                         <div class="chat-message-list">
                                             <ul class="list-unstyled chat-list chat-user-list" id="userList">
-                                                @forelse($users as $user)
+                                                @forelse($filteredUsers as $user) <!-- Change $users to $filteredUsers -->
                                                     @php
                                                         // Check if the user has any messages
                                                         $hasMessages = $user->messages->isNotEmpty();
@@ -92,35 +70,9 @@
                                             </ul>
                                         </div>
 
-                                        <!-- Display the thread messages -->
-                                        <!-- <div class="chat-conversation"> -->
-                                            <!-- Loop through $thread messages and display them -->
-                                            <!-- @foreach($thread->messages as $message) -->
-                                                <!-- Your message display content -->
-                                                <!-- <div class="message"> -->
-                                                    <!-- Display message content, sender, etc. -->
-                                                <!-- </div>
-                                            @endforeach
-                                        </div> -->
-
-
-
-
-
-
-
-        
                                         <div class="d-flex align-items-center px-4 mt-4 pt-2 mb-2">
                                             <div class="flex-grow-1">
-                                                <h4 class="mb-0 fs-11 text-muted text-uppercase">Channels</h4>
-                                            </div>
-                                            <div class="flex-shrink-0">
-                                                <div data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="bottom" title="Create group">
-                                                    <!-- Button trigger modal -->
-                                                    <button type="button" class="btn btn-soft-success btn-sm">
-                                                        <i class="ri-add-line align-bottom"></i>
-                                                    </button>
-                                                </div>
+                                                <h4 class="mb-0 fs-11 text-muted text-uppercase">Group Chats</h4>
                                             </div>
                                         </div>
         
@@ -185,11 +137,11 @@
                         <!-- Start User chat -->
                         <div class="user-chat w-100 overflow-hidden">
 
-                            <div class="chat-content d-lg-flex" style="background-image: url('{{ asset('assets/images/chat_bg.png') }}'); background-size: cover; ">
+                        <div class="chat-content d-lg-flex" style="background-image: url('{{ asset('storage/images/chat_bg.png') }}'); background-size: cover; ">
                                 <!-- start chat conversation section -->
                                 <div class="w-100 overflow-hidden position-relative">
                                     <!-- conversation user -->
-                                    <div class="position-relative">
+                                    <div class="position-relative" style="height: 505px">
                                         
 
                                         <div class="position-relative" id="users-chat">
@@ -204,7 +156,9 @@
                                                                 <div class="d-flex align-items-center">
                                                                     <div class="flex-shrink-0 chat-user-img online user-own-img align-self-center me-3 ms-0">
                                                                         <img src="assets/images/users/avatar-2.jpg" class="rounded-circle avatar-xs" alt="">
-                                                                        <!-- <span class="user-status"></span> -->
+                                                                        @if($user->isOnline)
+                                                                            <span class="user-status"></span> <!-- Display online status indicator -->
+                                                                        @endif
                                                                     </div>
                                                                     <div class="flex-grow-1 overflow-hidden">
                                                                         <h5  class="text-truncate mb-0 fs-16"><a class="text-reset username" data-bs-toggle="offcanvas" href="#userProfileCanvasExample" aria-controls="userProfileCanvasExample"></a></h5>
@@ -224,40 +178,10 @@
                                                     </div>
                                                     <div class="col-sm-8 col-4">
                                                         <ul class="list-inline user-chat-nav text-end mb-0">
-                                                            <li class="list-inline-item m-0">
-                                                                <div class="dropdown">
-                                                                    <button class="btn btn-ghost-secondary btn-icon" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                        <i data-feather="search" class="icon-sm"></i>
-                                                                    </button>
-                                                                    <div class="dropdown-menu p-0 dropdown-menu-end dropdown-menu-lg">
-                                                                        <div class="p-2">
-                                                                            <div class="search-box">
-                                                                                <input type="text" class="form-control bg-light border-light" placeholder="Search here..." onkeyup="searchMessages()" id="searchMessage">
-                                                                                <i class="ri-search-2-line search-icon"></i>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </li>
-    
                                                             <li class="list-inline-item d-none d-lg-inline-block m-0">
                                                                 <button type="button" class="btn btn-ghost-secondary btn-icon" data-bs-toggle="offcanvas" data-bs-target="#userProfileCanvasExample" aria-controls="userProfileCanvasExample">
                                                                     <i data-feather="info" class="icon-sm"></i>
                                                                 </button>
-                                                            </li>
-    
-                                                            <li class="list-inline-item m-0">
-                                                                <div class="dropdown">
-                                                                    <button class="btn btn-ghost-secondary btn-icon" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                        <i data-feather="more-vertical" class="icon-sm"></i>
-                                                                    </button>
-                                                                    <div class="dropdown-menu dropdown-menu-end">
-                                                                        <a class="dropdown-item d-block d-lg-none user-profile-show" href="#"><i class="ri-user-2-fill align-bottom text-muted me-2"></i> View Profile</a>
-                                                                        <a class="dropdown-item" href="#"><i class="ri-inbox-archive-line align-bottom text-muted me-2"></i> Archive</a>
-                                                                        <a class="dropdown-item" href="#"><i class="ri-mic-off-line align-bottom text-muted me-2"></i> Muted</a>
-                                                                        <a class="dropdown-item" href="#"><i class="ri-delete-bin-5-line align-bottom text-muted me-2"></i> Delete</a>
-                                                                    </div>
-                                                                </div>
                                                             </li>
                                                         </ul>
                                                     </div>
@@ -273,41 +197,16 @@
                                         <!-- Your chat conversation section -->
                                         <div class="chat-conversation p-3 p-lg-4" id="chat-conversation" data-simplebar>
                                             <ul class="list-unstyled chat-conversation-list" id="users-conversation">
-                                                @foreach($messages as $message)
-                                                    @if($message->sender_id == auth()->user()->id)
-                                                        {{-- Sender's message (right) --}}
-                                                        <li class="chat-list right">
-                                                    @else
-                                                        {{-- Reply (left) --}}
-                                                        <li class="chat-list left">
-                                                    @endif
-                                                        <div class="conversation-list">
-                                                            <div class="user-chat-content">
-                                                                <div class="ctext-wrap">
-                                                                    <div class="ctext-wrap-content">
-                                                                        <div class="message-dropdown">
-                                                                            <p class="mb-0 ctext-content" onclick="toggleDropdown(this)">{{ $message->content }}</p>
-                                                                            <div class="dropdown-menu">
-                                                                                <a class="dropdown-item" href="#" onclick="deleteMessage(this)">Delete</a>
-                                                                                <a class="dropdown-item" href="#" onclick="replyToMessage(this)">Reply</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="conversation-name">
-                                                                        <br>
-                                                                        <small class="text-muted time">{{ $message->created_at->format('H:i') }}</small>
-                                                                        <span class="text-success check-message-icon">
-                                                                            <i class="ri-check-double-line align-bottom"></i>
-                                                                        </span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                @endforeach
+                                                <!-- Messages will be dynamically added here -->
                                             </ul>
-                                            <!-- end chat-conversation-list -->
                                         </div>
+
+
+
+
+
+
+
 
 
                                             <div class="alert alert-warning alert-dismissible copyclipboard-alert px-4 fade show " id="copyClipBoardChannel" role="alert">
@@ -323,23 +222,27 @@
                                                     <div class="col-auto">
                                                         <div class="chat-input-links me-2">
                                                             <div class="links-list-item">
-                                                                <button type="button" class="btn btn-link text-decoration-none emoji-btn" id="emoji-btn">
-                                                                    <i class="bx bx-smile align-middle"></i>
-                                                                </button>
+                                                                <!-- File input -->
+                                                                <input type="file" class="form-control-file d-none" id="photo-input" accept="image/jpeg,image/png,image/jpg">
+                                                                <label for="photo-input">
+                                                                    <i class="bx bx-paperclip align-middle"></i>
+                                                                </label>
                                                             </div>
                                                         </div>
                                                     </div>
-
                                                     <div class="col">
                                                         <div class="chat-input-feedback">
                                                             Please Enter a Message
                                                         </div>
+                                                        <!-- Text input for message -->
                                                         <input type="text" class="form-control chat-input bg-light border-light" id="chat-input" placeholder="Type your message..." autocomplete="off">
+                                                        <!-- Hidden input for image path -->
+                                                        <input type="hidden" id="image-path" name="image_path">
                                                     </div>
                                                     <div class="col-auto">
                                                         <div class="chat-input-links ms-2">
                                                             <div class="links-list-item">
-                                                                <button type="button" class="btn btn-success chat-send waves-effect waves-light" id="send-btn">
+                                                                <button type="submit" class="btn btn-success chat-send waves-effect waves-light" id="send-btn">
                                                                     <i class="ri-send-plane-2-fill align-bottom"></i>
                                                                 </button>
                                                             </div>
@@ -378,87 +281,359 @@
             <!-- End Page-content -->
         <!-- end main content-->
 
+
+
+
+
+
+
+
+
+    <div class="offcanvas offcanvas-end border-0" tabindex="-1" id="userProfileCanvasExample">
+        <!--end offcanvas-header-->
+        <div class="offcanvas-body profile-offcanvas p-0">
+            <div class="team-cover">
+                <img src="assets/images/small/img-9.jpg" alt="" class="img-fluid" />
+            </div>
+            <div class="p-1 pb-4 pt-0">
+                <div class="team-settings">
+                    <div class="row g-0">
+                        <div class="col">
+                            <div class="btn nav-btn">
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--end col-->
+            </div>
+            <div class="p-3 text-center">
+                <img src="assets/images/users/avatar-2.jpg" alt="" class="avatar-lg img-thumbnail rounded-circle mx-auto profile-img">
+                <div class="mt-3">
+                    <h5 class="fs-16 mb-1"><a href="javascript:void(0);" class="link-primary username"></a></h5>
+                    @if($user->isOnline)
+                        <p class="text-muted"><i class="ri-checkbox-blank-circle-fill me-1 align-bottom text-success"></i>Online</p>
+                    @else
+                        <p class="text-muted">Offline</p>
+                    @endif
+                </div>
+
+            </div>
+
+            <div class="border-top border-top-dashed p-3">
+                <h5 class="fs-15 mb-3">Personal Details</h5>
+                <div class="mb-3">
+                    <p class="text-muted text-uppercase fw-medium fs-12 mb-1">Email</p>
+                    <h6>{{ $user->email }}</h6>
+                </div>
+                <div class="mb-3">
+                    <p class="text-muted text-uppercase fw-medium fs-12 mb-1">Role</p>
+                    <h6>
+                        @if ($user->role_id == 1)
+                            Super Admin
+                        @elseif ($user->role_id == 2)
+                            Admin
+                        @elseif ($user->role_id == 3)
+                            Farm Leader
+                        @else ($user->role_id == 4)
+                            Farmers
+                        @endif
+                    </h6>
+                </div>
+                @if ($filteredUsers->isNotEmpty())
+                    @php
+                        $chatUser = $filteredUsers->first(); // Assuming you want to show details of the first user in the chat list
+                    @endphp
+
+                    @if ($chatUser->farm)
+                        <div>
+                            <p class="text-muted text-uppercase fw-medium fs-12 mb-1">Farm</p>
+                            <h6 class="mb-0">{{ $chatUser->farm->farm_name }}, {{ $chatUser->farm->address }}</h6>
+                        </div>
+                    @else
+                        <div>
+                            <p class="text-muted text-uppercase fw-medium fs-12 mb-1">Farm</p>
+                            <h6 class="mb-0">No associated farm</h6>
+                        </div>
+                    @endif
+                @endif
+
+            </div>
+
+
+            <div class="border-top border-top-dashed p-3">
+                <h5 class="fs-15 mb-3">Attached Files</h5>
+
+                <div class="vstack gap-2">
+                    
+                    <!-- Display the Attached Image -->
+
+                    <div class="text-center mt-2">
+                        <button type="button" class="btn btn-danger">Load more <i class="ri-arrow-right-fill align-bottom ms-1"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end offcanvas-body-->
+    </div>
+
 @include('templates.footer')
 
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
+var currentThreadId = '{{ $thread->id }}';
+// When a file is selected, update the text input value with the filename
+document.getElementById("photo-input").addEventListener("change", function () {
+    var filename = this.files[0].name;
+    document.getElementById("chat-input").value = filename;
+});
+
 document.getElementById("chatinput-form").addEventListener("submit", function (event) {
     event.preventDefault(); // Prevent form submission
 
-    var messageInput = document.getElementById("chat-input");
-    var message = messageInput.value.trim(); // Get the message text and remove leading/trailing whitespace
+    var messageInput = document.getElementById("chat-input").value.trim(); // Get the message text
+    var photoInput = document.getElementById("photo-input").files[0]; // Get the selected photo
 
-    if (message !== "") {
-        // Replace 'currentThreadId' with the actual ID of the current thread
-        var currentThreadId = '{{ $thread->id }}';
+    var formData = new FormData(); // Create FormData object to send both message and photo
 
-        // Send an AJAX request to create a new message
+    if (messageInput !== "" || photoInput) {
+        // If a message is typed, append it to form data
+        if (messageInput !== "") {
+            formData.append('text_content', messageInput);
+        }
+
+        // If an image is selected, append it to form data
+        if (photoInput) {
+            formData.append('photo', photoInput);
+        }
+
+        // Send an AJAX request to create a new message with photo
         $.ajax({
-            url: '{{ route("store.message", ["threadId" => ":threadId"]) }}'.replace(':threadId', currentThreadId),
+            url: '{{ route("store.message", ["threadId" => $thread->id]) }}',
             type: 'POST',
-            data: {
-                'content': message,
-                '_token': '{{ csrf_token() }}',
+            data: formData,
+            processData: false, // Don't process the data (required for FormData)
+            contentType: false, // Don't set content type (required for FormData)
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
             },
             success: function (response) {
-                // Handle success if needed
+                // Assuming the response contains the newly created message text
+                appendMessageToConversation(messageInput); // Pass the message text to the function
             },
             error: function (xhr, status, error) {
                 console.error('Error:', error);
             }
         });
 
-        // The rest of your code to append the message to the conversation
-        var usersConversation = document.getElementById("users-conversation");
-        var messageItem = document.createElement("li");
-        messageItem.className = "chat-list right";
-        messageItem.innerHTML = `
-            <div class="conversation-list">
-                <div class="user-chat-content">
-                    <div class="ctext-wrap">
-                        <div class="ctext-wrap-content">
-                            <div class="message-dropdown">
-                                <p class="mb-0 ctext-content" onclick="toggleDropdown(this)">${message}</p>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="#" onclick="deleteMessage(this)">Delete</a>
-                                    <a class="dropdown-item" href="#" onclick="replyToMessage(this)">Reply</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="conversation-name">
-                            <small class="text-muted time">${getCurrentTime()}</small>
-                            <span class="text-success check-message-icon"><i class="ri-check-double-line align-bottom"></i></span>
-                        </div>
-                    </div>
-                </div>
-            </div>`;
-        usersConversation.appendChild(messageItem);
-
-        messageInput.value = ""; // Clear the input field
+        // Clear the input fields
+        document.getElementById("chat-input").value = "";
+        document.getElementById("photo-input").value = "";
     }
 });
 
-function getCurrentTime() {
-    var now = new Date();
-    var hours = now.getHours().toString().padStart(2, "0");
-    var minutes = now.getMinutes().toString().padStart(2, "0");
-    return hours + ":" + minutes;
+$(document).ready(function() {
+    fetchMessages()
+
+    Pusher.logToConsole = true;
+
+var pusher = new Pusher('d7630bf7a930051c0329', {
+    cluster: 'ap1'
+});
+
+var channel = pusher.subscribe('chat-channel');
+channel.bind('new-message', function(message) {
+    fetchMessages()
+});
+        // Function to fetch messages
+        function fetchMessages() {
+            var threadId = "{{ $thread->id }}"; // Get the thread ID from your view
+            $.ajax({
+                url: '/threads/' + threadId + '/messages',
+                type: 'GET',
+                success: function(response) {
+                    // Check if messages were fetched successfully
+                    if (response.messages) {
+                        var messages = response.messages;
+                        // Update the conversation area with fetched messages
+                        updateConversation(messages);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching messages:', error);
+                }
+            });
+        }
+
+        // Function to update conversation area with fetched messages
+        function updateConversation(messages) {
+    var conversationList = $('#users-conversation');
+    conversationList.empty(); // Clear existing messages
+
+    // Loop through each message and append it to the conversation area
+    messages.forEach(function(message) {
+        var messageItem = $('<li class="chat-list"></li>');
+
+        // Conditionally apply CSS class for message alignment
+        if (message.sender_id == "{{ auth()->user()->id }}") {
+            messageItem.addClass('right'); // Align message to the right for logged-in user
+        } else {
+            messageItem.addClass('left'); // Align message to the left for other users
+        }
+
+        // Construct the message content based on message type
+        var messageContent;
+        if (message.text_content) {
+            // If message is text
+            if (message.status) {
+                // If message status is true
+                messageContent = $('<div class="conversation-list">' +
+                    '<div class="user-chat-content">' +
+                    '<div class="ctext-wrap">' +
+                    '<div class="ctext-wrap-content">' +
+                    '<div class="message-dropdown">' +
+                    '<p class="mb-0 ctext-content" onclick="toggleDropdown(this)" data-message-id="' + message.id + '">' + message.text_content + '</p>' +
+                    `<div class="dropdown-menu">` +
+                    `<a class="dropdown-item" onclick="deleteMessage(this)">Delete</a>` +
+                    `</div>` +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="conversation-name">' +
+                    '<br>' +
+                    '<small class="text-muted time">' + getCurrentTime() + '</small>' +
+                    '<span class="text-success check-message-icon">' +
+                    '<i class="ri-check-double-line align-bottom"></i>' +
+                    '</span>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>');
+            } else {
+                // If message status is false
+                messageContent = $('<div class="conversation-list">' +
+                    '<div class="user-chat-content">' +
+                    '<div class="ctext-wrap">' +
+                    '<div class="ctext-wrap-content">' +
+                    '<div class="message-dropdown">' +
+                    '<p class="mb-0 ctext-content">Unsent a message</p>' +
+                    `<div class="dropdown-menu">` +
+                    `<a class="dropdown-item" onclick="deleteMessage(this)">Delete</a>` +
+                    `</div>` +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="conversation-name">' +
+                    '<br>' +
+                    '<small class="text-muted time">' + getCurrentTime() + '</small>' +
+                    '<span class="text-success check-message-icon">' +
+                    '<i class="ri-check-double-line align-bottom"></i>' +
+                    '</span>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>');
+            }
+        } else if (message.image_path) {
+            // If message is image
+            messageContent = $('<div class="conversation-list">' +
+                '<div class="user-chat-content">' +
+                '<div class="ctext-wrap">' +
+                '<div class="ctext-wrap-content">' +
+                '<div class="message-dropdown">' +
+                '<img src="{{ asset('storage') }}/' + message.image_path + '" style="max-width: 200px; max-height: 200px;" class="img-fluid" alt="Image">' +
+                `<div class="dropdown-menu">` +
+                `<a class="dropdown-item" href="{{ asset('storage') }}/${message.image_path}" download>` +
+                `<i class="ri-download-line me-2"></i> Download` +
+                `</a>` +
+                `<a class="dropdown-item" href="{{ asset('storage') }}/${message.image_path}" target="_blank">` +
+                `<i class="ri-eye-line me-2"></i> View` +
+                `</a>` +
+                `</div>` +
+                '</div>' +
+                '</div>' +
+                '<div class="conversation-name">' +
+                '<br>' +
+                '<small class="text-muted time">' + getCurrentTime() + '</small>' +
+                '<span class="text-success check-message-icon">' +
+                '<i class="ri-check-double-line align-bottom"></i>' +
+                '</span>' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '</div>');
+        }
+
+        // Append the message content to the message item
+        messageItem.append(messageContent);
+
+        // Append the message item to the conversation list
+        conversationList.append(messageItem);
+    });
 }
 
-function toggleDropdown(element) {
-    var dropdownMenu = element.nextElementSibling;
-    dropdownMenu.classList.toggle("show");
-}
+    });
 
-function deleteMessage(element) {
-    var messageItem = element.closest(".chat-list");
-    // Add code to send a DELETE request to delete the message from the database
-    // ...
 
-    // Remove the message from the conversation in the front end
-    messageItem.remove();
-}
+    function getCurrentTime() {
+            var now = new Date();
+            var hours = now.getHours().toString().padStart(2, "0");
+            var minutes = now.getMinutes().toString().padStart(2, "0");
+            return hours + ":" + minutes;
+        }
+
+        function toggleDropdown(element) {
+            var dropdownMenu = element.nextElementSibling;
+            dropdownMenu.classList.toggle("show");
+        }
+
+
+        $(document).ready(function() {
+    // Define the deleteMessage function
+    // Define the deleteMessage function
+window.deleteMessage = function(element) {
+    var messageItem = $(element).closest(".chat-list");
+    var messageId = messageItem.find('.ctext-content').data('message-id');
+    
+    // Send a DELETE request to delete the message
+    $.ajax({
+        url: '/delete-message/' + messageId,
+        type: 'DELETE',
+        headers: {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
+        success: function(response) {
+            // Check if the response indicates success
+            if (response.success) {
+                // Update the message content in the conversation area
+                var messageContent = messageItem.find('.ctext-content');
+                messageContent.text('Unsent a message');
+                messageContent.css('font-style', 'italic');
+                // Remove the dropdown menu
+                var dropdownMenu = messageItem.find('.dropdown-menu');
+                dropdownMenu.remove();
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Error:', error);
+        }
+    });
+};
+
+
+    deleteMessage(); // Call deleteMessage initially
+
+    Pusher.logToConsole = true;
+
+    var pusher = new Pusher('d7630bf7a930051c0329', {
+        cluster: 'ap1'
+    });
+
+    var channel = pusher.subscribe('deleted-channel');
+    channel.bind('deleted-message', function(message) {
+        deleteMessage(); // Call deleteMessage when a message is deleted
+    });
+});
+
 
 function replyToMessage(element) {
     // Add code to handle replying to a message
@@ -519,6 +694,8 @@ $(document).ready(function () {
        });
    });
 
+
+   
    $(document).ready(function () {
         // Attach click event to member buttons
         $('.member-button').on('click', function () {
@@ -583,9 +760,10 @@ $(document).ready(function () {
         var farmId = $(this).data('farm-id'); // Adjust this based on how you get the farm ID in your HTML
 
         // Redirect to the group details page with both IDs
-        window.location.href = '/groups/' + groupId + '/' + farmId;
+        window.location.href = '/groups/' + groupId;
     });
 });
+
 
 $(document).ready(function () {
     // Attach a click event handler to each group button
@@ -595,10 +773,9 @@ $(document).ready(function () {
         var groupThreadId = $(this).data('group-thread-id');
 
         // Redirect to the group details page with both IDs
-        window.location.href = '/groups/' + groupId + '/' + groupThreadId;
+        window.location.href = '/groups/' + groupId;
     });
 });
-
 
 
 
@@ -696,14 +873,7 @@ $(document).ready(function () {
 });
 
 
-setInterval(function() {
-        $('#users-conversation').load(window.location.href + ' #users-conversation');
-    }, 500);
 
-
-setInterval(function() {
-        $('#users-conversation').load(window.location.href + ' #users-conversation');
-    }, 500);
 
 
 

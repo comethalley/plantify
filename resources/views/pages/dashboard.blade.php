@@ -6,6 +6,7 @@
 <script src="https://kit.fontawesome.com/8ff31c595e.js" crossorigin="anonymous"></script>
 
 <link href="{{ asset('assets/css/dashboard.css') }}" rel="stylesheet" type="text/css" />
+<link rel="shortcut icon" type="image/x-icon" href="assets/images/plantifeedpics/plants.png" class="img-fluid" />
 
 <!-- ============================================================== -->
 <div class="main-content">

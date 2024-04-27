@@ -98,13 +98,14 @@
 
                                     <div class="row mb-3">
                                     <div class="col-md-6">
-                                        <label for="tools" class="form-label">Tools &nbsp;<span class="required-asteroid">*</span></label>
-                                        <select id="tools" name="tools" class="form-select" required>
-                                        <option value="">Select Tool</option>
-                                        @foreach($tools as $tool => $toolName)
-                                            <option value="{{ $tool }}">{{ $toolName }}</option>
+                                        <label for="supply_type" class="form-label">Tools &nbsp;<span class="required-asteroid">*</span></label>
+                                        <select id="supply_type" name="supply_type" class="form-select" required>
+                                        <option value="">Select Supply Type</option>
+                                        @foreach($supplyTypes as $id => $type)
+                                            <option value="{{ $id }}">{{ $type }}</option>
                                         @endforeach
                                     </select>
+
                                     </div>
                                         <div class="col-md-6" id="dateInputContainer">
                                             <label for="date_return" class="form-label">Date to return &nbsp;<span class="required-asteroid">*</span></label>
@@ -114,12 +115,7 @@
                                     <div class="row mb-3">
                                     <div class="col-md-6">
                                         <label for="seedlings" class="form-label">Seedlings &nbsp;<span class="required-asteroid">*</span></label>
-                                        <select id="seedlings" name="seedlings" class="form-select" required>
-                                        <option value="">Select Seedlings</option>
-                                        @foreach($seedlings as $seedling => $seedlingName)
-                                            <option value="{{ $seedling }}">{{ $seedlingName }}</option>
-                                        @endforeach
-                                    </select>
+
                                     </div>
                                         <div class="col-md-6">
                                             <label for="supply_count" class="form-label"> &nbsp; Quantity &nbsp;<span class="required-asteroid">*</span></label>

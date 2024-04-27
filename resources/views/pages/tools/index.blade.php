@@ -70,162 +70,9 @@
                                             <th class="text-center vertical-line" data-sort="actions" style="font-weight: bold; color: black;">Actions</th>
                                         </tr>
                                     </thead>
-                                    @if(isset($tools) && count($tools) > 0)
-                                    @foreach($tools as $key => $tool)
+
                                     <tbody id="farmTableBody" class="list form-check-all">
-                                        <tr class="farm-row {{ strtolower(str_replace(' ', '-', $farm->status)) }}">
-                                            <td class=" roboto-regular" style="text-align: left;">
-                                                <div class="id" style="margin-bottom: 5px;">#{{ $tool->id }}</div>
-                                                <hr style="margin: 10px 0;">
-                                                <b style="font-size: 14px;">Date Filed: </b><br>
-                                                <div>{{ \Carbon\Carbon::parse($farm->created_at)->format('Y-m-d / h:i A') }}</div>
-                                            </td>
-                                            <td class="details vertical-line">
-                                                <b style="color: blue; font-size: 16px;">TOOL REQUEST</b><br>
-                                                <span class="farm-leader"> <!-- Add class for farm leader -->
-                                                    <b style="font-family: 'Bahnschrift', sans-serif; font-size: 15px;">Farm Leader :</b> &nbsp;{{ strtoupper($farm->farm_leader_firstname) }} {{ strtoupper($farm->farm_leader_lastname) }}<br>
-                                                </span>
-                                                <span class="farm-name"> <!-- Add class for farm name -->
-                                                    <b style="font-family: 'Bahnschrift', sans-serif; font-size: 15px;">Farm Name :</b> &nbsp;
-                                                    <span class="farm-name-value">{{ strtoupper($farm->farm_name) }}</span><br>
-                                                </span>
 
-                                                <span class="area"> <!-- Add class for area -->
-                                                    <b style="font-family: 'Bahnschrift', sans-serif; font-size: 15px;">Area :</b> &nbsp;{{ strtoupper($farm->area) }}<br>
-                                                </span>
-                                                <span class="address"> <!-- Add class for address -->
-                                                    <b style="font-family: 'Bahnschrift', sans-serif; font-size: 15px;">Address :</b> &nbsp;{{ strtoupper($farm->address) }}, {{ strtoupper($farm->barangay_name) }}<br>
-                                                </span>
-                                            </td>
-
-                                            <td class="status vertical-line">
-                                                @switch(strtolower(str_replace(' ', '-', $farm->status)))
-                                                @case('for-investigation')
-                                                @case('created')
-                                                <label class="badge bg-primary" style="font-size: 12px; margin-bottom: 10px; padding: 2px; color: #FFF;" onclick="return false;">{{ $farm->status }}</label>
-                                                <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
-
-                                                @break
-                                                @case('for-visiting')
-                                                <label class="badge text-wrap" style="font-size: 12px; margin-bottom: 10px; padding: 2px; background-color: #007BFF; color: #FFF;" onclick="return false;">{{ $farm->status }}</label>
-                                                <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
-
-                                                @break
-                                                @case('submitted')
-                                                @case('visiting')
-                                                <label class="badge text-wrap" style="font-size: 12px; margin-bottom: 10px; padding: 2px; background-color: #FF9843; color: #000;" onclick="return false;">{{ $farm->status }}</label>
-                                                <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
-
-                                                @break
-                                                @case('resubmit')
-                                                <label class="badge text-wrap" style="font-size: 12px; margin-bottom: 10px; padding: 2px; background-color: #747264; color: #FFF;" onclick="return false;">{{ $farm->status }}</label>
-                                                <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
-
-                                                @break
-                                                @case('waiting-for-approval')
-                                                <label class="badge text-wrap" style="font-size: 12px; margin-bottom: 10px; padding: 2px; background-color: #FFC107; color: #000;" onclick="return false;">{{ $farm->status }}</label>
-                                                <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
-
-                                                @break
-                                                @case('approved')
-                                                <label class="badge text-wrap" style="font-size: 12px; margin-bottom: 10px; padding: 2px; background-color: #1F7C33; color: #FFF;" onclick="return false;">{{ $farm->status }}</label>
-                                                <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
-
-                                                @break
-                                                @case('disapproved')
-                                                @case('cancelled')
-                                                <label class="badge text-wrap" style="font-size: 12px; margin-bottom: 10px; padding: 2px; background-color: #990000; color: #FFF;" onclick="return false;">{{ $farm->status }}</label>
-                                                <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
-
-                                                @break
-                                                @default
-                                                @endswitch
-
-                                                <br>
-                                                <a href="javascript:void(0);" class="btn btn-success btn-border equal-width-validation" style="font-weight: bold;" onclick="showFarmRemarks('{{ $farm->id }}');">Validation Remarks</a>
-                                                <br>
-                                                <i style="font-size: 13px;">Click "Validation Remarks" for more specific updates</i>
-                                            </td>
-
-                                            <td class="actions vertical-line">
-                                                @if($farm->status == 'Created' || $farm->status == 'For-Investigation' || $farm->status == 'For-Visiting' || $farm->status == 'Visiting' || $farm->status == 'Waiting-for-Approval' || $farm->status == 'Approved' || $farm->status == 'Submitted' || $farm->status == 'Disapproved' || $farm->status == 'Cancelled')
-                                                <div class="centered-container times-new-roman-bold">
-                                                    <ul class="list-inline hstack gap-2 mb-0">
-                                                        <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="View Application">
-                                                            <a href="#" data-bs-toggle="modal" data-bs-target="#viewModals" class="btn btn-outline-secondary text-primary d-inline-block edit-item-btn d-flex align-items-center justify-content-center custom-btn mt-2" onclick="showFarmDetails('{{ $farm->id }}', '{{ $farm->farm_name }}', '{{ $farm->barangay_name }}', '{{ $farm->area }}', '{{ $farm->address }}', '{{ $farm->farm_leader }}', '{{ $farm->status }}', '{{ $farm->title_land }}', '{{ $farm->picture_land }}', '{{ $farm->picture_land1 }}', '{{ $farm->picture_land2 }}', '{{ $farm->farm_leader_firstname }}', '{{ $farm->farm_leader_lastname }}'); updateButtonVisibility('{{ $farm->status }}');">
-                                                                <div class="d-flex align-items-center">
-                                                                    <i class="ri-profile-line fs-3 me-2 black"></i>
-                                                                    <span class="black">View Application</span>
-                                                                </div>
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                @endif
-                                                @if($farm->status == 'Resubmit')
-                                                <div class="centered-container times-new-roman-bold">
-                                                    <ul class="list-inline hstack gap-2 mb-0">
-                                                        <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Resubmit Application">
-                                                            <a href="#" data-bs-toggle="modal" data-bs-target="#viewModals" class="btn btn-outline-info text-primary d-inline-block edit-item-btn d-flex align-items-center justify-content-center custom-btn mt-2" onclick="showFarmDetails('{{ $farm->id }}', '{{ $farm->farm_name }}', '{{ $farm->barangay_name }}', '{{ $farm->area }}', '{{ $farm->address }}', '{{ $farm->farm_leader }}', '{{ $farm->status }}', '{{ $farm->title_land }}', '{{ $farm->picture_land }}', '{{ $farm->picture_land1 }}', '{{ $farm->picture_land2 }}', '{{ $farm->farm_leader_firstname }}', '{{ $farm->farm_leader_lastname }}'); updateButtonVisibility('{{ $farm->status }}');" style="border-color: #747264;">
-                                                                <div class="d-flex align-items-center">
-                                                                    <i class="ri-profile-line fs-3 me-2 black"></i>
-                                                                    <span class="black">Resubmit Application</span>
-                                                                </div>
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                @endif
-                                                <div class="centered-container times-new-roman-bold">
-                                                    @if($farm->status == 'Created')
-                                                    <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Cancel Application">
-                                                        <a href="#" data-bs-toggle="modal" data-bs-target="#updateCancelModal" class="btn btn-outline-danger waves-effect waves-light text-primary d-inline-block edit-item-btn d-flex align-items-center justify-content-center custom-btn1 mt-2" onclick="showFarmDetails('{{ $farm->id }}', '{{ $farm->farm_name }}', '{{ $farm->barangay_name }}', '{{ $farm->area }}', '{{ $farm->address }}', '{{ $farm->farm_leader }}', '{{ $farm->status }}', '{{ $farm->title_land }}', '{{ $farm->picture_land }}', '{{ $farm->picture_land1 }}', '{{ $farm->picture_land2 }}', '{{ $farm->farm_leader_firstname }}', '{{ $farm->farm_leader_lastname }}'); updateCancel('{{ $farm->id }}')">
-                                                            <div class="d-flex align-items-center">
-                                                                <i class="mdi mdi-cancel fs-3 me-2 black"></i>
-                                                                <span class="black">Cancel Application</span>
-                                                            </div>
-                                                        </a>
-                                                    </li>
-                                                    @endif
-                                                </div>
-                                                <div class="centered-container times-new-roman-bold">
-                                                    @if($farm->status == 'For-Visiting')
-                                                    <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Set Date Application">
-                                                        <a href="#" data-bs-toggle="modal" data-bs-target="#SetDateModal" class="btn btn-outline-warning waves-effect waves-light text-primary d-inline-block edit-item-btn d-flex align-items-center justify-content-center mt-2 btn-custom-width" onclick="setDate('{{ $farm->id }}', '{{ $farm->select_date }}')">
-                                                            <div class="d-flex align-items-center">
-                                                                <i class="mdi mdi-calendar-check fs-3 me-2 black"></i>
-                                                                <span class="black">Set Visit Date</span>
-                                                            </div>
-                                                        </a>
-                                                    </li>
-                                                    @endif
-                                                </div>
-                                            </td>
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                        @else
-                                        <tr>
-                                            <td colspan="7">
-                                                <div id="lordIconContainer" style="text-align: center;"></div>
-                                                <p id="noFarmsMessage" style="text-align: center; font-size: 21px;">No Farms found.</p>
-                                            </td>
-                                        </tr>
-                                        @endif
-
-
-                            </div>
-
-                            </tbody>
-                            </table>
-                            <br><br>
-                        </div>
-                        <div id="noFarmsMessageContainer" style="display: none;">
-                            <td colspan="7">
-                                <div id="lordIconContainer" style="text-align: center;"></div>
-                                <p id="noFarmsMessage" style="text-align: center; font-size: 21px;">No Barangays Farms found.</p>
-                            </td>
-                        </div>
                         <div class="row">
                             <div class="col-6">
                                 <button type="button" class="btn btn-secondary d-flex align-items-center justify-content-center" onclick="goBack()">
@@ -236,61 +83,71 @@
                     </div>
                 </div>
 
-<!-- Modals -->
+                <!-- Modals -->
 
-<div class="modal fade" id="addfarmModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header bg-light p-3">
-                            <h5 class="modal-title" id="exampleModalLabel">Request Farm &nbsp;</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+                <div class="modal fade" id="addfarmModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header bg-light p-3">
+                                <h5 class="modal-title" id="exampleModalLabel">Request Supply &nbsp;</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+                            </div>
+                            <form id="addFarmForm" action="" method="post">
+                                @csrf
+                                <div class="modal-body">
+
+                                    <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="tools" class="form-label">Tools &nbsp;<span class="required-asteroid">*</span></label>
+                                        <select id="tools" name="tools" class="form-select" required>
+                                        <option value="">Select Tool</option>
+                                        @foreach($tools as $tool => $toolName)
+                                            <option value="{{ $tool }}">{{ $toolName }}</option>
+                                        @endforeach
+                                    </select>
+                                    </div>
+                                        <div class="col-md-6" id="dateInputContainer">
+                                            <label for="date_return" class="form-label">Date to return &nbsp;<span class="required-asteroid">*</span></label>
+                                            <input type="date" class="form-control" title="This field is required to fill up" id="dateInput" name="date_return" min="<?php echo date('Y-m-d'); ?>" required/>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="seedlings" class="form-label">Seedlings &nbsp;<span class="required-asteroid">*</span></label>
+                                        <select id="seedlings" name="seedlings" class="form-select" required>
+                                        <option value="">Select Seedlings</option>
+                                        @foreach($seedlings as $seedling => $seedlingName)
+                                            <option value="{{ $seedling }}">{{ $seedlingName }}</option>
+                                        @endforeach
+                                    </select>
+                                    </div>
+                                        <div class="col-md-6">
+                                            <label for="supply_count" class="form-label"> &nbsp; Quantity &nbsp;<span class="required-asteroid">*</span></label>
+                                            <input type="text" name="supply_count" class="form-control" title="This field is required to fill up" placeholder="Enter Quantity" required />
+                                        </div>
+                                    </div>
+
+                                    <div class="file-input-container">
+                                        <div class="file-input-wrapper">
+                                            <label for="letter_content" class="form-label"> &nbsp; Request Letter &nbsp;<span class="required-asteroid">*</span></label>
+                                            <input type="file" name="letter_content" class="form-control file-input" accept="application/pdf" required/>
+                                            <button type="button" class="btn btn-danger cancel-btn" title="This field is required to fill up" onclick="cancelUpload('letter_content')">Cancel</button>
+                                        </div>
+                                    </div>
+
+                                    <br>
+                                </div>
+                                <div class="alert alert-danger" style="display:none" id="error-messages"></div>
+                                <div class="modal-footer">
+                                    <div class="hstack gap-2 justify-content-end">
+                                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-success" onclick="submitForm()">Submit Farm</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                        <form id="addFarmForm" action="" method="post">
-                            @csrf
-                            <div class="modal-body">
-
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label for="farm_name" class="form-label">Farm Name</label>
-                                        <input type="text" name="farm_name" class="form-control" title="This field is required to fill up" placeholder="Enter Farm Name" required />
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="farm_leader" class="form-label">Farm Leader</label>
-
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label for="address" class="form-label"> &nbsp; Address</label>
-                                        <input type="text" name="address" class="form-control" title="This field is required to fill up" placeholder="Enter Address" required />
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="area" class="form-label"> &nbsp; Area</label>
-                                        <input type="text" name="area" class="form-control" title="This field is required to fill up" placeholder="Enter Area" required />
-                                    </div>
-                                </div>
-
-                                <div class="file-input-container">
-                                    <div class="file-input-wrapper">
-                                    <label for="request_letter" class="form-label"> &nbsp; Request Letter</label>
-                                    <input type="file" name="request_letter" class="form-control file-input" accept="application/pdf">
-                                        <button type="button" class="btn btn-danger cancel-btn" onclick="cancelUpload('request_letter')">Cancel</button>
-                                    </div>
-                                </div>
-
-                                <br>
-                            </div>
-                            <div class="alert alert-danger" style="display:none" id="error-messages"></div>
-                            <div class="modal-footer">
-                                <div class="hstack gap-2 justify-content-end">
-                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-success" onclick="submitForm()">Submit Farm</button>
-                                </div>
-                            </div>
-                        </form>
                     </div>
                 </div>
-            </div>
 
 
                 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -302,9 +159,73 @@
                 <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,800;1,800&display=swap" rel="stylesheet">
 
                 <script>
-                function cancelUpload(inputName) {
-                    $('input[name="' + inputName + '"]').val(null);
+                    
+                    function submitForm() {
+    // Hide any previous error messages
+    document.getElementById('error-messages').style.display = 'none';
+    document.getElementById('error-messages').innerHTML = ''; // Clear existing messages
+
+    // Get form and required fields
+    var form = document.getElementById('addFarmForm');
+    var requiredFields = form.querySelectorAll('[required]');
+
+    // Check if all required fields are filled
+    var isValid = true;
+    requiredFields.forEach(function(field) {
+        if (!field.value.trim()) {
+            isValid = false;
+            field.classList.add('is-invalid'); // Add a visual cue for the user
+        } else {
+            field.classList.remove('is-invalid'); // Remove the visual cue if field is filled
+        }
+    });
+
+    if (!isValid) {
+        // If any required field is empty, display error message
+        document.getElementById('error-messages').style.display = 'block';
+        document.getElementById('error-messages').innerHTML = '<p>Please fill out all required fields.</p>';
+        return; // Stop form submission
+    }
+
+    // If all required fields are filled, proceed with form submission
+    var formData = new FormData(form);
+
+    fetch('{{ route("add.tools") }}', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRF-Token': '{{ csrf_token() }}',
+            },
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                document.getElementById('error-messages').style.display = 'block';
+                for (var key in data.errors) {
+                    document.getElementById('error-messages').innerHTML += '<p>' + data.errors[key][0] + '</p>';
                 }
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('error-messages').style.display = 'block';
+            document.getElementById('error-messages').innerHTML = '<p>An error occurred while processing your request. Please try again later.</p>';
+        });
+}
+
+
+
+
+                    function cancelUpload(inputName) {
+                        $('input[name="' + inputName + '"]').val(null);
+                    }
 
                     var lordIconContainer = document.getElementById("lordIconContainer");
                     var lordIcon = document.createElement("lord-icon");
@@ -317,28 +238,32 @@
                 </script>
 
                 <style>
-                                    .file-input-container {
-                    margin-bottom: 10px;
-                }
+                    .required-asteroid {
+                        color: red;
+                    }
 
-                .file-label {
-                    display: inline-block;
-                    margin-bottom: 5px;
-                }
+                    .file-input-container {
+                        margin-bottom: 10px;
+                    }
 
-                .file-input-wrapper {
-                    position: relative;
-                }
+                    .file-label {
+                        display: inline-block;
+                        margin-bottom: 5px;
+                    }
 
-                .file-input {
-                    width: calc(100% - 78px);
-                    display: inline-block;
-                }
+                    .file-input-wrapper {
+                        position: relative;
+                    }
 
-                .cancel-btn {
-                    position: absolute;
-                    right: 0;
-                }
+                    .file-input {
+                        width: calc(100% - 78px);
+                        display: inline-block;
+                    }
+
+                    .cancel-btn {
+                        position: absolute;
+                        right: 0;
+                    }
 
                     .bg-custom {
                         background-color: #747264 !important;

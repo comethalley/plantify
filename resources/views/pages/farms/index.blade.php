@@ -253,35 +253,36 @@
                 }
 
                 function submitForm() {
-                    document.getElementById('error-messages').style.display = 'none';
-                    var form = document.getElementById('addFarmForm');
-                    var formData = new FormData(form);
+    document.getElementById('error-messages').style.display = 'none';
+    var form = document.getElementById('addFarmForm');
+    var formData = new FormData(form);
 
-                    fetch('{{ route("add.farms") }}', {
-                            method: 'POST',
-                            body: formData,
-                            headers: {
-                                'X-CSRF-Token': '{{ csrf_token() }}',
-                            },
-                        })
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Network response was not ok');
-                            }
-                            return response.json();
-                        })
-                        .then(data => {
-                            if (data.success) {
-                                location.reload();
-                            } else {
-                                document.getElementById('error-messages').style.display = 'block';
-                                for (var key in data.errors) {
-                                    document.getElementById('error-messages').innerHTML += '<p>' + data.errors[key][0] + '</p>';
-                                }
-                            }
-                        })
-                        .catch(error => console.error('Error:', error));
-                }
+    fetch('{{ route("add.tools") }}', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRF-Token': '{{ csrf_token() }}',
+        },
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        } else {
+            document.getElementById('error-messages').style.display = 'block';
+            for (var key in data.errors) {
+                document.getElementById('error-messages').innerHTML += '<p>' + data.errors[key][0] + '</p>';
+            }
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+
 
 
                 $(document).ready(function() {

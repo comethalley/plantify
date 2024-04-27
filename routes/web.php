@@ -24,6 +24,7 @@ use App\Http\Controllers\Api\FarmController;
 use App\Http\Controllers\EmailVerification;
 use App\Http\Controllers\PiuController;
 use App\Http\Controllers\AnalyticsController;
+use App\Http\Controllers\RequestController;
 use App\Http\Requests\PdfRequest;
 use Endroid\QrCode\Writer\Result\PdfResult;
 use Illuminate\Http\Request;
@@ -249,7 +250,6 @@ Route::post('/fertarchive/{id}', [PlantInfoController::class, 'fertarchive']);
 //For farm management =======================================================
 
 //index farm-mamangement//
-Route::get('/Tools-District-5', [FarmController::class, 'index1']);
 Route::get('/Farms-District-5', [FarmController::class, 'index']);
 Route::post('/add-farms', [FarmController::class, 'addFarms'])->name('add.farms');
 Route::get('/archive-farm/{id}', [FarmController::class, 'archiveFarm'])->name('archive.farm');
@@ -305,6 +305,16 @@ Route::get('/expenses/get-dashboard-data', [ExpenseController::class, 'getDashbo
 Route::get('/expenses/get-expenses-by-category', [ExpenseController::class, 'getExpensesByCategory']);
 // Route::get('/expenses', [ExpenseController::class, 'getExpenses']);
 //===========================================================================================================
+
+// TOOL REQUEST ======================================================================
+
+Route::get('/Tools-District-5', [RequestController::class, 'index1']);
+Route::post('/add-tools', [FarmController::class, 'addTools'])->name('add.tools');
+
+
+// ===================================================================================
+
+
 
 //Email Verification ===================================================
 Route::get('/verify-email', [EmailVerification::class, 'emailVerification']);

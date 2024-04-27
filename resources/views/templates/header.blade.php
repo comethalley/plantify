@@ -640,7 +640,7 @@
                         </li>
                         @endif
 
-                        @if(session('user') && session('user')->role_id == 3 || session('user') && session('user')->role_id == 4 || session('user') && session('user')->role_id == 5)
+                        @if(session('user') && session('user')->role_id == 3)
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="/Tools-District-5" role="button" style="color:white">
                                 <i class="ri-tools-fill"></i>

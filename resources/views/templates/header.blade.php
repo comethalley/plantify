@@ -16,6 +16,9 @@
     <link rel="shortcut icon" href="{{asset('assets/images/favicon.icon')}}" />
 
     <!-- Weather config -->
+    <!-- ApexChart - Piegraph (Js and cdn) -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="{{ asset('assets/js/donut.js') }}"></script>
 
     <!-- Layout config Js -->
     <script src="{{ asset('assets/js/layout.js') }}"></script>
@@ -27,6 +30,8 @@
     <link href="{{ asset('assets/css/app.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- Custom Css-->
     <link href="{{ asset('assets/css/custom.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/css/dashboard.css') }}" rel="stylesheet" type="text/css" />
+
     <link href="{{ asset('assets/css/custom.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/css/dashboard.css') }}" rel="stylesheet" type="text/css" />
 
@@ -34,6 +39,7 @@
 
     <!--JQuery-->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
 
     <script src="{{ asset('assets/js/inventory.js') }}"></script>
     <script src="{{ asset('assets/js/uom.js') }}"></script>
@@ -41,6 +47,9 @@
     <script src="{{ asset('assets/js/farmleader.js') }}"></script>
     <script src="{{ asset('assets/js/plantinfo.js') }}"></script>
     <script src="{{ asset('assets/js/forum.js') }}"></script>
+    <script src="{{ asset('assets/js/fertilizer.js') }}"></script>
+
+
     <!--markusread JS-->
     <script src="{{ asset('assets/js/markasread.js') }}"></script>
 
@@ -106,14 +115,12 @@
                         <!-- App Search-->
 
                         <div class="ms-1 header-item d-none d-sm-flex">
-                            <span> Weather Today &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                             <span id="current-day"></span> 
                             <button id="weather-button" type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" style="color: rgb(5, 5, 5);">
-                                <img id="weather-icon" src="" alt="">
-                                <span id="temperature-placeholder">--°C</span>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;   <img id="weather-icon" src="" alt="">
+                              <span id="temperature-placeholder">--°C</span>
                             </button>
-                        </div>
-
-
+                          </div>
                     </div>
 
                     <div class="d-flex align-items-center">
@@ -134,7 +141,15 @@
                         <div class="dropdown topbar-head-dropdown ms-1 header-item" id="markasread">
                             <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" id="markasread" onclick="markNotificationAsRead()" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
                                 <i class="bx bx-bell fs-22"></i>
-                                <span id="reload-section" class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger" id="markasread">{{count(auth()->user()->unreadNotifications)}}<span class="visually-hidden">unread messages</span></span>
+                                <span id="reload-section" class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger" id="markasread">
+                                    @if(auth()->user())
+                                    {{ count(auth()->user()->unreadNotifications) }}
+                                    @else
+                                    0
+                                    @endif
+                                    <span class="visually-hidden">
+                                    </span>
+                                </span>
                             </button>
                             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0" aria-labelledby="page-header-notifications-dropdown">
                                 <div class="dropdown-head bg-primary bg-pattern rounded-top">
@@ -161,25 +176,22 @@
                                             </li>
                                             <li class="nav-item waves-effect waves-light">
                                                 <a class="nav-link" data-bs-toggle="tab" href="#messages-tab" role="tab" aria-selected="false">
-                                                    Messages
+                                                    Plantifeed
                                                 </a>
                                             </li>
-                                            <li class="nav-item waves-effect waves-light">
-                                                <a class="nav-link" data-bs-toggle="tab" href="#alerts-tab" role="tab" aria-selected="false">
-                                                    Alerts
-                                                </a>
-                                            </li>
+                                          
                                         </ul>
                                     </div>
                                 </div>
 
                                 <div class="tab-content position-relative overflow-auto" id="notificationItemsTabContent">
                                     <div class="tab-pane fade show active py-2 ps-2" id="all-noti-tab" role="tabpanel">
+                                        @if(auth()->user() && auth()->user()->notifications)
                                         @foreach (auth()->user()->notifications as $notification)
                                         <div class="text-reset notification-item d-block dropdown-item position-relative">
                                             @if ($notification->type === 'App\Notifications\NewNotificationEvent')
                                             <div class="d-flex">
-                                                <img src="assets/images/users/avatar-2.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                                <img src="assets/images/event/event.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
                                                 <div class="flex-grow-1">
                                                     <a href="/schedules" class="stretched-link">
                                                         <h6 class="mt-0 mb-1 fs-13 fw-semibold">{{ $notification->data['title']}}</h6>
@@ -188,7 +200,9 @@
                                                         <p class="mb-1">Check it out we have new events 📆.</p>
                                                     </div>
                                                     <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
-                                                        <span><i class="mdi mdi-clock-outline"></i> 1 min ago</span>
+
+                                                        <span><i class="mdi mdi-clock-outline" id="notification-time"></i>{{ $notification->created_at->diffForHumans() }}</span>
+
                                                     </p>
                                                 </div>
                                                 <div class="px-2 fs-15">
@@ -201,16 +215,20 @@
                                             @elseif ($notification->type === 'App\Notifications\NewplantingNotification')
                                             <div class="d-flex">
 
-                                                <img src="assets/images/users/avatar-2.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+
+                                                <img src="assets/images/event/planting.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+
                                                 <div class="flex-grow-1">
                                                     <a href="/plantcalendar" class="stretched-link">
-                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">{{ $notification->data['title']}}</h6>
+                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold"></h6>
                                                     </a>
                                                     <div class="fs-13 text-muted">
-                                                        <p class="mb-1">The {{ $notification->data['title']}} has been planted 🌱.</p>
+
+                                                        <p class="mb-1">You have just planted a new plant. 🌱.</p>
                                                     </div>
                                                     <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
-                                                        <span><i class="mdi mdi-clock-outline"></i> 1 min ago</span>
+                                                        <span><i class="mdi mdi-clock-outline" id="notification-time"></i> {{ $notification->created_at->diffForHumans() }}</span>
+
                                                     </p>
                                                 </div>
                                                 <div class="px-2 fs-15">
@@ -223,17 +241,16 @@
                                             </div>
                                             @elseif ($notification->type === 'App\Notifications\UpcomingHarvestNotification')
                                             <div class="d-flex">
-
-                                                <img src="assets/images/users/avatar-2.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                                <img src="assets/images/event/planting.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
                                                 <div class="flex-grow-1">
                                                     <a href="/plantcalendar" class="stretched-link">
-                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">{{ $notification->data['title']}}</h6>
+                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold"></h6>
                                                     </a>
                                                     <div class="fs-13 text-muted">
-                                                        <p class="mb-1">{{ $notification->data['message']}}.</p>
+                                                        <p class="mb-1">.</p>
                                                     </div>
                                                     <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
-                                                        <span><i class="mdi mdi-clock-outline"></i> 1 min ago</span>
+                                                        <span><i class="mdi mdi-clock-outline" id="notification-time" ></i> {{ $notification->created_at->diffForHumans() }}</span>
                                                     </p>
                                                 </div>
                                                 <div class="px-2 fs-15">
@@ -247,7 +264,8 @@
                                             @elseif ($notification->type === 'App\Notifications\OutOfStockNotification')
                                             <div class="d-flex">
 
-                                                <img src="assets/images/users/avatar-2.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                                <img src="assets/images/event/oos1.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+
                                                 <div class="flex-grow-1">
                                                     <a href="/inventory/stocks" class="stretched-link">
                                                         <h6 class="mt-0 mb-1 fs-13 fw-semibold">Running out of seeds</h6>
@@ -256,7 +274,7 @@
                                                         <p class="mb-1">{{ $notification->data['message']}}.</p>
                                                     </div>
                                                     <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
-                                                        <span><i class="mdi mdi-clock-outline"></i> 1 min ago</span>
+                                                        <span><i class="mdi mdi-clock-outline" id="notification-time"></i>{{ $notification->created_at->diffForHumans() }}</span>
                                                     </p>
                                                 </div>
                                                 <div class="px-2 fs-15">
@@ -269,7 +287,9 @@
                                             </div>
                                             @elseif ($notification->type === 'App\Notifications\UpcomingEventNotification')
                                             <div class="d-flex">
-                                                <img src="assets/images/notif/avatar-2.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+
+                                                <img src="assets/images/event/event.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+
                                                 <div class="flex-grow-1">
                                                     <a href="/schedules" class="stretched-link">
                                                         <h6 class="mt-0 mb-1 fs-13 fw-semibold">{{ $notification->data['title']}}</h6>
@@ -278,7 +298,9 @@
                                                         <p class="mb-1">{{ $notification->data['message']}}.</p>
                                                     </div>
                                                     <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
-                                                        <span><i class="mdi mdi-clock-outline"></i> 1 min ago</span>
+
+                                                        <span><i class="mdi mdi-clock-outline"id="notification-time"></i>{{ $notification->created_at->diffForHumans() }}</span>
+
                                                     </p>
                                                 </div>
                                                 <div class="px-2 fs-15">
@@ -288,11 +310,97 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            @elseif ($notification->type === 'App\Notifications\NewTaskAssignNotification')
+                                            <div class="d-flex">
+
+
+                                                <img src="assets/images/event/nt.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+
+                                                <div class="flex-grow-1">
+                                                    <a href="/tasks" class="stretched-link">
+                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">TASK</h6>
+                                                    </a>
+                                                    <div class="fs-13 text-muted">
+                                                        <p class="mb-1">{{ $notification->data['message']}}.</p>
+                                                    </div>
+                                                    <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+
+                                                        <span><i class="mdi mdi-clock-outline"id="notification-time"></i>{{ $notification->created_at->diffForHumans() }}</span>
+
+                                                    </p>
+                                                </div>
+                                                <div class="px-2 fs-15">
+                                                    <div class="form-check notification-check">
+                                                        <input class="form-check-input" type="checkbox" value="" id="all-notification-check02">
+                                                        <label class="form-check-label" for="all-notification-check02"></label>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            @elseif ($notification->type === 'App\Notifications\CompleteTaskNotification')
+                                            <div class="d-flex">
+
+
+                                                <img src="assets/images/event/complete.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+
+                                                <div class="flex-grow-1">
+                                                    <a href="/taskshow" class="stretched-link">
+                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">TASK</h6>
+                                                    </a>
+                                                    <div class="fs-13 text-muted">
+                                                        <p class="mb-1">{{ $notification->data['message']}}.</p>
+                                                    </div>
+                                                    <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+
+                                                        <span><i class="mdi mdi-clock-outline" id="notification-time"></i>{{ $notification->created_at->diffForHumans() }}</span>
+
+                                                    </p>
+                                                </div>
+                                                <div class="px-2 fs-15">
+                                                    <div class="form-check notification-check">
+                                                        <input class="form-check-input" type="checkbox" value="" id="all-notification-check02">
+                                                        <label class="form-check-label" for="all-notification-check02"></label>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            @elseif ($notification->type === 'App\Notifications\MissingTaskNotification')
+                                            <div class="d-flex">
+
+
+                                                <img src="assets/images/event/missing.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+
+                                                <div class="flex-grow-1">
+                                                    <a href="/missingtasks" class="stretched-link">
+                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">MISSING TASK</h6>
+                                                    </a>
+                                                    <div class="fs-13 text-muted">
+                                                        <p class="mb-1">{{ $notification->data['message']}}.</p>
+                                                    </div>
+                                                    <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+
+                                                        <span><i class="mdi mdi-clock-outline" id="notification-time"></i>{{ $notification->created_at->diffForHumans() }}</span>
+                                                    </p>
+                                                </div>
+                                                <div class="px-2 fs-15">
+                                                    <div class="form-check notification-check">
+                                                        <input class="form-check-input" type="checkbox" value="" id="all-notification-check02">
+                                                        <label class="form-check-label" for="all-notification-check02"></label>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
                                             @endif
                                         </div>
 
                                         @endforeach
+                                        @else
+                                        <p>No notifications found.</p>
+                                        @endif
                                     </div>
+
+                                 
 
                                     <div class="tab-pane fade py-2 ps-2" id="messages-tab" role="tabpanel" aria-labelledby="messages-tab">
 
@@ -423,7 +531,7 @@
                             </a>
                         </li>
 
-                        @if(session('user')->role_id == 1)
+                        @if(session('user') && session('user')->role_id == 1)
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="#UsersDropDown" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="UsersDropDown" style="color:white">
                                 <i class="ri-account-circle-line"></i> <span>Users</span>
@@ -510,7 +618,7 @@
                             </a>
                             
                         </li> -->
-                        @if(session('user')->role_id == 1 || session('user')->role_id == 3)
+                        @if(session('user') && (session('user')->role_id == 1 || session('user')->role_id == 3))
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="#inventoryDashboard" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="inventoryDashboard" style="color:white">
                                 <i class="ri-archive-line"></i> <span>Inventory</span>
@@ -526,6 +634,9 @@
                                     <li class="nav-item">
                                         <a href="/inventory/uom" class="nav-link" style="color:white"> Unit of Measurements </a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a href="/inventory/fertilizer" class="nav-link" style="color:white">Fertilizer</a>
+                                    </li>
                                 </ul>
                             </div>
                         </li> <!-- end Dashboard Menu -->
@@ -537,7 +648,7 @@
                                 <span data-key="t-task">Task</span>
                             </a>
                         </li> -->
-                        @if(session('user')->role_id == 3)
+                        @if( session('user') && session('user')->role_id == 3)
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="/expense" role="button" style="color:white">
                                 <i class="ri-coins-line "></i>
@@ -546,7 +657,7 @@
                         </li>
                         @endif
 
-                        @if(session('user')->role_id != 4)
+                        @if( session('user') && session('user')->role_id != 4)
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="/chat" role="button" style="color:white">
                                 <i class="ri-wechat-line"></i>
@@ -554,14 +665,9 @@
                             </a>
                         </li>
                         @endif
-                        <li class="nav-item">
-                            <a class="nav-link menu-link" href="{{ route('tasks.monitoring') }}" role="button" style="color:white">
-                                <i class="ri-task-line"></i>
-                                <span data-key="t-faqs">Task</span>
-                            </a>
-                        </li>
+                       
 
-                        @if(session('user')->role_id == 1 || session('user')->role_id == 3)
+                        @if(session('user') && (session('user')->role_id == 1 || session('user')->role_id == 3))
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="#pimaintenance" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards" style="color:white">
                                 <i class="ri-leaf-line"></i> <span>Botaknows Maintenance</span>
@@ -572,10 +678,10 @@
                                         <a href="/plant-info" class="nav-link" style="color:white"> Plant Information </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="/piu/pes" class="nav-link" style="color:white"> Pesticide</a>
+                                        <a href="/pesticides" class="nav-link" style="color:white"> Pesticide</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="/piu/fiu" class="nav-link" style="color:white">Fertilizer</a>
+                                        <a href="/fertilizers" class="nav-link" style="color:white">Fertilizer</a>
                                     </li>
                                 </ul>
                             </div>
@@ -607,6 +713,14 @@
                                 <span data-key="t-faqs">Plantifeed</span>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/analytics" role="button" style="color:white">
+                                <i class="ri-wechat-line"></i>
+                                <span data-key="t-faqs">Analytics</span>
+                            </a>
+                        </li>
+
+
 
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="/farm_locations" role="button" style="color:white">
@@ -668,6 +782,8 @@
     <script src="{{ asset('assets/libs/apexcharts/apexcharts.min.js') }}"></script>
     <script src="{{ asset('assets/js/pages/plugins/lord-icon-2.1.0.js') }}"></script>
     <script src="{{ asset('assets/js/app.js') }}"></script>
+    <script src="{{ asset('assets/js/header.js') }}"></script>
+
     <script src="{{ asset('assets/js/header.js') }}"></script>
 
 

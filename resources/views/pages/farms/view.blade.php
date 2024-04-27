@@ -40,51 +40,41 @@
                             </div>
                         </div>
 
-                        <form>
+                      
     <div class="card-body">
         <div class="row g-3">
-            <div class="col-xxl-5 col-sm-12">
-                <div class="search-box">
-                    <!-- Your search box content here -->
-                </div>
-            </div>
-            <!--end col-->
-
             <div class="col-xxl-2 col-sm-4">
                 <div class="search-box">
-                    <input type="text" class="form-control search bg-light border-light" placeholder="Search for Farm ID or Name or Leader...">
+                <input type="text" class="form-control search bg-light border-light" placeholder="Search for Farm ID or Name or Leader..." oninput="searchTable(this.value)">
                     <i class="ri-search-line search-icon"></i>
                 </div>
             </div>
             <!--end col-->
 
             <div class="col-xxl-2 col-sm-3 ms-auto d-flex">
-    <div class="btn-group" style="width: 200px;">
-        <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuClickableOutside" data-bs-toggle="dropdown" data-bs-auto-close="inside" aria-expanded="false">
-            All
-        </button>
-        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuClickableOutside">
-            <li><a class="dropdown-item" href="javascript:void(0);">All</a></li>
-            <li><a class="dropdown-item" href="javascript:void(0);">Created</a></li>
-            <li><a class="dropdown-item" href="javascript:void(0);">For investigation</a></li>
-            <li><a class="dropdown-item" href="javascript:void(0);">For visiting</a></li>
-            <li><a class="dropdown-item" href="javascript:void(0);">Waiting-for-approval</a></li>
-            <li><a class="dropdown-item" href="javascript:void(0);">Approved</a></li>
-            <li><a class="dropdown-item" href="javascript:void(0);">Resubmit</a></li>
-            <li><a class="dropdown-item" href="javascript:void(0);">Disapproved</a></li>
-            <li><a class="dropdown-item" href="javascript:void(0);">Cancelled</a></li>
-        </ul>
-    </div>
-</div>
-
-            <!--end col-->
-
-           
+                <div class="btn-group" style="width: 200px;">
+                    <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuClickableOutside" data-bs-toggle="dropdown" data-bs-auto-close="inside" aria-expanded="false">
+                        All
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuClickableOutside">
+                        <li><a class="dropdown-item" href="javascript:void(0);">All</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0);">Created</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0);">For investigation</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0);">For visiting</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0);">Waiting-for-approval</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0);">Approved</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0);">Resubmit</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0);">Disapproved</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0);">Cancelled</a></li>
+                    </ul>
+                </div>
+            </div>
             <!--end col-->
         </div>
         <!--end row-->
     </div>
-</form>
+
+
 
                                 <!--end card-body-->
 <div class="card-body ">
@@ -113,24 +103,35 @@
                             <td class="text-center status">
                             @switch(strtolower(str_replace(' ', '-', $farm->status)))
                                 @case('created')
-                                    <span class="badge bg-primary fs-5">{{ $farm->status }}</span>
-                                    @break
                                 @case('for-investigation')
-                                    <span class="badge bg-primary fs-5" >{{ $farm->status }}</span>
+                                    <span class="badge bg-primary fs-5" style="color: #fff; ">{{ $farm->status }}</span>
+                                    <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
                                     @break
                                 @case('for-visiting')
+                                    <span class="badge fs-5" style="background-color: #007BFF; color: #FFF; ">{{ $farm->status }}</span>
+                                    <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
+                                    @break
                                 @case('resubmit')
-                                    <span class="badge bg-secondary fs-5" >{{ $farm->status }}</span>
+                                <span class="badge fs-5" style="background-color: #747264; color: #FFF; ">{{ $farm->status }}</span>
+                                <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
+                                @break
+                                @case('visiting')
+                                @case('submitted')
+                                <span class="badge fs-5" style="background-color: #FF9843; color: #000;">{{ $farm->status }}</span>
+                                <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
                                     @break
                                 @case('waiting-for-approval')
-                                    <span class="badge bg-warning fs-5">{{ $farm->status }}</span>
+                                    <span class="badge fs-5" style="background-color: #FFC107; color: #000;">{{ $farm->status }}</span>
+                                    <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
                                     @break
                                 @case('approved')
-                                    <span class="badge bg-success fs-5">{{ $farm->status }}</span>
+                                    <span class="badge fs-5" style="background-color: #1F7C33; color: #fff;">{{ $farm->status }}</span>
+                                    <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
                                     @break
                                 @case('disapproved')
                                 @case('cancelled')
-                                    <span class="badge bg-danger fs-5">{{ $farm->status }}</span>
+                                    <span class="badge fs-5" style="background-color: #990000; color: #fff;">{{ $farm->status }}</span>
+                                    <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
                                     @break
                                 @default
                             @endswitch
@@ -140,7 +141,7 @@
             <td class="text-center">
     <ul class="list-inline d-flex justify-content-center gap-2 mb-0">
         <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="View Application">
-            <a href="#" data-bs-toggle="modal" data-bs-target="#viewModals" class="text-primary d-inline-block edit-item-btn" onclick="showFarmDetails('{{ $farm->id }}', '{{ $farm->farm_name }}', '{{ $farm->barangay_name }}', '{{ $farm->area }}', '{{ $farm->address }}', '{{ $farm->farm_leader }}', '{{ $farm->status }}', '{{ $farm->title_land }}', '{{ $farm->picture_land }}', '{{ $farm->picture_land1 }}', '{{ $farm->picture_land2 }}', '{{ $farm->farm_leader_firstname }}', '{{ $farm->farm_leader_lastname }}');updateButtonVisibility('{{ $farm->status }}');">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#viewModals" class="text-primary d-inline-block edit-item-btn" onclick="showFarmDetails('{{ $farm->id }}', '{{ $farm->farm_name }}', '{{ $farm->barangay_name }}', '{{ $farm->area }}', '{{ $farm->address }}', '{{ $farm->farm_leader }}', '{{ $farm->status }}', '{{ $farm->title_land }}', '{{ $farm->picture_land }}', '{{ $farm->picture_land1 }}', '{{ $farm->picture_land2 }}', '{{ $farm->farm_leader_firstname }}', '{{ $farm->farm_leader_lastname }}'); updateButtonVisibility('{{ $farm->status }}');" style="border-color: #747264;">
                 <i class="ri-profile-line fs-3"></i>
             </a>
         </li>
@@ -161,26 +162,99 @@
                         </tr>
                     @endforeach
                 @else
-                    <tr>
-                        <td colspan="7">
-                            <p>No farms found.</p>
-                        </td>
-                    </tr>
+                <tr>
+                    <td colspan="7">
+                        <!-- Message indicating no farms found -->
+                        <!-- Lord icon -->
+                        <div id="lordIconContainer" style="text-align: center;"></div>
+                        <p id="noFarmsMessage" style="text-align: center; font-size: 21px;">No Farms found.</p>
+                    </td>
+                </tr>
                 @endif
             </tbody>
         </table>
   
 </div>
 </div>
+<br><br>
+<div id="noFarmsMessageContainer" style="display: none;">
+            <td colspan="7">
+                <div id="lordIconContainer" style="text-align: center;"></div>
+                <p id="noFarmsMessage" style="text-align: center; font-size: 21px;">No Barangays Farms found.</p>
+            </td>
+        </div>
 <div class="row">
-    <div class="col-12">
-        <button class="btn btn-secondary" onclick="goBack()">Back</button>
-        <br>
-        <br>
+        <div class="col-6">
+            <button class="btn btn-secondary d-flex align-items-center justify-content-center" onclick="goBack()">
+            <i class="ri-arrow-left-line me-1"></i> Back
+        </button>
+        </div>
     </div>
 </div>
-</div>
 
+
+<div class="modal fade" id="statusModal" tabindex="-1" role="dialog" aria-labelledby="statusModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header p-2">
+                <h5 class="modal-title text-danger font-weight-bold" id="statusModalLabel" style="font-size: 20px;">Status Tags</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <hr>
+                <p class="text-left" style="font-size: 13px;">After submitting Farm application form.</p>
+                <hr>
+                <p class="text-left">
+                    <span class="badge" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;" >1</span>
+                    <span class="badge bg-primary" style="color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">For Investigation</span> -
+                    Comprehensive review and assessment of the farming proposal.
+                </p>
+                <p class="text-left">
+                    <span class="badge badge-dark" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">2</span>
+                    <span class="badge" style="background-color: #007BFF; color: #FFF; font-size: 13px; padding-left: 5px; padding-right: 5px;">For Visiting</span> -
+                    Authorized personnel will set a date for an on-site inspection of farms to assess operations.
+                </p>
+                <p class="text-left">
+                    <span class="badge badge-dark" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">3</span>
+                    <span class="badge" style="background-color: #1F7C33; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">Approved</span> -
+                    Official authorization indicating the completion and approval of the process.
+                </p>
+                <p class="text-left">
+                    <span class="badge badge-dark" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">4</span>
+                    <span class="badge" style="background-color: #990000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">Disapproved</span> -
+                    The application had been rejected and no further process is possible.
+                </p>
+                <p class="text-left">
+                    <span class="badge badge-dark" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">5</span>
+                    <span class="badge" style="background-color: #FFC107; color: #000; font-size: 13px; padding-left: 5px; padding-right: 5px;">Waiting for Approval</span> -
+                    A pending status for proposals under review.
+                </p>
+                <p class="text-left">
+                    <span class="badge badge-dark" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">4</span>
+                    <span class="badge" style="background-color: #990000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">Cancelled</span> -
+                    The application has been cancelled, resulting in the rejection of proposed actions or plans.
+                </p>
+                <p class="text-left">
+                    <span class="badge badge-dark" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">6</span>
+                    <span class="badge" style="background-color: #747264; font-size: 13px; padding-left: 5px; padding-right: 5px; ">Resubmit</span> -
+                    To revise and submit the necessary compilation.
+                </p>
+                <p class="text-left">
+                    <span class="badge badge-dark" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">7</span>
+                    <span class="badge" style="background-color: #FF9843; color: #000; font-size: 13px; padding-left: 5px; padding-right: 5px; ">Submitted</span> -
+                    The application has successfully passed compilation and is awaiting to evaluate.
+                </p>
+                <p class="text-left">
+                    <span class="badge badge-dark" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">8</span>
+                    <span class="badge" style="background-color: #FF9843; color: #000; font-size: 13px; padding-left: 5px; padding-right: 5px; ">Visiting</span> -
+                    Application has been processed and dates have been set.
+                </p>
+                <hr>
+                <a role="button" class="btn btn-outline-dark btn-block" style="width: 30%; float: right"data-bs-dismiss="modal" aria-label="Close">Close</a>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="modal fade" id="archiveConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="archiveConfirmationModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -208,12 +282,17 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-            <h5>Type your remarks update below</h5>
-            <div class="form-floating">
+                <h5>Type your remarks update below</h5>
+                <div class="form-floating">
                     <textarea class="form-control" name="remarks" rows="3" style="height: 150px;" placeholder="Enter your remarks..."></textarea>
                     <label for="remarkstext">-Optional-</label>
                 </div>
-<br>
+                <br>
+                <div class="mb-3" id="dateInputContainer" style="display: none;">
+                    <label for="dateInput" class="form-label">Select Date:</label>
+                    <input type="date" class="form-control" id="dateInput" name="select_date" min="<?php echo date('Y-m-d'); ?>">
+                </div>
+
                 <h5>Are you sure you want to update the status?</h5>
             </div>
             <div class="modal-footer vstack gap-2">
@@ -223,6 +302,7 @@
         </div>
     </div>
 </div>
+
 
     <!-- Modal -->
 
@@ -361,37 +441,47 @@
 </div>
 
 
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdn.lordicon.com/lordicon.js"></script>
 
 <script>
+    function openStatusModal() {
+        $('#statusModal').modal('show');
+    }
+function searchTable(value) {
+    var searchInput = value.toLowerCase();
+    var rows = document.querySelectorAll('#farmTableBody tr');
+    var found = 0; // Variable to count the number of matching rows
+
+    rows.forEach(row => {
+        var id = row.querySelector('.id').textContent.toLowerCase();
+        var farmLeader = row.querySelector('.farm_leader').textContent.toLowerCase();
+
+        if (id.includes(searchInput) || farmLeader.includes(searchInput)) {
+            row.style.display = '';
+            found++; // Increment found for each matching row
+        } else {
+            row.style.display = 'none';
+        }
+    });
+
+    // If no matching rows are found, display the "No Farms found" message
+    if (found === 0) {
+        document.getElementById('noFarmsMessageContainer').style.display = '';
+    } else {
+        document.getElementById('noFarmsMessageContainer').style.display = 'none';
+    }
+}
+
+
     function goBack() {
         window.location.href = "/farms3";
         window.onload = function() {
             window.location.reload(true);
         };
     }
-    $(document).ready(function(){
-    $(".search-box input").on("keyup", function(event) {
-        if (event.key === "Enter") {
-            event.preventDefault(); // Prevent form submission on Enter key
-        } else {
-            var searchText = $(this).val().toLowerCase();
-            $("#farmTableBody tr").filter(function() {
-                var farmId = $(this).find(".id").text().toLowerCase();
-                var farmName = $(this).find(".farm_name").text().toLowerCase();
-                var farmLeader = $(this).find(".farm_leader").text().toLowerCase();
-                var matchFound = farmId.indexOf(searchText) > -1 || farmName.indexOf(searchText) > -1 || farmLeader.indexOf(searchText) > -1;
-                $(this).toggle(matchFound);
-            });
-        }
-    });
 
-    // Add this block to prevent form submission on Enter key press
-    $("form").on("submit", function(event) {
-        event.preventDefault();
-    });
-});
 // Function to update the status buttons visibility in the modal
 function updateButtonVisibility(status) {
     console.log('Updating button visibility for status:', status);
@@ -446,37 +536,92 @@ function showFarmDetails(id, farmName, barangayName, area, address, farmLeader, 
     case 'created':
         $('#status_modal').html('(' + status + ')')
             .removeClass().addClass('badge bg-primary fs-5');
-        $('.modal-header').removeClass().addClass('modal-header bg-primary p-3');
+        $('#viewModals .modal-header').removeClass().addClass('modal-header bg-primary p-3');
         break;
     case 'for-visiting':
+        $('#status_modal').html('(' + status + ')')
+            .removeClass().addClass('badge fs-5')
+            .css({
+            'background-color': '#007BFF',
+            'color': '#FFF'
+        });;
+        $('#viewModals .modal-header').removeClass().addClass('modal-header p-3')
+        .css({
+            'background-color': '#007BFF',
+            'color': '#FFF'
+        });;
+        break;
     case 'resubmit':
         $('#status_modal').html('(' + status + ')')
-            .removeClass().addClass('badge bg-secondary fs-4');
-        $('.modal-header').removeClass().addClass('modal-header bg-secondary p-3');
+            .removeClass().addClass('badge fs-4')
+            .css({
+            'background-color': '#747264',
+            'color': '#FFF'
+        });;
+            $('#viewModals .modal-header').removeClass().addClass('modal-header p-3')
+            .css({
+            'background-color': '#747264',
+            'color': '#FFF'
+        });;
         break;
     case 'waiting-for-approval':
         $('#status_modal').html('(' + status + ')')
-            .removeClass().addClass('badge bg-warning fs-5');
-        $('.modal-header').removeClass().addClass('modal-header bg-warning p-3');
+            .removeClass().addClass('badge fs-5')
+            .css({
+            'background-color': '#FFC107',
+            'color': '#FFF'
+        });;
+        $('#viewModals .modal-header').removeClass().addClass('modal-header p-3')
+        .css({
+            'background-color': '#FFC107',
+            'color': '#FFF'
+        });;
         break;
     case 'approved':
         $('#status_modal').html('(' + status + ')')
-            .removeClass().addClass('badge bg-success fs-5');
-        $('.modal-header').removeClass().addClass('modal-header bg-success p-3');
+            .removeClass().addClass('badge fs-5')
+            .css({
+            'background-color': '#1F7C33',
+            'color': '#FFF'
+        });;
+        $('#viewModals .modal-header').removeClass().addClass('modal-header p-3')
+        .css({
+            'background-color': '#1F7C33',
+            'color': '#FFF'
+        });;
         break;
     case 'disapproved':
     case 'cancelled':
         $('#status_modal').html('(' + status + ')')
-            .removeClass().addClass('badge bg-danger fs-5');
-        $('.modal-header').removeClass().addClass('modal-header bg-danger p-3');
+            .removeClass().addClass('badge fs-5')
+            .css({
+            'background-color': '#990000',
+            'color': '#FFF'
+        });;
+        $('#viewModals .modal-header').removeClass().addClass('modal-header p-3')
+        .css({
+            'background-color': '#990000',
+            'color': '#FFF'
+        });;
+        break;
+    case 'submitted':
+    case 'visiting':
+        $('#status_modal').html('(' + status + ')')
+            .removeClass().addClass('badge fs-5')
+            .css({
+            'background-color': '#FF9843',
+            'color': '#FFF'
+        });;
+        $('#viewModals .modal-header').removeClass().addClass('modal-header p-3')
+        .css({
+            'background-color': '#FF9843',
+            'color': '#FFF'
+        });;
         break;
     default:
         $('#status_modal').html('(' + status + ')').removeClass().addClass('status status-' + status.toLowerCase().replace(/\s+/g, '-') + ' btn btn-no-shadow');
-        $('.modal-header').removeClass(); // Reset to default modal header style
+        $('#viewModals .modal-header').removeClass(); // Reset to default modal header style
 }
-
-
-
     // Set values for other fields
     $('#farm_name_modal').val(farmName);
     $('#barangay_name_modal').val(barangayName);
@@ -551,18 +696,40 @@ function updateStatus(newStatus) {
     } else {
         $('label[for="remarkstext"]').text('-Optional-');
     }
+    
+    if (newStatus === 'For-Visiting') {
+        $('#dateInputContainer').show();
+    } else {
+        $('#dateInputContainer').hide();
+    }
 }
-
 // Confirm update status when the user clicks the "Confirm" button in the modal
 $('#confirmUpdateBtn').on('click', function() {
+    // Hide any previous error messages related to updating status
+    hideValidationError('updateStatus');
+
     // Get the remarks value from the input field
     var remarks = $('textarea[name="remarks"]').val();
+    // Get the selected date from the input field
+    var selectedDate = $('input[name="select_date"]').val();
 
     // Check if remarks is required and if it's empty
     if ($('label[for="remarkstext"]').text() === '-Required-' && remarks.trim() === '') {
-        // Display a validation error below the text box
-        showValidationError('This field is required to select');
+        // Display a validation error below the text box for updating status
+        showValidationError('Remarks is required.', $('textarea[name="remarks"]'), 'updateStatus');
         return;
+    }
+
+    // Check if select_date is required and if it's empty
+    if ($('#dateInputContainer').is(':visible') && selectedDate.trim() === '') {
+        // Display a validation error below the calendar input for updating status
+        showValidationError('Select date is required.', $('input[name="select_date"]'), 'updateStatus');
+        return;
+    }
+
+    // If calendar is not visible, set selectedDate to null
+    if (!$('#dateInputContainer').is(':visible')) {
+        selectedDate = null;
     }
 
     // Perform an AJAX request to update the status and create a new entry in RemarkFarm
@@ -572,7 +739,8 @@ $('#confirmUpdateBtn').on('click', function() {
         data: {
             _token: '{{ csrf_token() }}',
             status: statusToUpdate,
-            remarks: remarks // Include remarks in the data sent to the server
+            remarks: remarks, // Include remarks in the data sent to the server
+            select_date: selectedDate // Include selected date in the data
         },
         success: function (data) {
             // Handle success response
@@ -583,7 +751,7 @@ $('#confirmUpdateBtn').on('click', function() {
             // Handle error response
             console.log('Error updating status:', error);
             // Display a generic error message or handle it accordingly
-            showValidationError('An error occurred while updating status.');
+            showValidationError('An error occurred while updating status.', $('#confirmUpdateBtn'), 'updateStatus');
         }
     });
 
@@ -595,19 +763,29 @@ $('#confirmUpdateBtn').on('click', function() {
     $('#confirmationModal').modal('hide');
 });
 
-// Function to display a validation error below the text box
-function showValidationError(message) {
+// Close error message when modal is closed
+$('#confirmationModal').on('hidden.bs.modal', function () {
+    hideValidationError('updateStatus');
+});
+
+// Function to show validation error
+function showValidationError(message, targetElement, context) {
     // Create a span element for the error message
     var errorElement = $('<span class="text-danger">' + message + '</span>');
 
-    // Check if the error element already exists and remove it
-    if ($('#remarksError').length) {
-        $('#remarksError').remove();
-    }
+    // Remove any existing error message for the target element within the specified context
+    $('#' + context + ' .text-danger').remove();
 
-    // Append the error element below the text box
-    $('.form-floating').append(errorElement.attr('id', 'remarksError'));
+    // Append the error element below the target element within the specified context
+    targetElement.after(errorElement);
 }
+
+// Function to hide validation error within a specific context
+function hideValidationError(context) {
+    // Hide error messages within the specified context
+    $('#' + context + ' .text-danger').remove();
+}
+
 
 
 
@@ -668,6 +846,15 @@ $(document).ready(function () {
     });
     
 });
+        // Create the Lord icon dynamically
+    var lordIconContainer = document.getElementById("lordIconContainer");
+    var lordIcon = document.createElement("lord-icon");
+    lordIcon.setAttribute("src", "https://cdn.lordicon.com/anqzffqz.json");
+    lordIcon.setAttribute("trigger", "loop");
+    lordIcon.setAttribute("stroke", "bold");
+    lordIcon.setAttribute("state", "morph-check");
+    lordIcon.setAttribute("style", "width:250px;height:250px"); // Adjust size as needed
+    lordIconContainer.appendChild(lordIcon);
 
 </script>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,500&display=swap" rel="stylesheet">

@@ -21,21 +21,17 @@ return new class extends Migration
             $table->string('area');
             $table->string('farm_leader');
             $table->string('status');
-            
-            // Change 'title_land' to use BLOB
             $table->binary('title_land');
-            
-            // Change 'picture_land' to use BLOB
             $table->binary('picture_land');
-            
-            // Change 'picture_land1' to use BLOB and allow nullable
             $table->binary('picture_land1')->nullable();
-            
-            // Change 'picture_land2' to use BLOB and allow nullable
             $table->binary('picture_land2')->nullable();
-
+            $table->date('select_date')->nullable();
             $table->timestamps();
+        
+            // Define foreign key constraint
+        //    
         });
+        
     }
 
     /**

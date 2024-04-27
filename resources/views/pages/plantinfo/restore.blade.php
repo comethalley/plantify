@@ -31,7 +31,13 @@
                         <div class="card-header border-0">
                             <div class="row align-items-center gy-3">
                                 <div class="col-sm">
-                                    <h5 class="card-title mb-0">Archive</h5>
+                                    <h5 class="card-title mb-0">Plant Information</h5>
+                                </div>
+                                <div class="col-sm-auto">
+                                    <div class="d-flex gap-1 flex-wrap">
+                                        <button type="button" class="btn btn-success add-btn" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModal"><i class="ri-add-line align-bottom me-1"></i> Add New Plant</button>
+                                        <button class="btn btn-soft-danger" id="remove-actions" onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -40,7 +46,7 @@
                                 <div class="row g-3">
                                     <div class="col-xxl-5 col-sm-6">
                                         <div class="search-box">
-                                        
+
                                         </div>
                                     </div>
                                 </div>
@@ -54,12 +60,14 @@
                                     <table class="table table-nowrap align-middle" id="orderTable">
                                         <thead class="text-muted table-light">
                                             <tr class="text-uppercase">
-                                               
+
                                                 <th class="sort" data-sort="">#</th>
                                                 <th class="sort" data-sort="">Plant Name</th>
-                                                <th class="sort" data-sort="">Plant Date</th>
+                                                <th class="sort" data-sort="">Image</th>
+                                                <th class="sort" data-sort="">Season</th>
                                                 <th class="sort" data-sort="">Information</th>
                                                 <th class="sort" data-sort="">Companion</th>
+                                                <th class="sort" data-sort="">Days of Harvest</th>
                                                 <th class="sort" data-sort="">Action</th>
                                             </tr>
                                         </thead>
@@ -69,30 +77,29 @@
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $item->plant_name }}</td>
-                                                <td>{{ $item->planting_date }}</td>
-                                                <td>{{ $item->information }}</td>
+                                                <td><img src="/images/{{ $item->image }}" alt="" width="200px" height="200px"></td>
+                                                <td>{{ $item->seasons }}</td>
+                                                <td>{!! $item->information !!}</td>
                                                 <td>{{ $item->companion }}</td>
-
-                                                
-                                    
-                                    <td>
-                                        <ul class="list-inline hstack gap-2 mb-0">
-                                         <!--   <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="View">
+                                                <td>{{ $item->days_harvest }}</td>
+                                                <td>
+                                                    <ul class="list-inline hstack gap-2 mb-0">
+                                                        <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="View">
                                                             <a href="" class="text-primary d-inline-block supplier_btn" data-bs-target="#viewModal" data-bs-toggle="modal" data-supplier-id="">
                                                                 <i class="ri-eye-fill fs-16"></i>
                                                             </a>
                                                         </li>
                                                         <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Edit">
-                                                            <a href=""  class="text-primary d-inline-block edit-item-btn" data-plantinfo-id="{{$item->id}}">
+                                                            <a href="" class="text-primary d-inline-block edit-item-btn" data-plantinfo-id="{{$item->id}}">
                                                                 <i class="ri-pencil-fill fs-16"></i>
                                                             </a>
-                                                        </li> -->
-                                                        <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Restore">
-                                                            <a class="text-primary d-inline-block restore-item-btn" data-bs-toggle="modal" href="#deleteOrder" data-plantinfo-id="{{$item->id}}">
-                                                                <i class="ri-arrow-go-back-line"></i>
+                                                        </li>
+                                                        <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Remove">
+                                                            <a class="text-danger d-inline-block remove-item-btn" data-bs-toggle="modal" href="#deleteOrder" data-plantinfo-id="{{$item->id}}">
+                                                                <i class="ri-delete-bin-5-fill fs-16"></i>
                                                             </a>
                                                         </li>
-                                        <!-- <a href="{{ url('/plantinfo/' . $item->id) }}" title="View Plant"><button class="btn btn-info btn-sm" data-bs-target="#EditModal"><i class="fa fa-eye" aria-hidden="true"></i> View</button></a>
+                                                        <!-- <a href="{{ url('/plantinfo/' . $item->id) }}" title="View Plant"><button class="btn btn-info btn-sm" data-bs-target="#EditModal"><i class="fa fa-eye" aria-hidden="true"></i> View</button></a>
                                         <a href="{{ url('/plantinfo/' . $item->id . '/edit') }}" title="Edit Plant"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
 
                                         <form method="POST" action="{{ url('/plantinfo' . '/' . $item->id) }}" accept-charset="UTF-8" style="display:inline">
@@ -100,12 +107,8 @@
                                             {{ csrf_field() }}
                                             <button type="submit" class="btn btn-danger btn-sm" title="Delete Plant" onclick="return confirm('Are you sure you want to delete this item?');"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</button>
                                         </form> -->
-                                        </ul>
-                                    </td>
-                                    
-
-                                            
-
+                                                    </ul>
+                                                </td>
                                         </tbody>
                                         @endforeach
                                     </table>

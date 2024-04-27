@@ -10,15 +10,15 @@ use Illuminate\Notifications\Notification;
 class NewplantingNotification extends Notification
 {
     use Queueable;
-    public  $planting;
+    public  $item;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($planting)
+    public function __construct($item)
     {
-        $this->plantings = $planting;
+        $this->plantings = $item;
     }
 
     /**
@@ -34,11 +34,11 @@ class NewplantingNotification extends Notification
      }
 
 
-    public function toDatabase($planting)
+    public function toDatabase($item)
     {
         return [
            
-            'title'=>$this->plantings['title']
+            
         ];
     }
 
@@ -52,7 +52,8 @@ class NewplantingNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'title'=>$this->plantings['title']
+           
+            'created_at' => now()->diffForHumans(),
         ];
     }
 }

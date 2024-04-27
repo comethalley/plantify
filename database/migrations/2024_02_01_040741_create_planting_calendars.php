@@ -24,6 +24,9 @@ return new class extends Migration
             $table->text('destroyed')->nullable();
             $table->text('seed')->nullable();
             $table->timestamps();
+
+            //$table->foreign('farm_id')->references('id')->on('farms')->onDelete('cascade');
+
         });
     }
 

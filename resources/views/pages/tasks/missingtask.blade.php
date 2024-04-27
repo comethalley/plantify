@@ -61,9 +61,34 @@
     background-color: #28a745; /* Green */
     color: #fff; /* White */
 }
-
-
+.table-card {
+        /* Set max width for table container */
+        max-width: 100%;
+        /* Add overflow property to allow horizontal scrolling */
+        overflow-x: auto;
+    }
+    
+    /* Truncate text in description column */
+    .description-column {
+        /* Set maximum width for column */
+        max-width: 200px; /* Adjust as needed */
+        /* Apply text truncation with ellipsis */
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    @media (max-width: 576px) {
+            /* Custom styles for screens smaller than 576px (e.g., smartphones) */
+            .gy-3 > .col-sm {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+        }
+    
         </style>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+  
 </head>
 <body>
     <div class="main-content">
@@ -113,8 +138,8 @@
                                                 <th>ID</th>
                                                 <th>Title</th>
                                                 <th>Description</th>
-                                                <th>Due Date</th>
                                                 <th>Assigned To</th>
+                                                <th>Due</th>
                                                 <th>Priority</th>
                                                 <th>Status</th>
                                             </tr>
@@ -139,16 +164,15 @@
                                                         <td class="description" style="max-width: 100px; overflow: hidden; text-overflow: ellipsis;" title="{{ $task->description }}">
                                                                          {{ $task->description }}
                                                          </td>
-                                    
-                                                         <td id="due_date_{{ $task->id }}" class="due_date">
-                                                            {{ date('j M, Y - h:i A', strtotime($task->due_date)) }}
-                                                        </td>
                                                         <td class="user_id">
                                                             @if ($task->user)
                                                                 {{ $task->user->firstname }} {{ $task->user->lastname }}
                                                             @else
                                                                 
                                                             @endif
+                                                        </td>
+                                                        <td id="due_date_{{ $task->id }}" class="due_date">
+                                                            {{ date('j M, Y - h:i A', strtotime($task->due_date)) }}
                                                         </td> 
                                                         <td>
                                                             <span class="priority priority-<?php echo strtolower($task->priority); ?>"><?php echo $task->priority; ?></span>

@@ -101,12 +101,38 @@ input:valid + span::after {
     /* Add your hover effect styles here */
     background-color: #c0c0c0; /* Darker shade of gray (for example) */
 }
-
+.table-card {
+        /* Set max width for table container */
+        max-width: 100%;
+        /* Add overflow property to allow horizontal scrolling */
+        overflow-x: auto;
+    }
+    
+    /* Truncate text in description column */
+    .description-column {
+        /* Set maximum width for column */
+        max-width: 200px; /* Adjust as needed */
+        /* Apply text truncation with ellipsis */
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    @media (max-width: 576px) {
+            /* Custom styles for screens smaller than 576px (e.g., smartphones) */
+            .gy-3 > .col-sm {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+        }
+    
   </style>
 
 
     <!-- Include jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+  
 
 <!-- Include DataTables -->
 <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.6/css/jquery.dataTables.css"> -->
@@ -168,7 +194,7 @@ input:valid + span::after {
                         {{-- Display only for SuperAdmin,Admin,Farmer Leader --}}
                         <a href="{{ route('archived') }}" class="btn btn-primary bg-gradient waves-effect waves-light">Show Archived Task</a>
                     @endif
-
+                        
                             <!-- Dropdown Filter -->
                             <div class="dropdown">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuClickableOutside" data-bs-toggle="dropdown" aria-expanded="false">
@@ -386,7 +412,7 @@ input:valid + span::after {
                     <div class="col-md-7 mb-3">
                         <label for="due_date" class="form-label">Date and Time</label>
                         <div class="input-group">
-                            <input type="datetime-local" name="due_date" id="due_date" class="form-control" value="{{ isset($task) ? $task->due_date : '' }}" required />
+                            <input type="datetime-local" name="due_date" id="edit-due_date" class="form-control" value="{{ isset($task) ? $task->due_date : '' }}" required />
                             <span class="input-group-text clickable-span"></span>
                         </div>
                     </div>

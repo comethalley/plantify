@@ -52,10 +52,34 @@
     background-color: #28a745; /* Green */
     color: #fff; /* White */
 }
-
-
+.table-card {
+        /* Set max width for table container */
+        max-width: 100%;
+        /* Add overflow property to allow horizontal scrolling */
+        overflow-x: auto;
+    }
+    
+    /* Truncate text in description column */
+    .description-column {
+        /* Set maximum width for column */
+        max-width: 200px; /* Adjust as needed */
+        /* Apply text truncation with ellipsis */
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    @media (max-width: 576px) {
+            /* Custom styles for screens smaller than 576px (e.g., smartphones) */
+            .gy-3 > .col-sm {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+        }
+    
  </style>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+  
 <div class="main-content">
 
     <div class="page-content">
@@ -134,7 +158,7 @@
                                             <th>ID</th>
                                             <th class="sort" data-sort="time">Title  </th>
                                             <th class="sort" data-sort="temperature">Description</th>
-                                            <th class="sort" data-sort="humidity">Assignee</th>
+                                            <th class="sort" data-sort="humidity">Assigned To</th>
                                             <th class="sort" data-sort="windspeed">Priority</th>
                                             <th class="sort" >Status</th>
                                             <th class="sort" data-sort="condition">Date Archived</th>

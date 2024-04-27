@@ -26,7 +26,7 @@
         body,
         html {
             height: 100%;
-            background: #025830;
+            background: #066903;
             /* Prevent scrollbars */
         }
         .container {
@@ -77,8 +77,8 @@
                                 <div class="p-lg-5 p-4">
                                     <div>
                                         <div class="card-body p-1">
-                                            <h5 class="text-center" style="color: #025830;">Welcome Back!</h5>
-                                            <p class="text-muted text-center">Login to continue to Plantify.</p>
+                                            <h5 class="text-center" style="color:#066903;">Welcome Back!</h5>
+                                            <p class="text-muted text-center">Login to continue.</p>
                                         </div><br>
 
                                         <div class="mt-4">
@@ -114,7 +114,7 @@
 
                                                 <div class="mt-5">
 
-                                                    <button type="submit" class="btn btn-link text-white w-100" style="background-color:#025830;" href="">Login</a>
+                                                    <button type="submit" class="btn btn-link text-white w-100" style="background-color:#066903;" href="">Login</a>
                                                 </div>
 
                                                 <br>
@@ -122,7 +122,7 @@
                                         </div>
 
                                         <div class="mt-1 text-center">
-                                            <p class="mb-0">Don't have an account ? <a href="/signup" class="fw-semibold text-decoration-underline" style="color: #025830;"> SignUp</a> </p>
+                                            <p class="mb-0">Don't have an account ? <a href="/signup" class="fw-semibold text-decoration-underline" style="color:#066903;"> SignUp</a> </p>
                                         </div>
                                     </div>
                                 </div>

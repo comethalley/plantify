@@ -4,7 +4,7 @@
 <head>
 
     <meta charset="utf-8" />
-    <title>Sign Up | Plantify</title>
+    <title>Sign Up | PlantiCUAI</title>
     <link rel="shortcut icon" type="image/x-icon" href="assets/images/plantifeedpics/plants.png" class="img-fluid" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
@@ -31,13 +31,13 @@
         }
         .container {
             /* position: absolute; */
-            top: 0;
+            /* top: 0;
             left: 0;
             right: 0;
             bottom: 0;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: center; */
         }
 
         /* .auth-one-bg-position {
@@ -52,7 +52,7 @@
 
 <body data-bs-spy="scroll" data-bs-target="#navbar-example">
 
-    <nav class="navbar navbar-expand-lg navbar-landing fixed-top" id="navbar" style="background-color:#025830; padding: 4px;">
+    <nav class="navbar navbar-expand-lg navbar-landing fixed-top" id="navbar" style="background-color:#066903; padding: 4px;">
         
     <div class="container">
         <a class="navbar-brand text-white" href="/">
@@ -119,7 +119,7 @@
                                     <div class="card-body p-4">
                                         <div class="text-center mt-2">
 <br><br>
-                                            <h5 style="color: #025830;">Create new Account</h5>
+                                            <h5 style="color: #066903;">Create new Account</h5>
 
                                             <p class="text-muted"></p>
                                         </div>
@@ -179,10 +179,10 @@
 
 
                                                 <div class="mt-4">
-                                                    <button type="submit" class="btn btn-link text-white w-100" style="background-color: #025830;" href="">Sign Up for Public user</a>
+                                                    <button type="submit" class="btn btn-link text-white w-100" style="background-color:#066903;" href="">Sign Up for Public user</a>
                                                 </div>
                                                 <div class="mt-1 text-center">
-                                                 <p class="mb-0">Already have an account ? <a href="/login" class="fw-semibold text-decoration-underline" style="color:#025830;"> Sign In</a> </p>
+                                                 <p class="mb-0">Already have an account ? <a href="/login" class="fw-semibold text-decoration-underline" style="color:#066903;"> Sign In</a> </p>
                                                 </div>
 
                                             </form>

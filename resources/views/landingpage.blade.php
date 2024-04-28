@@ -5,7 +5,7 @@
 
     <meta charset="utf-8" />
     <title>PlantiCUAI</title>
-    <link rel="shortcut icon" type="image/x-icon" href="assets/images/plantifeedpics/CUAI1.png" class="img-fluid" />
+    <link rel="shortcut icon" type="image/x-icon" href="assets/images/plantifeedpics/rounded.png" class="img-fluid" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
@@ -46,8 +46,39 @@
             
         }
         .card {
-  margin: 1em auto;
-}
+            margin: 1em auto;
+        }
+        #translateButton {
+        position: relative; /* Add position */
+        z-index: 9999; /* Add z-index */
+        background-color: #4CAF50; /* Green background */
+        border: none;
+        color: white;
+        padding: 7px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        margin: 4px 4px;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+        /* Custom styles for the arrow icon */
+        #translateButton i {
+            margin-left: 5px;
+        }
+
+        /* Custom styles for the Google Translate dropdown */
+        .goog-te-menu-value span {
+            color: white; /* Text color */
+        }
+
+        .goog-te-menu-value:hover {
+            background-color: #5cb85c; /* Hover color */
+        }
+        /* .skiptranslate {
+            display: none !important;
+        } */
           
     </style>
 </head>
@@ -92,10 +123,9 @@
                     <a class="btn btn-link text-white fw-bold" href="/login">Login</a>
                     <a class="btn btn-link text-white fw-semibold" style="background-color:#FFAB2D;" href="/signup">Sign Up</a>
                 </div>
-                <div >
-                        <button id="google_translate_element" >
-                            
-                        </button>
+                    <div >
+                        <button id="translateButton">
+                    </button>
                     </div>
                 
             </div>
@@ -534,12 +564,15 @@
 
 
 
-            <!--start back-to-top-->
+            <!--start back-to-top-->    
+            
+        
+
             <button onclick="topFunction()" class="btn btn-success btn-icon landing-back-top" id="back-to-top">
                 <i class="ri-arrow-up-line"></i>
-            <!--end back-to-top-->
-
+                
             </div>
+
             <!-- end layout wrapper -->
 
             <script>
@@ -577,32 +610,26 @@
 </html>
 
 <script type="text/javascript">
-function googleTranslateElementInit() {
-        // Initialize Google Translate element
-        new google.translate.TranslateElement({ 
-            pageLanguage: 'en', 
-            includedLanguages: 'en,tl', 
-            autoDisplay: false, // Set autoDisplay to false
-            layout: google.translate.TranslateElement.InlineLayout.SIMPLE 
-        }, 'google_translate_element');
-
-        // Wait for the translate iframe to load
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,tl',
+            autoDisplay: false,
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+        }, 'translateButton');
+        
         var observer = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation) {
                 if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
-                    // Check if the added node is the Google Translate iframe
                     var iframe = document.querySelector('.goog-te-banner-frame.skiptranslate');
                     if (iframe) {
-                        // Hide the "Skip Translate" option
                         iframe.style.display = 'none';
-                        // Disconnect the observer since we don't need to listen for changes anymore
                         observer.disconnect();
                     }
                 }
             });
         });
-
-        // Observe changes in the document
+        
         observer.observe(document.body, { childList: true, subtree: true });
     }
 </script>

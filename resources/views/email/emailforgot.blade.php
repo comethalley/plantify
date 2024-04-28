@@ -342,7 +342,7 @@
 
                                                                                     <div style="font-size: 14px; color: #003399; line-height: 160%; text-align: center; word-wrap: break-word;">
                                                                                         <p style="font-size: 14px; line-height: 160%;"><span style="font-size: 28px; line-height: 32px;"><strong>Here the forgot password link</strong></span></p><br>
-                                                                                        <a href="https://plantify-cuai.com/verify-email?l={{ $data['link'] }}" class="btn warning">
+                                                                                        <a href="{{ $data['link'] }}" class="btn warning">
                                                                                             Click here
                                                                                         </a>
 

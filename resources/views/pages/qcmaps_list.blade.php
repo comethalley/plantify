@@ -72,7 +72,24 @@
                                                 <th data-sort="payment" width="37%">Complete Address:</th>
                                                 <th data-sort="customer_name" width="10%">Latitude:</th>
                                                 <th data-sort="date" width="10%">Longitude:</th>
+                                                
+
+                                                @if(auth()->user()->role_id == 1)
+                                                {{-- Display only for role_id 1 (Admin) --}}
                                                 <th data-sort="payment" width="6%">Action:</th>
+                                                @elseif(auth()->user()->role_id == 2)
+                                                {{-- Display only for role_id 2 (Admin) --}}
+                                                <th data-sort="payment" width="6%">Action:</th>
+                                                @elseif(auth()->user()->role_id == 3)
+                                                {{-- Display for role_id 3 (Farm Leader) --}}
+                                                <th data-sort="payment" width="6%">Action:</th>
+                                                @elseif(auth()->user()->role_id == 4)
+                                                {{-- Display for role_id 4 (Farmers) --}}
+                                                <th hidden data-sort="payment" width="6%">Action:</th>
+                                                @elseif(auth()->user()->role_id == 5)
+                                                {{-- Display for role_id 5 (Public Users) --}}
+                                                <th hidden data-sort="payment" width="6%">Action:</th>
+                                                @endif
                                                 
                                             </tr>
                                         </thead>
@@ -87,6 +104,9 @@
                                                 <td class="amount">{{ $event->address }}</td>
                                                 <td class="customer_name">{{ $event->latitude }} </td>
                                                 <td class="customer_name">{{ $event->longitude }}</td>
+                                                
+                                                @if(auth()->user()->role_id == 1)
+                                                {{-- Display only for role_id 1 (Admin) --}}
                                                 <td>
                                                     <ul class="list-inline hstack gap-2 mb-0">
                                                         <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Remove">
@@ -96,6 +116,51 @@
                                                         </li>
                                                     </ul>
                                                 </td>
+                                                @elseif(auth()->user()->role_id == 2)
+                                                {{-- Display only for role_id 2 (Admin) --}}
+                                                <td>
+                                                    <ul class="list-inline hstack gap-2 mb-0">
+                                                        <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Remove">
+                                                            <a class="text-danger d-inline-block archive_btn" href="" data-location-id="{{ $event->id }}">
+                                                                <i class="ri-delete-bin-5-fill fs-16"></i>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                                @elseif(auth()->user()->role_id == 3)
+                                                {{-- Display for role_id 3 (Farm Leader) --}}
+                                                <td>
+                                                    <ul class="list-inline hstack gap-2 mb-0">
+                                                        <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Remove">
+                                                            <a class="text-danger d-inline-block archive_btn" href="" data-location-id="{{ $event->id }}">
+                                                                <i class="ri-delete-bin-5-fill fs-16"></i>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                                @elseif(auth()->user()->role_id == 4)
+                                                {{-- Display for role_id 4 (Farmers) --}}
+                                                <td hidden>
+                                                    <ul class="list-inline hstack gap-2 mb-0">
+                                                        <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Remove">
+                                                            <a class="text-danger d-inline-block archive_btn" href="" data-location-id="{{ $event->id }}">
+                                                                <i class="ri-delete-bin-5-fill fs-16"></i>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                                @elseif(auth()->user()->role_id == 5)
+                                                {{-- Display for role_id 5 (Public Users) --}}
+                                                <td hidden>
+                                                    <ul class="list-inline hstack gap-2 mb-0">
+                                                        <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Remove">
+                                                            <a class="text-danger d-inline-block archive_btn" href="" data-location-id="{{ $event->id }}">
+                                                                <i class="ri-delete-bin-5-fill fs-16"></i>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                                @endif
                                             </tr>
                                             @endforeach
                                         </tbody>

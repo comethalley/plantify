@@ -5,7 +5,8 @@
 
     <meta charset="utf-8" />
     <meta name="csrf-token" content="{{ csrf_token() }}" />
-    <title>Plantify</title>
+    <title>PlantiCUAI</title>
+    <link rel="shortcut icon" type="image/x-icon" href="assets/images/plantifeedpics/rounded.png" class="img-fluid" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
@@ -13,7 +14,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{{asset('assets/images/favicon.icon')}}" />
+    <!-- <link rel="shortcut icon" href="assets/images/favicon.ico" /> -->
 
     <!-- Weather config -->
     <!-- ApexChart - Piegraph (Js and cdn) -->
@@ -84,6 +85,7 @@
 </head>
 
 <body onload="">
+
 
     <!-- Begin page -->
     <div id="layout-wrapper">

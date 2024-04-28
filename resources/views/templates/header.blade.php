@@ -799,10 +799,21 @@
 
 
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="/farm_locations" role="button" style="color:white">
-                                <i class="ri-map-pin-line"></i>
-                                <span data-key="t-faqs">Maps</span>
+                            <a class="nav-link menu-link" href="#farmlocation" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards" style="color:white">
+                            <i class="ri-map-pin-line"></i>
+                            <span data-key="t-faqs">Farm Location</span>
                             </a>
+                            <div class="collapse menu-dropdown" id="farmlocation">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="/farm_locations" class="nav-link" style="color:white">Map </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/farm_list" class="nav-link" style="color:white">List </a>
+                                        
+                                    </li>
+                                </ul>
+                            </div>
                         </li>
 
 

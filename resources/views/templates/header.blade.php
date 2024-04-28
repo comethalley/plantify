@@ -712,7 +712,7 @@
                             </a>
                             
                         </li> -->
-                        @if(session('user') && (session('user')->role_id == 1 || session('user')->role_id == 3))
+                        @if(session('user') && (session('user')->role_id == 1 || session('user')->role_id == 2 || session('user')->role_id == 3))
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="#inventoryDashboard" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="inventoryDashboard" style="color:white">
                                 <i class="ri-archive-line"></i> <span>Inventory</span>

@@ -129,22 +129,22 @@
                                         @csrf
                                         <!-- Display errors for firstname -->
                                         @if ($errors->has('firstname'))
-                                        <p class="text-red-500 text-xs p-1">{{ $errors->first('firstname') }}</p>
+                                        <p class="text-danger">{{ $errors->first('firstname') }}</p>
                                         @endif
 
                                         <!-- Display errors for lastname -->
                                         @if ($errors->has('lastname'))
-                                        <p class="text-red-500 text-xs p-1">{{ $errors->first('lastname') }}</p>
+                                        <p class="text-danger">{{ $errors->first('lastname') }}</p>
                                         @endif
 
                                         <!-- Display errors for email -->
                                         @if ($errors->has('email'))
-                                        <p class="text-red-500 text-xs p-1">{{ $errors->first('email') }}</p>
+                                        <p class="text-danger">{{ $errors->first('email') }}</p>
                                         @endif
 
                                         <!-- Display errors for password -->
                                         @if ($errors->has('password'))
-                                        <p class="text-red-500 text-xs p-1">{{ $errors->first('password') }}</p>
+                                        <p class="text-danger">{{ $errors->first('password') }}</p>
                                         @endif
 
 

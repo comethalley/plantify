@@ -161,6 +161,12 @@ class EmailVerification extends Controller
                 'regex:/[0-9]+/',
                 'regex:/[!@#$%^&*(),.?":{}|<>]+/'
             ],
+        ], [
+            'password.required' => 'Password is required.',
+            'password.string' => 'Password must be a string.',
+            'password.confirmed' => 'Password confirmation does not match.',
+            'password.min' => 'Password must be at least :min characters.',
+            'password.regex' => 'Password format is incorrect. It must contain at least one uppercase letter, one lowercase letter, one digit, and one special character.'
         ]);
         // dd($validator);
 

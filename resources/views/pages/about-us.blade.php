@@ -5,7 +5,7 @@
 
     <meta charset="utf-8" />
     <title>About-us</title>
-    <link rel="shortcut icon" type="image/x-icon" href="assets/images/plantifeedpics/plants.png" class="img-fluid" />
+    <link rel="icon" type="image/png" href="assets/images/plantifeedpics/plants.png" sizes="any" class="img-fluid" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
@@ -300,20 +300,101 @@
     <!-- end container -->
 </section>
 <!-- end features -->
+<div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title mb-0"><strong>Center for Urban Agriculture and Innovation Team</strong></h4>
+                                </div><!-- end card header -->
+                                <div class="card-body">
+                                    <!-- <p class="text-muted">Use <code>responsive-swiper</code> class to set a responsive swiper.</p> -->
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+                                    <!-- Swiper -->
+                                    <div class="swiper responsive-swiper rounded gallery-light pb-4">
+                                        <div class="swiper-wrapper">
+                                            <div class="swiper-slide">
+                                                <div class="gallery-box card">
+                                                    <div class="gallery-container">
+                                                        <a class="image-popup" href="assets/images/aboutus/pic1.jpg" title="">
+                                                            <img class="gallery-img img-fluid mx-auto" src="assets/images/aboutus/pic1.jpg" alt="" />
+                                                            <div class="gallery-overlay">
+                                                                <!-- <h5 class="overlay-caption">CUIA Farm</h5> -->
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                    <div class="box-content">
+                                                       
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="swiper-slide">
+                                                <div class="gallery-box card">
+                                                    <div class="gallery-container">
+                                                        <a class="image-popup" href="assets/images/aboutus/pic2.jpg" title="">
+                                                            <img class="gallery-img img-fluid mx-auto" src="assets/images/aboutus/pic2.jpg" alt="" />
+                                                            <div class="gallery-overlay">
+                                                                <!-- <h5 class="overlay-caption">Working at a coffee shop</h5> -->
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                    <div class="box-content">
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="swiper-slide">
+                                                <div class="gallery-box card mb-0">
+                                                    <div class="gallery-container">
+                                                        <a class="image-popup" href="assets/images/aboutus/pic3.jpg" title="">
+                                                            <img class="gallery-img img-fluid mx-auto" src="assets/images/aboutus/pic3.jpg" alt="">
+                                                            <div class="gallery-overlay">
+                                                                <!-- <h5 class="overlay-caption">Fun day at the Hill Station</h5> -->
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                    <div class="box-content">
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="swiper-slide">
+                                                <div class="gallery-box card">
+                                                    <div class="gallery-container">
+                                                        <a class="image-popup" href="assets/images/aboutus/pic4.jpg" title="">
+                                                            <img class="gallery-img img-fluid mx-auto" src="assets/images/aboutus/pic4.jpg" alt="" />
+                                                            <div class="gallery-overlay">
+                                                                <!-- <h5 class="overlay-caption">Drawing a sketch</h5> -->
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                    <div class="box-content">
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="swiper-slide">
+                                                <div class="gallery-box card">
+                                                    <div class="gallery-container">
+                                                        <a class="image-popup" href="assets/images/aboutus/pic6.jpg" title="">
+                                                            <img class="gallery-img img-fluid mx-auto" src="assets/images/aboutus/pic6.jpg" alt="" />
+                                                            <div class="gallery-overlay">
+                                                                <!-- <h5 class="overlay-caption">Project discussion with team</h5> -->
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                    <div class="box-content">
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="swiper-pagination swiper-pagination-dark"></div>
+                                    </div>
+                                </div><!-- end card-body -->
+                            </div><!-- end card -->
+                        </div>
+                        <!--end col-->
+                    </div>
+                    <!--end row-->
 
 
 
@@ -402,7 +483,7 @@
         <!-- landing init -->
         <script src="assets/js/pages/landing.init.js"></script>
         <script src="assets/libs/particles.js/particles.js"></script>
-    <script src="assets/js/pages/particles.app.js"></script>
+         <script src="assets/js/pages/particles.app.js"></script>
 
 
 
@@ -440,4 +521,13 @@ function googleTranslateElementInit() {
         observer.observe(document.body, { childList: true, subtree: true });
     }
 </script>
-<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
+
+<!--Swiper slider js-->
+    <script src="assets/libs/swiper/swiper-bundle.min.js"></script>
+
+    <!-- swiper.init js -->
+    <script src="assets/js/pages/swiper.init.js"></script>
+
+
+</script>

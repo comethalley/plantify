@@ -4,7 +4,7 @@
 <head>
 
     <meta charset="utf-8" />
-    <title>Plantify</title>
+    <title>PlantiCUAI</title>
     <link rel="shortcut icon" type="image/x-icon" href="assets/images/plantifeedpics/plants.png" class="img-fluid" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
@@ -54,11 +54,11 @@
 
 <body data-bs-spy="scroll" data-bs-target="#navbar-example">
 
-    <nav class="navbar navbar-expand-lg navbar-landing fixed-top" id="navbar" style="background-color:#025830; padding: 4px;">
+    <nav class="navbar navbar-expand-lg navbar-landing fixed-top" id="navbar" style="background-color:#066903; padding: 4px;">
         
     <div class="container">
         <a class="navbar-brand text-white" href="/">
-            <img src="assets/images/plantifeedpics/cuai.png" class="mr-2" alt="Plantify" height="45">
+            <img src="assets/images/plantifeedpics/cuai.png" class="mr-2" alt="CUAI" height="45">
         </a>
 
   
@@ -72,7 +72,7 @@
                 <ul class="navbar-nav mx-auto mt-2 mt-lg-0" id="navbar-example">
 
                     <li class="nav-item">
-                        <a class="nav-link text-white fw-bold" href="/">Home</a>
+                        <a class="nav-link text-white fw-bold" href="javascript:void(0);" onclick="scrollToHome()">Home</a>
                     </li>
 
                     <li class="nav-item">
@@ -82,16 +82,21 @@
                     <a class="nav-link text-white fw-bold" href="javascript:void(0);" onclick="scrollToFAQ()">FAQs</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white fw-bold" href="/send-message">Contact Us</a>
+                        <a class="nav-link text-white fw-bold" href="javascript:void(0);" onclick="scrollToContact()">Contact Us</a>
                     </li>
                 
                 </ul>
 
                 <div>
-                    <div id="google_translate_element"></div>
+                    
                     <a class="btn btn-link text-white fw-bold" href="/login">Login</a>
                     <a class="btn btn-link text-white fw-semibold" style="background-color:#FFAB2D;" href="/signup">Sign Up</a>
                 </div>
+                <div >
+                        <button id="google_translate_element" >
+                            
+                        </button>
+                    </div>
                 
             </div>
         </div>
@@ -101,12 +106,12 @@
     <div class="vertical-overlay" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent.show"></div>
 
   
-    <section class="section nft-hero" id="hero" style="background-image: url('assets/images/plantifeedpics/bg2.png'); background-size: cover; background-position: center center;">
+    <section id="home-section" class="section nft-hero" id="hero" style="background-image: url('assets/images/plantifeedpics/bg2.png'); background-size: cover; background-position: center center;">
     <div class="container">
     <div class="row justify-content-between align-items-center ">
                         <div class="col-lg-6">
                             <div>
-                            <h1 class="display-10 fw-bold mb-4 lh-base text-white" style="font-size: 35px; font-weight: 800;">Rooted in th city<br>flourishing in the community!</h1>
+                            <h1 class="display-10 fw-bold mb-4 lh-base text-white" style="font-size: 35px; font-weight: 800;">Rooted in th city,<br>flourishing in the community!</h1>
                             <p class="lead text-white lh-base">Join the urban green revolution, easily grow crops in the city, and connect with a passionate community online. Start making a difference today!</p>
                             </div>
                             
@@ -203,12 +208,12 @@
            
 
              <!-- start features -->
-            <section class="section" id="try" style="padding-top:2px;">
+            <section class="" id="try" style="padding-top:2px;">
             <div class="auth-page-content overflow-hidden pt-lg-3">
-            <div class="container-fluid card" style="background-color: #025830;">
+            <div class="container-fluid card" style="background-color: #066903">
 
                 <div class="card-body">
-                <h2 class="mb-4 text-center" style="color: #ffffff;">Engage in the community using<br><span style="color: #ffffff;"><strong>P L A N T I F E E D</strong></span></h2>
+                <h2 class="mb-4 text-center" style="color: #ffffff;">Engage in the community using<br><span style="color:#FFAB2D;"><strong>P L A N T I F E E D</strong></span></h2>
                     <div class="row align-items-center justify-content-lg-between justify-content-center gy-4">
 
                         <div class="col-lg-5 col-sm-7">
@@ -224,7 +229,7 @@
         <h4 style="color: #ffffff;">1. Share your knowledge</h4>
             <div class="d-flex col">
                 <div class="flex-grow-1">
-                    <p class="lead text-lightwhite" style="text-align: justify;">
+                    <p class="lead text-white" style="text-align: justify;">
                         Spill the Beans! Share your garden gold in this planting community by swapping tips & tricks to your fellow urban garden farmers enabling the exploration and unlocking of new planting technique journey!
                     </p>
                 </div>
@@ -233,14 +238,14 @@
             <h4 style="color: #ffffff;">2. Create Inspiring Story</h4>
             <div class="d-flex align-items-center">
                 <div class="flex-grow-1">
-                    <p class="lead text-lightwhite" style="text-align: justify;">Plant your story, inspire your city! Spread the journey of your planting, allowing other urban garden farmers to be inspired and relate on your planting plot!.</p>
+                    <p class="lead text-white" style="text-align: justify;">Plant your story, inspire your city! Spread the journey of your planting, allowing other urban garden farmers to be inspired and relate on your planting plot!.</p>
                 </div>
             </div>
 
             <h4 style="color: #ffffff;">3. Like, Comment, Share</h4>
             <div class="d-flex align-items-center">
                 <div class="flex-grow-1">
-                    <p class="lead text-lightwhite" style="text-align: justify;">Dig in Deep, Share Your Harvest! Engage with your co-urban garden farmers and express yourself with this interactive buttons by liking posts, commenting thoughts and opinions and sharing to allow a continuously growth of this planting community!</p>
+                    <p class="lead text-white" style="text-align: justify;">Dig in Deep, Share Your Harvest! Engage with your co-urban garden farmers and express yourself with this interactive buttons by liking posts, commenting thoughts and opinions and sharing to allow a continuously growth of this planting community!</p>
                 </div>
             </div>
         </div>
@@ -263,7 +268,7 @@
 
 
      <!-- start faqs -->
-     <section id="faq-section" class="section" style="padding-top:10px;"><br>
+     <section id="faq-section" class="" style="padding-top:10px;"><br>
                 <div class="container card">
                 <div class="card-body">
                     <div class="row justify-content-center">
@@ -272,7 +277,7 @@
                                 <h3 class="mb-3">
                                     <img src="assets/images/plantifeedpics/Question.png" alt="FAQ Image" style="vertical-align: middle; margin-right: 10px;">Frequently Asked Questions
                                 </h3>
-                                <h3 class="mb-3 fw-semibold" style="color:#025830;">Questions?<span style="color: black;"><strong> Find Here!</strong></span></h3>
+                                <h3 class="mb-3 fw-semibold" style="color:#066903">Questions?<span style="color: black;"><strong> Find Here!</strong></span></h3>
 
                             </div>
                         </div>
@@ -352,10 +357,122 @@
                     </div>
                 </div>
             </section>
+            <br>
 
+            <section id="contact-section" class="section" id="try" style="padding-top:8px;">
+            <div class="container card">
+               
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card overflow-hidden m-0">
+                            <div class="row justify-content-center g-0">
+                            
+                                <div class="col-lg-8 mt-3">
+                                    <div class="text-center mt-3">
+                                        <h3 style="vertical-align: middle; margin-right: 10px;"><i class="ri-phone-fill"></i> CONTACT US
+                                        </h3>
+                                        
+                                    </div>
+                                </div>
+                    
+                                <div class="col-lg-6">
+                                    <div class="p-lg-4 p-4 auth-one-bg h-100">
+                                        
+                                        <div class="position-relative h-100 d-flex flex-column">
+                                            <div>
+                                                <a href="/" class="d-block">
+                                              
+                                                    <img src="assets/images/plantifeedpics/landing-page.png" alt="" class="img-fluid">
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <div class="p-lg-4 p-4">
+                                        <div>
+                                            <h5 class="text-center">Let us know how we can help you!</h5>
+                                            <p class="text-muted">Send us a message and we’ll get back to you as soon as we can.</p>
+                                        </div>
+
+                                        <div class="mt-4">
+                                            <form class="needs-validation" novalidate action="index.html">
+
+
+                                            <div class="mb-3">
+                                                    <label for="useremail" class="form-label">Name</label>
+                                                    <input type="email" class="form-control" id="useremail" placeholder="Enter your name" required>
+                                                    <div class="invalid-feedback">
+                                                        Please enter email
+                                                    </div>
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label for="useremail" class="form-label">Email</label>
+                                                    <input type="email" class="form-control" id="useremail" placeholder="Enter email address" required>
+                                                    <div class="invalid-feedback">
+                                                        Please enter email
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="username" class="form-label">Subject</label>
+                                                    <input type="text" class="form-control" id="username" placeholder="Enter subject" required>
+                                                    <div class="invalid-feedback">
+                                                        Please enter username
+                                                    </div>
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label for="message" class="form-label">Message</label>
+                                                    <textarea class="form-control" id="message" placeholder="Enter your message" required></textarea>
+                                                    <div class="invalid-feedback">
+                                                      Please enter a message
+                                                  </div>
+                                              </div>
+                                               
+                                              
+                                              <button class="btn btn-success w-100" type="submit" style="background-color: #066903">
+                                                      <i class="fas fa-paper-plane"></i> Send message
+                                                  </button>
+
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="row">
+                    <div class="col-lg-12">
+                        <div class="text-center">
+                            <p class="mb-4">&copy;
+                                <script>document.write(new Date().getFullYear())</script> CUAI <i class="mdi mdi-heart"style="color: darkgreen; "></i>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end card -->
+                    </div>
+                    <!-- end col -->
+                    
+                   
+              
+          
+
+                </div>
+                <!-- end row -->
+            </div>
             
+            <!-- end container -->
+            
+        </div>
+        </div>
+        </section>
 
-            <footer class="custom-footer py-2 position-relative" style="background-color: #025830;">
+            <footer class="custom-footer py-2 position-relative" style="background-color: #066903">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-4 mt-4">
@@ -380,7 +497,7 @@
                                 <h5 class="text-white mb-0 fs-14">About</h5>
                                 <div class="text-muted mt-2">
                                     <ul class="list-unstyled ff-secondary footer-list ">
-                                        <li><a href="" class="text-white ">About Plantify </a></li>
+                                        <li><a href="" class="text-white ">About CUAI </a></li>
                                         <li><a href="" class="text-white ">FAQS</a></li>
                                         <li><a href="" class="text-white ">Help</a></li>
                                     </ul>
@@ -430,6 +547,14 @@
             var faqSection = document.getElementById('faq-section');
             faqSection.scrollIntoView({ behavior: 'smooth' });
             }
+            function scrollToContact() {
+            var faqSection = document.getElementById('contact-section');
+            faqSection.scrollIntoView({ behavior: 'smooth' });
+            }
+            function scrollToHome() {
+            var faqSection = document.getElementById('home-section');
+            faqSection.scrollIntoView({ behavior: 'smooth' });
+            }
             </script>
             <!-- JAVASCRIPT -->
             
@@ -453,7 +578,32 @@
 
 <script type="text/javascript">
 function googleTranslateElementInit() {
-        new google.translate.TranslateElement({ pageLanguage: 'en', includedLanguages: 'tl', layout: google.translate.TranslateElement.InlineLayout.SIMPLE }, 'google_translate_element');
+        // Initialize Google Translate element
+        new google.translate.TranslateElement({ 
+            pageLanguage: 'en', 
+            includedLanguages: 'en,tl', 
+            autoDisplay: false, // Set autoDisplay to false
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE 
+        }, 'google_translate_element');
+
+        // Wait for the translate iframe to load
+        var observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+                    // Check if the added node is the Google Translate iframe
+                    var iframe = document.querySelector('.goog-te-banner-frame.skiptranslate');
+                    if (iframe) {
+                        // Hide the "Skip Translate" option
+                        iframe.style.display = 'none';
+                        // Disconnect the observer since we don't need to listen for changes anymore
+                        observer.disconnect();
+                    }
+                }
+            });
+        });
+
+        // Observe changes in the document
+        observer.observe(document.body, { childList: true, subtree: true });
     }
 </script>
 <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>

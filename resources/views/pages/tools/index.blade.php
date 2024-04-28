@@ -8,8 +8,7 @@
                         <h4 class="mb-sm-0">tools management</h4>
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a></a></li>
-                                <li class="breadcrumb-item active"></li>
+
                             </ol>
                         </div>
                     </div>
@@ -36,14 +35,14 @@
                             <div class="row g-3 align-items-center justify-content-between">
                                 <div class="col-xxl-2 col-sm-4">
                                     <div class="search-box">
-                                        <input type="text" id="searchInput" class="form-control search bg-light border-light" placeholder="Search for Farm ID or Name ...">
+                                        <input type="text" id="searchInput" class="form-control search bg-light border-light" placeholder="Search for Request ID ...">
                                         <i class="ri-search-line search-icon"></i>
                                     </div>
                                 </div>
                                 <div class="col-xxl-3 col-sm-6 d-flex justify-content-end">
                                     <div class="hstack flex-wrap gap-2 mb-3 mb-lg-0">
-                                        <button class="btn btn-danger addFarms-modal" data-bs-toggle="modal" data-bs-target="#addfarmModal">
-                                            <i class="ri-add-line align-bottom me-1"></i> Request Tool
+                                        <button class="btn btn-danger addFarms-modal custom-width" data-bs-toggle="modal" data-bs-target="#addfarmModal">
+                                            <i class="ri-add-line align-bottom me-1"></i> Request Tool/Seedlings
                                         </button>
                                         <button type="button" class="btn btn-soft-dark btn-border refresh-button custom-width" onclick="location.reload()">
                                             <span class="icon-on"><i class="ri-refresh-line align-bottom"></i> Refresh</span>
@@ -52,10 +51,6 @@
                                 </div>
                             </div>
                         </div>
-
-
-
-
 
                         <div class="card-body">
                             <div class="table-responsive table-card mb-4 rounded">
@@ -133,11 +128,13 @@
                                                 @default
                                                 @endswitch
                                                 <br>
-                                                <a href="javascript:void(0);" class="btn btn-success btn-border equal-width-validation" style="font-weight: bold;" onclick="showFarmRemarks('{{ $request->id }}');">Validation Remarks</a>
+                                                <a href="javascript:void(0);" class="btn btn-success btn-border equal-width-validation" style="font-weight: bold;" onclick="showRequestRemarks('{{ $request->id }}');">Validation Remarks</a>
                                                 <br>
                                                 <i style="font-size: 13px;">Click "Validation Remarks" for more specific updates</i>
                                             </td>
+                                            </td>
 
+                                            </tr>
 
                             </div>
 
@@ -169,7 +166,11 @@
                     </td>
                 </div>
                 <div class="row">
-
+                    <div class="col-6">
+                        <button type="button" class="btn btn-secondary d-flex align-items-center justify-content-center" onclick="goBack()">
+                            <i class="ri-arrow-left-line me-1"></i> Back
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -214,7 +215,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <label for="supply_count" class="form-label"> &nbsp; Quantity &nbsp;<span class="required-asteroid">*</span></label>
-                                    <input type="text" name="supply_count" class="form-control" title="This field is required to fill up" placeholder="Enter Quantity" required />
+                                    <input type="number" name="supply_count" class="form-control" title="This field is required to fill up" placeholder="Enter Quantity" required />
                                 </div>
                             </div>
                             <div class="file-input-container">
@@ -227,6 +228,8 @@
                             <br>
                         </div>
                         <div class="alert alert-danger" style="display:none" id="error-messages"></div>
+                        <div class="alert alert-danger" style="display:none" id="error-messages1"></div>
+
                         <div class="modal-footer">
                             <div class="hstack gap-2 justify-content-end">
                                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
@@ -248,75 +251,88 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-    <hr>
-    <p class="text-left" style="font-size: 13px;">After submitting the tool or seedling request form.</p>
-    <hr>
-    <p class="text-left">
-        <span class="badge" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">1</span>
-        <span class="badge bg-primary" style="color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">Requested</span> -
-        Indicates that a user has made a request for a tool or seedling.
-    </p>
-    <p class="text-left">
-        <span class="badge badge-dark" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">2</span>
-        <span class="badge" style="background-color: #007BFF; color: #FFF; font-size: 13px; padding-left: 5px; padding-right: 5px;">Available</span> -
-        Denotes that the requested tool or seedling is currently in stock and ready for allocation.
-    </p>
-    <p class="text-left">
-        <span class="badge badge-dark" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">3</span>
-        <span class="badge" style="background-color: #1F7C33; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">Unavailable</span> -
-        Suggests that the requested tool or seedling is not currently in stock and therefore cannot be allocated at the moment.
-    </p>
-    <p class="text-left">
-        <span class="badge badge-dark" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">4</span>
-        <span class="badge" style="background-color: #FFC107; color: #000; font-size: 13px; padding-left: 5px; padding-right: 5px;">Waiting for Approval</span> -
-        A pending status for tool or seedling requests under review.
-    </p>
-    <p class="text-left">
-        <span class="badge badge-dark" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">5</span>
-        <span class="badge" style="background-color: #28a745; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">Approved</span> -
-        Official authorization indicating the completion and approval of the request.
-    </p>
-    <p class="text-left">
-        <span class="badge badge-dark" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">6</span>
-        <span class="badge" style="background-color: #990000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">Disapproved</span> -
-        The request has been reviewed and rejected.
-    </p>
-    <p class="text-left">
-        <span class="badge badge-dark" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">7</span>
-        <span class="badge" style="background-color: #007BFF; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">Ready to be Picked</span> -
-        Indicates that the approved tool or seedling is prepared and available for collection.
-    </p>
-    <p class="text-left">
-        <span class="badge badge-dark" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">8</span>
-        <span class="badge" style="background-color: #007BFF; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">Picked</span> -
-        Indicates that the approved tool or seedling has been collected by the requester.
-    </p>
-    <p class="text-left">
-        <span class="badge badge-dark" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">9</span>
-        <span class="badge" style="background-color: #990000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">Failed to Pick</span> -
-        Suggests that the requester did not collect the approved tool or seedling within the specified timeframe or failed to pick it up for some reason.
-    </p>
-    <p class="text-left">
-        <span class="badge badge-dark" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">10</span>
-        <span class="badge" style="background-color: #28a745; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">Returned</span> -
-        Denotes that the collected tool or seedling has been returned to the inventory for any reason.
-    </p>
-    <p class="text-left">
-        <span class="badge badge-dark" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">11</span>
-        <span class="badge" style="background-color: #990000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">Failed to Return</span> -
-        Implies that the user failed to return the borrowed tool or seedling within the specified timeframe or it was returned in a damaged condition.
-    </p>
-    <!-- Add other statuses with their meanings and functions -->
-    <hr>
-    <a role="button" class="btn btn-outline-dark btn-block" style="width: 30%; float: right" data-bs-dismiss="modal" aria-label="Close">Close</a>
-</div>
-
+                        <hr>
+                        <p class="text-left" style="font-size: 13px;">After submitting the tool or seedling request form.</p>
+                        <hr>
+                        <p class="text-left">
+                            <span class="badge" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">1</span>
+                            <span class="badge bg-primary" style="color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">Requested</span> -
+                            Indicates that a user has made a request for a tool or seedling.
+                        </p>
+                        <p class="text-left">
+                            <span class="badge badge-dark" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">2</span>
+                            <span class="badge" style="background-color: #007BFF; color: #FFF; font-size: 13px; padding-left: 5px; padding-right: 5px;">Available</span> -
+                            Denotes that the requested tool or seedling is currently in stock and ready for allocation.
+                        </p>
+                        <p class="text-left">
+                            <span class="badge badge-dark" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">3</span>
+                            <span class="badge" style="background-color: #1F7C33; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">Unavailable</span> -
+                            The tool or seedling requested isn't in stock, so it can't be allocated now.
+                        </p>
+                        <p class="text-left">
+                            <span class="badge badge-dark" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">4</span>
+                            <span class="badge" style="background-color: #FFC107; color: #000; font-size: 13px; padding-left: 5px; padding-right: 5px;">Waiting for Approval</span> -
+                            A pending status for tool or seedling requests under review.
+                        </p>
+                        <p class="text-left">
+                            <span class="badge badge-dark" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">5</span>
+                            <span class="badge" style="background-color: #28a745; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">Approved</span> -
+                            Official authorization indicating the completion and approval of the request.
+                        </p>
+                        <p class="text-left">
+                            <span class="badge badge-dark" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">6</span>
+                            <span class="badge" style="background-color: #990000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">Disapproved</span> -
+                            The request has been reviewed and rejected.
+                        </p>
+                        <p class="text-left">
+                            <span class="badge badge-dark" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">7</span>
+                            <span class="badge" style="background-color: #007BFF; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">Ready to be Picked</span> -
+                            Indicates that the approved tool or seedling is prepared and available for collection.
+                        </p>
+                        <p class="text-left">
+                            <span class="badge badge-dark" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">8</span>
+                            <span class="badge" style="background-color: #007BFF; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">Picked</span> -
+                            Indicates that the approved tool or seedling has been collected by the requester.
+                        </p>
+                        <p class="text-left">
+                            <span class="badge badge-dark" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">9</span>
+                            <span class="badge" style="background-color: #990000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">Failed to Pick</span> -
+                            It implies the requester didn't pick up the approved tool or seedling within the given time frame or for some reason.
+                        </p>
+                        <p class="text-left">
+                            <span class="badge badge-dark" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">10</span>
+                            <span class="badge" style="background-color: #28a745; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">Returned</span> -
+                            Denotes that the collected tool or seedling has been returned to the inventory for any reason.
+                        </p>
+                        <p class="text-left">
+                            <span class="badge badge-dark" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">11</span>
+                            <span class="badge" style="background-color: #990000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">Failed to Return</span> -
+                            It suggests the user didn't return the borrowed item on time or returned it damaged.
+                        </p>
+                        <hr>
+                        <a role="button" class="btn btn-outline-dark btn-block" style="width: 30%; float: right" data-bs-dismiss="modal" aria-label="Close">Close</a>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- Modals -->
 
+        <div class="modal fade" id="remarkModals" tabindex="-1" aria-labelledby="remarkModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header bg-light p-3">
+                                <h5 class="modal-title text-danger font-weight-bold" id="remarkModalLabel">Application Details</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body" id="modal-body">
+                                <h5 class="font-weight-bold">Request's Evaluation Thread</h5>
+                                <br>
+                                <div id="records-container"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
 
         <!-- Modals -->
@@ -330,70 +346,155 @@
         <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,800;1,800&display=swap" rel="stylesheet">
 
         <script>
+
+function showRequestRemarks(id) {
+    fetch(`/request/${id}/details`)
+        .then(response => response.json())
+        .then(data => {
+            var modalBody = document.getElementById('modal-body');
+            modalBody.innerHTML = '';
+
+            var header = document.createElement('h5');
+            header.className = 'font-weight-bold';
+            header.innerText = "Request's Evaluation Thread";
+            modalBody.appendChild(header);
+
+            data.remarks.forEach((remark, index) => {
+                var containerWrapper = createContainerWrapper();
+
+                // Assuming data.created_at and other arrays have the same length
+                var date = new Date(data.created_at[index]);
+                var formattedDate = date.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'numeric',
+                    day: 'numeric'
+                });
+                var formattedTime = date.toLocaleTimeString('en-US', {
+                    hour: 'numeric',
+                    minute: 'numeric',
+                    hour12: true
+                });
+
+                var statusAndValidatedText = 'Status: <strong style="font-family: \'Roboto Condensed\', sans-serif;">' + data.remark_status[index] + '</strong><br> Processed By: <span style="font-family: \'Roboto \', sans-serif; font-weight: 200;">' + data.validated_by[index] + '</span><span style="float: right;">' + formattedDate + ' / ' + formattedTime + '</span>';
+                var statusAndValidatedParagraph = createParagraphs(statusAndValidatedText, true, '17px');
+                containerWrapper.appendChild(statusAndValidatedParagraph);
+
+                var remarksContainer = createContainer();
+
+                var validatedByParagraph = createParagraphs(data.validated_by[index], true);
+
+                var remarkText = remark || ""; 
+                var visitDateText = data.visit_date[index] ? new Date(data.visit_date[index]).toLocaleDateString('en-US', {
+                    month: 'long',
+                    day: 'numeric',
+                    year: 'numeric'
+                }) : ""; // Format visit date
+                var remarksContent = remarkText;
+                if (visitDateText) {
+                    remarksContent += ' at ' + visitDateText;
+                }
+                var remarksParagraph = createParagraphs(remarksContent);
+
+                remarksContainer.appendChild(validatedByParagraph);
+                remarksContainer.appendChild(remarksParagraph);
+
+                containerWrapper.appendChild(remarksContainer);
+
+                modalBody.appendChild(containerWrapper);
+            });
+
+            var myModal = new bootstrap.Modal(document.getElementById('remarkModals'));
+            myModal.show();
+        })
+        .catch(error => {
+            console.error('Error fetching farm details:', error);
+        });
+}
+
+
+
+            function goBack() {
+                window.location.href = "/dashboard/analytics";
+                window.onload = function() {
+                    window.location.reload(true);
+                };
+            }
+
             function openStatusModal() {
                 $('#statusModal').modal('show');
             }
 
             function submitForm() {
-                // Hide any previous error messages
-                document.getElementById('error-messages').style.display = 'none';
-                document.getElementById('error-messages').innerHTML = ''; // Clear existing messages
+    // Hide any previous error messages
+    document.getElementById('error-messages').style.display = 'none';
+    document.getElementById('error-messages').innerHTML = ''; // Clear existing messages
+    document.getElementById('error-messages1').style.display = 'none';
+    document.getElementById('error-messages1').innerHTML = ''; // Clear existing messages
 
-                // Get form and required fields
-                var form = document.getElementById('addFarmForm');
-                var requiredFields = form.querySelectorAll('[required]');
+    // Get form and required fields
+    var form = document.getElementById('addFarmForm');
+    var requiredFields = form.querySelectorAll('[required]');
 
-                // Check if all required fields are filled
-                var isValid = true;
-                requiredFields.forEach(function(field) {
-                    if (!field.value.trim()) {
-                        isValid = false;
-                        field.classList.add('is-invalid'); // Add a visual cue for the user
-                    } else {
-                        field.classList.remove('is-invalid'); // Remove the visual cue if field is filled
-                    }
-                });
+    // Check if all required fields are filled
+    var isValid = true;
+    requiredFields.forEach(function(field) {
+        if (!field.value.trim()) {
+            isValid = false;
+            field.classList.add('is-invalid'); // Add a visual cue for the user
+        } else {
+            field.classList.remove('is-invalid'); // Remove the visual cue if field is filled
+        }
+    });
 
-                if (!isValid) {
-                    // If any required field is empty, display error message
-                    document.getElementById('error-messages').style.display = 'block';
-                    document.getElementById('error-messages').innerHTML = '<p>Please fill out all required fields.</p>';
-                    return; // Stop form submission
-                }
+    // Check if supply_count is not a single 0
+    var supplyCountField = document.getElementsByName('supply_count')[0];
+    if (supplyCountField.value.trim() === '0') {
+        isValid = false;
+        supplyCountField.classList.add('is-invalid');
+        document.getElementById('error-messages1').style.display = 'block';
+        document.getElementById('error-messages1').innerHTML = '<p>Supply count cannot be 0.</p>';
+        return; // Stop form submission
+    }
 
-                // If all required fields are filled, proceed with form submission
-                var formData = new FormData(form);
+    if (!isValid) {
+        // If any required field is empty, display error message
+        document.getElementById('error-messages').style.display = 'block';
+        document.getElementById('error-messages').innerHTML = '<p>Please fill out all required fields.</p>';
+        return; // Stop form submission
+    }
 
-                fetch('{{ route("add.tools") }}', {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'X-CSRF-Token': '{{ csrf_token() }}',
-                        },
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        if (data.success) {
-                            location.reload();
-                        } else {
-                            document.getElementById('error-messages').style.display = 'block';
-                            for (var key in data.errors) {
-                                document.getElementById('error-messages').innerHTML += '<p>' + data.errors[key][0] + '</p>';
-                            }
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        document.getElementById('error-messages').style.display = 'block';
-                        document.getElementById('error-messages').innerHTML = '<p>An error occurred while processing your request. Please try again later.</p>';
-                    });
+    // If all required fields are filled, proceed with form submission
+    var formData = new FormData(form);
+
+    fetch('{{ route("add.tools") }}', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRF-Token': '{{ csrf_token() }}',
+            },
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
             }
-
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                document.getElementById('error-messages').style.display = 'block';
+                for (var key in data.errors) {
+                    document.getElementById('error-messages').innerHTML += '<p>' + data.errors[key][0] + '</p>';
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('error-messages').style.display = 'block';
+            document.getElementById('error-messages').innerHTML = '<p>An error occurred while processing your request. Please try again later.</p>';
+        });
+}
 
 
 
@@ -407,8 +508,9 @@
             lordIcon.setAttribute("trigger", "loop");
             lordIcon.setAttribute("stroke", "bold");
             lordIcon.setAttribute("state", "morph-check");
-            lordIcon.setAttribute("style", "width:250px;height:250px"); // Adjust size as needed
+            lordIcon.setAttribute("style", "width:250px;height:250px");
             lordIconContainer.appendChild(lordIcon);
+
         </script>
 
         <style>
@@ -510,9 +612,11 @@
             }
 
             .custom-width {
-                width: 200px;
+                width: 186px;
+                height: 38.5px;
                 /* Adjust the width as per your requirement */
             }
+            
 
             .table-bordered th,
             .table-bordered td {

@@ -310,6 +310,7 @@ Route::get('/expenses/get-expenses-by-category', [ExpenseController::class, 'get
 
 Route::get('/Tools-District-5', [RequestController::class, 'index1']);
 Route::post('/add-tools', [RequestController::class, 'addTools'])->name('add.tools');
+Route::get('/request/{id}/details', [RequestController::class, 'getRequestDetails']);
 
 
 // ===================================================================================

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\SupplyType;
 use App\Models\RequestN;
+use App\Models\RemarkRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
@@ -45,8 +46,6 @@ class RequestController extends Controller
         return view('pages.tools.index', compact('supplyTools', 'supplySeedlings', 'request_tbl'));
     }
     
-    
-
     public function addTools(Request $request)
 {
     try {
@@ -90,5 +89,24 @@ class RequestController extends Controller
         return response()->json(['success' => false, 'errors' => ['exception' => [$e->getMessage()]]], 500);
     }
 }
+
+public function getRequestDetails($id)
+    {
+        $request = RequestN::findOrFail($id);
+
+        $remarkrequests = RemarkRequest::where('request_id', $request->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return response()->json([
+            'request_id' => $request->id,
+            'remarks' => $remarkrequests->pluck('remarks'),
+            'remark_status' => $remarkrequests->pluck('remark_status'),
+            'validated_by' => $remarkrequests->pluck('validated_by'),
+            'created_at' => $remarkrequests->pluck('created_at'),
+            'date_return' => $remarkrequests->pluck('date_return'),
+        ]);
+    }
+
     }
 

@@ -101,7 +101,7 @@
 
                                                 <div class="mb-3">
                                                     <div class="float-end">
-                                                        <a href="auth-pass-reset-cover.html" class="text-muted">Forgot password?</a>
+                                                        <a href="/forgot-password" class="text-muted">Forgot password?</a>
                                                     </div>
                                                     <label class="form-label" for="password-input">Password</label>
                                                     <div class="position-relative auth-pass-inputgroup mb-3">
@@ -121,9 +121,7 @@
                                             </form>
                                         </div>
 
-                                        <div class="mt-1 text-center">
-                                            <p class="mb-0">Don't have an account ? <a href="/signup" class="fw-semibold text-decoration-underline" style="color: #025830;"> SignUp</a> </p>
-                                        </div>
+                                       
                                     </div>
                                 </div>
                                 <!-- end col -->

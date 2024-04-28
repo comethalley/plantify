@@ -320,8 +320,10 @@ Route::get('/resend-code/{id}', [EmailVerification::class, 'resendCode']);
 Route::post('/confirm-code/{id}', [EmailVerification::class, 'verifyEmail']);
 Route::get('/landing-page', [AuthController::class, 'landingpage']);
 Route::post('/change-password/{id}', [EmailVerification::class, 'changePassword']);
+Route::get('/change-password', [EmailVerification::class, 'changePasswordView']);
 
-Route::get('/forgot-password', [EmailVerification::class, 'showForgotPasswordForm']);
+Route::get('/forgot-password', [EmailVerification::class, 'showForgotPasswordForm'])->name('forgot-password');
+Route::post('/forgot-password', [EmailVerification::class, 'forgotPassword']);
 //===========================================================================================================
 
 //Botaknows Userside ===================================================

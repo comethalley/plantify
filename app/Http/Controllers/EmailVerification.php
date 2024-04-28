@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Libraries\PlantifyLibrary;
+use App\Mail\MailForgot;
 use App\Models\EmailVerification as ModelsEmailVerification;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -14,6 +15,7 @@ use App\Mail\MailInvitation;
 use App\Mail\MailVerificationCode;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
@@ -164,7 +166,7 @@ class EmailVerification extends Controller
 
         if ($validator->fails()) {
             $generateHash = $this->plantifyLibrary->generatehash($id);
-            $url = url('/verify-email').'?l='.$generateHash;
+            $url = url('/verify-email') . '?l=' . $generateHash;
             return redirect($url)->withErrors($validator)->withInput();
         }
 
@@ -182,5 +184,56 @@ class EmailVerification extends Controller
     public function showForgotPasswordForm()
     {
         return view('pages.forgot-password');
+    }
+
+    public function changePasswordView(Request $request)
+    {
+        $l = $request->query('l');
+        $verifyhash = $this->plantifyLibrary->verifydatafromhashid($l);
+
+        $user = User::where('id', $verifyhash)->first();
+
+        if (!$user) {
+            return redirect()->route('login')->with('error', 'User not found.');
+        }
+
+        return view('pages.change-password', ['user' => $user]);
+    }
+
+    public function forgotPassword(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $email = $request->input('email');
+
+        $user = User::where('email', $email)->first();
+
+        if (!$user) {
+            $validator->errors()->add('email', 'Email not found');
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $id = $user->id;
+
+        $generateHash = $this->plantifyLibrary->generatehash($id);
+        $url = url('/change-password') . '?l=' . $generateHash;
+
+        $data = [
+            "subject" => "Forgot Password Link",
+            "email" => $email,
+            "link" => $url,
+            // "password" => $generate_password,
+            "body" => "Join the urban green revolution !",
+        ];
+
+        Session::flash('success', 'Forgot password link has been sent to your email.');
+
+        return redirect()->back();
     }
 }

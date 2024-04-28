@@ -178,4 +178,9 @@ class EmailVerification extends Controller
 
         return redirect()->route('login')->with('error', 'User not found.');
     }
+
+    public function showForgotPasswordForm()
+    {
+        return view('pages.forgot-password');
+    }
 }

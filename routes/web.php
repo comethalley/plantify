@@ -316,6 +316,8 @@ Route::get('/resend-code/{id}', [EmailVerification::class, 'resendCode']);
 Route::post('/confirm-code/{id}', [EmailVerification::class, 'verifyEmail']);
 Route::get('/landing-page', [AuthController::class, 'landingpage']);
 Route::post('/change-password/{id}', [EmailVerification::class, 'changePassword']);
+
+Route::get('/forgot-password', [EmailVerification::class, 'showForgotPasswordForm']);
 //===========================================================================================================
 
 //Botaknows Userside ===================================================

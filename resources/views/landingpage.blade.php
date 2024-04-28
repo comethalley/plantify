@@ -155,24 +155,16 @@
     <!-- end container -->
 </section>
 <!-- end hero section -->
-
-
-  
 <br>
+
+                    
   <!-- <div class="container text-center"> -->
-  <h1 class="display-10 fw-semibold mb-4 lh-base text-black text-center" style="font-size: 35px; font-weight: 800;">Manage your Urban Garden</h1>
-  <p class="lead text-black lh-base text-center" style="max-width: 800px; margin: 0 auto;">Say hello to our growing community! Monitor your urban gardens in an efficient way through our intuitive tools. Join us and watch your urban garden bloom!</p>
-
-
-
-  <div class="container">
-                    <div class="row justify-content-center">
-                    </div>
-                    <!-- end row -->
-
+    <div class="container card">
+        <h1 class="display-10 fw-semibold mb-4 lh-base text-black text-center" style="font-size: 35px; font-weight: 800;">Manage your Urban Garden</h1>
+            <p class="lead text-black lh-base text-center" style="max-width: 800px; margin: 0 auto;">Say hello to our growing community! Monitor your urban gardens in an efficient way through our intuitive tools. Join us and watch your urban garden bloom!</p>
                     <div class="row gy-4">
                         <div class="col-lg-4">
-                            <div class="card plan-box h-100 mb-0">
+                            <div class=" plan-box h-100 mb-0">
                                 <div class="card-body p-4 m-2">
                                     <div class="d-flex align-items-center ">
                                         <div class="flex-grow-1">
@@ -183,16 +175,13 @@
 
                                         </div>
                                     </div>
-                                    <div>
-                                       
-                                    </div>
                                 </div>
                             </div>
                         </div>
 
                         <!--end col-->
                         <div class="col-lg-4">
-                            <div class="card plan-box h-100 mb-0">
+                            <div class=" plan-box h-100 mb-0">
                                 <div class="card-body p-4 m-2">
                                     <div class="d-flex align-items-center">
                                         <div class="flex-grow-1">
@@ -202,16 +191,13 @@
                                             <p class="text-muted mb-0" style="text-align: justify;">Utilize comprehensive data analysis tools to effectively monitor expenses, inventory levels, and planting schedules, enabling you to enhance productivity and efficiency within your urban farming endeavors.</p>
                                         </div>
                                     </div>
-                                    <div>
-                                       
-                                    </div>
                                 </div>
                             </div>
                         </div>
                         <!--end col-->
 
                         <div class="col-lg-4">
-                            <div class="card plan-box h-100 mb-0">
+                            <div class=" plan-box h-100 mb-0">
                                 <div class="card-body p-4 m-2">
                                     <div class="d-flex align-items-center">
                                         <div class="flex-grow-1">
@@ -221,85 +207,113 @@
                                             <p class="text-muted mb-0" style="text-align: justify;">Discover a user-friendly gardening companion! This simplifies scheduling, adjusts planting dates, and manages your planting history. Easily track crop growth on a twelve-month calendar view. Streamline your gardening with ease and precision.</p>
                                         </div>
                                     </div>
-                                    <div>
-                                    
-                                    </div>
                                 </div>
                             </div>
                         </div>
                         <!--end col-->
                     </div>
                     <!--end row-->
+                    
+    </div>
+    
+                <div class="container card">
+
+                        <div class="col-lg-12">
+                            <div class="">
+                                
+                                <div class="card-body">
+                                   
+
+                                    <!-- Swiper -->
+                                    <div class="swiper effect-coverflow-swiper rounded pb-5 swiper-coverflow swiper-3d swiper-initialized swiper-horizontal swiper-watch-progress">
+                                        <div class="swiper-wrapper" id="swiper-wrapper-93239b4b57f8d37f" aria-live="off" style="cursor: grab; transition-duration: 300ms; transform: translate3d(-450.75px, 0px, 0px);">
+                                        <div class="swiper-slide" role="group" aria-label="5 / 6" data-swiper-slide-index="4" style="width: 300.5px; transition-duration: 300ms; transform: translate3d(0px, 0px, -300px) rotateX(0deg) rotateY(150deg) scale(1); z-index: -2;">
+                                                <img src="assets/images/vegetables/img1.jpg" alt="" class="img-fluid">
+                                            <div class="swiper-slide-shadow-left swiper-slide-shadow-coverflow" style="opacity: 3; transition-duration: 300ms;"></div><div class="swiper-slide-shadow-right swiper-slide-shadow-coverflow" style="opacity: 0; transition-duration: 300ms;"></div></div><div class="swiper-slide swiper-slide-visible" role="group" aria-label="6 / 6" data-swiper-slide-index="5" style="width: 300.5px; transition-duration: 300ms; transform: translate3d(0px, 0px, -200.166px) rotateX(0deg) rotateY(100.083deg) scale(1); z-index: -1;">
+                                                <img src="assets/images/vegetables/img2.jpg" alt="" class="img-fluid">
+                                            <div class="swiper-slide-shadow-left swiper-slide-shadow-coverflow" style="opacity: 2.00166; transition-duration: 300ms;"></div><div class="swiper-slide-shadow-right swiper-slide-shadow-coverflow" style="opacity: 0; transition-duration: 300ms;"></div></div><div class="swiper-slide swiper-slide-visible swiper-slide-fully-visible swiper-slide-prev" role="group" aria-label="1 / 6" data-swiper-slide-index="0" style="width: 300.5px; transition-duration: 300ms; transform: translate3d(0px, 0px, -100px) rotateX(0deg) rotateY(50deg) scale(1); z-index: 0;">
+                                                <img src="assets/images/vegetables/img3.jpg" alt="" class="img-fluid">
+                                            <div class="swiper-slide-shadow-left swiper-slide-shadow-coverflow" style="opacity: 1; transition-duration: 300ms;"></div><div class="swiper-slide-shadow-right swiper-slide-shadow-coverflow" style="opacity: 0; transition-duration: 300ms;"></div></div><div class="swiper-slide swiper-slide-visible swiper-slide-fully-visible swiper-slide-active" role="group" aria-label="2 / 6" data-swiper-slide-index="1" style="width: 300.5px; transition-duration: 300ms; transform: translate3d(0px, 0px, -0.166389px) rotateX(0deg) rotateY(0.0831947deg) scale(1); z-index: 1;">
+                                                <img src="assets/images/vegetables/img4.jpg" alt="" class="img-fluid">
+                                            <div class="swiper-slide-shadow-left swiper-slide-shadow-coverflow" style="opacity: 0.00166389; transition-duration: 300ms;"></div><div class="swiper-slide-shadow-right swiper-slide-shadow-coverflow" style="opacity: 0; transition-duration: 300ms;"></div></div><div class="swiper-slide swiper-slide-visible swiper-slide-fully-visible swiper-slide-next" role="group" aria-label="3 / 6" data-swiper-slide-index="2" style="width: 300.5px; transition-duration: 300ms; transform: translate3d(0px, 0px, -100px) rotateX(0deg) rotateY(-50deg) scale(1); z-index: 0;">
+                                                <img src="assets/images/vegetables/img5.jpg" alt="" class="img-fluid">
+                                            <div class="swiper-slide-shadow-left swiper-slide-shadow-coverflow" style="opacity: 0; transition-duration: 300ms;"></div><div class="swiper-slide-shadow-right swiper-slide-shadow-coverflow" style="opacity: 1; transition-duration: 300ms;"></div></div><div class="swiper-slide swiper-slide-visible" role="group" aria-label="4 / 6" data-swiper-slide-index="3" style="width: 300.5px; transition-duration: 300ms; transform: translate3d(0px, 0px, -199.834px) rotateX(0deg) rotateY(-99.9168deg) scale(1); z-index: -1;">
+                                                <img src="assets/images/vegetables/img6.jpg" alt="" class="img-fluid">
+                                            <div class="swiper-slide-shadow-left swiper-slide-shadow-coverflow" style="opacity: 0; transition-duration: 300ms;"></div><div class="swiper-slide-shadow-right swiper-slide-shadow-coverflow" style="opacity: 1.99834; transition-duration: 300ms;"></div></div></div>
+                                        <div class="swiper-pagination swiper-pagination-dark swiper-pagination-clickable swiper-pagination-bullets swiper-pagination-horizontal swiper-pagination-bullets-dynamic" style="width: 150px;"><span class="swiper-pagination-bullet swiper-pagination-bullet-active-prev" tabindex="0" role="button" aria-label="Go to slide 1" style="left: 30px;"></span><span class="swiper-pagination-bullet swiper-pagination-bullet-active swiper-pagination-bullet-active-main" tabindex="0" role="button" aria-label="Go to slide 2" style="left: 30px;" aria-current="true"></span><span class="swiper-pagination-bullet swiper-pagination-bullet-active-next" tabindex="0" role="button" aria-label="Go to slide 3" style="left: 30px;"></span><span class="swiper-pagination-bullet swiper-pagination-bullet-active-next-next" tabindex="0" role="button" aria-label="Go to slide 4" style="left: 30px;"></span><span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 5" style="left: 30px;"></span><span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 6" style="left: 30px;"></span></div>
+                                    <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
+                                </div><!-- end card-body -->
+                            </div><!-- end card -->
+                        </div>
+                    </div>
                 </div>
                 <!-- end container -->
-            </section><br>
-            <!-- end plan -->
 
            
 
              <!-- start features -->
-            <section class="" id="try" style="padding-top:2px;">
-            <div class="auth-page-content overflow-hidden pt-lg-3">
-            <div class="container-fluid card" style="background-color: #066903">
+        
+            <div class="container card">
+                
+                    <div class="container-fluid card" style="background-color: #066903">
+                        <div class="card-body">
+                            <h2 class="mb-4 text-center" style="color: #ffffff;">Engage in the community using<br><span style="color:#FFAB2D;"><strong>P L A N T I F E E D</strong></span></h2>
+                                <div class="row align-items-center justify-content-lg-between justify-content-center gy-4">
 
-                <div class="card-body">
-                <h2 class="mb-4 text-center" style="color: #ffffff;">Engage in the community using<br><span style="color:#FFAB2D;"><strong>P L A N T I F E E D</strong></span></h2>
-                    <div class="row align-items-center justify-content-lg-between justify-content-center gy-4">
+                                        <div class="col-lg-6">
+                                            <div class="ratio ratio-16x9" style="border: 7px solid #ffffff;">
+                                            <iframe width="560" height="350" src="https://www.youtube.com/embed/Fne6fIzQViA?si=1Jd3T_kfbLUgEnU-" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                                            </div>
+                                        </div>
 
-                        <div class="col-lg-5 col-sm-7">
-                            <div class="ratio ratio-16x9" style="border: 7px solid #ffffff;">
-                            <iframe width="560" height="315" src="https://www.youtube.com/embed/Fne6fIzQViA?si=1Jd3T_kfbLUgEnU-" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                            </div>
+                                        <div class="col-lg-6">
+                                            <div class="text-muted">
+                                                <div class="vstack gap-0 mb-4 pb-1">
+                                                    <h4 style="color: #ffffff;">1. Share your knowledge</h4>
+                                                        <div class="d-flex col">
+                                                            <div class="flex-grow-1">
+                                                                <p class="lead text-white" style="text-align: justify;">
+                                                                    Spill the Beans! Share your garden gold in this planting community by swapping tips & tricks to your fellow urban garden farmers enabling the exploration and unlocking of new planting technique journey!
+                                                                </p>
+                                                            </div>
+                                                        </div>
+
+                                                    <h4 style="color: #ffffff;">2. Create Inspiring Story</h4>
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="flex-grow-1">
+                                                            <p class="lead text-white" style="text-align: justify;">Plant your story, inspire your city! Spread the journey of your planting, allowing other urban garden farmers to be inspired and relate on your planting plot!.</p>
+                                                        </div>
+                                                    </div>
+
+                                                    <h4 style="color: #ffffff;">3. Like, Comment, Share</h4>
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="flex-grow-1">
+                                                            <p class="lead text-white" style="text-align: justify;">Dig in Deep, Share Your Harvest! Engage with your co-urban garden farmers and express yourself with this interactive buttons by liking posts, commenting thoughts and opinions and sharing to allow a continuously growth of this planting community!</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+<!-- end col -->
+                                </div>
+                                <h3 class="text-white mb-0 text-center">A platform that connects the urban farmers across the city !</h3>
+<!-- end row -->
                         </div>
 
-        <div class="col-lg-6">
-        <div class="text-muted">
-        <div class="vstack gap-0 mb-4 pb-1">
-
-        <h4 style="color: #ffffff;">1. Share your knowledge</h4>
-            <div class="d-flex col">
-                <div class="flex-grow-1">
-                    <p class="lead text-white" style="text-align: justify;">
-                        Spill the Beans! Share your garden gold in this planting community by swapping tips & tricks to your fellow urban garden farmers enabling the exploration and unlocking of new planting technique journey!
-                    </p>
-                </div>
-            </div>
-
-            <h4 style="color: #ffffff;">2. Create Inspiring Story</h4>
-            <div class="d-flex align-items-center">
-                <div class="flex-grow-1">
-                    <p class="lead text-white" style="text-align: justify;">Plant your story, inspire your city! Spread the journey of your planting, allowing other urban garden farmers to be inspired and relate on your planting plot!.</p>
-                </div>
-            </div>
-
-            <h4 style="color: #ffffff;">3. Like, Comment, Share</h4>
-            <div class="d-flex align-items-center">
-                <div class="flex-grow-1">
-                    <p class="lead text-white" style="text-align: justify;">Dig in Deep, Share Your Harvest! Engage with your co-urban garden farmers and express yourself with this interactive buttons by liking posts, commenting thoughts and opinions and sharing to allow a continuously growth of this planting community!</p>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-</div>
-<!-- end col -->
-</div>
-<h3 class="text-white mb-0 text-center">A platform that connects the urban farmers across the city !</h3>
-<!-- end row -->
-</div>
-<div>
-</div>
-<div>
+                    </div>
+                
     <!-- end container -->
-</section>
+            </div>
+
 <!-- end features -->
 
 
 
      <!-- start faqs -->
-     <section id="faq-section" class="" style="padding-top:10px;"><br>
-                <div class="container card">
+     <section id="faq-section" class="" ><br>
+            <div class="container card">
                 <div class="card-body">
                     <div class="row justify-content-center">
                         <div class="col-lg-20">
@@ -598,8 +612,10 @@
             <script src="assets/js/pages/plugins/lord-icon-2.1.0.js"></script>
             <script src="assets/js/plugins.js"></script>
 
-            <!--Swiper slider js-->
             <script src="assets/libs/swiper/swiper-bundle.min.js"></script>
+            <script src="assets/js/pages/swiper.init.js"></script>
+            <!--Swiper slider js-->
+            
 
             <!-- landing init -->
             <script src="assets/js/pages/landing.init.js"></script>

@@ -201,6 +201,10 @@ Route::post('/addFarmers', [AuthController::class, 'createFarmers']);
 Route::get('/farm_locations', [qcmaps::class, 'index']);
 Route::get('/get_maps', [qcmaps::class, 'getMaps']);
 Route::post('/farm_locations', [qcmaps::class, 'store']);
+Route::get('/farm_list', [qcmaps::class, 'index2']);
+Route::put('/farm_list/{id}', [qcmaps::class, 'delete']);
+Route::delete('/deleteLocation/{id}', [qcmaps::class, 'deleteLocation']);
+
 
 // Start Full Calender=================================================================
 Route::get('/schedules', [EventController::class, 'index']);

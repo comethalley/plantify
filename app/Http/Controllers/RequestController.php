@@ -85,7 +85,7 @@ class RequestController extends Controller
 
         return response()->json(['success' => true]);
     } catch (\Exception $e) {
-        \Log::error($e);
+        Log::error($e);
         return response()->json(['success' => false, 'errors' => ['exception' => [$e->getMessage()]]], 500);
     }
 }

@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">tools management</h4>
+                        <h4 class="mb-sm-0">Request management</h4>
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
 
@@ -19,7 +19,7 @@
                     <div class="card" id="tasksList">
                         <div class="card-header">
                             <div class="d-flex align-items-center">
-                                <h5 class="card-title mb-0 title">&nbsp; district dashboard : &nbsp;</h5>
+                                <h5 class="card-title mb-0 title">&nbsp; QC Farm leader dashboard : &nbsp;</h5>
                                 <div class="flex-shrink-0">
                                     <div class="d-flex flex-wrap gap-2">
 
@@ -132,12 +132,22 @@
                                                 <br>
                                                 <i style="font-size: 13px;">Click "Validation Remarks" for more specific updates</i>
                                             </td>
+                                            <td class="actions vertical-line ">
+                                                <div class="centered-container times-new-roman-bold">
+                                                    <ul class="list-inline hstack gap-2 mb-0">
+                                                        <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="View Application">
+                                                            <a href="#" data-bs-toggle="modal" data-bs-target="#viewModals" class="btn btn-outline-secondary text-primary d-inline-block edit-item-btn d-flex align-items-center justify-content-center custom-btn mt-2" onclick="showFarmDetails('{{ $request->id }}', '{{ $request->supply_tool }}');">
+                                                                <div class="d-flex align-items-center">
+                                                                    <i class="ri-profile-line fs-3 me-2 black"></i>
+                                                                    <span class="black">View Request Form</span>
+                                                                </div>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
                                             </td>
-
-                                            </tr>
-
+                                        </tr>
                             </div>
-
                         </div>
                         </td>
                         </td>
@@ -151,10 +161,7 @@
                             </td>
                         </tr>
                         @endif
-
-
                     </div>
-
                     </tbody>
                     </table>
                     <br><br>
@@ -319,20 +326,20 @@
         <!-- Modals -->
 
         <div class="modal fade" id="remarkModals" tabindex="-1" aria-labelledby="remarkModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header bg-light p-3">
-                                <h5 class="modal-title text-danger font-weight-bold" id="remarkModalLabel">Application Details</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body" id="modal-body">
-                                <h5 class="font-weight-bold">Request's Evaluation Thread</h5>
-                                <br>
-                                <div id="records-container"></div>
-                            </div>
-                        </div>
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-light p-3">
+                        <h5 class="modal-title text-danger font-weight-bold" id="remarkModalLabel">Application Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="modal-body">
+                        <h5 class="font-weight-bold">Request's Evaluation Thread</h5>
+                        <br>
+                        <div id="records-container"></div>
                     </div>
                 </div>
+            </div>
+        </div>
 
 
         <!-- Modals -->
@@ -346,70 +353,69 @@
         <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,800;1,800&display=swap" rel="stylesheet">
 
         <script>
+            function showRequestRemarks(id) {
+                fetch(`/request/${id}/details`)
+                    .then(response => response.json())
+                    .then(data => {
+                        var modalBody = document.getElementById('modal-body');
+                        modalBody.innerHTML = '';
 
-function showRequestRemarks(id) {
-    fetch(`/request/${id}/details`)
-        .then(response => response.json())
-        .then(data => {
-            var modalBody = document.getElementById('modal-body');
-            modalBody.innerHTML = '';
+                        var header = document.createElement('h5');
+                        header.className = 'font-weight-bold';
+                        header.innerText = "Request's Evaluation Thread";
+                        modalBody.appendChild(header);
 
-            var header = document.createElement('h5');
-            header.className = 'font-weight-bold';
-            header.innerText = "Request's Evaluation Thread";
-            modalBody.appendChild(header);
+                        data.remarks.forEach((remark, index) => {
+                            var containerWrapper = createContainerWrapper();
 
-            data.remarks.forEach((remark, index) => {
-                var containerWrapper = createContainerWrapper();
+                            // Assuming data.created_at and other arrays have the same length
+                            var date = new Date(data.created_at[index]);
+                            var formattedDate = date.toLocaleDateString('en-US', {
+                                year: 'numeric',
+                                month: 'numeric',
+                                day: 'numeric'
+                            });
+                            var formattedTime = date.toLocaleTimeString('en-US', {
+                                hour: 'numeric',
+                                minute: 'numeric',
+                                hour12: true
+                            });
 
-                // Assuming data.created_at and other arrays have the same length
-                var date = new Date(data.created_at[index]);
-                var formattedDate = date.toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'numeric',
-                    day: 'numeric'
-                });
-                var formattedTime = date.toLocaleTimeString('en-US', {
-                    hour: 'numeric',
-                    minute: 'numeric',
-                    hour12: true
-                });
+                            var statusAndValidatedText = 'Status: <strong style="font-family: \'Roboto Condensed\', sans-serif;">' + data.remark_status[index] + '</strong><br> Processed By: <span style="font-family: \'Roboto \', sans-serif; font-weight: 200;">' + data.validated_by[index] + '</span><span style="float: right;">' + formattedDate + ' / ' + formattedTime + '</span>';
+                            var statusAndValidatedParagraph = createParagraphs(statusAndValidatedText, true, '17px');
+                            containerWrapper.appendChild(statusAndValidatedParagraph);
 
-                var statusAndValidatedText = 'Status: <strong style="font-family: \'Roboto Condensed\', sans-serif;">' + data.remark_status[index] + '</strong><br> Processed By: <span style="font-family: \'Roboto \', sans-serif; font-weight: 200;">' + data.validated_by[index] + '</span><span style="float: right;">' + formattedDate + ' / ' + formattedTime + '</span>';
-                var statusAndValidatedParagraph = createParagraphs(statusAndValidatedText, true, '17px');
-                containerWrapper.appendChild(statusAndValidatedParagraph);
+                            var remarksContainer = createContainer();
 
-                var remarksContainer = createContainer();
+                            var validatedByParagraph = createParagraphs(data.validated_by[index], true);
 
-                var validatedByParagraph = createParagraphs(data.validated_by[index], true);
+                            var remarkText = remark || "";
+                            var visitDateText = data.visit_date[index] ? new Date(data.visit_date[index]).toLocaleDateString('en-US', {
+                                month: 'long',
+                                day: 'numeric',
+                                year: 'numeric'
+                            }) : ""; // Format visit date
+                            var remarksContent = remarkText;
+                            if (visitDateText) {
+                                remarksContent += ' at ' + visitDateText;
+                            }
+                            var remarksParagraph = createParagraphs(remarksContent);
 
-                var remarkText = remark || ""; 
-                var visitDateText = data.visit_date[index] ? new Date(data.visit_date[index]).toLocaleDateString('en-US', {
-                    month: 'long',
-                    day: 'numeric',
-                    year: 'numeric'
-                }) : ""; // Format visit date
-                var remarksContent = remarkText;
-                if (visitDateText) {
-                    remarksContent += ' at ' + visitDateText;
-                }
-                var remarksParagraph = createParagraphs(remarksContent);
+                            remarksContainer.appendChild(validatedByParagraph);
+                            remarksContainer.appendChild(remarksParagraph);
 
-                remarksContainer.appendChild(validatedByParagraph);
-                remarksContainer.appendChild(remarksParagraph);
+                            containerWrapper.appendChild(remarksContainer);
 
-                containerWrapper.appendChild(remarksContainer);
+                            modalBody.appendChild(containerWrapper);
+                        });
 
-                modalBody.appendChild(containerWrapper);
-            });
-
-            var myModal = new bootstrap.Modal(document.getElementById('remarkModals'));
-            myModal.show();
-        })
-        .catch(error => {
-            console.error('Error fetching farm details:', error);
-        });
-}
+                        var myModal = new bootstrap.Modal(document.getElementById('remarkModals'));
+                        myModal.show();
+                    })
+                    .catch(error => {
+                        console.error('Error fetching farm details:', error);
+                    });
+            }
 
 
 
@@ -425,76 +431,76 @@ function showRequestRemarks(id) {
             }
 
             function submitForm() {
-    // Hide any previous error messages
-    document.getElementById('error-messages').style.display = 'none';
-    document.getElementById('error-messages').innerHTML = ''; // Clear existing messages
-    document.getElementById('error-messages1').style.display = 'none';
-    document.getElementById('error-messages1').innerHTML = ''; // Clear existing messages
+                // Hide any previous error messages
+                document.getElementById('error-messages').style.display = 'none';
+                document.getElementById('error-messages').innerHTML = ''; // Clear existing messages
+                document.getElementById('error-messages1').style.display = 'none';
+                document.getElementById('error-messages1').innerHTML = ''; // Clear existing messages
 
-    // Get form and required fields
-    var form = document.getElementById('addFarmForm');
-    var requiredFields = form.querySelectorAll('[required]');
+                // Get form and required fields
+                var form = document.getElementById('addFarmForm');
+                var requiredFields = form.querySelectorAll('[required]');
 
-    // Check if all required fields are filled
-    var isValid = true;
-    requiredFields.forEach(function(field) {
-        if (!field.value.trim()) {
-            isValid = false;
-            field.classList.add('is-invalid'); // Add a visual cue for the user
-        } else {
-            field.classList.remove('is-invalid'); // Remove the visual cue if field is filled
-        }
-    });
+                // Check if all required fields are filled
+                var isValid = true;
+                requiredFields.forEach(function(field) {
+                    if (!field.value.trim()) {
+                        isValid = false;
+                        field.classList.add('is-invalid'); // Add a visual cue for the user
+                    } else {
+                        field.classList.remove('is-invalid'); // Remove the visual cue if field is filled
+                    }
+                });
 
-    // Check if supply_count is not a single 0
-    var supplyCountField = document.getElementsByName('supply_count')[0];
-    if (supplyCountField.value.trim() === '0') {
-        isValid = false;
-        supplyCountField.classList.add('is-invalid');
-        document.getElementById('error-messages1').style.display = 'block';
-        document.getElementById('error-messages1').innerHTML = '<p>Supply count cannot be 0.</p>';
-        return; // Stop form submission
-    }
-
-    if (!isValid) {
-        // If any required field is empty, display error message
-        document.getElementById('error-messages').style.display = 'block';
-        document.getElementById('error-messages').innerHTML = '<p>Please fill out all required fields.</p>';
-        return; // Stop form submission
-    }
-
-    // If all required fields are filled, proceed with form submission
-    var formData = new FormData(form);
-
-    fetch('{{ route("add.tools") }}', {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-CSRF-Token': '{{ csrf_token() }}',
-            },
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.success) {
-                location.reload();
-            } else {
-                document.getElementById('error-messages').style.display = 'block';
-                for (var key in data.errors) {
-                    document.getElementById('error-messages').innerHTML += '<p>' + data.errors[key][0] + '</p>';
+                // Check if supply_count is not a single 0
+                var supplyCountField = document.getElementsByName('supply_count')[0];
+                if (supplyCountField.value.trim() === '0') {
+                    isValid = false;
+                    supplyCountField.classList.add('is-invalid');
+                    document.getElementById('error-messages1').style.display = 'block';
+                    document.getElementById('error-messages1').innerHTML = '<p>Supply count cannot be 0.</p>';
+                    return; // Stop form submission
                 }
+
+                if (!isValid) {
+                    // If any required field is empty, display error message
+                    document.getElementById('error-messages').style.display = 'block';
+                    document.getElementById('error-messages').innerHTML = '<p>Please fill out all required fields.</p>';
+                    return; // Stop form submission
+                }
+
+                // If all required fields are filled, proceed with form submission
+                var formData = new FormData(form);
+
+                fetch('{{ route("add.tools") }}', {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-CSRF-Token': '{{ csrf_token() }}',
+                        },
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.success) {
+                            location.reload();
+                        } else {
+                            document.getElementById('error-messages').style.display = 'block';
+                            for (var key in data.errors) {
+                                document.getElementById('error-messages').innerHTML += '<p>' + data.errors[key][0] + '</p>';
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        document.getElementById('error-messages').style.display = 'block';
+                        document.getElementById('error-messages').innerHTML = '<p>An error occurred while processing your request. Please try again later.</p>';
+                    });
             }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            document.getElementById('error-messages').style.display = 'block';
-            document.getElementById('error-messages').innerHTML = '<p>An error occurred while processing your request. Please try again later.</p>';
-        });
-}
 
 
 
@@ -510,7 +516,6 @@ function showRequestRemarks(id) {
             lordIcon.setAttribute("state", "morph-check");
             lordIcon.setAttribute("style", "width:250px;height:250px");
             lordIconContainer.appendChild(lordIcon);
-
         </script>
 
         <style>
@@ -616,7 +621,7 @@ function showRequestRemarks(id) {
                 height: 38.5px;
                 /* Adjust the width as per your requirement */
             }
-            
+
 
             .table-bordered th,
             .table-bordered td {

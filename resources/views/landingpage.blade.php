@@ -54,7 +54,7 @@
         background-color: #4CAF50; /* Green background */
         border: none;
         color: white;
-        padding: 7px;
+        padding: 6px;
         text-align: center;
         text-decoration: none;
         display: inline-block;

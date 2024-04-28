@@ -4,8 +4,8 @@
 <head>
 
     <meta charset="utf-8" />
-    <title>About-us</title>
-    <link rel="shortcut icon" type="image/x-icon" href="assets/images/plantifeedpics/plants.png" class="img-fluid" />
+    <title>About Us</title>
+    <link rel="shortcut icon" type="image/x-icon" href="assets/images/plantifeedpics/rounded.png" class="img-fluid" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
@@ -48,6 +48,37 @@
 
  <style>
       
+        #translateButton {
+        position: relative; /* Add position */
+        z-index: 9999; /* Add z-index */
+        background-color: #4CAF50; /* Green background */
+        border: none;
+        color: white;
+        padding: 6px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        margin: 4px 4px;
+        cursor: pointer;
+        border-radius: 5px;
+        }
+
+        /* Custom styles for the arrow icon */
+        #translateButton i {
+            margin-left: 5px;
+        }
+
+        /* Custom styles for the Google Translate dropdown */
+        .goog-te-menu-value span {
+            color: white; /* Text color */
+        }
+
+        .goog-te-menu-value:hover {
+            background-color: #5cb85c; /* Hover color */
+        }
+        /* .skiptranslate {
+            display: none !important;
+        } */
     </style>
 </head>
 
@@ -90,10 +121,8 @@
                     <a class="btn btn-link text-white fw-semibold" style="background-color:#FFAB2D;" href="/signup">Sign Up</a>
                 </div>
                 <div >
-                        <button id="google_translate_element" >
-                            
-                        </button>
-                    </div>
+                        <button id="translateButton">
+                    </button>
                 
             </div>
         </div>
@@ -212,7 +241,7 @@
         <div class="card mb-4">
             <div class="card-body text-center p-4">
                 <div class="avatar-xl mx-auto mb-4 position-relative">
-                    <img src="/assets/images/team/.jpg" alt="" class="img-fluid rounded-circle">
+                    <img src="assets/images/plantifeedpics/rounded.png" alt="" class="img-fluid rounded-circle">
                    
                 </div>
                 <!-- end card body -->
@@ -231,7 +260,7 @@
         <div class="card mb-4">
             <div class="card-body text-center p-4">
                 <div class="avatar-xl mx-auto mb-4 position-relative">
-                    <img src="/assets/images/team/.jpg" alt="" class="img-fluid rounded-circle">
+                    <img src="assets/images/plantifeedpics/rounded.png" alt="" class="img-fluid rounded-circle">
                     
                 </div>
                 <!-- end card body -->
@@ -272,7 +301,7 @@
         <div class="card mb-4">
             <div class="card-body text-center p-4">
                 <div class="avatar-xl mx-auto mb-4 position-relative">
-                    <img src="/assets/images/plantifeedpics/.jpg" alt="" class="img-fluid rounded-circle">
+                    <img src="assets/images/plantifeedpics/rounded.png" alt="" class="img-fluid rounded-circle">
                     
                 </div>
                 <!-- end card body -->
@@ -411,32 +440,26 @@
 
 </html>
 <script type="text/javascript">
-function googleTranslateElementInit() {
-        // Initialize Google Translate element
-        new google.translate.TranslateElement({ 
-            pageLanguage: 'en', 
-            includedLanguages: 'en,tl', 
-            autoDisplay: false, // Set autoDisplay to false
-            layout: google.translate.TranslateElement.InlineLayout.SIMPLE 
-        }, 'google_translate_element');
-
-        // Wait for the translate iframe to load
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,tl',
+            autoDisplay: false,
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+        }, 'translateButton');
+        
         var observer = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation) {
                 if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
-                    // Check if the added node is the Google Translate iframe
                     var iframe = document.querySelector('.goog-te-banner-frame.skiptranslate');
                     if (iframe) {
-                        // Hide the "Skip Translate" option
                         iframe.style.display = 'none';
-                        // Disconnect the observer since we don't need to listen for changes anymore
                         observer.disconnect();
                     }
                 }
             });
         });
-
-        // Observe changes in the document
+        
         observer.observe(document.body, { childList: true, subtree: true });
     }
 </script>

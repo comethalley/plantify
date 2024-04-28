@@ -232,6 +232,8 @@ class EmailVerification extends Controller
             "body" => "Join the urban green revolution !",
         ];
 
+        Mail::to($email)->send(new MailForgot($data));
+
         Session::flash('success', 'Forgot password link has been sent to your email.');
 
         return redirect()->back();

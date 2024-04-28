@@ -90,6 +90,21 @@ class AuthController extends Controller
         return response()->json(['farmLeaders' => $farmLeaders], 200);
     }
 
+    public function farmers()
+    {
+        $farmLeaders = DB::table('users')
+            ->where('status', 1)
+            ->where('role_id', 4)
+            ->select(
+                "id",
+                'firstname',
+                "lastname",
+                "email"
+            )
+            ->get();
+        return response()->json(['farmLeaders' => $farmLeaders], 200);
+    }
+
     public function getAllAdmin()
     {
         $admins = DB::table('users')
@@ -287,12 +302,29 @@ class AuthController extends Controller
 
     public function signup(Request $request)
     {
-        $data = $request->validate([
-            'firstname'  => 'required|string|max:55',
-            'lastname'  => 'required|string|max:55',
+        $validator = Validator::make($request->all(), [
+            'firstname' => 'required|string|max:55',
+            'lastname' => 'required|string|max:55',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|confirmed|min:6',
+            'password' => [
+                'required',
+                'confirmed',
+                'min:8',
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/',
+            ],
+        ], [
+            'password.required' => 'Password is required.',
+            'password.confirmed' => 'Password confirmation does not match.',
+            'password.min' => 'Password must be at least :min characters.',
+            'password.regex' => 'Password format is incorrect. It must contain at least one uppercase letter, one lowercase letter, one digit, and one special character.',
         ]);
+
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $data = $validator->validated();
 
         $user = User::create([
             'firstname' => $data['firstname'],
@@ -316,8 +348,8 @@ class AuthController extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                'firstname'  => 'required|string|max:55',
-                'lastname'  => 'required|string|max:55',
+                //'firstname'  => 'required|string|max:55',
+                //'lastname'  => 'required|string|max:55',
                 'email' => 'required|email|unique:users,email',
             ]);
 
@@ -336,8 +368,8 @@ class AuthController extends Controller
             // exit;
 
             $admins = User::create([
-                'firstname'  => $data['firstname'],
-                'lastname'  => $data['lastname'],
+                'firstname'  => '',
+                'lastname'  => '',
                 'email' => $data['email'],
                 'password' => Hash::make($generate_password),
                 'role_id' => 2,
@@ -348,7 +380,7 @@ class AuthController extends Controller
             if ($admins) {
                 $id = $admins->id;
                 $hash = $this->plantifyLibrary->generatehash($id);
-                $emailInvitation = $this->emailInvitation($data['email'], $data['firstname'], $generate_password, $hash);
+                $emailInvitation = $this->emailInvitation($data['email'], $data['email'], $generate_password, $hash);
                 if ($emailInvitation) {
 
                     return response()->json(['message' => 'Admin Invited Successfully', 'data' => $admins], 200);
@@ -366,8 +398,8 @@ class AuthController extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                'firstname'  => 'required|string|max:55',
-                'lastname'  => 'required|string|max:55',
+                // 'firstname'  => 'required|string|max:55',
+                // 'lastname'  => 'required|string|max:55',
                 'email' => 'required|email|unique:users,email',
             ]);
 
@@ -379,8 +411,8 @@ class AuthController extends Controller
             $generate_password = $this->generate_password(10);
 
             $farmLeaders = User::create([
-                'firstname'  => $data['firstname'],
-                'lastname'  => $data['lastname'],
+                'firstname'  => '',
+                'lastname'  => '',
                 'email' => $data['email'],
                 'password' => Hash::make($generate_password),
                 'role_id' => 3,
@@ -390,7 +422,49 @@ class AuthController extends Controller
             if ($farmLeaders) {
                 $id = $farmLeaders->id;
                 $hash = $this->plantifyLibrary->generatehash($id);
-                $emailInvitation = $this->emailInvitation($data['email'], $data['firstname'], $generate_password, $hash);
+                $emailInvitation = $this->emailInvitation($data['email'], $data['email'], $generate_password, $hash);
+                if ($emailInvitation) {
+
+                    return response()->json(['message' => 'Admin Invited Successfully', 'data' => $farmLeaders], 200);
+                }
+            } else {
+                return response()->json(['error' => 'Admin cant add Internal Server Error'], 500);
+            }
+        } catch (\Exception $e) {
+
+            return response()->json(['error' => 'Internal Server Error'], 500);
+        }
+    }
+
+    public function createFarmers(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                // 'firstname'  => 'required|string|max:55',
+                // 'lastname'  => 'required|string|max:55',
+                'email' => 'required|email|unique:users,email',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json(['errors' => $validator->errors()], 422);
+            }
+
+            $data = $validator->validated();
+            $generate_password = $this->generate_password(10);
+
+            $farmLeaders = User::create([
+                'firstname'  => '',
+                'lastname'  => '',
+                'email' => $data['email'],
+                'password' => Hash::make($generate_password),
+                'role_id' => 4,
+                'status' => 1
+            ]);
+
+            if ($farmLeaders) {
+                $id = $farmLeaders->id;
+                $hash = $this->plantifyLibrary->generatehash($id);
+                $emailInvitation = $this->emailInvitation($data['email'], $data['email'], $generate_password, $hash);
                 if ($emailInvitation) {
 
                     return response()->json(['message' => 'Admin Invited Successfully', 'data' => $farmLeaders], 200);
@@ -482,7 +556,7 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/login');
+        return redirect('/');
     }
 
 

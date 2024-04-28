@@ -5,7 +5,8 @@
 
     <meta charset="utf-8" />
     <meta name="csrf-token" content="{{ csrf_token() }}" />
-    <title>Plantify</title>
+    <title>PlantiCUAI</title>
+    <link rel="shortcut icon" type="image/x-icon" href="assets/images/plantifeedpics/rounded.png" class="img-fluid" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
@@ -13,7 +14,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{{asset('assets/images/favicon.icon')}}" />
+    <!-- <link rel="shortcut icon" href="assets/images/favicon.ico" /> -->
 
     <!-- Weather config -->
     <!-- ApexChart - Piegraph (Js and cdn) -->
@@ -49,7 +50,7 @@
     <script src="{{ asset('assets/js/forum.js') }}"></script>
     <script src="{{ asset('assets/js/fertilizer.js') }}"></script>
     <script src="{{ asset('assets/js/inventory_fertilizer.js') }}"></script>
-
+    <script src="{{ asset('assets/js/farmers.js') }}"></script>
 
     <!--markusread JS-->
     <script src="{{ asset('assets/js/markasread.js') }}"></script>
@@ -76,9 +77,15 @@
             overflow-y: auto;
             /* Enable vertical scrolling */
         }
+
+        body {
+            top: 0 !important;
+        }
     </style>
 </head>
+
 <body onload="">
+
 
     <!-- Begin page -->
     <div id="layout-wrapper">
@@ -128,6 +135,11 @@
 
                     <div class="d-flex align-items-center">
 
+                        <div class="ms-1 header-item d-none d-sm-flex">
+                            <button id="google_translate_element">
+
+                            </button>
+                        </div>
 
                         <div class="ms-1 header-item d-none d-sm-flex">
                             <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" data-toggle="fullscreen">
@@ -508,15 +520,13 @@
                                 <h6 class="dropdown-header">Welcome {{ Auth::user()->role }}</h6>
                                 @endif
 
-                                <a class="dropdown-item" href="pages-profile.html"><i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i>
+                                <a class="dropdown-item" href="/pages/profilefeed"><i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i>
                                     <span class="align-middle">Profile</span></a>
-                                <a class="dropdown-item" href="apps-tasks-kanban.html"><i class="mdi mdi-calendar-check-outline text-muted fs-16 align-middle me-1"></i>
+                                <a class="dropdown-item" href="/tasks"><i class="mdi mdi-calendar-check-outline text-muted fs-16 align-middle me-1"></i>
                                     <span class="align-middle">Taskboard</span></a>
-                                <a class="dropdown-item" href="pages-faqs.html"><i class="mdi mdi-lifebuoy text-muted fs-16 align-middle me-1"></i>
-                                    <span class="align-middle">Help</span></a>
+
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="pages-profile-settings.html"><span class="badge bg-success-subtle text-success mt-1 float-end">New</span><i class="mdi mdi-cog-outline text-muted fs-16 align-middle me-1"></i>
-                                    <span class="align-middle">Settings</span></a>
+
                                 <form action="/logout" method="POST">
                                     @csrf
                                     <button type="submit" class="dropdown-item" href="#"><i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i>
@@ -555,32 +565,32 @@
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
         <!-- ========== App Menu ========== -->
-        <div class="app-menu navbar-menu" style="background-color:#57aa2c;">
+        <div class="app-menu navbar-menu" style="background-color:darkgreen;">
 
             <!-- LOGO -->
-            <div class="navbar-brand-box" style="background-color:#57aa2c;">
+            <div class="navbar-brand-box" style="background-color:darkgreen;">
                 <!-- Dark Logo-->
                 </br>
                 <a href="/dashboard/analytics" class="logo logo-dark">
                     <span class="logo-sm">
-                        <img src="{{ asset('assets/images/bg/pwhitesmall.png') }}" alt="" height="22" />
+                        <img src="{{ asset('assets/images/plantifeedpics/rounded.png') }}" alt="" height="20" width="20" />
                     </span>
                     <span class="logo-lg">
-                    <div style="display: flex; justify-content: center;">
-                        <img src="{{ asset('assets/images/bg/dash.png') }}" alt="" height="50" />
-                    </div>
+                        <div style="display: flex; justify-content: center;">
+                            <img src="{{ asset('assets/images/plantifeedpics/cuai.png') }}" alt="" height="50" />
+                        </div>
                     </span>
                 </a>
                 <!-- Light Logo-->
                 <a href="/dashboard/analytics" class="logo logo-light">
                     <span class="logo-sm">
-                        <img src="{{ asset('assets/images/bg/pwhitesmall.png') }}" alt="" height="22" />
+                        <img src="{{ asset('assets/images/plantifeedpics/rounded.png') }}" alt="" height="20" width="20" />
                     </span>
 
                     <span class="logo-lg">
-                    <div style="display: flex; justify-content: center;">
-                        <img src="{{ asset('assets/images/bg/dash.png') }}" alt="" height="50" />
-                    </div>
+                        <div style="display: flex; justify-content: center;">
+                            <img src="{{ asset('assets/images/plantifeedpics/cuai.png') }}" alt="" height="50" />
+                        </div>
 
                     </span>
                 </a>
@@ -602,16 +612,18 @@
                             </a>
                         </li>
 
-                        @if(session('user') && session('user')->role_id == 1)
+                        @if(session('user') && session('user')->role_id == 1 || session('user') && session('user')->role_id == 2)
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="#UsersDropDown" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="UsersDropDown" style="color:white">
                                 <i class="ri-account-circle-line"></i> <span>Users</span>
                             </a>
                             <div class="collapse menu-dropdown" id="UsersDropDown">
                                 <ul class="nav nav-sm flex-column">
+                                    @if(session('user') && session('user')->role_id == 1)
                                     <li class="nav-item">
                                         <a href="/users/admin" class="nav-link" style="color:white"> Admin </a>
                                     </li>
+                                    @endif
                                     <li class="nav-item">
                                         <a href="/users/farm-leader" class="nav-link" style="color:white"> Farm Leaders </a>
                                     </li>
@@ -623,12 +635,23 @@
                         </li>
                         @endif
 
-                        <li class="nav-item">
+                        @if(session('user') && session('user')->role_id == 1 || session('user') && session('user')->role_id == 2)
+                        <!-- <li class="nav-item">
                             <a class="nav-link menu-link" href="/Farms-District-5" role="button" style="color:white">
                                 <i class="ri-home-4-line"></i>
                                 <span data-key="t-dashboards">Farms</span>
                             </a>
+                        </li> -->
+                        @endif
+
+                        @if(session('user') && session('user')->role_id == 3 || session('user') && session('user')->role_id == 4)
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="/Tools-District-5" role="button" style="color:white">
+                                <i class="ri-tools-fill"></i>
+                                <span data-key="t-dashboards">Tools</span>
+                            </a>
                         </li>
+                        @endif
 
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="#sidebarDashboards" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards" style="color:white">
@@ -667,7 +690,7 @@
 
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="#weather" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards" style="color:white">
-                                <i class="ri-sun-foggy-fill"></i> <span>Weather</span>
+                                <i class="ri-sun-foggy-fill"></i> <span>Weather Monitoring</span>
                             </a>
                             <div class="collapse menu-dropdown" id="weather">
                                 <ul class="nav nav-sm flex-column">
@@ -705,12 +728,12 @@
                                     <li class="nav-item">
                                         <a href="/inventory/uom" class="nav-link" style="color:white"> Unit of Measurements </a>
                                     </li>
-                                    <li class="nav-item">
+                                    <!-- <li class="nav-item">
                                         <a href="/inventory/fertilizer" class="nav-link" style="color:white">Fertilizer</a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="/inventory/tools" class="nav-link" style="color:white">Tools</a>
-                                    </li>
+                                    </li> -->
                                 </ul>
                             </div>
                         </li> <!-- end Dashboard Menu -->
@@ -738,18 +761,21 @@
                                 <span data-key="t-faqs">Chat</span>
                             </a>
                         </li>
-                        @endif
+
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="{{ route('tasks.monitoring') }}" role="button" style="color:white">
                                 <i class="ri-task-line"></i>
                                 <span data-key="t-faqs">Task</span>
                             </a>
                         </li>
+                        @endif
 
                         @if(session('user') && (session('user')->role_id == 1 || session('user')->role_id == 2))
                         <li class="nav-item">
+
                             <a class="nav-link menu-link" href="#pimaintenance" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards" style="color:white">
                                 <i class="ri-leaf-line"></i> <span>Crop Production Maintenance</span>
+
                             </a>
                             <div class="collapse menu-dropdown" id="pimaintenance">
                                 <ul class="nav nav-sm flex-column">
@@ -768,9 +794,12 @@
                         </li>
                         @endif
 
+
                         <li class="nav-item">
+
                             <a class="nav-link menu-link" href="#piuser" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards" style="color:white">
                                 <i class="ri-leaf-line"></i> <span>Crop Production</span>
+
                             </a>
                             <div class="collapse menu-dropdown" id="piuser">
                                 <ul class="nav nav-sm flex-column">
@@ -791,7 +820,7 @@
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="/plantifeed" role="button" style="color:white">
                                 <i class="ri-plant-line"></i>
-                                <span data-key="t-faqs">Plantifeed</span>
+                                <span data-key="t-faqs">Community Forum</span>
                             </a>
                         </li>
                         <!-- <li class="nav-item">
@@ -804,10 +833,21 @@
 
 
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="/farm_locations" role="button" style="color:white">
+                            <a class="nav-link menu-link" href="#farmlocation" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards" style="color:white">
                                 <i class="ri-map-pin-line"></i>
-                                <span data-key="t-faqs">Maps</span>
+                                <span data-key="t-faqs">Farm Location</span>
                             </a>
+                            <div class="collapse menu-dropdown" id="farmlocation">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="/farm_locations" class="nav-link" style="color:white">Map </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/farm_list" class="nav-link" style="color:white">List </a>
+
+                                    </li>
+                                </ul>
+                            </div>
                         </li>
 
 
@@ -833,11 +873,11 @@
                         <div class="col-sm-6">
                             <script>
                                 document.write(new Date().getFullYear())
-                            </script> © Plantify.
+                            </script> © Center For Urban Agriculture and Innovation.
                         </div>
                         <div class="col-sm-6">
                             <div class="text-sm-end d-none d-sm-block">
-                                Plantify
+                                CUAI
                             </div>
                         </div>
                     </div>
@@ -879,6 +919,7 @@
 
     <!-- Sweet Alerts js -->
     <script src="{{ asset('assets/libs/sweetalert2/sweetalert2.min.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
         function markNotificationAsRead(notificationCount) {
@@ -887,39 +928,47 @@
             }
         }
 
-        $('#markasread').on('click', function() {
-            $('#reload-section').load(location.href + ' #reload-section');
-        });
+        function googleTranslateElementInit() {
+            // Initialize Google Translate element
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'en,tl',
+                autoDisplay: false, // Set autoDisplay to false
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+
+            // Wait for the translate iframe to load
+            var observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+                        // Check if the added node is the Google Translate iframe
+                        var iframe = document.querySelector('.goog-te-banner-frame.skiptranslate');
+                        if (iframe) {
+                            // Hide the "Skip Translate" option
+                            iframe.style.display = 'none';
+                            // Disconnect the observer since we don't need to listen for changes anymore
+                            observer.disconnect();
+                        }
+                    }
+                });
+            });
+
+            // Observe changes in the document
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+        }
 
         $(document).ready(function() {
+            $('#markasread').on('click', function() {
+                $('#reload-section').load(location.href + ' #reload-section');
+            });
+
             // Scroll down to the bottom of the notification content
             $('#notificationItemsTabContent').scrollTop($('#notificationItemsTabContent')[0].scrollHeight);
         });
-
-
-
-
-        // const pusher = new Pusher('932fdd5849f2e8b782a5', {
-        //     cluster: 'ap1',
-        //     encrypted: true
-        // });
-
-        // const channel = pusher.subscribe('channel-name');
-        // channel.bind('event-name', function(data) {
-        //     // Display notification
-        // });
     </script>
 
-    <script>
-        // Pusher.logToConsole = true;
-
-        // var pusher = new Pusher('54f1c49cb67ee0620dac', {
-        //     cluster: 'ap1'
-        // });
-
-        // var channel = pusher.subscribe('my-channel');
-        // channel.bind('my-event', function(data) {
-        //     console.log("Data received:", data);
-        //     alert(JSON.stringify(data));
-        // });
-    </script>
+    <div id="google_translate_element"></div>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>

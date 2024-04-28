@@ -20,12 +20,6 @@ return new class extends Migration
             $table->string('address');
             $table->string('area');
             $table->string('farm_leader');
-            $table->string('status');
-            $table->binary('title_land');
-            $table->binary('picture_land');
-            $table->binary('picture_land1')->nullable();
-            $table->binary('picture_land2')->nullable();
-            $table->date('select_date')->nullable();
             $table->timestamps();
         
             // Define foreign key constraint

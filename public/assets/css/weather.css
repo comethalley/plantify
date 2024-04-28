@@ -22,9 +22,10 @@ body {
     background-size: cover;
     background-position: center;
     transition: background-image 0.3s ease;
+ 
 }
 img {
-    width: 100%;
+    /* width: 100%; */
 }
 .wrapper {
     display: flex;

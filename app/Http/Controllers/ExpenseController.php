@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 use App\Models\Expense;
 use App\Models\Farm;
 use App\Models\Budget;
@@ -18,45 +19,54 @@ class ExpenseController extends Controller
         $categories = Category::all();
         $user = auth()->user();
         $farmId = $user->farm_id;
-    
+
         $expensesQuery = Expense::with('category')->whereHas('farm', function ($query) use ($farmId) {
             $query->where('id', $farmId);
         });
-    
+
         $budget = Budget::where('farm_id', $farmId)->first();
-    
+
         $farm = null;
         $allottedBudget = null;
         $totalExpenses = null;
         $balance = null;
-    
+
         if ($request->has('month')) {
             $expensesQuery->whereMonth('created_at', $request->month);
         }
-    
+
         if ($request->has('year')) {
             $expensesQuery->whereYear('created_at', $request->year);
         }
-    
+
         if ($user->role_id == 2 || $user->role_id == 1) {
             $allottedBudget = Budget::sum('allotted_budget');
             $balance = Budget::sum('balance');
             $totalExpenses = $this->computeTotalExpenses();
         } else if ($user->role_id == 3) {
             $farm = Farm::where('farm_leader', $user->id)->get();
-    
+
             if ($farm->isEmpty()) {
                 return redirect()->back()->with('error', 'You are not associated with any farms.');
             }
-    
+
             $farmId = $farm->first()->id;
             $allottedBudget = Budget::where('farm_id', $farmId)->sum('allotted_budget');
             $totalExpenses = Budget::where('farm_id', $farmId)->sum('total_expenses');
             $balance = Budget::where('farm_id', $farmId)->value('balance');
         }
-    
+
         $expenses = $expensesQuery->get();
-    
+
+        // Get the list of months and years for the dropdowns
+        $months = [];
+        for ($i = 1; $i <= 12; $i++) {
+            $months[] = Carbon::create()->month($i)->format('F');
+        }
+
+        $currentYear = Carbon::now()->year;
+        $years = range($currentYear - 3, $currentYear + 3);
+
         return view("pages.expense.expense", [
             'expenses' => $expenses,
             'budget' => $budget,
@@ -66,6 +76,8 @@ class ExpenseController extends Controller
             'balance' => $balance,
             'userRoleId' => $user->role_id,
             'farmCategory' => $categories,
+            'months' => $months,
+            'years' => $years,
         ]);
     }
     
@@ -176,7 +188,6 @@ class ExpenseController extends Controller
             ], 500);
         }
     }
-    
 
     public function addBudget(Request $request)
     {
@@ -184,19 +195,25 @@ class ExpenseController extends Controller
             $validatedData = $request->validate([
                 'farm_id' => 'required|exists:farms,id',
                 'allotted_budget' => 'required|numeric|min:0',
+                'month' => 'required|in:January,February,March,April,May,June,July,August,September,October,November,December',
             ]);
     
             $farmId = $validatedData['farm_id'];
+            $month = $validatedData['month'];
     
-            $existingBudget = Budget::where('farm_id', $farmId)->first();
+            // Check if there's an existing budget for the same farm and month
+            $existingBudget = Budget::where('farm_id', $farmId)->where('month', $month)->first();
     
             if ($existingBudget) {
+                // Update existing budget
                 $existingBudget->allotted_budget += $validatedData['allotted_budget'];
                 $existingBudget->balance += $validatedData['allotted_budget'];
                 $existingBudget->save();
             } else {
+                // Create new budget
                 $budget = new Budget();
                 $budget->farm_id = $farmId;
+                $budget->month = $month;
                 $budget->allotted_budget = $validatedData['allotted_budget'];
                 $budget->balance = $validatedData['allotted_budget'];
                 $budget->total_expenses = 0;
@@ -216,22 +233,20 @@ class ExpenseController extends Controller
                 'error' => $e->getMessage(),
             ], 500);
         }
-    }
+    }    
     
     public function getDashboardData(Request $request)
     {
         $farmId = $request->input('farm_id');
-    
-        // Check if month and year are selected
-        if ($request->has('month') && $request->has('year')) {
-            $selectedMonth = $request->input('month');
-            $selectedYear = $request->input('year');
-    
+        $selectedMonth = $request->input('month');
+        $selectedYear = $request->input('year');
+
+        if ($selectedMonth && $selectedYear) {
             $budget = Budget::where('farm_id', $farmId)
-                ->whereMonth('updated_at', $selectedMonth)
-                ->whereYear('updated_at', $selectedYear)
+                ->whereMonth('created_at', $selectedMonth)
+                ->whereYear('created_at', $selectedYear)
                 ->first();
-    
+
             if (!$budget) {
                 return response()->json([
                     'success' => false,
@@ -241,10 +256,10 @@ class ExpenseController extends Controller
                     'totalExpenses' => 0
                 ]);
             }
-    
+
             $totalExpenses = $budget->total_expenses;
             $balance = $budget->balance;
-    
+
             return response()->json([
                 'success' => true,
                 'allottedBudget' => $budget->allotted_budget,
@@ -252,42 +267,39 @@ class ExpenseController extends Controller
                 'totalExpenses' => $totalExpenses,
             ]);
         } else {
-            $budget = Budget::where('farm_id', $farmId)
-                ->orderBy('updated_at', 'desc')
-                ->first();
-    
-            if (!$budget) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'No budget found.',
-                    'allottedBudget' => 0,
-                    'balance' => 0,
-                    'totalExpenses' => 0
-                ]);
+            $totalExpenses = Budget::where('farm_id', $farmId)->sum('total_expenses');
+            $budgets = Budget::where('farm_id', $farmId)->get();
+            $totalAllottedBudget = 0;
+            $totalBalance = 0;
+
+            foreach ($budgets as $budget) {
+                $totalAllottedBudget += $budget->allotted_budget;
+                $totalBalance += $budget->balance;
             }
-    
-            $totalExpenses = $budget->total_expenses;
-            $balance = $budget->balance;
-    
+
+            $totalAllottedBudgetFormatted = number_format($totalAllottedBudget, 2);
+            $totalBalanceFormatted = number_format($totalBalance, 2);
+            $totalExpensesFormatted = number_format($totalExpenses, 2);
+
             return response()->json([
                 'success' => true,
-                'allottedBudget' => $budget->allotted_budget,
-                'balance' => $balance,
-                'totalExpenses' => $totalExpenses,
+                'allottedBudget' => $totalAllottedBudgetFormatted,
+                'balance' => $totalBalanceFormatted,
+                'totalExpenses' => $totalExpensesFormatted,
             ]);
         }
-    }    
-
-    public function computeTotalExpenses()
-    {
-        $expensesTotal = Expense::sum('amount');
-
-        $budget = Budget::first();
-        if ($budget) {
-            $budget->total_expenses = $expensesTotal;
-            $budget->save();
-        }
-
-        return $expensesTotal;
     }
+
+    // public function computeTotalExpenses()
+    // {
+    //     $expensesTotal = Expense::sum('amount');
+
+    //     $budget = Budget::first();
+    //     if ($budget) {
+    //         $budget->total_expenses = $expensesTotal;
+    //         $budget->save();
+    //     }
+
+    //     return $expensesTotal;
+    // }
 }

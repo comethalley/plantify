@@ -82,6 +82,26 @@
     background-color: #28a745; /* Green */
     color: #fff; /* White */
 }
+input:invalid + span::after {
+  content: "";
+  padding-left: 5px;
+}
+
+input:valid + span::after {
+  content: "✓";
+  padding-left: 5px;
+
+}
+.clickable-span {
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Add transition for smooth hover effect */
+}
+
+.clickable-span:hover {
+    /* Add your hover effect styles here */
+    background-color: #c0c0c0; /* Darker shade of gray (for example) */
+}
+
   </style>
 
 
@@ -280,11 +300,15 @@
 </div>
 
 <div class="row">
-    <div class="col-md-6 mb-3">
+    <div class="col-md-7 mb-3">
         <label for="due_date" class="form-label">Date and Time</label>
-        <input type="datetime-local" name="due_date" id="due_date" class="form-control" required />
+        <div class="input-group">
+            <input type="datetime-local" name="due_date" id="due_date" class="form-control" required />
+            <span class="input-group-text clickable-span"></span>
+        </div>
     </div>
-    <div class="col-md-6">
+
+    <div class="col-md-5">
         <label for="priority" class="form-label">Priority</label>
         <select class="form-control" id="priority" name="priority" required>
             <option value="" disabled selected>Select Priority</option> <!-- Placeholder for the priority dropdown -->
@@ -358,13 +382,16 @@
                         <label for="description" class="form-label">Description</label>
                         <input type="text" name="description" id="edit-description" class="form-control" value="{{ isset($task) ? $task->description : '' }}" required />
                     </div>
-
                     <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="due_date" class="form-label">Date and Time</label>
-                            <input type="datetime-local" name="due_date" id="edit-due_date" class="form-control" value="{{ isset($task) ? $task->due_date : '' }}" required />
+                    <div class="col-md-7 mb-3">
+                        <label for="due_date" class="form-label">Date and Time</label>
+                        <div class="input-group">
+                            <input type="datetime-local" name="due_date" id="due_date" class="form-control" value="{{ isset($task) ? $task->due_date : '' }}" required />
+                            <span class="input-group-text clickable-span"></span>
                         </div>
-                        <div class="col-md-6">
+                    </div>
+
+                    <div class="col-md-5">
                             <label for="priority" class="form-label">Priority</label>
                             <select class="form-control" id="edit-priority" name="priority" required>
                                 <option value="low" @if(isset($task) && $task->priority == 'low') selected @endif>Low</option>
@@ -373,7 +400,6 @@
                             </select>
                         </div>
                     </div>
-
                     <div class="row">
                         <div class="col-md-4">
                             <label for="status" class="form-label">Status</label>
@@ -394,9 +420,9 @@
     </select>
 </div>
                 
-
     
                 </div>
+                <br>
                 <div class="modal-footer" style="display: block;">
                     <div class="hstack gap-2 justify-content-end">
                         <button type="button" class="btn btn-light" id="close-modal" data-bs-dismiss="modal">Close</button>
@@ -761,6 +787,14 @@
             }
         });
     });
+    var currentDate = new Date();
+    
+    // Format the current date and time to match the datetime-local input format (YYYY-MM-DDTHH:MM)
+    var currentDateString = currentDate.toISOString().slice(0, 16);
+    
+    // Set the minimum value of the datetime-local input to the current date and time
+    document.getElementById("due_date").min = currentDateString;
+
 });
 </script>
 <!-- END layout-wrappe

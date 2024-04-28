@@ -10,7 +10,9 @@ use App\Models\Farm;
 use App\Models\Group;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Pusher\Pusher;
 
 class ThreadController extends Controller
 {
@@ -91,7 +93,7 @@ public function storeMessage(Request $request, $threadId)
     // Validate the incoming request data
     $request->validate([
         'text_content' => 'nullable|string',
-        'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048', // Adjust the validation rules as needed
+        'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:25000', // Adjust the validation rules as needed
     ]);
 
     // Check if an image is included in the request
@@ -101,7 +103,7 @@ public function storeMessage(Request $request, $threadId)
         $imagePath = $request->file('photo')->store('images', 'public');
 
         // Create a new message with image path
-        Message::create([
+        $message = Message::create([
             'thread_id' => $threadId,
             'sender_id' => auth()->user()->id,
             'image_path' => $imagePath,
@@ -109,7 +111,7 @@ public function storeMessage(Request $request, $threadId)
         ]);
     } else {
         // Create a new message with text content
-        Message::create([
+        $message = Message::create([
             'thread_id' => $threadId,
             'sender_id' => auth()->user()->id,
             'text_content' => $request->input('text_content'),
@@ -117,23 +119,51 @@ public function storeMessage(Request $request, $threadId)
         ]);
     }
 
-    // You might need to return a response or redirect based on your application flow
+    // Broadcast the message using Pusher
+    $pusher = new Pusher(
+        env('PUSHER_APP_KEY'),
+        env('PUSHER_APP_SECRET'),
+        env('PUSHER_APP_ID'),
+        [
+            'cluster' => env('PUSHER_APP_CLUSTER'),
+            'useTLS' => true,
+        ]
+    );
+
+    $pusher->trigger('chat-channel', 'new-message', $message);
+
+    // Return a success response
     return response()->json(['success' => true]);
 }
 
 
-    public function deleteMessage($messageId)
+public function deleteMessage($messageId)
 {
     $message = Message::find($messageId);
 
     if ($message) {
         // Update the status of the message to false
         $message->update(['status' => false]);
+
+        // Broadcast the message deletion using Pusher
+        $pusher = new Pusher(
+            env('PUSHER_APP_KEY'),
+            env('PUSHER_APP_SECRET'),
+            env('PUSHER_APP_ID'),
+            [
+                'cluster' => env('PUSHER_APP_CLUSTER'),
+                'useTLS' => true,
+            ]
+        );
+
+        $pusher->trigger('deleted-channel', 'deleted-message', ['message_id' => $messageId]);
+
         return response()->json(['success' => true]);
     } else {
         return response()->json(['error' => 'Message not found'], 404);
     }
 }
+
 
 
     /**
@@ -149,6 +179,19 @@ public function storeMessage(Request $request, $threadId)
         // ...
 
         return back();
+    }
+
+
+    public function fetchMessages(Request $request, $threadId)
+    {
+        // Retrieve the thread and related messages
+        $thread = Thread::with('messages')->findOrFail($threadId);
+    
+        // Retrieve messages for the current thread
+        $messages = $thread->messages;
+    
+        // Return messages as JSON response
+        return response()->json(['messages' => $messages]);
     }
 
 /**

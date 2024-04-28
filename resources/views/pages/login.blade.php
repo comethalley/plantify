@@ -5,7 +5,7 @@
 
     <meta charset="utf-8" />
     <title>Login | Plantify</title>
-    <link rel="shortcut icon" type="image/x-icon" href="assets/images/plantifeedpics/plants.png" class="img-fluid" />
+    <link rel="shortcut icon" type="image/x-icon" href="assets/images/plantifeedpics/rounded.png" class="img-fluid" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
@@ -26,8 +26,8 @@
         body,
         html {
             height: 100%;
-            background: darkgreen;
-            overflow: hidden; /* Prevent scrollbars */
+            background: #066903;
+            /* Prevent scrollbars */
         }
         .container {
             position: absolute;
@@ -41,7 +41,7 @@
         }
 
         .auth-one-bg-position {
-            position: absolute;
+            /* position: fixed; */
             top: 0;
             left: 0;
             width: 100%;
@@ -77,8 +77,8 @@
                                 <div class="p-lg-5 p-4">
                                     <div>
                                         <div class="card-body p-1">
-                                            <h5 class="text-center" style="color: #57AA2C;">Welcome Back!</h5>
-                                            <p class="text-muted text-center">Login to continue to Plantify.</p>
+                                            <h5 class="text-center" style="color:#066903;">Welcome Back!</h5>
+                                            <p class="text-muted text-center">Login to continue.</p>
                                         </div><br>
 
                                         <div class="mt-4">
@@ -101,7 +101,7 @@
 
                                                 <div class="mb-3">
                                                     <div class="float-end">
-                                                        <a href="auth-pass-reset-cover.html" class="text-muted">Forgot password?</a>
+                                                        <a href="/forgot-password" class="text-muted">Forgot password?</a>
                                                     </div>
                                                     <label class="form-label" for="password-input">Password</label>
                                                     <div class="position-relative auth-pass-inputgroup mb-3">
@@ -114,7 +114,7 @@
 
                                                 <div class="mt-5">
 
-                                                    <button type="submit" class="btn btn-link text-white w-100" style="background-color: #57AA2C;" href="">Login</a>
+                                                    <button type="submit" class="btn btn-link text-white w-100" style="background-color:#066903;" href="">Login</a>
                                                 </div>
 
                                                 <br>
@@ -122,7 +122,7 @@
                                         </div>
 
                                         <div class="mt-1 text-center">
-                                            <p class="mb-0">Don't have an account ? <a href="/signup" class="fw-semibold text-decoration-underline" style="color: #57AA2C;"> SignUp</a> </p>
+                                            <p class="mb-0">Don't have an account ? <a href="/signup" class="fw-semibold text-decoration-underline" style="color:#066903;"> SignUp</a> </p>
                                         </div>
                                     </div>
                                 </div>

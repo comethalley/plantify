@@ -70,24 +70,6 @@
                                             </ul>
                                         </div>
 
-                                        <!-- Display the thread messages -->
-                                        <!-- <div class="chat-conversation"> -->
-                                            <!-- Loop through $thread messages and display them -->
-                                            <!-- @foreach($thread->messages as $message) -->
-                                                <!-- Your message display content -->
-                                                <!-- <div class="message"> -->
-                                                    <!-- Display message content, sender, etc. -->
-                                                <!-- </div>
-                                            @endforeach
-                                        </div> -->
-
-
-
-
-
-
-
-        
                                         <div class="d-flex align-items-center px-4 mt-4 pt-2 mb-2">
                                             <div class="flex-grow-1">
                                                 <h4 class="mb-0 fs-11 text-muted text-uppercase">Group Chats</h4>
@@ -215,104 +197,13 @@
                                         <!-- Your chat conversation section -->
                                         <div class="chat-conversation p-3 p-lg-4" id="chat-conversation" data-simplebar>
                                             <ul class="list-unstyled chat-conversation-list" id="users-conversation">
-                                                @foreach($messages as $message)
-                                                    {{-- Check if the message status is true --}}
-                                                    @if($message->status)
-                                                        {{-- Display the actual message content --}}
-                                                        @if($message->text_content)
-                                                            {{-- Display text message --}}
-                                                            @if($message->sender_id == auth()->user()->id)
-                                                                {{-- Sender's message (right) --}}
-                                                                <li class="chat-list right">
-                                                            @else
-                                                                {{-- Reply (left) --}}
-                                                                <li class="chat-list left">
-                                                            @endif
-                                                                <div class="conversation-list">
-                                                                    <div class="user-chat-content">
-                                                                        <div class="ctext-wrap">
-                                                                            <div class="ctext-wrap-content">
-                                                                                <div class="message-dropdown">
-                                                                                    <p class="mb-0 ctext-content" onclick="toggleDropdown(this)" data-message-id="{{ $message->id }}">{{ $message->text_content }}</p>
-                                                                                    <div class="dropdown-menu">
-                                                                                        <a class="dropdown-item" onclick="deleteMessage(this)">Delete</a>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="conversation-name">
-                                                                                <br>
-                                                                                <small class="text-muted time">{{ $message->created_at->format('H:i') }}</small>
-                                                                                <span class="text-success check-message-icon">
-                                                                                    <i class="ri-check-double-line align-bottom"></i>
-                                                                                </span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </li>
-                                                        @elseif($message->image_path)
-                                                            {{-- Display image message --}}
-                                                            @if($message->sender_id == auth()->user()->id)
-                                                                {{-- Sender's message (right) --}}
-                                                                <li class="chat-list right">
-                                                            @else
-                                                                {{-- Reply (left) --}}
-                                                                <li class="chat-list left">
-                                                            @endif
-                                                                <div class="conversation-list">
-                                                                    <div class="user-chat-content">
-                                                                        <div class="ctext-wrap">
-                                                                            <div class="ctext-wrap-content">
-                                                                                <div class="message-dropdown">
-                                                                                    {{-- Display image --}}
-                                                                                    <img src="{{ asset('storage/' . $message->image_path) }}"  style="max-width: 400px; max-height: 400px;" class="img-fluid" alt="Image">
-                                                                                    <div class="dropdown-menu">
-                                                                                        <a class="dropdown-item" onclick="deleteMessage(this)">Delete</a>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="conversation-name">
-                                                                                <br>
-                                                                                <small class="text-muted time">{{ $message->created_at->format('H:i') }}</small>
-                                                                                <span class="text-success check-message-icon">
-                                                                                    <i class="ri-check-double-line align-bottom"></i>
-                                                                                </span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </li>
-                                                        @endif
-                                                    {{-- If the message status is false, display "You unsent a message" --}}
-                                                    @else
-                                                        <li class="chat-list right">
-                                                            <div class="conversation-list">
-                                                                <div class="user-chat-content">
-                                                                    <div class="ctext-wrap">
-                                                                        <div class="ctext-wrap-content">
-                                                                            <div class="message-dropdown">
-                                                                                <p class="mb-0 ctext-content">You unsent a message</p>
-                                                                                <div class="dropdown-menu">
-                                                                                    <a class="dropdown-item" onclick="deleteMessage(this)">Delete</a>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="conversation-name">
-                                                                            <br>
-                                                                            <small class="text-muted time">{{ $message->created_at->format('H:i') }}</small>
-                                                                            <span class="text-success check-message-icon">
-                                                                                <i class="ri-check-double-line align-bottom"></i>
-                                                                            </span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </li>
-                                                    @endif
-                                                @endforeach
+                                                <!-- Messages will be dynamically added here -->
                                             </ul>
-                                            <!-- end chat-conversation-list -->
                                         </div>
+
+
+
+
 
 
 
@@ -542,52 +433,166 @@ document.getElementById("chatinput-form").addEventListener("submit", function (e
     }
 });
 
+$(document).ready(function() {
+    fetchMessages()
 
+    Pusher.logToConsole = true;
 
-function appendMessageToConversation(message) {
-    var usersConversation = document.getElementById("users-conversation");
-    var messageItem = document.createElement("li");
-    messageItem.className = "chat-list right"; // Assuming the sender is always the current user
-    messageItem.innerHTML = `
-        <div class="conversation-list">
-            <div class="user-chat-content">
-                <div class="ctext-wrap">
-                    <div class="ctext-wrap-content">
-                        <div class="message-dropdown">
-                            <p class="mb-0 ctext-content">${message}</p>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#" onclick="deleteMessage(this)">Delete</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="conversation-name">
-                        <br>
-                        <small class="text-muted time">${getCurrentTime()}</small>
-                        <span class="text-success check-message-icon">
-                            <i class="ri-check-double-line align-bottom"></i>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>`;
-    usersConversation.appendChild(messageItem);
+var pusher = new Pusher('d7630bf7a930051c0329', {
+    cluster: 'ap1'
+});
+
+var channel = pusher.subscribe('chat-channel');
+channel.bind('new-message', function(message) {
+    fetchMessages()
+});
+        // Function to fetch messages
+        function fetchMessages() {
+            var threadId = "{{ $thread->id }}"; // Get the thread ID from your view
+            $.ajax({
+                url: '/threads/' + threadId + '/messages',
+                type: 'GET',
+                success: function(response) {
+                    // Check if messages were fetched successfully
+                    if (response.messages) {
+                        var messages = response.messages;
+                        // Update the conversation area with fetched messages
+                        updateConversation(messages);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching messages:', error);
+                }
+            });
+        }
+
+        // Function to update conversation area with fetched messages
+        function updateConversation(messages) {
+    var conversationList = $('#users-conversation');
+    conversationList.empty(); // Clear existing messages
+
+    // Loop through each message and append it to the conversation area
+    messages.forEach(function(message) {
+        var messageItem = $('<li class="chat-list"></li>');
+
+        // Conditionally apply CSS class for message alignment
+        if (message.sender_id == "{{ auth()->user()->id }}") {
+            messageItem.addClass('right'); // Align message to the right for logged-in user
+        } else {
+            messageItem.addClass('left'); // Align message to the left for other users
+        }
+
+        // Construct the message content based on message type
+        var messageContent;
+        if (message.text_content) {
+            // If message is text
+            if (message.status) {
+                // If message status is true
+                messageContent = $('<div class="conversation-list">' +
+                    '<div class="user-chat-content">' +
+                    '<div class="ctext-wrap">' +
+                    '<div class="ctext-wrap-content">' +
+                    '<div class="message-dropdown">' +
+                    '<p class="mb-0 ctext-content" onclick="toggleDropdown(this)" data-message-id="' + message.id + '">' + message.text_content + '</p>' +
+                    `<div class="dropdown-menu">` +
+                    `<a class="dropdown-item" onclick="deleteMessage(this)">Delete</a>` +
+                    `</div>` +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="conversation-name">' +
+                    '<br>' +
+                    '<small class="text-muted time">' + getCurrentTime() + '</small>' +
+                    '<span class="text-success check-message-icon">' +
+                    '<i class="ri-check-double-line align-bottom"></i>' +
+                    '</span>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>');
+            } else {
+                // If message status is false
+                messageContent = $('<div class="conversation-list">' +
+                    '<div class="user-chat-content">' +
+                    '<div class="ctext-wrap">' +
+                    '<div class="ctext-wrap-content">' +
+                    '<div class="message-dropdown">' +
+                    '<p class="mb-0 ctext-content">Unsent a message</p>' +
+                    `<div class="dropdown-menu">` +
+                    `<a class="dropdown-item" onclick="deleteMessage(this)">Delete</a>` +
+                    `</div>` +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="conversation-name">' +
+                    '<br>' +
+                    '<small class="text-muted time">' + getCurrentTime() + '</small>' +
+                    '<span class="text-success check-message-icon">' +
+                    '<i class="ri-check-double-line align-bottom"></i>' +
+                    '</span>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>');
+            }
+        } else if (message.image_path) {
+            // If message is image
+            messageContent = $('<div class="conversation-list">' +
+                '<div class="user-chat-content">' +
+                '<div class="ctext-wrap">' +
+                '<div class="ctext-wrap-content">' +
+                '<div class="message-dropdown">' +
+                '<img src="{{ asset('storage') }}/' + message.image_path + '" style="max-width: 200px; max-height: 200px;" class="img-fluid" alt="Image">' +
+                `<div class="dropdown-menu">` +
+                `<a class="dropdown-item" href="{{ asset('storage') }}/${message.image_path}" download>` +
+                `<i class="ri-download-line me-2"></i> Download` +
+                `</a>` +
+                `<a class="dropdown-item" href="{{ asset('storage') }}/${message.image_path}" target="_blank">` +
+                `<i class="ri-eye-line me-2"></i> View` +
+                `</a>` +
+                `</div>` +
+                '</div>' +
+                '</div>' +
+                '<div class="conversation-name">' +
+                '<br>' +
+                '<small class="text-muted time">' + getCurrentTime() + '</small>' +
+                '<span class="text-success check-message-icon">' +
+                '<i class="ri-check-double-line align-bottom"></i>' +
+                '</span>' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '</div>');
+        }
+
+        // Append the message content to the message item
+        messageItem.append(messageContent);
+
+        // Append the message item to the conversation list
+        conversationList.append(messageItem);
+    });
 }
 
-function getCurrentTime() {
-    var now = new Date();
-    var hours = now.getHours().toString().padStart(2, "0");
-    var minutes = now.getMinutes().toString().padStart(2, "0");
-    return hours + ":" + minutes;
-}
+    });
 
-function toggleDropdown(element) {
-    var dropdownMenu = element.nextElementSibling;
-    dropdownMenu.classList.toggle("show");
-}
 
-function deleteMessage(element) {
-    var messageItem = element.closest(".chat-list");
-    var messageId = messageItem.querySelector('.ctext-content').getAttribute('data-message-id');
+    function getCurrentTime() {
+            var now = new Date();
+            var hours = now.getHours().toString().padStart(2, "0");
+            var minutes = now.getMinutes().toString().padStart(2, "0");
+            return hours + ":" + minutes;
+        }
+
+        function toggleDropdown(element) {
+            var dropdownMenu = element.nextElementSibling;
+            dropdownMenu.classList.toggle("show");
+        }
+
+
+        $(document).ready(function() {
+    // Define the deleteMessage function
+    // Define the deleteMessage function
+window.deleteMessage = function(element) {
+    var messageItem = $(element).closest(".chat-list");
+    var messageId = messageItem.find('.ctext-content').data('message-id');
     
     // Send a DELETE request to delete the message
     $.ajax({
@@ -600,10 +605,11 @@ function deleteMessage(element) {
             // Check if the response indicates success
             if (response.success) {
                 // Update the message content in the conversation area
-                var messageContent = messageItem.querySelector('.ctext-content');
-                messageContent.textContent = 'You unsent a message';
+                var messageContent = messageItem.find('.ctext-content');
+                messageContent.text('Unsent a message');
+                messageContent.css('font-style', 'italic');
                 // Remove the dropdown menu
-                var dropdownMenu = messageItem.querySelector('.dropdown-menu');
+                var dropdownMenu = messageItem.find('.dropdown-menu');
                 dropdownMenu.remove();
             }
         },
@@ -611,7 +617,22 @@ function deleteMessage(element) {
             console.error('Error:', error);
         }
     });
-}
+};
+
+
+    deleteMessage(); // Call deleteMessage initially
+
+    Pusher.logToConsole = true;
+
+    var pusher = new Pusher('d7630bf7a930051c0329', {
+        cluster: 'ap1'
+    });
+
+    var channel = pusher.subscribe('deleted-channel');
+    channel.bind('deleted-message', function(message) {
+        deleteMessage(); // Call deleteMessage when a message is deleted
+    });
+});
 
 
 function replyToMessage(element) {

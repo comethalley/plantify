@@ -12,6 +12,7 @@ use App\Models\GroupMessage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Pusher\Pusher;
 
 class GroupController extends Controller
 {
@@ -134,8 +135,10 @@ class GroupController extends Controller
         // Validate the incoming request data
         $request->validate([
             'content' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048', // Adjust the validation rules as needed
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:25000', // Adjust the validation rules as needed
         ]);
+    
+        $message = null; // Initialize $message variable
     
         // Check if an image is included in the request
         if ($request->hasFile('image')) {
@@ -144,29 +147,52 @@ class GroupController extends Controller
             $imagePath = $request->file('image')->store('images', 'public');
     
             // Create a new message with image path
-            GroupMessage::create([
+            $message = GroupMessage::create([
                 'thread_id' => $groupId,
                 'sender_id' => auth()->user()->id,
                 'image_path' => $imagePath,
                 'create_date' => now(),
             ]);
-        } elseif ($request->filled('content')) {
+        } else {
             // Create a new message with text content only
-            GroupMessage::create([
+            $message = GroupMessage::create([
                 'thread_id' => $groupId,
                 'sender_id' => auth()->user()->id,
                 'content' => $request->input('content'),
                 'create_date' => now(),
             ]);
-        } else {
-            // If neither content nor image is provided, return an error response
-            return response()->json(['error' => 'Please provide either text or an image'], 400);
         }
     
-        // You might need to return a response or redirect based on your application flow
+        // Broadcast the message using Pusher
+        $pusher = new Pusher(
+            env('PUSHER_APP_KEY'),
+            env('PUSHER_APP_SECRET'),
+            env('PUSHER_APP_ID'),
+            [
+                'cluster' => env('PUSHER_APP_CLUSTER'),
+                'useTLS' => true,
+            ]
+        );
+
+        $pusher->trigger('group-channel', 'group-message', $message);
+    
+        // Return a success response
         return response()->json(['success' => true]);
     }
     
+
+    
+    public function fetchMessages(Request $request, $groupId)
+    {
+        // Retrieve the group thread and related messages
+        $groupThread = GroupThread::with('messages')->findOrFail($groupId);
+    
+        // Retrieve messages for the current group thread
+        $messages = $groupThread->messages;
+    
+        // Return messages as JSON response
+        return response()->json(['messages' => $messages]);
+    }
     
 
     

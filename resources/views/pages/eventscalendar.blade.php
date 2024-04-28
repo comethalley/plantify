@@ -105,10 +105,10 @@
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header bg-light p-3">
-                                            <h5 class="modal-title" id="exampleModalLabel">&nbsp;</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">Create Events</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
                                         </div>
-                                        <form method="post" action="{{ URL('/create-schedule') }}"  id="form-event">
+                                        <form method="post" action="{{ URL('/create-schedule') }}"  id="form-event" enctype="multipart/form-data">
                                             @csrf
                                             <div class="modal-body">
                                                 <input type="hidden" id="id-field" />
@@ -129,7 +129,28 @@
                                                     <label for="end-datepicker" class="form-label">End</label>
                                                     <input type="text" name="end" id="end-datepicker" class="form-control" placeholder="Enter End Date" required/>
                                                 </div>
-
+                                                <div class="col-12" id="event-time">
+                                                        <div class="row">
+                                                            <div class="col-6">
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">Start Time</label>
+                                                                    <div class="input-group">
+                                                                        <input id="timepicker1" name="starttime"type="text" class="form-control flatpickr flatpickr-input active" placeholder="Select start time" readonly="readonly" required>
+                                                                        <span class="input-group-text"><i class="ri-time-line"></i></span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">End Time</label>
+                                                                    <div class="input-group">
+                                                                        <input id="timepicker2" name="endtime" type="text" class="form-control flatpickr flatpickr-input" placeholder="Select end time" readonly="readonly" required>
+                                                                        <span class="input-group-text"><i class="ri-time-line"></i></span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 <div class="mb-3">
                                                     <label for="location" class="form-label">Location</label>
                                                     <input type="text" name="location" id="customername-field" class="form-control" placeholder="Enter Location"  required/>
@@ -139,7 +160,10 @@
                                                     <label for="description" class="form-label">Description</label>
                                                     <input type="text" name="description" id="description" class="form-control" placeholder="Enter description" required/>
                                                 </div>
-
+                                                <div class="mb-3">
+                                                    <label for="image" class="form-label">Image</label>
+                                                    <input type="file" name="image" id="image" class="form-control" accept="image/*" />
+                                                </div>
                                             </div>
                                             <div class="modal-footer">
                                                 <div class="hstack gap-2 justify-content-end">
@@ -155,82 +179,109 @@
 
     <!---event detail EventModal--->
     <div class="modal fade" id="EventdetailModal" tabindex="-1" role="dialog" aria-labelledby="EventdetailModal" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered">
-                                    <div class="modal-content border-0">
-                                        <div class="modal-header p-3 bg-soft-success">
-                                            <h5 class="modal-title" id="modal-title">Event details</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0">
+            <div class="modal-header p-3 bg-soft-success">
+                <h5 class="modal-title" id="modal-title">Event details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+            </div>
+            <div class="modal-body p-4">
+                <form class="needs-validation view-event" name="event-form" id="form-event" novalidate="">
+                    <div class="d-flex">
+                        <div class="me-4">
+                            <!-- Image -->
+                            <img src="" alt="Event Image" class="img-fluid" style="max-width: 200px;" id="eventimage">
+                        </div>
+                        <div class="flex-grow-1">
+                            <!-- Event details -->
+                            <div class="event-details">
+                                <div class="d-flex mb-2">
+                                    <div class="flex-grow-1 d-flex align-items-center">
+                                        <div class="flex-shrink-0 me-3">
+                                            <i class="ri-calendar-event-line text-muted fs-16"></i>
                                         </div>
-                                        <div class="modal-body p-4">
-                                        <form class="needs-validation view-event" name="event-form" id="form-event" novalidate="">
-                                      
-                                                <div class="event-details">
-                                                    <div class="d-flex mb-2">
-                                                        <div class="flex-grow-1 d-flex align-items-center">
-                                                            <div class="flex-shrink-0 me-3">
-                                                                <i class="ri-calendar-event-line text-muted fs-16"></i>
-                                                            </div>
-                                                            
-                                                            <div class="flex-grow-1">
-                                                            <h5 class="d-block - fw-semibold semibold mb-0">Event Name: <span id="eventtitle"></span></h5>
-                                        
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    
-                                                    <div class="d-flex align-items-center mb-2">
-                                                        <div class="flex-shrink-0 me-3">
-                                                            <i class="ri-time-line text-muted fs-16"></i>
-                                                        </div>
-                                                        <div class="flex-grow-1">
-                                                            <h5 class="d-block fw-semibold mb-0">Start: <span id="eventstart"></span></h5>
-                                                        </div>
-                                                    </div>
 
-                                                    <div class="d-flex align-items-center mb-2">
-                                                        <div class="flex-shrink-0 me-3">
-                                                            <i class="ri-time-line text-muted fs-16"></i>
-                                                        </div>
-                                                        <div class="flex-grow-1">
-                                                            <h5 class="d-block fw-semibold mb-0">End: <span id="eventend"></span></h5>
-                                                        </div>
-                                                    </div>
-                                                    <div class="d-flex align-items-center mb-2">
-                                                        <div class="flex-shrink-0 me-3">
-                                                            <i class="ri-map-pin-line text fs-16"></i>
-                                                        </div>
-                                                        <div class="flex-grow-1">
-                                                            <h5 class="d-block fw-semibold mb-0">Location: <span id="eventlocation"></span></h5>
-                                                        </div>
-                                                    </div>
-                                                    <div class="d-flex mb-3">
-                                                        <div class="flex-shrink-0 me-3">
-                                                            <i class="ri-discuss-line text-muted fs-16"></i>
-                                                        </div>
-                                                        <div class="flex-grow-1">
-                                                        <h5 class="d-block fw-semibold mb-0">Description: <span id="eventdescription"></span></h5>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                
-
-                                                        
-                                                        <div class="hstack gap-2 justify-content-end">
-                                                        <button type="button" class="btn btn-danger"data-bs-toggle="modal" data-bs-target="#archiveModal">Delete</button>
-                                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editexampleModal">Edit</button>
-                                                    
-                                                          
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                          
-                                            </form>
+                                        <div class="flex-grow-1">
+                                            <h5 class="d-block - fw-semibold semibold mb-0">Event Name: <span id="eventtitle"></span></h5>
                                         </div>
-                                    </div> <!-- end modal-content-->
-                                </div> <!-- end modal dialog-->
-                               
+                                    </div>
+                                </div>
+
+                                <div class="d-flex align-items-center mb-2">
+                                    <div class="flex-shrink-0 me-3">
+                                        <i class="ri-time-line text-muted fs-16"></i>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h5 class="d-block fw-semibold mb-0">Start: <span id="eventstart"></span></h5>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex align-items-center mb-2">
+                                    <div class="flex-shrink-0 me-3">
+                                        <i class="ri-time-line text-muted fs-16"></i>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h5 class="d-block fw-semibold mb-0">End: <span id="eventend"></span></h5>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center mb-2">
+                                    <div class="flex-shrink-0 me-3">
+                                        <i class="ri-map-pin-line text fs-16"></i>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h5 class="d-block fw-semibold mb-0">Location: <span id="eventlocation"></span> <br> <span id="timepicker2"></h5>
+                                    </div>
+                                </div>
+                                <div class="d-flex mb-3">
+                                    <div class="flex-shrink-0 me-3">
+                                        <i class="ri-discuss-line text-muted fs-16"></i>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h5 class="d-block fw-semibold mb-0">Description: <span id="eventdescription"></span></h5>
+                                    </div>
+                                </div>
                             </div>
+                        </div>
+                    </div>
+                    @if(auth()->user()->role_id == 1)
+                            {{-- Display only for role_id 1 (Admin) --}}
+                            <div class="hstack gap-2 justify-content-end">
+                        <button  type="button" class="btn btn-danger"data-bs-toggle="modal" data-bs-target="#archiveModal">Delete</button>
+                        <button  type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editexampleModal">Edit</button>
+                    </div>
+                            @elseif(auth()->user()->role_id == 2)
+                            {{-- Display only for role_id 2 (
+                                 Admin) --}}
+                                 <div class="hstack gap-2 justify-content-end">
+                        <button type="button" class="btn btn-danger"data-bs-toggle="modal" data-bs-target="#archiveModal">Delete</button>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editexampleModal">Edit</button>
+                    </div>
+                            @elseif(auth()->user()->role_id == 3)
+                            {{-- Display for role_id 3 (Farm Leader) --}}
+                            <div class="hstack gap-2 justify-content-end">
+                        <button hidden type="button" class="btn btn-danger"data-bs-toggle="modal" data-bs-target="#archiveModal">Delete</button>
+                        <button hidden type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editexampleModal">Edit</button>
+                    </div>
+                            @elseif(auth()->user()->role_id == 4 )
+                            {{-- Display only for role_id 4 ( Farmers) --}}
+                            <div class="hstack gap-2 justify-content-end">
+                        <button hidden type="button" class="btn btn-danger"data-bs-toggle="modal" data-bs-target="#archiveModal">Delete</button>
+                        <button hidden type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editexampleModal">Edit</button>
+                    </div>
+                            @elseif(auth()->user()->role_id == 5 )
+                            {{-- Display only for role_id 5 (Public Users) --}}
+                            <div class="hstack gap-2 justify-content-end">
+                        <button hidden type="button" class="btn btn-danger"data-bs-toggle="modal" data-bs-target="#archiveModal">Delete</button>
+                        <button hidden type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editexampleModal">Edit</button>
+                    </div>
+                            @endif
+                   
+
+                </form>
+            </div>
+        </div> <!-- end modal-content-->
+    </div> <!-- end modal dialog-->
+</div>
 <!-- Update and Delete Event Modal -->
 <div class="modal fade" id="editexampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
@@ -261,7 +312,28 @@
                                                     <input type="text" name="end" id="Eventend-datepicker" class="form-control" data-toggle="flatpickr" data-flatpickr-enable-time="true" data-flatpickr-date-format="Y-m-d" placeholder="Enter End Date" required />
                                                 </div>
                                             </div>
-
+                                            <div class="col-12" id="event-time">
+                                                        <div class="row">
+                                                            <div class="col-6">
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">Start Time</label>
+                                                                    <div class="input-group">
+                                                                        <input id="timepicker1" name="starttime" type="text" class="form-control flatpickr flatpickr-input active" placeholder="Select start time" readonly="readonly" required>
+                                                                        <span class="input-group-text"><i class="ri-time-line"></i></span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">End Time</label>
+                                                                    <div class="input-group">
+                                                                        <input id="timepicker2" name="endtime" type="text" class="form-control flatpickr flatpickr-input" placeholder="Select end time" readonly="readonly" required>
+                                                                        <span class="input-group-text"><i class="ri-time-line"></i></span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                             <div class="form-group mb-3">
                                                 <label for="updateLocation">Location:</label>
                                                 <input type="text" class="form-control" id="updateLocation" placeholder="Enter location" required>
@@ -273,7 +345,10 @@
                                                 <label for="updateDescription">Description:</label>
                                                 <input type="text" class="form-control" id="updateDescription" placeholder="Enter description" required>
                                             </div>
-
+                                            <div class="mb-3">
+                                                    <label for="image" class="form-label">Image</label>
+                                                    <input type="file" name="updateimage" id="updateimage" class="form-control" accept="image/*" />
+                                                </div>
 
                                            
 
@@ -387,48 +462,58 @@
                 eventClick: function (info) {
                   //  console.log(info.event)
                   //  console.log("Event is", info.event._def.extendedProps);
-                    var eventTitle = info.event._def.title
-                    var eventID = info.event._def.publicId
+                    var eventTitle = info.event._def.title;
+                    var eventId = info.event._def.publicId;
                     var eventStart = info.event.start;
                     var eventEnd = info.event.end;
                     var eventLocation = info.event.extendedProps.location;
                 var eventDescription = info.event.extendedProps.description;
-                    var event = info.event._def.extendedProps
-                    var date = info.event._instance.range
+               
+                    var event = info.event._def.extendedProps;
+                    var date = info.event._instance.range;
+                    
                  //   console.log("Variable event is" + event.location)
                   //  console.log("Date is" + date.start)
                     // Close Update/Delete Event Modal if open
-            @if(auth()->user()->role_id == 1)
-                            {{-- Display only for role_id 1 (Admin) --}}
+        
                             $('#EventdetailModal').modal('show');
-            @elseif(auth()->user()->role_id == 2)
-                            {{-- Display only for role_id 2 (Super Admin) --}}
-                            $('#EventdetailModal').modal('show');         
-           @elseif(auth()->user()->role_id == 3)
-                            {{-- Display for role_id 3 (Farm Leader) --}}    
-                            $('#EventdetailModal').modal('hide');
-            @elseif(auth()->user()->role_id == 4 )
-                             {{-- Display only for role_id 4 ( Farmers) --}}
-                             $('#EventdetailModal').modal('hide');
-            @elseif(auth()->user()->role_id == 5 )
-                             {{-- Display only for role_id 5 (Public Users) --}}
-                             $('#EventdetailModal').modal('hide');
-            @endif
+          
                     
                     
                     // Display event details in the Update/Delete Event Modal
-                    
-                        $('#eventtitle').text(eventTitle);
-                        $('#eventstart').text(moment(date.start).format('MMMM D, YYYY'));
-                        $('#eventend').text(moment(date.end).format('MMMM D, YYYY'));
-                        $('#eventlocation').text(event.location);
-                        $('#eventdescription').text(event.description);
+                    $.ajax({
+        url: '/events/' + eventId,
+        type: 'GET',
+        success: function(response) {
+            
+            $('#eventtitle').text(response.title);
+            $('#eventstart').text(moment(response.start).format('MMMM D, YYYY'));
+            $('#eventend').text(moment(response.end).format('MMMM D, YYYY'));
+            $('#timepicker1').text(response.starttime);
+$('#timepicker2').val(response.endtime);
+            $('#eventlocation').text(response.location);
+            $('#eventdescription').text(response.description);
+            var imageUrl = "assests/images/event/"+response.image;
+            console.log("Image Event"+imageUrl)
+            $('#eventimage').attr('src', imageUrl);
+            // Show the modal
+            $('#EventdetailModal').modal('show');
+        },
+        error: function(xhr, status, error) {
+            // Handle errors
+            console.error(error);
+        }
+    });
+
 
                         $('#updateEventTitle').val(eventTitle);
                         $('#Eventstart-datepicker').val(moment(eventStart).format("YYYY-MM-DD"));
                         $('#Eventend-datepicker').val(moment(eventEnd).format("YYYY-MM-DD"));
                         $('#updateLocation').val(eventLocation);
+                        $('#timepicker1').val(starttime);
+            $('#timepicker2').val(endtime);
                         $('#updateDescription').val(eventDescription);
+                        $('#updateimage').attr('src', event.image); 
                     // Store event ID fo var eventId = event.id;r update and delete
                     var eventId = event.id;
                     $('#updateEventBtn').data('event-id', eventId);
@@ -477,17 +562,21 @@ function handleEventDelete(eventId) {
             var end = $('#Eventend-datepicker').val();
             var location = $('#updateLocation').val();
             var description = $('#updateDescription').val();
-            
+            var starttime = $('#timepicker1').val();
+            var endtime = $('#timepicker2').val();
+
             console.log("Data Sent:", {
             title: title,
             start: start,
             end: end,
             location: location,
             description: description,
+            starttime: starttime,
+            endtime: endtime,
         });
 
 
-            if (title && start && end && location && description) {
+            if (title && start && end && location && description && starttime && endtime) {
                 $.ajax({
                     url: "/scheduleupdate/" + eventId,
                     type: "PUT",
@@ -500,6 +589,8 @@ function handleEventDelete(eventId) {
                         end: end,
                         location: location,
                         description: description,
+                        starttime: starttime,
+            endtime: endtime,
                     },
 
                     
@@ -584,6 +675,8 @@ function filterAndDisplayEvents(searchKeywords) {
    altFormat: "F j, Y",
    dateFormat: "Y-m-d",
    minDate: "today",
+
+  
    });
    flatpickr("#end-datepicker", {
     
@@ -591,6 +684,7 @@ function filterAndDisplayEvents(searchKeywords) {
    altFormat: "F j, Y",
    dateFormat: "Y-m-d",
    minDate: "today",
+ 
    });
   
 
@@ -600,6 +694,7 @@ function filterAndDisplayEvents(searchKeywords) {
    altFormat: "F j, Y",
    dateFormat: "Y-m-d",
    minDate: "today",
+
    });
    flatpickr("#Eventend-datepicker", {
     enableTime: false,
@@ -607,12 +702,21 @@ function filterAndDisplayEvents(searchKeywords) {
    altFormat: "F j, Y",
    dateFormat: "Y-m-d",
    minDate: "today",
+
    });
 
     
- 
+   flatpickr("#timepicker1",{
+    enableTime: true,
+    noCalendar: true,
+    dateFormat: "H:i",
+});
 
-   
+flatpickr("#timepicker2",{
+    enableTime: true,
+    noCalendar: true,
+    dateFormat: "H:i",
+});
 
        
 </script>

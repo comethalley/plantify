@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('budgets', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('farm_id');
+            $table->string('month');
             $table->decimal('allotted_budget', 10, 2);
             $table->decimal('balance', 10, 2);
             $table->decimal('total_expenses', 10, 2);

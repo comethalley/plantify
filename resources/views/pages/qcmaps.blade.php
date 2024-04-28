@@ -32,19 +32,19 @@
                         <h4 class="card-title mb-0">District 5, Quezon City Metro Manila</h4>
                         @if(auth()->user()->role_id == 1)
                         {{-- Display only for role_id 1 (Admin) --}}
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addFarmLocationModal">Add Farm Location</button>
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addFarmLocationModal">Add Farm Location</button>
                         @elseif(auth()->user()->role_id == 2)
                         {{-- Display only for role_id 2 (Admin) --}}
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addFarmLocationModal">Add Farm Location</button>
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addFarmLocationModal">Add Farm Location</button>
                         @elseif(auth()->user()->role_id == 3)
                         {{-- Display for role_id 3 (Farm Leader) --}}
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addFarmLocationModal">Add Farm Location</button>
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addFarmLocationModal">Add Farm Location</button>
                         @elseif(auth()->user()->role_id == 4)
                         {{-- Display for role_id 4 (Farmers) --}}
-                        <button hidden type="button" class="btn btn-primary" data-toggle="modal" data-target="#addFarmLocationModal">Add Farm Location</button>
+                        <button hidden type="button" class="btn btn-success" data-toggle="modal" data-target="#addFarmLocationModal">Add Farm Location</button>
                         @elseif(auth()->user()->role_id == 5)
                         {{-- Display for role_id 5 (Public Users) --}}
-                        <button hidden type="button" class="btn btn-primary" data-toggle="modal" data-target="#addFarmLocationModal">Add Farm Location</button>
+                        <button hidden type="button" class="btn btn-success" data-toggle="modal" data-target="#addFarmLocationModal">Add Farm Location</button>
                         @endif
                         
                     </div>
@@ -95,9 +95,10 @@
                                     <label for="address">Exact Address:</label>
                                     <input type="text" class="form-control" id="address" name="address" required>
                                 </div>
-
-                                <button type="submit" class="btn btn-primary">Add Location</button>
-                                
+                                <br>
+                                <div class="form-group d-flex justify-content-end">
+                                <button type="submit" class="btn btn-success">Add Location</button>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -118,7 +119,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
     <!-- Include Leaflet library -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <!-- Include jQuery -->
@@ -232,4 +233,4 @@
         // Close the modal
         $('#addFarmLocationModal').modal('hide');
     });
-    </script>
+</script>

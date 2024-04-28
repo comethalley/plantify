@@ -14,8 +14,11 @@ class Event extends Model
         'title',
         'start', // Add this line
         'end',
+        'starttime',
+        'endtime',
         'location',
         'description',
+        'image',
         'status',
     ];
    

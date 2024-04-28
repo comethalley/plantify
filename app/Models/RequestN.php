@@ -12,7 +12,8 @@ class RequestN extends Model
     protected $table = 'request_tbl';
     protected $fillable = [
         'id',
-        'supply_type',
+        'supply_tool',
+        'supply_seedling',
         'supply_count',
         'letter_content',
         'requested_by',

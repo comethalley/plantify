@@ -19,20 +19,40 @@ class RequestController extends Controller
 {
     public function index1()
     {
-        // $supplyTypes = SupplyType::where('supply_id', 1)->pluck('type', 'id');
-
-        $supplyTypes = SupplyType::pluck('type', 'id');
-        // $seedlings = SupplyTypes::where('supply_id', 2)->pluck('type', 'type');
-
-        return view('pages.tools.index', compact('supplyTypes'));
-
+        $user = Auth::user();
+    
+        // Fetch supply types
+        $supplyTools = SupplyType::where('supply_id', 1)->pluck('type', 'id');
+        $supplySeedlings = SupplyType::where('supply_id', 2)->pluck('type', 'id');
+        
+        // Fetch request_tbl data and join with users table and supply_type_tbl for tool and seedling
+        $request_tbl = DB::table('request_tbl')
+            ->leftJoin('users', 'request_tbl.requested_by', '=', 'users.id')
+            ->leftJoin('supply_type_tbl as tool', 'request_tbl.supply_tool', '=', 'tool.id')
+            ->leftJoin('supply_type_tbl as seedling', 'request_tbl.supply_seedling', '=', 'seedling.id')
+            ->when($user, function ($query) use ($user) {
+                return $query->where('request_tbl.requested_by', '=', $user->id);
+            })
+            ->select(
+                'request_tbl.*', 
+                'users.firstname as requested_by_firstname', 
+                'users.lastname as requested_by_lastname',
+                'tool.type as supply_tool',
+                'seedling.type as supply_seedling'
+            )
+            ->get();
+    
+        return view('pages.tools.index', compact('supplyTools', 'supplySeedlings', 'request_tbl'));
     }
+    
+    
 
     public function addTools(Request $request)
 {
     try {
         $request->validate([
-            'supply_type' => 'required|string|max:255',
+            'supply_tool' => 'required|string|max:255',
+            'supply_seedling' => 'required|string|max:255',
             'supply_count' => 'required|numeric',
             'letter_content' => 'required|file|mimes:pdf|max:2048',
             'status' => 'string|max:255',
@@ -55,7 +75,8 @@ class RequestController extends Controller
 
         // Create the request with the logged-in user's ID
         RequestN::create([
-            'supply_type' => $request->input('supply_type'),
+            'supply_tool' => $request->input('supply_tool'),
+            'supply_seedling' => $request->input('supply_seedling'),
             'supply_count' => $request->input('supply_count'),
             'requested_by' => $loggedInUserId, // Store the user's ID
             'letter_content' => $contentLetterPath,

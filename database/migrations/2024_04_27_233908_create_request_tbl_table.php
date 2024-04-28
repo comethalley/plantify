@@ -15,7 +15,8 @@ return new class extends Migration
     {
         Schema::create('request_tbl', function (Blueprint $table) {
             $table->id();
-            $table->string('supply_type');
+            $table->string('supply_tool');
+            $table->string('supply_seedling');
             $table->integer('supply_count');
             $table->binary('letter_content');
             $table->string('requested_by');

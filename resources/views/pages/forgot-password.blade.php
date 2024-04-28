@@ -30,6 +30,7 @@
     <script>
     <script src="assets/libs/particles.js/particles.js"></script>
     <script src="assets/js/pages/particles.app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     </script>
 </head>
 
@@ -47,10 +48,10 @@
                         <div class="card overflow-hidden m-0">
                             <div class="row justify-content-center g-0">
                                 <div class="col-lg-6">
-                                    <div class="p-lg-5 p-4 auth-one-bg h-100">
+                                    <div class="p-l-5 p-4 auth-one-bg h-100">
                                         
                                         <div class="position-relative h-100 d-flex flex-column">
-                                            <div class="mb-4">
+                                            <div class="mb-0">
                                                 <a href="/" class="d-block">
                                               
                                                     <img src="assets/images/plantifeedpics/landing-page.png" alt="" class="img-fluid">
@@ -60,11 +61,11 @@
                                     </div>
                                 </div>
 
-                                <div class="col-lg-6 mb-6">
-                                    <div class="p-lg-5 p-4">
+                                <div class="col-lg-5">
+                                <div class="p-lg-5 p-4">
                                         <div>
                                         <h3 class="text-center mt-5"><strong>Forgot Password?</strong></h3>
-                                            <h5 class="justify-text-center">Please provide the email address linked to your account, and we'll send you a link to reset your password.</h5>
+                                            <h5 class="justify-text-center mt-5">Please provide the email address linked to your account, and we'll send you a link to reset your password.</h5>
                                            
                                         </div><br>
 
@@ -78,9 +79,9 @@
                                                
                                                
                                               
-                                              <button class="btn btn-success w-100" type="submit" style="background-color: #025830;">
-                                                      <i class=""></i> Send Reset Link
-                                                  </button>
+                                                    <button class="btn btn-success w-100" id="sendResetLinkButton" style="background-color: #025830;">
+                                                     <i class=""></i> Send Reset Link
+                                                    </button>
 
                                                 </div>
                                             </form>
@@ -121,3 +122,4 @@
 </html>
 </body>
 </html>
+

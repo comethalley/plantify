@@ -83,11 +83,11 @@
                                                 <td>{{ $item->days_harvest }}</td>
                                                 <td>
                                                     <ul class="list-inline hstack gap-2 mb-0">
-                                                        <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="View">
+                                                        <!-- <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="View">
                                                             <a href="" class="text-primary d-inline-block supplier_btn" data-bs-target="#viewModal" data-bs-toggle="modal" data-supplier-id="">
                                                                 <i class="ri-eye-fill fs-16"></i>
                                                             </a>
-                                                        </li>
+                                                        </li> -->
                                                         <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Edit">
                                                             <a href="" class="text-primary d-inline-block edit-item-btn" data-plantinfo-id="{{$item->id}}">
                                                                 <i class="ri-pencil-fill fs-16"></i>

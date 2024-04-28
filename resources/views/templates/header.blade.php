@@ -758,6 +758,13 @@
                                     </li>
                                 </ul>
                             </div>
+                            <div class="collapse menu-dropdown" id="pimaintenance">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="/fertilizers" class="nav-link" style="color:white"> Fertilizer </a>
+                                    </li>
+                                </ul>
+                            </div>
                         </li>
                         @endif
 
@@ -770,6 +777,12 @@
                                     <li class="nav-item">
                                         <a href="/piu/piu" class="nav-link" style="color:white"> Plant Information </a>
                                     </li>
+                                </ul>
+                            </div>
+                            <div class="collapse menu-dropdown" id="piuser">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="/piu/fiu" class="nav-link" style="color:white"> Fertilizers </a>
                                     </li>
                                 </ul>
                             </div>

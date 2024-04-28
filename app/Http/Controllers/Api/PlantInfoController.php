@@ -409,15 +409,15 @@ public function fedit($id) {
 public function fertarchive(Request $request, $id)
     {
 
-        $fertilizers = Fertilizers::where('id', $id)->where('pes_status', 1);
+        $fertilizers = Fertilizers::where('id', $id)->where('fer_status', 1);
 
 
 
         $fertilizers->update([
-            "pes_status" => 0
+            "fer_status" => 0
 
         ]);
-        return response()->json(['pesticides' => $pesticides], 200);
+        return response()->json(['fertilizers' => $fertilizers], 200);
     }
 
     public function pesarchive(Request $request, $id)

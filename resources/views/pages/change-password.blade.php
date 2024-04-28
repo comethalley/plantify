@@ -4,7 +4,9 @@
 
     <meta charset="utf-8">
     <title>Change Password</title>
-    <link rel="shortcut icon" type="image/x-icon" href="assets/images/plantifeedpics/plants.png" class="img-fluid" />
+
+    <link rel="shortcut icon" type="image/x-icon" href="assets/images/plantifeedpics/rounded.png" class="img-fluid" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin &amp; Dashboard Template" name="description">
     <meta content="Themesbrand" name="author">
@@ -24,21 +26,39 @@
 
 
     <style>
-        .bg-image {
-            background-image: url('{{ asset("assets/images/plantifeedpics/feedcover.png") }}');
-            background-repeat: no-repeat;
-            background-position: center;
+       
+        body,
+        html {
+            height: 100%;
+            background: #066903;
+            /* Prevent scrollbars */
+        }
+        .container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .auth-one-bg-position {
+            /* position: fixed; */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
         }
     </style>
 </head>
 
 <body>
-
-    <!-- auth-page wrapper -->
-    <div class="auth-page-wrapper auth-bg-cover py-5 d-flex justify-content-center align-items-center min-vh-100">
-        <div class="bg-overlay"></div>
-        <!-- auth-page content -->
-        <div class="auth-page-content overflow-hidden pt-lg-5">
+<div class="auth-one-bg-position auth-one-bg" id="auth-particles">
+        <canvas class="particles-js-canvas-el" width="100%" height="100%" style="width: 100%; height: 100%;"></canvas></div>
+        
+    <div class="auth-page-content d-flex justify-content-center">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
@@ -166,6 +186,7 @@
         </footer>
         <!-- end Footer -->
     </div>
+</div>
     <!-- end auth-page-wrapper -->
 
     <!-- JAVASCRIPT -->
@@ -178,6 +199,8 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script type="text/javascript" src="assets/libs/choices.js/public/assets/scripts/choices.min.js"></script>
     <script type="text/javascript" src="assets/libs/flatpickr/flatpickr.min.js"></script>
+    <script src="assets/libs/particles.js/particles.js"></script>
+    <script src="assets/js/pages/particles.app.js"></script>
 
 
     <!-- password-addon init -->

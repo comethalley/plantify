@@ -619,9 +619,11 @@
                             </a>
                             <div class="collapse menu-dropdown" id="UsersDropDown">
                                 <ul class="nav nav-sm flex-column">
+                                    @if(session('user') && session('user')->role_id == 1)
                                     <li class="nav-item">
                                         <a href="/users/admin" class="nav-link" style="color:white"> Admin </a>
                                     </li>
+                                    @endif
                                     <li class="nav-item">
                                         <a href="/users/farm-leader" class="nav-link" style="color:white"> Farm Leaders </a>
                                     </li>
@@ -634,15 +636,15 @@
                         @endif
 
                         @if(session('user') && session('user')->role_id == 1 || session('user') && session('user')->role_id == 2)
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a class="nav-link menu-link" href="/Farms-District-5" role="button" style="color:white">
                                 <i class="ri-home-4-line"></i>
                                 <span data-key="t-dashboards">Farms</span>
                             </a>
-                        </li>
+                        </li> -->
                         @endif
 
-                        @if(session('user') && session('user')->role_id == 3 || session('user') && session('user')->role_id == 4 || session('user') && session('user')->role_id == 5)
+                        @if(session('user') && session('user')->role_id == 3 || session('user') && session('user')->role_id == 4)
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="/Tools-District-5" role="button" style="color:white">
                                 <i class="ri-tools-fill"></i>
@@ -788,7 +790,7 @@
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="/plantifeed" role="button" style="color:white">
                                 <i class="ri-plant-line"></i>
-                                <span data-key="t-faqs">Plantifeed</span>
+                                <span data-key="t-faqs">Community Forum</span>
                             </a>
                         </li>
                         <!-- <li class="nav-item">
@@ -802,8 +804,8 @@
 
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="#farmlocation" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards" style="color:white">
-                            <i class="ri-map-pin-line"></i>
-                            <span data-key="t-faqs">Farm Location</span>
+                                <i class="ri-map-pin-line"></i>
+                                <span data-key="t-faqs">Farm Location</span>
                             </a>
                             <div class="collapse menu-dropdown" id="farmlocation">
                                 <ul class="nav nav-sm flex-column">
@@ -812,7 +814,7 @@
                                     </li>
                                     <li class="nav-item">
                                         <a href="/farm_list" class="nav-link" style="color:white">List </a>
-                                        
+
                                     </li>
                                 </ul>
                             </div>

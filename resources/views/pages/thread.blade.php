@@ -466,10 +466,13 @@ channel.bind('new-message', function(message) {
             });
         }
 
-        // Function to update conversation area with fetched messages
-        function updateConversation(messages) {
+// Function to update conversation area with fetched messages
+function updateConversation(messages) {
     var conversationList = $('#users-conversation');
     conversationList.empty(); // Clear existing messages
+
+    // Reverse the order of messages
+    messages.reverse();
 
     // Loop through each message and append it to the conversation area
     messages.forEach(function(message) {
@@ -501,7 +504,7 @@ channel.bind('new-message', function(message) {
                     '</div>' +
                     '<div class="conversation-name">' +
                     '<br>' +
-                    '<small class="text-muted time">' + getCurrentTime() + '</small>' +
+                    '<small class="text-muted time">' + formatTime(message.created_at) + '</small>' +
                     '<span class="text-success check-message-icon">' +
                     '<i class="ri-check-double-line align-bottom"></i>' +
                     '</span>' +
@@ -524,7 +527,7 @@ channel.bind('new-message', function(message) {
                     '</div>' +
                     '<div class="conversation-name">' +
                     '<br>' +
-                    '<small class="text-muted time">' + getCurrentTime() + '</small>' +
+                    '<small class="text-muted time">' + formatTime(message.created_at) + '</small>' +
                     '<span class="text-success check-message-icon">' +
                     '<i class="ri-check-double-line align-bottom"></i>' +
                     '</span>' +
@@ -553,7 +556,7 @@ channel.bind('new-message', function(message) {
                 '</div>' +
                 '<div class="conversation-name">' +
                 '<br>' +
-                '<small class="text-muted time">' + getCurrentTime() + '</small>' +
+                '<small class="text-muted time">' + formatTime(message.created_at) + '</small>' +
                 '<span class="text-success check-message-icon">' +
                 '<i class="ri-check-double-line align-bottom"></i>' +
                 '</span>' +
@@ -571,15 +574,31 @@ channel.bind('new-message', function(message) {
     });
 }
 
+
     });
 
 
-    function getCurrentTime() {
-            var now = new Date();
-            var hours = now.getHours().toString().padStart(2, "0");
-            var minutes = now.getMinutes().toString().padStart(2, "0");
-            return hours + ":" + minutes;
-        }
+// Function to format time as HH:MM AM/PM
+function formatTime(timestamp) {
+    var date = new Date(timestamp);
+    var hours = date.getHours();
+    var minutes = date.getMinutes().toString().padStart(2, '0');
+    var amPM = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12 || 12; // Convert to 12-hour format
+    var formattedTime = hours + ':' + minutes + ' ' + amPM;
+
+    // Check if the date is in the past
+    var currentDate = new Date();
+    if (date.toDateString() !== currentDate.toDateString()) {
+        // If the date is in the past, display the date
+        var day = date.getDate();
+        var month = date.toLocaleString('default', { month: 'short' });
+        formattedTime = month + ' ' + day + ', ' + formattedTime;
+    }
+
+    return formattedTime;
+}
+
 
         function toggleDropdown(element) {
             var dropdownMenu = element.nextElementSibling;

@@ -600,13 +600,13 @@ function formatTime(timestamp) {
 }
 
 
-        function toggleDropdown(element) {
-            var dropdownMenu = element.nextElementSibling;
-            dropdownMenu.classList.toggle("show");
-        }
+function toggleDropdown(element) {
+    var dropdownMenu = element.nextElementSibling;
+    dropdownMenu.classList.toggle("show");
+}
 
 
-        $(document).ready(function() {
+$(document).ready(function() {
 window.deleteMessage = function(element) {
     var messageItem = $(element).closest(".chat-list");
     var messageId = messageItem.find('.ctext-content').data('message-id');
@@ -651,28 +651,6 @@ window.deleteMessage = function(element) {
     });
 });
 
-function replyToMessage(element) {
-    // Add code to handle replying to a message
-    // ...
-}
-
-function deleteMember(memberId) {
-    // Send a DELETE request to delete the member
-    $.ajax({
-        url: '/delete_member/' + memberId + '/',
-        type: 'DELETE',
-        headers: {
-            'X-CSRFToken': '{{ csrf_token() }}'
-        },
-        success: function(response) {
-            // Remove the member from the active members list in the front end
-            $('#activeUserList').find(`[data-member-id="${memberId}"]`).remove();
-        },
-        error: function(xhr, status, error) {
-            console.error('Error:', error);
-        }
-    });
-}
 
 $(document).ready(function () {
        // Attach a click event handler to each user button

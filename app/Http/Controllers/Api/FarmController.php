@@ -208,6 +208,14 @@ class FarmController extends Controller
         ]);
     }
 
+    public function index1()
+    {
+
+
+        return view('pages.tools.index');
+
+    }
+
 
     public function viewArchiveFarms()
     {
@@ -356,34 +364,30 @@ class FarmController extends Controller
                 'farm_name' => 'required|string|max:255',
                 'address' => 'required|string|max:255',
                 'area' => 'required|numeric',
-                'farm_leader' => 'required|exists:users,id',
-                'title_land' => 'required|file|mimes:pdf,png,jpg|max:2048',
-                'picture_land' => 'required|file|mimes:jpeg,png|max:2048',
-                'picture_land1' => 'nullable|file|mimes:jpeg,png|max:2048',
-                'picture_land2' => 'nullable|file|mimes:jpeg,png|max:2048',
-                'status' => 'string|max:255',
+                //'farm_leader' => 'required|exists:users,id',
+                //'title_land' => 'required|file|mimes:pdf,png,jpg|max:2048',
+                //'picture_land' => 'required|file|mimes:jpeg,png|max:2048',
+                //'picture_land1' => 'nullable|file|mimes:jpeg,png|max:2048',
+                //'picture_land2' => 'nullable|file|mimes:jpeg,png|max:2048',
+                //'status' => 'string|max:255',
             ]);
 
             // Retrieve user details based on the selected farm_leader
-            $selectedUser = User::findOrFail($request->input('farm_leader'));
+            //$selectedUser = User::findOrFail($request->input('farm_leader'));
 
-            $titleLandPath = $request->file('title_land')->store('pdfs', 'public');
-            $pictureLandPath = $request->file('picture_land')->store('images', 'public');
+            //$titleLandPath = $request->file('title_land')->store('pdfs', 'public');
+            //$pictureLandPath = $request->file('picture_land')->store('images', 'public');
 
-            $pictureLandPath1 = $request->hasFile('picture_land1') ? $request->file('picture_land1')->store('images', 'public') : null;
-            $pictureLandPath2 = $request->hasFile('picture_land2') ? $request->file('picture_land2')->store('images', 'public') : null;
+            //$pictureLandPath1 = $request->hasFile('picture_land1') ? $request->file('picture_land1')->store('images', 'public') : null;
+            //$pictureLandPath2 = $request->hasFile('picture_land2') ? $request->file('picture_land2')->store('images', 'public') : null;
 
             Farm::create([
                 'barangay_name' => $request->input('barangay_name'),
                 'farm_name' => $request->input('farm_name'),
                 'address' => $request->input('address'),
                 'area' => $request->input('area'),
-                'farm_leader' => $selectedUser->id,
-                'status' => $request->input('status', 'Created'),
-                'title_land' => $titleLandPath,
-                'picture_land' => $pictureLandPath,
-                'picture_land1' => $pictureLandPath1,
-                'picture_land2' => $pictureLandPath2,
+                'status' => 1,
+                'farm_leader' => "",
             ]);
 
             return response()->json(['success' => true]);

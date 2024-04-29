@@ -28,6 +28,7 @@ use App\Http\Requests\PdfRequest;
 use Endroid\QrCode\Writer\Result\PdfResult;
 use Illuminate\Http\Request;
 
+use App\Http\Controllers\UserPhotoController;
 use App\Http\Controllers\SendMessageController;
 
 use App\Http\Controllers\SearchController;
@@ -137,9 +138,11 @@ Route::put('/edit-question/{id}', [ForumController::class, 'editQuestion'])->nam
 Route::post('/edit-post/{id}', [PostController::class, 'editPost']);
 Route::put('/edit-post/{id}', [PostController::class, 'editPost'])->name('editPost');
 
+Route::get('/profilefeed', [UserPhotoController::class, 'index']);
+Route::get('pages/profilefeed', [UserPhotoController::class, 'index'])->name('profile');
 
-
-
+// Route for updating profile information
+Route::post('/update-profile', [UserPhotoController::class, 'updateProfile'])->name('update.profile');
 
 
 // routes/web.php
@@ -186,15 +189,22 @@ Route::post('/archiveAdmin/{id}', [AuthController::class, 'archiveAdmin']);
 Route::get('/getAdmin/{id}', [AuthController::class, 'viewAdmin']);
 Route::get('/users/farm-leader', [AuthController::class, 'getFarmerLeader']);
 Route::get('/getAllFarmLeaders', [AuthController::class, 'farmLeaders']);
+Route::get('/getAllFarmers', [AuthController::class, 'farmers']);
 Route::get('/getFL/{id}', [AuthController::class, 'viewfarmLeaders']);
 Route::post('/addFarmLeader', [AuthController::class, 'createFarmLeader']);
 Route::post('/editFarmLeader/{id}', [AuthController::class, 'updateFarmLeader']);
 Route::post('/archiveFL/{id}', [AuthController::class, 'archiveFarmLeader']);
 Route::get('/users/farmers', [AuthController::class, 'getFarmers']);
 
+Route::post('/addFarmers', [AuthController::class, 'createFarmers']);
+
 Route::get('/farm_locations', [qcmaps::class, 'index']);
 Route::get('/get_maps', [qcmaps::class, 'getMaps']);
 Route::post('/farm_locations', [qcmaps::class, 'store']);
+Route::get('/farm_list', [qcmaps::class, 'index2']);
+Route::put('/farm_list/{id}', [qcmaps::class, 'delete']);
+Route::delete('/deleteLocation/{id}', [qcmaps::class, 'deleteLocation']);
+
 
 // Start Full Calender=================================================================
 Route::get('/schedules', [EventController::class, 'index']);
@@ -246,6 +256,7 @@ Route::post('/fertarchive/{id}', [PlantInfoController::class, 'fertarchive']);
 //For farm management =======================================================
 
 //index farm-mamangement//
+Route::get('/Tools-District-5', [FarmController::class, 'index1']);
 Route::get('/Farms-District-5', [FarmController::class, 'index']);
 Route::post('/add-farms', [FarmController::class, 'addFarms'])->name('add.farms');
 Route::get('/archive-farm/{id}', [FarmController::class, 'archiveFarm'])->name('archive.farm');
@@ -296,7 +307,7 @@ Route::get('/expense', [ExpenseController::class, 'index']);
 Route::post('/expenses/add-budget', [ExpenseController::class, 'addBudget']);
 Route::post('/expenses/save-expense', [ExpenseController::class, 'saveExpense'])->name('saveExpense');
 Route::get('/expenses/get-last-amount', [ExpenseController::class, 'getLastAmount']);
-Route::get('/compute-total-expenses', [ExpenseController::class, 'computeTotalExpenses'])->name('compute-total-expenses');
+// Route::get('/compute-total-expenses', [ExpenseController::class, 'computeTotalExpenses'])->name('compute-total-expenses');
 Route::get('/expenses/get-dashboard-data', [ExpenseController::class, 'getDashboardData']);
 Route::get('/expenses/get-expenses-by-category', [ExpenseController::class, 'getExpensesByCategory']);
 // Route::get('/expenses', [ExpenseController::class, 'getExpenses']);
@@ -309,6 +320,10 @@ Route::get('/resend-code/{id}', [EmailVerification::class, 'resendCode']);
 Route::post('/confirm-code/{id}', [EmailVerification::class, 'verifyEmail']);
 Route::get('/landing-page', [AuthController::class, 'landingpage']);
 Route::post('/change-password/{id}', [EmailVerification::class, 'changePassword']);
+Route::get('/change-password', [EmailVerification::class, 'changePasswordView']);
+
+Route::get('/forgot-password', [EmailVerification::class, 'showForgotPasswordForm'])->name('forgot-password');
+Route::post('/forgot-password', [EmailVerification::class, 'forgotPassword']);
 //===========================================================================================================
 
 //Botaknows Userside ===================================================

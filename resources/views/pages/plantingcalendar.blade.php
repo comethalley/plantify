@@ -34,12 +34,10 @@
                     <div class="col-xl-3 scrollable" style="overflow-y: auto; max-height: 100vh;">
                         <div class="card card-h-100">
                             <div class="card-body" style="display:flex; justify-content:center; align-items:center;">
-                                @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 3)
+                                @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 3 || auth()->user()->role_id == 4)
                                 {{-- Display only for role_id 1 (Admin) --}}
                                 <button type="button" class="btn btn-success w-100" data-bs-toggle="modal" id="create-btn" data-bs-target="#usingModal"><i class="ri-add-line align-bottom me-1"></i> Create New Plantings</button>
-                                @elseif(auth()->user()->role_id == 4 )
-                                {{-- Display only for role_id 4 (Farmers) --}}
-                                <button hidden type="button" class="btn btn-success w-100" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModalExample"><i class="mdi mdi-plus"></i>Create New Plantings</button>
+
                                 @elseif(auth()->user()->role_id == 5 )
                                 {{-- Display only for role_id 5 (Public Users) --}}
                                 <button type="button" class="btn btn-success w-100" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModalExample"><i class="mdi mdi-plus"></i>Create New Plantings</button>
@@ -400,6 +398,9 @@
                             <label for="status" class="form-label">Status</label>
                             <input type="text" name="status" id="customername-field" class="form-control" value="Planted" required readonly />
                         </div>
+                        <center>
+                            <p class="text-muted">Scan the Seed's Qr Code Generated from the Inventory</p>
+                        </center><br>
                         <video id="using-preview" style="width: 100%;"></video>
                         <center>
                             <p class="lead text-danger" id="used-qr"></p>
@@ -518,7 +519,9 @@
                     $('#EventdetailModal').modal('hide');
 
                     // Open Add Event Modal
-                    $('#showModalExample').modal('show');
+                    //$('#showModalExample').modal('show');
+
+
                 },
 
                 eventClick: function(info) {

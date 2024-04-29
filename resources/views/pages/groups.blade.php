@@ -414,7 +414,7 @@ $(document).ready(function() {
 
     Pusher.logToConsole = true;
 
-var pusher = new Pusher('d7630bf7a930051c0329', {
+var pusher = new Pusher('0367062ae6113e35e788', {
     cluster: 'ap1'
 });
 

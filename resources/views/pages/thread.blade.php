@@ -437,7 +437,7 @@ $(document).ready(function() {
 
     Pusher.logToConsole = true;
 
-var pusher = new Pusher('d7630bf7a930051c0329', {
+var pusher = new Pusher('0367062ae6113e35e788', {
     cluster: 'ap1'
 });
 
@@ -587,8 +587,6 @@ channel.bind('new-message', function(message) {
 
 
         $(document).ready(function() {
-    // Define the deleteMessage function
-    // Define the deleteMessage function
 window.deleteMessage = function(element) {
     var messageItem = $(element).closest(".chat-list");
     var messageId = messageItem.find('.ctext-content').data('message-id');
@@ -632,7 +630,6 @@ window.deleteMessage = function(element) {
         deleteMessage(); // Call deleteMessage when a message is deleted
     });
 });
-
 
 function replyToMessage(element) {
     // Add code to handle replying to a message

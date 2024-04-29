@@ -111,8 +111,11 @@
     <div class="row justify-content-between align-items-center ">
                         <div class="col-lg-6">
                             <div>
-                            <h1 class="display-10 fw-bold mb-4 lh-base text-white" style="font-size: 35px; font-weight: 800;">Rooted in th city,<br>flourishing in the community!</h1>
-                            <p class="lead text-white lh-base">Join the urban green revolution, easily grow crops in the city, and connect with a passionate community online. Start making a difference today!</p>
+                            <h1 class="display-10 fw-bold mb-4 lh-base text-white" style="font-size: 35px; font-weight: 800; text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);">Rooted in the city,<br>flourishing in the community!</h1>
+                            <p class="lead text-white lh-base" style="text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);">
+    Join the urban green revolution, easily grow crops in the city, and connect with a passionate community online. Start making a difference today!
+</p>
+
                             </div>
                             
                             <div class="mt-4 d-flex">
@@ -125,9 +128,6 @@
     <!-- end container -->
 </section>
 <!-- end hero section -->
-
-
-  
 <br>
   <!-- <div class="container text-center"> -->
   <h1 class="display-10 fw-semibold mb-4 lh-base text-black text-center" style="font-size: 35px; font-weight: 800;">Manage your Urban Garden</h1>
@@ -169,7 +169,7 @@
                                             <h4 class="mb-1 fw-semibold text-center">
                                                 <img src="assets/images/plantifeedpics/analytics 1.png" alt="" class="img-fluid"> Analytics <hr>
                                             </h4><br>
-                                            <p class="text-muted mb-0" style="text-align: justify;">Utilize comprehensive data analysis tools to effectively monitor expenses, inventory levels, and planting schedules, enabling you to enhance productivity and efficiency within your urban farming endeavors.</p>
+                                            <p class="text-muted mb-0" style="text-align: justify;">Utilize comprehensive data analysis that predicts the total harvested and destroyed crops, depending on the data from the weather monitoring module.</p>
                                         </div>
                                     </div>
                                     <div>

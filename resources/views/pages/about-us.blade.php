@@ -103,15 +103,16 @@
      <div class="vertical-overlay" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent.show"></div>
   <br>
   <br>
-  <br>
-     <section id="home-section" class="section nft-hero" id="hero" style="background-image: url('assets/images/plantifeedpics/bg2.png'); background-size: cover; background-position: center center;">
+  <section id="home-section" class="section nft-hero" id="hero" style="background-image: url('assets/images/plantifeedpics/grass.jpg'); background-size: cover; background-position: center center; color: white; text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5); text-align: justify;">
+
+
     <div class="container mb-8">
     <div class="row justify-content-between align-items-center ">
-                        <div class="col-lg-6">
+                        <div class="col-lg-9">
                             <div>
-                            <h1 class="display-8 fw-bold mb-8 text-white" style="font-size: 35px; font-weight: 800;">The Center for Urban Agriculture and Innovation</h1>
+                            <h1 class="display-8 fw-bold mb-8 text-white" style="font-size: 35px; font-weight: 800;">The Center for Urban <br>Agriculture and Innovation</h1>
                         
-                            <p class="lead text-white text-justify center">The Center for Urban Agriculture and Innovation is one of many proofs of Mayor Joy Belmonte’s project in his urban development program, especially in his efforts to address the challenge of “zero hunger” in Quezon City. Through CUAI at Quezon City University, we believe that participating in this activity is one of the solutions to improving our society and health.</p>
+                            <p class="lead text-white text-justify center"style="font-size: 20px; font-weight: 100;">The Center for Urban Agriculture and Innovation is one of many proofs of <strong>Mayor Joy Belmonte’s</strong> project in his <strong> urban development program,</strong> especially in his efforts to address the challenge of <strong>“zero hunger”</strong> in Quezon City. Through <strong>CUAI</strong> at <strong> Quezon City University,</strong> we believe that participating in this activity is one of the solutions to improving our society and health.</p>
 
                             </div>
                             
@@ -170,136 +171,92 @@
     <!--end col-->
 </div>
 
+<section class="py-5">
+	<div class="container">
+		<div class="row justify-content-center text-center mb-2 mb-lg-4">
+			<div class="col-12 col-lg-8 col-xxl-7 text-center mx-auto">
+				<span class="text-muted">Our Team</span>
+				<h3 class="display-8 fw-semibold">Center for Urban Agriculture and Innovation</h3>
+				<!-- <p class="lead">Center for Urban Agriculture and Innovation</p> -->
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-4 mb-lg-0 mb-4">
+				<div class="card text-white border-2 justify-content-end position-relative">
+					<img class="img-fluid" src="/assets/images/plantifeedpics/Romel.jpg">
+					<div class="position-absolute bottom-0 w-100 p-2 p-lg-8" style="background-color:#066903; ">
+
+						<h5 class="fw-bold text-white">Romel O. Sevilla</h5>
+						<div>
+                        Head of the CUAI
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4 mb-lg-0 mb-4">
+				<div class="card text-white border-0 justify-content-end position-relative">
+					<img class="img-fluid" src="/assets/images/plantifeedpics/Romel.jpg">
+                    <div class="position-absolute bottom-0 w-100 p-2 p-lg-8" style="background-color:#066903; ">
+						<h5 class="fw-bold text-white">Jaylenon R. Asilo</h5>
+						<div>
+                        Agriculturist
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="card text-white border-0 justify-content-end position-relative">
+					<img class="img-fluid" src="/assets/images/plantifeedpics/Romel.jpg">
+					<div class="position-absolute bottom-0 w-100 p-2 p-lg-8" style="background-color:#066903; ">
+						<h5 class="fw-bold text-white">Justin Malindao</h5>
+						<div>
+                        Agriculturist
+						</div>
+					</div>
+				</div>
+			</div>
+            <!-- Duplicate the three team member cards -->
+			<div class="col-md-4 mb-lg-0 mb-4">
+				<div class="card text-white border-0 justify-content-end position-relative">
+					<img class="img-fluid" src="/assets/images/plantifeedpics/Jonabelle.jpg">
+                    <div class="position-absolute bottom-0 w-100 p-2 p-lg-8" style="background-color:#066903; ">
+						<h5 class="fw-bold text-white">Jonabelle Orain</h5>
+						<div>
+                        Farm Worker
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4 mb-lg-0 mb-4">
+				<div class="card text-white border-0 justify-content-end position-relative">
+					<img class="img-fluid" src="/assets/images/plantifeedpics/Romel.jpg">
+                    <div class="position-absolute bottom-0 w-100 p-2 p-lg-8" style="background-color:#066903; ">
+						<h5 class="fw-bold text-white">Hipolito Lopez</h5>
+						<div>
+                        Farm Worker
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="card text-white border-0 justify-content-end position-relative">
+					<img class="img-fluid" src="/assets/images/plantifeedpics/Romel.jpg">
+                    <div class="position-absolute bottom-0 w-100 p-2 p-lg-8" style="background-color:#066903; ">
+						<h5 class="fw-bold text-white">Bob Johnson</h5>
+						<div>
+                        Farm Worker
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
     <!--end row-->
 </div>
-<!-- end container -->
-</section><br>
-<!-- end plan -->
-
-
-<section class="" id="try" style="padding-top:2px;">
-            <div class="auth-page-content overflow-hidden pt-lg-3">
-            <div class="container-fluid card" style="background-color: #066903">
-            <br>
-            <h1 class="display-8 fw-bold mb-8 text-white text-center" style="font-size: 30px; font-weight: 800;">CUAI TEAM</h1>
-         <h6 class="display-8 fw-bold mb-8 text-white text-center" style="font-size: 25px;">Center for Urban Agriculture and Innovations</h6><br>
-        <!-- start team -->
-
-                <!-- end row -->
-                <div class="row center justify-content-center">
-    <div class="col-lg-3 col-sm-6">
-        <div class="card">
-            <div class="card-body text-center p-4">
-                <div class="avatar-xl mx-auto mb-4 position-relative">
-                    <img src="/assets/images/plantifeedpics/Romel.jpg" alt="" class="img-fluid rounded-circle">
-                    
-                </div>
-                <!-- end card body -->
-                <h5 class="mb-1"><a href="https://www.facebook.com/nafecot" class="text-body">Romel O. Sevilla</a></h5>
-                <p class="text-muted mb-0 ff-secondary">Head of the Center for Urban Agriculture and Innovation</p>
-               
-            </div>
-        </div>
-        <!-- end card -->
-    </div>
-    <!-- end col -->
-</div>
-<!-- end row -->
-
-
-<div class="row justify-content-center">
-    <div class="col-lg-3 col-sm-6">
-        <div class="card mb-4">
-            <div class="card-body text-center p-4">
-                <div class="avatar-xl mx-auto mb-4 position-relative">
-                    <img src="/assets/images/team/.jpg" alt="" class="img-fluid rounded-circle">
-                   
-                </div>
-                <!-- end card body -->
-                <h5 class="mb-1"><a href="pages-profile.html" class="text-body">Jaylenon R. Asilo</a></h5>
-                <p class="text-muted mb-0 ff-secondary">Agriculturist</p>
-            </div>
-        </div>
-        <!-- end card -->
-    </div>
-    <!-- end col -->
-
-    <!-- Add space between the two cards -->
-    <div class="col-lg-2 col-sm-6 d-sm-block d-none"></div>
-
-    <div class="col-lg-3 col-sm-6">
-        <div class="card mb-4">
-            <div class="card-body text-center p-4">
-                <div class="avatar-xl mx-auto mb-4 position-relative">
-                    <img src="/assets/images/team/.jpg" alt="" class="img-fluid rounded-circle">
-                    
-                </div>
-                <!-- end card body -->
-                <h5 class="mb-1"><a href="pages-profile.html" class="text-body">Justin Malindao</a></h5>
-                <p class="text-muted mb-0 ff-secondary">Agriculturist</p>
-            </div>
-        </div>
-        <!-- end card -->
-    </div>
-    <!-- end col -->
-</div>
-
-<!-- end row -->
-
-
-
-<div class="row justify-content-center">
-    <div class="col-lg-3 col-sm-6">
-        <div class="card mb-4">
-            <div class="card-body text-center p-4">
-                <div class="avatar-xl mx-auto mb-4 position-relative">
-                    <img src="/assets/images/plantifeedpics/Jonabelle.jpg" alt="" class="img-fluid rounded-circle">
-                    
-                </div>
-                <!-- end card body -->
-                <h5 class="mb-1"><a href="pages-profile.html" class="text-body">Jonabelle Orain</a></h5>
-                <p class="text-muted mb-0 ff-secondary">Farm Worker</p>
-            </div>
-        </div>
-        <!-- end card -->
-    </div>
-    <!-- end col -->
-
-    <!-- Add space between the two cards -->
-    <div class="col-lg-2 d-lg-block d-none"></div>
-
-    <div class="col-lg-3 col-sm-6">
-        <div class="card mb-4">
-            <div class="card-body text-center p-4">
-                <div class="avatar-xl mx-auto mb-4 position-relative">
-                    <img src="/assets/images/plantifeedpics/.jpg" alt="" class="img-fluid rounded-circle">
-                    
-                </div>
-                <!-- end card body -->
-                <h5 class="mb-1"><a href="pages-profile.html" class="text-body">Hipolito Lopez</a></h5>
-                <p class="text-muted mb-0 ff-secondary">Farm Worker</p>
-            </div>
-        </div>
-        <!-- end card -->
-    </div>
-    <!-- end col -->
-</div>
-
-<!-- end row -->
-
-
-
-<!-- end col -->
-</div>
-
-<!-- end row -->
-</div>
 <div>
 </div>
-<div>
-    <!-- end container -->
-</section>
-<!-- end features -->
 
 
 

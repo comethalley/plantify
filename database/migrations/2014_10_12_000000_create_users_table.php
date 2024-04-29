@@ -25,6 +25,8 @@ return new class extends Migration
             $table->boolean('isOnline')->default(false);
             $table->rememberToken();
             $table->timestamps();
+            
+
         });
     }
 

@@ -27,8 +27,9 @@
         html {
             height: 100%;
             /* background: darkgreen; */
-             /* Prevent scrollbars */
+            /* Prevent scrollbars */
         }
+
         .container {
             /* position: absolute; */
             top: 0;
@@ -53,20 +54,20 @@
 <body data-bs-spy="scroll" data-bs-target="#navbar-example">
 
     <nav class="navbar navbar-expand-lg navbar-landing fixed-top" id="navbar" style="background-color:#025830; padding: 4px;">
-        
-    <div class="container">
-        <a class="navbar-brand text-white" href="/">
-            <img src="assets/images/plantifeedpics/cuai.png" class="mr-2" alt="Plantify" height="45">
-        </a>
 
-  
+        <div class="container">
+            <a class="navbar-brand text-white" href="/">
+                <img src="assets/images/plantifeedpics/cuai.png" class="mr-2" alt="Plantify" height="45">
+            </a>
+
+
 
             <button class="navbar-toggler py-0 fs-16 text-body" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <i class="mdi mdi-menu"></i>
             </button>
-    
+
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                
+
                 <ul class="navbar-nav mx-auto mt-2 mt-lg-0" id="navbar-example">
 
                     <li class="nav-item">
@@ -77,137 +78,140 @@
                         <a class="nav-link text-white fw-bold" href="/about-us">About Us</a>
                     </li>
                     <li class="nav-item">
-                    <a class="nav-link text-white fw-bold" href="javascript:void(0);" onclick="scrollToFAQ()">FAQs</a>
+                        <a class="nav-link text-white fw-bold" href="javascript:void(0);" onclick="scrollToFAQ()">FAQs</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-white fw-bold" href="/send-message">Contact Us</a>
                     </li>
-                
+
                 </ul>
 
                 <div>
                     <a class="btn btn-link text-white fw-bold" href="/login">Login</a>
                     <a class="btn btn-link text-white fw-semibold" style="background-color:#FFAB2D;" href="/signup">Sign Up</a>
                 </div>
-                
+
             </div>
         </div>
     </nav>
 
     <!-- end navbar -->
     <div class="vertical-overlay" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent.show"></div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="card mx-auto">
-                        <div class="row d-flex justify-content-center">
-                            <div class="col-lg-6">
-                                <div class="p-lg-5 p-4 auth-one-bg h-100">
-                                    <div class="position-relative h-100 d-flex flex-column">
-                                    
-                                        <a href="/" class="d-block"><br><br><br>
-                                            <img src="assets/images/plantifeedpics/landing-page.png" alt="" class="img-fluid">
-                                        </a>
-    
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- end col -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card mx-auto">
+                <div class="row d-flex justify-content-center">
+                    <div class="col-lg-6">
+                        <div class="p-lg-5 p-4 auth-one-bg h-100">
+                            <div class="position-relative h-100 d-flex flex-column">
 
-                            <div class="col-md-5 col-lg-5 col-xl-5">
-                                <div class="card mt-4">
-
-                                    <div class="card-body p-4">
-                                        <div class="text-center mt-2">
-<br><br>
-                                            <h5 style="color: #025830;">Create new Account</h5>
-
-                                            <p class="text-muted"></p>
-                                        </div>
-                                        <div class="p-2 mt-4">
-                                            <form action="/register" method="POST">
-                                                @csrf
-                                                @error('email')
-                                                <p class="text-red-500 text-xs p-1">{{$message}}</p>
-                                                @enderror
-
-
-                                                <div class="mb-3">
-                                                    <label for="firstname" class="form-label">Firstname <span class="text-danger">*</span></label>
-                                                    <input type="firstname" class="form-control" name="firstname" id="firstname" placeholder="Enter firstname" required>
-                                                    <div class="invalid-feedback">
-
-                                                    </div>
-                                                </div>
-
-
-                                                <div class="mb-3">
-                                                    <label for="lastname" class="form-label">Lastname <span class="text-danger">*</span></label>
-                                                    <input type="lastname" class="form-control" name="lastname" id="lastname" placeholder="Enter lastname" required>
-                                                    <div class="invalid-feedback">
-
-                                                    </div>
-                                                </div>
-
-
-
-                                                <div class="mb-3">
-                                                    <label for="usermail" class="form-label">Email <span class="text-danger">*</span></label>
-                                                    <input type="usermail" class="form-control" name="email" id="usermail" placeholder="Enter email address" required>
-                                                    <div class="invalid-feedback">
-
-                                                    </div>
-                                                </div>
-
-
-                                                <div class="mb-3">
-                                                    <label class="form-label" for="password-input">Password</label>
-                                                    <div class="position-relative auth-pass-inputgroup">
-                                                        <input type="password" class="form-control pe-5 password-input" placeholder="Enter password" id="password-input" required name="password">
-                                                        <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
-                                                    </div>
-                                                </div>
-
-                                                <div class="mb-3">
-                                                    <label class="form-label" for="password-input">Confirm Password</label>
-                                                    <div class="position-relative auth-pass-inputgroup">
-                                                        <input type="password" class="form-control pe-5 password-input" placeholder="Enter password" id="password-input" required name="password_confirmation">
-                                                        <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
-                                                    </div>
-                                                </div>
-
-
-
-
-                                                <div class="mt-4">
-                                                    <button type="submit" class="btn btn-link text-white w-100" style="background-color: #025830;" href="">Sign Up for Public user</a>
-                                                </div>
-                                                <div class="mt-1 text-center">
-                                                 <p class="mb-0">Already have an account ? <a href="/login" class="fw-semibold text-decoration-underline" style="color:#025830;"> Sign In</a> </p>
-                                                </div>
-
-                                            </form>
-
-                                        </div>
-                                    </div>
-                                    <!-- end card body -->
-                                </div>
-                                <!-- end card -->
-
-
-
+                                <a href="/" class="d-block"><br><br><br>
+                                    <img src="assets/images/plantifeedpics/landing-page.png" alt="" class="img-fluid">
+                                </a>
 
                             </div>
                         </div>
-                        <!-- end col -->
                     </div>
-                    <!-- end row -->
-                </div>
-                <!-- end card -->
-            </div>
-            <!-- end col -->
+                    <!-- end col -->
 
+
+
+
+                    <div class="col-md-5 col-lg-5 col-xl-5">
+                        <div class="card mt-4">
+
+                            <div class="card-body p-4">
+                                <div class="text-center mt-2">
+                                    <br><br>
+                                    <h5 style="color: #025830;">Create new Account</h5>
+
+                                    <p class="text-muted"></p>
+                                </div>
+                                <div class="p-2 mt-4">
+                                    <form action="/register" method="POST">
+                                        @csrf
+                                        @error('email')
+                                        <p class="text-red-500 text-xs p-1">{{$message}}</p>
+                                        @enderror
+
+
+                                        <div class="mb-3">
+                                            <label for="firstname" class="form-label">Firstname <span class="text-danger">*</span></label>
+                                            <input type="firstname" class="form-control" name="firstname" id="firstname" placeholder="Enter firstname" required>
+                                            <div class="invalid-feedback">
+
+                                            </div>
+                                        </div>
+
+
+                                        <div class="mb-3">
+                                            <label for="lastname" class="form-label">Lastname <span class="text-danger">*</span></label>
+                                            <input type="lastname" class="form-control" name="lastname" id="lastname" placeholder="Enter lastname" required>
+                                            <div class="invalid-feedback">
+
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="mb-3">
+                                            <label for="usermail" class="form-label">Email <span class="text-danger">*</span></label>
+                                            <input type="usermail" class="form-control" name="email" id="usermail" placeholder="Enter email address" required>
+                                            <div class="invalid-feedback">
+
+                                            </div>
+                                        </div>
+
+
+                                        <div class="mb-3">
+                                            <label class="form-label" for="password-input">Password</label>
+                                            <div class="position-relative auth-pass-inputgroup">
+                                                <input type="password" class="form-control pe-5 password-input" placeholder="Enter password" id="password-input" required name="password">
+                                                <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label" for="password-input">Confirm Password</label>
+                                            <div class="position-relative auth-pass-inputgroup">
+                                                <input type="password" class="form-control pe-5 password-input" placeholder="Enter password" id="password-input" required name="password_confirmation">
+                                                <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
+                                            </div>
+                                        </div>
+
+
+
+
+                                        <div class="mt-4">
+                                            <button type="submit" class="btn btn-link text-white w-100" style="background-color: #025830;" href="">Sign Up for Public user</a>
+                                        </div>
+                                        <div class="mt-1 text-center">
+                                            <p class="mb-0">Already have an account ? <a href="/login" class="fw-semibold text-decoration-underline" style="color:#025830;"> Sign In</a> </p>
+                                        </div>
+
+                                    </form>
+
+                                </div>
+                            </div>
+                            <!-- end card body -->
+                        </div>
+                        <!-- end card -->
+
+
+
+
+                    </div>
+                </div>
+                <!-- end col -->
+            </div>
+            <!-- end row -->
         </div>
-        <!-- end row -->
+        <!-- end card -->
+    </div>
+    <!-- end col -->
+
+    </div>
+    <!-- end row -->
     </div>
     <!-- end container -->
     </div>

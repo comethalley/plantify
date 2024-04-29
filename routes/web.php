@@ -24,6 +24,9 @@ use App\Http\Controllers\Api\FarmController;
 use App\Http\Controllers\EmailVerification;
 use App\Http\Controllers\PiuController;
 use App\Http\Controllers\AnalyticsController;
+use App\Http\Controllers\ProfilefeedController;
+use App\Http\Controllers\ProfileSettingsController;
+
 use App\Http\Requests\PdfRequest;
 use Endroid\QrCode\Writer\Result\PdfResult;
 use Illuminate\Http\Request;
@@ -51,6 +54,7 @@ use App\Http\Controllers\ReportController;
 // Route::get('/', function () {
 //     return view('email.email');
 // });
+
 
 Route::get('/', [AuthController::class, 'landingpage']);
 Route::get('/dashboard/analytics', [AnalyticsController::class, 'index'])->name('dashboard.analytics')->middleware('auth');
@@ -139,7 +143,20 @@ Route::put('/edit-post/{id}', [PostController::class, 'editPost'])->name('editPo
 
 
 
+Route::get('/profile-feed', [ProfilefeedController::class, 'show'])->name('profile-feed');
 
+Route::get('/profilesettings', [ProfileSettingsController::class, 'show'])->name('profilesettings');
+
+Route::post('/upload-image', [ProfileSettingsController::class, 'uploadImage'])->name('upload-image');
+
+Route::put('/profile/update', [ProfileSettingsController::class, 'updateProfile'])->name('profile.update');
+
+Route::middleware(['auth'])->group(function () {
+    Route::post('/profile/update-password', [ProfileSettingsController::class, 'updatePassword'])
+        ->name('profile.updatePassword');
+});
+
+Route::post('/save-profile-info', [ProfileSettingsController::class, 'saveOrUpdate'])->name('save.profile.info');
 
 
 // routes/web.php

@@ -20,7 +20,11 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
+
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+
+
+
 
 
 class AuthController extends Controller
@@ -327,6 +331,8 @@ class AuthController extends Controller
     }
 
 
+
+
     public function createAdmin(Request $request)
     {
         try {
@@ -418,6 +424,12 @@ class AuthController extends Controller
             return response()->json(['error' => 'Internal Server Error'], 500);
         }
     }
+
+
+
+
+
+
 
     public function createFarmers(Request $request)
     {

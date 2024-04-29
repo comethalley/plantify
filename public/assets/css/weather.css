@@ -22,9 +22,10 @@ body {
     background-size: cover;
     background-position: center;
     transition: background-image 0.3s ease;
+ 
 }
 img {
-    width: 100%;
+    /* width: 100%; */
 }
 .wrapper {
     display: flex;
@@ -327,3 +328,18 @@ img {
     }
     /* Adjust font sizes and other properties as needed for smaller screens */
 }
+#detailModal {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    z-index: 100; /* Ensure modal is above other content */
+  }
+  .sunrise-icon {
+    width: 20px;
+    height: 20px;
+  }  

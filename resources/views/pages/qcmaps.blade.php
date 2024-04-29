@@ -11,11 +11,11 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between bg-galaxy-transparent">
-                        <h4 class="mb-sm-0">Farm Map</h4>
+                        <h4 class="mb-sm-0">District 5, Quezon City Metro Manila Farm Map</h4>
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 
-                                <li class="breadcrumb-item active">Farm Map</li>
+                                <li class="breadcrumb-item active">Map</li>
                                 
                             </ol>
                         </div>
@@ -30,9 +30,26 @@
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h4 class="card-title mb-0">District 5, Quezon City Metro Manila</h4>
+                        @if(auth()->user()->role_id == 1)
+                        {{-- Display only for role_id 1 (Admin) --}}
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addFarmLocationModal">Add Farm Location</button>
+                        @elseif(auth()->user()->role_id == 2)
+                        {{-- Display only for role_id 2 (Admin) --}}
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addFarmLocationModal">Add Farm Location</button>
+                        @elseif(auth()->user()->role_id == 3)
+                        {{-- Display for role_id 3 (Farm Leader) --}}
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addFarmLocationModal">Add Farm Location</button>
+                        @elseif(auth()->user()->role_id == 4)
+                        {{-- Display for role_id 4 (Farmers) --}}
+                        <button hidden type="button" class="btn btn-primary" data-toggle="modal" data-target="#addFarmLocationModal">Add Farm Location</button>
+                        @elseif(auth()->user()->role_id == 5)
+                        {{-- Display for role_id 5 (Public Users) --}}
+                        <button hidden type="button" class="btn btn-primary" data-toggle="modal" data-target="#addFarmLocationModal">Add Farm Location</button>
+                        @endif
+                        
                     </div>
                     <div class="card-body">
+                    
                         <div id="leaflet-map" class="leaflet-map" style="height: 73vh; width: 100%"></div>
                     </div>
                 </div>
@@ -70,11 +87,17 @@
 
                                 <!-- Example: Location Name -->
                                 <div class="form-group">
-                                    <label for="locationName">Location Name:</label>
+                                    <label for="locationName">Farm Name:</label>
                                     <input type="text" class="form-control" id="locationName" name="locationName" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="address">Exact Address:</label>
+                                    <input type="text" class="form-control" id="address" name="address" required>
                                 </div>
 
                                 <button type="submit" class="btn btn-primary">Add Location</button>
+                                
                             </form>
                         </div>
                     </div>
@@ -95,7 +118,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
     <!-- Include Leaflet library -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <!-- Include jQuery -->
@@ -129,70 +152,39 @@
         attribution: '© Plantify'
     }).addTo(map);
 
-    // Define predefined markers
-    var predefinedLocations = [
-        { coords: [14.696581413419649, 121.03241984130206], name: 'BagBag' },
-        { coords: [14.717054785291488, 121.0284830908979], name: 'Capri' },
-        { coords: [14.703781994760133, 121.06858143870275], name: 'Fairview' },
-        { coords: [14.7110264787141, 121.04022213300071], name: 'Gulod' },
-        { coords: [14.731531502207597, 121.06361814840842], name: 'Greater Lagro' },
-        { coords: [14.735610007825965, 121.04624201654802], name: 'Kaligayahan' },
-        { coords: [14.720497333320369, 121.02353995741312], name: 'Nagkaisang Nayon' },
-        { coords: [14.712841342613753, 121.06136698356038], name: 'North Fairview' },
-        { coords: [14.72159192206426, 121.03724325170134], name: 'Novaliches Proper' },
-        { coords: [14.721023889807322, 121.05021447950583], name: 'Pasong Putik Proper' },
-        { coords: [14.731079865181144, 121.03514900127126], name: 'San Agustin' },
-        { coords: [14.703817240147075, 121.03011754032926], name: 'San Bartolome' },
-        { coords: [14.707282122001462, 121.05171643949514], name: 'Sta. Lucia' },
-        { coords: [14.714744742496935, 121.04734939475257], name: 'Sta. Monica' }
-    ];
-
-    // Add predefined markers to the map
-    predefinedLocations.forEach(function (location) {
-        L.marker(location.coords, { icon: redIcon })
-            .addTo(map)
-            .bindPopup(location.name);
-    });
-
-    // Fetch farm locations from the server on page load
     $(document).ready(function () {
-        // Assuming you have a route that returns farm locations in the expected format
+        // Fetch farm locations from the server on page load
         $.ajax({
-        url: '/farm_locations',
-        method: 'GET',
-        success: function (data) {
-            console.log('Farm locations retrieved successfully:', data);
-            addFarmLocationMarkers(data); // Add markers to the map
-        },
-        error: function (xhr, status, error) {
-            console.error('Error retrieving farm locations:', error);
-        },
-    });
+            url: '/get_maps',
+            method: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                console.log('Farm locations retrieved successfully:', data);
+                displayFarmLocations(data); // Display farm locations on the map
+            },
+            error: function (xhr, status, error) {
+                console.error('Error retrieving farm locations:', error);
+            },
+        });
     });
 
-    // Function to add markers for farm locations
-    // Function to add markers for farm locations
-    function addFarmLocationMarkers(locations) {
-        if (Array.isArray(locations)) {
-            locations.forEach(function (location) {
-                if (location.latitude && location.longitude) {
-                    L.marker([location.latitude, location.longitude], { icon: redIcon })
-                        .addTo(map)
-                        .bindPopup(location.location_name);
-                }
-            });
-        } else {
-            // Handle single object case
-            if (locations.latitude && locations.longitude) {
-                L.marker([locations.latitude, locations.longitude], { icon: redIcon })
-                    .addTo(map)
-                    .bindPopup(locations.location_name);
-            }
+    // Function to display farm locations on the map
+    function displayFarmLocations(farmLocations) {
+    farmLocations.forEach(function (location) {
+        if (location.latitude && location.longitude) {
+            // Create a custom HTML string for the popup content
+            var popupContent = "<b>Farm Name: " + location.location_name + "</b><br>Address: " + location.address;
+
+            // Create a marker and bind a popup with custom content
+            L.marker([parseFloat(location.latitude), parseFloat(location.longitude)], { icon: redIcon })
+                .addTo(map)
+                .bindPopup(popupContent);
         }
-    }
+    });
+}
 
 
-    // Form submission handlerA
+    // Form submission handler
     $('#addFarmLocationForm').submit(function (e) {
         e.preventDefault();
 
@@ -200,6 +192,7 @@
         var latitude = $('#latitude').val();
         var longitude = $('#longitude').val();
         var locationName = $('#locationName').val();
+        var address = $('#address').val();
 
         // Make an AJAX request to store the farm location in the backend
         $.ajax({
@@ -209,19 +202,34 @@
                 latitude: latitude,
                 longitude: longitude,
                 location_name: locationName,
+                address: address,
             },
             success: function (data) {
-                console.log('Farm location added successfully:', data);
-                addFarmLocationMarkers(data); // Add the new marker to the map
-                
-            },
-            error: function (error) {
-                console.error('Error adding farm location:', error);
-            },
+                        // Assuming your Laravel controller returns a JSON response with a success message
+                        console.log(data.message);
+                        Swal.fire({
+                        title: "Farm Location added Successfully",
+                        icon: "success"
+                    });
+                    if (data.latitude && data.longitude) {
+                        L.marker([parseFloat(data.latitude), parseFloat(data.longitude)], { icon: redIcon })
+                        .addTo(map)
+                        .bindPopup(data.location_name);
+                    }
+                    setTimeout(function() {
+                        location.reload(); // Reload the page after 2 seconds
+                    }, 2000);
+                    },
+                    error: function (error) {       
+                    Swal.fire({
+                        title: "Error",
+                        text: "Error Adding Farm Location. Please try again.",
+                        icon: "error"
+                    });
+                    }
         });
 
         // Close the modal
         $('#addFarmLocationModal').modal('hide');
     });
 </script>
-

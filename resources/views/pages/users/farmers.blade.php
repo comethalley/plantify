@@ -22,8 +22,8 @@
     <div class="page-content">
         <div class="container-fluid">
 
-          
-          
+
+
             <!-- start page title -->
             <div class="row">
                 <div class="col-12">
@@ -32,8 +32,8 @@
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">Inventory</a></li>
-                                <li class="breadcrumb-item active">Suppliers</li>
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Users</a></li>
+                                <li class="breadcrumb-item active">Farmers</li>
                             </ol>
                         </div>
 
@@ -94,10 +94,10 @@
                                                 <th class="sort" data-sort="city">Action</th>
 
 
-                                       
+
                                             </tr>
                                         </thead>
-                                      
+
                                     </table>
                                     <div class="noresult" style="display: none">
                                         <div class="text-center">
@@ -119,7 +119,7 @@
                                     </div>
                                 </div>
                             </div>
-                       
+
 
 
                             <!-- download csv-->
@@ -128,7 +128,7 @@
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header bg-light p-3">
-                                        <h5 class="modal-title" id="exampleModalLabel">Download</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">Download</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
                                         </div>
                                         <form method="post" action="/add-supplier">
@@ -138,30 +138,30 @@
 
                                                 <div class="mb-3">
                                                     <!-- Default File Input Example -->
-                                            <div>
-                                                <label for="formFile" class="form-label">Download File</label>
-                                                <input class="form-control" type="file" id="formFile">
+                                                    <div>
+                                                        <label for="formFile" class="form-label">Download File</label>
+                                                        <input class="form-control" type="file" id="formFile">
+                                                    </div>
                                                 </div>
-                                            </div>
 
                                             </div>
                                             <div class="modal-footer">
                                                 <div class="hstack gap-2 justify-content-end">
                                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
                                                     <button type="submit" class="btn btn-btn btn-secondary waves-effect waves-light">Add</button>
-                                                 </div>
+                                                </div>
                                             </div>
                                         </form>
                                     </div>
                                 </div>
                             </div>
 
-                               <!--Create Admin Modal-->
-                               <div class="modal fade" id="showModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <!--Create Admin Modal-->
+                            <div class="modal fade" id="showModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header bg-light p-3">
-                                        <h5 class="modal-title" id="exampleModalLabel">Add New Farmers</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">Add New Farmers</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
                                         </div>
                                         <form method="post" action="/add-supplier">
@@ -201,100 +201,100 @@
                                                 <div class="hstack gap-2 justify-content-end">
                                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
                                                     <button type="submit" class="btn btn-success">Add</button>
-                                                 </div>
+                                                </div>
                                             </div>
                                         </form>
                                     </div>
                                 </div>
                             </div>
 
-                            
-                                <!--Edit Admin Modal-->
-                                <div class="modal fade modal-lg" id="viewModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+                            <!--Edit Admin Modal-->
+                            <div class="modal fade modal-lg" id="viewModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
-                                    h5 class="modal-title" id="exampleModalLabel">Edit Admin</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
-                                        </div>
-                                        <form method="post" action="/edit-supplier">
-                                            @csrf
-                                            <div class="modal-body">
-                                                <input type="hidden" id="id-field" />
-
-                                                <input type="text" id="orderId" class="form-control" placeholder="ID" readonly hidden />
-
-                                                <div class="mb-3">
-                                                    <label for="customername-field" class="form-label">First Name</label>
-                                                    <input type="text" name="supplier-name" id="customername-field" class="form-control" placeholder="Enter name" required />
-                                                </div>
-
-                                                <div class="mb-3">
-                                                    <label for="customername-field" class="form-label">Last Name</label>
-                                                    <input type="text" name="description" id="customername-field" class="form-control" placeholder="Enter Description" required />
-                                                </div>
-
-                                                <div class="mb-3">
-                                                    <label for="customername-field" class="form-label">Email</label>
-                                                    <input type="email" name="email" id="customername-field" class="form-control" placeholder="Enter Email" required />
-                                                </div>
-
-                                                <div class="mb-3">
-                                                    <label for="customername-field" class="form-label">Address</label>
-                                                    <input type="address" name="address" id="customername-field" class="form-control" placeholder="Enter Address" required />
-                                                </div>
-
-                                                <div class="mb-3">
-                                                    <label for="customername-field" class="form-label">Contact</label>
-                                                    <input type="contact" name="contact" id="customername-field" class="form-control" placeholder="Enter Contact" required />
-                                                </div>
-
-                                            </div>
-                                            <div class="modal-footer">
-                                                <div class="hstack gap-2 justify-content-end">
-                                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                                                    <button type="submit" class="btn btn-success">Save</button>
-                                                 </div>
-                                            </div>
-                                        </form>
+                                        h5 class="modal-title" id="exampleModalLabel">Edit Admin</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
                                     </div>
-                                </div>
-                            </div>
+                                    <form method="post" action="/edit-supplier">
+                                        @csrf
+                                        <div class="modal-body">
+                                            <input type="hidden" id="id-field" />
 
-                            <!--End Edit Modal-->
+                                            <input type="text" id="orderId" class="form-control" placeholder="ID" readonly hidden />
 
+                                            <div class="mb-3">
+                                                <label for="customername-field" class="form-label">First Name</label>
+                                                <input type="text" name="supplier-name" id="customername-field" class="form-control" placeholder="Enter name" required />
+                                            </div>
 
-                            <!-- Modal -->
-                            <div class="modal fade flip" id="deleteOrder" tabindex="-1" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered">
-                                    <div class="modal-content">
-                                        <div class="modal-body p-5 text-center">
-                                            <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop" colors="primary:#405189,secondary:#f06548" style="width:90px;height:90px"></lord-icon>
-                                            <div class="mt-4 text-center">
-                                                <h4>You are about to archive this user ?</h4>
-                                                <!-- <p class="text-muted fs-15 mb-4">Deleting your order will remove all of your information from our database.</p> -->
-                                                <div class="hstack gap-2 justify-content-center remove">
-                                                    <button class="btn btn-link link-success fw-medium text-decoration-none" id="deleteRecord-close" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i> Close</button>
-                                                    <button class="btn btn-danger" id="delete-record">Yes Archie</button>
-                                                </div>
+                                            <div class="mb-3">
+                                                <label for="customername-field" class="form-label">Last Name</label>
+                                                <input type="text" name="description" id="customername-field" class="form-control" placeholder="Enter Description" required />
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="customername-field" class="form-label">Email</label>
+                                                <input type="email" name="email" id="customername-field" class="form-control" placeholder="Enter Email" required />
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="customername-field" class="form-label">Address</label>
+                                                <input type="address" name="address" id="customername-field" class="form-control" placeholder="Enter Address" required />
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="customername-field" class="form-label">Contact</label>
+                                                <input type="contact" name="contact" id="customername-field" class="form-control" placeholder="Enter Contact" required />
+                                            </div>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <div class="hstack gap-2 justify-content-end">
+                                                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-success">Save</button>
                                             </div>
                                         </div>
-                                    </div>
+                                    </form>
                                 </div>
                             </div>
-                            <!--end modal -->
                         </div>
+
+                        <!--End Edit Modal-->
+
+
+                        <!-- Modal -->
+                        <div class="modal fade flip" id="deleteOrder" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-body p-5 text-center">
+                                        <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop" colors="primary:#405189,secondary:#f06548" style="width:90px;height:90px"></lord-icon>
+                                        <div class="mt-4 text-center">
+                                            <h4>You are about to archive this user ?</h4>
+                                            <!-- <p class="text-muted fs-15 mb-4">Deleting your order will remove all of your information from our database.</p> -->
+                                            <div class="hstack gap-2 justify-content-center remove">
+                                                <button class="btn btn-link link-success fw-medium text-decoration-none" id="deleteRecord-close" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i> Close</button>
+                                                <button class="btn btn-danger" id="delete-record">Yes Archie</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--end modal -->
                     </div>
-
                 </div>
-                <!--end col-->
-            </div>
-            <!--end row-->
 
+            </div>
+            <!--end col-->
         </div>
-        <!-- container-fluid -->
+        <!--end row-->
+
     </div>
-    <!-- End Page-content -->
-    <!-- end main content-->
+    <!-- container-fluid -->
+</div>
+<!-- End Page-content -->
+<!-- end main content-->
 
 </div>
 <!-- END layout-wrapper -->

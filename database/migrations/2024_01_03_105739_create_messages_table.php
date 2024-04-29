@@ -23,11 +23,10 @@ return new class extends Migration
             $table->boolean('status')->default(true);
             $table->date('create_date');
             $table->timestamps();
-        
+
             $table->foreign('thread_id')->references('id')->on('threads')->onDelete('cascade');
             $table->foreign('sender_id')->references('id')->on('users')->onDelete('cascade');
         });
-        
     }
 
     /**

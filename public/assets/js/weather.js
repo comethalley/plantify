@@ -101,10 +101,6 @@ function getLocationDetails(position) {
       // Assuming you have the getWeatherData function defined somewhere
       currentCity = city;
       getWeatherData(city);
-      
-      //  // Assuming you have the getWeatherData function defined somewhere
-      //  currentCity = city;
-      //  getWeatherData(city);
        
        document.getElementById("location").innerHTML = `${city}, ${country}`;
      })
@@ -126,46 +122,44 @@ function showError(error) {
 }
 
 
-function getWeatherData(city, unit, hourlyorWeek) {
-  const apiKey = "UQCDAHREW2AP33F6RGNT3X2Z9";
-  fetch(
-    `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?unitGroup=metric&key=${apiKey}&contentType=json`,
-    {
-      method: "GET",
-    }
-  )
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`Unable to fetch weather data. HTTP status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then(data => {
-      const today = data.currentConditions;
+// function getWeatherData(city, unit, hourlyorWeek) {
+//   const apiKey = "UQCDAHREW2AP33F6RGNT3X2Z9";
+//   fetch(
+//     `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?unitGroup=metric&key=${apiKey}&contentType=json`,
+//     {
+//       method: "GET",
+//     }
+//   )
+//     .then(response => {
+//       if (!response.ok) {
+//         throw new Error(`Unable to fetch weather data. HTTP status: ${response.status}`);
+//       }
+//       return response.json();
+//     })
+//     .then(data => {
+//       const today = data.currentConditions;
 
-      // Update temperature based on the unit
-      const tempElement = document.getElementById("temperature");
-      tempElement.innerText = unit === "c" ? today.temp : celciusToFahrenheit(today.temp);
+//       // Update temperature based on the unit
+//       const tempElement = document.getElementById("temperature");
+//       tempElement.innerText = currentUnit === "c" ? today.temp : celciusToFahrenheit(today.temp);
 
-      // Update other UI elements based on weather data
-      updateWeatherUI(today, data, unit, hourlyorWeek);
-    })
-    .catch(err => {
-      console.error('Error fetching weather data:', err);
-      alert("City not found in our database or weather data unavailable.");
-    });
-}
+//       // Set the initial unit to Celsius
+//       changeUnit("c");
+
+//       // Update other UI elements based on weather data
+//       updateWeatherUI(today, data, unit, hourlyorWeek);
+//     })
+//     .catch(err => {
+//       console.error('Error fetching weather data:', err);
+//       alert("City not found in our database or weather data unavailable.");
+//     });
+// }
 
 function updateWeatherUI(today, data, unit, hourlyorWeek) {
-  // Other UI updates based on weather data
-  
-  // ... other element updates ...
-
-  temp.innerText = unit === "c" ? today.temp : celciusToFahrenheit(today.temp);
-  currentLocation.innerText = data.resolvedAddress;
-  // ... update other elements ...
+  tempUnit.forEach((elem) => {
+    elem.innerText = `°${unit.toUpperCase()}`;
+  });
 }
-
 // function getPublicIp() {
 //   fetch("https://geolocation-db.com/json/", {
 //     method: "GET",
@@ -194,12 +188,14 @@ function getWeatherData(city, unit, hourlyorWeek) {
   )
     .then((response) => response.json())
     .then((data) => {
+      
       let today = data.currentConditions;
-      if (unit === "c") {
-        temp.innerText = today.temp;
-      } else {
+      if (unit === "f") {
         temp.innerText = celciusToFahrenheit(today.temp);
+      } else {
+        temp.innerText = today.temp;
       }
+      
       currentLocation.innerText = data.resolvedAddress;
       condition.innerText = today.conditions;
       rain.innerText = "Perc - " + today.precip + "%";
@@ -207,7 +203,7 @@ function getWeatherData(city, unit, hourlyorWeek) {
       windSpeed.innerText = today.windspeed;
       measureUvIndex(today.uvindex);
       mainIcon.src = getIcon(today.icon);
-      changeBackground(today.icon);
+      // changeBackground(today.icon);
       humidity.innerText = today.humidity + "%";
       updateHumidityStatus(today.humidity);
       visibilty.innerText = today.visibility;
@@ -223,55 +219,68 @@ function getWeatherData(city, unit, hourlyorWeek) {
       sunSet.innerText = covertTimeTo12HourFormat(today.sunset);
     })
     .catch((err) => {
-      alert("City not found in our database");
+      console.error("Error fetching weather data:", err);
     });
 }
-
-
-
 
 //function to update Forecast
 function updateForecast(data, unit, type) {
   weatherCards.innerHTML = ""; // Clear existing weather cards
-  let day = 0;
-  let numCards = 6;
+
   let startIndex = 1;
-  if (type === "day") {
-    numCards = 24;
-  } else {
-    numCards = 7;
-  }
-  for (let i = startIndex; i < numCards; i++) {
+  let numCards = type === "day" ? 24 : 6; // Use 6 for weekly forecast
+
+  for (let i = startIndex; i < startIndex + numCards; i++) { // Start from 1 to exclude the current day
     let card = document.createElement("div");
     card.classList.add("card");
-    let dayName = getHour(data[day].datetime);
-    if (type === "week") {
-      dayName = getDayName(data[i].datetime);
-    }
-    let dayTemp = data[day].temp;
-    if (unit === "f") {
-      dayTemp = celciusToFahrenheit(data[day].temp);
-    }
-    let iconCondition = data[day].icon;
-    let iconSrc = getIcon(iconCondition);
-    let tempUnit = "°C";
-    if (unit === "f") {
-      tempUnit = "°F";
-    }
+    card.style.cursor = "pointer"; // Add this line
+
+    let dayName = type === "week" ? getDayName(data[i].datetime) : getHour(data[i].datetime);
+    let dayTemp = unit === "f" ? celciusToFahrenheit(data[i].temp) : data[i].temp;
+    let iconSrc = getIcon(data[i].icon);
+
     card.innerHTML = `
-                <h2 class="day-name">${dayName}</h2>
-            <div class="card-icon">
-              <img src="${iconSrc}" class="day-icon" alt="" />
-            </div>
-            <div class="day-temp">
-              <h2 class="temp">${dayTemp}</h2>
-              <span class="temp-unit">${tempUnit}</span>
-            </div>
-  `;
+      <h2 class="day-name">${dayName}</h2>
+      <div class="card-icon">
+        <img src="${iconSrc}" class="day-icon" alt="Weather Icon" />
+      </div>
+      <div class="day-temp">
+        <h2 class="temp">${dayTemp}</h2>
+        <span class="temp-unit">${unit === "f" ? "°F" : "°C"}</span>
+      </div>
+    `;
+
+    // Add event listener to each card to show modal with details
+    card.addEventListener('click', () => {
+      populateAndShowModal(data[i]); // Make sure to pass data[i] instead of data[day]
+    });
+
     weatherCards.appendChild(card);
-    day++;
   }
-} 
+}
+
+function populateAndShowModal(detail) {
+  // Populate the modal with details
+  document.getElementById("modalRainChance").innerText = detail.precip || '0'; // Assuming 'precip' is your chance of rain
+  document.getElementById("modalHumidity").innerText = detail.humidity || '--'; // Assuming 'humidity' is in your data
+  document.getElementById("modalSunrise").innerText = covertTimeTo12HourFormat(detail.sunrise) || '--'; // Convert sunrise time as needed
+  document.getElementById("modalSunset").innerText = covertTimeTo12HourFormat(detail.sunset) || '--'; // Convert sunset time as needed
+
+  // Show the modal
+  document.getElementById("detailModal").style.display = 'block';
+
+  // Add event listener to close the modal when clicking outside of it
+  document.addEventListener('click', function(event) {
+    if (event.target.id === 'detailModal' || event.target.id === 'modalClose') {
+      document.getElementById("detailModal").style.display = 'none';
+    }
+  });
+}
+
+function closeModal() {
+  document.getElementById("detailModal").style.display = 'none';
+}
+
   
 // function to change weather icons
 function getIcon(condition) {
@@ -329,8 +338,8 @@ function covertTimeTo12HourFormat(time) {
   let ampm = hour >= 12 ? "pm" : "am";
   hour = hour % 12;
   hour = hour ? hour : 12; // the hour '0' should be '12'
-  hour = hour < 10 ? "0" + hour : hour;
-  minute = minute < 10 ? "0" + minute : minute;
+  minute = Number(minute); // Convert minutes to a number
+  minute = minute < 10 ? "0" + minute : minute; // Pad minutes with a leading zero if needed
   let strTime = hour + ":" + minute + " " + ampm;
   return strTime;
 }
@@ -404,7 +413,7 @@ function updateAirQualityStatus(airquality) {
   } else if (airquality <= 100) {
     airQualityStatus.innerText = "Moderate";
   } else if (airquality <= 150) {
-    airQualityStatus.innerText = "Unhealthy for Sensitive Groups";
+    airQualityStatus.innerText = "Unhealthy";
   } else if (airquality <= 200) {
     airQualityStatus.innerText = "Unhealthy";
   } else if (airquality <= 250) {
@@ -414,15 +423,6 @@ function updateAirQualityStatus(airquality) {
   }
 }
 
-// function to handle search form
-// searchForm.addEventListener("submit", (e) => {
-//   e.preventDefault();
-//   let location = search.values;
-//   if (location) {
-//     currentCity = location;
-//     getWeatherData(location, currentUnit, hourlyorWeek);
-//   }
-// });
 
 // function to conver celcius to fahrenheit
 function celciusToFahrenheit(temp) {
@@ -521,12 +521,15 @@ function celciusToFahrenheit(temp) {
 //   if (x) x.parentNode.removeChild(x);
 // }
 
-fahrenheitBtn.addEventListener("click", () => {
-  changeUnit("f");
-});
+
 celciusBtn.addEventListener("click", () => {
   changeUnit("c");
 });
+
+fahrenheitBtn.addEventListener("click", () => {
+  changeUnit("f");
+});
+
 
 // // function to change unit
 function changeUnit(unit) {
@@ -550,6 +553,7 @@ function changeUnit(unit) {
   }
 }
 
+
 hourlyBtn.addEventListener("click", () => {
   changeTimeSpan("hourly");
 });
@@ -571,31 +575,5 @@ function changeTimeSpan(unit) {
     getWeatherData(currentCity, currentUnit, hourlyorWeek);
   }
 }
-
-
-
-// Cities add your own to get in search
-
-// cities = [
-//   {
-//     country: "PK",
-//     name: "Abbottabad",
-//     lat: "34.1463",
-//     lng: "73.21168",
-//   },
-//   {
-//     country: "PK",
-//     name: "Adilpur",
-//     lat: "27.93677",
-//     lng: "69.31941",
-//   },
-//   {
-//     country: "PK",
-//     name: "Ahmadpur East",
-//     lat: "29.14269",
-//     lng: "71.25771",
-//   },
-  
-// ];
 
 

@@ -32,8 +32,8 @@
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">Inventory</a></li>
-                                <li class="breadcrumb-item active">Suppliers</li>
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Users</a></li>
+                                <li class="breadcrumb-item active">Farmers</li>
                             </ol>
                         </div>
 
@@ -52,8 +52,8 @@
                                 </div>
                                 <div class="col-sm-auto">
                                     <div class="d-flex gap-1 flex-wrap">
-                                        <button type="button" class="btn btn-secondary waves-effect waves-light" data-bs-toggle="modal" id="create-btn" data-bs-target="#csv"><i class="ri-add-line align-bottom me-1"></i> Download CSV </button>
-                                        <button type="button" class="btn btn-success add-btn" data-bs-toggle="modal" id="create-btn" data-bs-target="#farmLeadershowModal"><i class="ri-add-line align-bottom me-1"></i> Add Farm Leader</button>
+                                        <button type="button" class="btn btn-secondary waves-effect waves-light download-farmleaders"><i class="ri-download-2-line"></i> Download CSV </button>
+                                        <button type="button" class="btn btn-success add-btn" data-bs-toggle="modal" id="create-btn" data-bs-target="#farmLeadershowModal"><i class="ri-add-line align-bottom me-1"></i> Invite New Farmer Leader</button>
                                         <button class="btn btn-soft-danger" id="remove-actions" onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button>
                                     </div>
                                 </div>
@@ -125,7 +125,7 @@
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header bg-light p-3">
-                                            <h5 class="modal-title" id="exampleModalLabel">Add New Farmers</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">Invite New Farmer Leader</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
                                         </div>
                                         <form method="post" action="/add-supplier">
@@ -158,7 +158,7 @@
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header bg-light p-3">
-                                            <h5 class="modal-title" id="exampleModalLabel">Add New Farm Leaders</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">Invite New Farm Leaders</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
                                         </div>
                                         <form method="post" action="/add-supplier">
@@ -168,22 +168,22 @@
 
                                                 <input type="text" id="orderId" class="form-control" placeholder="ID" readonly hidden />
 
-                                                <div class="mb-3">
+                                                <!-- <div class="mb-3">
                                                     <label for="customername-field" class="form-label">First Name</label>
                                                     <input type="text" name="supplier-name" id="firstname" class="form-control" placeholder="Enter name" required />
-                                                </div>
+                                                </div> -->
 
-                                                <div class="mb-3">
+                                                <!-- <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Last Name</label>
                                                     <input type="text" name="description" id="lastname" class="form-control" placeholder="Enter Description" required />
-                                                </div>
+                                                </div> -->
 
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Email Address</label>
                                                     <input type="email" name="email" id="email" class="form-control" placeholder="Enter Email" required />
                                                 </div>
 
-                                                <div class="mb-3">
+                                                <!-- <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Address</label>
                                                     <input type="address" name="address" id="address" class="form-control" placeholder="Enter Address" required />
                                                 </div>
@@ -191,7 +191,7 @@
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Contact</label>
                                                     <input type="contact" name="contact" id="contact" class="form-control" placeholder="Enter Contact" required />
-                                                </div>
+                                                </div> -->
 
                                             </div>
                                             <div class="modal-footer">
@@ -338,6 +338,38 @@
 
 </div>
 <!-- END layout-wrapper -->
+
+<script>
+    $(document).ready(function() {
+        function downloadAdminTableAsExcel(tableId, filename) {
+            var table = document.getElementById(tableId);
+            if (!table) {
+                console.error("Table element with ID '" + tableId + "' not found.");
+                return;
+            }
+
+            // Clone the table to manipulate without affecting the original table
+            var clonedTable = table.cloneNode(true);
+
+            // Remove the action column from the cloned table
+            $(clonedTable).find("th[data-sort='city'], td[data-column='city']").remove();
+
+            var ws = XLSX.utils.table_to_sheet(clonedTable);
+
+            // Create a workbook with a single worksheet
+            var wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+            // Convert the workbook to a binary Excel file and trigger the download
+            XLSX.writeFile(wb, filename + '.xlsx');
+        }
+
+        $(document).on("click", ".download-farmleaders", function() {
+            //console.log("Download button clicked");
+            downloadAdminTableAsExcel('farmerLeader-tbl', 'farmleaders_data');
+        });
+    });
+</script>
 
 
 @include('templates.footer')

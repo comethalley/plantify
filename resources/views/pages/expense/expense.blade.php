@@ -54,21 +54,49 @@
                 @endif
             </div>
             
-            <!-- Your existing "Add Budget" button -->
-            <div class="d-flex align-items-center">
-                @if ($userRoleId != 2)
-                <div class="flex-shrink-0 mb-3">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addBudgetModal">
+            <!-- Your "Add Budget" button -->
+            <div class="row g-4 mb-3">
+                <div class="col-sm-auto order-sm-2 mb-1 ms-auto me-3"> <!-- Align to the right -->
+                    <form id="filterForm" class="d-flex align-items-center">
+                        <select class="form-select me-2" id="expenseMonth" name="month">
+                            <option value="" disabled selected>Select Month</option>
+                            <option value="01">January</option>
+                            <option value="02">February</option>
+                            <option value="03">March</option>
+                            <option value="04">April</option>
+                            <option value="05">May</option>
+                            <option value="06">June</option>
+                            <option value="07">July</option>
+                            <option value="08">August</option>
+                            <option value="09">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                            <!-- Add options for other months -->
+                        </select>
+                        <select class="form-select me-2" id="expenseYear" name="year">
+                            <option value="" disabled selected>Select Year</option>
+                            <option value="2022">2022</option>
+                            <option value="2023">2023</option>
+                            <option value="2024">2024</option>
+                            <!-- Add options for other years -->
+                        </select>
+                        <button type="submit" class="btn btn-primary">Filter</button>
+                    </form>
+                </div>
+                <div class="col-sm-auto order-sm-1"> <!-- Align to the left -->
+                    @if ($userRoleId != 2)
+                    <button type="button" class="btn btn-primary" onclick="openAddBudgetModal()">
                         Add Budget
                     </button>
+                    @endif
                 </div>
-                @endif
             </div>
 
             <!-- Add Budget Modal -->
             @if($userRoleId == 3 && $farm)
             <div class="modal fade" id="addBudgetModal" tabindex="-1" aria-labelledby="addBudgetModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
+                <div class="modal-dialog" id="dialogBox">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="addBudgetModalLabel">Add Allotted Budget</h5>
@@ -221,14 +249,6 @@
                                         </select>
                                     </div>
                                     @endif
-                                    <div class="col-sm">
-                                        <div class="d-flex justify-content-sm-end">
-                                            <div class="search-box ms-2">
-                                                <input type="text" class="form-control search" placeholder="Search...">
-                                                <i class="ri-search-line search-icon"></i>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                                 
                                 
@@ -273,6 +293,11 @@
                                                         <input type="number" class="form-control" id="kwh">
                                                     </div>
 
+                                                    <div class="mb-3" id="rateInput" style="display: none;">
+                                                        <label for="rate" class="form-label">Rate</label>
+                                                        <input type="number" class="form-control" id="rate">
+                                                    </div>
+
                                                     <div class="mb-3" id="totalAmount" style="display: none;">
                                                         <label colspan="3"  for="total" class="form-label">Total Amount</label>
                                                         <label colspan="2"  type="number" class="form-control" id="total" style="color: black; font-weight: bold; font-size: 10pt; padding-top: 5px; padding-bottom: 5px;">0.00</label>
@@ -294,77 +319,6 @@
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                                 <button type="button" class="btn btn-primary" id="saveItemButton">Save Item</button>
                                             </div>
-                                            <div id="balance" style="display: none;">{{$balance}}</div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Edit Expense Modal -->
-                                <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" id="editDialogBox">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="editModalLabel">Edit Item</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form class="edit-expense-form" id="editExpenseForm" action="/expenses/update-expense" method="POST">
-                                                    @csrf
-                                                    <div class="mb-3">
-                                                        <label for="editCategory" class="form-label">Category</label>
-                                                        <select class="form-select" id="editCategory" name="category">
-                                                            <option value="">Select Category</option>
-                                                            @foreach($farmCategory as $category)
-                                                                <option value="{{ $category->id }}">{{ $category->category_name }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-
-                                                    <div class="mb-3" id="editDescriptionInput" style="display: none;">
-                                                        <label for="editDescription" class="form-label">Description</label>
-                                                        <input type="text" class="form-control" id="editDescription" placeholder="Enter description">
-                                                    </div>
-
-                                                    <div class="mb-3" id="editPreviousInput" style="display: none;">
-                                                        <label for="editPrevious" class="form-label">Previous</label>
-                                                        <input type="number" class="form-control" id="editPrevious">
-                                                    </div>
-
-                                                    <div class="mb-3" id="editCurrentInput" style="display: none;">
-                                                        <label for="editCurrent" class="form-label">Current</label>
-                                                        <input type="number" class="form-control" id="editCurrent">
-                                                    </div>
-
-                                                    <div class="mb-3" id="editKwhInput" style="display: none;">
-                                                        <label for="editKwh" class="form-label">Kilo Watt per Hour</label>
-                                                        <input type="number" class="form-control" id="editKwh">
-                                                    </div>
-
-                                                    <div class="mb-3" id="editTotalAmount" style="display: none;">
-                                                        <label colspan="3" for="editTotal" class="form-label">Total Amount</label>
-                                                        <label colspan="2" type="number" class="form-control" id="editTotal"
-                                                            style="color: black; font-weight: bold; font-size: 10pt; padding-top: 5px; padding-bottom: 5px;">
-                                                            0.00</label>
-                                                    </div>
-
-                                                    <div class="mb-3" id="editAmountInput" style="display: none;">
-                                                        <label for="editAmount" class="form-label">Amount</label>
-                                                        <input type="number" class="form-control" id="editAmount" placeholder="Enter amount">
-                                                    </div>
-
-                                                    <!-- Image Upload Input -->
-                                                    <div class="mb-3" id="editImageInput" style="display: none;">
-                                                        <label for="editImage" class="form-label">Upload Image</label>
-                                                        <input type="file" class="form-control" id="editImage" accept="image/*">
-                                                    </div>
-
-                                                    <input type="hidden" id="editExpenseId" name="expense_id">
-                                                </form>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                <button type="button" class="btn btn-primary" onclick="editExpense()">Save Changes</button>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -385,7 +339,7 @@
                                                 <tr data-expense-id="{{ $expense->id }}">
                                                     <th scope="row">
                                                         <div class="form-check">
-                                                            <input class="form-check-input" type="checkbox" name="chk_child" value="option1">
+                                                            <!-- <input class="form-check-input" type="checkbox" name="chk_child" value="option1"> -->
                                                         </div>
                                                     </th>
                                                     <td class="id" style="display:none;"><a href="javascript:void(0);" class="fw-medium link-primary">#{{ $expense->farm_id }}</a></td>
@@ -463,6 +417,7 @@
         var previousInput = document.getElementById('previousInput');
         var currentInput = document.getElementById('currentInput');
         var kwhInput = document.getElementById('kwhInput');
+        var rateInput = document.getElementById('rateInput');
         var totalAmount = document.getElementById('totalAmount');
         var amountInput = document.getElementById('amountInput');
         var imageInput = document.getElementById('imageInput');
@@ -474,6 +429,7 @@
             previousInput.style.display = 'none';
             currentInput.style.display = 'none';
             kwhInput.style.display = 'none';
+            rateInput.style.display = 'none';
             totalAmount.style.display = 'none';
             amountInput.style.display = 'none';
             imageInput.style.display = 'none';
@@ -487,6 +443,7 @@
             } else if (selectedCategoryId === '2') {
                 previousInput.style.display = 'block';
                 currentInput.style.display = 'block';
+                rateInput.style.display = 'block';
                 totalAmount.style.display = 'block';
                 imageInput.style.display = 'block';
             } else if (selectedCategoryId === '3' || selectedCategoryId === '4') {
@@ -507,7 +464,41 @@
     var previousInput = document.getElementById('previous');
     var currentInput = document.getElementById('current');
     var kwhInput = document.getElementById('kwh');
+    var rateInput = document.getElementById('rate');
     var imageInput = document.getElementById('image');
+
+    function calculateTotalAmount() {
+        var category = categorySelect.value;
+        var previous = parseFloat(previousInput.value) || 0;
+        var current = parseFloat(currentInput.value) || 0;
+        var kwh = parseFloat(kwhInput.value) || 0;
+        var rate = parseFloat(rateInput.value) || 0;
+        var total = 0;
+
+        if (category === '1') {
+            if (previous > current) {
+                total = (previous - current) * kwh;
+                total = Math.abs(total);
+            } else {
+                total = (current - previous) * kwh;
+            }
+        } else if (category === '2') {
+            if (previous > current) {
+                total = (previous - current) * rate;
+                total = Math.abs(total);
+            } else {
+                total = (previous - current) * rate;
+            }
+        } else {
+            total = parseFloat(amountInput.value) || 0;
+        }
+
+        total = Math.abs(total);
+
+        document.getElementById('total').textContent = total.toFixed(2);
+    }
+
+    $('#previous, #current, #kwh, #rate, #amount').on('input', calculateTotalAmount);
 
     categorySelect.addEventListener('change', function () {
         var categoryId = categorySelect.value;
@@ -519,89 +510,56 @@
                 .then(data => {
                     if (data.success) {
                         previousInput.value = data.lastAmount;
-                        // Disable previousInput if it has a value
                         if (data.lastAmount !== null && data.lastAmount !== '') {
                             previousInput.disabled = true;
                         } else {
                             previousInput.disabled = false;
                         }
+                        calculateTotalAmount();
                     } else {
                         console.error('Failed to fetch last amount:', data.message);
                     }
                 })
-            .catch(error => {
-                console.error('Error fetching last amount:', error);
-            });
+                .catch(error => {
+                    console.error('Error fetching last amount:', error);
+                });
         }
     });
 
-    function calculateTotalAmount() {
-        var category = categorySelect.value;
-        var previous = parseFloat(previousInput.value) || 0;
-        var current = parseFloat(currentInput.value) || 0;
-        var kwh = parseFloat(kwhInput.value) || 0;
-        var total = 0;
-
-        if (category === '1') {
-            if (previous <= current) { // Check if previous is less than or equal to current
-                total = (current - previous) * kwh;
-            } else {
-                // Handle the case where previous is greater than current
-                console.error('Previous reading cannot be higher than current reading for electricity.');
-                return; // Return without calculating total
-            }
-        } else if (category === '2') {
-            total = previous + current;
-        } else {
-            total = parseFloat(amountInput.value) || 0;
-        }
-
-        document.getElementById('total').textContent = total.toFixed(2);
-    }
-
-    $('#previous, #current, #kwh, #amount').on('input', calculateTotalAmount);
-
+    // Function to save new expense item
     function saveNewItem() {
         var formData = new FormData();
-
-        var farmId = document.getElementById('farm_id').value; 
+        var farmId = document.getElementById('farm_id').value;
         var categoryId = categorySelect.value;
         var description = '';
         var totalAmount = parseFloat(document.getElementById('total').textContent);
-        var currentReading = parseFloat(currentInput.value); // Get current reading
+        var currentReading = 0;
 
-        // Get the balance value
-        var balance = parseFloat(document.getElementById('balance').textContent);
-
-        // Check if balance is enough
-        if (balance < totalAmount) {
-            alert('The balance is not enough for this expense. Please add budget before saving expenses.');
-            return; // Prevent form submission
-        }
-
-        if (categoryId === '1') { 
+        if (categoryId === '1') { // Electricity
             var previous = parseFloat(previousInput.value);
-            var current = parseFloat(currentInput.value);
+            currentReading = parseFloat(currentInput.value);
             var kwh = parseFloat(kwhInput.value);
             description = 'Electricity';
             formData.append('previous', previous);
-            formData.append('current', current);
+            formData.append('current', currentReading);
             formData.append('kwh', kwh);
-        } else if (categoryId === '2') { 
+        } else if (categoryId === '2') { // Water
             var previous = parseFloat(previousInput.value);
-            var current = parseFloat(currentInput.value);
+            currentReading = parseFloat(currentInput.value);
+            var rate = parseFloat(rateInput.value);
             description = 'Water';
             formData.append('previous', previous);
-            formData.append('current', current);
-        } else { 
+            formData.append('current', currentReading);
+            formData.append('rate', rate);
+        } else { // Other categories
             description = descriptionInput.value;
         }
 
         formData.append('farm_id', farmId);
         formData.append('category_id', categoryId);
         formData.append('description', description);
+        formData.append('current_rdg', currentReading);
         formData.append('amount', totalAmount);
-        formData.append('current_rdg', currentReading); // Append current reading
         formData.append('image', imageInput.files[0]);
 
         var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -616,47 +574,24 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    Swal.fire({
-                    title: 'Are you sure you want to spend this amount?,',
-                    text: 'Make sure all information is correct before submitting as changes cannot be made later.',
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonColor: '#4CAF50',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, add it!',
-                    cancelButtonText: 'Cancel',
-
-                }).then((result) => {
-                if (result.isConfirmed) {
-                    location.reload();
-                    $('#addModal').modal('hide');
-                }
-            });
+                    console.log('Expense saved successfully:', data);
+                    location.reload(); // Reload page after saving expense
+                    $('#addModal').modal('hide'); // Hide modal
                 } else {
-                    Swal.fire({
-                        title: 'Error!',
-                        text: 'Failed to save expense: ' + data.message,
-                        icon: 'error',
-                        confirmButtonText: 'OK'
-                    });
-
+                    console.error('Failed to save expense:', data.message);
+                    if (data.message) {
+                        alert(data.message);
+                    }
                 }
             })
-
             .catch(error => {
                 console.error('Error:', error);
-                Swal.fire({
-                    title: 'Error!',
-                    text: 'Failed to save expense. Please try again later.',
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                });
-
             });
-        }
+    }
 
-        document.getElementById('saveItemButton').addEventListener('click', saveNewItem);
-    });
+    document.getElementById('saveItemButton').addEventListener('click', saveNewItem);
+});
+
 
 
     function showDialog(message, type) {
@@ -674,54 +609,65 @@
 
 
 <script>
-    $(document).ready(function () {
-        $('#expenseCategory').change(function () {
-            var categoryId = $(this).val(); // Get the selected category ID
-            var farmId = $('#farm_id').val(); // Get the farm ID
-            
-            // Make AJAX request to fetch expenses based on selected category and farm
+    document.addEventListener('DOMContentLoaded', function () {
+        function populateExpenseTable(farmId, categoryId = null) {
             $.ajax({
-                url: '/expenses/get-expenses-by-category',
                 type: 'GET',
-                data: { farm_id: farmId, category_id: categoryId },
-                success: function (response) {
-                    // Update the table body with the filtered expenses
-                    var expenseTableBody = $('#customerTable tbody');
-                    expenseTableBody.empty(); // Clear existing rows
-
-                    // Populate the table with filtered expenses
-                    response.forEach(function(expense) {
-                        var expenseRow = '<tr>' +
-                            '<td scope="row">' +
-                                '<div class="form-check">' +
-                                    '<input class="form-check-input" type="checkbox" name="chk_child" value="option1">' +
-                                '</div>' +
-                            '</td>' +
-                            '<td class="id" style="display:none;"><a href="javascript:void(0);" class="fw-medium link-primary">#' + expense.farm_id + '</a></td>' +
-                            '<td class="description">' + expense.description + '</td>' +
-                            '<td class="amount">' + expense.amount + '</td>' +
-                            '<td class="image">';
-                                if (expense.image_path) {
-                                    expenseRow += '<img src="' + expense.image_path + '" alt="Expense Image" style="max-width: 100px;">';
-                                } else {
-                                    expenseRow += 'No Image';
-                                }
-                            expenseRow += '</td>' +
-                        '</tr>';
-                        expenseTableBody.append(expenseRow);
-                    });
+                url: '/expenses/get-expenses-by-category',
+                data: {
+                    farm_id: farmId,
+                    category_id: categoryId
                 },
-                error: function () {
-                    alert('Error fetching expenses by category.');
+                success: function(response) {
+                    if (response.length > 0) {
+                        var expenseTableBody = $('#customerTable tbody');
+                        expenseTableBody.empty();
+
+                        response.forEach(function(expense) {
+                            var imageHtml = expense.image_path ? '<img src="' + expense.image_path + '" alt="Expense Image" style="max-width: 100px;">' : 'No Image';
+                            var rowHtml = '<tr data-expense-id="' + expense.id + '">' +
+                                            '<td scope="row">' +
+                                                '<div class="form-check"></div>' +
+                                            '</td>' +
+                                            '<td class="id" style="display:none;"><a href="javascript:void(0);" class="fw-medium link-primary">#' + expense.farm_id + '</a></td>' +
+                                            '<td class="description">' + expense.description + '</td>' +
+                                            '<td class="amount">' + expense.amount + '</td>' +
+                                            '<td class="image">' + imageHtml + '</td>' +
+                                        '</tr>';
+                            expenseTableBody.append(rowHtml);
+                        });
+                    } else {
+                        console.log('No expenses found for the selected category.');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching expenses:', error);
                 }
             });
+        }
+
+        var categorySelect = document.getElementById('expenseCategory');
+
+        categorySelect.addEventListener('change', function () {
+            var categoryId = categorySelect.value;
+            var farmId = document.getElementById('farm_id').value;
+
+            populateExpenseTable(farmId, categoryId);
         });
+
+        var initialCategoryId = categorySelect.value;
+        var initialFarmId = document.getElementById('farm_id').value;
+        populateExpenseTable(initialFarmId, initialCategoryId);
     });
 </script>
 
 
 <!-- Budget JavaScript -->
 <script>
+    function openAddBudgetModal() {
+        $('#addBudgetModal').appendTo('body').modal('show');
+    }
+
     document.getElementById('addBudgetForm').addEventListener('submit', function(event) {
         event.preventDefault();
 
@@ -733,38 +679,39 @@
         confirmButtonColor: '#4CAF50',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Yes, add it!',
-         cancelButtonText: 'Cancel',
+        cancelButtonText: 'Cancel',
 
-    }).then((result) => {
-        if (result.isConfirmed) {
-            var formData = new FormData(this);
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var formData = new FormData(this);
 
-            fetch('/expenses/add-budget', {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    console.log('Budget added successfully:', data);
-                    updateUI(data);
-                    $('#addBudgetModal').modal('hide');
-                } else {
-                    console.error('Failed to add budget:', data.message);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-        } else {
-            console.log('Budget addition canceled.');
-        }
+                fetch('/expenses/add-budget', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        console.log('Budget added successfully:', data);
+                        updateUI(data); 
+                        $('#addBudgetModal').modal('hide');
+
+                        reloadDashboardData();
+                    } else {
+                        console.error('Failed to add budget:', data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            } else {
+                console.log('Budget addition canceled.');
+            }
+        });
     });
-});
-
 
     function updateUI(data) {
         document.getElementById('allottedBudget').innerText = data.allotted_budget;
@@ -792,4 +739,98 @@
     $(document).ready(function () {
         reloadDashboardData();
     });
+
+    // $(document).ready(function() {
+    //     $('#filterForm').submit(function(event) {
+    //         event.preventDefault();
+
+    //         var month = $('#expenseMonth').val();
+    //         var year = $('#expenseYear').val();
+
+    //         if (!month || !year) {
+    //             alert('Please select both month and year.');
+    //             return;
+    //         }
+
+    //         $.ajax({
+    //             type: 'GET',
+    //             url: '/expenses/get-dashboard-data',
+    //             data: {
+    //                 farm_id: $('#farm_id').val(),
+    //                 month: month,
+    //                 year: year
+    //             },
+    //             success: function(response) {
+    //                 if (response.success) {
+    //                     $('#allottedBudget').text(response.allottedBudget);
+    //                     $('#balance').text(response.balance);
+    //                     $('#totalExpenses').text(response.totalExpenses);
+    //                 } else {
+    //                     alert('No budget found for the selected month and year.');
+    //                     $('#allottedBudget').text('0');
+    //                     $('#balance').text('0');
+    //                     $('#totalExpenses').text('0');
+    //                 }
+    //             },
+    //             error: function(xhr, status, error) {
+    //                 console.error(error);
+    //                 alert('Error fetching budget data. Please try again.');
+    //             }
+    //         });
+    //     });
+    // });
+
+    $(document).ready(function() {
+    $('#filterForm').submit(function(event) {
+        event.preventDefault();
+
+        var month = $('#expenseMonth').val();
+        var year = $('#expenseYear').val();
+
+        if (!month || !year) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Please select both month and year.'
+            });
+            return;
+        }
+
+        $.ajax({
+            type: 'GET',
+            url: '/expenses/get-dashboard-data',
+            data: {
+                farm_id: $('#farm_id').val(),
+                month: month,
+                year: year
+            },
+            success: function(response) {
+                if (response.success) {
+                    $('#allottedBudget').text(response.allottedBudget);
+                    $('#balance').text(response.balance);
+                    $('#totalExpenses').text(response.totalExpenses);
+                } else {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'No budget found',
+                        text: 'No budget found for the selected month and year.'
+                    });
+                    $('#allottedBudget').text('0');
+                    $('#balance').text('0');
+                    $('#totalExpenses').text('0');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error fetching budget data. Please try again.'
+                });
+            }
+        });
+    });
+});
+
+
 </script>

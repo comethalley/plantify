@@ -13,13 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('fertilizers', function (Blueprint $table) {
+        Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->string('farm_id');
-            $table->string('name');
-            $table->text('uom_id');
-            $table->string('qty');
-            $table->string('status');
+            $table->string('user_id');
+            $table->string('selection');
+            $table->string('selectiontwo');
+            $table->string('createpost');
+            $table->string('image');
             $table->timestamps();
         });
     }
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('fertilizers');
+        Schema::dropIfExists('posts');
     }
 };

@@ -9,7 +9,6 @@
     padding: 0;
     box-sizing: border-box;
     font-family: "Poppins", sans-serif;
-  
 }
 body {
     display: flex;
@@ -22,7 +21,6 @@ body {
     background-size: cover;
     background-position: center;
     transition: background-image 0.3s ease;
- 
 }
 img {
     /* width: 100%; */
@@ -34,6 +32,7 @@ img {
     border-radius: 20px;
     overflow: hidden;
     height: 100%;
+    transform: translateY(-20px);
 }
 .sidebar {
     width: 30%;
@@ -246,7 +245,9 @@ img {
 }
 
 .card2 {
-    width: calc(33.333% - 40px); /* Subtract the total space taken by two gaps (20px each) */
+    width: calc(
+        33.333% - 40px
+    ); /* Subtract the total space taken by two gaps (20px each) */
     height: 150px;
     border-radius: 20px;
     color: #1a1a1a;
@@ -283,9 +284,9 @@ img {
     transform: translateX(-50%);
 }
 
-
 /* Mobile Styles */
-@media (max-width: 768px) { /* Adjust to your breakpoint preference */
+@media (max-width: 768px) {
+    /* Adjust to your breakpoint preference */
     .wrapper {
         flex-direction: column;
         width: auto;
@@ -304,7 +305,9 @@ img {
     }
     .card,
     .card2 {
-        width: calc(100% - 40px); /* Full width minus padding for small screens */
+        width: calc(
+            100% - 40px
+        ); /* Full width minus padding for small screens */
         margin-bottom: 20px;
     }
     .search input,
@@ -312,7 +315,9 @@ img {
         width: 100%;
     }
     .search ul {
-        width: calc(100% - 30px); /* Full width minus padding for search results */
+        width: calc(
+            100% - 30px
+        ); /* Full width minus padding for search results */
         left: 15px; /* Align with the padding of the search input */
     }
     .weather-icon #icon,
@@ -336,10 +341,10 @@ img {
     background-color: white;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     z-index: 100; /* Ensure modal is above other content */
-  }
-  .sunrise-icon {
+}
+.sunrise-icon {
     width: 20px;
     height: 20px;
-  }  
+}

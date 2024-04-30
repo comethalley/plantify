@@ -58,28 +58,21 @@
             <div class="row g-4 mb-3">
                 <div class="col-sm-auto order-sm-2 mb-1 ms-auto me-3"> <!-- Align to the right -->
                     <form id="filterForm" class="d-flex align-items-center">
-                        <select class="form-select me-2" id="expenseMonth" name="month">
+                        <select class="form-select me-2" id="budgetMonth" name="month">
                             <option value="" disabled selected>Select Month</option>
-                            <option value="01">January</option>
-                            <option value="02">February</option>
-                            <option value="03">March</option>
-                            <option value="04">April</option>
-                            <option value="05">May</option>
-                            <option value="06">June</option>
-                            <option value="07">July</option>
-                            <option value="08">August</option>
-                            <option value="09">September</option>
-                            <option value="10">October</option>
-                            <option value="11">November</option>
-                            <option value="12">December</option>
-                            <!-- Add options for other months -->
+                            @foreach ($months as $month)
+                                <option value="{{ $month }}" {{ \Carbon\Carbon::now()->format('F') === $month ? 'selected' : '' }}>
+                                    {{ $month }}
+                                </option>
+                            @endforeach
                         </select>
-                        <select class="form-select me-2" id="expenseYear" name="year">
+                        <select class="form-select me-2" id="budgetYear" name="year">
                             <option value="" disabled selected>Select Year</option>
-                            <option value="2022">2022</option>
-                            <option value="2023">2023</option>
-                            <option value="2024">2024</option>
-                            <!-- Add options for other years -->
+                            @foreach ($years as $year)
+                                <option value="{{ $year }}" {{ \Carbon\Carbon::now()->format('Y') === $year ? 'selected' : '' }}>
+                                    {{ $year }}
+                                </option>
+                            @endforeach
                         </select>
                         <button type="submit" class="btn btn-primary">Filter</button>
                     </form>
@@ -115,13 +108,27 @@
                                     <label for="budgetAmount" class="form-label">Budget Amount</label>
                                     <input type="number" class="form-control" id="budgetAmount" name="allotted_budget" required>
                                 </div>
+                                
+                                <div class="mb-3">
+                                    <label for="budgetMonth" class="form-label">Month</label>
+                                    <select class="form-select me-2" id="budgetMonth">
+                                        <option value="" disabled>Select Month</option>
+                                        @foreach ($months as $month)
+                                            <option value="{{ $month }}" {{ \Carbon\Carbon::now()->format('F') === $month ? '' : 'disabled' }}>
+                                                {{ $month }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
                                 <button type="submit" class="btn btn-primary">Add Budget</button>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
-            @endif
+        @endif
+
             
             <div class="row">
                 <div class="col-xl-12">
@@ -175,7 +182,7 @@
                                             <div class="flex-grow-1 overflow-hidden">
                                                 <p class="text-uppercase fw-medium text-muted text-truncate mb-3"> Balance</p>
                                                 <h4 class="fs-22 fw-semibold ff-secondary mb-0">
-                                                    <span class="counter-value" data-target="{{ $balance ?? '0' }}">
+                                                    <span id="balance" class="counter-value" data-target="{{ $balance ?? '0' }}">
                                                         {{ $balance ?? '0' }}
                                                     </span>
                                                 </h4>
@@ -205,8 +212,8 @@
                                             <div class="flex-grow-1 overflow-hidden">
                                                 <p class="text-uppercase fw-medium text-muted text-truncate mb-3">Total Expenses</p>
                                                 <h4 class="fs-22 fw-semibold ff-secondary mb-0">
-                                                    <span class="counter-value" data-target="{{ $totalExpenses }}">
-                                                        {{ $totalExpenses }}
+                                                    <span id="totalExpenses" class="counter-value" data-target="{{ $totalExpenses ?? '0' }}">
+                                                        {{ $totalExpenses ?? '0' }}
                                                     </span>
                                                 </h4>
                                             </div>
@@ -575,17 +582,38 @@
             .then(data => {
                 if (data.success) {
                     console.log('Expense saved successfully:', data);
-                    location.reload(); // Reload page after saving expense
-                    $('#addModal').modal('hide'); // Hide modal
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Expense Saved!',
+                        text: 'Your expense has been saved successfully.',
+                        confirmButtonColor: '#57AA2C',
+                        confirmButtonText: 'OK'
+                    }).then(() => {
+                        location.reload(); // Reload page after saving expense
+                        $('#addModal').modal('hide'); // Hide modal
+                    });
                 } else {
                     console.error('Failed to save expense:', data.message);
                     if (data.message) {
-                        alert(data.message);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: data.message,
+                            confirmButtonColor: '#d33',
+                            confirmButtonText: 'OK'
+                        });
                     }
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'An error occurred while saving the expense. Please try again later.',
+                    confirmButtonColor: '#d33',
+                    confirmButtonText: 'OK'
+                });
             });
     }
 
@@ -672,46 +700,53 @@
         event.preventDefault();
 
         Swal.fire({
-        title: 'Are you sure you want to add this budget?',
-        text: 'Make sure all information is correct before submitting as changes cannot be made later.',
-        icon: 'question',
-        showCancelButton: true,
-        confirmButtonColor: '#4CAF50',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, add it!',
-        cancelButtonText: 'Cancel',
-
+            title: 'Are you sure you want to add this budget?',
+            text: 'Make sure all information is correct before submitting as changes cannot be made later.',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#4CAF50',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, add it!',
+            cancelButtonText: 'Cancel',
         }).then((result) => {
             if (result.isConfirmed) {
-                var formData = new FormData(this);
+                // Get the selected month value
+                var month = document.getElementById('budgetMonth').value;
+                // Create an object to hold form data
+                var formData = {
+                    farm_id: $('#farm_id').val(),
+                    allotted_budget: $('#budgetAmount').val(),
+                    month: month // Include the selected month
+                };
 
-                fetch('/expenses/add-budget', {
-                    method: 'POST',
-                    body: formData,
+                // Send an AJAX request
+                $.ajax({
+                    url: '/expenses/add-budget',
+                    type: 'POST',
+                    data: formData, // Send the form data object
                     headers: {
                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    success: function(data) {
+                        if (data.status === 'success') {
+                            console.log('Budget added successfully:', data);
+                            updateUI(data); 
+                            $('#addBudgetModal').modal('hide');
+                            reloadDashboardData();
+                        } else {
+                            console.error('Failed to add budget:', data.message);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error:', error);
                     }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        console.log('Budget added successfully:', data);
-                        updateUI(data); 
-                        $('#addBudgetModal').modal('hide');
-
-                        reloadDashboardData();
-                    } else {
-                        console.error('Failed to add budget:', data.message);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
                 });
             } else {
                 console.log('Budget addition canceled.');
             }
         });
     });
+
 
     function updateUI(data) {
         document.getElementById('allottedBudget').innerText = data.allotted_budget;
@@ -784,8 +819,9 @@
     $('#filterForm').submit(function(event) {
         event.preventDefault();
 
-        var month = $('#expenseMonth').val();
-        var year = $('#expenseYear').val();
+            var month = $('#budgetMonth').val();
+            var year = $('#budgetYear').val();
+
 
         if (!month || !year) {
             Swal.fire({
@@ -796,28 +832,33 @@
             return;
         }
 
-        $.ajax({
-            type: 'GET',
-            url: '/expenses/get-dashboard-data',
-            data: {
-                farm_id: $('#farm_id').val(),
-                month: month,
-                year: year
-            },
-            success: function(response) {
-                if (response.success) {
-                    $('#allottedBudget').text(response.allottedBudget);
-                    $('#balance').text(response.balance);
-                    $('#totalExpenses').text(response.totalExpenses);
-                } else {
-                    Swal.fire({
-                        icon: 'info',
-                        title: 'No budget found',
-                        text: 'No budget found for the selected month and year.'
-                    });
-                    $('#allottedBudget').text('0');
-                    $('#balance').text('0');
-                    $('#totalExpenses').text('0');
+            // Convert month string to its numerical value
+            var monthNumber = getMonthNumber(month);
+
+            $.ajax({
+                type: 'GET',
+                url: '/expenses/get-dashboard-data',
+                data: {
+                    farm_id: $('#farm_id').val(),
+                    month: monthNumber, // Send the numerical month value
+                    year: year
+                },
+                success: function(response) {
+                    if (response.success) {
+                        $('#allottedBudget').text(response.allottedBudget);
+                        $('#balance').text(response.balance);
+                        $('#totalExpenses').text(response.totalExpenses);
+                    } else {
+                        alert(response.message); // Display the error message from the server
+                        $('#allottedBudget').text('0');
+                        $('#balance').text('0');
+                        $('#totalExpenses').text('0');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                    alert('Error fetching budget data. Please try again.');
+
                 }
             },
             error: function(xhr, status, error) {
@@ -832,5 +873,15 @@
     });
 });
 
+
+    // Function to convert month string to numerical value
+    function getMonthNumber(monthString) {
+        var months = [
+            "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
+
+        return months.indexOf(monthString) + 1;
+    }
 
 </script>

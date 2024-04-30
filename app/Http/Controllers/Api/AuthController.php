@@ -302,12 +302,29 @@ class AuthController extends Controller
 
     public function signup(Request $request)
     {
-        $data = $request->validate([
-            'firstname'  => 'required|string|max:55',
-            'lastname'  => 'required|string|max:55',
+        $validator = Validator::make($request->all(), [
+            'firstname' => 'required|string|max:55',
+            'lastname' => 'required|string|max:55',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|confirmed|min:6',
+            'password' => [
+                'required',
+                'confirmed',
+                'min:8',
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/',
+            ],
+        ], [
+            'password.required' => 'Password is required.',
+            'password.confirmed' => 'Password confirmation does not match.',
+            'password.min' => 'Password must be at least :min characters.',
+            'password.regex' => 'Password format is incorrect. It must contain at least one uppercase letter, one lowercase letter, one digit, and one special character.',
         ]);
+
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $data = $validator->validated();
 
         $user = User::create([
             'firstname' => $data['firstname'],

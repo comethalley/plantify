@@ -143,6 +143,8 @@ $(document).ready(function () {
         var area = $("#area").val();
         var farm_name = $("#farm_name").val();
         var address = $("#address").val();
+        var latitude = $('#latitude').val();
+        var longitude = $('#longitude').val();
 
 
         $.ajax({
@@ -159,6 +161,8 @@ $(document).ready(function () {
                 area: area,
                 farm_name: farm_name,
                 address: address,
+                latitude: latitude,
+                longitude: longitude,
             },
             success: function (data) {
                 console.log(data);

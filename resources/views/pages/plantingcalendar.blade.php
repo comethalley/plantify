@@ -399,8 +399,8 @@
                             <input type="text" name="status" id="customername-field" class="form-control" value="Planted" required readonly />
                         </div>
                         <center>
-                            <p class="text-muted">Scan the Seed's Qr Code Generated from the Inventory</p>
-                        </center><br>
+                            <p class="text-muted">Scan the Seed's Qr Code Generated from the Inventory > Supplier</p>
+                        </center>
                         <video id="using-preview" style="width: 100%;"></video>
                         <center>
                             <p class="lead text-danger" id="used-qr"></p>

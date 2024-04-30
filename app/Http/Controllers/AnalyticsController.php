@@ -102,37 +102,61 @@ class AnalyticsController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $barangays = Barangay::all(['id', 'barangay_name'])->toArray();
+        
+        // Check if the user is authenticated
+        if (!$user) {
+            // Handle the case where the user is not authenticated
+            // For example, redirect them to the login page
+            return redirect()->route('login');
+        }
+        
         $expensesData = collect();
         $plantingData = collect();
         $farmsData = collect();
-    
-        if ($user->role_id == 1 || $user->role_id == 2) {
-            $expensesData = Expense::all(['description', 'amount', 'created_at', 'budget_id'])->toJson();
-            $plantingData = CalendarPlanting::all(['title', 'start', 'harvested', 'destroyed', 'start'])->toJson();
-            $farmsData = Farm::with('barangays')->get()->toJson();
-        } elseif ($user->role_id == 3 || $user->role_id == 4) {
-            $expensesData = Expense::where('budget_id', $user->id)->get(['description', 'amount', 'created_at'])->toJson();
-            // Fetch the farm associated with the user
-            $userFarm = Farm::where('id', $user->farm_id)->with('barangays')->first();
+        $barangayOptions = [];
+        
+        // Define barangayName and farmName variables
+        $barangayName = null;
+        $farmName = null;
+        
+        // Fetch the user's associated farm if the user is a farm leader (role_id == 3 or 4)
+        if ($user->role_id == 3 || $user->role_id == 4) {
+            // Fetch the farm associated with the user (farm leader)
+            $userFarm = Farm::where('farm_leader', $user->id)->first();
             if ($userFarm) {
+                // Retrieve the barangay_name and farm_name associated with the farm
+                $barangayName = $userFarm->barangay_name;
+                $farmName = $userFarm->farm_name;
+                
+                // Convert the farm data to JSON format
                 $farmsData = $userFarm->toJson();
             }
         }
-    
-        $barangayOptions = [];
+        
+        // Fetch barangay options for dropdown
+        $barangays = Barangay::all(['id', 'barangay_name'])->toArray();
         foreach ($barangays as $barangay) {
             $barangayOptions[] = [
                 'value' => $barangay['id'],
                 'text' => $barangay['barangay_name']
             ];
         }
-    
-        return view('pages.analytics', compact('expensesData', 'plantingData', 'farmsData', 'barangayOptions'));
+        
+        // Fetch other data based on user's role
+        if ($user->role_id == 1 || $user->role_id == 2) {
+            $expensesData = Expense::all(['description', 'amount', 'created_at', 'budget_id'])->toJson();
+            $plantingData = CalendarPlanting::all(['title', 'start', 'harvested', 'destroyed', 'start'])->toJson();
+            $farmsData = Farm::with('barangays')->get()->toJson();
+        } elseif ($user->role_id == 3 || $user->role_id == 4) {
+            $expensesData = Expense::where('budget_id', $user->id)->get(['description', 'amount', 'created_at'])->toJson();
+        }
+        
+        return view('pages.analytics', compact('expensesData', 'plantingData', 'farmsData', 'barangayOptions', 'barangayName', 'farmName'));
     }
-    
 
- 
+
+
+
     public function getFarms($barangayName)
     {
         $farms = Farm::where('barangay_name', $barangayName)->get();

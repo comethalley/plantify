@@ -594,10 +594,42 @@
                         </div> --}}
 
                         <div class="col-xl-12">
-                            <div class="card" >
+                            <div class="card">
                                 <div class="card-body">
-                                    <h2 class="mb-4 text-center"><span style="color: #57AA2C;"> <strong>Harvesting Metrics</strong></span></h2>
-                                        <div class="row position-relative " style="height: 65vh;">
+                                    <h2 class="mb-4 text-center"><span style="color: #57AA2C;"><strong>Harvesting Metrics</strong></span></h2>
+                                    <div class="row position-relative" style="height: 65vh;">
+                                        @if(session('user') && (session('user')->role_id == 3 || session('user')->role_id == 4))
+                                            <div class="col-md-3">
+                                                <div class="align-items-center justify-content-center ">
+                                                    <div class="col-xl-12 barangaySelector ">
+                                                        
+                                                        <label for="">Barangay:</label>
+                                                        <select id="barangaySelect" class="w-100" readonly>
+                                                            <option value="{{ $barangayName }}" selected>{{ $barangayName }}</option>
+                                                        </select>
+
+                                                    </div>
+                                                    <div class="mt-3 col-xl-12 barangaySelector ">
+
+                                                        <label for="">Farm:</label>
+                                                        <select id="farmSelect" class="w-100" readonly>
+                                                            <option value="{{ $farmName }}" selected>{{ $farmName }}</option>
+                                                        </select>
+
+                                                    </div>
+                                                    <div class="mt-3 col-xl-12 barangaySelector">
+                                                        <label for="">Year:</label>
+                                                        <select id="yearSelect" class="w-100">
+                                                            <option value="" disabled>Select Year</option>
+                                                            <option value="2024" selected>2024</option>
+                                                            <option value="2023">2023</option>
+                                                            <option value="2022">2022</option>
+                                                            
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @else
                                             <div class="col-md-3">
                                                 <div class="align-items-center justify-content-center ">
                                                     <div class="col-xl-12 barangaySelector">
@@ -605,7 +637,7 @@
                                                         <select id="barangaySelect" class="w-100">
                                                             <option value="" selected disabled>Select Barangay</option>
                                                             @foreach($barangayOptions as $option)
-                                                                <option value="{{ $option['text'] }}">{{ $option['text'] }}</option>
+                                                            <option value="{{ $option['text'] }}">{{ $option['text'] }}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
@@ -627,18 +659,19 @@
                                                     </div>
                                                 </div>
                                             </div>
-
-                                            <div class="col-lg-9"> 
-                                                <div class="text-muted">                         
-                                                    <div id="farmChart"></div>
-                                                    <div id="month-details" style="display: none;"></div>
-                                                </div>
+                                        @endif
+                                        <div class="col-lg-9">
+                                            <div class="text-muted">
+                                                <div id="farmChart"></div>
+                                                <div id="month-details" style="display: none;"></div>
                                             </div>
                                         </div>
-                                        
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
+
                      
                             <!-- INSERT HERE NEW ROW  -->
                         

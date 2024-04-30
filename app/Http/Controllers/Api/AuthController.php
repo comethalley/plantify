@@ -396,8 +396,7 @@ class AuthController extends Controller
 
     public function createFarmLeader(Request $request)
     {
-        try {
-            // Validate the incoming request data
+
             $validator = Validator::make($request->all(), [
                 'barangay_name' => 'required|string|max:255',
                 'farm_name' => 'required|string|max:255',
@@ -405,26 +404,19 @@ class AuthController extends Controller
                 'area' => 'required|numeric',
                 'email' => 'required|email|unique:users,email',
             ]);
-            
+
             if ($validator->fails()) {
                 return response()->json(['errors' => $validator->errors()], 422);
             }
-            $data = $validator->validated();
-            
-            $farm = Farm::create([
-                'barangay_name' => $data['barangay_name'],
-                'farm_name' => $data['farm_name'],
-                'address' => $data['address'],
-                'area' => $data['area'],
-                'status' => 1,
-                'farm_leader' => '', // You might want to set this later after creating the farm leader
-            ]);
 
+            $data = $validator->validated();
+
+            // Create a new farm leader record
             $generate_password = $this->generate_password(10);
 
             $farmLeader = User::create([
-                'firstname'  => '', // You may want to add first name and last name fields in the form
-                'lastname'  => '',
+                'firstname' => '', // You may want to add first name and last name fields in the form
+                'lastname' => '',
                 'email' => $data['email'],
                 'password' => Hash::make($generate_password),
                 'role_id' => 3, // Assuming role_id 3 represents a farm leader role
@@ -434,26 +426,28 @@ class AuthController extends Controller
             // Get the ID of the farm leader
             $farmLeaderId = $farmLeader->id;
 
-            // Attach the farm leader to the created farm (assuming 'farm_leader' is a foreign key)
-            $farm->farm_leader()->associate($farmLeader);
-            $farm->save();
+            // Create a new farm record and associate it with the farm leader
+            // Create a new farm record and associate it with the farm leader
+            $farm = Farm::create([
+                'barangay_name' => $data['barangay_name'],
+                'farm_name' => $data['farm_name'],
+                'address' => $data['address'],
+                'area' => $data['area'],
+                'status' => "Created",
+                'farm_leader' => $farmLeaderId, // Assuming 'farm_leader' is the field name in the farms table
+            ]);
+
 
             // If both farm and farm leader are successfully created, send email invitation
             if ($farm && $farmLeader) {
-                $id = $farmLeader->id;
-                $hash = $this->plantifyLibrary->generatehash($id);
+                $hash = $this->plantifyLibrary->generatehash($farmLeaderId);
                 $emailInvitation = $this->emailInvitation($data['email'], $data['email'], $generate_password, $hash);
                 if ($emailInvitation) {
                     return response()->json(['message' => 'Admin Invited Successfully', 'data' => $farmLeaderId], 200);
                 }
             }
-
-        } catch (\Exception $e) {
-            // Log any caught exceptions
-            \Log::error($e);
-            return response()->json(['error' => 'Internal Server Error'], 500);
-        }
     }
+
     
     public function createFarmers(Request $request)
     {
@@ -642,4 +636,5 @@ class AuthController extends Controller
         }
         return view('landingpage');
     }
+    
 }

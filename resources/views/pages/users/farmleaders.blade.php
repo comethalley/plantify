@@ -28,7 +28,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Accounts</h4>
+                        <h4 class="mb-sm-0">Users</h4>
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
@@ -196,17 +196,17 @@
                                                 </select>
                                                 </div>
                                                 <div class="mb-3 col-md-6">
-                                                    <label for="customername-field" class="form-label">Area (sqm) </label>
+                                                    <label for="customername-field" class="form-label">Area (sqm)</label>
                                                     <input type="number" name="area" id="area" class="form-control" placeholder="Enter Area (sqm)" required />
                                                 </div>
 
                                                 <div class="mb-3">
-                                                    <label for="customername-field" class="form-label">Add Farm</label>
-                                                    <input type="text" name="farm_name" id="farm_name" class="form-control" placeholder="Enter Farm" required />
+                                                    <label for="customername-field" class="form-label">Farm Name</label>
+                                                    <input type="text" name="farm_name" id="farm_name" class="form-control" placeholder="Enter Farm Name" required />
                                                 </div>
 
                                                 <div class="mb-3">
-                                                    <label for="customername-field" class="form-label">Address</label>
+                                                    <label for="customername-field" class="form-label">Complete Address</label>
                                                     <input type="text" name="address" id="address" class="form-control" placeholder="Enter Complete Address" required />
                                                 </div>
 

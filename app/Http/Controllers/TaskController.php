@@ -139,47 +139,49 @@ return view('pages.tasks.monitoring', compact('tasks', 'users'));
     return view('pages.tasks.edit', compact('task', 'usersMeetingMinimumTasks', 'activeUsers'));
 }
 
-    public function update(Request $request, Task $task)
-    {
-        // Fixed the syntax for the 'update' method
-        $request->validate([
-            'title' => 'required|max:255',
-            'description' => 'nullable',
-            'priority' => 'required|string|max:255',
-            'due_date' => 'required|date_format:Y-m-d\TH:i',
-            'status' => 'nullable|string|max:255',
-            'user_id' => 'nullable|exists:users,id',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust max file size as needed
-    
-        ]);
+public function update(Request $request, Task $task)
+{
+    // Validate the request data
+    $request->validate([
+        'title' => 'required|max:255',
+        'description' => 'nullable',
+        'priority' => 'required|string|max:255',
+        'due_date' => 'required|date_format:Y-m-d\TH:i',
+        'status' => 'nullable|string|max:255',
+        'user_id' => 'nullable|exists:users,id',
+        'image' => 'nullable|mimes:jpeg,png,jpg,gif|max:2048', // Adjust max file size as needed
+    ]);
 
-        
-        $task->update([
-            'title' => $request->input('title'),
-            'description' => $request->input('description'),
-            'priority' => $request->input('priority'),
-            'due_date' => $request->input('due_date'),
-            'status' => $request->input('status'),
-            'user_id' => $request->input('user_id'),
-                // Fixed the input field name
-        ]);
+    // Update the task with validated data
+    $task->update([
+        'title' => $request->input('title'),
+        'description' => $request->input('description'),
+        'priority' => $request->input('priority'),
+        'due_date' => $request->input('due_date'),
+        'status' => $request->input('status'),
+        'user_id' => $request->input('user_id'), // Fixed the input field name
+    ]);
 
-        if ($request->hasFile('image')) {
-            // Handle image upload
-            $imagePath = $request->file('image')->store('task_images');
-            // Delete previous image if exists
-            if ($task->image) {
-                Storage::delete($task->image);
-            }
-            $task->image = $imagePath;
-        }
+    if ($request->hasFile('image')) {
+        // Get the file from the request
+        $image = $request->file('image');
     
-        $task->save();
-    // Check if an image was uploaded
+        // Generate a unique filename for the image
+        $filename = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
     
-        // Fixed the syntax for the 'redirect' method
-        return redirect()->route('tasks.monitoring')->with('success', 'Task Updated Successfully');
+        // Move the file to the storage location
+        $image->storeAs('public/images', $filename);
+    
+        // Save the filename to the task record in the database
+        $task->image = $filename;
     }
+    
+    // Retrieve the updated task with the image data
+    $updatedTask = Task::with('user')->findOrFail($task->id);
+
+    // Redirect back with the updated task data
+    return redirect()->route('tasks.monitoring')->with('success', 'Task Updated Successfully')->with('task', $updatedTask);
+}
 
 
     public function complete(Task $task)                                                        

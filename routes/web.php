@@ -34,7 +34,7 @@ use App\Http\Controllers\SendMessageController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ReportController;
-
+use App\Http\Controllers\AttendanceControler;
 
 
 
@@ -215,9 +215,13 @@ Route::put('/scheduleupdate/{id}', [EventController::class, 'update']);
 Route::get('/events/{id}', [EventController::class, 'show']);
 Route::get('/events/search', [EventController::class, 'search']);
 Route::get('/upcomingevent', [EventController::class, 'notifyUpcomingEvents']);
-
+Route::get('/events/{eventId}/interested', [EventController::class, 'storeInterested']);
 Route::view('add-schedule', 'pages.add');
 Route::post('create-schedule', [EventController::class, 'create']);
+
+//FOR attendance ROUTES===========================================
+Route::get('/attendance', [AttendanceControler::class, 'index']);
+
 // End Full Calender=================================================================
 
 Route::get('/plantcalendar', [PlantCalendar::class, 'index']);
@@ -231,6 +235,8 @@ Route::get('/calendar_list', [PlantCalendar::class, 'calendar_list']);
 
 Route::view('add-plantcalendar', 'pages.add');
 Route::post('create-plantcalendar', [PlantCalendar::class, 'create']);
+
+
 
 //FOR PLANT INFO ROUTES===========================================
 Route::get('/plant-info', [PlantInfoController::class, 'index']);

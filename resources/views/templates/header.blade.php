@@ -12,6 +12,8 @@
     <meta content="Themesbrand" name="author" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
     <!-- App favicon -->
     <!-- <link rel="shortcut icon" href="assets/images/favicon.ico" /> -->
@@ -81,6 +83,22 @@
         body {
             top: 0 !important;
         }
+
+        #interestButton {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#starIcon {
+    color: black;
+    transition: color 0.3s;
+}
+
+#interestButton.interested #starIcon {
+    color:  #FFD700;
+}
     </style>
 </head>
 
@@ -673,10 +691,20 @@
                                         </ul>
                                     </div>
 
+                                   
 
-                                    <li class="nav-item">
-                                        <a href="/schedules" class="nav-link" style="color:white"> Event Calendar </a>
-                                    </li>
+                                    <a href="#sidebarAccount1" class="nav-link" data-bs-toggle="collapse" role="button" aria-expanded="true" aria-controls="sidebarAccount" data-key="t-level-1.2" style="color:white">Event Calendar</a>
+                                    <div class="menu-dropdown collapse" id="sidebarAccount1">
+                                        <ul class="nav nav-sm flex-column">
+                                            <li class="nav-item">
+                                            <a href="/schedules" class="nav-link" style="color:white"> Event Calendar </a>
+                                            </li>
+                                            <li class="nav-item">
+                                            <a href="/attendance" class="nav-link" style="color:white">Event Attendance</a>
+                                            </li>
+
+                                        </ul>
+                                    </div>
                                 </ul>
                             </div>
                         </li>

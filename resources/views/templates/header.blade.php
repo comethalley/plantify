@@ -645,15 +645,6 @@
                         @endif
 
 
-                        @if(session('user') && session('user')->role_id == 3 || session('user') && session('user')->role_id == 4)
-                        <li class="nav-item">
-                            <a class="nav-link menu-link" href="/Tools-District-5" role="button" style="color:white">
-                                <i class="ri-tools-fill"></i>
-                                <span data-key="t-dashboards">Tools</span>
-                            </a>
-                        </li>
-                        @endif
-
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="#sidebarDashboards" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards" style="color:white">
                                 <i class="ri-calendar-2-line"></i> <span>Calendar</span>

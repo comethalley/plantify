@@ -32,6 +32,7 @@ img {
     border-radius: 20px;
     overflow: hidden;
     height: 100%;
+    transform: translateY(-100px);
     transform: translateY(-20px);
 }
 .sidebar {

@@ -144,17 +144,28 @@ class AnalyticsController extends Controller
         
         // Fetch other data based on user's role
         if ($user->role_id == 1 || $user->role_id == 2) {
-            $expensesData = Expense::all(['description', 'amount', 'created_at', 'budget_id'])->toJson();
             $plantingData = CalendarPlanting::all(['title', 'start', 'harvested', 'destroyed', 'start'])->toJson();
             $farmsData = Farm::with('barangays')->get()->toJson();
         } elseif ($user->role_id == 3 || $user->role_id == 4) {
-            $expensesData = Expense::where('budget_id', $user->id)->get(['description', 'amount', 'created_at'])->toJson();
+            $farmsData = Farm::where('id', $user->id)->with('barangays')->get()->toJson();
+            $farmleader = User::select('users.*', 'farms.id AS farm_id')
+                ->leftJoin('farms', 'farms.farm_leader', '=', 'users.id')
+                ->where('users.id', $user->id)
+                ->first();
+           
+            if ($farmleader) {
+                $plantingData = CalendarPlanting::where('farm_id', $farmleader->farm_id)
+                    ->get(['title', 'start', 'harvested', 'destroyed'])
+                    ->toJson();
+                   
+            } else {
+                $plantingData = collect()->toJson();
+            }
+            
         }
         
         return view('pages.analytics', compact('expensesData', 'plantingData', 'farmsData', 'barangayOptions', 'barangayName', 'farmName'));
     }
-
-
 
 
     public function getFarms($barangayName)

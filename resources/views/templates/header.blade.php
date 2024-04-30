@@ -754,14 +754,14 @@
                                 <span data-key="t-task">Task</span>
                             </a>
                         </li> -->
-                        @if( session('user') && session('user')->role_id == 3)
+                        <!-- @if( session('user') && session('user')->role_id == 3)
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="/expense" role="button" style="color:white">
                                 <i class="ri-coins-line "></i>
                                 <span data-key="t-dashboards">Expenses</span>
                             </a>
                         </li>
-                        @endif
+                        @endif -->
 
                         @if( session('user') && session('user')->role_id != 5)
                         <li class="nav-item">

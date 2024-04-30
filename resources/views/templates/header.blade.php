@@ -12,7 +12,7 @@
     <meta content="Themesbrand" name="author" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
     <!-- App favicon -->
@@ -86,20 +86,20 @@
         }
 
         #interestButton {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-}
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
 
-#starIcon {
-    color: black;
-    transition: color 0.3s;
-}
+        #starIcon {
+            color: black;
+            transition: color 0.3s;
+        }
 
-#interestButton.interested #starIcon {
-    color:  #FFD700;
-}
+        #interestButton.interested #starIcon {
+            color: #FFD700;
+        }
     </style>
 </head>
 
@@ -542,7 +542,7 @@
                                 <h6 class="dropdown-header">Welcome {{ Auth::user()->role }}</h6>
                                 @endif
 
-                                <a class="dropdown-item" href="/pages/profilefeed"><i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i>
+                                <a class="dropdown-item" href="{{ route('profile-feed') }}"><i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i>
                                     <span class="align-middle">Profile</span></a>
                                 <a class="dropdown-item" href="/tasks"><i class="mdi mdi-calendar-check-outline text-muted fs-16 align-middle me-1"></i>
                                     <span class="align-middle">Taskboard</span></a>
@@ -646,13 +646,13 @@
                                         <a href="/users/admin" class="nav-link" style="color:white"> Admin </a>
                                     </li>
                                     @endif
-                                    
+
                                     @if(session('user') && session('user')->role_id == 1 || session('user') && session('user')->role_id == 2)
                                     <li class="nav-item">
                                         <a href="/users/farm-leader" class="nav-link" style="color:white"> Farm Leaders </a>
                                     </li>
                                     @endif
-                                    
+
                                     @if(session('user') && session('user')->role_id == 3)
                                     <li class="nav-item">
                                         <a href="/users/farmers" class="nav-link" style="color:white"> Farmers </a>
@@ -662,7 +662,7 @@
                             </div>
                         </li>
                         @endif
- 
+
                         <!-- @if(session('user') && session('user')->role_id == 1 || session('user') && session('user')->role_id == 2)
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="/Farms-District-5" role="button" style="color:white">
@@ -702,16 +702,16 @@
                                         </ul>
                                     </div>
 
-                                   
+
 
                                     <a href="#sidebarAccount1" class="nav-link" data-bs-toggle="collapse" role="button" aria-expanded="true" aria-controls="sidebarAccount" data-key="t-level-1.2" style="color:white">Event Calendar</a>
                                     <div class="menu-dropdown collapse" id="sidebarAccount1">
                                         <ul class="nav nav-sm flex-column">
                                             <li class="nav-item">
-                                            <a href="/schedules" class="nav-link" style="color:white"> Event Calendar </a>
+                                                <a href="/schedules" class="nav-link" style="color:white"> Event Calendar </a>
                                             </li>
                                             <li class="nav-item">
-                                            <a href="/attendance" class="nav-link" style="color:white">Event Attendance</a>
+                                                <a href="/attendance" class="nav-link" style="color:white">Event Attendance</a>
                                             </li>
 
                                         </ul>
@@ -786,7 +786,7 @@
                             </a>
                         </li>
                         @endif
-                        
+
                         <!-- <li class="nav-item">
                             <a class="nav-link" href="task.html" role="button" style="color:white">
                                 <i class="ri-task-line"></i>

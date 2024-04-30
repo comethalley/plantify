@@ -246,8 +246,8 @@
                     @if(auth()->user()->role_id == 1)
                             {{-- Display only for role_id 1 (Admin) --}}
                             <div class="hstack gap-2 justify-content-end">
-                        <button hidden type="button" class="btn btn-danger"data-bs-toggle="modal" data-bs-target="#archiveModal">Delete</button>
-                        <button hidden type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editexampleModal">Edit</button>
+                        <button  type="button" class="btn btn-danger"data-bs-toggle="modal" data-bs-target="#archiveModal">Delete</button>
+                        <button  type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editexampleModal">Edit</button>
                     </div>
                             @elseif(auth()->user()->role_id == 2)
                             {{-- Display only for role_id 2 (

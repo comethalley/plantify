@@ -9,7 +9,7 @@ class Budget extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['id', 'farm_id', 'allotted_budget', 'balance', 'total_expenses'];
+    protected $fillable = ['id', 'farm_id', 'month', 'allotted_budget', 'balance', 'total_expenses'];
 
     public function farm()
     {

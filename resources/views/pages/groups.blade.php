@@ -414,7 +414,7 @@ $(document).ready(function() {
 
     Pusher.logToConsole = true;
 
-var pusher = new Pusher('d7630bf7a930051c0329', {
+var pusher = new Pusher('0367062ae6113e35e788', {
     cluster: 'ap1'
 });
 
@@ -477,7 +477,7 @@ channel.bind('group-message', function(message) {
                     '</div>' +
                     '<div class="conversation-name">' +
                     '<br>' +
-                    '<small class="text-muted time">' + getCurrentTime() + '</small>' +
+                    '<small class="text-muted time">' + formatTime(message.created_at) + '</small>' +
                     '<span class="text-success check-message-icon">' +
                     '<i class="ri-check-double-line align-bottom"></i>' +
                     '</span>' +
@@ -497,7 +497,7 @@ channel.bind('group-message', function(message) {
                     '</div>' +
                     '<div class="conversation-name">' +
                     '<br>' +
-                    '<small class="text-muted time">' + getCurrentTime() + '</small>' +
+                    '<small class="text-muted time">' + formatTime(message.created_at) + '</small>' +
                     '<span class="text-success check-message-icon">' +
                     '<i class="ri-check-double-line align-bottom"></i>' +
                     '</span>' +
@@ -526,7 +526,7 @@ channel.bind('group-message', function(message) {
                 '</div>' +
                 '<div class="conversation-name">' +
                 '<br>' +
-                '<small class="text-muted time">' + getCurrentTime() + '</small>' +
+                '<small class="text-muted time">' + formatTime(message.created_at) + '</small>' +
                 '<span class="text-success check-message-icon">' +
                 '<i class="ri-check-double-line align-bottom"></i>' +
                 '</span>' +
@@ -547,12 +547,26 @@ channel.bind('group-message', function(message) {
 
 });
 
-function getCurrentTime() {
-        var now = new Date();
-        var hours = now.getHours().toString().padStart(2, "0");
-        var minutes = now.getMinutes().toString().padStart(2, "0");
-        return hours + ":" + minutes;
+// Function to format time as HH:MM AM/PM
+function formatTime(timestamp) {
+    var date = new Date(timestamp);
+    var hours = date.getHours();
+    var minutes = date.getMinutes().toString().padStart(2, '0');
+    var amPM = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12 || 12; // Convert to 12-hour format
+    var formattedTime = hours + ':' + minutes + ' ' + amPM;
+
+    // Check if the date is in the past
+    var currentDate = new Date();
+    if (date.toDateString() !== currentDate.toDateString()) {
+        // If the date is in the past, display the date
+        var day = date.getDate();
+        var month = date.toLocaleString('default', { month: 'short' });
+        formattedTime = month + ' ' + day + ', ' + formattedTime;
     }
+
+    return formattedTime;
+}
 
 // Function to toggle dropdown menu
 function toggleDropdown(element) {

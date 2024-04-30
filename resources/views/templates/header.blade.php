@@ -699,10 +699,12 @@
                                             <li class="nav-item">
                                             <a href="/schedules" class="nav-link" style="color:white"> Event Calendar </a>
                                             </li>
+                                           
+                                            @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2)
                                             <li class="nav-item">
                                             <a href="/attendance" class="nav-link" style="color:white">Event Attendance</a>
                                             </li>
-
+                                            @endif
                                         </ul>
                                     </div>
                                 </ul>

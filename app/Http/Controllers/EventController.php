@@ -8,6 +8,7 @@ use App\Notifications\NewNotificationEvent;
 use App\Events\EventCreated;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Interest;
 use App\Notifications\UpcomingEventNotification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
@@ -63,6 +64,16 @@ class EventController extends Controller
         return redirect('/schedules');
     }
 
+    public function storeInterested(Request $request, $eventId)
+    {
+        // Get the event
+        $event = Event::findOrFail($eventId);
+        
+        // Store the interest
+        $event->interestedUsers()->attach(auth()->id());
+    
+        return response()->json(['message' => 'Interest stored successfully']);
+    }
     public function show($id)
     {
         $event = Event::findOrFail($id); // Assuming Event is your model representing events

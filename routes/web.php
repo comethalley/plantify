@@ -221,7 +221,9 @@ Route::post('create-schedule', [EventController::class, 'create']);
 
 //FOR attendance ROUTES===========================================
 Route::get('/attendance', [AttendanceControler::class, 'index']);
-
+Route::get('/attendees', [AttendanceControler::class, 'attendees'])->name('event.details');
+Route::post('/event/attendance/submit/{event_id}', [AttendanceControler::class, 'submit'])->name('event.attendance.submit');
+Route::get('/event/attendance/form/{id}', [AttendanceControler::class, 'attendanceForm'])->name('event.attendance.form');
 // End Full Calender=================================================================
 
 Route::get('/plantcalendar', [PlantCalendar::class, 'index']);

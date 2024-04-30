@@ -21,5 +21,12 @@ class Event extends Model
         'image',
         'status',
     ];
-   
+    public function interests()
+    {
+        return $this->hasMany(Interest::class);
+    }
+    public function attendees()
+{
+    return $this->hasMany(EventAttendance::class);
+}
 }

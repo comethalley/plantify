@@ -148,6 +148,7 @@ $(document).ready(function () {
         //var firstname = $("#firstname").val();
         //var lastname = $("#lastname").val();
         var email = $("#email").val();
+        
 
         $.ajax({
             url: "/addFarmers",
@@ -159,6 +160,7 @@ $(document).ready(function () {
                 //firstname: firstname,
                 //lastname: lastname,
                 email: email,
+                
             },
             success: function (data) {
                 console.log(data);

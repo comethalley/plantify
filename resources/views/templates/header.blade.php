@@ -130,6 +130,9 @@
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; <img id="weather-icon" src="" alt="">
                                 <span id="temperature-placeholder">--°C</span>
                             </button>
+                            @if(session('user') && (session('user')->role_id == 3 || session('user')->role_id == 4 ))
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong><span id="temperature-placeholder">{{ $farmName }}</span></strong>
+                            @endif
                         </div>
                     </div>
 
@@ -612,7 +615,7 @@
                             </a>
                         </li>
 
-                        @if(session('user') && session('user')->role_id == 1 || session('user') && session('user')->role_id == 2)
+                        @if(session('user') && session('user')->role_id == 1 || session('user') && session('user')->role_id == 2 || session('user') && session('user')->role_id == 3)
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="#UsersDropDown" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="UsersDropDown" style="color:white">
                                 <i class="ri-account-circle-line"></i> <span>Users</span>
@@ -624,25 +627,31 @@
                                         <a href="/users/admin" class="nav-link" style="color:white"> Admin </a>
                                     </li>
                                     @endif
+                                    
+                                    @if(session('user') && session('user')->role_id == 1 || session('user') && session('user')->role_id == 2)
                                     <li class="nav-item">
                                         <a href="/users/farm-leader" class="nav-link" style="color:white"> Farm Leaders </a>
                                     </li>
+                                    @endif
+                                    
+                                    @if(session('user') && session('user')->role_id == 3)
                                     <li class="nav-item">
                                         <a href="/users/farmers" class="nav-link" style="color:white"> Farmers </a>
                                     </li>
+                                    @endif
                                 </ul>
                             </div>
                         </li>
                         @endif
-
-                        @if(session('user') && session('user')->role_id == 1 || session('user') && session('user')->role_id == 2)
-                        <!-- <li class="nav-item">
+ 
+                        <!-- @if(session('user') && session('user')->role_id == 1 || session('user') && session('user')->role_id == 2)
+                        <li class="nav-item">
                             <a class="nav-link menu-link" href="/Farms-District-5" role="button" style="color:white">
                                 <i class="ri-home-4-line"></i>
                                 <span data-key="t-dashboards">Farms</span>
                             </a>
-                        </li> -->
-                        @endif
+                        </li>
+                        @endif -->
 
 
                         @if(session('user') && session('user')->role_id == 3 || session('user') && session('user')->role_id == 4)

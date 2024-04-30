@@ -148,6 +148,11 @@ $(document).ready(function () {
         var firstname = $("#firstname").val();
         var lastname = $("#lastname").val();
         var email = $("#email").val();
+        var barangay_name = $("#barangay_name").val();
+        var area = $("#area").val();
+        var farm_name = $("#farm_name").val();
+        var address = $("#address").val();
+
 
         $.ajax({
             url: "/addFarmLeader",
@@ -159,6 +164,10 @@ $(document).ready(function () {
                 firstname: firstname,
                 lastname: lastname,
                 email: email,
+                barangay_name: barangay_name,
+                area: area,
+                farm_name: farm_name,
+                address: address,
             },
             success: function (data) {
                 console.log(data);

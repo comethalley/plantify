@@ -26,6 +26,7 @@ class CreateTasksTable extends Migration
             $table->unsignedBigInteger('user_id')->nullable();
             $table->boolean('archived')->default(false);
             $table->timestamp('archived_at')->nullable();
+            $table->string('image')->nullable();
         });
     }
 

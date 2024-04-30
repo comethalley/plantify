@@ -149,8 +149,11 @@ return view('pages.tasks.monitoring', compact('tasks', 'users'));
             'due_date' => 'required|date_format:Y-m-d\TH:i',
             'status' => 'nullable|string|max:255',
             'user_id' => 'nullable|exists:users,id',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust max file size as needed
+    
         ]);
 
+        
         $task->update([
             'title' => $request->input('title'),
             'description' => $request->input('description'),
@@ -158,18 +161,26 @@ return view('pages.tasks.monitoring', compact('tasks', 'users'));
             'due_date' => $request->input('due_date'),
             'status' => $request->input('status'),
             'user_id' => $request->input('user_id'),
-            // Fixed the input field name
+                // Fixed the input field name
         ]);
 
+        if ($request->hasFile('image')) {
+            // Handle image upload
+            $imagePath = $request->file('image')->store('task_images');
+            // Delete previous image if exists
+            if ($task->image) {
+                Storage::delete($task->image);
+            }
+            $task->image = $imagePath;
+        }
+    
+        $task->save();
+    // Check if an image was uploaded
+    
         // Fixed the syntax for the 'redirect' method
         return redirect()->route('tasks.monitoring')->with('success', 'Task Updated Successfully');
     }
 
-    public function destroy(Task $task)
-    {
-        $task->delete();
-        return redirect()->route('tasks.monitoring')->with('success', 'Task Deleted Successfully');
-    }
 
     public function complete(Task $task)                                                        
     {

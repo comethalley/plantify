@@ -13,14 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('tools', function (Blueprint $table) {
+        Schema::create('request_tbl', function (Blueprint $table) {
             $table->id();
-            $table->string('farm_name');
-            $table->string('farm_leader');
-            $table->string('address');
-            $table->string('borrow_tool');
+            $table->string('supply_tool');
+            $table->string('supply_seedling');
+            $table->integer('supply_count');
+            $table->binary('letter_content');
+            $table->string('requested_by');
             $table->string('status');
-            $table->binary('request_letter');
+            $table->date('date_return');
             $table->timestamps();
         });
     }
@@ -32,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tools');
+        Schema::dropIfExists('request_tbl');
     }
 };

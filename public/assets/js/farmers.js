@@ -195,7 +195,8 @@ $(document).ready(function () {
                         icon: "error",
                     });
                 } else {
-                    console.error("Error:", error);
+                    //console.error("Error:", error);
+
                     Swal.fire({
                         title: "Error",
                         text: "An error occurred while processing your request. Please try again later.",

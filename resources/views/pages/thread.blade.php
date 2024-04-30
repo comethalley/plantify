@@ -135,7 +135,7 @@
                         </div>
                         <!-- end chat leftsidebar -->
                         <!-- Start User chat -->
-                        <div class="user-chat w-100 overflow-hidden">
+                        <div class="user-chat w-100 overflow-hidden user-chat-show">
 
                         <div class="chat-content d-lg-flex" style="background-image: url('{{ asset('storage/images/chat_bg.png') }}'); background-size: cover; ">
                                 <!-- start chat conversation section -->
@@ -150,7 +150,7 @@
                                                     <div class="col-sm-4 col-8">
                                                         <div class="d-flex align-items-center">
                                                             <div class="flex-shrink-0 d-block d-lg-none me-3">
-                                                                <a href="javascript: void(0);" class="user-chat-remove fs-18 p-1"><i class="ri-arrow-left-s-line align-bottom"></i></a>
+                                                                <a href="/chat" class="user-chat-remove fs-18 p-1"><i class="ri-arrow-left-s-line align-bottom"></i></a>
                                                             </div>
                                                             <div class="flex-grow-1 overflow-hidden">
                                                                 <div class="d-flex align-items-center">
@@ -497,9 +497,10 @@ function updateConversation(messages) {
                     '<div class="ctext-wrap-content">' +
                     '<div class="message-dropdown">' +
                     '<p class="mb-0 ctext-content" onclick="toggleDropdown(this)" data-message-id="' + message.id + '">' + message.text_content + '</p>' +
+                    (message.sender_id == "{{ auth()->user()->id }}" ? // Check if the sender is the authenticated user
                     `<div class="dropdown-menu">` +
                     `<a class="dropdown-item" onclick="deleteMessage(this)">Delete</a>` +
-                    `</div>` +
+                    `</div>` : '') + // Display delete option only for the authenticated user's messages
                     '</div>' +
                     '</div>' +
                     '<div class="conversation-name">' +
@@ -520,9 +521,6 @@ function updateConversation(messages) {
                     '<div class="ctext-wrap-content">' +
                     '<div class="message-dropdown">' +
                     '<p class="mb-0 ctext-content">Unsent a message</p>' +
-                    `<div class="dropdown-menu">` +
-                    `<a class="dropdown-item" onclick="deleteMessage(this)">Delete</a>` +
-                    `</div>` +
                     '</div>' +
                     '</div>' +
                     '<div class="conversation-name">' +
@@ -544,14 +542,6 @@ function updateConversation(messages) {
                 '<div class="ctext-wrap-content">' +
                 '<div class="message-dropdown">' +
                 '<img src="{{ asset('storage') }}/' + message.image_path + '" style="max-width: 200px; max-height: 200px;" class="img-fluid" alt="Image">' +
-                `<div class="dropdown-menu">` +
-                `<a class="dropdown-item" href="{{ asset('storage') }}/${message.image_path}" download>` +
-                `<i class="ri-download-line me-2"></i> Download` +
-                `</a>` +
-                `<a class="dropdown-item" href="{{ asset('storage') }}/${message.image_path}" target="_blank">` +
-                `<i class="ri-eye-line me-2"></i> View` +
-                `</a>` +
-                `</div>` +
                 '</div>' +
                 '</div>' +
                 '<div class="conversation-name">' +
@@ -573,6 +563,7 @@ function updateConversation(messages) {
         conversationList.append(messageItem);
     });
 }
+
 
 
     });

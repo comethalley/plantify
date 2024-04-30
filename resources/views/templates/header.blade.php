@@ -52,6 +52,7 @@
     <script src="{{ asset('assets/js/inventory_fertilizer.js') }}"></script>
     <script src="{{ asset('assets/js/farmers.js') }}"></script>
 
+
     <!--markusread JS-->
     <script src="{{ asset('assets/js/markasread.js') }}"></script>
 

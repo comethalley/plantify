@@ -442,10 +442,13 @@ channel.bind('group-message', function(message) {
         });
     }
 
-    // Function to update conversation area with fetched messages
-    function updateConversation(messages) {
+// Function to update conversation area with fetched messages
+function updateConversation(messages) {
     var conversationList = $('#group-conversation');
     conversationList.empty(); // Clear existing messages
+
+    // Reverse the order of messages
+    messages.reverse();
 
     // Loop through each message and append it to the conversation area
     messages.forEach(function(message) {
@@ -470,9 +473,10 @@ channel.bind('group-message', function(message) {
                     '<div class="ctext-wrap-content">' +
                     '<div class="message-dropdown">' +
                     '<p class="mb-0 ctext-content" onclick="toggleDropdown(this)" data-message-id="' + message.id + '">' + message.content + '</p>' +
+                    (message.sender_id == "{{ auth()->user()->id }}" ? // Check if the sender is the authenticated user
                     `<div class="dropdown-menu">` +
                     `<a class="dropdown-item" onclick="deleteMessage(this)">Delete</a>` +
-                    `</div>` +
+                    `</div>` : '') + // Display delete option only for the authenticated user's messages
                     '</div>' +
                     '</div>' +
                     '<div class="conversation-name">' +
@@ -514,14 +518,6 @@ channel.bind('group-message', function(message) {
                 '<div class="ctext-wrap-content">' +
                 '<div class="message-dropdown">' +
                 '<img src="{{ asset('storage') }}/' + message.image_path + '" style="max-width: 200px; max-height: 200px;" class="img-fluid" alt="Image">' +
-                `<div class="dropdown-menu">` +
-                `<a class="dropdown-item" href="{{ asset('storage') }}/${message.image_path}" download>` +
-                `<i class="ri-download-line me-2"></i> Download` +
-                `</a>` +
-                `<a class="dropdown-item" href="{{ asset('storage') }}/${message.image_path}" target="_blank">` +
-                `<i class="ri-eye-line me-2"></i> View` +
-                `</a>` +
-                `</div>` +
                 '</div>' +
                 '</div>' +
                 '<div class="conversation-name">' +

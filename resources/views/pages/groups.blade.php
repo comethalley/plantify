@@ -127,7 +127,7 @@
                 </div>
 
                 <!-- Start User chat -->
-                <div class="user-chat w-100 overflow-hidden">
+                <div class="user-chat w-100 overflow-hidden user-chat-show">
                     <div class="chat-content d-lg-flex" style="background-image: url('{{ asset('storage/images/chat_bg.png') }}'); background-size: cover;">
                         <!-- start chat conversation section -->
                         <div class="w-100 overflow-hidden position-relative">
@@ -139,7 +139,7 @@
                                             <div class="col-sm-4 col-8">
                                                 <div class="d-flex align-items-center">
                                                     <div class="flex-shrink-0 d-block d-lg-none me-3">
-                                                        <a href="javascript: void(0);" class="user-chat-remove fs-18 p-1"><i class="ri-arrow-left-s-line align-bottom"></i></a>
+                                                        <a href="/chat" class="user-chat-remove fs-18 p-1"><i class="ri-arrow-left-s-line align-bottom"></i></a>
                                                     </div>
                                                     <div class="flex-grow-1 overflow-hidden">
                                                         <div class="d-flex align-items-center">
@@ -414,7 +414,7 @@ $(document).ready(function() {
 
     Pusher.logToConsole = true;
 
-var pusher = new Pusher('0367062ae6113e35e788', {
+var pusher = new Pusher('3ad50bacd69a809040b1', {
     cluster: 'ap1'
 });
 
@@ -446,9 +446,6 @@ channel.bind('group-message', function(message) {
 function updateConversation(messages) {
     var conversationList = $('#group-conversation');
     conversationList.empty(); // Clear existing messages
-
-    // Reverse the order of messages
-    messages.reverse();
 
     // Loop through each message and append it to the conversation area
     messages.forEach(function(message) {
@@ -538,6 +535,9 @@ function updateConversation(messages) {
         // Append the message item to the conversation list
         conversationList.append(messageItem);
     });
+
+    // Scroll to the bottom of the conversation area
+    conversationList[0].scrollIntoView({ behavior: "smooth", block: "end" });
 }
 
 

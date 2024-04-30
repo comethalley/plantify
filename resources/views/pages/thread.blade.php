@@ -438,7 +438,7 @@ $(document).ready(function() {
 
     Pusher.logToConsole = true;
 
-var pusher = new Pusher('0367062ae6113e35e788', {
+var pusher = new Pusher('3ad50bacd69a809040b1', {
     cluster: 'ap1'
 });
 
@@ -471,8 +471,37 @@ function updateConversation(messages) {
     var conversationList = $('#users-conversation');
     conversationList.empty(); // Clear existing messages
 
-    // Reverse the order of messages
-    messages.reverse();
+    // Clear existing images in the offcanvas
+    var attachedFiles = $('#userProfileCanvasExample .vstack');
+    attachedFiles.empty();
+
+    // Group images into sets of three per row
+    var imageSets = [];
+    var currentSet = [];
+    messages.forEach(function(message) {
+        if (message.image_path) {
+            currentSet.unshift(message.image_path); // Add latest image to the beginning
+            if (currentSet.length === 3) {
+                imageSets.unshift(currentSet); // Add completed set to the beginning
+                currentSet = []; // Reset current set
+            }
+        }
+    });
+    if (currentSet.length > 0) {
+        imageSets.unshift(currentSet); // Add remaining images as a set
+    }
+
+    // Iterate over image sets and append to attached files
+    imageSets.forEach(function(imageSet) {
+        var imageRow = $('<div class="row mb-3"></div>');
+        imageSet.forEach(function(imagePath) {
+            var imageCol = $('<div class="col"></div>');
+            var imageItem = $('<img src="{{ asset('storage') }}/' + imagePath + '" style="max-width: 100px; max-height: 100px;" class="img-fluid img-thumbnail" alt="Attached Image">');
+            imageCol.append(imageItem);
+            imageRow.append(imageCol);
+        });
+        attachedFiles.append(imageRow);
+    });
 
     // Loop through each message and append it to the conversation area
     messages.forEach(function(message) {
@@ -562,7 +591,12 @@ function updateConversation(messages) {
         // Append the message item to the conversation list
         conversationList.append(messageItem);
     });
+
+    // Scroll to the bottom of the conversation area
+    conversationList[0].scrollIntoView({ behavior: "smooth", block: "end" });
 }
+
+
 
 
 

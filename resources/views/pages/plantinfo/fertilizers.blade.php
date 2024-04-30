@@ -161,7 +161,7 @@
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Information</label>
                                                     <textarea type="textarea" name="fer_information" id="fer_information" class="form-control" placeholder="Fertilizer Information" required> </textarea>
-                                                </div>
+                                                </div>  
 
 
 
@@ -232,8 +232,8 @@
                                         <div class="modal-body p-5 text-center">
                                             <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop" colors="primary:#405189,secondary:#f06548" style="width:90px;height:90px"></lord-icon>
                                             <div class="mt-4 text-center">
-                                                <h4>You are about to delete a order ?</h4>
-                                                <p class="text-muted fs-15 mb-4">Deleting your order will remove all of your information from our database.</p>
+                                                <h4>You are about to delete a fertilizer ?</h4>
+                                                
                                                 <div class="hstack gap-2 justify-content-center remove">
                                                     <button class="btn btn-link link-success fw-medium text-decoration-none" id="deleteRecord-close" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i> Close</button>
                                                     <form method="POST" action="" style="display:inline">

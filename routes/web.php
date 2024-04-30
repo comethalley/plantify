@@ -25,6 +25,8 @@ use App\Http\Controllers\EmailVerification;
 use App\Http\Controllers\PiuController;
 use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\RequestController;
+use App\Http\Controllers\ProfilefeedController;
+use App\Http\Controllers\ProfileSettingsController;
 use App\Http\Requests\PdfRequest;
 use Endroid\QrCode\Writer\Result\PdfResult;
 use Illuminate\Http\Request;
@@ -139,11 +141,28 @@ Route::put('/edit-question/{id}', [ForumController::class, 'editQuestion'])->nam
 Route::post('/edit-post/{id}', [PostController::class, 'editPost']);
 Route::put('/edit-post/{id}', [PostController::class, 'editPost'])->name('editPost');
 
-Route::get('/profilefeed', [UserPhotoController::class, 'index']);
-Route::get('pages/profilefeed', [UserPhotoController::class, 'index'])->name('profile');
 
-// Route for updating profile information
-Route::post('/update-profile', [UserPhotoController::class, 'updateProfile'])->name('update.profile');
+
+// Route for profile
+
+
+Route::get('/profile-feed', [ProfilefeedController::class, 'show'])->name('profile-feed');
+
+Route::get('/profilesettings', [ProfileSettingsController::class, 'show'])->name('profilesettings');
+
+Route::post('/upload-image', [ProfileSettingsController::class, 'uploadImage'])->name('upload-image');
+
+Route::put('/profile/update', [ProfileSettingsController::class, 'updateProfile'])->name('profile.update');
+
+Route::middleware(['auth'])->group(function () {
+    Route::post('/profile/update-password', [ProfileSettingsController::class, 'updatePassword'])
+        ->name('profile.updatePassword');
+});
+
+Route::post('/save-profile-info', [ProfileSettingsController::class, 'saveOrUpdate'])->name('save.profile.info');
+
+
+
 
 
 // routes/web.php

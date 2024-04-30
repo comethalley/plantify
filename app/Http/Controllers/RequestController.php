@@ -50,9 +50,9 @@ class RequestController extends Controller
 {
     try {
         $request->validate([
-            'supply_tool' => 'required|string|max:255',
-            'supply_seedling' => 'required|string|max:255',
-            'supply_count' => 'required|numeric',
+            'supply_tool' => 'nullable|string|max:255',
+            'supply_seedling' => 'nullable|string|max:255',
+            'supply_count' => 'nullable|numeric',
             'letter_content' => 'required|file|mimes:pdf|max:2048',
             'status' => 'string|max:255',
             'date_return' => 'required|date',

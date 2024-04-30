@@ -198,7 +198,7 @@
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <label for="supply_tool" class="form-label">Tools &nbsp;<span class="required-asteroid">*</span></label>
-                                    <select id="supply_tool" name="supply_tool" class="form-select" required>
+                                    <select id="supply_tool" name="supply_tool" class="form-select" required onchange="toggleFields()">
                                         <option value="">Select Supply Type</option>
                                         @foreach($supplyTools as $id => $type)
                                         <option value="{{ $id }}">{{ $type }}</option>
@@ -213,7 +213,7 @@
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <label for="supply_seedling" class="form-label">Seedlings &nbsp;<span class="required-asteroid">*</span></label>
-                                    <select id="supply_seedling" name="supply_seedling" class="form-select" required>
+                                    <select id="supply_seedling" name="supply_seedling" class="form-select" required onchange="toggleFields()">
                                         <option value="">Select Supply Type</option>
                                         @foreach($supplySeedlings as $id => $type)
                                         <option value="{{ $id }}">{{ $type }}</option>
@@ -222,7 +222,8 @@
                                 </div>
                                 <div class="col-md-6">
                                     <label for="supply_count" class="form-label"> &nbsp; Quantity &nbsp;<span class="required-asteroid">*</span></label>
-                                    <input type="number" name="supply_count" class="form-control" title="This field is required to fill up" placeholder="Enter Quantity" required />
+                                    <input type="number" name="supply_count" id="supply_count" class="form-control" title="This field is required to fill up" placeholder="Enter Quantity" required />
+
                                 </div>
                             </div>
                             <div class="file-input-container">
@@ -429,6 +430,32 @@
             function openStatusModal() {
                 $('#statusModal').modal('show');
             }
+
+            function toggleFields() {
+                var supplyTool = document.getElementById('supply_tool');
+                var supplySeedling = document.getElementById('supply_seedling');
+                var supplyCount = document.getElementById('supply_count');
+
+                if (supplyTool.value !== '') {
+                    // If supply_tool is selected, make supply_seedling not required
+                    supplySeedling.removeAttribute('required');
+                    supplyCount.removeAttribute('required');
+                } else if (supplySeedling.value !== '') {
+                    // If supply_seedling is selected, make supply_tool not required
+                    supplyTool.removeAttribute('required');
+                    supplyCount.setAttribute('required', 'required');
+                } else if (supplyCount.value !== '') {
+                    // If supply_seedling is selected, make supply_tool not required
+                    supplyTool.removeAttribute('required');
+                    supplySeedling.setAttribute('required');
+                } else {
+                    // If neither is selected, make both required
+                    supplyTool.setAttribute('required', 'required');
+                    supplySeedling.setAttribute('required', 'required');
+                    supplyCount.setAttribute('required', 'required');
+                }
+            }
+
 
             function submitForm() {
                 // Hide any previous error messages

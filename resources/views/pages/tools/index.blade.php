@@ -205,10 +205,10 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="col-md-6" id="dateInputContainer">
+                                <!-- <div class="col-md-6" id="dateInputContainer">
                                     <label for="date_return" class="form-label">Date to return &nbsp;<span class="required-asteroid">*</span></label>
                                     <input type="date" class="form-control" title="This field is required to fill up" id="dateInput" name="date_return" min="<?php echo date('Y-m-d'); ?>" required />
-                                </div>
+                                </div> -->
                             </div>
                             <div class="row mb-3">
                                 <div class="col-md-6">
@@ -358,6 +358,7 @@
                 fetch(`/request/${id}/details`)
                     .then(response => response.json())
                     .then(data => {
+
                         var modalBody = document.getElementById('modal-body');
                         modalBody.innerHTML = '';
 
@@ -383,15 +384,17 @@
                             });
 
                             var statusAndValidatedText = 'Status: <strong style="font-family: \'Roboto Condensed\', sans-serif;">' + data.remark_status[index] + '</strong><br> Processed By: <span style="font-family: \'Roboto \', sans-serif; font-weight: 200;">' + data.validated_by[index] + '</span><span style="float: right;">' + formattedDate + ' / ' + formattedTime + '</span>';
-                            var statusAndValidatedParagraph = createParagraphs(statusAndValidatedText, true, '17px');
+                            var statusAndValidatedParagraph = createParagraphss(statusAndValidatedText, true, '17px'); // Specify the font size
                             containerWrapper.appendChild(statusAndValidatedParagraph);
 
+                                    // Create a container for "Remarks" with border, padding, light gray background, light black font color, and updated box-shadow
                             var remarksContainer = createContainer();
 
+                                    // Create a paragraph for "Validated By"
                             var validatedByParagraph = createParagraphs(data.validated_by[index], true);
 
                             var remarkText = remark || "";
-                            var visitDateText = data.visit_date[index] ? new Date(data.visit_date[index]).toLocaleDateString('en-US', {
+                            var visitDateText = data.date_return[index] ? new Date(data.date_return[index]).toLocaleDateString('en-US', {
                                 month: 'long',
                                 day: 'numeric',
                                 year: 'numeric'
@@ -416,6 +419,57 @@
                     .catch(error => {
                         console.error('Error fetching farm details:', error);
                     });
+
+                                            // Function to create a wrapper container
+                            function createContainerWrapper() {
+                            var containerWrapper = document.createElement('div');
+                            containerWrapper.classList.add('rounded-border', 'status-validated-container'); // Add classes for rounded border and box-shadow
+                            return containerWrapper;
+                        }
+
+                        // Function to create a container for "Remarks"
+                        function createContainer() {
+                            var remarksContainer = document.createElement('div');
+                            remarksContainer.classList.add('inner-container'); // Add a class for styling inner container
+                            return remarksContainer;
+                        }
+
+                        // Function to create a paragraph element
+                        function createParagraph(text) {
+                            var paragraph = document.createElement('p');
+                            paragraph.innerText = text;
+                            return paragraph;
+                        }
+                        // Function to create a paragraph element
+                        function createParagraphs(text, isBold) {
+                            var paragraph = document.createElement('p');
+                            paragraph.innerText = text;
+                            if (isBold) {
+                                paragraph.style.fontWeight = 'bold';
+                            }
+                            return paragraph;
+                        }
+
+                        function createParagraphss(htmlContent, isBold, fontSize) {
+                            var paragraph = document.createElement('p');
+                            paragraph.innerHTML = htmlContent;
+
+                            if (isBold) {
+                                paragraph.classList.add('roboto-condensed-font', 'bold');
+                            } else {
+                                paragraph.classList.add('roboto-condensed-font');
+                            }
+
+                            if (fontSize) {
+                                paragraph.style.fontSize = fontSize;
+                            }
+
+                            // Set margin properties
+                            paragraph.style.marginTop = '10px';
+                            paragraph.style.marginBottom = '0';
+
+                            return paragraph;
+                        }
             }
 
 

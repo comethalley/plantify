@@ -207,10 +207,10 @@
 
 
                             <!--Edit Admin Modal-->
-                            <div class="modal fade modal-lg" id="viewModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal fade modal-lg" id="editFarmerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
-                                        h5 class="modal-title" id="exampleModalLabel">Edit Admin</h5>
+                                        <h5 class="modal-title" id="exampleModalLabel">Edit Farmer</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
                                     </div>
                                     <form method="post" action="/edit-supplier">

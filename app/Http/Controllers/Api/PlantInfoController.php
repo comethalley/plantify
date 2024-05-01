@@ -359,7 +359,7 @@ public function fupdate(Request $request, $id) {
     $validator = Validator::make($request->all(), [
         'fer_name' => 'required|string|max:55',
         'fer_image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-        'fer_information' => 'required|string|max:255'
+        'fer_information' => 'required'
     ]);
 
     if ($validator->fails()) {

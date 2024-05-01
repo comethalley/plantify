@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Farm extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
         'id',
         'barangay_name',
@@ -16,6 +16,7 @@ class Farm extends Model
         'address',
         'area',
         'farm_leader',
+        'status'
     ];
     public function barangays()
     {

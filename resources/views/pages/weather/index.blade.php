@@ -5,7 +5,8 @@
 <link href="{{ asset('assets/css/weather.css') }}" rel="stylesheet" type="text/css" />
 
 
-<div class="page-content">
+
+
       <div class="page-content">
 
   <div class="wrapper">
@@ -24,6 +25,9 @@
         <div class="temperature">
           <h1 id="temp">0</h1>
           <span class="temp-unit">°C</span>
+        </div>
+        <div class="feels-like">
+          <h2 id="feels-like">Feels Like: 0</h2>
         </div>
         <div class="date-time">
           <p id="date-time">Monday, 12:00</p>

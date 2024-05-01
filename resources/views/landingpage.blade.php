@@ -141,7 +141,7 @@
     <div class="row justify-content-between align-items-center ">
                         <div class="col-lg-6">
                             <div>
-                            <h1 class="display-10 fw-bold mb-4 lh-base text-white" style="font-size: 35px; font-weight: 800;">Rooted in th city,<br>flourishing in the community!</h1>
+                            <h1 class="display-10 fw-bold mb-4 lh-base text-white" style="font-size: 35px; font-weight: 800;">Rooted in the city,<br>flourishing in the community!</h1>
                             <p class="lead text-white lh-base">Join the urban green revolution, easily grow crops in the city, and connect with a passionate community online. Start making a difference today!</p>
                             </div>
                             
@@ -188,7 +188,7 @@
                                             <h4 class="mb-1 fw-semibold text-center">
                                                 <img src="assets/images/plantifeedpics/analytics 1.png" alt="" class="img-fluid"> Analytics <hr>
                                             </h4><br>
-                                            <p class="text-muted mb-0" style="text-align: justify;">Utilize comprehensive data analysis tools to effectively monitor expenses, inventory levels, and planting schedules, enabling you to enhance productivity and efficiency within your urban farming endeavors.</p>
+                                            <p class="text-muted mb-0" style="text-align: justify;">Utilize comprehensive data analysis that predicts the total harvested and destroyed crops, depending on the data from the weather monitoring module.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -338,19 +338,8 @@
     </h2>
     <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
       <div class="accordion-body"style="text-align: justify;">
-        <strong>"Title:</strong> A Web-Based Urban Planting Management System" is a sophisticated platform designed to support the operations of the Center for Urban Agriculture and Innovation. It serves as a comprehensive toolset for managing urban planting initiatives, optimizing resources, and fostering community engagement. Here's an overview of its key features:<br><br>
-        <strong>Analytics:</strong> Provides data-driven insights and analytics based on various metrics collected from planting projects, helping the farmers make informed decisions and assess the impact of their efforts.<br><br>
-        <strong>Weather Monitoring:</strong> Integrates weather forecasting functionalities to help users plan planting activities effectively and mitigate risks associated with adverse weather conditions.<br><br>
-        <strong>Chat System:</strong> Facilitates real-time communication and collaboration among stakeholders, enabling seamless coordination of tasks, sharing of ideas, and support among team members.<br><br>
-        <strong>Task Monitoring:</strong> Allows users to create and assign tasks, track their progress, and receive notifications and updates, ensuring efficient project management and accountability.<br><br>
-        <strong> Planting Calendar:</strong> Offers a centralized calendar for scheduling and managing planting activities, including planting dates, maintenance tasks, and harvest times, helping users stay organized and on track.<br><br>
-        <strong>Event Calendar:</strong> Provides a platform for scheduling and promoting events related to urban agriculture and innovation, fostering community engagement and participation.<br><br>
-        <strong>Expense Tracker:</strong> Enables users to monitor and track expenses associated with planting projects, including materials, labor, and other costs, facilitating budget management and financial planning.<br><br>
-        <strong>Farm Management:</strong> Offers tools for managing and optimizing farm operations, including crop rotation, soil management, and irrigation scheduling, promoting sustainable and efficient agricultural practices.<br><br>
-        <strong>Inventory Management:</strong> Allows users to track the inventory of plants, seeds, tools, and other resources needed for planting projects, ensuring adequate supply and efficient resource allocation.<br><br>
-        <strong>Plant Information:</strong> Offers a comprehensive database of plant species suitable for urban environments, including their characteristics, growth requirements, and maintenance needs, aiding in informed plant selection and care.<br><br>
-        <strong>Maps:</strong> Integrates mapping functionalities to visualize planting projects, identify suitable planting locations, and share project locations with stakeholders, enhancing planning and communication.
-
+       
+            This is a platform designed to support the Center for Urban Agriculture and Innovation. It serves as a tool and guide for urban farmers to effectively manage their urban gardens.
       </div>
     </div>
   </div>
@@ -358,17 +347,11 @@
   <div class="accordion-item">
     <h2 class="accordion-header" id="flush-headingTwo">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-      <h5>Who can use this platform?
-</h5>
+      <h5>Who are the people who can use this?</h5>
       </button>
     </h2>
     <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
-      <div class="accordion-body"style="text-align: justify;">This platform can be used by anyone to organize their urban gardens. It is designed for farmers, farmer leaders, and public urban farmers who aim to streamline their activities while planting.
-
-
-
-
-
+      <div class="accordion-body"style="text-align: justify;">Anyone can use this platform to organize their urban gardens. It is designed for urban gardeners who aim to streamline their activities while gardening.
 </div>
     </div>
   </div>
@@ -376,22 +359,22 @@
   <div class="accordion-item">
     <h2 class="accordion-header" id="flush-headingThree">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-      <h5>Can I use Plantify in my Smartphones?<h5>
+      <h5>Can this be used on a smartphone?<h5>
       </button>
     </h2>
     <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
-      <div class="accordion-body"style="text-align: justify;"> Absolutely! Plantify offers the flexibility and convenience of access from any mobile device, including smartphones, as well as web browsers. This means whether you're out in the field overseeing planting projects, attending community events, or simply on the move, you can stay connected and manage your urban greening initiatives effortlessly. With Plantify, there's no need to be tied to a desktop computer – you have the freedom to plan, monitor, and engage with your projects wherever you are, ensuring that your efforts in creating vibrant green spaces in urban environments are always at your fingertips.</div>
+      <div class="accordion-body"style="text-align: justify;"> The platform can be accessed on mobile devices and web browsers. Whether you are outside or in your urban garden, you can use the platform.</div>
     </div>
   </div>
 
   <div class="accordion-item">
     <h2 class="accordion-header" id="flush-headingFour">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
-      <h5>Can anyone share their story in Plantifeed?</h5>
+      <h5>Can anyone share their story in the community forum?</h5>
       </button>
     </h2>
     <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour" data-bs-parent="#accordionFlushExample">
-      <div class="accordion-body"style="text-align: justify;"> Yes! Plantifeed is an inclusive platform where everyone is invited to share their urban planting stories. Whether you're an experienced gardener or just starting out, your voice matters. Join us in inspiring and learning from each other as we cultivate greener, more sustainable cities together.</div>
+      <div class="accordion-body"style="text-align: justify;">Everyone can share their story in the community forum because it is designed to listen to the voices of every urban farmer. Whether you are a public user, farmer, or farmer leader, each of your posts is valuable to us.</div>
        
     </div>
   </div>

@@ -285,24 +285,42 @@ class AuthController extends Controller
             $user = User::where('id', $id)
                 ->where('status', 1)
                 ->firstOrFail();
-
+    
+            // Find the farm associated with the farm leader
+            $farm = Farm::where('farm_leader', $user->id)->first();
+    
+            if ($farm) {
+                // Find the farmers associated with the farm and delete them
+                $farmers = Farmer::where('farm_id', $farm->id)->get();
+                foreach ($farmers as $farmer) {
+                    $farmer->delete();
+                }
+    
+                // Delete the farm location
+                FarmLocation::where('address', $farm->address)->delete();
+    
+                // Delete the farm
+                $farm->delete();
+            }
+    
+            // Update the status of the farm leader
             $user->update([
                 'status' => 0,
             ]);
-
+    
             if ($user) {
-                return response()->json(['message' => 'Farm Leader Archive Successfully'], 200);
+                return response()->json(['message' => 'Farm Leader Archived Successfully'], 200);
             } else {
                 return response()->json(['error' => 'Internal Server Error'], 500);
             }
         } catch (ModelNotFoundException $e) {
-
-            return response()->json(['error' => 'Admin not found'], 404);
+            return response()->json(['error' => 'Farm Leader not found'], 404);
         } catch (\Exception $e) {
-
             return response()->json(['error' => 'Internal Server Error'], 500);
         }
     }
+    
+
 
     public function signup(Request $request)
     {

@@ -10,10 +10,7 @@ class CreateProfileOtherInfoTable extends Migration
     {
         Schema::create('profileotherinfo', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('facebook')->nullable();
-            $table->string('twitter')->nullable();
-            $table->string('instagram')->nullable();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');;
             $table->string('city')->nullable();
             $table->integer('age')->nullable();
             $table->enum('sex', ['male', 'female'])->nullable();

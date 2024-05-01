@@ -13,9 +13,7 @@ class ProfileOtherInfo extends Model
 
     protected $fillable = [
         'user_id',
-        'facebook',
-        'twitter',
-        'instagram',
+      
         'city',
         'age',
         'sex',
@@ -24,4 +22,7 @@ class ProfileOtherInfo extends Model
     ];
 
     // Dito mo maaaring ilagay ang anumang mga custom functions o relasyon
+
+
+
 }

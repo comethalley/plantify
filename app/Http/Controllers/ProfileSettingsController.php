@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Rules\CorrectOldPassword;
 use App\Models\ProfileOtherInfo;
 use App\Rules\NotCommonPassword;
 use App\Rules\NotSameAsCurrentPassword;
@@ -10,12 +10,14 @@ use App\Rules\StrongPassword;
 use Illuminate\Support\Facades\Hash;
 use App\Models\ProfileSettings;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 
 class ProfileSettingsController extends Controller
 {
     public function show()
     {
+        
         $profileSettings = ProfileSettings::where('user_id', auth()->id())->first();
         return view('pages.profilesettings', ['profileSettings' => $profileSettings]);
     }
@@ -65,29 +67,28 @@ class ProfileSettingsController extends Controller
     }
 
     public function saveOrUpdate(Request $request)
-    {
-        // Validate the request data
-        $validatedData = $request->validate([
-            'facebook' => 'nullable|string|max:255',
-            'twitter' => 'nullable|string|max:255',
-            'instagram' => 'nullable|string|max:255',
-            'city' => 'nullable|string|max:255',
-            'age' => 'nullable|integer|min:0',
-            'sex' => 'nullable|in:male,female',
-            'bio' => 'nullable|string|max:500',
-        ]);
-
-        // Find or create the profile other info for the current user
-        $profileOtherInfo = ProfileOtherInfo::updateOrCreate(
-            ['user_id' => auth()->id()], // Search criteria
-            $validatedData // Data to update or create
-        );
+{
 
 
-        return redirect()->back()->with('success', 'Profile Info updated successfully.');
-    }
+    // Validate the request
+    $validatedData = $request->validate([
+      
+        'city' => 'nullable|string|max:255',
+        'age' => 'nullable|integer|min:0',
+        'sex' => 'nullable|in:male,female',
+        'bio' => 'nullable|string|max:500',
+       
+    ]);
+
+    // Update or create the profile other info
+    $profileOtherInfo = ProfileOtherInfo::updateOrCreate(
+        ['user_id' => auth()->id()],
+        $validatedData
+    );
 
 
+    return redirect()->back()->with('success', 'Profile Info updated successfully.');
+}
 
     public function updateProfile(Request $request)
     {
@@ -115,29 +116,42 @@ class ProfileSettingsController extends Controller
     }
 
     public function updatePassword(Request $request)
-    {
-        // Kunin ang kasalukuyang user
-        $user = auth()->user();
+{
+    // Kunin ang kasalukuyang user
+    $user = auth()->user();
 
-        // Validate the request
-        $request->validate([
-            'password' => [
-                'required',
-                'confirmed',
-                'min:6',
-                new StrongPassword,
-                new NotCommonPassword,
-                new NotSameAsCurrentPassword,
-                new NotSameAsName($user->firstname, $user->lastname),
-            ],
-        ]);
+    // Validate the request
+    $request->validate([
+        'old_password' => [
+            'required',
+            new CorrectOldPassword(auth()->user()),
+        ],
+        'password' => [
+            'required',
+            'different:old_password',
+            'confirmed',
+            'min:6',
+            new StrongPassword,
+            new NotCommonPassword,
+            new NotSameAsCurrentPassword,
+            new NotSameAsName($user->firstname, $user->lastname),
+        ],
+    ]);
+    
+    
 
-        // Update ang password ng user
-        $user->update([
-            'password' => Hash::make($request->password),
-        ]);
-
-        // I-return ang response
-        return redirect()->back()->with('success', 'Password updated successfully.');
+    // I-check kung tama ang old password
+    if (!Hash::check($request->old_password, $user->password)) {
+        return redirect()->back()->withErrors(['old_password' => 'The old password is incorrect.'])->withInput();
     }
+
+    // Update ang password ng user
+    $user->update([
+        'password' => Hash::make($request->password),
+    ]);
+
+    // I-return ang response
+    return redirect()->back()->with('success', 'Password updated successfully.');
+}
+
 }

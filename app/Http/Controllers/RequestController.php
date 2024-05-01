@@ -55,7 +55,7 @@ class RequestController extends Controller
             'supply_count' => 'nullable|numeric',
             'letter_content' => 'required|file|mimes:pdf|max:2048',
             'status' => 'string|max:255',
-            'date_return' => 'required|date',
+            // 'date_return' => 'nullable|date',
         ]);
 
         // Get the ID of the authenticated user
@@ -80,7 +80,7 @@ class RequestController extends Controller
             'requested_by' => $loggedInUserId, // Store the user's ID
             'letter_content' => $contentLetterPath,
             'status' => $request->input('status', 'Requested'),
-            'date_return' => $request->input('date_return'),
+            // 'date_return' => $request->input('date_return'),
         ]);
 
         return response()->json(['success' => true]);

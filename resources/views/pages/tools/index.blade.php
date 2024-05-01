@@ -94,22 +94,31 @@
                                             <td class="status vertical-line">
                                                 @switch(strtolower(str_replace(' ', '-', $request->status)))
                                                 @case('requested')
-                                                @case('available')
-                                                <label class="badge bg-primary" style="font-size: 12px; margin-bottom: 10px; padding: 2px; color: #FFF;" onclick="return false;">{{ $request->status }}</label>
-                                                <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
-                                                @break
-                                                @case('unavailable')
                                                 <label class="badge text-wrap" style="font-size: 12px; margin-bottom: 10px; padding: 2px; background-color: #007BFF; color: #FFF;" onclick="return false;">{{ $request->status }}</label>
                                                 <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
                                                 @break
+                                                @case('available')
+                                                <label class="badge text-wrap" style="font-size: 12px; margin-bottom: 10px; padding: 2px; background-color: #A5DD9B; color: #FFF;" onclick="return false;">{{ $request->status }}</label>
+                                                <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
+                                                @break
+                                                @case('unavailable')
+                                                <label class="badge text-wrap" style="font-size: 12px; margin-bottom: 10px; padding: 2px; background-color: #524C42; color: #FFF;" onclick="return false;">{{ $request->status }}</label>
+                                                <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
+                                                @break
                                                 @case('ready-to-be-pick')
+                                                <label class="badge text-wrap" style="font-size: 12px; margin-bottom: 10px; padding: 2px; background-color: #E65C19; color: #000;" onclick="return false;">{{ $request->status }}</label>
+                                                <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
+                                                @break
                                                 @case('picked')
-                                                <label class="badge text-wrap" style="font-size: 12px; margin-bottom: 10px; padding: 2px; background-color: #FF9843; color: #000;" onclick="return false;">{{ $request->status }}</label>
+                                                <label class="badge text-wrap" style="font-size: 12px; margin-bottom: 10px; padding: 2px; background-color: #121481; color: #000;" onclick="return false;">{{ $request->status }}</label>
                                                 <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
                                                 @break
                                                 @case('failed-to-pick')
+                                                <label class="badge text-wrap" style="font-size: 12px; margin-bottom: 10px; padding: 2px; background-color: #FA7070; color: #FFF;" onclick="return false;">{{ $request->status }}</label>
+                                                <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
+                                                @break
                                                 @case('failed-to-return')
-                                                <label class="badge text-wrap" style="font-size: 12px; margin-bottom: 10px; padding: 2px; background-color: #747264; color: #FFF;" onclick="return false;">{{ $request->status }}</label>
+                                                <label class="badge text-wrap" style="font-size: 12px; margin-bottom: 10px; padding: 2px; background-color: #C08B5C; color: #FFF;" onclick="return false;">{{ $request->status }}</label>
                                                 <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
                                                 @break
                                                 @case('waiting-for-approval')
@@ -117,12 +126,15 @@
                                                 <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
                                                 @break
                                                 @case('approved')
-                                                <label class="badge text-wrap" style="font-size: 12px; margin-bottom: 10px; padding: 2px; background-color: #1F7C33; color: #FFF;" onclick="return false;">{{ $request->status }}</label>
+                                                <label class="badge text-wrap" style="font-size: 12px; margin-bottom: 10px; padding: 2px; background-color: #28a745; color: #FFF;" onclick="return false;">{{ $request->status }}</label>
                                                 <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
                                                 @break
                                                 @case('disapproved')
-                                                @case('returned')
                                                 <label class="badge text-wrap" style="font-size: 12px; margin-bottom: 10px; padding: 2px; background-color: #990000; color: #FFF;" onclick="return false;">{{ $request->status }}</label>
+                                                <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
+                                                @break
+                                                @case('returned')
+                                                <label class="badge text-wrap" style="font-size: 12px; margin-bottom: 10px; padding: 2px; background-color: #86469C; color: #FFF;" onclick="return false;">{{ $request->status }}</label>
                                                 <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
                                                 @break
                                                 @default
@@ -205,10 +217,10 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="col-md-6" id="dateInputContainer">
+                                <!-- <div class="col-md-6" id="dateInputContainer">
                                     <label for="date_return" class="form-label">Date to return &nbsp;<span class="required-asteroid">*</span></label>
                                     <input type="date" class="form-control" title="This field is required to fill up" id="dateInput" name="date_return" min="<?php echo date('Y-m-d'); ?>" required />
-                                </div>
+                                </div> -->
                             </div>
                             <div class="row mb-3">
                                 <div class="col-md-6">
@@ -264,17 +276,17 @@
                         <hr>
                         <p class="text-left">
                             <span class="badge" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">1</span>
-                            <span class="badge bg-primary" style="color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">Requested</span> -
+                            <span class="badge" style="background-color: #007BFF; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">Requested</span> -
                             Indicates that a user has made a request for a tool or seedling.
                         </p>
                         <p class="text-left">
                             <span class="badge badge-dark" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">2</span>
-                            <span class="badge" style="background-color: #007BFF; color: #FFF; font-size: 13px; padding-left: 5px; padding-right: 5px;">Available</span> -
+                            <span class="badge" style="background-color: #A5DD9B; color: #FFF; font-size: 13px; padding-left: 5px; padding-right: 5px;">Available</span> -
                             Denotes that the requested tool or seedling is currently in stock and ready for allocation.
                         </p>
                         <p class="text-left">
                             <span class="badge badge-dark" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">3</span>
-                            <span class="badge" style="background-color: #1F7C33; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">Unavailable</span> -
+                            <span class="badge" style="background-color: #524C42; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">Unavailable</span> -
                             The tool or seedling requested isn't in stock, so it can't be allocated now.
                         </p>
                         <p class="text-left">
@@ -294,27 +306,27 @@
                         </p>
                         <p class="text-left">
                             <span class="badge badge-dark" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">7</span>
-                            <span class="badge" style="background-color: #007BFF; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">Ready to be Picked</span> -
+                            <span class="badge" style="background-color: #E65C19; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">Ready to be Picked</span> -
                             Indicates that the approved tool or seedling is prepared and available for collection.
                         </p>
                         <p class="text-left">
                             <span class="badge badge-dark" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">8</span>
-                            <span class="badge" style="background-color: #007BFF; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">Picked</span> -
+                            <span class="badge" style="background-color: #121481; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">Picked</span> -
                             Indicates that the approved tool or seedling has been collected by the requester.
                         </p>
                         <p class="text-left">
                             <span class="badge badge-dark" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">9</span>
-                            <span class="badge" style="background-color: #990000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">Failed to Pick</span> -
+                            <span class="badge" style="background-color: #FA7070; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">Failed to Pick</span> -
                             It implies the requester didn't pick up the approved tool or seedling within the given time frame or for some reason.
                         </p>
                         <p class="text-left">
                             <span class="badge badge-dark" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">10</span>
-                            <span class="badge" style="background-color: #28a745; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">Returned</span> -
+                            <span class="badge" style="background-color: #86469C; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">Returned</span> -
                             Denotes that the collected tool or seedling has been returned to the inventory for any reason.
                         </p>
                         <p class="text-left">
                             <span class="badge badge-dark" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">11</span>
-                            <span class="badge" style="background-color: #990000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">Failed to Return</span> -
+                            <span class="badge" style="background-color: #C08B5C; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">Failed to Return</span> -
                             It suggests the user didn't return the borrowed item on time or returned it damaged.
                         </p>
                         <hr>
@@ -358,6 +370,7 @@
                 fetch(`/request/${id}/details`)
                     .then(response => response.json())
                     .then(data => {
+
                         var modalBody = document.getElementById('modal-body');
                         modalBody.innerHTML = '';
 
@@ -383,15 +396,17 @@
                             });
 
                             var statusAndValidatedText = 'Status: <strong style="font-family: \'Roboto Condensed\', sans-serif;">' + data.remark_status[index] + '</strong><br> Processed By: <span style="font-family: \'Roboto \', sans-serif; font-weight: 200;">' + data.validated_by[index] + '</span><span style="float: right;">' + formattedDate + ' / ' + formattedTime + '</span>';
-                            var statusAndValidatedParagraph = createParagraphs(statusAndValidatedText, true, '17px');
+                            var statusAndValidatedParagraph = createParagraphss(statusAndValidatedText, true, '17px'); // Specify the font size
                             containerWrapper.appendChild(statusAndValidatedParagraph);
 
+                                    // Create a container for "Remarks" with border, padding, light gray background, light black font color, and updated box-shadow
                             var remarksContainer = createContainer();
 
+                                    // Create a paragraph for "Validated By"
                             var validatedByParagraph = createParagraphs(data.validated_by[index], true);
 
                             var remarkText = remark || "";
-                            var visitDateText = data.visit_date[index] ? new Date(data.visit_date[index]).toLocaleDateString('en-US', {
+                            var visitDateText = data.date_return[index] ? new Date(data.date_return[index]).toLocaleDateString('en-US', {
                                 month: 'long',
                                 day: 'numeric',
                                 year: 'numeric'
@@ -416,6 +431,57 @@
                     .catch(error => {
                         console.error('Error fetching farm details:', error);
                     });
+
+                                            // Function to create a wrapper container
+                            function createContainerWrapper() {
+                            var containerWrapper = document.createElement('div');
+                            containerWrapper.classList.add('rounded-border', 'status-validated-container'); // Add classes for rounded border and box-shadow
+                            return containerWrapper;
+                        }
+
+                        // Function to create a container for "Remarks"
+                        function createContainer() {
+                            var remarksContainer = document.createElement('div');
+                            remarksContainer.classList.add('inner-container'); // Add a class for styling inner container
+                            return remarksContainer;
+                        }
+
+                        // Function to create a paragraph element
+                        function createParagraph(text) {
+                            var paragraph = document.createElement('p');
+                            paragraph.innerText = text;
+                            return paragraph;
+                        }
+                        // Function to create a paragraph element
+                        function createParagraphs(text, isBold) {
+                            var paragraph = document.createElement('p');
+                            paragraph.innerText = text;
+                            if (isBold) {
+                                paragraph.style.fontWeight = 'bold';
+                            }
+                            return paragraph;
+                        }
+
+                        function createParagraphss(htmlContent, isBold, fontSize) {
+                            var paragraph = document.createElement('p');
+                            paragraph.innerHTML = htmlContent;
+
+                            if (isBold) {
+                                paragraph.classList.add('roboto-condensed-font', 'bold');
+                            } else {
+                                paragraph.classList.add('roboto-condensed-font');
+                            }
+
+                            if (fontSize) {
+                                paragraph.style.fontSize = fontSize;
+                            }
+
+                            // Set margin properties
+                            paragraph.style.marginTop = '10px';
+                            paragraph.style.marginBottom = '0';
+
+                            return paragraph;
+                        }
             }
 
 

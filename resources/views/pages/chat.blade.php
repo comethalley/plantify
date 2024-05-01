@@ -180,7 +180,7 @@
                         </div>
                         <!-- end chat leftsidebar -->
                         <!-- Start User chat -->
-                        <div class="user-chat w-100 overflow-hidden" style="background-image: url('{{ asset('storage/images/chat_bg.png') }}'); background-size: cover; position: relative;">
+                        <div class="user-chat w-100 overflow-hidden" style="background-image: url('{{ asset('assets/images/chat_bg.png') }}'); background-size: cover; position: relative;">
                             <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
                                 <p style="font-size: 27px;">Select a chat or start a new conversation</p>
                             </div>

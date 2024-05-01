@@ -128,7 +128,7 @@
 
                 <!-- Start User chat -->
                 <div class="user-chat w-100 overflow-hidden user-chat-show">
-                    <div class="chat-content d-lg-flex" style="background-image: url('{{ asset('storage/images/chat_bg.png') }}'); background-size: cover;">
+                    <div class="chat-content d-lg-flex" style="background-image:  url('{{ asset('assets/images/chat_bg.png') }}'); background-size: cover;">
                         <!-- start chat conversation section -->
                         <div class="w-100 overflow-hidden position-relative">
                             <!-- conversation user -->
@@ -414,7 +414,7 @@ $(document).ready(function() {
 
     Pusher.logToConsole = true;
 
-var pusher = new Pusher('3ad50bacd69a809040b1', {
+var pusher = new Pusher('ebad2ef1a296a8ac5320', {
     cluster: 'ap1'
 });
 

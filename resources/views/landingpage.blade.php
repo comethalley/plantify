@@ -141,7 +141,7 @@
     <div class="row justify-content-between align-items-center ">
                         <div class="col-lg-6">
                             <div>
-                            <h1 class="display-10 fw-bold mb-4 lh-base text-white" style="font-size: 35px; font-weight: 800;">Rooted in th city,<br>flourishing in the community!</h1>
+                            <h1 class="display-10 fw-bold mb-4 lh-base text-white" style="font-size: 35px; font-weight: 800;">Rooted in the city,<br>flourishing in the community!</h1>
                             <p class="lead text-white lh-base">Join the urban green revolution, easily grow crops in the city, and connect with a passionate community online. Start making a difference today!</p>
                             </div>
                             

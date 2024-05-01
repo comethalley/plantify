@@ -221,7 +221,7 @@ Route::view('add-schedule', 'pages.add');
 Route::post('create-schedule', [EventController::class, 'create']);
 
 //FOR attendance ROUTES===========================================
-Route::get('/attendance', [AttendanceControler::class, 'index']);
+// Route::get('/attendance', [AttendanceControler::class, 'index']);
 
 // End Full Calender=================================================================
 

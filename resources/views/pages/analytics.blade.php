@@ -108,6 +108,7 @@
 
                                                 <p class="text-muted mb-0">Here's what's happening with your farm today.</p>
                                             </div>  
+                                            @if(session('user') && session('user')->role_id != 5)
                                             <div class="mt-3 mt-lg-0">
                                                 <form action="javascript:void(0);">
                                                     <div class="row g-3 mb-0 align-items-center">
@@ -115,10 +116,11 @@
                                                         <div class="col-auto">
                                                             <button type="button" class="btn btn-soft-success material-shadow-none" onclick="downloadPDF()"><i class="ri-add-circle-line align-middle"></i>Download Report</button>
                                                         </div>
-                                                        
-                                                    <!--end row-->
+                                                        <!--end row-->
+                                                    </div>
                                                 </form>
-                                            </div>                                 
+                                            </div>
+                                            @endif                      
                                         </div><!-- end card header -->
                                     </div>
                                     <br>

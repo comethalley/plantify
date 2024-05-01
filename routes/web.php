@@ -218,6 +218,7 @@ Route::get('/upcomingevent', [EventController::class, 'notifyUpcomingEvents']);
 Route::get('/events/{eventId}/interested', [EventController::class, 'storeInterested']);
 Route::view('add-schedule', 'pages.add');
 Route::post('create-schedule', [EventController::class, 'create']);
+Route::post('/generate-registration-form/{id}', [EventController::class, 'generateRegistrationForm'])->name('generate.registration.form');
 
 //FOR attendance ROUTES===========================================
 Route::get('/attendance', [AttendanceControler::class, 'index']);

@@ -1,43 +1,63 @@
 @include('templates.header')
 <style>
+.event-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding-left: 10px;
+}
+
+.column {
+    flex: 0 0 calc(23% - 20px);
+   
+
+    /* margin-bottom: 20px;  */
+}
+
 .event-card {
     display: flex;
+    flex-direction: column;
     border-radius: 10px;
     border: 1px solid #ccc;
     overflow: hidden;
-    margin: 10px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    height: 130px;
-    width: 250px; /* Adjusted width */
-    background-color: #f9f9f9; /* Light gray background color */
+    height: 90%;
+    background-color: #f9f9f9;
+    transition: box-shadow 0.3s, transform 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .event-image {
+    width: 45%;
+    height: 60%;
     flex: 1;
-    max-width: 150px;
-    overflow: hidden;
     border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
+    border-top-right-radius: 10px;
+    overflow: hidden;
+
+    
+    
 }
 
 .event-image img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+
     border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
+    border-top-right-radius: 10px;
+  
 }
 
-.event-details {
-    flex: 2;
-    padding: 10px;
-}
+
 
 .event-title {
     font-size: 1.2em;
     font-weight: bold;
     margin-bottom: 5px;
-    color: #333; /* Dark text color */
+    color: #333;
+    text-align: center;
 }
 
 .event-date {
@@ -45,12 +65,11 @@
     font-style: italic;
 }
 
-/* Add hover effect for a more interactive feel */
 .event-card:hover {
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     transform: translateY(-2px);
-    transition: box-shadow 0.3s, transform 0.3s;
 }
+
 
 </style>
 <div class="main-content">
@@ -94,23 +113,31 @@
                         <div class="card-body border border-dashed border-end-0 border-start-0">
                        
                        </div>
-                       @foreach ($events as $event)
-    <a href="{{ route('event.details', ['id' => $event->id]) }}" class="event-card">
-        <div class="event-image">
-            @if ($event->image)
-                <img src="../assests/images/event/{{$event->image}}" alt="Event Image">
-            @else
-                <img src="https://via.placeholder.com/150" alt="Placeholder Image">
-            @endif
+
+    <div class="card">
+        <div class="row">
+    @foreach ($events as $event)
+        <div class="col-md-3 px-4">
+            <a href="{{ route('event.details', ['id' => $event->id]) }}" class="event-card">
+                <div class="event-image align-items-center ">
+                    @if ($event->image)
+                        <img src="../assests/images/event/{{$event->image}}" alt="Event Image">
+                    @else
+                        <img src="https://via.placeholder.com/150" alt="Placeholder Image">
+                    @endif
+                </div>
+                <div class="event-details">
+                    <div class="event-title ">{{ $event->title }}</div>
+                    <div class="event-date">{{ date('F j, Y', strtotime($event->start)) }} to {{ date('F j, Y', strtotime($event->end)) }}</div>
+                    <div class="">{{ date('g:i A', strtotime($event->starttime)) }} to {{ date('g:i A', strtotime($event->endtime)) }}</div>
+                </div>
+            </a>
         </div>
-        <div class="event-details">
-            <div class="event-title">{{ $event->title }}</div>
-            <div class="event-date">{{ date('F j, Y', strtotime($event->start)) }} to {{ date('F j, Y', strtotime($event->end)) }}</div>
-            <div class="event-time">{{ date('g:i A', strtotime($event->starttime)) }} to {{ date('g:i A', strtotime($event->endtime)) }}</div>
-        </div>
-       
-    </a>
-@endforeach
+    @endforeach
+    </div>
+</div>
+
+
     
                     </div>
 

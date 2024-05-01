@@ -410,16 +410,20 @@ input:valid + span::after {
                             </select>
                         </div>
                         <div class="col-md-8">
-    <label class="form-label">Assigned To</label>
-    <select name="user_id" class="form-control" required id="edit-user_id">
-        @foreach ($users as $user)
-            <option value="{{ $user->id }}" @if ($user->editable_task_id != null) disabled @endif>
-                {{ $user->firstname }} {{ $user->lastname }} - ({{ $user->tasks_count }} tasks)
-            </option>
-        @endforeach
-    </select>
+                    <label class="form-label">Assigned To</label>
+                    <select name="user_id" class="form-control" required id="edit-user_id">
+                        @foreach ($users as $user)
+                            <option value="{{ $user->id }}" @if ($user->editable_task_id != null) disabled @endif>
+                                {{ $user->firstname }} {{ $user->lastname }} - ({{ $user->tasks_count }} tasks)
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-8">
+        <label for="file" class="form-label">Upload File</label>
+        <input type="file" name="file" id="edit-file" class="form-control">
+    </div>
 </div>
-                
     
                 </div>
                 <br>

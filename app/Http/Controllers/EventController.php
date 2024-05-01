@@ -64,6 +64,15 @@ class EventController extends Controller
         return redirect('/schedules');
     }
 
+    public function generateRegistrationForm(Request $request, $id)
+    {
+        // Retrieve the event details based on the event id sent with the request
+        $eventId = $request->input('event_id');
+        $event = Event::find($eventId);
+
+        // Render the registration form blade template with the event details
+        return view('pages.eventscalendar', ['event' => $event]);
+    }
     public function storeInterested(Request $request, $eventId)
     {
         // Get the event

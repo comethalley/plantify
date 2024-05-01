@@ -187,11 +187,13 @@
             <div class="modal-body p-4">
                 <div class="row">
                     <div class="col-md-12 mb-4 text-center">
-                        <img src="" alt="Event Image" class="img-fluid rounded" id="eventimage" style="width: 400px; height: 300px;">
+                        <img src="" alt="Event Image" class="img-fluid rounded" id="eventimage" style="width: 400px; height: 250px;">
                     </div>
-                    <div class="col-md-12">
-                        <div class="event-details">
-                            <h5 class="fw-bold mb-4 fs-5" id="eventtitle"></h5>
+                    <div class="col-md-12 text-center"> <!-- Added text-center class -->
+    <div class="event-details">
+        <h5 class="fw-bold mb-4 fs-5" id="eventtitle"></h5>
+    </div>
+</div>
                             <div class="mb-3 fs-5">
                                 <i class="ri-calendar-event-line text-muted me-2"></i>
                                 <span id="eventstart"></span> - <span id="eventend"></span>
@@ -609,26 +611,7 @@ function filterAndDisplayEvents(searchKeywords) {
         }
 
         
-        document.getElementById('interestButton').addEventListener('click', function() {
-        var eventId = this.getAttribute('data-event-id') || info.event.id;
-        var url = '/events/' + eventId + '/interested';
-
-        // Send AJAX request
-        $.ajax({
-            type: 'POST',
-            url: url,
-            data: {
-                _token: '{{ csrf_token() }}'
-            },
-            success: function(response) {
-                alert(response.message);
-            },
-            error: function(xhr, status, error) {
-                console.error(error);
-                alert('Error occurred, please try again later');
-            }
-        });
-    });
+        
 </script>
        
 <script>
@@ -748,8 +731,6 @@ function filterAndDisplayEvents(searchKeywords) {
         this.innerHTML = '<i id="starIcon" class="fas fa-star"></i> I\'m Interested';
     }
 });
-
-
 
 
 </script>

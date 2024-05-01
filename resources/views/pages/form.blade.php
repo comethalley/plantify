@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event Attendance Form</title>
+    <title>Event Pre-Registration Form</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
@@ -60,13 +60,38 @@
 
     <!--Pusher JS-->
     <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        .card {
+            margin-top: 50px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+
+        }
+
+    
+        .custom-title {
+        font-family: Arial, sans-serif; /* Custom font family */
+        font-weight: bold; /* Make the title bold */
+    }
+
+    body {
+            background-color: #9ACD32; /* Yellow-green background color */
+        }
+        .custom-title {
+            font-family: Arial, sans-serif; /* Custom font family */
+            font-weight: bold; /* Make the title bold */
+        }
+
+</style>
+    </style>
 
     <style>
 
         body {
             font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
+            background-color: #006400;
             padding-top: 40px;
             padding-bottom: 40px;
         }
@@ -129,94 +154,74 @@
 <body>
 <div class="container">
     <div class="card">
-        <img src="../assets/images/event/{{ $event->image }}" class="card-img-top" alt="Event Image">
         <div class="card-body">
-            <h5 class="card-title text-center mb-4">Event Attendance Form - {{ $event->title }}</h5>
+            <h1 class="card-title text-center custom-title"><strong>Pre-Registration Form</strong></h1><br>
+            <div class="card-title-container justify-text-center">
+            <h5 class="card-title text-center mb-4">Event Name: {{ $event->title }}</h5>
             <p class="card-text text-center"><strong>Date:</strong> {{ date('F j, Y', strtotime($event->start)) }} to {{ date('F j, Y', strtotime($event->end)) }}</p>
             <p class="card-text text-center"><strong>Time:</strong> {{ date('g:i A', strtotime($event->starttime)) }} to {{ date('g:i A', strtotime($event->endtime)) }}</p>
             <hr>
-            <form action="{{ route('event.attendance.submit', ['event_id' => $event->id]) }}" method="POST">
-                @csrf
-                
-                <div class="form-group">
-                    <label for="name" class="form-label">Name</label>
-                    <input type="text" class="form-control" id="name" name="name" required>
+         
+
+            <form action="#" method="post">
+              <br>  <div class="row mb-6">
+                    <div class="col">
+                        <label for="firstName" class="form-label">First Name:</label>
+                        <input type="text" class="form-control" id="firstName" name="firstName" required>
+                    </div>
+                    <div class="col">
+                        <label for="lastName" class="form-label">Last Name:</label>
+                        <input type="text" class="form-control" id="lastName" name="lastName" required>
+                    </div>
+                    <div class="col">
+                        <label for="middleInitial" class="form-label">Middle Initial:</label>
+                        <input type="text" class="form-control" id="middleInitial" name="middleInitial" maxlength="1">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="age" class="form-label">Age</label>
+
+                <div class="row mb-3">
+                    <div class="col">
+                        <label for="email" class="form-label">Email:</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="col">
+                        <label for="contact" class="form-label">Contact Number:</label>
+                        <input type="tel" class="form-control" id="contact" name="contact" required>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="age" class="form-label">Age:</label>
                     <input type="number" class="form-control" id="age" name="age" required>
                 </div>
-                <div class="form-group">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" name="email" required>
+
+                <div class="mb-3">
+                    <label for="address" class="form-label">Address:</label>
+                    <input class="form-control" id="address" name="address" rows="4" required></input>
                 </div>
-                <div class="form-group">
-                    <label for="contact" class="form-label">Contact</label>
-                    <input type="text" class="form-control" id="contact" name="contact" required>
+
+                <div class="mb-3">
+                    <label for="barangay" class="form-label">Barangay:</label>
+                    <select class="form-select" id="barangay" name="barangay" required>
+                        <option value="" disabled selected>Select your barangay</option>
+                        <option value="Barangay 1">Barangay 1</option>
+                        <option value="Barangay 2">Barangay 2</option>
+                        <option value="Barangay 3">Barangay 3</option>
+                        <!-- Add more barangays as needed -->
+                    </select>
                 </div>
-                <div class="form-group">
-                    <label for="address" class="form-label">Address</label>
-                    <input type="text" class="form-control" id="address" name="address" required>
+
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
-                <div class="form-group">
-                    <label for="barangay" class="form-label">Barangay</label>
-                    <input type="text" class="form-control" id="barangay" name="barangay" required>
-                </div>
-                <!-- Add more fields as needed -->
-                <button type="submit" class="btn btn-primary btn-block">Submit</button>
             </form>
         </div>
     </div>
 </div>
 
+    <!-- Bootstrap JS (optional) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
-<div class="row justify-content-center">
-    <div class="col-xl-8">
-        <div class="card">
-        <img src="../assets/images/event/{{ $event->image }}" class="card-img-top" alt="Event Image">
-            <div class="card-header align-items-center d-flex">
-                <h4 class="card-title mb-0 flex-grow-1"></h4>
-
-            </div><!-- end card header -->
-            <div class="card-body">
-                <p class="text-muted">Example of vertical form using <code>form-control</code> class. No need to specify row and col class to create vertical form.</p>
-                <div class="live-preview">
-                    <form action="javascript:void(0);" class="limited-width-form">
-                        <div class="mb-3">
-                            <label for="employeeName" class="form-label">Employee Name</label>
-                            <input type="text" class="form-control" id="employeeName" placeholder="Enter employee name">
-                        </div>
-                        <div class="mb-3">
-                            <label for="employeeUrl" class="form-label">Employee Department URL</label>
-                            <input type="url" class="form-control" id="employeeUrl" placeholder="Enter employee url">
-                        </div>
-                        <div class="mb-3">
-                            <label for="StartleaveDate" class="form-label">Start Leave Date</label>
-                            <input type="date" class="form-control" data-provider="flatpickr" id="StartleaveDate">
-                        </div>
-                        <div class="mb-3">
-                            <label for="EndleaveDate" class="form-label">End Leave Date</label>
-                            <input type="date" class="form-control" data-provider="flatpickr" id="EndleaveDate">
-                        </div>
-                        <div class="mb-3">
-                            <label for="VertimeassageInput" class="form-label">Message</label>
-                            <textarea class="form-control" id="VertimeassageInput" rows="3" placeholder="Enter your message"></textarea>
-                        </div>
-                        <div class="text-end">
-                            <button type="submit" class="btn btn-primary">Add Leave</button>
-                        </div>
-                    </form>
-                </div>
-                <div class="d-none code-view">
-                    <pre class="language-markup" style="height: 375px;">
-                    <!-- Your code for the form goes here -->
-                    </pre>
-                </div>
-            </div><!-- end card-body -->
-        </div><!-- end card -->
-    </div><!-- end col -->
-</div><!-- end row -->
->
 
 </body>
 

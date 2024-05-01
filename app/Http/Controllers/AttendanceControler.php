@@ -39,7 +39,7 @@ class AttendanceControler extends Controller
     $validatedData = $request->validate([
         'name' => 'required|string',
         'age' => 'required|integer',
-        'email' => 'required|email',
+        'email' => 'required|string',
         'contact' => 'required|integer',
         'address' => 'required|string',
         'barangay' => 'required|string',
@@ -63,7 +63,8 @@ class AttendanceControler extends Controller
     $event->attendees()->save($attendance);
 
     // Redirect the user to a success page or display a success message
-    return redirect()->route('pages.form');
+    return redirect("/attendance");
+
 }
 
 }

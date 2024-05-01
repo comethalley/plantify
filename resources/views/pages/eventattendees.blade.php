@@ -42,7 +42,7 @@
                 <div class="row">
                 
                     <div class="col-md-4">
-                        <img src="../assets/image/event{{$event->image}}" alt="Event Image" class="img-fluid">
+                        <img src="../assests/images/event/{{$event->image}}" alt="Event Image" class="img-fluid">
                     </div>
                    
                     <div class="col-md-8">

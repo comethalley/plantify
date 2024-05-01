@@ -8,6 +8,7 @@
     margin: 10px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     height: 130px;
+    width: 250px; /* Adjusted width */
     background-color: #f9f9f9; /* Light gray background color */
 }
 
@@ -97,7 +98,7 @@
     <a href="{{ route('event.details', ['id' => $event->id]) }}" class="event-card">
         <div class="event-image">
             @if ($event->image)
-                <img src="{{ asset('assets/images/event/' . $event->image) }}" alt="Event Image">
+                <img src="../assests/images/event/{{$event->image}}" alt="Event Image">
             @else
                 <img src="https://via.placeholder.com/150" alt="Placeholder Image">
             @endif
@@ -107,7 +108,7 @@
             <div class="event-date">{{ date('F j, Y', strtotime($event->start)) }} to {{ date('F j, Y', strtotime($event->end)) }}</div>
             <div class="event-time">{{ date('g:i A', strtotime($event->starttime)) }} to {{ date('g:i A', strtotime($event->endtime)) }}</div>
         </div>
-        <button class="btn btn-primary invite-btn" data-link="{{ route('event.attendance.form', ['id' => $event->id]) }}" onclick="redirectToAttendanceForm(event)">Invite</button>
+       
     </a>
 @endforeach
     

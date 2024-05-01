@@ -40,7 +40,9 @@
             </div>
             <div class="card-body border border-dashed border-end-0 border-start-0">
                 <div class="row">
-                
+                <div class="text-end">
+    <button class="btn btn-primary invite-btn" data-link="{{ route('event.attendance.form', ['id' => $event->id]) }}">Invite</button>
+</div>
                     <div class="col-md-4">
                         <img src="../assests/images/event/{{$event->image}}" alt="Event Image" class="img-fluid">
                     </div>
@@ -52,19 +54,23 @@
                         <p><strong>Location:</strong> {{ $event->location }}</p>
                         <p><strong>Description:</strong>{{ $event->description }}</p>
                     </div>
-                    <button class="btn btn-primary invite-btn" data-link="{{ route('event.attendance.form', ['id' => $event->id]) }}">Invite</button>
-                </div>
+                 
+        </div>
                 <hr>
-                <div class="dropdown text-right">
-    <div class="d-flex justify-content-end"> <!-- Add this container -->
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="filterDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Filter
-        </button>
-    </div>
-    <div class="dropdown-menu" aria-labelledby="filterDropdown">
-        <a class="dropdown-item" href="#" onclick="filterAttendees('all')">All</a>
-        <a class="dropdown-item" href="#" onclick="filterAttendees('registered')">Registered</a>
-        <a class="dropdown-item" href="#" onclick="filterAttendees('pre-registered')">Pre-registered</a>
+               
+<div class="dropdown text-right">
+    <div class="d-flex justify-content-end mb-2">
+        <div class="dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button class="btn  me-2" type="button" id="filterDropdown">
+                Filter
+            </button>
+        </div>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="#" onclick="filterAttendees('all')">All</a>
+            <a class="dropdown-item" href="#" onclick="filterAttendees('registered')">Registered</a>
+            <a class="dropdown-item" href="#" onclick="filterAttendees('pre-registered')">Pre-registered</a>
+        </div>
+        <button type="button" class="btn btn-primary download-btn"><i class="ri-download-2-line"></i> Download</button>
     </div>
 </div>
 
@@ -114,6 +120,17 @@
 
 </div>
 <!-- END layout-wrapper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    document.querySelector('.dropdown').addEventListener('click', function(event) {
+        event.stopPropagation(); // Prevent the dropdown from closing when clicking inside it
+        document.getElementById('dropdownMenuButton').click(); // Manually toggle the dropdown
+    });
+</script>
+
+<!-- Bootstrap JS (including Popper) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.invite-btn').forEach(function(button) {
@@ -139,6 +156,12 @@
                 row.style.display = "none";
             }
         });
+    }
+    function redirectToAttendanceForm(event) {
+        event.preventDefault(); // Prevent the default action (e.g., following the link)
+
+        var link = event.target.dataset.link; // Get the data-link attribute value
+        window.location.href = link;
     }
 </script>
 

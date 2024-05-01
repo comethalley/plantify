@@ -25,6 +25,30 @@ class EventController extends Controller
 
     }
 
+    
+    public function generateRegistrationForm($id) {
+        // Fetch event details based on the $id from the database
+        $events = Event::find($id);
+        // Pass the event details to the blade view
+        return view('pages.form', ['events' => $events]);
+    
+    }
+    public function storeInterested(Request $request, $eventId)
+    {
+        // Get the event
+        $event = Event::findOrFail($eventId);
+        
+        // Store the interest
+        $event->interestedUsers()->attach(auth()->id());
+    
+        return response()->json(['message' => 'Interest stored successfully']);
+    }
+    public function show($id)
+    {
+        $event = Event::findOrFail($id); // Assuming Event is your model representing events
+
+        return response()->json($event);
+    }
     public function create(Request $request)
     {
         $item = new Event();
@@ -62,32 +86,6 @@ class EventController extends Controller
 
            
         return redirect('/schedules');
-    }
-
-    public function generateRegistrationForm(Request $request, $id)
-    {
-        // Retrieve the event details based on the event id sent with the request
-        $eventId = $request->input('event_id');
-        $event = Event::find($eventId);
-
-        // Render the registration form blade template with the event details
-        return view('pages.eventscalendar', ['event' => $event]);
-    }
-    public function storeInterested(Request $request, $eventId)
-    {
-        // Get the event
-        $event = Event::findOrFail($eventId);
-        
-        // Store the interest
-        $event->interestedUsers()->attach(auth()->id());
-    
-        return response()->json(['message' => 'Interest stored successfully']);
-    }
-    public function show($id)
-    {
-        $event = Event::findOrFail($id); // Assuming Event is your model representing events
-
-        return response()->json($event);
     }
 
     public function getEvents()

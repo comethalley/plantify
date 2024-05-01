@@ -155,11 +155,12 @@
 <div class="container">
     <div class="card">
         <div class="card-body">
+            
             <h1 class="card-title text-center custom-title"><strong>Pre-Registration Form</strong></h1><br>
             <div class="card-title-container justify-text-center">
-            <h5 class="card-title text-center mb-4">Event Name: {{ $event->title }}</h5>
-            <p class="card-text text-center"><strong>Date:</strong> {{ date('F j, Y', strtotime($event->start)) }} to {{ date('F j, Y', strtotime($event->end)) }}</p>
-            <p class="card-text text-center"><strong>Time:</strong> {{ date('g:i A', strtotime($event->starttime)) }} to {{ date('g:i A', strtotime($event->endtime)) }}</p>
+            <h5 class="card-title text-center mb-4">Event Name: sunflower festival</h5>
+            <p class="card-text text-center"><strong>Date: may 2 2024 to may 4 2024</strong> </p>
+            <p class="card-text text-center"><strong>Time:8am to 6pm</strong> </p>
             <hr>
          
 

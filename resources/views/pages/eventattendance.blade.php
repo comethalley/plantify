@@ -103,6 +103,7 @@
                                 <div class="col-sm">
                                     <h5 class="card-title mb-0">Event List</h5>
                                 </div>
+                                
                                 <div class="col-sm-auto">
                                     <div class="d-flex gap-1 flex-wrap">
 
@@ -111,7 +112,11 @@
                             </div>
                         </div>
                         <div class="card-body border border-dashed border-end-0 border-start-0">
-                       
+                        <div class="d-flex justify-content-end"> <!-- Add this container -->
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="filterDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Filter
+        </button>
+    </div>
                        </div>
 
     <div class="card">

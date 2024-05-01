@@ -120,15 +120,31 @@
                                                     <input type="text" name="title" id="customername-field" class="form-control" placeholder="Enter name" required />
                                                 </div>
 
-                                                <div class="mb-3">
-                                                    <label for="start-datepicker" class="form-label">Start</label>
-                                                    <input type="text" name="start" id="start-datepicker" class="form-control" placeholder="Enter Start Date" required/>
-                                                </div>
+                                               
+                                                
+                                                <div class="col-12" id="event-time">
+                                                        <div class="row">
+                                                            <div class="col-6">
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">Start Date</label>
+                                                                    <div class="input-group">
+                                                                        <input id="start-datepicker" name="start" type="text" class="form-control flatpickr flatpickr-input active" placeholder="Select start date" readonly="readonly" required>
+                                                                        <span class="input-group-text"><i class="ri-time-line"></i></span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">End Date</label>
+                                                                    <div class="input-group">
+                                                                        <input id="end-datepicker" name="end" type="text" class="form-control flatpickr flatpickr-input" placeholder="Select end date" readonly="readonly" required>
+                                                                        <span class="input-group-text"><i class="ri-time-line"></i></span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
 
-                                                <div class="mb-3">
-                                                    <label for="end-datepicker" class="form-label">End</label>
-                                                    <input type="text" name="end" id="end-datepicker" class="form-control" placeholder="Enter End Date" required/>
-                                                </div>
                                                 <div class="col-12" id="event-time">
                                                         <div class="row">
                                                             <div class="col-6">
@@ -151,7 +167,18 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                <div class="mb-3">
+                                                    
+                                                                <div class="mb-3">
+                                                    <label class="form-label">Who can see it?</label>
+                                                    <select id="choices-multiple-remove-button" data-choices data-choices-remove-item multiple>
+                                                    <option value="Option 1">all</option>
+                                                    <option value="Option 2">farmleader</option>
+                                                    <option value="Option 3">farmer</option>
+                                                    <option value="Option 4">bagbag</option>
+                                                </select>
+                                                </div>
+                                                    
+                                       <div class="mb-3">
                                                     <label for="location" class="form-label">Location</label>
                                                     <input type="text" name="location" id="customername-field" class="form-control" placeholder="Enter Location"  required/>
                                                 </div>
@@ -212,11 +239,11 @@
                               </div>
 
                             <div class="hstack gap-2 justify-content-end">
+          
                                 @if(auth()->user()->role_id == 3 || auth()->user()->role_id == 4)
+                                @foreach ($events as $event)
                                 <button id="interestButton" data-event-id="1" class="btn bg-success text-white">
-    <i id="starIcon" class="fas fa-star"></i> I'm Interested
-</button>
-
+@endforeach
                                 @endif
                                 @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2)
                                 <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#archiveModal1">Delete</button>
@@ -287,6 +314,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
+                                     
                                             <div class="form-group mb-3">
                                                 <label for="updateLocation">Location:</label>
                                                 <input type="text" class="form-control" id="updateLocation" placeholder="Enter location" required>
@@ -732,7 +760,25 @@ function filterAndDisplayEvents(searchKeywords) {
     }
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.invite-btn').forEach(function(button) {
+            button.addEventListener('click', function() {
+                var link = this.getAttribute('data-link');
+                navigator.clipboard.writeText(link).then(function() {
+                    alert('Link copied to clipboard: ' + link);
+                }).catch(function() {
+                    alert('Failed to copy link to clipboard.');
+                });
+            });
+        });
+    });
+
 
 </script>
-
+ <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+    <script>
+        const select = new Choices('#choices-multiple-remove-button', {
+            removeItemButton: true,
+        });
+    </script>
 @include('templates.footer')

@@ -9,6 +9,7 @@ use App\Models\Barangay;
 use App\Models\CalendarPlanting;
 use App\Models\Expense;
 use App\Models\Farm;
+use App\Models\Farmer;
 use App\Models\User;
 use App\Models\PlantifeedModel;
 use Exception;
@@ -93,14 +94,16 @@ class AuthController extends Controller
 
     public function farmers()
     {
+        $id = Auth::user()->id;
         $farmLeaders = DB::table('users')
-            ->where('status', 1)
-            ->where('role_id', 4)
+            ->where('users.status', 1)
+            ->where('farmers.farmleader_id', $id)
+            ->leftJoin('farmers', 'farmers.farmer_id', '=', 'users.id')
             ->select(
-                "id",
-                'firstname',
-                "lastname",
-                "email"
+                "users.id",
+                'users.firstname',
+                "users.lastname",
+                "users.email"
             )
             ->get();
         return response()->json(['farmLeaders' => $farmLeaders], 200);
@@ -336,12 +339,19 @@ class AuthController extends Controller
             'status' => 1,
         ]);
 
+        $newlyInsertedId = $user->id;
+
+        $hash = $this->plantifyLibrary->generatehash($newlyInsertedId);
+
+
         // Store user data in the session
-        $request->session()->put('user', $user);
+        // $request->session()->put('user', $user);
 
-        auth()->login($user);
+        // auth()->login($user);
 
-        return redirect("/dashboard/analytics");
+        // return redirect("/dashboard/analytics");
+
+        return redirect('/verification-code?l=' . $hash);
     }
 
 
@@ -457,7 +467,7 @@ class AuthController extends Controller
     }
 
 
-    
+
     public function createFarmers(Request $request)
     {
         try {
@@ -471,6 +481,8 @@ class AuthController extends Controller
                 return response()->json(['errors' => $validator->errors()], 422);
             }
 
+            $id = Auth::user()->id;
+
             $data = $validator->validated();
             $generate_password = $this->generate_password(10);
 
@@ -483,7 +495,15 @@ class AuthController extends Controller
                 'status' => 1
             ]);
 
-            if ($farmLeaders) {
+            $newlyInsertedId = $farmLeaders->id;
+
+            $farmers = Farmer::create([
+                'farmleader_id'  => $id,
+                'farmer_id'  => $newlyInsertedId,
+                'status' => 1
+            ]);
+
+            if ($farmLeaders && $farmers) {
                 $id = $farmLeaders->id;
                 $hash = $this->plantifyLibrary->generatehash($id);
                 $emailInvitation = $this->emailInvitation($data['email'], $data['email'], $generate_password, $hash);
@@ -496,7 +516,7 @@ class AuthController extends Controller
             }
         } catch (\Exception $e) {
 
-            return response()->json(['error' => 'Internal Server Error'], 500);
+            return response()->json(['error' => 'Internal Server Error', $e], 500);
         }
     }
 
@@ -631,7 +651,7 @@ class AuthController extends Controller
         $barangays = Barangay::all();
         return view('pages.users.farmleaders', ['barangays' => $barangays]);
     }
-    
+
 
     public function getFarmers()
     {
@@ -645,5 +665,4 @@ class AuthController extends Controller
         }
         return view('landingpage');
     }
-    
 }

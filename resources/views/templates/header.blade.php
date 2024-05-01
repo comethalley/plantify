@@ -755,9 +755,9 @@
                                     <li class="nav-item">
                                         <a href="/inventory/stocks" class="nav-link" style="color:white"> Stocks </a>
                                     </li>
-                                    <li class="nav-item">
+                                    <!-- <li class="nav-item">
                                         <a href="/inventory/uom" class="nav-link" style="color:white"> Unit of Measurements </a>
-                                    </li>
+                                    </li> -->
                                     <!-- <li class="nav-item">
                                         <a href="/inventory/fertilizer" class="nav-link" style="color:white">Fertilizer</a>
                                     </li>

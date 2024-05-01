@@ -235,7 +235,7 @@ $(document).ready(function () {
                 $("#edit-firstname").val(data.farmLeaders.firstname);
                 $("#edit-lastname").val(data.farmLeaders.lastname);
                 $("#edit-email").val(data.farmLeaders.email);
-                $("#editFLModal").modal("show");
+                $("#editFarmerModal").modal("show");
             },
             error: function (xhr, status, error) {
                 console.error("Error:", status, error);

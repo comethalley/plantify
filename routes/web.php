@@ -351,6 +351,8 @@ Route::get('/request/{id}/details', [RequestController::class, 'getRequestDetail
 
 //Email Verification ===================================================
 Route::get('/verify-email', [EmailVerification::class, 'emailVerification']);
+Route::get('/verification-code', [EmailVerification::class, 'publicEmailVerification']);
+Route::post('/verification-confirm/{id}', [EmailVerification::class, 'publicEmailConfirm']);
 Route::get('/empty-code/{id}', [EmailVerification::class, 'emptyCode']);
 Route::get('/resend-code/{id}', [EmailVerification::class, 'resendCode']);
 Route::post('/confirm-code/{id}', [EmailVerification::class, 'verifyEmail']);

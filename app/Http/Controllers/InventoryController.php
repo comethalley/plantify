@@ -106,7 +106,7 @@ class InventoryController extends Controller
         $data = $request->validate([
             'supplier_id' => 'required',
             'seed_id' => 'required',
-            'uom_id' => 'required',
+            //'uom_id' => 'required',
             'quantity' => 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
@@ -122,7 +122,7 @@ class InventoryController extends Controller
             $supplierSeed = SupplierSeed::create([
                 'supplier_id' => $data['supplier_id'],
                 'image' => $imageName,
-                'uom_id' => $data['uom_id'],
+                'uom_id' => "1",
                 'seed_id' => $data['seed_id'],
                 'qty' =>  $data['quantity'],
                 'qr_code' => $qrText,

@@ -209,9 +209,21 @@
                                                     <label for="customername-field" class="form-label">Complete Address</label>
                                                     <input type="text" name="address" id="address" class="form-control" placeholder="Enter Complete Address" required />
                                                 </div>
-
-                                               
                                                 
+                                                <div class="mb-3">
+                                                    <label for="latitude">Latitude:</label>
+                                                    <input type="text" class="form-control" id="latitude" name="latitude" placeholder="e.g. 14.745692064170463" required>
+                                                </div> 
+
+                                                <div class="mb-3">
+                                                    <label for="longitude">Longitude:</label>
+                                                    <input type="text" class="form-control" id="longitude" name="longitude" placeholder="e.g. 121.05243279106442" required>
+                                                </div>
+                                                <center>
+                                                <div class="">
+                                                    <label for="latitude" class="text-muted">Get your Latitude and Longitude in Google Maps</label>                                                    
+                                                </div>
+                                                </center>
 
                                                 <!-- <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Address</label>

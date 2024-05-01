@@ -28,7 +28,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Accounts</h4>
+                        <h4 class="mb-sm-0">Users</h4>
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
@@ -158,7 +158,7 @@
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header bg-light p-3">
-                                            <h5 class="modal-title" id="exampleModalLabel">Add New Farmers</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">Invite New Farmer</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
                                         </div>
                                         <form method="post" action="/add-supplier">

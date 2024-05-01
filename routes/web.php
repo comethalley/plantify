@@ -24,6 +24,9 @@ use App\Http\Controllers\Api\FarmController;
 use App\Http\Controllers\EmailVerification;
 use App\Http\Controllers\PiuController;
 use App\Http\Controllers\AnalyticsController;
+use App\Http\Controllers\RequestController;
+use App\Http\Controllers\ProfilefeedController;
+use App\Http\Controllers\ProfileSettingsController;
 use App\Http\Requests\PdfRequest;
 use Endroid\QrCode\Writer\Result\PdfResult;
 use Illuminate\Http\Request;
@@ -34,7 +37,7 @@ use App\Http\Controllers\SendMessageController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ReportController;
-
+use App\Http\Controllers\AttendanceControler;
 
 
 
@@ -138,11 +141,28 @@ Route::put('/edit-question/{id}', [ForumController::class, 'editQuestion'])->nam
 Route::post('/edit-post/{id}', [PostController::class, 'editPost']);
 Route::put('/edit-post/{id}', [PostController::class, 'editPost'])->name('editPost');
 
-Route::get('/profilefeed', [UserPhotoController::class, 'index']);
-Route::get('pages/profilefeed', [UserPhotoController::class, 'index'])->name('profile');
 
-// Route for updating profile information
-Route::post('/update-profile', [UserPhotoController::class, 'updateProfile'])->name('update.profile');
+
+// Route for profile
+
+
+Route::get('/profile-feed', [ProfilefeedController::class, 'show'])->name('profile-feed');
+
+Route::get('/profilesettings', [ProfileSettingsController::class, 'show'])->name('profilesettings');
+
+Route::post('/upload-image', [ProfileSettingsController::class, 'uploadImage'])->name('upload-image');
+
+Route::put('/profile/update', [ProfileSettingsController::class, 'updateProfile'])->name('profile.update');
+
+Route::middleware(['auth'])->group(function () {
+    Route::post('/profile/update-password', [ProfileSettingsController::class, 'updatePassword'])
+        ->name('profile.updatePassword');
+});
+
+Route::post('/save-profile-info', [ProfileSettingsController::class, 'saveOrUpdate'])->name('save.profile.info');
+
+
+
 
 
 // routes/web.php
@@ -215,9 +235,13 @@ Route::put('/scheduleupdate/{id}', [EventController::class, 'update']);
 Route::get('/events/{id}', [EventController::class, 'show']);
 Route::get('/events/search', [EventController::class, 'search']);
 Route::get('/upcomingevent', [EventController::class, 'notifyUpcomingEvents']);
-
+Route::get('/events/{eventId}/interested', [EventController::class, 'storeInterested']);
 Route::view('add-schedule', 'pages.add');
 Route::post('create-schedule', [EventController::class, 'create']);
+
+//FOR attendance ROUTES===========================================
+Route::get('/attendance', [AttendanceControler::class, 'index']);
+
 // End Full Calender=================================================================
 
 Route::get('/plantcalendar', [PlantCalendar::class, 'index']);
@@ -231,6 +255,8 @@ Route::get('/calendar_list', [PlantCalendar::class, 'calendar_list']);
 
 Route::view('add-plantcalendar', 'pages.add');
 Route::post('create-plantcalendar', [PlantCalendar::class, 'create']);
+
+
 
 //FOR PLANT INFO ROUTES===========================================
 Route::get('/plant-info', [PlantInfoController::class, 'index']);
@@ -256,7 +282,6 @@ Route::post('/fertarchive/{id}', [PlantInfoController::class, 'fertarchive']);
 //For farm management =======================================================
 
 //index farm-mamangement//
-Route::get('/Tools-District-5', [FarmController::class, 'index1']);
 Route::get('/Farms-District-5', [FarmController::class, 'index']);
 Route::post('/add-farms', [FarmController::class, 'addFarms'])->name('add.farms');
 Route::get('/archive-farm/{id}', [FarmController::class, 'archiveFarm'])->name('archive.farm');
@@ -312,6 +337,17 @@ Route::get('/expenses/get-dashboard-data', [ExpenseController::class, 'getDashbo
 Route::get('/expenses/get-expenses-by-category', [ExpenseController::class, 'getExpensesByCategory']);
 // Route::get('/expenses', [ExpenseController::class, 'getExpenses']);
 //===========================================================================================================
+
+// TOOL REQUEST ======================================================================
+
+Route::get('/Tools-District-5', [RequestController::class, 'index1']);
+Route::post('/add-tools', [RequestController::class, 'addTools'])->name('add.tools');
+Route::get('/request/{id}/details', [RequestController::class, 'getRequestDetails']);
+
+
+// ===================================================================================
+
+
 
 //Email Verification ===================================================
 Route::get('/verify-email', [EmailVerification::class, 'emailVerification']);

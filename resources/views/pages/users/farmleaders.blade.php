@@ -28,12 +28,12 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Accounts</h4>
+                        <h4 class="mb-sm-0">Users</h4>
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="javascript: void(0);">Users</a></li>
-                                <li class="breadcrumb-item active">Farmers</li>
+                                <li class="breadcrumb-item active">Farm Leader</li>
                             </ol>
                         </div>
 
@@ -164,6 +164,7 @@
                                         <form method="post" action="/add-supplier">
                                             @csrf
                                             <div class="modal-body">
+                                                <div class="row">
                                                 <input type="hidden" id="id-field" />
 
                                                 <input type="text" id="orderId" class="form-control" placeholder="ID" readonly hidden />
@@ -183,6 +184,47 @@
                                                     <input type="email" name="email" id="email" class="form-control" placeholder="Enter Email" required />
                                                 </div>
 
+                                                <div class="mb-3 col-md-6">
+                                                <label for="seed" class="form-label">Barangay</label>
+                                                <select name="barangay_name" id="barangay_name" class="form-select" required>
+                                                    <option value="">Select Barangay</option>
+                                                   
+                                                    @foreach ($barangays as $option)
+                                                        <option value="{{ $option->barangay_name }}">{{ $option->barangay_name }}</option>
+                                                    @endforeach
+
+                                                </select>
+                                                </div>
+                                                <div class="mb-3 col-md-6">
+                                                    <label for="customername-field" class="form-label">Area (sqm)</label>
+                                                    <input type="number" name="area" id="area" class="form-control" placeholder="Enter Area (sqm)" required />
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label for="customername-field" class="form-label">Farm Name</label>
+                                                    <input type="text" name="farm_name" id="farm_name" class="form-control" placeholder="Enter Farm Name" required />
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label for="customername-field" class="form-label">Complete Address</label>
+                                                    <input type="text" name="address" id="address" class="form-control" placeholder="Enter Complete Address" required />
+                                                </div>
+                                                
+                                                <div class="mb-3">
+                                                    <label for="latitude">Latitude:</label>
+                                                    <input type="text" class="form-control" id="latitude" name="latitude" placeholder="e.g. 14.745692064170463" required>
+                                                </div> 
+
+                                                <div class="mb-3">
+                                                    <label for="longitude">Longitude:</label>
+                                                    <input type="text" class="form-control" id="longitude" name="longitude" placeholder="e.g. 121.05243279106442" required>
+                                                </div>
+                                                <center>
+                                                <div class="">
+                                                    <label for="latitude" class="text-muted">Get your Latitude and Longitude in Google Maps</label>                                                    
+                                                </div>
+                                                </center>
+
                                                 <!-- <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Address</label>
                                                     <input type="address" name="address" id="address" class="form-control" placeholder="Enter Address" required />
@@ -192,7 +234,7 @@
                                                     <label for="customername-field" class="form-label">Contact</label>
                                                     <input type="contact" name="contact" id="contact" class="form-control" placeholder="Enter Contact" required />
                                                 </div> -->
-
+                                                </div>
                                             </div>
                                             <div class="modal-footer">
                                                 <div class="hstack gap-2 justify-content-end">
@@ -246,7 +288,7 @@
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header bg-light p-3">
-                                            <h5 class="modal-title" id="exampleModalLabel">Invite New Admin</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">Edit Farm Leader</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
                                         </div>
                                         <form method="post" action="/add-supplier">
@@ -299,10 +341,10 @@
                             <div class="modal fade" id="adminArchiveShowModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
-                                        <!-- <div class="modal-header bg-light p-3">
+                                        <div class="modal-header bg-light p-3">
                                             <h5 class="modal-title" id="farm-name">&nbsp;</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
-                                        </div> -->
+                                        </div>
                                         <form method="post" action="/add-supplier">
                                             @csrf
                                             <div class="modal-body">
@@ -369,6 +411,8 @@
             downloadAdminTableAsExcel('farmerLeader-tbl', 'farmleaders_data');
         });
     });
+
+    
 </script>
 
 

@@ -29,6 +29,8 @@
     <link href="assets/css/custom.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.2/css/all.css">
+
 
 
     <!--Swiper slider css-->
@@ -81,6 +83,83 @@
         /* .skiptranslate {
             display: none !important;
         } */
+
+
+        #team {
+    padding: 60px 0;
+    text-align: center;
+    background-color:#E8E8E8;
+    background-image:;
+    color: #FFFFFF;
+}
+#team h2 {
+    position: relative;
+    padding: 0px 0px 15px;
+}
+#team p {
+    font-size: 15px;
+    font-style: italic;
+    padding: 0px;
+    margin: 25px 0px 40px;
+}
+#team h2::after {
+    content: '';
+    border-bottom: 2px solid #fff;
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    left: 0px;
+    width: 90px;
+    margin: 0 auto;
+    display: block;
+}
+#team .member {
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+    background-color: #ffffff;
+    padding: 10px;
+    border-radius: 15px 0px 15px 0px;
+    box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.4);
+}
+#team .member .member-info {
+    display: block;
+    position: absolute;
+    bottom: 0px;
+    left: -200px;
+    transition: 0.4s;
+    padding: 15px 0;
+    background: rgba(0, 0, 0, 0.4);
+}
+#team .member:hover .member-info {
+    left: 0px;
+    right: 0px;
+}
+#team .member h4 {
+    font-weight: 700;
+    margin-bottom: 2px;
+    font-size: 16px;
+    color: #fff;
+}
+#team .member span {
+    font-style: italic;
+    display: block;
+    font-size: 13px;
+}
+#team .member .social-links {
+    margin-top: 15px;
+}
+#team .member .social-links a {
+    transition: none;
+    color: #fff;
+}
+#team .member .social-links a:hover {
+    color: #ffc107;
+}
+#team .member .social-links i {
+    font-size: 18px;
+    margin: 0 2px;
+}
     </style>
 </head>
 
@@ -135,15 +214,13 @@
   <br>
   <br>
   <br>
-     <section id="home-section" class="section nft-hero" id="hero" style="background-image: url('assets/images/plantifeedpics/bg2.png'); background-size: cover; background-position: center center;">
+     <section id="home-section" class="section nft-hero" id="hero" style="background-image: url('assets/images/plantifeedpics/grass.jpg'); background-size: cover; background-position: center center;">
     <div class="container mb-8">
     <div class="row justify-content-between align-items-center ">
-                        <div class="col-lg-6">
+                        <div class="col-lg-8">
                             <div>
-                            <h1 class="display-8 fw-bold mb-8 text-white" style="font-size: 35px; font-weight: 800;">The Center for Urban Agriculture and Innovation</h1>
-                        
-                            <p class="lead text-white text-justify center">The Center for Urban Agriculture and Innovation is one of many proofs of Mayor Joy Belmonte’s project in his urban development program, especially in his efforts to address the challenge of “zero hunger” in Quezon City. Through CUAI at Quezon City University, we believe that participating in this activity is one of the solutions to improving our society and health.</p>
-
+                            <h1 class="display-8 fw-bold mb-8 text-white" style="font-size: 35px; font-weight: 800; text-shadow: 0 0 1px #FFFF00;">The Center for Urban<br>Agriculture and Innovation</h1>
+<p class="lead text-white text-justify center" style="text-shadow: 5 5 5px #FFFF00;">The Center for Urban Agriculture and Innovation is one of many proofs of <strong>Mayor Joy Belmonte’s</strong> project in his urban development program, especially in his efforts to address the challenge of <strong>“zero hunger”</strong> in <strong>Quezon City.</strong> Through <strong>CUAI</strong> at <strong>Quezon City University,</strong> we believe that participating in this activity is one of the solutions to improving our <strong>society and health.</strong></p>
                             </div>
                             
                            
@@ -208,224 +285,183 @@
 <!-- end plan -->
 
 
-<section class="" id="try" style="padding-top:2px;">
-            <div class="auth-page-content overflow-hidden pt-lg-3">
-            <div class="container-fluid card" style="background-color: #066903">
-            <br>
-            <h1 class="display-8 fw-bold mb-8 text-white text-center" style="font-size: 30px; font-weight: 800;">CUAI TEAM</h1>
-         <h6 class="display-8 fw-bold mb-8 text-white text-center" style="font-size: 25px;">Center for Urban Agriculture and Innovations</h6><br>
-        <!-- start team -->
-
-                <!-- end row -->
-                <div class="row center justify-content-center">
-    <div class="col-lg-3 col-sm-6">
-        <div class="card">
-            <div class="card-body text-center p-4">
-                <div class="avatar-xl mx-auto mb-4 position-relative">
-                    <img src="/assets/images/plantifeedpics/Romel.jpg" alt="" class="img-fluid rounded-circle">
-                    
-                </div>
-                <!-- end card body -->
-                <h5 class="mb-1"><a href="https://www.facebook.com/nafecot" class="text-body">Romel O. Sevilla</a></h5>
-                <p class="text-muted mb-0 ff-secondary">Head of the Center for Urban Agriculture and Innovation</p>
-               
-            </div>
-        </div>
-        <!-- end card -->
-    </div>
-    <!-- end col -->
-</div>
-<!-- end row -->
-
-
-<div class="row justify-content-center">
-    <div class="col-lg-3 col-sm-6">
-        <div class="card mb-4">
-            <div class="card-body text-center p-4">
-                <div class="avatar-xl mx-auto mb-4 position-relative">
-                    <img src="assets/images/plantifeedpics/rounded.png" alt="" class="img-fluid rounded-circle">
-                   
-                </div>
-                <!-- end card body -->
-                <h5 class="mb-1"><a href="pages-profile.html" class="text-body">Jaylenon R. Asilo</a></h5>
-                <p class="text-muted mb-0 ff-secondary">Agriculturist</p>
-            </div>
-        </div>
-        <!-- end card -->
-    </div>
-    <!-- end col -->
-
-    <!-- Add space between the two cards -->
-    <div class="col-lg-2 col-sm-6 d-sm-block d-none"></div>
-
-    <div class="col-lg-3 col-sm-6">
-        <div class="card mb-4">
-            <div class="card-body text-center p-4">
-                <div class="avatar-xl mx-auto mb-4 position-relative">
-                    <img src="assets/images/plantifeedpics/rounded.png" alt="" class="img-fluid rounded-circle">
-                    
-                </div>
-                <!-- end card body -->
-                <h5 class="mb-1"><a href="pages-profile.html" class="text-body">Justin Malindao</a></h5>
-                <p class="text-muted mb-0 ff-secondary">Agriculturist</p>
-            </div>
-        </div>
-        <!-- end card -->
-    </div>
-    <!-- end col -->
-</div>
-
-<!-- end row -->
-
-
-
-<div class="row justify-content-center">
-    <div class="col-lg-3 col-sm-6">
-        <div class="card mb-4">
-            <div class="card-body text-center p-4">
-                <div class="avatar-xl mx-auto mb-4 position-relative">
-                    <img src="/assets/images/plantifeedpics/Jonabelle.jpg" alt="" class="img-fluid rounded-circle">
-                    
-                </div>
-                <!-- end card body -->
-                <h5 class="mb-1"><a href="pages-profile.html" class="text-body">Jonabelle Orain</a></h5>
-                <p class="text-muted mb-0 ff-secondary">Farm Worker</p>
-            </div>
-        </div>
-        <!-- end card -->
-    </div>
-    <!-- end col -->
-
-    <!-- Add space between the two cards -->
-    <div class="col-lg-2 d-lg-block d-none"></div>
-
-    <div class="col-lg-3 col-sm-6">
-        <div class="card mb-4">
-            <div class="card-body text-center p-4">
-                <div class="avatar-xl mx-auto mb-4 position-relative">
-                    <img src="assets/images/plantifeedpics/rounded.png" alt="" class="img-fluid rounded-circle">
-                    
-                </div>
-                <!-- end card body -->
-                <h5 class="mb-1"><a href="pages-profile.html" class="text-body">Hipolito Lopez</a></h5>
-                <p class="text-muted mb-0 ff-secondary">Farm Worker</p>
-            </div>
-        </div>
-        <!-- end card -->
-    </div>
-    <!-- end col -->
-</div>
-
-<!-- end row -->
-
-
-
-<!-- end col -->
-</div>
-
-<!-- end row -->
-</div>
-<div>
-</div>
-<div>
-    <!-- end container -->
-</section>
-<!-- end features -->
-<div class="col-lg-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h4 class="card-title mb-0"><strong>Center for Urban Agriculture and Innovation Team</strong></h4>
-                                </div><!-- end card header -->
-                                <div class="card-body">
-                                    <!-- <p class="text-muted">Use <code>responsive-swiper</code> class to set a responsive swiper.</p> -->
-
-                                    <!-- Swiper -->
-                                    <div class="swiper responsive-swiper rounded gallery-light pb-4">
-                                        <div class="swiper-wrapper">
-                                            <div class="swiper-slide">
-                                                <div class="gallery-box card">
-                                                    <div class="gallery-container">
-                                                        <a class="image-popup" href="assets/images/aboutus/pic1.jpg" title="">
-                                                            <img class="gallery-img img-fluid mx-auto" src="assets/images/aboutus/pic1.jpg" alt="" />
-                                                            <div class="gallery-overlay">
-                                                                <!-- <h5 class="overlay-caption">CUIA Farm</h5> -->
-                                                            </div>
-                                                        </a>
-                                                    </div>
-                                                    <div class="box-content">
-                                                       
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="swiper-slide">
-                                                <div class="gallery-box card">
-                                                    <div class="gallery-container">
-                                                        <a class="image-popup" href="assets/images/aboutus/pic2.jpg" title="">
-                                                            <img class="gallery-img img-fluid mx-auto" src="assets/images/aboutus/pic2.jpg" alt="" />
-                                                            <div class="gallery-overlay">
-                                                                <!-- <h5 class="overlay-caption">Working at a coffee shop</h5> -->
-                                                            </div>
-                                                        </a>
-                                                    </div>
-                                                    <div class="box-content">
-                                                        
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="swiper-slide">
-                                                <div class="gallery-box card mb-0">
-                                                    <div class="gallery-container">
-                                                        <a class="image-popup" href="assets/images/aboutus/pic3.jpg" title="">
-                                                            <img class="gallery-img img-fluid mx-auto" src="assets/images/aboutus/pic3.jpg" alt="">
-                                                            <div class="gallery-overlay">
-                                                                <!-- <h5 class="overlay-caption">Fun day at the Hill Station</h5> -->
-                                                            </div>
-                                                        </a>
-                                                    </div>
-                                                    <div class="box-content">
-                                                        
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="swiper-slide">
-                                                <div class="gallery-box card">
-                                                    <div class="gallery-container">
-                                                        <a class="image-popup" href="assets/images/aboutus/pic4.jpg" title="">
-                                                            <img class="gallery-img img-fluid mx-auto" src="assets/images/aboutus/pic4.jpg" alt="" />
-                                                            <div class="gallery-overlay">
-                                                                <!-- <h5 class="overlay-caption">Drawing a sketch</h5> -->
-                                                            </div>
-                                                        </a>
-                                                    </div>
-                                                    <div class="box-content">
-                                                        
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="swiper-slide">
-                                                <div class="gallery-box card">
-                                                    <div class="gallery-container">
-                                                        <a class="image-popup" href="assets/images/aboutus/pic6.jpg" title="">
-                                                            <img class="gallery-img img-fluid mx-auto" src="assets/images/aboutus/pic6.jpg" alt="" />
-                                                            <div class="gallery-overlay">
-                                                                <!-- <h5 class="overlay-caption">Project discussion with team</h5> -->
-                                                            </div>
-                                                        </a>
-                                                    </div>
-                                                    <div class="box-content">
-                                                        
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="swiper-pagination swiper-pagination-dark"></div>
-                                    </div>
-                                </div><!-- end card-body -->
-                            </div><!-- end card -->
-                        </div>
-                        <!--end col-->
+<section id="team">
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <h2 class="text-center">Meet Our Team</h2><br>
+                        <!-- <p class="text-center">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text</p> -->
                     </div>
-                    <!--end row-->
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-lg-3 col-md-12">
+                        <div class="member text-center">
+                            <div class="member-img">
+                                <img src="/assets/images/plantifeedpics/Romel.jpg" class="img-fluid" alt="">
+                            </div>
+                            <div class="member-info">
+                                <h4>Romel O. Sevilla</h4>
+                                <span>Head of CUAI</span>
+                                <div class="social-links">
+                                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                                    <a href="#"><i class="fab fa-twitter"></i></a>
+                                    <a href="#"><i class="fab fa-instagram"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-6 col-md-12">
+                                <div class="member text-center">
+                                    <div class="member-img">
+                                        <img src="/assets/images/plantifeedpics/Asilo.jpg" class="img-fluid" alt="">
+                                    </div>
+                                    <div class="member-info">
+                                        <h4>Jaylenon R. Asilo</h4>
+                                        <span>Agriculturist</span>
+                                        <div class="social-links">
+                                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                                            <a href="#"><i class="fab fa-twitter"></i></a>
+                                            <a href="#"><i class="fab fa-instagram"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-6 col-md-12">
+                                <div class="member text-center">
+                                    <div class="member-img">
+                                        <img src="/assets/images/plantifeedpics/Malindao.png" class="img-fluid" alt="">
+                                    </div>
+                                    <div class="member-info">
+                                        <h4>Justin Malindao</h4>
+                                        <span>Agriculturist</span>
+                                        <div class="social-links">
+                                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                                            <a href="#"><i class="fab fa-twitter"></i></a>
+                                            <a href="#"><i class="fab fa-instagram"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <!-- <div class="col-md-6">
+                        <h2 class="text-center">Meet Our Team</h2>
+                        <p class="text-center">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text</p>
+                    </div> -->
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-lg-3 col-md-12">
+                        <div class="member text-center">
+                            <div class="member-img">
+                                <img src="/assets/images/plantifeedpics/Justine.jpg" class="img-fluid" alt="">
+                            </div>
+                            <div class="member-info">
+                                <h4>Justine Angela Sanchez</h4>
+                                <span>Administrative Staff</span>
+                                <div class="social-links">
+                                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                                    <a href="#"><i class="fab fa-twitter"></i></a>
+                                    <a href="#"><i class="fab fa-instagram"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-6 col-md-12">
+                                <div class="member text-center">
+                                    <div class="member-img">
+                                        <img src="/assets/images/plantifeedpics/Loo.png" class="img-fluid" alt="">
+                                    </div>
+                                    <div class="member-info">
+                                        <h4>Hipolito Lopez</h4>
+                                        <span>Farm Worker</span>
+                                        <div class="social-links">
+                                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                                            <a href="#"><i class="fab fa-twitter"></i></a>
+                                            <a href="#"><i class="fab fa-instagram"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-6 col-md-12">
+                                <div class="member text-center">
+                                    <div class="member-img">
+                                        <img src="/assets/images/plantifeedpics/Orain.png" class="img-fluid" alt="">
+                                    </div>
+                                    <div class="member-info">
+                                        <h4>Jonabelle Orain</h4>
+                                        <span>Farm Worker</span>
+                                        <div class="social-links">
+                                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                                            <a href="#"><i class="fab fa-twitter"></i></a>
+                                            <a href="#"><i class="fab fa-instagram"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+                
+            </div>
+        </div>
+    </section>
+                
+
 
 
 

@@ -93,9 +93,18 @@ $(document).ready(function () {
                         errorMessage = "Validation error occurred.";
                     }
 
-                    alert(errorMessage);
+                    Swal.fire({
+                        title: "Validation Error",
+                        text: errorMessage,
+                        icon: "error",
+                    });
                 } else {
                     console.error("Error:", error);
+                    Swal.fire({
+                        title: "Error",
+                        text: "An error occurred while processing your request. Please try again later.",
+                        icon: "error",
+                    });
                 }
             },
         });
@@ -139,6 +148,13 @@ $(document).ready(function () {
         var firstname = $("#firstname").val();
         var lastname = $("#lastname").val();
         var email = $("#email").val();
+        var barangay_name = $("#barangay_name").val();
+        var area = $("#area").val();
+        var farm_name = $("#farm_name").val();
+        var address = $("#address").val();
+        var latitude = $('#latitude').val();
+        var longitude = $('#longitude').val();
+
 
         $.ajax({
             url: "/addFarmLeader",
@@ -150,6 +166,12 @@ $(document).ready(function () {
                 firstname: firstname,
                 lastname: lastname,
                 email: email,
+                barangay_name: barangay_name,
+                area: area,
+                farm_name: farm_name,
+                address: address,
+                latitude: latitude,
+                longitude: longitude,
             },
             success: function (data) {
                 console.log(data);
@@ -180,9 +202,18 @@ $(document).ready(function () {
                         errorMessage = "Validation error occurred.";
                     }
 
-                    alert(errorMessage);
+                    Swal.fire({
+                        title: "Validation Error",
+                        text: errorMessage,
+                        icon: "error",
+                    });
                 } else {
                     console.error("Error:", error);
+                    Swal.fire({
+                        title: "Error",
+                        text: "An error occurred while processing your request. Please try again later.",
+                        icon: "error",
+                    });
                 }
             },
         });

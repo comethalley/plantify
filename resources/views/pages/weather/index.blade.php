@@ -5,7 +5,8 @@
 <link href="{{ asset('assets/css/weather.css') }}" rel="stylesheet" type="text/css" />
 
 
-<div class="page-content">
+
+
       <div class="page-content">
 
   <div class="wrapper">

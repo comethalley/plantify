@@ -168,23 +168,7 @@
             </div>
             <!-- end container -->
         </div>
-        <!-- end auth page content -->
 
-        <!-- footer -->
-        <footer class="footer galaxy-border-none">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="text-center">
-                            <p class="mb-0">
-
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
-        <!-- end Footer -->
     </div>
 </div>
     <!-- end auth-page-wrapper -->

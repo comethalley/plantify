@@ -7,35 +7,35 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
+  /**
      * Run the migrations.
      *
      * @return void
      */
-    // public function up()
-    // {
-    //     Schema::create('events', function (Blueprint $table) {
-    //         $table->id();
-    //         $table->string('title');
-    //         $table->date('start');
-    //         $table->date('end');
-    //         $table->time('starttime');
-    //         $table->time('endtime');
-    //         $table->text('location')->nullable();
-    //         $table->text('description')->nullable();
-    //         $table->string('image')->nullable();
-    //         $table->string('status');
-    //         $table->timestamps();
-    //     });
-    // }
+    public function up()
+    {
+        Schema::create('events', function (Blueprint $table) {
+            $table->id();
+            $table->string('title');
+            $table->date('start');
+            $table->date('end');
+            $table->time('starttime');
+            $table->time('endtime');
+            $table->text('location')->nullable();
+            $table->text('description')->nullable();
+            $table->string('image')->nullable();
+            $table->string('status');
+            $table->timestamps();
+        });
+    }
 
-    // /**
-    //  * Reverse the migrations.
-    //  *
-    //  * @return void
-    //  */
-    // public function down()
-    // {
-    //     Schema::dropIfExists('events');
-    // }
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('events');
+    }
 };

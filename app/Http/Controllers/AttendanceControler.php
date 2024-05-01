@@ -40,7 +40,7 @@ class AttendanceControler extends Controller
         'name' => 'required|string',
         'age' => 'required|integer',
         'email' => 'required|email',
-        'contact' => 'required|string',
+        'contact' => 'required|integer',
         'address' => 'required|string',
         'barangay' => 'required|string',
         // Add more validation rules for other fields as needed

@@ -40,9 +40,11 @@
             </div>
             <div class="card-body border border-dashed border-end-0 border-start-0">
                 <div class="row">
+                
                     <div class="col-md-4">
-                        <img src="{{ asset('path_to_your_image.jpg') }}" alt="Event Image" class="img-fluid">
+                        <img src="../assets/image/event{{$event->image}}" alt="Event Image" class="img-fluid">
                     </div>
+                   
                     <div class="col-md-8">
                         <h3>{{ $event->title }}</h3>
                         <p><strong>Date:</strong> {{ date('F j, Y', strtotime($event->start)) }} to {{ date('F j, Y', strtotime($event->end)) }}</p>

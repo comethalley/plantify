@@ -79,6 +79,7 @@
                 <hr>
                 <form action="{{ route('event.attendance.submit', ['event_id' => $event->id]) }}" method="POST">
                     @csrf
+                    <input type="hidden" id="event_id" name="event_id" value="event_id">
                     <div class="form-group">
                         <label for="name" class="form-label">Name</label>
                         <input type="text" class="form-control" id="name" name="name" required>
@@ -88,8 +89,8 @@
                         <input type="number" class="form-control" id="age" name="age" required>
                     </div>
                     <div class="form-group">
-                        <label for="contact" class="form-label">Email</label>
-                        <input type="text" class="form-control" id="email" name="Email" required>
+                        <label for="email" class="form-label">Email</label>
+                        <input type="text" class="form-control" id="email" name="email" required>
                     </div>
                     <div class="form-group">
                         <label for="contact" class="form-label">Contact</label>

@@ -438,7 +438,7 @@ $(document).ready(function() {
 
     Pusher.logToConsole = true;
 
-var pusher = new Pusher('3ad50bacd69a809040b1', {
+var pusher = new Pusher('ebad2ef1a296a8ac5320', {
     cluster: 'ap1'
 });
 
@@ -455,7 +455,7 @@ channel.bind('new-message', function(message) {
                 success: function(response) {
                     // Check if messages were fetched successfully
                     if (response.messages) {
-                        var messages = response.messages;
+                        var messages = response.messages;   
                         // Update the conversation area with fetched messages
                         updateConversation(messages);
                     }

@@ -99,87 +99,7 @@
                             </div>
                         </div>
                     </div> -->
-                <form method="POST" action="{{ route('save.profile.info') }}">
-                    @csrf
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title mb-3">Other Infos</h5>
-
-                            <!-- Your inputs here -->
-                            <!-- Facebook -->
-                            <!-- Facebook -->
-                            <div class="mb-3 d-flex">
-                                <div class="avatar-xs d-block flex-shrink-0 me-3">
-                                    <span class="avatar-title rounded-circle fs-16 bg-dark text-light">
-                                        <i class="ri-facebook-fill"></i>
-                                    </span>
-                                </div>
-                                <input id="facebookUsername" class="form-control form-control" type="url" name="facebook" placeholder="Facebook URL" pattern="https?://.+">
-                            </div>
-                            <!-- Twitter -->
-                            <div class="mb-3 d-flex">
-                                <div class="avatar-xs d-block flex-shrink-0 me-3">
-                                    <span class="avatar-title rounded-circle fs-16 bg-primary">
-                                        <i class="ri-twitter-fill"></i>
-                                    </span>
-                                </div>
-                                <input id="twitterUsername" class="form-control form-control" type="url" name="twitter" placeholder="Twitter URL" pattern="https?://twitter.com/.+">
-                            </div>
-                            <!-- Instagram -->
-                            <div class="mb-3 d-flex">
-                                <div class="avatar-xs d-block flex-shrink-0 me-3">
-                                    <span class="avatar-title rounded-circle fs-16 bg-success">
-                                        <i class="ri-instagram-fill"></i>
-                                    </span>
-                                </div>
-                                <input id="instagramUsername" class="form-control form-control" type="url" name="instagram" placeholder="Instagram URL" pattern="https?://(www\.)?instagram.com/.+">
-                            </div>
-
-                            <!-- City -->
-                            <div class="mb-3 d-flex">
-                                <div class="avatar-xs d-block flex-shrink-0 me-3"><span class="avatar-title rounded-circle fs-16 bg-info"><i class="ri-building-fill"></i></span></div>
-                                <input id="cityInput" class="form-control form-control" type="text" name="city" placeholder="City">
-                            </div>
-                            <!-- Age -->
-                            <div class="mb-3 d-flex">
-                                <div class="avatar-xs d-block flex-shrink-0 me-3"><span class="avatar-title rounded-circle fs-16 bg-warning text-dark"><i class="ri-user-fill"></i></span></div>
-                                <input id="ageInput" class="form-control form-control" type="number" name="age" placeholder="Age">
-                            </div>
-                            <!-- Sex -->
-                            <div class="mb-3 d-flex">
-                                <div class="avatar-xs d-block flex-shrink-0 me-3">
-                                    <span class="avatar-title rounded-circle fs-16 bg-white">
-
-                                        <img src="assets/images/plantifeedpics/sexicon.png" alt="Sex Icon">
-                                    </span>
-                                </div>
-
-                                <select id="sexSelect" class="form-select" name="sex">
-                                    <option selected disabled>Select Sex</option>
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
-                                </select>
-                            </div>
-
-                            <div style="display: grid; grid-template-columns: 49px 1fr; ">
-                                <img src="assets/images/plantifeedpics/bio.png" alt="bio" class="me-2" style=" margin:0 !important; width: 32px; height: 32px; ">
-                                <textarea style="width:100%; resize:none; " id="bioTextarea" class="form-control" name="bio" placeholder="Bio"></textarea>
-                            </div>
-
-                            <!-- Submit button -->
-                            <div style="display: flex; align-items:flex-end; justify-content:flex-end; margin-top:10px;">
-                                <button type="submit" class="btn btn-primary" style="background-color: green; transition: background-color 0.3s; ;" onmouseover="this.style.backgroundColor='darkgreen'" onmouseout="this.style.backgroundColor='green'">Save</button>
-
-                            </div>
-
-                        </div>
-                    </div>
-                </form>
-
-
-
-            </div>
-            <div class="col-xxl-9">
+                    <div class="col-xxl-9">
                 <div class="mt-xxl-n5 card">
                     <div class="card-header">
                         <ul role="tablist" class="nav-tabs-custom rounded card-header-tabs border-bottom-0 nav">
@@ -193,12 +113,7 @@
                     </div>
                     <div class="p-4 card-body">
                         <div class="tab-content">
-                            <!-- <ul class="nav nav-tabs">
-                                    <li class="nav-item"><a href="#" class="nav-link"> </a></li>
-                                    <li class="nav-item"><a href="#" class="nav-link"> </a></li>
-                                    <li class="nav-item"><a href="#" class="nav-link"> </a></li>
-                                    <li class="nav-item"><a href="#" class="nav-link"> </a></li>
-                                </ul> -->
+                           
                             <div class="tab-pane" id="personalDetailsForm">
                                 <form method="POST" action="{{ route('profile.update') }}">
                                     @csrf
@@ -237,39 +152,49 @@
 
                             <div class="tab-pane" id="changePasswordForm" style="display: none;">
 
-                                <form method="POST" action="{{ route('profile.updatePassword') }}">
-                                    @csrf
+                            <form method="POST" action="{{ route('profile.updatePassword') }}">
+    @csrf
 
-                                    <div class="form-group row" style="display:grid;">
+    <div class="form-group row" style="display:grid;">
+        <div>
+            <label for="old-password" class="col-md-4 col-form-label text-md-right">Old Password</label>
 
-                                        <div>
-                                            <label for="password" class="col-md-4 col-form-label text-md-right">New Password</label>
+            <div class="col-md-6">
+                <input id="old-password" type="password" class="form-control" name="old_password" required autocomplete="current-password">
+            </div>
+            @if ($errors->has('old_password'))
+        <span class="text-danger">{{ $errors->first('old_password') }}</span>
+        @endif
+        </div>
 
-                                            <div class="col-md-6">
-                                                <input id="password" type="password" class="form-control" name="password" required autocomplete="new-password">
-                                            </div>
-                                        </div>
+        <div>
+            <label for="password" class="col-md-4 col-form-label text-md-right">New Password</label>
 
-                                        <div>
-                                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">Confirm Password</label>
+            <div class="col-md-6">
+                <input id="password" type="password" class="form-control" name="password" required autocomplete="new-password">
+            </div>
+        </div>
 
-                                            <div class="col-md-6">
-                                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+        <div>
+            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">Confirm Password</label>
 
-                                                <!-- Error Message -->
-                                                @if ($errors->has('password'))
-                                                <span class="text-danger">{{ $errors->first('password') }}</span>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </div>
+            <div class="col-md-6">
+                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
 
-                                    <div style="display: flex; align-items:flex-end; justify-content:flex-end;">
-                                        <button type="submit" class="btn btn-primary" style="background-color: green; transition: background-color 0.3s;" onmouseover="this.style.backgroundColor='darkgreen'" onmouseout="this.style.backgroundColor='green'">
-                                            Update Password
-                                        </button>
-                                    </div>
-                                </form>
+                <!-- Error Message -->
+                @if ($errors->has('password'))
+                <span class="text-danger">{{ $errors->first('password') }}</span>
+                @endif
+            </div>
+        </div>
+    </div>
+
+    <div style="display: flex; align-items:flex-end; justify-content:flex-end;">
+        <button type="submit" class="btn btn-primary" style="background-color: green; transition: background-color 0.3s;" onmouseover="this.style.backgroundColor='darkgreen'" onmouseout="this.style.backgroundColor='green'">
+            Update Password
+        </button>
+    </div>
+</form>
 
 
                                 <!-- <div class="mt-4 mb-3 border-bottom pb-2">
@@ -322,6 +247,62 @@
                     </div>
                 </div>
             </div>
+
+            <form method="POST" action="/save-profile-info">
+                @csrf
+            
+                <div class="card">
+                    <div class="card-body">
+                        <!-- Other Infos -->
+                        <h5 class="card-title mb-3">Other Infos</h5>
+                        <!-- Facebook -->
+                        <div class="row">
+                        <!-- City -->
+                            <div class="mb-3 d-flex">
+                                <div class="avatar-xs d-block flex-shrink-0 me-3"><span class="avatar-title rounded-circle fs-16 bg-info"><i class="ri-building-fill"></i></span></div>
+                                <input id="cityInput" class="form-control form-control" type="text" name="city" placeholder="City">
+                            </div>
+                            <!-- Age -->
+                            <div class="col-md-6 mb-3 d-flex">
+                                <div class="avatar-xs d-block flex-shrink-0 me-3"><span class="avatar-title rounded-circle fs-16 bg-warning text-dark"><i class="ri-user-fill"></i></span></div>
+                                <input id="ageInput" class="form-control form-control" type="number" name="age" placeholder="Age">
+                            </div>
+                            <!-- Sex -->
+                            <div class="col-md-6 mb-3 d-flex">
+                                <div class="avatar-xs d-block flex-shrink-0 me-3">
+                                    <span class="avatar-title rounded-circle fs-16 bg-white">
+                                        <img src="assets/images/plantifeedpics/sexicon.png" alt="Sex Icon">
+                                    </span>
+                                </div>
+                                <select id="sexSelect" class="form-select"  name="sex">
+                                    <option selected disabled>Select Sex</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+                            </div>
+
+                            <!-- Bio -->
+                            <div style="display: grid; grid-template-columns: 49px 1fr; ">
+                                <img src="assets/images/plantifeedpics/bio.png" alt="bio" class="me-2" style=" margin:0 !important; width: 32px; height: 32px; ">
+                                <textarea style="width:100%; resize:none; " id="bioTextarea" class="form-control" name="bio" placeholder="Bio"></textarea>
+                            </div>
+                        </div>
+
+                            <!-- Submit button -->
+                            <div style="display: flex; align-items:flex-end; justify-content:flex-end; margin-top:10px;">
+                                <button type="submit" class="btn btn-primary" style="background-color: green; transition: background-color 0.3s; ;" onmouseover="this.style.backgroundColor='darkgreen'" onmouseout="this.style.backgroundColor='green'">Save</button>
+                            </div>
+                    </div>
+                </div>
+                
+
+            </form>
+
+
+
+
+            </div>
+            
         </div>
     </div>
 

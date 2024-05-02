@@ -144,143 +144,63 @@
                                 </div>
                             </div> -->
                             <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title mb-3" data-svelte-h="svelte-1hac74q">Info</h5>
-                                    <div class="table-responsive" data-svelte-h="svelte-1pojm4x">
-                                        <table class="table table-borderless mb-0">
-                                            <tbody>
-                                                <tr>
-                                                    <th class="ps-0" scope="row">Full Name :</th>
-                                                    <td class="text-muted"> @if (Auth::check())
-                                                        {{ Auth::user()->firstname }} {{ Auth::user()->lastname }}
-                                                        @endif
-                                                    </td>
-                                                </tr>
+    <div class="card-body" style="display: flex; justify-content: space-between;">
+        <div style="flex: 1;">
+            <h5 class="card-title mb-3" data-svelte-h="svelte-1hac74q">Info</h5>
+            <div class="table-responsive" data-svelte-h="svelte-1pojm4x">
+                <table class="table table-borderless mb-0">
+                    <tbody>
+                        <tr>
+                            <th class="ps-0" scope="row">Full Name :</th>
+                            <td class="text-muted"> @if (Auth::check())
+                                {{ Auth::user()->firstname }} {{ Auth::user()->lastname }}
+                                @endif
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="ps-0" scope="row">Email :</th>
+                            <td class="text-muted"> @if (Auth::check())
+                                {{ Auth::user()->email }}
+                                @endif
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th class="ps-0" scope="row">Age :</th>
+                            <td class="text-muted">{{ $profileSettingsOther->age ?? 'None' }}</td>
+                        </tr>
+                        <tr>
+    <th class="ps-0" scope="row">Sex :</th>
+    <td class="text-muted">
+        {{ optional($profileSettingsOther)->sex ? ucfirst($profileSettingsOther->sex) : 'None' }}
+    </td>
+</tr>
 
-                                                <tr>
-                                                    <th class="ps-0" scope="row">Email :</th>
-                                                    <td class="text-muted"> @if (Auth::check())
-                                                        {{ Auth::user()->email }}
-                                                        @endif
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th class="ps-0" scope="row">Age :</th>
-                                                    <td class="text-muted">{{ $profileSettings->age ?? 'None' }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th class="ps-0" scope="row">Sex :</th>
-                                                    <td class="text-muted">
-                                                        @if($profileSettings->sex)
-                                                        {{ ucfirst($profileSettings->sex) }}
-                                                        @else
-                                                        None
-                                                        @endif
-                                                    </td>
-                                                </tr>
+                        <tr>
+                            <th class="ps-0" scope="row">City :</th>
+                            <td class="text-muted">{{ $profileSettingsOther->city ?? 'None' }}</td>
+                        </tr>
+                        <tr>
+                            <th class="ps-0" scope="row">Joining Date :</th>
+                            <td class="text-muted"> @if (Auth::check())
+                                {{ \Carbon\Carbon::parse(Auth::user()->created_at)->toDateString() }}
+                                @endif
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div style="flex: 1; margin-left: 20px;">
+            <h5 class="card-title mb-3" data-svelte-h="svelte-atvroz">My Bio</h5>
+            <td class="text-muted">{{ $profileSettingsOther->bio ?? 'No Bio' }}</td>
+        </div>
+    </div>
+</div>
 
-                                                <tr>
-                                                    <th class="ps-0" scope="row">City :</th>
-                                                    <td class="text-muted">{{ $profileSettings->city ?? 'None' }}</td>
-                                                </tr>
-
-                                                <tr>
-                                                    <th class="ps-0" scope="row">Joining Date :</th>
-                                                    <td class="text-muted"> @if (Auth::check())
-                                                        {{ \Carbon\Carbon::parse(Auth::user()->created_at)->toDateString() }}
-                                                        @endif
-                                                    </td>
-                                                </tr>
-
-
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title mb-4" data-svelte-h="svelte-lh5a3">Social Media Accounts</h5>
-                                    <!-- Facebook -->
-
-                                    <div class="mb-3 d-flex gap-2">
-                                        <!-- Facebook -->
-                                        <div>
-                                            @if($profileSettings->facebook)
-                                            <a href="{{ $profileSettings->facebook }}" class="avatar-xs d-block">
-                                                <span class="avatar-title rounded-circle fs-16 bg-dark text-light" data-svelte-h="svelte-av7thz">
-                                                    <i class="ri-facebook-fill"></i> <!-- Assuming Facebook icon -->
-                                                </span>
-                                            </a>
-                                            @else
-                                            <span class="avatar-xs d-block">
-                                                <span class="avatar-title rounded-circle fs-16 bg-dark text-light" data-svelte-h="svelte-av7thz">
-                                                    <i class="ri-facebook-fill"></i> <!-- Assuming Facebook icon -->
-                                                </span>
-                                            </span>
-                                            @endif
-                                        </div>
-
-                                        <!-- Twitter -->
-                                        <div>
-                                            @if($profileSettings->twitter)
-                                            <a href="{{ $profileSettings->twitter }}" class="avatar-xs d-block">
-                                                <span class="avatar-title rounded-circle fs-16 bg-primary" data-svelte-h="svelte-13ylivj">
-                                                    <i class="ri-twitter-fill"></i> <!-- Assuming Twitter icon -->
-                                                </span>
-                                            </a>
-                                            @else
-                                            <span class="avatar-xs d-block">
-                                                <span class="avatar-title rounded-circle fs-16 bg-primary" data-svelte-h="svelte-13ylivj">
-                                                    <i class="ri-twitter-fill"></i> <!-- Assuming Twitter icon -->
-                                                </span>
-                                            </span>
-                                            @endif
-                                        </div>
-
-                                        <!-- Instagram -->
-                                        <div>
-                                            @if($profileSettings->instagram)
-                                            <a href="{{ $profileSettings->instagram }}" class="avatar-xs d-block">
-                                                <span class="avatar-title rounded-circle fs-16 bg-success" data-svelte-h="svelte-1wzau7r">
-                                                    <i class="ri-instagram-fill"></i> <!-- Assuming Instagram icon -->
-                                                </span>
-                                            </a>
-                                            @else
-                                            <span class="avatar-xs d-block">
-                                                <span class="avatar-title rounded-circle fs-16 bg-success" data-svelte-h="svelte-1wzau7r">
-                                                    <i class="ri-instagram-fill"></i> <!-- Assuming Instagram icon -->
-                                                </span>
-                                            </span>
-                                            @endif
-                                        </div>
-                                    </div>
-
-
-
-                                </div>
-                            </div>
 
                         </div>
-                        <div class="col-xxl-9">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title mb-3" data-svelte-h="svelte-atvroz">My Bio</h5>
-                                    <td class="text-muted">{{ $profileSettings->bio ?? 'No Bio' }}</td>
-
-                                    <!-- <div>
-                                        <h2>Cover Image:</h2>
-                                        @if($profileSettings->cover_image)
-                                        <img src="{{ asset('storage/images/' . $profileSettings->cover_image) }}" alt="Cover Image">
-                                        @else
-                                        <p>No cover image available.</p>
-                                        @endif
-                                    </div> -->
-
-                                </div>
-                            </div>
-
-                        </div>
+                       
                     </div>
                 </div>
 

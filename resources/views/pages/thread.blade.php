@@ -422,8 +422,7 @@ document.getElementById("chatinput-form").addEventListener("submit", function (e
                 'X-CSRF-TOKEN': '{{ csrf_token() }}',
             },
             success: function (response) {
-                // Assuming the response contains the newly created message text
-                appendMessageToConversation(messageInput); // Pass the message text to the function
+                
             },
             error: function (xhr, status, error) {
                 console.error('Error:', error);

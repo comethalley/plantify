@@ -25,6 +25,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Models\FarmLocation;
 
 
+
 class AuthController extends Controller
 {
     protected $plantifyLibrary;
@@ -151,30 +152,48 @@ class AuthController extends Controller
     }
 
     public function viewfarmLeaders($id)
-    {
-        try {
-            User::findOrFail($id);
+{
+    try {
+        $user = User::findOrFail($id);
 
-            $farmLeaders = DB::table('users')
-                ->where('status', 1)
-                ->where('role_id', 3)
-                ->where('id', $id)
-                ->select(
-                    "id",
-                    'firstname',
-                    "lastname",
-                    "email",
-                )
-                ->first();
-            return response()->json(['farmLeaders' => $farmLeaders], 200);
-        } catch (ModelNotFoundException $e) {
+        $farmLeaders = DB::table('users')
+            ->where('status', 1)
+            ->where('role_id', 3)
+            ->where('id', $id)
+            ->select(
+                "id",
+                'firstname',
+                "lastname",
+                "email",
+            )
+            ->first();
 
-            return response()->json(['error' => 'UOM not found'], 404);
-        } catch (\Exception $e) {
-
-            return response()->json(['error' => 'Internal Server Error'], 500);
+        if (!$farmLeaders) {
+            return response()->json(['error' => 'Farm Leader not found'], 404);
         }
+
+        // Find the farm associated with the farm leader
+        $farm = Farm::where('farm_leader', $farmLeaders->id)->first();
+        if ($farm) {
+            $farmLocation = FarmLocation::where('address', $farm->address)->first();
+            return response()->json([
+                'farmLeaders' => $farmLeaders,
+                'farmLocation' => $farmLocation,
+                'farm' => $farm
+            ], 200);
+        } else {
+            return response()->json([
+                'farmLeaders' => $farmLeaders,
+                'farmLocation' => null,
+                'farm' => null
+            ], 200);
+        }
+    } catch (ModelNotFoundException $e) {
+        return response()->json(['error' => 'Farm Leader not found'], 404);
+    } catch (\Exception $e) {
+        return response()->json(['error' => 'Internal Server Error'], 500);
     }
+}
 
     public function updateAdmin(Request $request, $id)
     {
@@ -282,43 +301,56 @@ class AuthController extends Controller
     public function archiveFarmLeader(Request $request, $id)
     {
         try {
+            // Find the farm leader
             $user = User::where('id', $id)
                 ->where('status', 1)
                 ->firstOrFail();
-    
+
             // Find the farm associated with the farm leader
             $farm = Farm::where('farm_leader', $user->id)->first();
-    
+
             if ($farm) {
-                // Find the farmers associated with the farm and delete them
-                $farmers = Farmer::where('farm_id', $farm->id)->get();
-                foreach ($farmers as $farmer) {
-                    $farmer->delete();
+                // Find the farmers associated with the farm leader's ID
+                $farmers = Farmer::where('farmleader_id', $user->id)->get();
+
+                if ($farmers != "") {
+                    foreach ($farmers as $farmer) {
+                        $farmerUser = User::findOrFail($farmer->farmer_id);
+                        $farmerUser->update([
+                            'status' => 0,
+                        ]);
+                    }
                 }
-    
-                // Delete the farm location
-                FarmLocation::where('address', $farm->address)->delete();
-    
-                // Delete the farm
-                $farm->delete();
+
+                $farmLocation = FarmLocation::where('address', $farm->address)->first();
+                if ($farmLocation) {
+                    $farmLocation->update([
+                        'status' => 0,
+                    ]);
+                }
+                // archive the farm
+                $farm->update([
+                    'status' => 0,
+                ]);
             }
-    
+
             // Update the status of the farm leader
             $user->update([
                 'status' => 0,
             ]);
-    
-            if ($user) {
-                return response()->json(['message' => 'Farm Leader Archived Successfully'], 200);
-            } else {
-                return response()->json(['error' => 'Internal Server Error'], 500);
-            }
+
+            return response()->json(['message' => 'Farm Leader Archived Successfully'], 200);
         } catch (ModelNotFoundException $e) {
             return response()->json(['error' => 'Farm Leader not found'], 404);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Internal Server Error'], 500);
         }
     }
+    
+    
+    
+
+
     
 
 

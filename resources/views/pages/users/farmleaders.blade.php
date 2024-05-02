@@ -286,52 +286,53 @@
 
                             <div class="modal fade" id="editFLModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
-                                    <div class="modal-content">
+                                <div class="modal-content">
                                         <div class="modal-header bg-light p-3">
                                             <h5 class="modal-title" id="exampleModalLabel">Edit Farm Leader</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
                                         </div>
-                                        <form method="post" action="/add-supplier">
+                                        <form method="post" action="/update-farm-leader">
                                             @csrf
                                             <div class="modal-body">
                                                 <input type="hidden" id="id-field" />
 
-                                                <input type="hidden" id="farmLeaderID" class="form-control" placeholder="ID" />
+                                                <input type="hidden" id="farmLeaderID" class="form-control" />
 
                                                 <div class="mb-3">
-                                                    <label for="customername-field" class="form-label">First Name</label>
-                                                    <input type="text" name="supplier-name" id="edit-firstname" class="form-control" placeholder="Enter name" required />
+                                                    <label for="edit-firstname" class="form-label">First Name</label>
+                                                    <input type="text" name="firstname" id="edit-firstname" class="form-control" placeholder="Enter First Name" required />
                                                 </div>
 
                                                 <div class="mb-3">
-                                                    <label for="customername-field" class="form-label">Last Name</label>
-                                                    <input type="text" name="description" id="edit-lastname" class="form-control" placeholder="Enter Description" required />
+                                                    <label for="edit-lastname" class="form-label">Last Name</label>
+                                                    <input type="text" name="lastname" id="edit-lastname" class="form-control" placeholder="Enter Last Name" required />
                                                 </div>
 
                                                 <div class="mb-3">
-                                                    <label for="customername-field" class="form-label">Email Address</label>
-                                                    <input type="email" name="email" id="edit-email" class="form-control" placeholder="Enter Email" required />
+                                                    <label for="edit-email" class="form-label">Email Address</label>
+                                                    <input type="email" name="email" id="edit-email" class="form-control" placeholder="Enter Email Address" required />
                                                 </div>
 
                                                 <div class="mb-3">
-                                                    <label for="customername-field" class="form-label">Address</label>
-                                                    <input type="address" name="address" id="customername-field" class="form-control" placeholder="Enter Address" required />
+                                                    <label for="edit-email" class="form-label">Farm</label>
+                                                    <input type="text" name="farm" id="farm" class="form-control" placeholder="Enter Farm" required />
                                                 </div>
 
                                                 <div class="mb-3">
-                                                    <label for="customername-field" class="form-label">Contact</label>
-                                                    <input type="contact" name="contact" id="customername-field" class="form-control" placeholder="Enter Contact" required />
+                                                    <label for="location" class="form-label">Location</label>
+                                                    <input type="text" name="location" id="location" class="form-control" placeholder="Enter Location" required />
                                                 </div>
 
                                             </div>
                                             <div class="modal-footer">
                                                 <div class="hstack gap-2 justify-content-end">
                                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                                                    <button type="button" class="btn btn-success" id="updateFarmLeader">Update</button>
+                                                    <button type="submit" class="btn btn-success" id="updateFarmLeader">Update</button>
                                                 </div>
                                             </div>
                                         </form>
                                     </div>
+
                                 </div>
                             </div>
 

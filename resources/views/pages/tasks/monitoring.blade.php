@@ -102,7 +102,7 @@ input:valid + span::after {
     background-color: #c0c0c0; /* Darker shade of gray (for example) */
 }
     #image-preview {
-        max-width: 150%;
+        max-width: 250%;
         max-height: 150px; /* Adjust the height as per your requirement */
     }
 
@@ -214,7 +214,7 @@ input:valid + span::after {
                                     <th class="sort" data_sort="due_date">Due</th>
                                     <th class="sort" data_sort="priority">Priority</th>
                                     <th class="sort" data_sort="status">Status</th>
-                                    @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 3 ) 
+                                    @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 3 ||auth()->user()->role_id == 4 ) 
                                      {{-- Display only for role_id 1,2,3 (Super Admin, Admin, Farmerleader) --}}
                                     <th>Actions</th>
                                     @endif
@@ -245,11 +245,14 @@ input:valid + span::after {
                                         <span class="badge badge-<?php echo strtolower($task->status); ?>"><?php echo $task->status; ?></span>
                                     </td>
                                     <td>
-                                    @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 3 ) 
-                                        {{-- Display only for role_id 1, 2, 3 (Super Admin, Admin, Farmerleader) --}}
-                                        <a href="#" class="btn btn-primary btn-sm task-edit" data-task-id="{{ $task->id }}" data-task-title="{{ $task->title }}" data-task-description="{{ $task->description }}" data-task-priority="{{ $task->priority }}" data-task-due_date="{{ $task->due_date }}" data-task-user_id="{{ $task->user_id }}" data-task-status="{{ $task->status }}" >
+                                    @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 3 || auth()->user()->role_id == 4 ) 
+                                        {{-- Display only for role_id 1, 2, 3 (Super Admin, Admin, Farmerleader,farmer) --}}
+                                        <a href="#" class="btn btn-primary btn-sm task-edit" data-task-id="{{ $task->id }}" data-task-title="{{ $task->title }}" data-task-description="{{ $task->description }}" data-task-priority="{{ $task->priority }}" data-task-due_date="{{ $task->due_date }}" data-task-user_id="{{ $task->user_id }}" data-task-status="{{ $task->status }}" data-task-image="{{ $task->image }}" >
                                             <i class="ri-pencil-fill fs-16"></i>
                                         </a>
+                                        @endif
+                                        @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 3 ) 
+                                        {{-- Display only for role_id 1, 2, 3 (Super Admin, Admin, Farmerleader) --}}
                                         <!-- Archive task button -->
                                         @if (!$task->archived)
                                      <form id="archiveForm{{ $task->id }}" action="{{ route('tasks.archive', $task->id) }}" method="POST" style="display: inline;">
@@ -271,6 +274,7 @@ input:valid + span::after {
                                          </form>
                                         @endif
                                     @endif
+                                    
                                 </td>
                                 </tr>
                                 @endforeach
@@ -371,90 +375,146 @@ input:valid + span::after {
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header bg-light p-3">
-                <h5 class="modal-title" id="exampleModalLabel">Edit Task</h5>
+            @if(auth()->user()->role_id == 3|| auth()->user()->role_id == 2 || auth()->user()->role_id == 1 )
+            <h5 class="modal-title" id="exampleModalLabel">Edit Task</h5>
+            @endif
+            @if(auth()->user()->role_id == 4 )
+            <h5 class="modal-title" id="exampleModalLabel">View Task</h5>
+            @endif
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
             </div>
             <form id="editTaskForm" action="" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
+                @if(auth()->user()->role_id == 3 || auth()->user()->role_id == 2 || auth()->user()->role_id == 1)
+    <div class="modal-body">
+        <input type="hidden" id="edit-task_id" name="edit-task_id" value="">
 
-                <div class="modal-body">
-                    <input type="hidden" id="edit-task_id" name="edit-task_id" value="">
+        <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" name="title" id="edit-title" class="form-control" value="" required>
+        </div>
 
-                    <div class="mb-3">
-                        <label for="title" class="form-label">Title</label>
-                        <input type="text" name="title" id="edit-title" class="form-control" value="" required>
-                    </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <input type="text" name="description" id="edit-description" class="form-control" value="{{ isset($task) ? $task->description : '' }}" required>
+        </div>
 
-                    <div class="mb-3">
-                        <label for="description" class="form-label">Description</label>
-                        <input type="text" name="description" id="edit-description" class="form-control" value="{{ isset($task) ? $task->description : '' }}" required>
-                    </div>
+        <div class="row">
+            <div class="col-md-7 mb-3">
+                <label for="due_date" class="form-label">Date and Time</label>
+                <div class="input-group">
+                    <input type="datetime-local" name="due_date" id="edit-due_date" class="form-control" value="{{ isset($task) ? $task->due_date : '' }}" required>
+                    <span class="input-group-text clickable-span"></span>
+                </div>
+            </div>
 
-                    <div class="row">
-                        <div class="col-md-7 mb-3">
-                            <label for="due_date" class="form-label">Date and Time</label>
-                            <div class="input-group">
-                                <input type="datetime-local" name="due_date" id="edit-due_date" class="form-control" value="{{ isset($task) ? $task->due_date : '' }}" required>
-                                <span class="input-group-text clickable-span"></span>
-                            </div>
-                        </div>
+            <div class="col-md-5 mb-3">
+                <label for="priority" class="form-label">Priority</label>
+                <select class="form-control" id="edit-priority" name="priority" required>
+                    <option value="low" @if(isset($task) && $task->priority == 'low') selected @endif>Low</option>
+                    <option value="medium" @if(isset($task) && $task->priority == 'medium') selected @endif>Medium</option>
+                    <option value="high" @if(isset($task) && $task->priority == 'high') selected @endif>High</option>
+                </select>
+            </div>
+        </div>
 
-                        <div class="col-md-5 mb-3">
-                            <label for="priority" class="form-label">Priority</label>
-                            <select class="form-control" id="edit-priority" name="priority" required>
-                                <option value="low" @if(isset($task) && $task->priority == 'low') selected @endif>Low</option>
-                                <option value="medium" @if(isset($task) && $task->priority == 'medium') selected @endif>Medium</option>
-                                <option value="high" @if(isset($task) && $task->priority == 'high') selected @endif>High</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <label for="status" class="form-label">Status</label>
-                            <select class="form-control" id="edit-s" name="status" required>
-                                <option value="New" @if(isset($task) && $task->status == 'New') selected @endif>New</option>
-                                <option value="Inprogress" @if(isset($task) && $task->status == 'Inprogress') selected @endif>Inprogress</option>
-                                <option value="Pending" @if(isset($task) && $task->status == 'Pending') selected @endif>Pending</option>
-                            </select>
-                        </div>
-
-                        <div class="col-md-8 mb-3">
-                            <label class="form-label">Assigned To</label>
-                            <select name="user_id" class="form-control" required id="edit-user_id">
-                                @foreach ($users as $user)
-                                    <option value="{{ $user->id }}" @if ($user->editable_task_id != null) disabled @endif>
-                                        {{ $user->firstname }} {{ $user->lastname }} - ({{ $user->tasks_count }} tasks)
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="row">
-    <div class="col-md-7 mb-3">
-        <label for="image">Upload Image</label>
-        <input type="file" name="image" class="form-control" id="image" value="">
-        <!-- Display the uploaded image if available -->
-        @if ($task->image)
-            <img src="{{ asset('storage/images/' . $task->image) }}" alt="Task Image" id="image-preview" style="max-width: 100%;">
-        @else
-            <img src="" alt="Task Image" id="image-preview" style="display: none; max-width: 100%;">
-        @endif
-    </div>
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label for="status" class="form-label">Status</label>
+                <select class="form-control" id="edit-s" name="status" required>
+                    <option value="New" @if(isset($task) && $task->status == 'New') selected @endif>New</option>
+                    <option value="Inprogress" @if(isset($task) && $task->status == 'Inprogress') selected @endif>Inprogress</option>
+                    <option value="Pending" @if(isset($task) && $task->status == 'Pending') selected @endif>Pending</option>
+                </select>
+            </div>
+            <div class="col-md-8 mb-3">
+                <label class="form-label">Assigned To</label>
+                <select name="user_id" class="form-control" required id="edit-user_id">
+                    @foreach ($users as $user)
+                        <option value="{{ $user->id }}" @if ($user->editable_task_id != null) disabled @endif>
+                            {{ $user->firstname }} {{ $user->lastname }} - ({{ $user->tasks_count }} tasks)
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+        <div class="col-md-7 mb-3">
+    <label for="image">Upload Image</label>
+    <a href="{{ asset('storage/images/' .  $task->image) }}" target="_blank">
+        <img src="{{ asset('storage/images/' . $task->image) }}" id="preview_image" alt="Task Image" style="max-width: 100%; max-height: 100px;">
+    </a>
 </div>
 
+@endif
 
-                    <div class="modal-footer" style="display: block;">
-                        <div class="hstack gap-2 justify-content-end">
-                            <button type="button" class="btn btn-light" id="close-modal" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-success" id="edit-btn">Update Task</button>
-                        </div>
-                    </div>
-                </div>
-            </form>
+                        
+                        @if(auth()->user()->role_id == 4)
+    <div class="modal-body">
+        <input type="hidden" id="edit-task_id" name="edit-task_id" value="">
+
+        <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" name="title" id="edit-title" class="form-control" value="" required readonly>
         </div>
+
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <input type="text" name="description" id="edit-description" class="form-control" value="{{ isset($task) ? $task->description : '' }}" required readonly>
+        </div>
+
+        <div class="row">
+            <div class="col-md-7 mb-3">
+                <label for="due_date" class="form-label">Date and Time</label>
+                <div class="input-group">
+                    <input type="datetime-local" name="due_date" id="edit-due_date" class="form-control" value="{{ isset($task) ? $task->due_date : '' }}" required readonly>
+                    <span class="input-group-text clickable-span"></span>
+                </div>
+            </div>
+
+            <div class="col-md-5 mb-3">
+                <label for="priority" class="form-label">Priority</label>
+                <select class="form-control" id="edit-priority" name="priority" required readonly disabled>
+                    <option value="low" @if(isset($task) && $task->priority == 'low') selected @endif>Low</option>
+                    <option value="medium" @if(isset($task) && $task->priority == 'medium') selected @endif>Medium</option>
+                    <option value="high" @if(isset($task) && $task->priority == 'high') selected @endif>High</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label for="status" class="form-label">Status</label>
+                <select class="form-control" id="edit-s" name="status" required readonly disabled>
+                    <option value="New" @if(isset($task) && $task->status == 'New') selected @endif>New</option>
+                    <option value="Inprogress" @if(isset($task) && $task->status == 'Inprogress') selected @endif>Inprogress</option>
+                    <option value="Pending" @if(isset($task) && $task->status == 'Pending') selected @endif>Pending</option>
+                </select>
+            </div>
+                            
+            <div class="col-md-8 mb-3">
+                <label class="form-label">Assigned To</label>
+                <select name="user_id" class="form-control" required id="edit-user_id" readonly disabled>
+                    @foreach ($users as $user)
+                        <option value="{{ $user->id }}" @if ($user->editable_task_id != null) disabled @endif>
+                            {{ $user->firstname }} {{ $user->lastname }} - ({{ $user->tasks_count }} tasks)
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-7 mb-3">
+            <label for="image">Upload Image</label>
+            <input type="file" name="image" class="form-control" id="image" accept="image/*">
+            
+        </div>
+    </div>
+@endif
+<div class="modal-footer" style="display: block; margin-top: -0.3in;">
+    <div class="hstack gap-2 justify-content-end">
+        <button type="button" class="btn btn-light" id="close-modal" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success" id="edit-btn">Update Task</button>
     </div>
 </div>
 
@@ -472,6 +532,9 @@ input:valid + span::after {
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     </form>
 
+
+
+    
                                     <!-- <div class="modal fade" id="showModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
@@ -646,57 +709,58 @@ input:valid + span::after {
         $('#editTaskModal').modal('show');
     });
     
+    $(document).ready(function() {
     $(document).on('click', '#edit-btn', function(event) {
-    event.preventDefault();
+        event.preventDefault();
 
-    var id = $('#edit-task_id').val();
-    var title = $('#edit-title').val();
-    var description = $('#edit-description').val();
-    var due_date = $('#edit-due_date').val();
-    var priority = $('#edit-priority').val();
-    var status = $('#edit-s').val();
-    var user_id = $('#edit-user_id').val();
+        var id = $('#edit-task_id').val();
+        var title = $('#edit-title').val();
+        var description = $('#edit-description').val();
+        var due_date = $('#edit-due_date').val();
+        var priority = $('#edit-priority').val();
+        var status = $('#edit-s').val();
+        var user_id = $('#edit-user_id').val();
 
-    var formData = new FormData();
-    formData.append('title', title);
-    formData.append('description', description);
-    formData.append('due_date', due_date);
-    formData.append('priority', priority);
-    formData.append('status', status);
-    formData.append('user_id', user_id);
-    formData.append('image', $('#image')[0].files[0]);
-
-  
-    $.ajax({
-        url: "/tasks/" + id,
-        method: "POST",
-        enctype: 'multipart/form-data',
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        data: formData,
-        contentType: false,
-        processData: false, // Important to prevent jQuery from automatically transforming the data into a query string
-        success: function(data) {
-            $('#task-edit').modal('hide');
-            Swal.fire({
-                title: "Successfully archived",
-                text: "Are you ready for the next level?",
-                icon: "success"
-            });
-            console.log(data);
-            location.reload();
-        },
-        error: function(xhr, status, error) {
-            if (xhr.status === 422) {
-                var errors = JSON.parse(xhr.responseText);
-                console.error("Validation Error:", errors);
-            } else {
-                console.error("Error:", error);
+        var formData = new FormData();
+        formData.append('title', title);
+        formData.append('description', description);
+        formData.append('due_date', due_date);
+        formData.append('priority', priority);
+        formData.append('status', status);
+        formData.append('user_id', user_id);
+        formData.append('image', $('#image')[0].files[0]);
+        $.ajax({
+    url: "/tasks/" + id,
+    method: "POST", // Change method to POST
+    enctype: 'multipart/form-data',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(data) {
+                $('#editTaskModal').modal('hide');
+                Swal.fire({
+                    title: "Task Updated Successfully",
+                    text: "The task has been updated.",
+                    icon: "success"
+                });
+                console.log(data);
+                location.reload();
+            },
+            error: function(xhr, status, error) {
+                if (xhr.status === 422) {
+                    var errors = JSON.parse(xhr.responseText);
+                    console.error("Validation Error:", errors);
+                } else {
+                    console.error("Error:", error);
+                }
             }
-        }
+        });
     });
 });
+
 
 
 
@@ -820,50 +884,7 @@ input:valid + span::after {
     // Set the minimum value of the datetime-local input to the current date and time
     document.getElementById("due_date").min = currentDateString;
 
-    // Function to handle file input change event
-// Event listener for changes in the file input
-document.getElementById('image').addEventListener('change', function() {
-    var file = this.files[0];
-    if (file) {
-        var reader = new FileReader();
-        reader.onload = function(event) {
-            var imageUrl = event.target.result;
-            document.getElementById('image-preview').src = imageUrl;
-            document.getElementById('image-preview').style.display = 'block';
-        };
-        reader.readAsDataURL(file);
-    } else {
-        document.getElementById('image-preview').src = '';
-        document.getElementById('image-preview').style.display = 'none';
-    }
-});
-
-// Event listener for click on the preview image
-document.getElementById('image-preview').addEventListener('click', function() {
-    // Retrieve the URL of the image
-    var imageUrl = this.src;
-    // Open the image in a new tab
-    var newTab = window.open();
-    newTab.document.write("<img src='" + imageUrl + "' style='max-width: 100%; max-height: 100%;'>");
-});
-
-// Event listener for mouseover on the preview image
-document.getElementById('image-preview').addEventListener('mouseover', function() {
-    // Change cursor style to indicate that the image is clickable
-    this.style.cursor = 'pointer';
-});
-
-// Event listener for mouseout on the preview image
-document.getElementById('image-preview').addEventListener('mouseout', function() {
-    // Reset cursor style
-    this.style.cursor = 'auto';
-});
-
-// Function to handle click event on preview text
-document.getElementById('preview-text').addEventListener('click', function() {
-    document.getElementById('image').click();
-});
-
+    
 
 });
 </script>

@@ -274,7 +274,14 @@
                                                           <label for="formFile" class="form-label"></label>
                                                         <input class="form-control" type="file" id="edit_image" name="edit_image">
                                                 </div>
-                                                
+                                                $('#edit_image').on('change', function() {
+                                                    var file = this.files[0];
+                                                    var reader = new FileReader();
+                                                    reader.onload = function(e) {
+                                                        $('#edit_image_preview').attr('src', e.target.result);
+                                                    };
+                                                    reader.readAsDataURL(file);
+                                                });
 
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Companion</label>

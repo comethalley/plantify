@@ -22,69 +22,64 @@ class TaskController extends Controller
 {
     // Retrieve users with their task counts
     $users = User::select('id', 'firstname', 'lastname')
-    ->where('role_id', 4) // Filter by role_id == 4
-    ->withCount([
-        'tasks as tasks_count' => function ($query) {
-            $query->where('completed', '!=', 1)
-                  ->where('archived', '!=', 1)
-                  ->where(function($query) {
-                      $query->where('status', '!=', 'missing')
+        ->where('role_id', 4) // Filter by role_id == 4
+        ->withCount([
+            'tasks as tasks_count' => function ($query) {
+                $query->where('completed', '!=', 1)
+                    ->where('archived', '!=', 1)
+                    ->where(function($query) {
+                        $query->where('status', '!=', 'missing')
                             ->orWhereNull('status');
-                  });
-        }
-    ])
-    ->orderBy('tasks_count', 'asc')
-    ->get();
+                    });
+            }
+        ])
+        ->orderBy('tasks_count', 'asc')
+        ->get();
 
-    // Filter users who have exactly 5 tasks
-    $usersWithFiveTasks = $users->filter(function ($user) {
-        return $user->tasks_count == 6;
-    });     
-                                                                                                 
-     
-    
-// Fetch tasks for monitoring
-$role_id = auth()->user()->role_id;
+    // Fetch tasks for monitoring
+    $role_id = auth()->user()->role_id;
 
-if ($role_id == 4) {
-    // Fetch tasks for role ID 4
-    $tasksQuery = Task::with('user')->where('user_id', auth()->id());
-} else {
-    // Fetch all tasks
-    $tasksQuery = Task::with('user');
-}
-
-$tasks = $tasksQuery->where('status', '!=', 'missing')
-    ->where('archived', false)
-    ->where('completed', false)
-    ->orderByDesc('priority')
-    ->orderBy('due_date', 'asc')
-    ->get();
-
-date_default_timezone_set('Asia/Manila');
-
-foreach ($tasks as $task) {
-    // Convert the task's due date to a Carbon instance in PH timezone
-    $dueDate = Carbon::parse($task->due_date)->setTimezone('Asia/Manila');
-
-    // Get the current date and time in PH timezone
-    $currentDateTime = Carbon::now()->setTimezone('Asia/Manila');
-
-    // Check if the due date is in the past
-    if ($dueDate < $currentDateTime) {
-        // Update the status of the task to 'missing'
-        $task->update([
-            "status" => "missing"
-        ]); 
-
-        // Notify the user about the missing task
-        $task->user->notify(new MissingTaskNotification($task));
+    if ($role_id == 4) {
+        // Fetch tasks for role ID 4
+        $tasksQuery = Task::with('user')->where('user_id', auth()->id());
+    } else {
+        // Fetch all tasks
+        $tasksQuery = Task::with('user');
     }
+
+    $tasks = $tasksQuery->where('status', '!=', 'missing')
+        ->where('archived', false)
+        ->where('completed', false)
+        ->orderByDesc('priority')
+        ->orderBy('due_date', 'asc')
+        ->get();
+
+    date_default_timezone_set('Asia/Manila');
+
+    foreach ($tasks as $task) {
+        // Convert the task's due date to a Carbon instance in PH timezone
+        $dueDate = Carbon::parse($task->due_date)->setTimezone('Asia/Manila');
+
+        // Get the current date and time in PH timezone
+        $currentDateTime = Carbon::now()->setTimezone('Asia/Manila');
+
+        // Check if the due date is in the past
+        if ($dueDate < $currentDateTime) {
+            // Update the status of the task to 'missing'
+            $task->update([
+                "status" => "missing"
+            ]); 
+
+            // Notify the user about the missing task
+            $task->user->notify(new MissingTaskNotification($task));
+        }
+
+            }
+
+    // Pass the tasks, users, and imageUrl to the view
+    return view('pages.tasks.monitoring', compact('tasks', 'users'));
 }
 
-// Return the view with the tasks and users data
-return view('pages.tasks.monitoring', compact('tasks', 'users'));
-}
         
                                 
 
@@ -149,7 +144,7 @@ public function update(Request $request, Task $task)
         'due_date' => 'required|date_format:Y-m-d\TH:i',
         'status' => 'nullable|string|max:255',
         'user_id' => 'nullable|exists:users,id',
-        'image' => 'nullable|mimes:jpeg,png,jpg,gif|max:2048', // Adjust max file size as needed
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust max file size as needed
     ]);
 
     // Update the task with validated data
@@ -162,20 +157,28 @@ public function update(Request $request, Task $task)
         'user_id' => $request->input('user_id'), // Fixed the input field name
     ]);
 
+    // Handle image upload if provided
     if ($request->hasFile('image')) {
-        // Get the file from the request
         $image = $request->file('image');
-    
-        // Generate a unique filename for the image
-        $filename = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
-    
-        // Move the file to the storage location
+        
+        // Get the file extension
+        $extension = $image->getClientOriginalExtension();
+        
+        // Generate a unique filename using task ID, a unique identifier (e.g., timestamp), and file extension
+        $filename = $task->id . '_' . time() . '.' . $extension; 
+        
+        // Store the image with the generated filename
         $image->storeAs('public/images', $filename);
     
         // Save the filename to the task record in the database
         $task->image = $filename;
+        $task->save();
     }
     
+    
+
+
+
     // Retrieve the updated task with the image data
     $updatedTask = Task::with('user')->findOrFail($task->id);
 

@@ -229,22 +229,28 @@ $(document).ready(function () {
 
     $(document).on("click", ".edit_farmleader_btn", function (event) {
         event.preventDefault();
-
+    
         var farmLeaderID = $(this).data("farmleader-id");
-
-        console.log("Uom ID is " + farmLeaderID);
-
+    
+        console.log("Farm Leader ID is " + farmLeaderID);
+    
         $.ajax({
             url: "/getFL/" + farmLeaderID,
             method: "GET",
             success: function (data) {
                 console.log(data);
-                // $("#uom-table").html(data)
-                //populateUomTable(data)
+    
+                // Populate the farm name and location fields
+                $("#farm").val(data.farm ? data.farm.farm_name : "");
+                $("#location").val(data.farmLocation ? data.farmLocation.address : "");
+    
+                // Populate other fields
                 $("#farmLeaderID").val(data.farmLeaders.id);
                 $("#edit-firstname").val(data.farmLeaders.firstname);
                 $("#edit-lastname").val(data.farmLeaders.lastname);
                 $("#edit-email").val(data.farmLeaders.email);
+    
+                // Show the modal
                 $("#editFLModal").modal("show");
             },
             error: function (xhr, status, error) {
@@ -252,6 +258,10 @@ $(document).ready(function () {
             },
         });
     });
+    
+    
+
+    
 
     $(document).on("click", ".archive_farmleader_btn", function (event) {
         event.preventDefault();

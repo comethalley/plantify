@@ -74,6 +74,7 @@ class InventoryController extends Controller
                 'supplier_seeds.id as suppliers_seedsID',
                 'supplier_seeds.image',
                 'supplier_seeds.qty as qty',
+                'supplier_seeds.type as type',
                 'supplier_seeds.qr_code as qr_code',
                 'suppliers.id as supplierID',
                 'suppliers.name as supplier_name',
@@ -106,8 +107,9 @@ class InventoryController extends Controller
         $data = $request->validate([
             'supplier_id' => 'required',
             'seed_id' => 'required',
-            'uom_id' => 'required',
+            //'uom_id' => 'required',
             'quantity' => 'required',
+            'type' => 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
@@ -119,10 +121,19 @@ class InventoryController extends Controller
                 //$input['image'] = $imageName;
             }
             $qrText = $this->generateCode();
+
+            $measurement = "";
+
+            if ($data['type'] == "Seedlings") {
+                $measurement = "2";
+            } else {
+                $measurement = "1";
+            }
             $supplierSeed = SupplierSeed::create([
                 'supplier_id' => $data['supplier_id'],
+                'type' => $data['type'],
                 'image' => $imageName,
-                'uom_id' => $data['uom_id'],
+                'uom_id' => $measurement,
                 'seed_id' => $data['seed_id'],
                 'qty' =>  $data['quantity'],
                 'qr_code' => $qrText,
@@ -820,5 +831,10 @@ class InventoryController extends Controller
 
             return response()->json(['error' => 'Internal Server Error'], 500);
         }
+    }
+
+    public function tools()
+    {
+        return view("pages.inventory.tools");
     }
 }

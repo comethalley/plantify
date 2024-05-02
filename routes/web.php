@@ -240,7 +240,7 @@ Route::view('add-schedule', 'pages.add');
 Route::post('create-schedule', [EventController::class, 'create']);
 
 //FOR attendance ROUTES===========================================
-Route::get('/attendance', [AttendanceControler::class, 'index']);
+// Route::get('/attendance', [AttendanceControler::class, 'index']);
 
 // End Full Calender=================================================================
 
@@ -314,9 +314,7 @@ Route::post('/set-date-farm/{id}', [FarmController::class, 'SetDateStatus'])->na
 //TASK MANAGEMENT ============================================================================
 Route::get('/tasks', [TaskController::class, 'index'])->name('tasks.monitoring');
 Route::post('/tasks/store', [TaskController::class, 'store'])->name('tasks.store');
-Route::get('/tasks/{task}/edit', [TaskController::class, 'edit'])->name('tasks.edit');
 Route::post('/tasks/{task}', [TaskController::class, 'update']);
-Route::delete('/tasks/{task}', [TaskController::class, 'destroy'])->name('tasks.destroy');
 Route::post('/tasks/{task}/complete', [TaskController::class, 'complete'])->name('tasks.complete');
 Route::get('taskshow', [TaskController::class, 'showCompleted'])->name('taskshow');
 Route::get('/missingtasks', [TaskController::class, 'missingTasks']);
@@ -325,6 +323,8 @@ Route::get('/task/filterByStatus', [TaskController::class, 'filterBystatus']);
 Route::post('/tasks/{task}/archive', [TaskController::class, 'archive'])->name('tasks.archive');
 Route::get('/archived', [TaskController::class, 'showArchived'])->name('archived');
 Route::post('/tasks/{task}/restore', [TaskController::class, 'restore'])->name('tasks.restore');
+
+
 //============================================================================================
 
 //EXPENSES MANAGEMENT ====================================================================================
@@ -341,6 +341,7 @@ Route::get('/expenses/get-expenses-by-category', [ExpenseController::class, 'get
 // TOOL REQUEST ======================================================================
 
 Route::get('/Tools-District-5', [RequestController::class, 'index1']);
+Route::get('/requests', [RequestController::class, 'index']);
 Route::post('/add-tools', [RequestController::class, 'addTools'])->name('add.tools');
 Route::get('/request/{id}/details', [RequestController::class, 'getRequestDetails']);
 
@@ -351,6 +352,8 @@ Route::get('/request/{id}/details', [RequestController::class, 'getRequestDetail
 
 //Email Verification ===================================================
 Route::get('/verify-email', [EmailVerification::class, 'emailVerification']);
+Route::get('/verification-code', [EmailVerification::class, 'publicEmailVerification']);
+Route::post('/verification-confirm/{id}', [EmailVerification::class, 'publicEmailConfirm']);
 Route::get('/empty-code/{id}', [EmailVerification::class, 'emptyCode']);
 Route::get('/resend-code/{id}', [EmailVerification::class, 'resendCode']);
 Route::post('/confirm-code/{id}', [EmailVerification::class, 'verifyEmail']);

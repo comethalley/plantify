@@ -20,7 +20,8 @@ celciusBtn = document.querySelector(".celcius"),
 fahrenheitBtn = document.querySelector(".fahrenheit"),
 hourlyBtn = document.querySelector(".hourly"),
 weekBtn = document.querySelector(".week"),
-tempUnit = document.querySelectorAll(".temp-unit");
+tempUnit = document.querySelectorAll(".temp-unit"),
+feelsLike = document.querySelector("#feels-like");
 
 
 
@@ -210,6 +211,7 @@ function getWeatherData(city, unit, hourlyorWeek) {
       updateVisibiltyStatus(today.visibility);
       airQuality.innerText = today.winddir;
       updateAirQualityStatus(today.winddir);
+      feelsLike.innerText = "Feels Like: " + today.feelslike; // Assuming 'feelslike' is the key for Feels Like temperature in the API response
       if (hourlyorWeek === "hourly") {
         updateForecast(data.days[0].hours, unit, "day");
       } else {
@@ -230,32 +232,35 @@ function updateForecast(data, unit, type) {
   let startIndex = 1;
   let numCards = type === "day" ? 24 : 6; // Use 6 for weekly forecast
 
-  for (let i = startIndex; i < startIndex + numCards; i++) { // Start from 1 to exclude the current day
-    let card = document.createElement("div");
-    card.classList.add("card");
-    card.style.cursor = "pointer"; // Add this line
+  for (let i = startIndex; i < startIndex + numCards; i++) {
+    // Start from 1 to exclude the current day
+    (function (index) {
+      let card = document.createElement("div");
+      card.classList.add("card");
+      card.style.cursor = "pointer"; // Add this line
 
-    let dayName = type === "week" ? getDayName(data[i].datetime) : getHour(data[i].datetime);
-    let dayTemp = unit === "f" ? celciusToFahrenheit(data[i].temp) : data[i].temp;
-    let iconSrc = getIcon(data[i].icon);
+      let dayName = type === "week" ? getDayName(data[index].datetime) : getHour(data[index].datetime);
+      let dayTemp = unit === "f" ? celciusToFahrenheit(data[index].temp) : data[index].temp;
+      let iconSrc = getIcon(data[index].icon);
 
-    card.innerHTML = `
-      <h2 class="day-name">${dayName}</h2>
-      <div class="card-icon">
-        <img src="${iconSrc}" class="day-icon" alt="Weather Icon" />
-      </div>
-      <div class="day-temp">
-        <h2 class="temp">${dayTemp}</h2>
-        <span class="temp-unit">${unit === "f" ? "°F" : "°C"}</span>
-      </div>
-    `;
+      card.innerHTML = `
+        <h2 class="day-name">${dayName}</h2>
+        <div class="card-icon">
+          <img src="${iconSrc}" class="day-icon" alt="Weather Icon" />
+        </div>
+        <div class="day-temp">
+          <h2 class="temp">${dayTemp}</h2>
+          <span class="temp-unit">${unit === "f" ? "°F" : "°C"}</span>
+        </div>
+      `;
 
-    // Add event listener to each card to show modal with details
-    card.addEventListener('click', () => {
-      populateAndShowModal(data[i]); // Make sure to pass data[i] instead of data[day]
-    });
+      // Add event listener to each card to show modal with details
+      card.addEventListener('click', () => {
+        populateAndShowModal(data[index]); // Use captured index
+      });
 
-    weatherCards.appendChild(card);
+      weatherCards.appendChild(card);
+    })(i);
   }
 }
 

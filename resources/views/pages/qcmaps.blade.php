@@ -38,7 +38,7 @@
                         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addFarmLocationModal">Add Farm Location</button>
                         @elseif(auth()->user()->role_id == 3)
                         {{-- Display for role_id 3 (Farm Leader) --}}
-                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addFarmLocationModal">Add Farm Location</button>
+                        <button hidden type="button" class="btn btn-success" data-toggle="modal" data-target="#addFarmLocationModal">Add Farm Location</button>
                         @elseif(auth()->user()->role_id == 4)
                         {{-- Display for role_id 4 (Farmers) --}}
                         <button hidden type="button" class="btn btn-success" data-toggle="modal" data-target="#addFarmLocationModal">Add Farm Location</button>

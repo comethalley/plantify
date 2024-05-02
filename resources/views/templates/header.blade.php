@@ -658,6 +658,12 @@
                                         <a href="/users/farmers" class="nav-link" style="color:white"> Farmers </a>
                                     </li>
                                     @endif
+
+                                    @if(session('user') && session('user')->role_id == 1 || session('user') && session('user')->role_id == 2)
+                                    <li class="nav-item">
+                                        <a href="/users/farm-leader" class="nav-link" style="color:white"> Restore Users </a>
+                                    </li>
+                                    @endif
                                 </ul>
                             </div>
                         </li>
@@ -755,13 +761,13 @@
                                     <li class="nav-item">
                                         <a href="/inventory/stocks" class="nav-link" style="color:white"> Stocks </a>
                                     </li>
-                                    <li class="nav-item">
+                                    <!-- <li class="nav-item">
                                         <a href="/inventory/uom" class="nav-link" style="color:white"> Unit of Measurements </a>
-                                    </li>
+                                    </li> -->
                                     <!-- <li class="nav-item">
                                         <a href="/inventory/fertilizer" class="nav-link" style="color:white">Fertilizer</a>
-                                    </li>
-                                    <li class="nav-item">
+                                    </li>-->
+                                    <!-- <li class="nav-item">
                                         <a href="/inventory/tools" class="nav-link" style="color:white">Tools</a>
                                     </li> -->
                                 </ul>
@@ -769,13 +775,19 @@
                         </li> <!-- end Dashboard Menu -->
                         @endif
 
-                        @if(session('user') && session('user')->role_id == 3)
+                        @if(session('user') && session('user')->role_id == 3 || session('user') && session('user')->role_id == 1 )
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="/Tools-District-5" role="button" style="color:white">
                                 <i class="ri-tools-fill"></i>
                                 <span data-key="t-dashboards">Tools/Seedlings</span>
                             </a>
                         </li>
+                        <!-- <li class="nav-item">
+                            <a class="nav-link menu-link" href="/request" role="button" style="color:white">
+                                <i class="ri-tools-fill"></i>
+                                <span data-key="t-dashboards">Tools/Seedlings</span>
+                            </a>
+                        </li> -->
                         @endif
 
                         <!-- <li class="nav-item">

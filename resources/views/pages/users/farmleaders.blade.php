@@ -348,16 +348,16 @@
                                         <form method="post" action="/add-supplier">
                                             @csrf
                                             <div class="modal-body">
-                                                <div class="mt-4 text-center">
-                                                    <input type="hidden" id="archive-adminID" class="form-control" placeholder="ID" readonly />
-                                                    <h4>You are about to archive this user: <span id="archive-admin-name"></span></h4>
-                                                    <p class="text-muted fs-15 mb-4">Are you sure you want to proceed ?</p>
-                                                    <div class="hstack gap-2 justify-content-center remove">
-                                                        <button type="button" class="btn btn-link link-success fw-medium text-decoration-none" id="deleteRecord-close" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i> Close</button>
-                                                        <button type="button" class="btn btn-danger" id="archive-farmleader-btn">Yes, Archive It</button>
-                                                    </div>
+                                                
+                                            <div class="mt-4 text-center">
+                                                <input type="hidden" id="archive-adminID" class="form-control" placeholder="ID" readonly />
+                                                <h4>You are about to archive this user: <span id="archive-admin-name"></span></h4>
+                                                <p class="text-muted fs-15 mb-4">Deleting this user will also delete the associated farm, farm location, and farmers on that farm. Are you sure you want to proceed?</p>
+                                                <div class="hstack gap-2 justify-content-center remove">
+                                                    <button type="button" class="btn btn-link link-success fw-medium text-decoration-none" id="deleteRecord-close" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i> Close</button>
+                                                    <button type="button" class="btn btn-danger" id="archive-farmleader-btn">Yes, Archive It</button>
                                                 </div>
-
+                                            </div>
                                             </div>
                                         </form>
                                     </div>

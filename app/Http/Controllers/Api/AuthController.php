@@ -9,6 +9,7 @@ use App\Models\Barangay;
 use App\Models\CalendarPlanting;
 use App\Models\Expense;
 use App\Models\Farm;
+use App\Models\Farmer;
 use App\Models\User;
 use App\Models\PlantifeedModel;
 use Exception;
@@ -93,14 +94,16 @@ class AuthController extends Controller
 
     public function farmers()
     {
+        $id = Auth::user()->id;
         $farmLeaders = DB::table('users')
-            ->where('status', 1)
-            ->where('role_id', 4)
+            ->where('users.status', 1)
+            ->where('farmers.farmleader_id', $id)
+            ->leftJoin('farmers', 'farmers.farmer_id', '=', 'users.id')
             ->select(
-                "id",
-                'firstname',
-                "lastname",
-                "email"
+                "users.id",
+                'users.firstname',
+                "users.lastname",
+                "users.email"
             )
             ->get();
         return response()->json(['farmLeaders' => $farmLeaders], 200);
@@ -282,24 +285,42 @@ class AuthController extends Controller
             $user = User::where('id', $id)
                 ->where('status', 1)
                 ->firstOrFail();
-
+    
+            // Find the farm associated with the farm leader
+            $farm = Farm::where('farm_leader', $user->id)->first();
+    
+            if ($farm) {
+                // Find the farmers associated with the farm and delete them
+                $farmers = Farmer::where('farm_id', $farm->id)->get();
+                foreach ($farmers as $farmer) {
+                    $farmer->delete();
+                }
+    
+                // Delete the farm location
+                FarmLocation::where('address', $farm->address)->delete();
+    
+                // Delete the farm
+                $farm->delete();
+            }
+    
+            // Update the status of the farm leader
             $user->update([
                 'status' => 0,
             ]);
-
+    
             if ($user) {
-                return response()->json(['message' => 'Farm Leader Archive Successfully'], 200);
+                return response()->json(['message' => 'Farm Leader Archived Successfully'], 200);
             } else {
                 return response()->json(['error' => 'Internal Server Error'], 500);
             }
         } catch (ModelNotFoundException $e) {
-
-            return response()->json(['error' => 'Admin not found'], 404);
+            return response()->json(['error' => 'Farm Leader not found'], 404);
         } catch (\Exception $e) {
-
             return response()->json(['error' => 'Internal Server Error'], 500);
         }
     }
+    
+
 
     public function signup(Request $request)
     {
@@ -336,12 +357,19 @@ class AuthController extends Controller
             'status' => 1,
         ]);
 
+        $newlyInsertedId = $user->id;
+
+        $hash = $this->plantifyLibrary->generatehash($newlyInsertedId);
+
+
         // Store user data in the session
-        $request->session()->put('user', $user);
+        // $request->session()->put('user', $user);
 
-        auth()->login($user);
+        // auth()->login($user);
 
-        return redirect("/dashboard/analytics");
+        // return redirect("/dashboard/analytics");
+
+        return redirect('/verification-code?l=' . $hash);
     }
 
 
@@ -457,7 +485,7 @@ class AuthController extends Controller
     }
 
 
-    
+
     public function createFarmers(Request $request)
     {
         try {
@@ -471,6 +499,8 @@ class AuthController extends Controller
                 return response()->json(['errors' => $validator->errors()], 422);
             }
 
+            $id = Auth::user()->id;
+
             $data = $validator->validated();
             $generate_password = $this->generate_password(10);
 
@@ -483,7 +513,15 @@ class AuthController extends Controller
                 'status' => 1
             ]);
 
-            if ($farmLeaders) {
+            $newlyInsertedId = $farmLeaders->id;
+
+            $farmers = Farmer::create([
+                'farmleader_id'  => $id,
+                'farmer_id'  => $newlyInsertedId,
+                'status' => 1
+            ]);
+
+            if ($farmLeaders && $farmers) {
                 $id = $farmLeaders->id;
                 $hash = $this->plantifyLibrary->generatehash($id);
                 $emailInvitation = $this->emailInvitation($data['email'], $data['email'], $generate_password, $hash);
@@ -496,7 +534,7 @@ class AuthController extends Controller
             }
         } catch (\Exception $e) {
 
-            return response()->json(['error' => 'Internal Server Error'], 500);
+            return response()->json(['error' => 'Internal Server Error', $e], 500);
         }
     }
 
@@ -631,7 +669,7 @@ class AuthController extends Controller
         $barangays = Barangay::all();
         return view('pages.users.farmleaders', ['barangays' => $barangays]);
     }
-    
+
 
     public function getFarmers()
     {
@@ -645,5 +683,4 @@ class AuthController extends Controller
         }
         return view('landingpage');
     }
-    
 }

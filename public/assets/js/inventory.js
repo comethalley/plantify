@@ -235,16 +235,14 @@ $(document).ready(function () {
     function addSeedSupplier() {
         var supplier_id = $("#supplier-id").val();
         var seedID = $("#seed").val();
-        var uomID = $("#uom").val();
         var quantity = $("#qty").val();
-        var type = $('#type').val();
+        var type = $('#seed_type').val();
     
         // Create a FormData object to handle file uploads
         var formData = new FormData();
         formData.append('image', $('#image')[0].files[0]); // Append the image file
         formData.append('supplier_id', supplier_id);
         formData.append('seed_id', seedID);
-        formData.append('uom_id', uomID);
         formData.append('quantity', quantity);
         formData.append('type', type);
 

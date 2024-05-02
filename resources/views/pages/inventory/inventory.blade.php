@@ -242,7 +242,7 @@
                                                     </div>
                                                     <div class="col-lg-3">
                                                         <div class="input-group">
-                                                            <select class="form-select" id="type">
+                                                            <select class="form-select" id="seed_type">
                                                                 <option value="">Choose Type</option>
                                                                 <option value="Seedlings">Seedlings</option>
                                                                 <option value="Seeds">Seeds</option>

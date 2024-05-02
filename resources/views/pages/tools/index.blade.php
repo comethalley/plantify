@@ -253,7 +253,7 @@
                         <div class="modal-footer">
                             <div class="hstack gap-2 justify-content-end">
                                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-success" onclick="submitForm()">Submit Farm</button>
+                                <button type="button" class="btn btn-success" onclick="submitForm()">Submit Request</button>
                             </div>
                         </div>
                     </form>
@@ -399,10 +399,10 @@
                             var statusAndValidatedParagraph = createParagraphss(statusAndValidatedText, true, '17px'); // Specify the font size
                             containerWrapper.appendChild(statusAndValidatedParagraph);
 
-                                    // Create a container for "Remarks" with border, padding, light gray background, light black font color, and updated box-shadow
+                            // Create a container for "Remarks" with border, padding, light gray background, light black font color, and updated box-shadow
                             var remarksContainer = createContainer();
 
-                                    // Create a paragraph for "Validated By"
+                            // Create a paragraph for "Validated By"
                             var validatedByParagraph = createParagraphs(data.validated_by[index], true);
 
                             var remarkText = remark || "";
@@ -432,56 +432,56 @@
                         console.error('Error fetching farm details:', error);
                     });
 
-                                            // Function to create a wrapper container
-                            function createContainerWrapper() {
-                            var containerWrapper = document.createElement('div');
-                            containerWrapper.classList.add('rounded-border', 'status-validated-container'); // Add classes for rounded border and box-shadow
-                            return containerWrapper;
-                        }
+                // Function to create a wrapper container
+                function createContainerWrapper() {
+                    var containerWrapper = document.createElement('div');
+                    containerWrapper.classList.add('rounded-border', 'status-validated-container'); // Add classes for rounded border and box-shadow
+                    return containerWrapper;
+                }
 
-                        // Function to create a container for "Remarks"
-                        function createContainer() {
-                            var remarksContainer = document.createElement('div');
-                            remarksContainer.classList.add('inner-container'); // Add a class for styling inner container
-                            return remarksContainer;
-                        }
+                // Function to create a container for "Remarks"
+                function createContainer() {
+                    var remarksContainer = document.createElement('div');
+                    remarksContainer.classList.add('inner-container'); // Add a class for styling inner container
+                    return remarksContainer;
+                }
 
-                        // Function to create a paragraph element
-                        function createParagraph(text) {
-                            var paragraph = document.createElement('p');
-                            paragraph.innerText = text;
-                            return paragraph;
-                        }
-                        // Function to create a paragraph element
-                        function createParagraphs(text, isBold) {
-                            var paragraph = document.createElement('p');
-                            paragraph.innerText = text;
-                            if (isBold) {
-                                paragraph.style.fontWeight = 'bold';
-                            }
-                            return paragraph;
-                        }
+                // Function to create a paragraph element
+                function createParagraph(text) {
+                    var paragraph = document.createElement('p');
+                    paragraph.innerText = text;
+                    return paragraph;
+                }
+                // Function to create a paragraph element
+                function createParagraphs(text, isBold) {
+                    var paragraph = document.createElement('p');
+                    paragraph.innerText = text;
+                    if (isBold) {
+                        paragraph.style.fontWeight = 'bold';
+                    }
+                    return paragraph;
+                }
 
-                        function createParagraphss(htmlContent, isBold, fontSize) {
-                            var paragraph = document.createElement('p');
-                            paragraph.innerHTML = htmlContent;
+                function createParagraphss(htmlContent, isBold, fontSize) {
+                    var paragraph = document.createElement('p');
+                    paragraph.innerHTML = htmlContent;
 
-                            if (isBold) {
-                                paragraph.classList.add('roboto-condensed-font', 'bold');
-                            } else {
-                                paragraph.classList.add('roboto-condensed-font');
-                            }
+                    if (isBold) {
+                        paragraph.classList.add('roboto-condensed-font', 'bold');
+                    } else {
+                        paragraph.classList.add('roboto-condensed-font');
+                    }
 
-                            if (fontSize) {
-                                paragraph.style.fontSize = fontSize;
-                            }
+                    if (fontSize) {
+                        paragraph.style.fontSize = fontSize;
+                    }
 
-                            // Set margin properties
-                            paragraph.style.marginTop = '10px';
-                            paragraph.style.marginBottom = '0';
+                    // Set margin properties
+                    paragraph.style.marginTop = '10px';
+                    paragraph.style.marginBottom = '0';
 
-                            return paragraph;
-                        }
+                    return paragraph;
+                }
             }
 
 

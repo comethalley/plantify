@@ -235,12 +235,21 @@
                                                 </h5>
                                                 <div class="row">
                                                     <input type="hidden" name="supplier-id" id="supplier-id" class="form-control" readonly />
-                                                    <div class="col-lg-4">
+                                                    <div class="col-lg-3">
                                                         <div class="mb-3">
                                                             <input type="file" name="image" id="image" class="form-control" required />
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-4">
+                                                    <div class="col-lg-3">
+                                                        <div class="input-group">
+                                                            <select class="form-select" id="type">
+                                                                <option selected="" value="0">Choose Type</option>
+                                                                <option value="Seedlings">Seedlings</option>
+                                                                <option value="Seedlings">Seeds</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-3">
                                                         <div class="input-group">
                                                             <select class="form-select" id="seed">
                                                                 <option selected="" value="0">Choose Seed</option>
@@ -265,7 +274,7 @@
                                                             <input type="text" name="qty" id="qty" class="form-control" placeholder="Enter Qty" required />
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-2">
+                                                    <div class="col-lg-1">
                                                         <button type="button" class="btn btn-success add-btn" id="seed-btn"><i class="ri-add-line align-bottom me-1"></i></button>
                                                     </div>
                                                 </div>

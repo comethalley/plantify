@@ -760,8 +760,8 @@
                                     </li> -->
                                     <!-- <li class="nav-item">
                                         <a href="/inventory/fertilizer" class="nav-link" style="color:white">Fertilizer</a>
-                                    </li>
-                                    <li class="nav-item">
+                                    </li>-->
+                                    <!-- <li class="nav-item">
                                         <a href="/inventory/tools" class="nav-link" style="color:white">Tools</a>
                                     </li> -->
                                 </ul>
@@ -769,13 +769,19 @@
                         </li> <!-- end Dashboard Menu -->
                         @endif
 
-                        @if(session('user') && session('user')->role_id == 3)
+                        @if(session('user') && session('user')->role_id == 3 || session('user') && session('user')->role_id == 1 )
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="/Tools-District-5" role="button" style="color:white">
                                 <i class="ri-tools-fill"></i>
                                 <span data-key="t-dashboards">Tools/Seedlings</span>
                             </a>
                         </li>
+                        <!-- <li class="nav-item">
+                            <a class="nav-link menu-link" href="/request" role="button" style="color:white">
+                                <i class="ri-tools-fill"></i>
+                                <span data-key="t-dashboards">Tools/Seedlings</span>
+                            </a>
+                        </li> -->
                         @endif
 
                         <!-- <li class="nav-item">

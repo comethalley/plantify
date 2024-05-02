@@ -3,6 +3,7 @@
         <tr>
             <th scope="col">ID</th>
             <th scope="col">Code</th>
+            <th scope="col">Type</th>
             <th scope="col">Seed Name</th>
             <th scope="col">Image</th>
             <th scope="col">Measurement</th>
@@ -24,6 +25,7 @@
 
             <td>{{$per_Seeds->suppliers_seedsID}}</td>
             <td>{{$per_Seeds->qr_code}}</td>
+            <td>{{$per_Seeds->type}}</td>
             <td>{{$per_Seeds->seedName}}</td>
             <td><img src="/images/{{$per_Seeds->image}}" alt="" style="width: 100px;height:100px"></td>
             <td>{{$per_Seeds->umoName}}</td>

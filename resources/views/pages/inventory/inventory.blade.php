@@ -243,9 +243,9 @@
                                                     <div class="col-lg-3">
                                                         <div class="input-group">
                                                             <select class="form-select" id="type">
-                                                                <option selected="" value="0">Choose Type</option>
+                                                                <option value="">Choose Type</option>
                                                                 <option value="Seedlings">Seedlings</option>
-                                                                <option value="Seedlings">Seeds</option>
+                                                                <option value="Seeds">Seeds</option>
                                                             </select>
                                                         </div>
                                                     </div>

@@ -175,16 +175,16 @@ class AuthController extends Controller
         // Find the farm associated with the farm leader
         $farm = Farm::where('farm_leader', $farmLeaders->id)->first();
         if ($farm) {
-            $farmLocation = FarmLocation::where('address', $farm->address)->first();
+            // $farmLocation = FarmLocation::where('address', $farm->address)->first();
             return response()->json([
                 'farmLeaders' => $farmLeaders,
-                'farmLocation' => $farmLocation,
+                // 'farmLocation' => $farmLocation,
                 'farm' => $farm
             ], 200);
         } else {
             return response()->json([
                 'farmLeaders' => $farmLeaders,
-                'farmLocation' => null,
+                // 'farmLocation' => null,
                 'farm' => null
             ], 200);
         }
@@ -244,7 +244,8 @@ class AuthController extends Controller
             $validator = Validator::make($request->all(), [
                 'firstname'  => 'required|string|max:55',
                 'lastname'  => 'required|string|max:55',
-                'email' => 'required|email|unique:users,email,' . $user->id
+                'email' => 'required|email|unique:users,email,' . $user->id,
+                'farm_name' => 'required|string|max:255', // Added validation for farm_name
             ]);
 
             if ($validator->fails()) {
@@ -253,25 +254,26 @@ class AuthController extends Controller
 
             $data = $validator->validated();
 
+            // Update the farm leader's details
             $user->update([
                 'firstname' => $data['firstname'],
                 'lastname' => $data['lastname'],
                 'email' => $data['email'],
             ]);
 
-            if ($user) {
-                return response()->json(['message' => 'Measurement Updated Successfully'], 200);
-            } else {
-                return response()->json(['error' => 'Internal Server Error'], 500);
+            // Update the associated farm's name
+            if ($user->farm) {
+                $user->farm->update(['farm_name' => $data['farm_name']]);
             }
+
+            return response()->json(['message' => 'Farm Leader Updated Successfully'], 200);
         } catch (ModelNotFoundException $e) {
-
-            return response()->json(['error' => 'Admin not found'], 404);
+            return response()->json(['error' => 'Farm Leader not found'], 404);
         } catch (\Exception $e) {
-
             return response()->json(['error' => 'Internal Server Error'], 500);
         }
     }
+
 
     public function archiveAdmin(Request $request, $id)
     {
@@ -333,8 +335,7 @@ class AuthController extends Controller
                     'status' => 0,
                 ]);
             }
-
-            // Update the status of the farm leader
+            
             $user->update([
                 'status' => 0,
             ]);
@@ -496,7 +497,7 @@ class AuthController extends Controller
             'area' => $data['area'],
             'status' => "Created",
             'farm_leader' => $farmLeaderId, // Assuming 'farm_leader' is the field name in the farms table
-        ]);
+        ]); 
 
         // Create a new farm location record
         $farmLocation = new FarmLocation();

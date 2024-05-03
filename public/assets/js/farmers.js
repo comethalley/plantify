@@ -47,68 +47,70 @@ $(document).ready(function () {
         });
     }
 
-    function updateFarmLeader() {
-        var farmLeaderID = $("#farmLeaderID").val();
-        var firstname = $("#edit-firstname").val();
-        var lastname = $("#edit-lastname").val();
-        var email = $("#edit-email").val();
-
-        console.log(farmLeaderID);
-        $.ajax({
-            url: "/editFarmLeader/" + farmLeaderID,
-            method: "POST",
-            headers: {
-                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-            },
-            data: {
-                firstname: firstname,
-                lastname: lastname,
-                email: email,
-            },
-            success: function (data) {
-                console.log(data);
-                getFarmLeader();
-                $("#editFLModal").modal("hide");
-                Swal.fire({
-                    title: "Successfully Updated",
-                    // text: "Are you ready for the next level?",
-                    icon: "success",
-                });
-            },
-            error: function (xhr, status, error) {
-                if (xhr.status === 422) {
-                    var errorsResponse = JSON.parse(xhr.responseText);
-                    console.error("Validation Error:", errorsResponse);
-
-                    var errorMessage = "";
-
-                    if (errorsResponse.errors) {
-                        for (var key in errorsResponse.errors) {
-                            if (errorsResponse.errors.hasOwnProperty(key)) {
-                                errorMessage +=
-                                    errorsResponse.errors[key][0] + "\n";
-                            }
-                        }
-                    } else {
-                        errorMessage = "Validation error occurred.";
-                    }
-
-                    Swal.fire({
-                        title: "Validation Error",
-                        text: errorMessage,
-                        icon: "error",
-                    });
-                } else {
-                    console.error("Error:", error);
-                    Swal.fire({
-                        title: "Error",
-                        text: "An error occurred while processing your request. Please try again later.",
-                        icon: "error",
-                    });
-                }
-            },
-        });
-    }
+    // function updateFarmLeader() {
+    //     var farmLeaderID = $("#farmLeaderID").val();
+    //     var firstname = $("#edit-firstname").val();
+    //     var lastname = $("#edit-lastname").val();
+    //     var email = $("#edit-email").val();
+    //     var farm_name = $("#farm").val();
+    
+    //     $.ajax({
+    //         url: "/editFarmLeader/" + farmLeaderID,
+    //         method: "POST",
+    //         headers: {
+    //             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+    //         },
+    //         data: {
+    //             firstname: firstname,
+    //             lastname: lastname,
+    //             email: email,
+    //             farm_name: farm_name,
+    //         },
+    //         success: function (data) {
+    //             console.log(data);
+    //             // console.log(farmerLeaderID)
+    //             getFarmLeader();
+    //             $("#editFLModal").modal("hide");
+    //             Swal.fire({
+    //                 title: "Successfully Updated",
+    //                 icon: "success",
+    //             });
+    //         },
+    //         error: function (xhr, status, error) {
+    //             // console.log(farmerLeaderID)
+    //             if (xhr.status === 422) {
+    //                 var errorsResponse = JSON.parse(xhr.responseText);
+    //                 console.error("Validation Error:", errorsResponse);
+    
+    //                 var errorMessage = "";
+    
+    //                 if (errorsResponse.errors) {
+    //                     for (var key in errorsResponse.errors) {
+    //                         if (errorsResponse.errors.hasOwnProperty(key)) {
+    //                             errorMessage +=
+    //                                 errorsResponse.errors[key][0] + "\n";
+    //                         }
+    //                     }
+    //                 } else {
+    //                     errorMessage = "Validation error occurred.";
+    //                 }
+    
+    //                 Swal.fire({
+    //                     title: "Validation Error",
+    //                     text: errorMessage,
+    //                     icon: "error",
+    //                 });
+    //             } else {
+    //                 console.error("Error:", error);
+    //                 Swal.fire({
+    //                     title: "Error",
+    //                     text: "An error occurred while processing your request. Please try again later.",
+    //                     icon: "error",
+    //                 });
+    //             }
+    //         },
+    //     });
+    // }
 
     function archiveFarmLeader() {
         var farmLeaderID = $("#archive-adminID").val();
@@ -209,9 +211,9 @@ $(document).ready(function () {
         });
     });
 
-    $("#updateFarmLeader").on("click", function () {
-        updateFarmLeader();
-    });
+    // $("#updateFarmLeader").on("click", function () {
+    //     updateFarmLeader();
+    // });
 
     $("#archive-farmleader-btn").on("click", function () {
         archiveFarmLeader();

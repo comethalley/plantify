@@ -291,7 +291,7 @@
                                             <h5 class="modal-title" id="exampleModalLabel">Edit Farm Leader</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
                                         </div>
-                                        <form method="post" action="/update-farm-leader">
+                                        <form method="post" action="/add-supplier">
                                             @csrf
                                             <div class="modal-body">
                                                 <input type="hidden" id="id-field" />
@@ -314,20 +314,20 @@
                                                 </div>
 
                                                 <div class="mb-3">
-                                                    <label for="edit-email" class="form-label">Farm</label>
+                                                    <label for="farm" class="form-label">Farm Name</label>
                                                     <input type="text" name="farm" id="farm" class="form-control" placeholder="Enter Farm" required />
                                                 </div>
 
-                                                <div class="mb-3">
+                                                <!-- <div class="mb-3">
                                                     <label for="location" class="form-label">Location</label>
                                                     <input type="text" name="location" id="location" class="form-control" placeholder="Enter Location" required />
-                                                </div>
+                                                </div> -->
 
                                             </div>
                                             <div class="modal-footer">
                                                 <div class="hstack gap-2 justify-content-end">
                                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                                                    <button type="submit" class="btn btn-success" id="updateFarmLeader">Update</button>
+                                                    <button type="button" class="btn btn-success" id="updateFarmLeader">Update</button>
                                                 </div>
                                             </div>
                                         </form>

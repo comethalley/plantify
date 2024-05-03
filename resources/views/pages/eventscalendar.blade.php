@@ -242,7 +242,7 @@
           
                                 @if(auth()->user()->role_id == 3 || auth()->user()->role_id == 4)
 
-                                <button id="interested-btn" class="btn btn-primary">Interested</button>
+                                <a href="#" id="interested-btn" class="btn btn-primary" target="_blank">Interested</a>
 
                                 @endif
                                 @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2)
@@ -441,7 +441,7 @@
                 },
                
                 eventClick: function (info) {
-                  //  console.log(info.event)
+                   console.log(info.event)
                   //  console.log("Event is", info.event._def.extendedProps);
                     var eventTitle = info.event._def.title;
                     var eventId = info.event._def.publicId;
@@ -482,6 +482,8 @@ $('#eventendtime').text(moment(response.endtime, 'HH:mm:ss').format('h:mm A'));
             $('#eventimage').attr('src', imageUrl);
             // Show the modal
             $('#EventdetailModal').modal('show');
+
+            $('#interested-btn').attr('href', '/event/attendance/form/'+ eventId);
         },
         error: function(xhr, status, error) {
             // Handle errors
@@ -782,15 +784,15 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     </script>
     <script>
-    // Get the current URL
-    let currentUrl = window.location.href;
+    // // Get the current URL
+    // let currentUrl = window.location.href;
 
-    // Extract the event ID from the URL
-    let eventId = currentUrl.substr(currentUrl.lastIndexOf('/') + 1);
+    // // Extract the event ID from the URL
+    // let eventId = currentUrl.substr(currentUrl.lastIndexOf('/') + 1);
 
-    // Redirect to the form page when the button is clicked
-    document.getElementById('interested-btn').addEventListener('click', function() {
-        window.location.href = "/event/attendance/form/" + eventId;
-    });
+    // // Redirect to the form page when the button is clicked
+    // document.getElementById('interested-btn').addEventListener('click', function() {
+    //     window.location.href = "/event/attendance/form/" + eventId;
+    // });
 </script>
 @include('templates.footer')

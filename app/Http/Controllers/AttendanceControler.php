@@ -23,6 +23,15 @@ class AttendanceControler extends Controller
 
         return view('pages.eventattendance', ['events' => $events, 'data' => $data]);
     }
+    public function fetchAttendees($event_id)
+    {
+        // Fetch attendees for the specified event ID
+        $attendees = EventAttendance::where('event_id', $event_id)
+            ->select('first_name', 'last_name', 'email', 'barangay')
+            ->get();
+        
+        return response()->json($attendees);
+    }
     public function showAttendanceList($id)
     {
         

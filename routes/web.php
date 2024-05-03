@@ -227,6 +227,10 @@ Route::get('/attendees', [AttendanceControler::class, 'attendees'])->name('event
 Route::post('/event/attendance/submit/{event_id}', [AttendanceControler::class, 'submit'])->name('event.attendance.submit');
 Route::get('/event/{eventId}/attendance', [AttendanceControler::class, 'showAttendanceList']);
 Route::get('/event/attendance/form/{id}', [AttendanceControler::class, 'attendanceForm'])->name('event.attendance.form');
+
+
+Route::get('/fetch-attendees/{event_id}', [AttendanceControler::class, 'fetchAttendees']);
+
 // End Full Calender=================================================================
 
 Route::get('/plantcalendar', [PlantCalendar::class, 'index']);

@@ -75,29 +75,23 @@
 </div>
 
 
-<h5>Attendance List</h5>
-<table class="table" id="attendance-table">
+<form id="eventForm">
+    <label for="eventId">Enter Event ID:</label>
+    <input type="text" id="eventId" name="eventId">
+    <button type="submit">Fetch Attendees</button>
+</form>
+
+<table id="attendeesTable">
     <thead>
         <tr>
-            <th>#</th>
             <th>Name</th>
             <th>Email</th>
-            <th>Status</th>
+            <th>Barangay</th>
         </tr>
     </thead>
-    <tbody>
-       
-            @foreach($event as $attendance)
-                <tr>
-                    <td>{{ $attendance->event_id }}</td>
-                    <td>{{ $attendance->first_name }} {{ $attendance->last_name }}</td>
-                    <td>{{ $attendance->email }}</td>
-                    <td></td>
-                </tr>
-            @endforeach
-       
-    </tbody>
+    <tbody></tbody>
 </table>
+
 
 
 
@@ -117,12 +111,35 @@
 
 </div>
 <!-- END layout-wrapper -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
-    document.querySelector('.dropdown').addEventListener('click', function(event) {
-        event.stopPropagation(); // Prevent the dropdown from closing when clicking inside it
-        document.getElementById('dropdownMenuButton').click(); // Manually toggle the dropdown
+    $(document).ready(function() {
+        $('#eventForm').submit(function(event) {
+            event.preventDefault();
+            var eventId = $('#eventId').val();
+            fetchAttendees(eventId);
+        });
+
+        function fetchAttendees(eventId) {
+            $.ajax({
+                url: '/fetch-attendees/' + eventId,
+                method: 'GET',
+                success: function(response) {
+                    $('#attendeesTable tbody').empty(); // Clear existing rows
+                    if (response.length > 0) {
+                        response.forEach(function(attendee) {
+                            $('#attendeesTable tbody').append('<tr><td>' + attendee.first_name + ' ' + attendee.last_name + '</td><td>' + attendee.email + '</td><td>' + attendee.barangay + '</td></tr>');
+                        });
+                    } else {
+                        $('#attendeesTable tbody').append('<tr><td colspan="3">No attendees found for this event ID.</td></tr>');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching attendees:', error);
+                    $('#attendeesTable tbody').append('<tr><td colspan="3">An error occurred while fetching attendees.</td></tr>');
+                }
+            });
+        }
     });
 </script>
 

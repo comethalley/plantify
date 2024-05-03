@@ -40,7 +40,7 @@ function updateTemperature(temperature) {
 }
 
 function getTemperatureData(city) {
-    const apiKey = "ND796KW6JQ7Z35LYMNKB7HC87";
+    const apiKey = "C4YX6WXF38XQJPM9LJ533B8E4";
     fetch(
         `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?unitGroup=metric&include=current&key=${apiKey}&contentType=json`,
         { method: "GET" }

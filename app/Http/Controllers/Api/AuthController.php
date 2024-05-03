@@ -96,6 +96,14 @@ class AuthController extends Controller
     public function farmers()
     {
         $id = Auth::user()->id;
+        $role = DB::table('users')
+            ->where('id', $id)
+            ->select(
+                "role_id",
+
+            )
+            ->get();
+
         $farmLeaders = DB::table('users')
             ->where('users.status', 1)
             ->where('farmers.farmleader_id', $id)
@@ -107,7 +115,7 @@ class AuthController extends Controller
                 "users.email"
             )
             ->get();
-        return response()->json(['farmLeaders' => $farmLeaders], 200);
+        return response()->json(['farmLeaders' => $farmLeaders, 'role' => $role], 200);
     }
 
     public function getAllAdmin()
@@ -152,48 +160,48 @@ class AuthController extends Controller
     }
 
     public function viewfarmLeaders($id)
-{
-    try {
-        $user = User::findOrFail($id);
+    {
+        try {
+            $user = User::findOrFail($id);
 
-        $farmLeaders = DB::table('users')
-            ->where('status', 1)
-            ->where('role_id', 3)
-            ->where('id', $id)
-            ->select(
-                "id",
-                'firstname',
-                "lastname",
-                "email",
-            )
-            ->first();
+            $farmLeaders = DB::table('users')
+                ->where('status', 1)
+                ->where('role_id', 3)
+                ->where('id', $id)
+                ->select(
+                    "id",
+                    'firstname',
+                    "lastname",
+                    "email",
+                )
+                ->first();
 
-        if (!$farmLeaders) {
+            if (!$farmLeaders) {
+                return response()->json(['error' => 'Farm Leader not found'], 404);
+            }
+
+            // Find the farm associated with the farm leader
+            $farm = Farm::where('farm_leader', $farmLeaders->id)->first();
+            if ($farm) {
+                $farmLocation = FarmLocation::where('address', $farm->address)->first();
+                return response()->json([
+                    'farmLeaders' => $farmLeaders,
+                    'farmLocation' => $farmLocation,
+                    'farm' => $farm
+                ], 200);
+            } else {
+                return response()->json([
+                    'farmLeaders' => $farmLeaders,
+                    'farmLocation' => null,
+                    'farm' => null
+                ], 200);
+            }
+        } catch (ModelNotFoundException $e) {
             return response()->json(['error' => 'Farm Leader not found'], 404);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Internal Server Error'], 500);
         }
-
-        // Find the farm associated with the farm leader
-        $farm = Farm::where('farm_leader', $farmLeaders->id)->first();
-        if ($farm) {
-            $farmLocation = FarmLocation::where('address', $farm->address)->first();
-            return response()->json([
-                'farmLeaders' => $farmLeaders,
-                'farmLocation' => $farmLocation,
-                'farm' => $farm
-            ], 200);
-        } else {
-            return response()->json([
-                'farmLeaders' => $farmLeaders,
-                'farmLocation' => null,
-                'farm' => null
-            ], 200);
-        }
-    } catch (ModelNotFoundException $e) {
-        return response()->json(['error' => 'Farm Leader not found'], 404);
-    } catch (\Exception $e) {
-        return response()->json(['error' => 'Internal Server Error'], 500);
     }
-}
 
     public function updateAdmin(Request $request, $id)
     {
@@ -346,12 +354,12 @@ class AuthController extends Controller
             return response()->json(['error' => 'Internal Server Error'], 500);
         }
     }
-    
-    
-    
 
 
-    
+
+
+
+
 
 
     public function signup(Request $request)

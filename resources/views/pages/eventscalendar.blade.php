@@ -168,15 +168,15 @@
                                                         </div>
                                                     </div>
                                                     
-                                                                <div class="mb-3">
-                                                    <label class="form-label">Who can see it?</label>
-                                                    <select id="choices-multiple-remove-button" data-choices data-choices-remove-item multiple>
-                                                    <option value="Option 1">all</option>
-                                                    <option value="Option 2">farmleader</option>
-                                                    <option value="Option 3">farmer</option>
-                                                    <option value="Option 4">bagbag</option>
-                                                </select>
-                                                </div>
+                                                    <div class="mb-3">
+    <label class="form-label">Who can see it?</label>
+    <select name="visibility" id="choices-multiple-remove-button" data-choices data-choices-remove-item multiple>
+        <option value="all">all</option>
+        <option value="farmleader">farmleader</option>
+        <option value="farmer">farmer</option>
+        <option value="bagbag">bagbag</option>
+    </select>
+</div>
                                                     
                                        <div class="mb-3">
                                                     <label for="location" class="form-label">Location</label>
@@ -241,9 +241,9 @@
                             <div class="hstack gap-2 justify-content-end">
           
                                 @if(auth()->user()->role_id == 3 || auth()->user()->role_id == 4)
-                                @foreach ($events as $event)
-                                <button id="interestButton" data-event-id="1" class="btn bg-success text-white">
-@endforeach
+
+                                <button id="interested-btn" class="btn btn-primary">Interested</button>
+
                                 @endif
                                 @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2)
                                 <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#archiveModal1">Delete</button>
@@ -781,4 +781,16 @@ document.addEventListener('DOMContentLoaded', function() {
             removeItemButton: true,
         });
     </script>
+    <script>
+    // Get the current URL
+    let currentUrl = window.location.href;
+
+    // Extract the event ID from the URL
+    let eventId = currentUrl.substr(currentUrl.lastIndexOf('/') + 1);
+
+    // Redirect to the form page when the button is clicked
+    document.getElementById('interested-btn').addEventListener('click', function() {
+        window.location.href = "/event/attendance/form/" + eventId;
+    });
+</script>
 @include('templates.footer')

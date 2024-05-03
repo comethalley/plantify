@@ -164,7 +164,9 @@
             <hr>
          
 
-            <form action="#" method="post">
+            <form action="{{ route('event.attendance.submit', ['event_id' => $event->id]) }}" method="POST">
+
+                    @csrf
               <br>  <div class="row mb-6">
                     <div class="col">
                         <label for="firstName" class="form-label">First Name:</label>

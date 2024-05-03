@@ -21,6 +21,7 @@ return new class extends Migration
             $table->date('end');
             $table->time('starttime');
             $table->time('endtime');
+            $table->string('visibility');
             $table->text('location')->nullable();
             $table->text('description')->nullable();
             $table->string('image')->nullable();

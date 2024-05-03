@@ -86,19 +86,16 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>1</td>
-            <td>John Doe</td>
-            <td>johndoe@example.com</td>
-            <td><input type="checkbox" data-status="present" checked></td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>Jane Smith</td>
-            <td>janesmith@example.com</td>
-            <td><input type="checkbox" data-status="absent"></td>
-        </tr>
-        <!-- Add more rows as needed -->
+       
+            @foreach($event as $attendance)
+                <tr>
+                    <td>{{ $attendance->event_id }}</td>
+                    <td>{{ $attendance->first_name }} {{ $attendance->last_name }}</td>
+                    <td>{{ $attendance->email }}</td>
+                    <td></td>
+                </tr>
+            @endforeach
+       
     </tbody>
 </table>
 

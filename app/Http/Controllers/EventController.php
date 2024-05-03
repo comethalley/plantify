@@ -28,9 +28,9 @@ class EventController extends Controller
     
     public function generateRegistrationForm($id) {
         // Fetch event details based on the $id from the database
-        $events = Event::find($id);
+        $event = Event::find($id);
         // Pass the event details to the blade view
-        return view('pages.form', ['events' => $events]);
+        return view('pages.form', ['event' => $event]);
     
     }
     public function storeInterested(Request $request, $eventId)
@@ -57,6 +57,7 @@ class EventController extends Controller
         $item->end = $request->end;
         $item->starttime = $request->starttime;
         $item->endtime = $request->endtime;
+        $item->visibility = $request->visibility;
         $item->location = $request->location;
         $item->description = $request->description;
 

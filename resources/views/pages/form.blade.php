@@ -91,7 +91,7 @@
 
         body {
             font-family: Arial, sans-serif;
-            background-color: #006400;
+            background-color: #c8c8cd;
             padding-top: 40px;
             padding-bottom: 40px;
         }
@@ -152,7 +152,7 @@
 </head>
 
 <body>
-<div class="container">
+<!-- <div class="container">
     <div class="card">
         <div class="card-body">
             
@@ -210,7 +210,7 @@
                         <option value="Barangay 1">Barangay 1</option>
                         <option value="Barangay 2">Barangay 2</option>
                         <option value="Barangay 3">Barangay 3</option>
-                        <!-- Add more barangays as needed -->
+                        
                     </select>
                 </div>
 
@@ -221,9 +221,119 @@
         </div>
     </div>
 </div>
+ -->
+
+                <div class="row">
+                        <div class="col-xl-12">
+                             <div class="card card-lg">
+                             <div class="card-header align-items-center d-flex" style="background-color:#25A90B;">
+                             <h1 class="card-title text-center text-justify custom-title" style="font-size: 1rem; color: white;"><strong>Fill Up Form</strong></h1><br>      
+                                    <div class="flex-shrink-0">
+                                    <div class="form-check form-switch form-switch-right form-switch-md">                                                                
+                                        </div>       
+                                    </div>
+                                </div><!-- end card header -->
+                                <div class="card-body">
+                                <div class="card-title-container justify-text-center">
+                                <h1 class="card-title text-center text-justify custom-title" style="font-size: 1.3rem; margin-bottom: 15px;"><strong>Pre-Registration Form</strong></h1>
+                                <h5 class="card-title text-center mb-2 "><strong>Event Name: sunflower festival</strong></h5>
+                                <p class="card-text text-center mb-2 "><strong>Date: may 2 2024 to may 4 2024</strong> </p>
+                                <p class="card-text text-center" style="border-bottom: 1px solid #000;"><strong>Time: 8am to 6pm</strong></p>
+                                <hr>
+         
+                                    <div class="live-preview">
+                                    <div class="row gy-4">
+     <div class="col">
+        <div class="row">
+            <div class="col">
+                <div>
+                    <label for="firstName" class="form-label">First Name</label>
+                    <input type="text" class="form-control" id="firstName" placeholder="First Name">
+                </div>
+            </div>
+            <div class="col">
+                <div>
+                    <label for="lastName" class="form-label">Last Name</label>
+                    <input type="text" class="form-control" id="lastName" placeholder="Last Name">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div>
+                    <label for="middleInitial" class="form-label">M.I</label>
+                    <input type="text" class="form-control" id="middleInitial" placeholder="M.I">
+                </div>
+            </div>
+        </div><!-- end row -->
+    </div><!-- end col -->
+</div><!-- end row -->
+                                          
+                                            <!--end col-->
+                                            <div class="row gy-4">
+                                            <div class="col">
+                                            
+                                                <div>
+                                                    <label for="iconInput" class="form-label">Email Address</label>
+                                                    <div class="form-icon">
+                                                        <input type="email" class="form-control form-control-icon" id="iconInput" placeholder="example@gmail.com">
+                                                        <i class="ri-mail-unread-line"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                         <!--end col-->
+
+                                            <div class="col-xxl-3 col-md-6">
+                                                <div>
+                                                    <label for="placeholderInput" class="form-label">Contact Number</label>
+                                                    <input type="password" class="form-control" id="placeholderInput" placeholder="09*********">
+                                                </div>
+                                            </div>
+                                            </div>
+                                          
+                                            <!--end col-->
+                                            <div class="row gy-4">
+                                            <div class="col">
+                                                <div>
+                                                    <label for="placeholderInput" class="form-label">Age</label>
+                                                    <input type="password" class="form-control" id="placeholderInput" placeholder="18">
+                                                </div>
+                                            </div>
+                                            <div>
+                                          
+                                            <!--end col-->
+                                            <div class="row gy-4">
+                                            <div class="col">
+                                                <div>
+                                                    <label for="placeholderInput" class="form-label">Complete Address</label>
+                                                    <input type="password" class="form-control" id="placeholderInput" placeholder="Complete address">
+                                                </div>
+                                            </div>
+                                          <div>
+                                            <!--end col-->
+                                            <div class="row gy-4">
+                                            <div class="col">
+                                            <label for="placeholderInput" class="form-label">Barangay</label>
+                                                <select class="form-select mb-3" aria-label="Default select example">
+                                                    <option selected>Please select barangay </option>
+                                                    <option value="1">Bagbag</option>
+                                                    <option value="2">Capri</option>
+                                                    <option value="3">Gulod</option>
+                                                </select>
+                                            </div>
+                                            </div>
+
+
+                                            <div class="d-flex justify-content-end">
+                                            <button type="button" class="btn btn-success waves-effect waves-light">Submit</button>
+                                             </div>
+                                        </div>
+                                        <!--end row-->
+                                    </div>
 
     <!-- Bootstrap JS (optional) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
 
 
 </body>

@@ -142,6 +142,10 @@
                                                 <h1 id="temp">0</h1>
                                                 <span class="temp-unit">°C</span>
                                             </div>
+                                            <div class="feels-like">
+                                                <h2 id="feels-like">Feels Like: 0</h2>
+                                                <span class="temp-unit">°C</span>
+                                              </div>
                                             <div class="date-time">
                                                 <p id="date-time">Monday, 12:00</p>
                                             </div>

@@ -456,7 +456,7 @@ $(document).ready(function() {
 
     Pusher.logToConsole = true;
 
-var pusher = new Pusher('ebad2ef1a296a8ac5320', {
+var pusher = new Pusher('54f1c49cb67ee0620dac', {
     cluster: 'ap1'
 });
 
@@ -684,7 +684,7 @@ window.deleteMessage = function(element) {
 
     Pusher.logToConsole = true;
 
-    var pusher = new Pusher('d7630bf7a930051c0329', {
+    var pusher = new Pusher('54f1c49cb67ee0620dac', {
         cluster: 'ap1'
     });
 

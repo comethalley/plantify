@@ -78,11 +78,15 @@
                                                         <button type="button" class="btn member-button" data-member-id="{{ $user->id }}" data-thread-id="{{ $user->thread_id }}">
                                                             <!-- Your user display content -->
                                                             <div class="d-flex align-items-center">
-                                                                <div class="avatar-sm">
+                                                            @if($profileSettings)
+                                                                <img src="{{ $profileSettings->profile_image ? asset('storage/' . $profileSettings->profile_image) : asset('path_to_default_image') }}" alt="" class="avatar-lg img-thumbnail rounded-circle mx-auto profile-img">
+                                                            @else
+                                                                <img class="rounded-circle header-profile-user" src="assets/images/plantifeedpics/rounded.png" alt="Header Avatar">
+                                                            @endif
                                                                     @if ($user->unread_message_count > 0)
                                                                         <span class="position-absolute topbar-badge fs-10 translate-end badge rounded-pill bg-danger">{{ $user->unread_message_count }}</span>
                                                                     @endif
-                                                                </div>
+                                                                
                                                                 <div class="ms-2">
                                                                     <h6 class="mb-0">{{ $user->firstname }} {{ $user->lastname }}</h6>
                                                                 </div>
@@ -124,6 +128,7 @@
                                                         {{-- Display only for role_id 2 (Admin and Farm Leaders) --}}
                                                         <button type="button" class="btn channel-button" data-group-id="{{ $group->id }}" data-farm-id="{{ optional($farmLeaders)->id }}">
                                                             <div class="d-flex align-items-center">
+                                                            <img class="rounded-circle header-profile-user" src="assets/images/plantifeedpics/rounded.png" alt="Header Avatar">
                                                                 <div class="ms-2">
                                                                     <h6 class="mb-0">{{ $group->group_name }}</h6>
                                                                     @if ($group->unread_message_count > 0)
@@ -136,6 +141,7 @@
                                                         {{-- Display for role_id 3 (both Admin and Farm Leaders, Farm Leader and Farmers) --}}
                                                         <button type="button" class="btn channel-button" data-group-id="{{ $group->id }}" data-farm-id="{{ optional($farmLeaders)->id }}">
                                                             <div class="d-flex align-items-center">
+                                                            <img class="rounded-circle header-profile-user" src="assets/images/plantifeedpics/rounded.png" alt="Header Avatar">
                                                                 <div class="ms-2">
                                                                     <h6 class="mb-0">{{ $group->group_name }}</h6>
                                                                     @if ($group->unread_message_count > 0)
@@ -148,6 +154,7 @@
                                                         {{-- Display only for role_id 4 (Farm Leader and Farmers) --}}
                                                         <button type="button" class="btn channel-button" data-group-id="{{ $group->id }}" data-farm-id="{{ optional($farmLeaders)->id }}">
                                                             <div class="d-flex align-items-center">
+                                                            <img class="rounded-circle header-profile-user" src="assets/images/plantifeedpics/rounded.png" alt="Header Avatar">
                                                                 <div class="ms-2">
                                                                     <h6 class="mb-0">{{ $group->group_name }}</h6>
                                                                     @if ($group->unread_message_count > 0)

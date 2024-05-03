@@ -9,6 +9,7 @@ use App\Models\Group;
 use App\Models\GroupMember;
 use App\Models\GroupThread;
 use App\Models\GroupMessage;
+use App\Models\ProfileSettings;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -98,7 +99,10 @@ class GroupController extends Controller
                 })
                 ->exists();
         });
-        $messages = $groupThread ? $groupThread->messages : collect();
+        $messages = $groupThread ? $groupThread->messages()->with('sender')->get() : collect();
+        $messages->load('sender');
+
+        $profileSettings = ProfileSettings::where('user_id', $currentUser->id)->first();
         $groups = Group::all();
         $farmLeaders = DB::table('farms')
             ->where('status', 1)
@@ -106,7 +110,7 @@ class GroupController extends Controller
             ->first();
 
         // Return the view with the necessary data
-        return view('pages.groups', compact('groupThread', 'filteredUsers', 'messages', 'groups', 'farmLeaders'));
+        return view('pages.groups', compact('groupThread', 'filteredUsers', 'messages', 'groups', 'farmLeaders', 'profileSettings'));
     } catch (ModelNotFoundException $e) {
         // If the group is not found, return a 404 response
         abort(404);

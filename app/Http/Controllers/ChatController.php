@@ -40,6 +40,8 @@ class ChatController extends Controller
     // Add your logic to retrieve chat threads (modify as per your actual implementation)
     $threads = Thread::with('messages')->get();
 
+    $profileSettings = ProfileSettings::where('user_id', $currentUser->id)->first();
+
     // Get a list of groups
     $groups = Group::all();
 
@@ -50,7 +52,7 @@ class ChatController extends Controller
         ->select("*")
         ->first();
 
-    return view('pages.chat', compact('filteredUsers', 'threads', 'groups', 'farmLeaders'));
+    return view('pages.chat', compact('filteredUsers', 'threads', 'groups', 'farmLeaders', 'profileSettings'));
 }
 
 

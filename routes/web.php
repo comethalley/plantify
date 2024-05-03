@@ -146,6 +146,7 @@ Route::put('/edit-post/{id}', [PostController::class, 'editPost'])->name('editPo
 // Route for profile
 
 
+
 Route::get('/profile-feed', [ProfilefeedController::class, 'show'])->name('profile-feed');
 
 Route::get('/profilesettings', [ProfileSettingsController::class, 'show'])->name('profilesettings');
@@ -160,9 +161,6 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::post('/save-profile-info', [ProfileSettingsController::class, 'saveOrUpdate'])->name('save.profile.info');
-
-
-
 
 
 // routes/web.php

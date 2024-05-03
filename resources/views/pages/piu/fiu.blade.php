@@ -26,17 +26,17 @@
     </form>
 </div>
 
-            <!-- start page title -->
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-xl-4">
-    @foreach($fer as $fer)
+<!-- start page title -->
+<div id="cardContainer" class="row row-cols-1 row-cols-sm-2 row-cols-xl-4">
+    @foreach($fer as $fers)
     <div class="col-sm-6 col-xl-3" style="padding: 6px;">
         <!-- Simple card -->
         <div class="card" style="width: 100%; height: 100%;">
-            <img class="card-img-top img-fluid mb-2" src="/images/{{ $fer->fer_image}}" alt="Card image cap" style="object-fit: cover; height: 200px;">
+            <img class="card-img-top img-fluid mb-2" src="/images/{{ $fers->fer_image}}" alt="Card image cap" style="object-fit: cover; height: 200px;">
             <div class="card-body">
-                <h4 class="card-title mb-2 text-center">{{ $fer->fer_name}}</h4><br>
+                <h4 class="card-title mb-2 text-center">{{ $fers->fer_name}}</h4><br>
                 <div class="text-end">
-                    <a href="{{ url('piu/showfiu', $fer->id) }}" class="btn btn-success add-btn d-flex justify-content-center align-items-center">Read more</a>
+                    <a href="{{ url('piu/showfiu', $fers->id) }}" class="btn btn-success add-btn d-flex justify-content-center align-items-center">Read more</a>
                 </div>
             </div>
         </div>
@@ -63,45 +63,34 @@
 
 </div>
 
-<script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+
+<script>
 $(document).ready(function() {
     $('#searchInput').on('keyup', function() {
         var searchText = $(this).val().toLowerCase();
-        
-        // Loop through each card container
-        $('.row-cols-1.row-cols-sm-2.row-cols-xl-4.row-cols-xxl-4').each(function() {
-            var $columns = $(this).children('.col-sm-6');
-            var found = false;
-            
-            // Loop through each column
-            $columns.each(function() {
-                var $card = $(this).find('.card');
-                var plantName = $card.find('.card-title').text().toLowerCase();
-                
-                // Check if the plant name contains the search text
-                if (plantName.includes(searchText)) {
-                    // Move the column containing the matching plant name to the beginning
-                    $(this).prependTo($(this).parent());
-                    found = true;
-                }
-                
-                // Show or hide the card based on whether it matches the search text
-                if (plantName.includes(searchText)) {
-                    $card.show();
-                } else {
-                    $card.hide();
-                }
-            });
-            
-            // If no match found, keep the original order and show all cards
-            if (!found) {
-                $columns.each(function(index) {
-                    $(this).appendTo($(this).parent());
-                    $(this).find('.card').show();
-                });
+        var resultCount = 0; // Initialize result count
+        $('.card').each(function() {
+            var ferName = $(this).find('.card-title').text().toLowerCase();
+            if (ferName.includes(searchText)) {
+                $(this).closest('.col-sm-6').show();
+                resultCount++; // Increment result count for each match found
+            } else {
+                $(this).closest('.col-sm-6').hide();
             }
         });
+        // Display message if no results found
+        if (resultCount === 0) {
+            $('#noFarmsMessageContainer').show();
+        } else {
+            $('#noFarmsMessageContainer').hide();
+        }
+        // Hide message if search input is empty
+        if (searchText === "") {
+            $('#noFarmsMessageContainer').hide();
+            $('.col-sm-6').show(); // Show all items if search input is empty
+        }
     });
 });
 

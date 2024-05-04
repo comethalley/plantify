@@ -10,6 +10,7 @@ use App\Rules\StrongPassword;
 use Illuminate\Support\Facades\Hash;
 use App\Models\ProfileSettings;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use App\Models\User;
 
 
@@ -58,6 +59,8 @@ class ProfileSettingsController extends Controller
                 $profileSettings->save();
             }
 
+            Session::flash('message', ucfirst($request->type) . ' image uploaded successfully');
+
             // Return success response
             return response()->json(['message' => ucfirst($request->type) . ' image uploaded successfully'], 200);
         }
@@ -86,6 +89,7 @@ class ProfileSettingsController extends Controller
         $validatedData
     );
 
+    Session::flash('message', 'Other Infos updated successfully.');
 
     return redirect()->back()->with('success', 'Profile Info updated successfully.');
 }
@@ -109,6 +113,7 @@ class ProfileSettingsController extends Controller
             'email' => $request->email,
         ]);
 
+        Session::flash('message', 'Profile details updated successfully.');
 
 
         // I-return ang response
@@ -146,6 +151,8 @@ class ProfileSettingsController extends Controller
         $user->update([
             'password' => Hash::make($request->password),
         ]);
+
+        Session::flash('message', 'Password updated successfully.');
     
         // I-return ang response
         return redirect()->back()->with('success', 'Password updated successfully.');

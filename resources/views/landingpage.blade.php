@@ -257,7 +257,7 @@
                 
                     <div class="container-fluid card" style="background-color: #066903">
                         <div class="card-body">
-                            <h2 class="mb-4 text-center" style="color: #ffffff;">Engage in the community using<br><span style="color:#FFAB2D;"><strong>P L A N T I F E E D</strong></span></h2>
+                            <h2 class="mb-4 text-center" style="color: #ffffff;">Engage in the community using<br><span style="color:#FFAB2D;"><strong>COMMUNITY FORUM </strong></span></h2>
                                 <div class="row align-items-center justify-content-lg-between justify-content-center gy-4">
 
                                         <div class="col-lg-6">

@@ -634,6 +634,11 @@ class AuthController extends Controller
             return back()->withErrors(['email' => 'Please verify your email before logging in']);
         }
 
+        // Check if user status is active
+        if ($user->status == 0) {
+            return back()->withErrors(['email' => 'Your account is inactive. Please contact CUAI.']);
+        }
+
         if (Auth::attempt($validated)) {
             $request->session()->regenerate();
 
@@ -645,6 +650,7 @@ class AuthController extends Controller
 
         return back()->withErrors(['email' => 'Login failed'])->onlyInput('email');
     }
+
 
     public function logout(Request $request)
     {

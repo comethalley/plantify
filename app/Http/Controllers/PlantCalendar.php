@@ -72,6 +72,7 @@ class PlantCalendar extends Controller
         $item->seed = $request->seed;
         $item->harvested = $request->harvested;
         $item->destroyed = $request->destroyed;
+        $item->type = $request->type;
         $item->save();
 
         $title = $request->title;

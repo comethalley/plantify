@@ -2,6 +2,7 @@
 
 <head>
 
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
@@ -11,15 +12,18 @@
             /* Adjust the max-height as needed */
             overflow: hidden !important;
         }
+
+        
     </style>
 </head>
 
 <div class="main-content" id="maincontent">
     <div class="page-content">
         <div class="container-fluid">
-            <div class="position-relative mx-n4 mt-n4">
+            
+            <div class="position-relative mx-n4 mt-n4" >
                 <div class="profile-wid-bg profile-setting-img">
-                    <img src="@if($profileSettings && $profileSettings->cover_image) {{ asset('storage/images/' . $profileSettings->cover_image) }} @else {{ asset('https://velzon-svelte-saas.vercel.app/_app/immutable/assets/profile-bg.da0d9401.jpg') }} @endif" class="profile-wid-img" alt="Cover Image">
+                    <img src="@if($profileSettings && $profileSettings->cover_image) {{ asset('storage/images/' . $profileSettings->cover_image) }} @else {{ asset('https://velzon-svelte-saas.vercel.app/_app/immutable/assets/profile-bg.da0d9401.jpg') }} @endif" class="profile-wid-img" alt="Cover Image" >
                     <div class="overlay-content">
                         <form id="uploadCoverForm" method="POST" action="/upload-cover" enctype="multipart/form-data">
                             @csrf
@@ -195,6 +199,7 @@
         </button>
     </div>
 </form>
+
 
 
                                 <!-- <div class="mt-4 mb-3 border-bottom pb-2">

@@ -37,15 +37,15 @@
     <div class="main-content" id="maincontent">
         <div class="page-content">
             <div class="container-fluid">
-                <div class="profile-foreground position-relative mx-n4 mt-n4">
-                    <div class="profile-wid-bg">
-                        @if($profileSettings && $profileSettings->profile_image)
-                        <img src="{{ asset('storage/images/' . $profileSettings->profile_image) }}" alt="Profile Image" class="profile-wid-img">
-                        @else
-                        <img src="{{ asset('path/to/default/image.jpg') }}" alt="Default Profile Image" class="profile-wid-img">
-                        @endif
-                    </div>
-                </div>
+            <div class="  flex-column profile-foreground position-relative mx-n4 mt-n4 d-flex justify-content-center align-items-center" style="height: 250px; overflow: hidden;" >
+    @if($profileSettings && $profileSettings->cover_image)
+    <img src="{{ asset('storage/images/' . $profileSettings->cover_image) }}" alt="Cover Image" class="profile-wid-img" style="width: 100%; height: auto;">
+    @else
+        <img src="{{ asset('assets/images/plantifeedpics/nocover.png') }}" alt="Default Cover Image" class="profile-wid-img" style="width: 100px; height: 100px ">
+        <p class="mt-3" style="color: grey; font-size:15px;">No cover available</p>
+    @endif
+</div>
+
 
                 <div class="pt-4 mb-4 mb-lg-3 pb-lg-4">
                     <div class="g-4 row">
@@ -54,20 +54,21 @@
                             <img src="{{ asset('storage/images/' . $profileSettings->profile_image) }}" alt="Profile Image" class="rounded-circle avatar-xl img-thumbnail user-profile-image">
                             @else
                             <div class="avatar-lg">
-                                <img style="padding:15px;" src="assets/images/plantifeedpics/profile-default.png" alt="user-img" class="img-thumbnail rounded-circle">
-                            </div>
+    <img style="padding: 15px; border: 3px solid #006400;" src="assets/images/plantifeedpics/profile-default.png" alt="user-img" class="img-thumbnail rounded-circle">
+</div>
+
                             @endif
                         </div>
 
 
                         <div class="col">
                             <div class="p-2">
-                                <h3 class="text-white mb-1">
+                                <h3 class="text-black mb-1">
                                     @if (Auth::check())
                                     {{ Auth::user()->firstname }} {{ Auth::user()->lastname }}
                                     @endif
                                 </h3>
-                                <p class="text-white text-opacity-75">
+                                <p class="text-black text-opacity-75">
                                     @if (Auth::check())
                                     @if (Auth::user()->role_id == 1)
                                     Super Admin
@@ -105,23 +106,7 @@
                         </div> -->
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div>
-                            <div class="d-flex">
-                                <ul class="animation-nav profile-nav gap-2 gap-lg-3 flex-grow-1 nav nav-pills">
-                                    <li class="nav-item"><a href="#" class="fs-14 nav-link active"><i class="ri-airplay-fill d-inline-block d-md-none"></i> <span class="d-none d-md-inline-block">Overview</span></a></li>
-                                    <!-- <li class="nav-item"><a href="#" class="fs-14 nav-link"><i class="ri-list-unordered d-inline-block d-md-none"></i> <span class="d-none d-md-inline-block">Activities</span></a></li>
-                                    <li class="nav-item"><a href="#" class="fs-14 nav-link"><i class="ri-price-tag-line d-inline-block d-md-none"></i> <span class="d-none d-md-inline-block">Projects</span></a></li>
-                                    <li class="nav-item"><a href="#" class="fs-14 nav-link"><i class="ri-folder-4-line d-inline-block d-md-none"></i> <span class="d-none d-md-inline-block">Documents</span></a></li> -->
-                                </ul>
-                                <div class="flex-shrink-0"><a class="btn btn-success" href="{{ route('profilesettings') }}"><i class="ri-edit-box-line align-bottom"></i> Edit
-                                        Profile</a></div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
+             
             </div>
             <div class="tab-content pt-4 text-muted">
                 <!-- <ul class="nav nav-tabs">
@@ -144,6 +129,21 @@
                                 </div>
                             </div> -->
                             <div class="card">
+                            <div style="padding:10px; border-radius:4px; " class="row bg-white">
+                    <div style="padding:10px;" class="col-lg-12" >
+                        <div>
+                        <div class="d-flex justify-content-between">
+  
+                        <div class="flex-shrink-0 ms-auto">
+        <a class="btn btn-success " href="{{ route('profilesettings') }}" style="background-color: #006400;" onmouseover="this.style.backgroundColor='darkgreen'" onmouseout="this.style.backgroundColor='green'">
+            <i class="ri-edit-box-line align-bottom"></i> Edit Profile
+        </a>
+    </div>
+</div>
+
+                    </div>
+                </div>
+
     <div class="card-body" style="display: flex; justify-content: space-between;">
         <div style="flex: 1;">
             <h5 class="card-title mb-3" data-svelte-h="svelte-1hac74q">Info</h5>

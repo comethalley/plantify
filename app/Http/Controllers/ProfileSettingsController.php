@@ -116,42 +116,41 @@ class ProfileSettingsController extends Controller
     }
 
     public function updatePassword(Request $request)
-{
-    // Kunin ang kasalukuyang user
-    $user = auth()->user();
-
-    // Validate the request
-    $request->validate([
-        'old_password' => [
-            'required',
-            new CorrectOldPassword(auth()->user()),
-        ],
-        'password' => [
-            'required',
-            'different:old_password',
-            'confirmed',
-            'min:6',
-            new StrongPassword,
-            new NotCommonPassword,
-            new NotSameAsCurrentPassword,
-            new NotSameAsName($user->firstname, $user->lastname),
-        ],
-    ]);
+    {
+        // Validate the request for old_password only
+        $request->validate([
+            'old_password' => [
+                'required',
+                new CorrectOldPassword(auth()->user()),
+            ],
+        ]);
     
+        // If old password is correct, proceed with updating the password
+        $user = auth()->user();
     
-
-    // I-check kung tama ang old password
-    if (!Hash::check($request->old_password, $user->password)) {
-        return redirect()->back()->withErrors(['old_password' => 'The old password is incorrect.'])->withInput();
+        // Validate the request for password and password_confirmation
+        $request->validate([
+            'password' => [
+                'required',
+                'different:old_password',
+                'confirmed',
+                'min:6',
+                new StrongPassword,
+                new NotCommonPassword,
+                new NotSameAsCurrentPassword,
+                new NotSameAsName($user->firstname, $user->lastname),
+            ],
+        ]);
+    
+        // Update ang password ng user
+        $user->update([
+            'password' => Hash::make($request->password),
+        ]);
+    
+        // I-return ang response
+        return redirect()->back()->with('success', 'Password updated successfully.');
     }
-
-    // Update ang password ng user
-    $user->update([
-        'password' => Hash::make($request->password),
-    ]);
-
-    // I-return ang response
-    return redirect()->back()->with('success', 'Password updated successfully.');
-}
+    
+    
 
 }

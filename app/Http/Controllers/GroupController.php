@@ -47,6 +47,7 @@ class GroupController extends Controller
         try {
             // Retrieve the group
             $group = Group::findOrFail($groupId);
+            
     
             // Initialize $groupThread to null
             $groupThread = null;
@@ -95,6 +96,8 @@ class GroupController extends Controller
                     })
                     ->exists();
             });
+
+
             $messages = $groupThread ? $groupThread->messages()->with('sender')->get() : collect();
             $messages->load('sender');
     
@@ -185,8 +188,8 @@ class GroupController extends Controller
     
     public function fetchMessages(Request $request, $groupId)
     {
-        // Retrieve the group thread and related messages
-        $groupThread = GroupThread::with('messages')->findOrFail($groupId);
+        // Retrieve the group thread and related messages, eager loading the sender's information
+        $groupThread = GroupThread::with('messages.sender')->findOrFail($groupId);
     
         // Retrieve messages for the current group thread
         $messages = $groupThread->messages;
@@ -194,6 +197,7 @@ class GroupController extends Controller
         // Return messages as JSON response
         return response()->json(['messages' => $messages]);
     }
+    
     
 
     

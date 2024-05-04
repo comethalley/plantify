@@ -640,7 +640,30 @@ function filterAndDisplayEvents(searchKeywords) {
             });
         }
 
+        $(document).ready(function() {
+    $('#create-btn').click(function(e) {
+        e.preventDefault();
         
+        // Get the selected visibility option
+        var selectedVisibility = $('#choices-multiple-remove-button').val();
+        
+        // Send an AJAX request to fetch events based on the selected visibility
+        $.ajax({
+            url: "{{ route('events.calendar') }}",
+            type: 'GET',
+            data: { visibility: selectedVisibility },
+            success: function(response) {
+                // Handle success response and display the calendar
+                console.log(response);
+                // Code to display the calendar events goes here
+            },
+            error: function(xhr, status, error) {
+                // Handle error
+                console.error(xhr.responseText);
+            }
+        });
+    });
+});
         
 </script>
        

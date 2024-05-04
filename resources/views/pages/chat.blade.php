@@ -80,7 +80,7 @@
                                                                 <!-- Your user display content -->
                                                                 <div class="d-flex align-items-center">
                                                                     @if($profileSettings)
-                                                                        <img src="{{ $profileSettings->profile_image ? asset('storage/' . $profileSettings->profile_image) : asset('path_to_default_image') }}" alt="" class="avatar-lg img-thumbnail rounded-circle mx-auto profile-img">
+                                                                        <img src="{{ $profileSettings->profile_image ? asset('storage/' . $profileSettings->profile_image) : asset('path_to_default_image') }}" alt="" >
                                                                     @else
                                                                         <img class="rounded-circle header-profile-user" src="{{asset('assets/images/plantifeedpics/rounded.png')}}" alt="Header Avatar">
                                                                     @endif

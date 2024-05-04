@@ -456,7 +456,7 @@ $(document).ready(function() {
 
     Pusher.logToConsole = true;
 
-var pusher = new Pusher('ebad2ef1a296a8ac5320', {
+var pusher = new Pusher('54f1c49cb67ee0620dac', {
     cluster: 'ap1'
 });
 
@@ -514,12 +514,17 @@ function updateConversation(messages) {
         var imageRow = $('<div class="row mb-3"></div>');
         imageSet.forEach(function(imagePath) {
             var imageCol = $('<div class="col"></div>');
-            var imageItem = $('<img src="{{ asset('storage') }}/' + imagePath + '" style="max-width: 100px; max-height: 100px;" class="img-fluid img-thumbnail" alt="Attached Image">');
+            var imageItem = $('<img src="{{ asset('storage') }}/' + imagePath + '" style="max-width: 100px; max-height: 100px;" class="img-fluid img-thumbnail attached-image" alt="Attached Image">');
+            imageItem.click(function() {
+                $('#imageModal .modal-body img').attr('src', $(this).attr('src'));
+                $('#imageModal').modal('show');
+            });
             imageCol.append(imageItem);
             imageRow.append(imageCol);
         });
         attachedFiles.append(imageRow);
     });
+
 
     // Loop through each message and append it to the conversation area
     messages.forEach(function(message) {
@@ -587,8 +592,22 @@ function updateConversation(messages) {
                 '<div class="user-chat-content">' +
                 '<div class="ctext-wrap">' +
                 '<div class="ctext-wrap-content">' +
-                '<div class="message-dropdown">' +
+                '<div class="message-dropdown" style="position: relative;">' + // Add position: relative; to make positioning easier
+                '<div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5);">' + // Dark gray transparent background
+                '<a class="view-image-btn" href="#" data-bs-toggle="modal" data-bs-target="#imageModal">' + // Button to trigger modal
+                '</a>' +
+                '</div>' +
                 '<img src="{{ asset('storage') }}/' + message.image_path + '" style="max-width: 200px; max-height: 200px;" class="img-fluid" alt="Image">' +
+                '<div class="dropdown" style="position: absolute; bottom: 0; right: 0;">' + // Position dropdown at the bottom right corner
+                '<a class="dropdown-toggle" href="#" role="button" id="imageDropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">' +
+                '<i class="ri-more-fill"></i>' +
+                '</a>' +
+                '<ul class="dropdown-menu" aria-labelledby="imageDropdownMenuLink">' +
+                '<li><a class="dropdown-item" href="{{ asset('storage') }}/' + message.image_path + '" download=""><i class="ri-download-2-line me-2 text-muted align-bottom"></i>Download</a></li>' +
+                '<li><a class="dropdown-item view-image" href="#"><i class="ri-reply-line me-2 text-muted align-bottom"></i>View</a></li>' +
+                '</ul>' +
+                '</div>' +
+                '</div>' +
                 '</div>' +
                 '</div>' +
                 '<div class="conversation-name">' +
@@ -601,6 +620,25 @@ function updateConversation(messages) {
                 '</div>' +
                 '</div>' +
                 '</div>');
+
+            // Create modal for viewing image
+            var modalContent = '<div class="modal-dialog modal-dialog-centered modal-xl">' +
+                '<div class="modal-content">' +
+                '<div class="modal-body">' +
+                '<img src="{{ asset('storage') }}/' + message.image_path + '" class="img-fluid" alt="Image">' +
+                '</div>' +
+                '</div>' +
+                '</div>';
+
+            // Append modal to body
+            $('body').append('<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">' + modalContent + '</div>');
+
+            // Click event listener for "View" button
+            messageContent.find('.view-image').click(function(e) {
+                e.preventDefault();
+                $('#imageModal').modal('show'); // Show modal when "View" is clicked
+            });
+
         }
 
         // Append the message content to the message item

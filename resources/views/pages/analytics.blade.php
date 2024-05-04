@@ -108,6 +108,7 @@
 
                                                 <p class="text-muted mb-0">Here's what's happening with your farm today.</p>
                                             </div>  
+                                            @if(session('user') && session('user')->role_id != 5)
                                             <div class="mt-3 mt-lg-0">
                                                 <form action="javascript:void(0);">
                                                     <div class="row g-3 mb-0 align-items-center">
@@ -115,10 +116,11 @@
                                                         <div class="col-auto">
                                                             <button type="button" class="btn btn-soft-success material-shadow-none" onclick="downloadPDF()"><i class="ri-add-circle-line align-middle"></i>Download Report</button>
                                                         </div>
-                                                        
-                                                    <!--end row-->
+                                                        <!--end row-->
+                                                    </div>
                                                 </form>
-                                            </div>                                 
+                                            </div>
+                                            @endif                      
                                         </div><!-- end card header -->
                                     </div>
                                     <br>
@@ -127,7 +129,7 @@
 
                 
                     <div class="row ">
-                        <div class="col-xl-12">
+                        <div class="col-xl-12 d-inline-block">
                             <div class="card">
                                 <div class="card-body">
                                     <div class="sidebar" hidden>
@@ -140,6 +142,10 @@
                                                 <h1 id="temp">0</h1>
                                                 <span class="temp-unit">°C</span>
                                             </div>
+                                            <div class="feels-like">
+                                                <h2 id="feels-like">Feels Like: 0</h2>
+                                                <span class="temp-unit">°C</span>
+                                              </div>
                                             <div class="date-time">
                                                 <p id="date-time">Monday, 12:00</p>
                                             </div>
@@ -593,11 +599,41 @@
                             </div>
                         </div> --}}
 
+                        @if(session('user') && session('user')->role_id != 5)
                         <div class="col-xl-12">
-                            <div class="card" >
+                            <div class="card">
                                 <div class="card-body">
-                                    <h2 class="mb-4 text-center"><span style="color: #57AA2C;"> <strong>Harvesting Metrics</strong></span></h2>
-                                        <div class="row position-relative " style="height: 65vh;">
+                                    <h2 class="mb-4 text-center"><span style="color: #57AA2C;"><strong>Harvesting Metrics</strong></span></h2>
+                                    <div class="row position-relative" style="height: 65vh;">
+                                        @if(session('user') && (session('user')->role_id == 3 || session('user')->role_id == 4))
+                                            <div class="col-md-3">
+                                                <div class="align-items-center justify-content-center ">
+                                                    <div class="col-xl-12 barangaySelector ">
+                                                        <label for="">Barangay:</label>
+                                                        <select id="barangaySelect" class="w-100" readonly>
+                                                            <option value="{{ $barangayName }}" selected>{{ $barangayName }}</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="mt-3 col-xl-12 barangaySelector ">
+                                                        <label for="">Farm:</label>
+                                                        <select id="farmSelect" class="w-100" readonly>
+                                                            <option value="{{ $farmName }}" selected>{{ $farmName }}</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="mt-3 col-xl-12 barangaySelector">
+                                                        <label for="">Year:</label>
+                                                        <select id="yearSelect" class="w-100">
+                                                            <option value="" disabled>Select Year</option>
+                                                            <option value="2024" selected>2024</option>
+                                                            <option value="2023">2023</option>
+                                                            <option value="2022">2022</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @elseif(session('user') && session('user')->role_id == 5)
+                                            <!-- Do nothing, section will not be displayed -->
+                                        @else
                                             <div class="col-md-3">
                                                 <div class="align-items-center justify-content-center ">
                                                     <div class="col-xl-12 barangaySelector">
@@ -605,7 +641,7 @@
                                                         <select id="barangaySelect" class="w-100">
                                                             <option value="" selected disabled>Select Barangay</option>
                                                             @foreach($barangayOptions as $option)
-                                                                <option value="{{ $option['text'] }}">{{ $option['text'] }}</option>
+                                                            <option value="{{ $option['text'] }}">{{ $option['text'] }}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
@@ -627,19 +663,22 @@
                                                     </div>
                                                 </div>
                                             </div>
-
-                                            <div class="col-lg-9"> 
-                                                <div class="text-muted">                         
-                                                    <div id="farmChart"></div>
-                                                    <div id="month-details" style="display: none;"></div>
-                                                </div>
+                                        @endif
+                                        <div class="col-lg-9">
+                                            <div class="text-muted">
+                                                @if(session('user') && session('user')->role_id != 5)
+                                                <div id="farmChart"></div>
+                                                @endif
+                                                <div id="month-details" style="display: none;"></div>
                                             </div>
                                         </div>
-                                        
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                     
+                        @endif
+                        
+                
                             <!-- INSERT HERE NEW ROW  -->
                         
 

@@ -42,7 +42,7 @@
                         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addFarmLocationModal">Add Farm Location</button>
                         @elseif(auth()->user()->role_id == 3)
                         {{-- Display for role_id 3 (Farm Leader) --}}
-                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addFarmLocationModal">Add Farm Location</button>
+                        <button hidden type="button" class="btn btn-success" data-toggle="modal" data-target="#addFarmLocationModal">Add Farm Location</button>
                         @elseif(auth()->user()->role_id == 4)
                         {{-- Display for role_id 4 (Farmers) --}}
                         <button hidden type="button" class="btn btn-success" data-toggle="modal" data-target="#addFarmLocationModal">Add Farm Location</button>
@@ -82,7 +82,7 @@
                                                 <th data-sort="payment" width="6%">Action:</th>
                                                 @elseif(auth()->user()->role_id == 3)
                                                 {{-- Display for role_id 3 (Farm Leader) --}}
-                                                <th data-sort="payment" width="6%">Action:</th>
+                                                <th hidden data-sort="payment" width="6%">Action:</th>
                                                 @elseif(auth()->user()->role_id == 4)
                                                 {{-- Display for role_id 4 (Farmers) --}}
                                                 <th hidden data-sort="payment" width="6%">Action:</th>
@@ -129,7 +129,7 @@
                                                 </td>
                                                 @elseif(auth()->user()->role_id == 3)
                                                 {{-- Display for role_id 3 (Farm Leader) --}}
-                                                <td>
+                                                <td hidden>
                                                     <ul class="list-inline hstack gap-2 mb-0">
                                                         <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Remove">
                                                             <a class="text-danger d-inline-block archive_btn" href="" data-location-id="{{ $event->id }}">

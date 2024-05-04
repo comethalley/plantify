@@ -15,6 +15,7 @@ use App\Mail\MailInvitation;
 use App\Mail\MailVerificationCode;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -243,5 +244,78 @@ class EmailVerification extends Controller
         Session::flash('success', 'Forgot password link has been sent to your email.');
 
         return redirect()->back();
+    }
+
+    public function publicEmailVerification(Request $request)
+    {
+        $l = $request->query('l');
+        $verifyhash = $this->plantifyLibrary->verifydatafromhashid($l);
+
+        $user = DB::table('users')
+            ->where('id', $verifyhash)
+            ->select(
+                "email_verified_at",
+            )
+            ->first();
+
+        // dd($user);
+
+        if ($user->email_verified_at != null) {
+
+            return redirect()->route('login');
+        }
+
+        $farmLeaders = DB::table('users')
+            ->where('status', 1)
+            ->where('id', $verifyhash)
+            ->select(
+                "id",
+                'firstname',
+                "lastname",
+                "email",
+            )
+            ->first();
+
+        $checkSendedCode = ModelsEmailVerification::where('user_id', $verifyhash)->first();
+
+        //dd($checkSendedCode);
+
+        if ($checkSendedCode == "") {
+            $generateCode = $this->generateCode();
+            $emailCode = ModelsEmailVerification::create([
+                'user_id' => $verifyhash,
+                'email_code' => $generateCode,
+                'status' => 0,
+            ]);
+
+            $this->sendEmailCode($farmLeaders->email, $emailCode->email_code);
+        }
+
+        return view('pages.verification', compact('farmLeaders'));
+    }
+
+    public function publicEmailConfirm(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $verificationCode = $request['email'];
+
+        $emailVerification = ModelsEmailVerification::where('user_id', $id)->where('email_code', $verificationCode)->first();
+
+        if ($emailVerification) {
+
+            $user = User::findOrFail($id);
+            $user->email_verified_at = Carbon::now();
+            $user->save();
+            return response()->json(['message' => 'Email Verified Successfully']);
+        } else {
+            return response()->json(['message' => 'Email verification failed. The verification code you provided may be invalid or expired. Please resend a new verification link.']);
+        }
     }
 }

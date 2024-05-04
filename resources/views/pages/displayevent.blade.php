@@ -1,7 +1,7 @@
            <!----> @foreach ($events as $event)   
            <div id="planting-events-container">
                          <div class="card border-success pe-2 me-n1 mb-3 simplebar-scrollable-y" style="max-width: 18rem;" id="refresh">
-                             <div class="card-header fw-bold bg-soft-danger">Title: {{ $event->title}}</div>
+                             <div class="card-header fw-bold bg-soft-danger pe-4 me-n2">Title: {{ $event->title}}</div>
                                 <div class="card-body">
                                 <h5>{{ $event->title }}</h5>
                         <p><strong>Date:</strong> {{ date('F j, Y', strtotime($event->start)) }} to {{ date('F j, Y', strtotime($event->end)) }}</p>

@@ -24,50 +24,53 @@ class ProfileSettingsController extends Controller
     }
 
     public function uploadImage(Request $request)
-    {
-        // Validate the request
-        $request->validate([
-            'user_id' => 'required|exists:users,id', // Verify if the user exists
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust the validation rules as needed
-            'type' => 'required|in:cover,profile', // Specify if the image is a cover image or a profile image
-        ]);
+{
+    // Validate the request
+    $request->validate([
+        'user_id' => 'required|exists:users,id', // Verify if the user exists
+        'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust the validation rules as needed
+        'type' => 'required|in:cover,profile', // Specify if the image is a cover image or a profile image
+    ]);
 
-        // Save the image to the database
-        if ($request->hasFile('image')) {
-            $file = $request->file('image');
-            $fileName = time() . '_' . $file->getClientOriginalName();
-            $file->storeAs('public/images', $fileName);
+    // Save the image to the database
+    if ($request->hasFile('image')) {
+        $file = $request->file('image');
+        $fileName = time() . '_' . $file->getClientOriginalName();
+        $file->storeAs('public/images', $fileName);
 
-            // Update or create the image in the database for the specified user
-            $profileSettings = ProfileSettings::where('user_id', $request->user_id)->first();
-            if ($profileSettings) {
-                if ($request->type === 'cover') {
-                    $profileSettings->cover_image = $fileName;
-                } elseif ($request->type === 'profile') {
-                    $profileSettings->profile_image = $fileName;
-                }
-                $profileSettings->save();
-            } else {
-                // If the profile settings for the user do not exist, create a new entry
-                $profileSettings = new ProfileSettings();
-                $profileSettings->user_id = $request->user_id;
-                if ($request->type === 'cover') {
-                    $profileSettings->cover_image = $fileName;
-                } elseif ($request->type === 'profile') {
-                    $profileSettings->profile_image = $fileName;
-                }
-                $profileSettings->save();
+        // Update or create the image in the database for the specified user
+        $profileSettings = ProfileSettings::where('user_id', $request->user_id)->first();
+        if ($profileSettings) {
+            if ($request->type === 'cover') {
+                $profileSettings->cover_image = $fileName;
+            } elseif ($request->type === 'profile') {
+                $profileSettings->profile_image = $fileName;
             }
-
-            Session::flash('message', ucfirst($request->type) . ' image uploaded successfully');
-
-            // Return success response
-            return response()->json(['message' => ucfirst($request->type) . ' image uploaded successfully'], 200);
+            $profileSettings->save();
+        } else {
+            // If the profile settings for the user do not exist, create a new entry
+            $profileSettings = new ProfileSettings();
+            $profileSettings->user_id = $request->user_id;
+            if ($request->type === 'cover') {
+                $profileSettings->cover_image = $fileName;
+            } elseif ($request->type === 'profile') {
+                $profileSettings->profile_image = $fileName;
+            }
+            $profileSettings->save();
         }
 
-        // Return error response if no file is provided
-        return response()->json(['error' => 'No image provided'], 400);
+        $imageUrl = asset('storage/images/' . $fileName); // Get the URL of the uploaded image
+
+        Session::flash('message', ucfirst($request->type) . ' image uploaded successfully');
+
+        // Return success response with the image URL
+        return response()->json(['message' => ucfirst($request->type) . ' image uploaded successfully', 'image_url' => $imageUrl], 200);
     }
+
+    // Return error response if no file is provided
+    return response()->json(['error' => 'No image provided'], 400);
+}
+
 
     public function saveOrUpdate(Request $request)
 {

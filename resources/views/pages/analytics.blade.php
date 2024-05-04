@@ -129,7 +129,7 @@
 
                 
                     <div class="row ">
-                        <div class="col-xl-12">
+                        <div class="col-xl-12 d-inline-block">
                             <div class="card">
                                 <div class="card-body">
                                     <div class="sidebar" hidden>

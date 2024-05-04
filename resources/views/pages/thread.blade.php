@@ -56,7 +56,7 @@
                                                             @if($profileSettings)
                                                                 <img src="{{ $profileSettings->profile_image ? asset('storage/' . $profileSettings->profile_image) : asset('path_to_default_image') }}" alt="" class="avatar-lg img-thumbnail rounded-circle mx-auto profile-img">
                                                             @else
-                                                                <img class="rounded-circle header-profile-user" src="assets/images/plantifeedpics/rounded.png" alt="Header Avatar">
+                                                                <img class="rounded-circle header-profile-user" src="{{asset('assets/images/plantifeedpics/rounded.png')}}" alt="Header Avatar">
                                                             @endif
                                                                     @if ($user->unread_message_count > 0)
                                                                         <span class="position-absolute topbar-badge fs-10 translate-end badge rounded-pill bg-danger">{{ $user->unread_message_count }}</span>
@@ -87,7 +87,7 @@
                                                 {{-- Display only for role_id 2 (Admin and Farm Leaders) --}}
                                                 <button type="button" class="btn channel-button" data-group-id="{{ $group->id }}" data-farm-id="{{ optional($farmLeaders)->id }}">
                                                     <div class="d-flex align-items-center">
-                                                    <img class="rounded-circle header-profile-user" src="assets/images/plantifeedpics/rounded.png" alt="Header Avatar">
+                                                    <img class="rounded-circle header-profile-user" src="{{asset('assets/images/plantifeedpics/rounded.png')}}" alt="Header Avatar">
                                                         <div class="ms-2">
                                                             <h6 class="mb-0">{{ $group->group_name }}</h6>
                                                             @if ($group->unread_message_count > 0)
@@ -100,7 +100,7 @@
                                                 {{-- Display for role_id 3 (both Admin and Farm Leaders, Farm Leader and Farmers) --}}
                                                 <button type="button" class="btn channel-button" data-group-id="{{ $group->id }}" data-farm-id="{{ optional($farmLeaders)->id }}">
                                                     <div class="d-flex align-items-center">
-                                                    <img class="rounded-circle header-profile-user" src="assets/images/plantifeedpics/rounded.png" alt="Header Avatar">
+                                                    <img class="rounded-circle header-profile-user" src="{{asset('assets/images/plantifeedpics/rounded.png')}}" alt="Header Avatar">
                                                         <div class="ms-2">
                                                             <h6 class="mb-0">{{ $group->group_name }}</h6>
                                                             @if ($group->unread_message_count > 0)
@@ -113,7 +113,7 @@
                                                 {{-- Display only for role_id 4 (Farm Leader and Farmers) --}}
                                                 <button type="button" class="btn channel-button" data-group-id="{{ $group->id }}" data-farm-id="{{ optional($farmLeaders)->id }}">
                                                     <div class="d-flex align-items-center">
-                                                    <img class="rounded-circle header-profile-user" src="assets/images/plantifeedpics/rounded.png" alt="Header Avatar">
+                                                    <img class="rounded-circle header-profile-user" src="{{asset('assets/images/plantifeedpics/rounded.png')}}" alt="Header Avatar">
                                                         <div class="ms-2">
                                                             <h6 class="mb-0">{{ $group->group_name }}</h6>
                                                             @if ($group->unread_message_count > 0)
@@ -165,7 +165,7 @@
                                                                     @if($profileSettings)
                                                                         <img src="{{ $profileSettings->profile_image ? asset('storage/' . $profileSettings->profile_image) : asset('path_to_default_image') }}" alt="" class="avatar-lg img-thumbnail rounded-circle mx-auto profile-img">
                                                                     @else
-                                                                        <img class="rounded-circle header-profile-user" src="assets/images/plantifeedpics/rounded.png" alt="Header Avatar">
+                                                                        <img class="rounded-circle header-profile-user" src="{{asset('assets/images/plantifeedpics/rounded.png')}}" alt="Header Avatar">
                                                                     @endif
                                                                         @if($user->isOnline)
                                                                             <span class="user-status"></span> <!-- Display online status indicator -->
@@ -326,7 +326,7 @@
             @if($profileSettings)
                 <img src="{{ $profileSettings->profile_image ? asset('storage/' . $profileSettings->profile_image) : asset('path_to_default_image') }}" alt="" class="avatar-lg img-thumbnail rounded-circle mx-auto profile-img">
             @else
-                <img  src="assets/images/plantifeedpics/rounded.png" alt="" class="avatar-lg img-thumbnail rounded-circle mx-auto profile-img">
+                <img  src="{{asset('assets/images/plantifeedpics/rounded.png')}}" alt="" class="avatar-lg img-thumbnail rounded-circle mx-auto profile-img">
             @endif
                 <div class="mt-3">
                     <h5 class="fs-16 mb-1"><a href="javascript:void(0);" class="link-primary username"></a></h5>
@@ -456,7 +456,7 @@ $(document).ready(function() {
 
     Pusher.logToConsole = true;
 
-var pusher = new Pusher('54f1c49cb67ee0620dac', {
+var pusher = new Pusher('ebad2ef1a296a8ac5320', {
     cluster: 'ap1'
 });
 
@@ -684,7 +684,7 @@ window.deleteMessage = function(element) {
 
     Pusher.logToConsole = true;
 
-    var pusher = new Pusher('54f1c49cb67ee0620dac', {
+    var pusher = new Pusher('d7630bf7a930051c0329', {
         cluster: 'ap1'
     });
 

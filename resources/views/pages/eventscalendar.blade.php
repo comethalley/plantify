@@ -120,15 +120,31 @@
                                                     <input type="text" name="title" id="customername-field" class="form-control" placeholder="Enter name" required />
                                                 </div>
 
-                                                <div class="mb-3">
-                                                    <label for="start-datepicker" class="form-label">Start</label>
-                                                    <input type="text" name="start" id="start-datepicker" class="form-control" placeholder="Enter Start Date" required/>
-                                                </div>
+                                               
+                                                
+                                                <div class="col-12" id="event-time">
+                                                        <div class="row">
+                                                            <div class="col-6">
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">Start Date</label>
+                                                                    <div class="input-group">
+                                                                        <input id="start-datepicker" name="start" type="text" class="form-control flatpickr flatpickr-input active" placeholder="Select start date" readonly="readonly" required>
+                                                                        <span class="input-group-text"><i class="ri-time-line"></i></span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">End Date</label>
+                                                                    <div class="input-group">
+                                                                        <input id="end-datepicker" name="end" type="text" class="form-control flatpickr flatpickr-input" placeholder="Select end date" readonly="readonly" required>
+                                                                        <span class="input-group-text"><i class="ri-time-line"></i></span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
 
-                                                <div class="mb-3">
-                                                    <label for="end-datepicker" class="form-label">End</label>
-                                                    <input type="text" name="end" id="end-datepicker" class="form-control" placeholder="Enter End Date" required/>
-                                                </div>
                                                 <div class="col-12" id="event-time">
                                                         <div class="row">
                                                             <div class="col-6">
@@ -151,7 +167,18 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                <div class="mb-3">
+                                                    
+                                                    <div class="mb-3">
+    <label class="form-label">Who can see it?</label>
+    <select name="visibility" id="choices-multiple-remove-button" data-choices data-choices-remove-item multiple>
+        <option value="all">all</option>
+        <option value="farmleader">farmleader</option>
+        <option value="farmer">farmer</option>
+        <option value="publicuser">publicuser</option>
+    </select>
+</div>
+                                                    
+                                       <div class="mb-3">
                                                     <label for="location" class="form-label">Location</label>
                                                     <input type="text" name="location" id="customername-field" class="form-control" placeholder="Enter Location"  required/>
                                                 </div>
@@ -187,11 +214,13 @@
             <div class="modal-body p-4">
                 <div class="row">
                     <div class="col-md-12 mb-4 text-center">
-                        <img src="" alt="Event Image" class="img-fluid rounded" id="eventimage" style="width: 400px; height: 300px;">
+                        <img src="" alt="Event Image" class="img-fluid rounded" id="eventimage" style="width: 400px; height: 250px;">
                     </div>
-                    <div class="col-md-12">
-                        <div class="event-details">
-                            <h5 class="fw-bold mb-4 fs-5" id="eventtitle"></h5>
+                    <div class="col-md-12 text-center"> <!-- Added text-center class -->
+    <div class="event-details">
+        <h5 class="fw-bold mb-4 fs-5" id="eventtitle"></h5>
+    </div>
+</div>
                             <div class="mb-3 fs-5">
                                 <i class="ri-calendar-event-line text-muted me-2"></i>
                                 <span id="eventstart"></span> - <span id="eventend"></span>
@@ -210,10 +239,10 @@
                               </div>
 
                             <div class="hstack gap-2 justify-content-end">
+          
                                 @if(auth()->user()->role_id == 3 || auth()->user()->role_id == 4)
-                                <button id="interestButton" data-event-id="1" class="btn bg-success text-white">
-    <i id="starIcon" class="fas fa-star"></i> I'm Interested
-</button>
+
+                                <a href="#" id="interested-btn" class="btn btn-primary" target="_blank">Interested</a>
 
                                 @endif
                                 @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2)
@@ -285,6 +314,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
+                                     
                                             <div class="form-group mb-3">
                                                 <label for="updateLocation">Location:</label>
                                                 <input type="text" class="form-control" id="updateLocation" placeholder="Enter location" required>
@@ -411,7 +441,7 @@
                 },
                
                 eventClick: function (info) {
-                  //  console.log(info.event)
+                   console.log(info.event)
                   //  console.log("Event is", info.event._def.extendedProps);
                     var eventTitle = info.event._def.title;
                     var eventId = info.event._def.publicId;
@@ -452,6 +482,8 @@ $('#eventendtime').text(moment(response.endtime, 'HH:mm:ss').format('h:mm A'));
             $('#eventimage').attr('src', imageUrl);
             // Show the modal
             $('#EventdetailModal').modal('show');
+
+            $('#interested-btn').attr('href', '/event/form/'+ eventId);
         },
         error: function(xhr, status, error) {
             // Handle errors
@@ -608,27 +640,31 @@ function filterAndDisplayEvents(searchKeywords) {
             });
         }
 
+        $(document).ready(function() {
+    $('#create-btn').click(function(e) {
+        e.preventDefault();
         
-        document.getElementById('interestButton').addEventListener('click', function() {
-        var eventId = this.getAttribute('data-event-id') || info.event.id;
-        var url = '/events/' + eventId + '/interested';
-
-        // Send AJAX request
+        // Get the selected visibility option
+        var selectedVisibility = $('#choices-multiple-remove-button').val();
+        
+        // Send an AJAX request to fetch events based on the selected visibility
         $.ajax({
-            type: 'POST',
-            url: url,
-            data: {
-                _token: '{{ csrf_token() }}'
-            },
+            url: "{{ route('events.calendar') }}",
+            type: 'GET',
+            data: { visibility: selectedVisibility },
             success: function(response) {
-                alert(response.message);
+                // Handle success response and display the calendar
+                console.log(response);
+                // Code to display the calendar events goes here
             },
             error: function(xhr, status, error) {
-                console.error(error);
-                alert('Error occurred, please try again later');
+                // Handle error
+                console.error(xhr.responseText);
             }
         });
     });
+});
+        
 </script>
        
 <script>
@@ -751,7 +787,23 @@ function filterAndDisplayEvents(searchKeywords) {
 
 
 
-
 </script>
+ <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+    <script>
+        const select = new Choices('#choices-multiple-remove-button', {
+            removeItemButton: true,
+        });
+    </script>
+    <script>
+    // // Get the current URL
+    // let currentUrl = window.location.href;
 
+    // // Extract the event ID from the URL
+    // let eventId = currentUrl.substr(currentUrl.lastIndexOf('/') + 1);
+
+    // // Redirect to the form page when the button is clicked
+    // document.getElementById('interested-btn').addEventListener('click', function() {
+    //     window.location.href = "/event/attendance/form/" + eventId;
+    // });
+</script>
 @include('templates.footer')

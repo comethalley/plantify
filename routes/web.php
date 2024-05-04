@@ -236,9 +236,21 @@ Route::get('/upcomingevent', [EventController::class, 'notifyUpcomingEvents']);
 Route::get('/events/{eventId}/interested', [EventController::class, 'storeInterested']);
 Route::view('add-schedule', 'pages.add');
 Route::post('create-schedule', [EventController::class, 'create']);
+Route::get('/events/calendar', [EventController::class, 'getCalendarEvents'])->name('events.calendar');
+
 
 //FOR attendance ROUTES===========================================
-// Route::get('/attendance', [AttendanceControler::class, 'index']);
+
+Route::get('/attendance', [AttendanceControler::class, 'index']);
+Route::get('/attendees', [AttendanceControler::class, 'attendees'])->name('event.details');
+Route::post('/event/attendance/submit/{event_id}', [AttendanceControler::class, 'submit'])->name('register');
+Route::get('/event/{eventId}/attendance', [AttendanceControler::class, 'showAttendanceList']);
+Route::get('/event/form/{id}', [AttendanceControler::class, 'attendanceForm'])->name('event.attendance.form');
+Route::put('/change-attendee-status/{id}', [AttendanceControler::class, 'changeStatus']);
+
+
+Route::get('/fetch-attendees/{event_id}', [AttendanceControler::class, 'fetchAttendees']);
+
 
 // End Full Calender=================================================================
 

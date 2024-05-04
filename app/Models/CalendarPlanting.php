@@ -21,6 +21,7 @@ class CalendarPlanting extends Model
         'harvested',
         'destroyed',
         'seed',
-        'type'
+        'type',
+        'is_deleted',
     ];
 }

@@ -103,31 +103,45 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
                 <ul class="navbar-nav mx-auto mt-2 mt-lg-0" id="navbar-example">
+                    <li class="nav-item">
+                        <a class="nav-link text-white fw-bold" href="javascript:void(0);" onclick="scrollToHome()">
+                            <i class="fas fa-home"></i> Home
+                        </a>
+                    </li>
+                    
 
                     <li class="nav-item">
-                        <a class="nav-link text-white fw-bold" href="/">Home</a>
+                        <a class="nav-link text-white fw-bold" href="javascript:void(0);" onclick="scrollToFAQ()">
+                            <i class="fas fa-question-circle"></i> FAQs
+                        </a>
                     </li>
-
-
-                    <li class="nav-item">
-                        <a class="nav-link text-white fw-bold" href="/">FAQs</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white fw-bold" href="/send-message">Contact Us</a>
-                    </li>
+                    
 
                     <li class="nav-item">
-                        <a class="nav-link text-white fw-bold" href="/about-us">About Us</a>
+                        <a class="nav-link text-white fw-bold" href="javascript:void(0);" onclick="scrollToContact()">
+                            <i class="fas fa-phone"></i> Contact Us
+                        </a>
                     </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link text-white fw-bold" href="/about-us">
+                            <i class="fas fa-info-circle"></i> About Us
+                        </a>
+                    </li>
+                    
+
                 </ul>
 
                 <div>
-                    <a class="btn btn-link text-white fw-bold" href="/login">Login</a>
-                    <a class="btn btn-link text-white fw-semibold" style="background-color:#FFAB2D;" href="/signup">Sign Up</a>
-                </div>
-                <div>
-                    <button id="translateButton">
-                    </button>
+
+                    <a class="btn btn-link text-white fw-bold" href="/login">
+                        <i class="fas fa-user"></i> Login
+                    </a>
+                    
+                    
+                    <a class="btn btn-link text-white fw-semibold" style="background-color:#FFAB2D;" href="/signup">
+                        <i class="fas fa-sign-in-alt"></i> Sign Up
+                    </a>
 
                 </div>
             </div>

@@ -9,6 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="{{ asset('assets/css/analytics.css') }}" rel="stylesheet" type="text/css" />
+    {{-- <link href="{{ asset('assets/css/weather.css') }}" rel="stylesheet" type="text/css" /> --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.debug.js" integrity="sha512-+dBKPkFZW8e2RJv00jKz8d5MsWjI9g6I78I/zfE6hW7dPWGw/DLtCeEI+X3k/tEs+cOjDvg6Tbz5JG+LnVQQg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script   script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.3/html2canvas.min.js"></script>
     <script src="{{ asset('assets/js/donut.js') }}"></script>
@@ -49,6 +50,7 @@
     justify-content: space-between;
     }
 
+    
     .cards .card {
         width: 100px;
         height: 130px;
@@ -71,6 +73,19 @@
         display: flex;
         justify-content: center;
     }
+
+    @media (max-width: 600px) {
+    .cards {
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+
+    .cards .card {
+        width: calc(50% - 20px);
+        margin-bottom: 20px;
+    }
+}
         </style>
 </head>
 
@@ -663,10 +678,12 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
                                         @endif
                                         <div class="col-lg-9">
                                             <div class="text-muted">
                                                 @if(session('user') && session('user')->role_id != 5)
+                                                
                                                 <div id="farmChart"></div>
                                                 @endif
                                                 <div id="month-details" style="display: none;"></div>

@@ -426,12 +426,7 @@ class AuthController extends Controller
             'firstname' => 'required|string|max:55',
             'lastname' => 'required|string|max:55',
             'email' => 'required|email|unique:users,email',
-            'password' => [
-                'required',
-                'confirmed',
-                'min:8',
-                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]+$/',
-            ],
+            'password' => ['required', 'string', 'confirmed', 'min:8', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/'],
         ], [
             'password.required' => 'Password is required.',
             'password.confirmed' => 'Password confirmation does not match.',
@@ -439,10 +434,10 @@ class AuthController extends Controller
             'password.regex' => 'Password format is incorrect. It must contain at least one uppercase letter, one lowercase letter, and one digit.',
         ]);
 
-
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
+
 
         $data = $validator->validated();
 

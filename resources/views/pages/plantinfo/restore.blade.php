@@ -1,4 +1,3 @@
-
 @include('templates.header')
 
 
@@ -61,14 +60,14 @@
                                         <thead class="text-muted table-light">
                                             <tr class="text-uppercase">
 
-                                                <th class="sort" data-sort="">#</th>
-                                                <th class="sort" data-sort="">Plant Name</th>
-                                                <th class="sort" data-sort="">Image</th>
-                                                <th class="sort" data-sort="">Season</th>
-                                                <th class="sort" data-sort="">Information</th>
-                                                <th class="sort" data-sort="">Companion</th>
-                                                <th class="sort" data-sort="">Days of Harvest</th>
-                                                <th class="sort" data-sort="">Action</th>
+                                                <th data-sort="">#</th>
+                                                <th data-sort="">Plant Name</th>
+                                                <th data-sort="">Image</th>
+                                                <th data-sort="">Season</th>
+                                                <th data-sort="">Information</th>
+                                                <th data-sort="">Companion</th>
+                                                <th data-sort="">Days of Harvest</th>
+                                                <th data-sort="">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody class="">
@@ -132,8 +131,8 @@
                                     </div>
                                 </div>
                             </div>
-                            
-                            
+
+
                             <!--Add Plantinfo Modal-->
 
                             <div class="modal fade" id="showModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -170,9 +169,9 @@
                                                     <input type="text" name="companion" id="companion" class="form-control" placeholder="Companion" required />
                                                 </div>
 
-                                    
 
-                                              
+
+
 
                                             </div>
                                             <div class="modal-footer">
@@ -191,7 +190,7 @@
                             <!-- Update modal -->
 
 
-                             <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header bg-light p-3">
@@ -199,7 +198,7 @@
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
                                         </div>
                                         <form action="{{ url('plantinfo/') }}" method="post">
-                                                @csrf
+                                            @csrf
                                             <div class="modal-body">
                                                 <input type="hidden" id="id-field" />
 
@@ -207,7 +206,7 @@
 
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Plant Name</label>
-                                                    <input type="text" name="plant_name" id="edit_plant_name"  class="form-control" placeholder="Plant Name" required />
+                                                    <input type="text" name="plant_name" id="edit_plant_name" class="form-control" placeholder="Plant Name" required />
                                                 </div>
 
                                                 <div class="mb-3">
@@ -225,7 +224,7 @@
                                                     <input type="text" name="address" id="edit_companion" class="form-control" placeholder="Companion" required />
                                                 </div>
 
-                                              
+
 
                                             </div>
                                             <div class="modal-footer">
@@ -252,9 +251,9 @@
                                                 <div class="hstack gap-2 justify-content-center remove">
                                                     <button class="btn btn-link link-success fw-medium text-decoration-none" id="deleteRecord-close" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i> Close</button>
                                                     <form method="POST" action="" style="display:inline">
-                                                    <input type="hidden" id="unarchiveID">
-                                                    <button type="button" class="btn btn-primary" id="plantinfo-unarchive">Yes, Restore It</button>
-                                                </form>
+                                                        <input type="hidden" id="unarchiveID">
+                                                        <button type="button" class="btn btn-primary" id="plantinfo-unarchive">Yes, Restore It</button>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>

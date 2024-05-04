@@ -14,5 +14,6 @@ class FarmLocation extends Model
         "longitude",
         "location_name",
         "address",
+        "status",
     ];
 }

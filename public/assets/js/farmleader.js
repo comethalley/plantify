@@ -52,8 +52,8 @@ $(document).ready(function () {
         var firstname = $("#edit-firstname").val();
         var lastname = $("#edit-lastname").val();
         var email = $("#edit-email").val();
-
-        console.log(farmLeaderID);
+        var farm_name = $("#farm").val();
+    
         $.ajax({
             url: "/editFarmLeader/" + farmLeaderID,
             method: "POST",
@@ -64,6 +64,7 @@ $(document).ready(function () {
                 firstname: firstname,
                 lastname: lastname,
                 email: email,
+                farm_name: farm_name,
             },
             success: function (data) {
                 console.log(data);
@@ -73,15 +74,18 @@ $(document).ready(function () {
                     title: "Successfully Updated",
                     // text: "Are you ready for the next level?",
                     icon: "success",
+                    showConfirmButton: false, // Remove the OK button
+                    timer: 2000,
                 });
             },
             error: function (xhr, status, error) {
+                console.log(farmerLeaderID)
                 if (xhr.status === 422) {
                     var errorsResponse = JSON.parse(xhr.responseText);
                     console.error("Validation Error:", errorsResponse);
-
+    
                     var errorMessage = "";
-
+    
                     if (errorsResponse.errors) {
                         for (var key in errorsResponse.errors) {
                             if (errorsResponse.errors.hasOwnProperty(key)) {
@@ -92,14 +96,24 @@ $(document).ready(function () {
                     } else {
                         errorMessage = "Validation error occurred.";
                     }
-
-                    alert(errorMessage);
+    
+                    Swal.fire({
+                        title: "Validation Error",
+                        text: errorMessage,
+                        icon: "error",
+                    });
                 } else {
                     console.error("Error:", error);
+                    Swal.fire({
+                        title: "Error",
+                        text: "An error occurred while processing your request. Please try again later.",
+                        icon: "error",
+                    });
                 }
             },
         });
     }
+    
 
     function archiveFarmLeader() {
         var farmLeaderID = $("#archive-adminID").val();
@@ -139,6 +153,13 @@ $(document).ready(function () {
         var firstname = $("#firstname").val();
         var lastname = $("#lastname").val();
         var email = $("#email").val();
+        var barangay_name = $("#barangay_name").val();
+        var area = $("#area").val();
+        var farm_name = $("#farm_name").val();
+        var address = $("#address").val();
+        var latitude = $('#latitude').val();
+        var longitude = $('#longitude').val();
+
 
         $.ajax({
             url: "/addFarmLeader",
@@ -150,6 +171,12 @@ $(document).ready(function () {
                 firstname: firstname,
                 lastname: lastname,
                 email: email,
+                barangay_name: barangay_name,
+                area: area,
+                farm_name: farm_name,
+                address: address,
+                latitude: latitude,
+                longitude: longitude,
             },
             success: function (data) {
                 console.log(data);
@@ -207,22 +234,28 @@ $(document).ready(function () {
 
     $(document).on("click", ".edit_farmleader_btn", function (event) {
         event.preventDefault();
-
+    
         var farmLeaderID = $(this).data("farmleader-id");
-
-        console.log("Uom ID is " + farmLeaderID);
-
+    
+        console.log("Farm Leader ID is " + farmLeaderID);
+    
         $.ajax({
             url: "/getFL/" + farmLeaderID,
             method: "GET",
             success: function (data) {
                 console.log(data);
-                // $("#uom-table").html(data)
-                //populateUomTable(data)
+    
+                // Populate the farm name and location fields
+                $("#farm").val(data.farm ? data.farm.farm_name : "");
+                // $("#location").val(data.farmLocation ? data.farmLocation.address : "");
+    
+                // Populate other fields
                 $("#farmLeaderID").val(data.farmLeaders.id);
                 $("#edit-firstname").val(data.farmLeaders.firstname);
                 $("#edit-lastname").val(data.farmLeaders.lastname);
                 $("#edit-email").val(data.farmLeaders.email);
+    
+                // Show the modal
                 $("#editFLModal").modal("show");
             },
             error: function (xhr, status, error) {
@@ -230,6 +263,10 @@ $(document).ready(function () {
             },
         });
     });
+    
+    
+
+    
 
     $(document).on("click", ".archive_farmleader_btn", function (event) {
         event.preventDefault();

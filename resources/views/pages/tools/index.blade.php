@@ -254,12 +254,14 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
                     <div class="file-input-container">
                         <div class="file-input-wrapper">
                             <label for="letter_content" class="form-label">Request Letter &nbsp;<span class="required-asteroid">*</span></label>
                             <input type="file" name="letter_content" class="form-control file-input" accept="application/pdf" required />
                             <button type="button" class="btn btn-danger cancel-btn" title="This field is required to fill up" onclick="cancelUpload('letter_content')">Cancel</button>
+
                         </div>
                     </div>
                     <br>

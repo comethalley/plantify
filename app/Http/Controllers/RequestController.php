@@ -18,6 +18,10 @@ use Carbon\Carbon;
 
 class RequestController extends Controller
 {
+    public function index()
+    {
+        return view('pages.tools.request');
+    }
     public function index1()
     {
         $user = Auth::user();
@@ -102,6 +106,7 @@ class RequestController extends Controller
                 'status' => $request->input('status', 'Requested'),
             ]);
 
+
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
             Log::error($e);
@@ -126,6 +131,7 @@ class RequestController extends Controller
             'date_return' => $remarkrequests->pluck('date_return'),
         ]);
     }
+
 
     public function viewPdfRequest($id)
     {
@@ -162,4 +168,5 @@ class RequestController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
 }

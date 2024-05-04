@@ -44,6 +44,14 @@ class InventoryController extends Controller
     {
         $id = Auth::user()->id;
 
+        $user = User::where('id', $id)
+            ->where('status', 1)
+            ->firstOrFail();
+
+        if ($user->role_id == 2) {
+            $id = 1;
+        }
+
         $user = User::select('users.*', 'farms.id AS farm_id')
             ->leftJoin('farms', 'farms.farm_leader', '=', 'users.id')
             ->where('users.id', $id)
@@ -74,6 +82,7 @@ class InventoryController extends Controller
                 'supplier_seeds.id as suppliers_seedsID',
                 'supplier_seeds.image',
                 'supplier_seeds.qty as qty',
+                'supplier_seeds.type as type',
                 'supplier_seeds.qr_code as qr_code',
                 'suppliers.id as supplierID',
                 'suppliers.name as supplier_name',
@@ -106,8 +115,9 @@ class InventoryController extends Controller
         $data = $request->validate([
             'supplier_id' => 'required',
             'seed_id' => 'required',
-            'uom_id' => 'required',
+            //'uom_id' => 'required',
             'quantity' => 'required',
+            'type' => 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
@@ -119,10 +129,22 @@ class InventoryController extends Controller
                 //$input['image'] = $imageName;
             }
             $qrText = $this->generateCode();
+
+            $measurement = "";
+            $mode = "";
+
+            if ($data['type'] == "Seedlings") {
+                $measurement = "2";
+                $mode = " pcs";
+            } else {
+                $measurement = "1";
+                $mode = "g";
+            }
             $supplierSeed = SupplierSeed::create([
                 'supplier_id' => $data['supplier_id'],
+                'type' => $data['type'],
                 'image' => $imageName,
-                'uom_id' => $data['uom_id'],
+                'uom_id' => $measurement,
                 'seed_id' => $data['seed_id'],
                 'qty' =>  $data['quantity'],
                 'qr_code' => $qrText,
@@ -142,9 +164,11 @@ class InventoryController extends Controller
                 $qrCode = $supplierSeed->qr_code;
                 $quantity = $supplierSeed->qty;
 
-                $qrLabel = $qrCode . "-" . $seedName . "(" . $quantity . ")";
+                $qrLabel = $qrCode . "-" . $seedName . "(" . $quantity . $mode . ")(" . $supplierSeed->type . ")";
 
-                $generate = $this->generateqr($qrLabel, $qrCode);
+                $wrappedLabel = wordwrap($qrLabel, 20, "\n", true);
+
+                $generate = $this->generateqr($qrLabel, $qrCode,);
 
                 if (!$generate) {
                     return response()->json(['message' => 'Qr Failed to Generate'], 500);
@@ -211,7 +235,16 @@ class InventoryController extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
+
         $id = Auth::user()->id;
+
+        $user = User::where('id', $id)
+            ->where('status', 1)
+            ->firstOrFail();
+
+        if ($user->role_id == 2) {
+            $id = 1;
+        }
 
         $user = User::select('users.*', 'farms.id AS farm_id')
             ->leftJoin('farms', 'farms.farm_leader', '=', 'users.id')
@@ -422,12 +455,12 @@ class InventoryController extends Controller
         $data = $request->validate([
             'qrcode' => 'required|string|max:55',
             'multiplier' => 'required|integer|max:999999',
-            //'mode' => 'required|integer|max:999999'
+            'mode' => 'required|integer|max:999999'
         ]);
 
         $qrCode = $data['qrcode'];
         $multiplier = $data['multiplier'];
-        //$mode = $data['mode'];
+        $mode = $data['mode'];
 
         try {
             $supplierSeeds = DB::table('supplier_seeds')
@@ -437,11 +470,11 @@ class InventoryController extends Controller
 
             $supplier_seedsID = $supplierSeeds->id;
             $quantity = $multiplier;
-            // if ($mode == 1) {
-            //     $quantity = $supplierSeeds->qty * $multiplier;
-            // } else {
-            //     $quantity = $multiplier;
-            // }
+            if ($mode == 1) {
+                $quantity = $supplierSeeds->qty * $multiplier;
+            } else {
+                $quantity = $multiplier;
+            }
             $plant_name = DB::table('plant_infos')
                 ->where('id', $supplierSeeds->seed_id)
                 ->first();
@@ -449,6 +482,12 @@ class InventoryController extends Controller
             $record = Stock::where('supplier_seeds_id', $supplier_seedsID)->first();
 
             if ($record) {
+                // $getStock = Stock::find($record->id);
+
+                if ($quantity > $record->available_seed) {
+                    return response()->json(['message' => 'Insufficient stock.'], 403);
+                }
+
                 $totalUsed = $quantity + $record->used_seed;
                 $record->update([
                     'used_seed' => $totalUsed,
@@ -474,7 +513,7 @@ class InventoryController extends Controller
                 ]);
 
 
-                return response()->json(['message' => 'Data updated successfully', 'seedName' => $plant_name->plant_name, 'daysHarvest' => $plant_name->days_harvest], 200);
+                return response()->json(['message' => 'Data updated successfully', 'seedName' => $plant_name->plant_name, 'daysHarvest' => $plant_name->days_harvest, 'type' => $supplierSeeds->type, 'amount' => $quantity], 200);
             } else {
                 return response()->json(['message' => 'Record Not Found'], 500);
             }
@@ -675,7 +714,7 @@ class InventoryController extends Controller
             ->leftJoin('supplier_seeds', 'supplier_seeds.id', '=', 'stocks.supplier_seeds_id')
             ->leftJoin('suppliers', 'suppliers.id', '=', 'supplier_seeds.supplier_id')
             ->leftJoin('uoms', 'uoms.id', '=', 'supplier_seeds.uom_id')
-            ->leftJoin('seeds', 'seeds.id', '=', 'supplier_seeds.seed_id')
+            ->leftJoin('plant_infos', 'plant_infos.id', '=', 'supplier_seeds.seed_id')
             ->select(
                 'stocks.id as stocksID',
                 'stocks.available_seed as available',
@@ -688,8 +727,8 @@ class InventoryController extends Controller
                 'suppliers.name as supplier_name',
                 'uoms.id as umoID',
                 'uoms.description as umoName',
-                'seeds.id as seedID',
-                'seeds.name as seedName',
+                'plant_infos.id as seedID',
+                'plant_infos.plant_name as seedName',
             )
             ->orderBy('stocks.id', 'DESC')
             ->get();
@@ -820,5 +859,10 @@ class InventoryController extends Controller
 
             return response()->json(['error' => 'Internal Server Error'], 500);
         }
+    }
+
+    public function tools()
+    {
+        return view("pages.inventory.tools");
     }
 }

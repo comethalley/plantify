@@ -122,7 +122,7 @@
                                             <div class="mb-3">
                                                 <label class="form-label" for="password-input">Password</label>
                                                 <div class="position-relative auth-pass-inputgroup">
-                                                    <input type="password" class="form-control pe-5 password-input" name="password" placeholder="Enter password" aria-describedby="passwordInput" required="">
+                                                    <input type="password" class="form-control pe-5 password-input" id="password-input" name="password" placeholder="Enter password" aria-describedby="passwordInput" required="">
                                                     <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon material-shadow-none" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
                                                 </div>
                                                 <div id="passwordInput" class="form-text">Must be at least 8 characters.</div>
@@ -136,13 +136,13 @@
                                                 </div>
                                             </div>
 
-                                            <!-- <div id="password-contain" class="p-3 bg-light mb-2 rounded">
-                                                    <h5 class="fs-13">Password must contain:</h5>
-                                                    <p id="pass-length" class="invalid fs-12 mb-2">Minimum <b>8 characters</b></p>
-                                                    <p id="pass-lower" class="invalid fs-12 mb-2">At <b>lowercase</b> letter (a-z)</p>
-                                                    <p id="pass-upper" class="invalid fs-12 mb-2">At least <b>uppercase</b> letter (A-Z)</p>
-                                                    <p id="pass-number" class="invalid fs-12 mb-0">A least <b>number</b> (0-9)</p>
-                                                </div> -->
+                                            <div id="password-contain" class="p-3 bg-light mb-2 rounded">
+                                                <h5 class="fs-13">Password must contain:</h5>
+                                                <p id="pass-length" class="invalid fs-12 mb-2">Minimum <b>8 characters</b></p>
+                                                <p id="pass-lower" class="invalid fs-12 mb-2">At <b>lowercase</b> letter (a-z)</p>
+                                                <p id="pass-upper" class="invalid fs-12 mb-2">At least <b>uppercase</b> letter (A-Z)</p>
+                                                <p id="pass-number" class="invalid fs-12 mb-0">A least <b>number</b> (0-9)</p>
+                                            </div>
 
 
 
@@ -170,7 +170,7 @@
 
 
     </div>
-</div>
+    </div>
 
     <!-- end auth-page-wrapper -->
 
@@ -181,14 +181,14 @@
     <script src="assets/libs/feather-icons/feather.min.js"></script>
     <script src="assets/js/pages/plugins/lord-icon-2.1.0.js"></script>
     <script src="assets/js/plugins.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-    <script type="text/javascript" src="assets/libs/choices.js/public/assets/scripts/choices.min.js"></script>
-    <script type="text/javascript" src="assets/libs/flatpickr/flatpickr.min.js"></script>
+
+    <!-- particles js -->
     <script src="assets/libs/particles.js/particles.js"></script>
+    <!-- particles app js -->
     <script src="assets/js/pages/particles.app.js"></script>
-
-
-    <!-- password-addon init -->
+    <!-- validation init -->
+    <script src="assets/js/pages/form-validation.init.js"></script>
+    <!-- password create init -->
     <script src="assets/js/pages/passowrd-create.init.js"></script>
 
 

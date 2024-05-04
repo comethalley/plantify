@@ -420,6 +420,7 @@ input:valid + span::after {
                             </select>
                         </div>
 
+
                         <div class="col-md-8 mb-3">
                             <label class="form-label">Assigned To</label>
                             <select name="user_id" class="form-control" required id="edit-user_id">
@@ -680,8 +681,8 @@ input:valid + span::after {
         success: function(data) {
             $('#task-edit').modal('hide');
             Swal.fire({
-                title: "Successfully archived",
-                text: "Are you ready for the next level?",
+                title: "Successfully Updated",
+                // text: "Are you ready for the next level?",
                 icon: "success"
             });
             console.log(data);

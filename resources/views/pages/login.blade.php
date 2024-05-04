@@ -22,6 +22,8 @@
     <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" />
     <!-- custom Css-->
     <link href="assets/css/custom.min.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
     <style>
         body,
         html {
@@ -29,13 +31,14 @@
             background: #066903;
             /* Prevent scrollbars */
         }
+
         .container {
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            display: flex;
+            display: grid;
             justify-content: center;
             align-items: center;
         }
@@ -50,26 +53,33 @@
     </style>
 </head>
 
-<body> 
-<div class="auth-one-bg-position auth-one-bg" id="auth-particles">
-<!-- <div class="bg-overlay"></div> -->
-        <canvas class="particles-js-canvas-el" width="100%" height="100%" style="width: 100%; height: 100%;"></canvas></div>
-        
+<body>
+    <div class="auth-one-bg-position auth-one-bg" id="auth-particles">
+        <!-- <div class="bg-overlay"></div> -->
+        <canvas class="particles-js-canvas-el" width="100%" height="100%" style="width: 100%; height: 100%;"></canvas>
+    </div>
+
     <div class="auth-page-content d-flex justify-content-center">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="card mx-auto">
+                    <div class=" card ">
+                        
+                        
+                        
                         <div class="row d-flex justify-content-center">
+                            
                             <div class="col-lg-6">
-                                <div class="p-lg-5 p-4">
-                                        <div class="mb-4">
-                                            <a href="/" class="d-block">
-                                            <img src="assets/images/plantifeedpics/landing-page.png" alt="" class="img-fluid">
-
-                                            </a>
-                                        </div>    
-                                </div>
+                                
+                                    <div class="container-fluid">
+                                        <a href="/" class="btn btn-success waves-effect waves-light mt-2" style="background-color: darkgreen; border-color: darkgreen;">
+                                            <i class="ri-arrow-left-line" style="color: white;"></i>
+                                        </a>
+                                    </div>
+                                    <div class="d-flex justify-content-center">
+                                        <img src="assets/images/plantifeedpics/landing-page.png" alt="" class="img-fluid">
+                                    </div>
+                                
                             </div>
                             <!-- end col -->
 
@@ -81,7 +91,7 @@
                                             <p class="text-muted text-center">Login to continue.</p>
                                         </div><br>
 
-                                        <div class="mt-4">
+                                        <div class="">
                                             <form action="/login/process" method="POST">
                                                 @csrf
                                                 @if ($errors->any())
@@ -96,7 +106,7 @@
 
                                                 <div class="mb-3">
                                                     <label for="username" class="form-label">Email</label>
-                                                    <input type="text" class="form-control" id="username" name="email" placeholder="Enter username">
+                                                    <input type="text" class="form-control" id="username" name="email" placeholder="Enter email address">
                                                 </div>
 
                                                 <div class="mb-3">
@@ -106,7 +116,7 @@
                                                     <label class="form-label" for="password-input">Password</label>
                                                     <div class="position-relative auth-pass-inputgroup mb-3">
                                                         <input type="password" class="form-control pe-5 password-input" name="password" placeholder="Enter password" id="password-input">
-                                                        <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
+                                                        <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="ri-eye-off-fill align-middle"></i></button>
                                                     </div>
                                                 </div>
 
@@ -135,7 +145,7 @@
                     <!-- end col -->
 
                 </div>
-                
+
                 <!-- end row -->
             </div>
             <!-- end container -->
@@ -144,14 +154,14 @@
 
 
     </div>
-                <!-- end row -->
-            </div>
-            <!-- end container -->
-        </div>
-        
+    <!-- end row -->
+    </div>
+    <!-- end container -->
+    </div>
 
 
-   
+
+
     <!-- end auth-page-wrapper -->
 
     <!-- JAVASCRIPT -->

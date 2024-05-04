@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <title>PlantiCUAI</title>
-    <link rel="shortcut icon" type="image/x-icon" href="assets/images/plantifeedpics/rounded.png" class="img-fluid" />
+    <link rel="shortcut icon" type="image/x-icon" href="../assets/images/plantifeedpics/rounded.png" class="img-fluid" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
@@ -53,6 +53,7 @@
     <script src="{{ asset('assets/js/fertilizer.js') }}"></script>
     <script src="{{ asset('assets/js/inventory_fertilizer.js') }}"></script>
     <script src="{{ asset('assets/js/farmers.js') }}"></script>
+    <script src="{{ asset('assets/js/restore.js') }}"></script>
 
 
     <!--markusread JS-->
@@ -213,7 +214,7 @@
                                             </li>
                                             <li class="nav-item waves-effect waves-light">
                                                 <a class="nav-link" data-bs-toggle="tab" href="#messages-tab" role="tab" aria-selected="false">
-                                                    Plantifeed
+                                                    Forum
                                                 </a>
                                             </li>
 
@@ -230,25 +231,19 @@
                                             <div class="d-flex">
                                                 <img src="../assets/images/event/event.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
                                                 <div class="flex-grow-1">
-                                                    <a href="/schedules" class="stretched-link">
-                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">New Events</h6>
+                                                    <a href="#" class="stretched-link event-notification" data-event-id="{{ $notification->event_id }}">
+                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">{{ $notification->data['title']}}</h6>
                                                     </a>
                                                     <div class="fs-13 text-muted">
                                                         <p class="mb-1">Check it out we have new events 📆.</p>
                                                     </div>
                                                     <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
-
                                                         <span><i class="mdi mdi-clock-outline" id="notification-time"></i>{{ $notification->created_at->diffForHumans() }}</span>
-
                                                     </p>
                                                 </div>
-                                                <!-- <div class="px-2 fs-15">
-                                                    <div class="form-check notification-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="all-notification-check02">
-                                                        <label class="form-check-label" for="all-notification-check02"></label>
-                                                    </div>
-                                                </div> -->
                                             </div>
+
+
                                             @elseif ($notification->type === 'App\Notifications\NewplantingNotification')
                                             <div class="d-flex">
 
@@ -542,10 +537,13 @@
                                 <h6 class="dropdown-header">Welcome {{ Auth::user()->role }}</h6>
                                 @endif
 
-                                <a class="dropdown-item" href="{{ route('profile-feed') }}"><i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i>
+                                <a class="dropdown-item" href="/profile-feed"><i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i>
                                     <span class="align-middle">Profile</span></a>
+                                @if(session('user') && session('user')->role_id != 5)
                                 <a class="dropdown-item" href="/tasks"><i class="mdi mdi-calendar-check-outline text-muted fs-16 align-middle me-1"></i>
-                                    <span class="align-middle">Taskboard</span></a>
+                                    <span class="align-middle">Taskboard</span>
+                                </a>
+                                @endif
 
                                 <div class="dropdown-divider"></div>
 
@@ -653,7 +651,7 @@
                                     </li>
                                     @endif
 
-                                    @if(session('user') && session('user')->role_id == 3)
+                                    @if(session('user') && session('user')->role_id == 3 || session('user') && session('user')->role_id == 1 || session('user') && session('user')->role_id == 2)
                                     <li class="nav-item">
                                         <a href="/users/farmers" class="nav-link" style="color:white"> Farmers </a>
                                     </li>
@@ -661,7 +659,7 @@
 
                                     @if(session('user') && session('user')->role_id == 1 || session('user') && session('user')->role_id == 2)
                                     <li class="nav-item">
-                                        <a href="/users/farm-leader" class="nav-link" style="color:white"> Restore Users </a>
+                                        <a href="/users/archived" class="nav-link" style="color:white"> Restore Users </a>
                                     </li>
                                     @endif
                                 </ul>
@@ -707,10 +705,14 @@
                                             <li class="nav-item">
                                                 <a href="/schedules" class="nav-link" style="color:white"> Event Calendar </a>
                                             </li>
-                                            <li class="nav-item">
-                                                <a href="/attendance" class="nav-link" style="color:white">Event Attendance</a>
-                                            </li>
 
+                                            @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2)
+                                            <li class="nav-item">
+
+                                                <a href="/attendance" class="nav-link" style="color:white">Event Registration</a>
+
+                                            </li>
+                                            @endif
                                         </ul>
                                     </div>
                                 </ul>
@@ -779,7 +781,7 @@
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="/Tools-District-5" role="button" style="color:white">
                                 <i class="ri-tools-fill"></i>
-                                <span data-key="t-dashboards">Tools/Seedlings</span>
+                                <span data-key="t-dashboards">Tools and Seedlings Request</span>
                             </a>
                         </li>
                         <!-- <li class="nav-item">
@@ -1018,6 +1020,35 @@
 
             // Scroll down to the bottom of the notification content
             $('#notificationItemsTabContent').scrollTop($('#notificationItemsTabContent')[0].scrollHeight);
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var eventNotificationLinks = document.querySelectorAll('.event-notification');
+            eventNotificationLinks.forEach(function(link) {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    var eventId = this.getAttribute('data-event-id');
+
+                    // Here you should fetch event details data from your server/database
+                    var eventData = {
+                        // Fetch event details based on eventId
+                        // For demonstration, I'm using dummy data
+                        title: "Event Title",
+                        description: "Event Description",
+                        // Add more details as needed
+                    };
+
+                    // Now populate the modal with event details
+                    document.getElementById('eventtitle').textContent = eventData.title;
+                    document.getElementById('eventdescription').textContent = eventData.description;
+                    // Populate other fields as needed
+
+                    // Show the modal
+                    var eventDetailsModal = new bootstrap.Modal(document.getElementById('EventdetailModal'));
+                    eventDetailsModal.show();
+                });
+            });
         });
     </script>
 

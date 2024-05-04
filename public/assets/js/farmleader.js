@@ -52,8 +52,8 @@ $(document).ready(function () {
         var firstname = $("#edit-firstname").val();
         var lastname = $("#edit-lastname").val();
         var email = $("#edit-email").val();
-
-        console.log(farmLeaderID);
+        var farm_name = $("#farm").val();
+    
         $.ajax({
             url: "/editFarmLeader/" + farmLeaderID,
             method: "POST",
@@ -64,6 +64,7 @@ $(document).ready(function () {
                 firstname: firstname,
                 lastname: lastname,
                 email: email,
+                farm_name: farm_name,
             },
             success: function (data) {
                 console.log(data);
@@ -73,15 +74,18 @@ $(document).ready(function () {
                     title: "Successfully Updated",
                     // text: "Are you ready for the next level?",
                     icon: "success",
+                    showConfirmButton: false, // Remove the OK button
+                    timer: 2000,
                 });
             },
             error: function (xhr, status, error) {
+                console.log(farmerLeaderID)
                 if (xhr.status === 422) {
                     var errorsResponse = JSON.parse(xhr.responseText);
                     console.error("Validation Error:", errorsResponse);
-
+    
                     var errorMessage = "";
-
+    
                     if (errorsResponse.errors) {
                         for (var key in errorsResponse.errors) {
                             if (errorsResponse.errors.hasOwnProperty(key)) {
@@ -92,7 +96,7 @@ $(document).ready(function () {
                     } else {
                         errorMessage = "Validation error occurred.";
                     }
-
+    
                     Swal.fire({
                         title: "Validation Error",
                         text: errorMessage,
@@ -109,6 +113,7 @@ $(document).ready(function () {
             },
         });
     }
+    
 
     function archiveFarmLeader() {
         var farmLeaderID = $("#archive-adminID").val();
@@ -242,7 +247,7 @@ $(document).ready(function () {
     
                 // Populate the farm name and location fields
                 $("#farm").val(data.farm ? data.farm.farm_name : "");
-                $("#location").val(data.farmLocation ? data.farmLocation.address : "");
+                // $("#location").val(data.farmLocation ? data.farmLocation.address : "");
     
                 // Populate other fields
                 $("#farmLeaderID").val(data.farmLeaders.id);

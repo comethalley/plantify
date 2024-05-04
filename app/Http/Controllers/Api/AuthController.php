@@ -118,6 +118,7 @@ class AuthController extends Controller
         return response()->json(['farmLeaders' => $farmLeaders, 'role' => $role], 200);
     }
 
+
     public function getAllAdmin()
     {
         $admins = DB::table('users')
@@ -131,6 +132,24 @@ class AuthController extends Controller
             )
             ->get();
         return response()->json(['admins' => $admins], 200);
+    }
+
+
+    public function getAllArchiveUsers()
+    {
+        $restore = DB::table('users')
+            ->where('users.status', 0)
+            ->leftJoin('roles', 'roles.id', '=', 'users.role_id')
+            ->select(
+                "users.id",
+                'users.firstname',
+                "users.lastname",
+                "users.email",
+                "roles.description"
+
+            )
+            ->get();
+        return response()->json(['restore' => $restore], 200);
     }
 
     public function viewAdmin($id)
@@ -159,14 +178,13 @@ class AuthController extends Controller
         }
     }
 
-    public function viewfarmLeaders($id)
+    public function viewUsers($id)
     {
         try {
-            $user = User::findOrFail($id);
+            User::findOrFail($id);
 
-            $farmLeaders = DB::table('users')
-                ->where('status', 1)
-                ->where('role_id', 3)
+            $restore = DB::table('users')
+                ->where('status', 0)
                 ->where('id', $id)
                 ->select(
                     "id",
@@ -175,33 +193,59 @@ class AuthController extends Controller
                     "email",
                 )
                 ->first();
-
-            if (!$farmLeaders) {
-                return response()->json(['error' => 'Farm Leader not found'], 404);
-            }
-
-            // Find the farm associated with the farm leader
-            $farm = Farm::where('farm_leader', $farmLeaders->id)->first();
-            if ($farm) {
-                $farmLocation = FarmLocation::where('address', $farm->address)->first();
-                return response()->json([
-                    'farmLeaders' => $farmLeaders,
-                    'farmLocation' => $farmLocation,
-                    'farm' => $farm
-                ], 200);
-            } else {
-                return response()->json([
-                    'farmLeaders' => $farmLeaders,
-                    'farmLocation' => null,
-                    'farm' => null
-                ], 200);
-            }
+            return response()->json(['restore' => $restore], 200);
         } catch (ModelNotFoundException $e) {
-            return response()->json(['error' => 'Farm Leader not found'], 404);
+
+            return response()->json(['error' => 'User not found'], 404);
         } catch (\Exception $e) {
+
             return response()->json(['error' => 'Internal Server Error'], 500);
         }
     }
+
+    public function viewfarmLeaders($id)
+    {
+
+        $user = User::findOrFail($id);
+
+        $farmLeaders = DB::table('users')
+            ->where('status', 1)
+            ->where('role_id', 3)
+            ->where('id', $id)
+            ->select(
+                "id",
+                'firstname',
+                "lastname",
+                "email",
+            )
+            ->first();
+
+        if (!$farmLeaders) {
+            return response()->json(['error' => 'Farm Leader not found'], 404);
+        }
+
+
+        // Find the farm associated with the farm leader
+        $farm = Farm::where('farm_leader', $farmLeaders->id)->first();
+        if ($farm) {
+            // $farmLocation = FarmLocation::where('address', $farm->address)->first();
+            return response()->json([
+                'farmLeaders' => $farmLeaders,
+                // 'farmLocation' => $farmLocation,
+                'farm' => $farm
+            ], 200);
+        } else {
+            return response()->json([
+                'farmLeaders' => $farmLeaders,
+                // 'farmLocation' => null,
+                'farm' => null
+            ], 200);
+        }
+    }
+
+
+
+
 
     public function updateAdmin(Request $request, $id)
     {
@@ -252,7 +296,8 @@ class AuthController extends Controller
             $validator = Validator::make($request->all(), [
                 'firstname'  => 'required|string|max:55',
                 'lastname'  => 'required|string|max:55',
-                'email' => 'required|email|unique:users,email,' . $user->id
+                'email' => 'required|email|unique:users,email,' . $user->id,
+                'farm_name' => 'required|string|max:255', // Added validation for farm_name
             ]);
 
             if ($validator->fails()) {
@@ -261,25 +306,26 @@ class AuthController extends Controller
 
             $data = $validator->validated();
 
+            // Update the farm leader's details
             $user->update([
                 'firstname' => $data['firstname'],
                 'lastname' => $data['lastname'],
                 'email' => $data['email'],
             ]);
 
-            if ($user) {
-                return response()->json(['message' => 'Measurement Updated Successfully'], 200);
-            } else {
-                return response()->json(['error' => 'Internal Server Error'], 500);
+            // Update the associated farm's name
+            if ($user->farm) {
+                $user->farm->update(['farm_name' => $data['farm_name']]);
             }
+
+            return response()->json(['message' => 'Farm Leader Updated Successfully'], 200);
         } catch (ModelNotFoundException $e) {
-
-            return response()->json(['error' => 'Admin not found'], 404);
+            return response()->json(['error' => 'Farm Leader not found'], 404);
         } catch (\Exception $e) {
-
             return response()->json(['error' => 'Internal Server Error'], 500);
         }
     }
+
 
     public function archiveAdmin(Request $request, $id)
     {
@@ -306,61 +352,73 @@ class AuthController extends Controller
         }
     }
 
-    public function archiveFarmLeader(Request $request, $id)
+    public function restoreUser(Request $request, $id)
     {
         try {
-            // Find the farm leader
             $user = User::where('id', $id)
-                ->where('status', 1)
+                ->where('status', 0)
                 ->firstOrFail();
 
-            // Find the farm associated with the farm leader
-            $farm = Farm::where('farm_leader', $user->id)->first();
-
-            if ($farm) {
-                // Find the farmers associated with the farm leader's ID
-                $farmers = Farmer::where('farmleader_id', $user->id)->get();
-
-                if ($farmers != "") {
-                    foreach ($farmers as $farmer) {
-                        $farmerUser = User::findOrFail($farmer->farmer_id);
-                        $farmerUser->update([
-                            'status' => 0,
-                        ]);
-                    }
-                }
-
-                $farmLocation = FarmLocation::where('address', $farm->address)->first();
-                if ($farmLocation) {
-                    $farmLocation->update([
-                        'status' => 0,
-                    ]);
-                }
-                // archive the farm
-                $farm->update([
-                    'status' => 0,
-                ]);
-            }
-
-            // Update the status of the farm leader
             $user->update([
-                'status' => 0,
+                'status' => 1,
             ]);
 
-            return response()->json(['message' => 'Farm Leader Archived Successfully'], 200);
+            if ($user) {
+                return response()->json(['message' => 'Admin Archive Successfully'], 200);
+            } else {
+                return response()->json(['error' => 'Internal Server Error'], 500);
+            }
         } catch (ModelNotFoundException $e) {
-            return response()->json(['error' => 'Farm Leader not found'], 404);
+
+            return response()->json(['error' => 'User not found'], 404);
         } catch (\Exception $e) {
+
             return response()->json(['error' => 'Internal Server Error'], 500);
         }
     }
 
 
+    public function archiveFarmLeader(Request $request, $id)
+    {
+        // Find the farm leader
+        $user = User::where('id', $id)
+            ->where('status', 1)
+            ->firstOrFail();
 
+        // Find the farm associated with the farm leader
+        $farm = Farm::where('farm_leader', $user->id)->first();
 
+        if ($farm) {
+            // Find the farmers associated with the farm leader's ID
+            $farmers = Farmer::where('farmleader_id', $user->id)->get();
 
+            if ($farmers != "") {
+                foreach ($farmers as $farmer) {
+                    $farmerUser = User::findOrFail($farmer->farmer_id);
+                    $farmerUser->update([
+                        'status' => 0,
+                    ]);
+                }
+            }
 
+            $farmLocation = FarmLocation::where('address', $farm->address)->first();
+            if ($farmLocation) {
+                $farmLocation->update([
+                    'status' => 0,
+                ]);
+            }
+            // archive the farm
+            $farm->update([
+                'status' => 0,
+            ]);
+        }
 
+        $user->update([
+            'status' => 0,
+        ]);
+
+        return response()->json(['message' => 'Farm Leader Archived Successfully'], 200);
+    }
 
     public function signup(Request $request)
     {
@@ -368,23 +426,18 @@ class AuthController extends Controller
             'firstname' => 'required|string|max:55',
             'lastname' => 'required|string|max:55',
             'email' => 'required|email|unique:users,email',
-            'password' => [
-                'required',
-                'confirmed',
-                'min:8',
-                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/',
-            ],
+            'password' => ['required', 'string', 'confirmed', 'min:8', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/'],
         ], [
             'password.required' => 'Password is required.',
             'password.confirmed' => 'Password confirmation does not match.',
             'password.min' => 'Password must be at least :min characters.',
-            'password.regex' => 'Password format is incorrect. It must contain at least one uppercase letter, one lowercase letter, one digit, and one special character.',
+            'password.regex' => 'Password format is incorrect. It must contain at least one uppercase letter, one lowercase letter, and one digit.',
         ]);
-
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
+
 
         $data = $validator->validated();
 
@@ -512,6 +565,7 @@ class AuthController extends Controller
         $farmLocation->longitude = $data['longitude'];
         $farmLocation->location_name = $data['farm_name'];
         $farmLocation->address = $data['address'];
+        $farmLocation->status = 1;
         $farmLocation->save();
 
         // If both farm, farm leader, and farm location are successfully created, send email invitation
@@ -632,6 +686,11 @@ class AuthController extends Controller
             return back()->withErrors(['email' => 'Please verify your email before logging in']);
         }
 
+        // Check if user status is active
+        if ($user->status == 0) {
+            return back()->withErrors(['email' => 'Your account is inactive. Please contact CUAI.']);
+        }
+
         if (Auth::attempt($validated)) {
             $request->session()->regenerate();
 
@@ -643,6 +702,7 @@ class AuthController extends Controller
 
         return back()->withErrors(['email' => 'Login failed'])->onlyInput('email');
     }
+
 
     public function logout(Request $request)
     {
@@ -714,6 +774,11 @@ class AuthController extends Controller
     public function getFarmers()
     {
         return view('pages.users.farmers');
+    }
+
+    public function getArchived()
+    {
+        return view('pages.users.restore');
     }
 
     public function landingpage()

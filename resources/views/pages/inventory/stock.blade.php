@@ -76,14 +76,14 @@
                                         <thead class="text-muted table-light">
                                             <tr class="text-uppercase">
 
-                                                <th class="sort" data-sort="id">ID</th>
-                                                <th class="sort" data-sort="customer_name">Code</th>
-                                                <th class="sort" data-sort="date">Seed Name</th>
-                                                <th class="sort" data-sort="amount">Supplier</th>
-                                                <th class="sort" data-sort="payment">Available</th>
-                                                <th class="sort" data-sort="payment">Used</th>
-                                                <th class="sort" data-sort="payment">Total</th>
-                                                <th class="sort" data-sort="city">Logs</th>
+                                                <th data-sort="id">ID</th>
+                                                <th data-sort="customer_name">Code</th>
+                                                <th data-sort="date">Seed Name</th>
+                                                <th data-sort="amount">Supplier</th>
+                                                <th data-sort="payment">Available</th>
+                                                <th data-sort="payment">Used</th>
+                                                <th data-sort="payment">Total</th>
+                                                <th data-sort="city">Logs</th>
                                             </tr>
                                         </thead>
                                         <tbody class="list form-check-all">
@@ -145,6 +145,51 @@
                             <!--End Receiving Modal-->
 
                             <!--Using Modal-->
+                            <!-- <div class="modal fade" id="usingModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-light p-3">
+                                            <h5 class="modal-title" id="exampleModalLabel">Planting Scanner</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+                                        </div>
+                                        <form method="post" action="/add-supplier">
+                                            @csrf
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label for="multiple-used" class="form-label">Multiple Items</label>
+                                                            <input type="text" id="multiple-used" class="form-control" value="1" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="mode">Mode</label>
+                                                            <select class="form-select" id="mode">
+                                                                <option value="1">Per pack/box</option>
+                                                                <option value="2">Per pieces</option>
+                                                                <option value="2">Per grams</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <video id="using-preview" style="width: 100%;"></video>
+                                                <center>
+                                                    <p class="lead text-danger" id="used-qr"></p>
+                                                </center><br>
+
+
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <div class="hstack gap-2 justify-content-end">
+                                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div> -->
 
                             <!--End Using Modal-->
 

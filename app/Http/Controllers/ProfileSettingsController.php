@@ -10,6 +10,7 @@ use App\Rules\StrongPassword;
 use Illuminate\Support\Facades\Hash;
 use App\Models\ProfileSettings;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use App\Models\User;
 
 
@@ -23,48 +24,53 @@ class ProfileSettingsController extends Controller
     }
 
     public function uploadImage(Request $request)
-    {
-        // Validate the request
-        $request->validate([
-            'user_id' => 'required|exists:users,id', // Verify if the user exists
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust the validation rules as needed
-            'type' => 'required|in:cover,profile', // Specify if the image is a cover image or a profile image
-        ]);
+{
+    // Validate the request
+    $request->validate([
+        'user_id' => 'required|exists:users,id', // Verify if the user exists
+        'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust the validation rules as needed
+        'type' => 'required|in:cover,profile', // Specify if the image is a cover image or a profile image
+    ]);
 
-        // Save the image to the database
-        if ($request->hasFile('image')) {
-            $file = $request->file('image');
-            $fileName = time() . '_' . $file->getClientOriginalName();
-            $file->storeAs('public/images', $fileName);
+    // Save the image to the database
+    if ($request->hasFile('image')) {
+        $file = $request->file('image');
+        $fileName = time() . '_' . $file->getClientOriginalName();
+        $file->storeAs('public/images', $fileName);
 
-            // Update or create the image in the database for the specified user
-            $profileSettings = ProfileSettings::where('user_id', $request->user_id)->first();
-            if ($profileSettings) {
-                if ($request->type === 'cover') {
-                    $profileSettings->cover_image = $fileName;
-                } elseif ($request->type === 'profile') {
-                    $profileSettings->profile_image = $fileName;
-                }
-                $profileSettings->save();
-            } else {
-                // If the profile settings for the user do not exist, create a new entry
-                $profileSettings = new ProfileSettings();
-                $profileSettings->user_id = $request->user_id;
-                if ($request->type === 'cover') {
-                    $profileSettings->cover_image = $fileName;
-                } elseif ($request->type === 'profile') {
-                    $profileSettings->profile_image = $fileName;
-                }
-                $profileSettings->save();
+        // Update or create the image in the database for the specified user
+        $profileSettings = ProfileSettings::where('user_id', $request->user_id)->first();
+        if ($profileSettings) {
+            if ($request->type === 'cover') {
+                $profileSettings->cover_image = $fileName;
+            } elseif ($request->type === 'profile') {
+                $profileSettings->profile_image = $fileName;
             }
-
-            // Return success response
-            return response()->json(['message' => ucfirst($request->type) . ' image uploaded successfully'], 200);
+            $profileSettings->save();
+        } else {
+            // If the profile settings for the user do not exist, create a new entry
+            $profileSettings = new ProfileSettings();
+            $profileSettings->user_id = $request->user_id;
+            if ($request->type === 'cover') {
+                $profileSettings->cover_image = $fileName;
+            } elseif ($request->type === 'profile') {
+                $profileSettings->profile_image = $fileName;
+            }
+            $profileSettings->save();
         }
 
-        // Return error response if no file is provided
-        return response()->json(['error' => 'No image provided'], 400);
+        $imageUrl = asset('storage/images/' . $fileName); // Get the URL of the uploaded image
+
+        Session::flash('message', ucfirst($request->type) . ' image uploaded successfully');
+
+        // Return success response with the image URL
+        return response()->json(['message' => ucfirst($request->type) . ' image uploaded successfully', 'image_url' => $imageUrl], 200);
     }
+
+    // Return error response if no file is provided
+    return response()->json(['error' => 'No image provided'], 400);
+}
+
 
     public function saveOrUpdate(Request $request)
 {
@@ -86,6 +92,7 @@ class ProfileSettingsController extends Controller
         $validatedData
     );
 
+    Session::flash('message', 'Other Infos updated successfully.');
 
     return redirect()->back()->with('success', 'Profile Info updated successfully.');
 }
@@ -109,6 +116,7 @@ class ProfileSettingsController extends Controller
             'email' => $request->email,
         ]);
 
+        Session::flash('message', 'Profile details updated successfully.');
 
 
         // I-return ang response
@@ -116,42 +124,43 @@ class ProfileSettingsController extends Controller
     }
 
     public function updatePassword(Request $request)
-{
-    // Kunin ang kasalukuyang user
-    $user = auth()->user();
-
-    // Validate the request
-    $request->validate([
-        'old_password' => [
-            'required',
-            new CorrectOldPassword(auth()->user()),
-        ],
-        'password' => [
-            'required',
-            'different:old_password',
-            'confirmed',
-            'min:6',
-            new StrongPassword,
-            new NotCommonPassword,
-            new NotSameAsCurrentPassword,
-            new NotSameAsName($user->firstname, $user->lastname),
-        ],
-    ]);
+    {
+        // Validate the request for old_password only
+        $request->validate([
+            'old_password' => [
+                'required',
+                new CorrectOldPassword(auth()->user()),
+            ],
+        ]);
     
+        // If old password is correct, proceed with updating the password
+        $user = auth()->user();
     
+        // Validate the request for password and password_confirmation
+        $request->validate([
+            'password' => [
+                'required',
+                'different:old_password',
+                'confirmed',
+                'min:6',
+                new StrongPassword,
+                new NotCommonPassword,
+                new NotSameAsCurrentPassword,
+                new NotSameAsName($user->firstname, $user->lastname),
+            ],
+        ]);
+    
+        // Update ang password ng user
+        $user->update([
+            'password' => Hash::make($request->password),
+        ]);
 
-    // I-check kung tama ang old password
-    if (!Hash::check($request->old_password, $user->password)) {
-        return redirect()->back()->withErrors(['old_password' => 'The old password is incorrect.'])->withInput();
+        Session::flash('message', 'Password updated successfully.');
+    
+        // I-return ang response
+        return redirect()->back()->with('success', 'Password updated successfully.');
     }
-
-    // Update ang password ng user
-    $user->update([
-        'password' => Hash::make($request->password),
-    ]);
-
-    // I-return ang response
-    return redirect()->back()->with('success', 'Password updated successfully.');
-}
+    
+    
 
 }

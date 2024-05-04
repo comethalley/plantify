@@ -50,47 +50,47 @@
                         </div>  
                 </div>   
             </div>
-
+ 
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
- $(document).ready(function() {
-    $('#searchInput').on('keyup', function() {
-        var searchText = $(this).val().toLowerCase();
-        
-        // Loop through each card
-        $('.row-cols-1.row-cols-sm-2.row-cols-xl-4.row-cols-xxl-4').each(function() {
-            var $columns = $(this).children('.col-sm-6');
-            var found = false;
+    $(document).ready(function() {
+        $('#searchInput').on('keyup', function() {
+            var searchText = $(this).val().toLowerCase();
             
-            $columns.each(function() {
-                var $card = $(this).find('.card');
-                var plantName = $card.find('.card-title').text().toLowerCase();
+            // Loop through each card
+            $('.row-cols-1.row-cols-sm-2.row-cols-xl-4.row-cols-xxl-4').each(function() {
+                var $columns = $(this).children('.col-sm-6');
+                var found = false;
                 
-                // Check if the plant name contains the search text
-                if (plantName.includes(searchText)) {
-                    // Move the column containing the matching plant name to the beginning
-                    $(this).prependTo($(this).parent());
-                    found = true;
-                }
+                $columns.each(function() {
+                    var $card = $(this).find('.card');
+                    var plantName = $card.find('.card-title').text().toLowerCase();
+                    
+                    // Check if the plant name contains the search text
+                    if (plantName.includes(searchText)) {
+                        // Move the column containing the matching plant name to the beginning
+                        $(this).prependTo($(this).parent());
+                        found = true;
+                    }
+                    
+                    // Show or hide the card based on whether it matches the search text
+                    if (plantName.includes(searchText)) {
+                        $card.show();
+                    } else {
+                        $card.hide();
+                    }
+                });
                 
-                // Show or hide the card based on whether it matches the search text
-                if (plantName.includes(searchText)) {
-                    $card.show();
-                } else {
-                    $card.hide();
+                // If no match found, keep the original order and show all cards
+                if (!found) {
+                    $columns.each(function(index) {
+                        $(this).appendTo($(this).parent());
+                        $(this).find('.card').show();
+                    });
                 }
             });
-            
-            // If no match found, keep the original order and show all cards
-            if (!found) {
-                $columns.each(function(index) {
-                    $(this).appendTo($(this).parent());
-                    $(this).find('.card').show();
-                });
-            }
         });
     });
-});
-
 
 
 

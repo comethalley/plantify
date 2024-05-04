@@ -179,7 +179,7 @@ function updateWeatherUI(today, data, unit, hourlyorWeek) {
 
 
 function getWeatherData(city, unit, hourlyorWeek) {
-  const apiKey = "C4YX6WXF38XQJPM9LJ533B8E4";
+  const apiKey = "UQCDAHREW2AP33F6RGNT3X2Z9";
   fetch(
     `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?unitGroup=metric&key=${apiKey}&contentType=json`,
     {
@@ -193,10 +193,12 @@ function getWeatherData(city, unit, hourlyorWeek) {
       let today = data.currentConditions;
       if (unit === "f") {
         temp.innerText = celciusToFahrenheit(today.temp);
+        feelsLikeTemp = celciusToFahrenheit(today.feelslike); 
       } else {
         temp.innerText = today.temp;
+        feelsLikeTemp = today.feelslike;
       }
-      
+      feelsLike.innerText = "Feels Like: " + feelsLikeTemp;
       currentLocation.innerText = data.resolvedAddress;
       condition.innerText = today.conditions;
       rain.innerText = "Perc - " + today.precip + "%";
@@ -211,7 +213,6 @@ function getWeatherData(city, unit, hourlyorWeek) {
       updateVisibiltyStatus(today.visibility);
       airQuality.innerText = today.winddir;
       updateAirQualityStatus(today.winddir);
-      feelsLike.innerText = "Feels Like: " + today.feelslike; // Assuming 'feelslike' is the key for Feels Like temperature in the API response
       if (hourlyorWeek === "hourly") {
         updateForecast(data.days[0].hours, unit, "day");
       } else {

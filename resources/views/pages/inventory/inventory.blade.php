@@ -242,6 +242,15 @@
                                                     </div>
                                                     <div class="col-lg-3">
                                                         <div class="input-group">
+                                                            <select class="form-select" id="seed_type">
+                                                                <option value="">Choose Type</option>
+                                                                <option value="Seedlings">Seedlings</option>
+                                                                <option value="Seeds">Seeds</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-3">
+                                                        <div class="input-group">
                                                             <select class="form-select" id="seed">
                                                                 <option selected="" value="0">Choose Seed</option>
                                                                 @foreach($seeds as $per_seeds)
@@ -250,7 +259,7 @@
                                                             </select>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-3">
+                                                    <!-- <div class="col-lg-3">
                                                         <div class="input-group">
                                                             <select class="form-select" id="uom">
                                                                 <option selected="" value="0">Unit of Measurement</option>
@@ -259,7 +268,7 @@
                                                                 @endforeach
                                                             </select>
                                                         </div>
-                                                    </div>
+                                                    </div> -->
                                                     <div class="col-lg-2">
                                                         <div class="mb-3">
                                                             <input type="text" name="qty" id="qty" class="form-control" placeholder="Enter Qty" required />

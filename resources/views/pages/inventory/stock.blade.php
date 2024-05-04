@@ -49,7 +49,7 @@
                                 <div class="col-sm-auto">
                                     <div class="d-flex gap-1 flex-wrap">
                                         <button type="button" class="btn btn-secondary waves-effect waves-light" data-bs-toggle="modal" id="create-btn" data-bs-target="#receiveModal"><i class="ri-add-line align-bottom me-1"></i> Add Stock</button>
-                                        <!-- <button type="button" class="btn btn-success waves-effect waves-light" data-bs-toggle="modal" id="create-btn" data-bs-target="#usingModal"><i class="ri-add-line align-bottom me-1"></i> Release</button> -->
+                                        <button type="button" class="btn btn-success waves-effect waves-light" data-bs-toggle="modal" id="create-btn" data-bs-target="#usingModal"><i class="ri-add-line align-bottom me-1"></i> Release</button>
                                         <button class="btn btn-soft-danger" id="remove-actions" onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button>
                                     </div>
                                 </div>
@@ -145,6 +145,51 @@
                             <!--End Receiving Modal-->
 
                             <!--Using Modal-->
+                            <!-- <div class="modal fade" id="usingModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-light p-3">
+                                            <h5 class="modal-title" id="exampleModalLabel">Planting Scanner</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+                                        </div>
+                                        <form method="post" action="/add-supplier">
+                                            @csrf
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label for="multiple-used" class="form-label">Multiple Items</label>
+                                                            <input type="text" id="multiple-used" class="form-control" value="1" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="mode">Mode</label>
+                                                            <select class="form-select" id="mode">
+                                                                <option value="1">Per pack/box</option>
+                                                                <option value="2">Per pieces</option>
+                                                                <option value="2">Per grams</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <video id="using-preview" style="width: 100%;"></video>
+                                                <center>
+                                                    <p class="lead text-danger" id="used-qr"></p>
+                                                </center><br>
+
+
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <div class="hstack gap-2 justify-content-end">
+                                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div> -->
 
                             <!--End Using Modal-->
 

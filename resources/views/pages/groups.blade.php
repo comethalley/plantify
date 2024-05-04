@@ -46,11 +46,15 @@
                                                 <button type="button" class="btn member-button" data-member-id="{{ $user->id }}" data-thread-id="{{ $user->thread_id }}">
                                                     <!-- Your user display content -->
                                                     <div class="d-flex align-items-center">
-                                                        <div class="avatar-sm">
+                                                    @if($profileSettings)
+                                                        <img src="{{ $profileSettings->profile_image ? asset('storage/' . $profileSettings->profile_image) : asset('path_to_default_image') }}" alt="" >
+                                                    @else
+                                                        <img class="rounded-circle header-profile-user" src="{{asset('assets/images/plantifeedpics/rounded.png')}}" alt="Header Avatar">
+                                                    @endif
                                                             @if ($user->unread_message_count > 0)
                                                                 <span class="position-absolute topbar-badge fs-10 translate-end badge rounded-pill bg-danger">{{ $user->unread_message_count }}</span>
                                                             @endif
-                                                        </div>
+                                                        
                                                         <div class="ms-2">
                                                             <h6 class="mb-0">{{ $user->firstname }} {{ $user->lastname }}</h6>
                                                         </div>
@@ -77,6 +81,7 @@
                                             {{-- Display only for role_id 2 (Admin and Farm Leaders) --}}
                                             <button type="button" class="btn channel-button" data-group-id="{{ $group->id }}" data-farm-id="{{ optional($farmLeaders)->id }}">
                                                 <div class="d-flex align-items-center">
+                                                <img class="rounded-circle header-profile-user" src="{{asset('assets/images/plantifeedpics/rounded.png')}}" alt="Header Avatar">
                                                     <div class="ms-2">
                                                         <h6 class="mb-0">{{ $group->group_name }}</h6>
                                                         @if ($group->unread_message_count > 0)
@@ -89,6 +94,7 @@
                                             {{-- Display for role_id 3 (both Admin and Farm Leaders, Farm Leader and Farmers) --}}
                                             <button type="button" class="btn channel-button" data-group-id="{{ $group->id }}" data-farm-id="{{ optional($farmLeaders)->id }}">
                                                 <div class="d-flex align-items-center">
+                                                <img class="rounded-circle header-profile-user" src="{{asset('assets/images/plantifeedpics/rounded.png')}}" alt="Header Avatar">
                                                     <div class="ms-2">
                                                         <h6 class="mb-0">{{ $group->group_name }}</h6>
                                                         @if ($group->unread_message_count > 0)
@@ -101,6 +107,7 @@
                                             {{-- Display only for role_id 4 (Farm Leader and Farmers) --}}
                                             <button type="button" class="btn channel-button" data-group-id="{{ $group->id }}" data-farm-id="{{ optional($farmLeaders)->id }}">
                                                 <div class="d-flex align-items-center">
+                                                <img class="rounded-circle header-profile-user" src="{{asset('assets/images/plantifeedpics/rounded.png')}}" alt="Header Avatar">
                                                     <div class="ms-2">
                                                         <h6 class="mb-0">{{ $group->group_name }}</h6>
                                                         @if ($group->unread_message_count > 0)
@@ -127,19 +134,19 @@
                 </div>
 
                 <!-- Start User chat -->
-                <div class="user-chat w-100 overflow-hidden">
-                    <div class="chat-content d-lg-flex" style="background-image: url('{{ asset('storage/images/chat_bg.png') }}'); background-size: cover;">
+                <div class="user-chat w-100 overflow-hidden user-chat-show">
+                    <div class="chat-content d-lg-flex" style="background-image:  url('{{ asset('assets/images/chat_bg.png') }}'); background-size: cover;">
                         <!-- start chat conversation section -->
                         <div class="w-100 overflow-hidden position-relative">
                             <!-- conversation user -->
-                            <div class="position-relative" style="height: 505px">
+                            <div class="position-relative">
                                 <div class="position-relative" id="users-chat">
                                     <div class="p-3 user-chat-topbar">
                                         <div class="row align-items-center">
                                             <div class="col-sm-4 col-8">
                                                 <div class="d-flex align-items-center">
                                                     <div class="flex-shrink-0 d-block d-lg-none me-3">
-                                                        <a href="javascript: void(0);" class="user-chat-remove fs-18 p-1"><i class="ri-arrow-left-s-line align-bottom"></i></a>
+                                                        <a href="/chat" class="user-chat-remove fs-18 p-1"><i class="ri-arrow-left-s-line align-bottom"></i></a>
                                                     </div>
                                                     <div class="flex-grow-1 overflow-hidden">
                                                         <div class="d-flex align-items-center">
@@ -414,7 +421,7 @@ $(document).ready(function() {
 
     Pusher.logToConsole = true;
 
-var pusher = new Pusher('d7630bf7a930051c0329', {
+var pusher = new Pusher('54f1c49cb67ee0620dac', {
     cluster: 'ap1'
 });
 
@@ -442,8 +449,8 @@ channel.bind('group-message', function(message) {
         });
     }
 
-    // Function to update conversation area with fetched messages
-    function updateConversation(messages) {
+// Function to update conversation area with fetched messages
+function updateConversation(messages) {
     var conversationList = $('#group-conversation');
     conversationList.empty(); // Clear existing messages
 
@@ -470,14 +477,15 @@ channel.bind('group-message', function(message) {
                     '<div class="ctext-wrap-content">' +
                     '<div class="message-dropdown">' +
                     '<p class="mb-0 ctext-content" onclick="toggleDropdown(this)" data-message-id="' + message.id + '">' + message.content + '</p>' +
+                    (message.sender_id == "{{ auth()->user()->id }}" ? // Check if the sender is the authenticated user
                     `<div class="dropdown-menu">` +
                     `<a class="dropdown-item" onclick="deleteMessage(this)">Delete</a>` +
-                    `</div>` +
+                    `</div>` : '') + // Display delete option only for the authenticated user's messages
                     '</div>' +
                     '</div>' +
                     '<div class="conversation-name">' +
                     '<br>' +
-                    '<small class="text-muted time">' + getCurrentTime() + '</small>' +
+                    '<small class="text-muted time">' + formatTime(message.created_at) + '</small>' +
                     '<span class="text-success check-message-icon">' +
                     '<i class="ri-check-double-line align-bottom"></i>' +
                     '</span>' +
@@ -497,7 +505,7 @@ channel.bind('group-message', function(message) {
                     '</div>' +
                     '<div class="conversation-name">' +
                     '<br>' +
-                    '<small class="text-muted time">' + getCurrentTime() + '</small>' +
+                    '<small class="text-muted time">' + formatTime(message.created_at) + '</small>' +
                     '<span class="text-success check-message-icon">' +
                     '<i class="ri-check-double-line align-bottom"></i>' +
                     '</span>' +
@@ -514,19 +522,11 @@ channel.bind('group-message', function(message) {
                 '<div class="ctext-wrap-content">' +
                 '<div class="message-dropdown">' +
                 '<img src="{{ asset('storage') }}/' + message.image_path + '" style="max-width: 200px; max-height: 200px;" class="img-fluid" alt="Image">' +
-                `<div class="dropdown-menu">` +
-                `<a class="dropdown-item" href="{{ asset('storage') }}/${message.image_path}" download>` +
-                `<i class="ri-download-line me-2"></i> Download` +
-                `</a>` +
-                `<a class="dropdown-item" href="{{ asset('storage') }}/${message.image_path}" target="_blank">` +
-                `<i class="ri-eye-line me-2"></i> View` +
-                `</a>` +
-                `</div>` +
                 '</div>' +
                 '</div>' +
                 '<div class="conversation-name">' +
                 '<br>' +
-                '<small class="text-muted time">' + getCurrentTime() + '</small>' +
+                '<small class="text-muted time">' + formatTime(message.created_at) + '</small>' +
                 '<span class="text-success check-message-icon">' +
                 '<i class="ri-check-double-line align-bottom"></i>' +
                 '</span>' +
@@ -542,17 +542,34 @@ channel.bind('group-message', function(message) {
         // Append the message item to the conversation list
         conversationList.append(messageItem);
     });
+
+    // Scroll to the bottom of the conversation area
+    conversationList[0].scrollIntoView({ behavior: "smooth", block: "end" });
 }
 
 
 });
 
-function getCurrentTime() {
-        var now = new Date();
-        var hours = now.getHours().toString().padStart(2, "0");
-        var minutes = now.getMinutes().toString().padStart(2, "0");
-        return hours + ":" + minutes;
+// Function to format time as HH:MM AM/PM
+function formatTime(timestamp) {
+    var date = new Date(timestamp);
+    var hours = date.getHours();
+    var minutes = date.getMinutes().toString().padStart(2, '0');
+    var amPM = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12 || 12; // Convert to 12-hour format
+    var formattedTime = hours + ':' + minutes + ' ' + amPM;
+
+    // Check if the date is in the past
+    var currentDate = new Date();
+    if (date.toDateString() !== currentDate.toDateString()) {
+        // If the date is in the past, display the date
+        var day = date.getDate();
+        var month = date.toLocaleString('default', { month: 'short' });
+        formattedTime = month + ' ' + day + ', ' + formattedTime;
     }
+
+    return formattedTime;
+}
 
 // Function to toggle dropdown menu
 function toggleDropdown(element) {

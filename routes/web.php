@@ -24,6 +24,9 @@ use App\Http\Controllers\Api\FarmController;
 use App\Http\Controllers\EmailVerification;
 use App\Http\Controllers\PiuController;
 use App\Http\Controllers\AnalyticsController;
+use App\Http\Controllers\RequestController;
+use App\Http\Controllers\ProfilefeedController;
+use App\Http\Controllers\ProfileSettingsController;
 use App\Http\Requests\PdfRequest;
 use Endroid\QrCode\Writer\Result\PdfResult;
 use Illuminate\Http\Request;
@@ -138,11 +141,26 @@ Route::put('/edit-question/{id}', [ForumController::class, 'editQuestion'])->nam
 Route::post('/edit-post/{id}', [PostController::class, 'editPost']);
 Route::put('/edit-post/{id}', [PostController::class, 'editPost'])->name('editPost');
 
-Route::get('/profilefeed', [UserPhotoController::class, 'index']);
-Route::get('pages/profilefeed', [UserPhotoController::class, 'index'])->name('profile');
 
-// Route for updating profile information
-Route::post('/update-profile', [UserPhotoController::class, 'updateProfile'])->name('update.profile');
+
+// Route for profile
+
+
+
+Route::get('/profile-feed', [ProfilefeedController::class, 'show'])->name('profile-feed');
+
+Route::get('/profilesettings', [ProfileSettingsController::class, 'show'])->name('profilesettings');
+
+Route::post('/upload-image', [ProfileSettingsController::class, 'uploadImage'])->name('upload-image');
+
+Route::put('/profile/update', [ProfileSettingsController::class, 'updateProfile'])->name('profile.update');
+
+Route::middleware(['auth'])->group(function () {
+    Route::post('/profile/update-password', [ProfileSettingsController::class, 'updatePassword'])
+        ->name('profile.updatePassword');
+});
+
+Route::post('/save-profile-info', [ProfileSettingsController::class, 'saveOrUpdate'])->name('save.profile.info');
 
 
 // routes/web.php
@@ -222,6 +240,7 @@ Route::get('/events/calendar', [EventController::class, 'getCalendarEvents'])->n
 
 
 //FOR attendance ROUTES===========================================
+
 Route::get('/attendance', [AttendanceControler::class, 'index']);
 Route::get('/attendees', [AttendanceControler::class, 'attendees'])->name('event.details');
 Route::post('/event/attendance/submit/{event_id}', [AttendanceControler::class, 'submit'])->name('register');
@@ -231,6 +250,7 @@ Route::put('/change-attendee-status/{id}', [AttendanceControler::class, 'changeS
 
 
 Route::get('/fetch-attendees/{event_id}', [AttendanceControler::class, 'fetchAttendees']);
+
 
 // End Full Calender=================================================================
 
@@ -272,7 +292,6 @@ Route::post('/fertarchive/{id}', [PlantInfoController::class, 'fertarchive']);
 //For farm management =======================================================
 
 //index farm-mamangement//
-Route::get('/Tools-District-5', [FarmController::class, 'index1']);
 Route::get('/Farms-District-5', [FarmController::class, 'index']);
 Route::post('/add-farms', [FarmController::class, 'addFarms'])->name('add.farms');
 Route::get('/archive-farm/{id}', [FarmController::class, 'archiveFarm'])->name('archive.farm');
@@ -305,9 +324,7 @@ Route::post('/set-date-farm/{id}', [FarmController::class, 'SetDateStatus'])->na
 //TASK MANAGEMENT ============================================================================
 Route::get('/tasks', [TaskController::class, 'index'])->name('tasks.monitoring');
 Route::post('/tasks/store', [TaskController::class, 'store'])->name('tasks.store');
-Route::get('/tasks/{task}/edit', [TaskController::class, 'edit'])->name('tasks.edit');
 Route::post('/tasks/{task}', [TaskController::class, 'update']);
-Route::delete('/tasks/{task}', [TaskController::class, 'destroy'])->name('tasks.destroy');
 Route::post('/tasks/{task}/complete', [TaskController::class, 'complete'])->name('tasks.complete');
 Route::get('taskshow', [TaskController::class, 'showCompleted'])->name('taskshow');
 Route::get('/missingtasks', [TaskController::class, 'missingTasks']);
@@ -316,6 +333,8 @@ Route::get('/task/filterByStatus', [TaskController::class, 'filterBystatus']);
 Route::post('/tasks/{task}/archive', [TaskController::class, 'archive'])->name('tasks.archive');
 Route::get('/archived', [TaskController::class, 'showArchived'])->name('archived');
 Route::post('/tasks/{task}/restore', [TaskController::class, 'restore'])->name('tasks.restore');
+
+
 //============================================================================================
 
 //EXPENSES MANAGEMENT ====================================================================================
@@ -329,8 +348,22 @@ Route::get('/expenses/get-expenses-by-category', [ExpenseController::class, 'get
 // Route::get('/expenses', [ExpenseController::class, 'getExpenses']);
 //===========================================================================================================
 
+// TOOL REQUEST ======================================================================
+
+Route::get('/Tools-District-5', [RequestController::class, 'index1']);
+Route::get('/requests', [RequestController::class, 'index']);
+Route::post('/add-tools', [RequestController::class, 'addTools'])->name('add.tools');
+Route::get('/request/{id}/details', [RequestController::class, 'getRequestDetails']);
+
+
+// ===================================================================================
+
+
+
 //Email Verification ===================================================
 Route::get('/verify-email', [EmailVerification::class, 'emailVerification']);
+Route::get('/verification-code', [EmailVerification::class, 'publicEmailVerification']);
+Route::post('/verification-confirm/{id}', [EmailVerification::class, 'publicEmailConfirm']);
 Route::get('/empty-code/{id}', [EmailVerification::class, 'emptyCode']);
 Route::get('/resend-code/{id}', [EmailVerification::class, 'resendCode']);
 Route::post('/confirm-code/{id}', [EmailVerification::class, 'verifyEmail']);

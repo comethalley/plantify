@@ -29,6 +29,8 @@
     <link href="assets/css/custom.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.2/css/all.css">
+
 
 
     <!--Swiper slider css-->
@@ -61,7 +63,7 @@
         text-decoration: none;
         display: inline-block;
         margin: 4px 4px;
-        cursor: pointer;
+        cursor: ;
         border-radius: 5px;
         }
 
@@ -78,9 +80,7 @@
         .goog-te-menu-value:hover {
             background-color: #5cb85c; /* Hover color */
         }
-        /* .skiptranslate {
-            display: none !important;
-        } */
+
     </style>
 </head>
 
@@ -134,16 +134,13 @@
      <div class="vertical-overlay" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent.show"></div>
   <br>
   <br>
-  <br>
-     <section id="home-section" class="section nft-hero" id="hero" style="background-image: url('assets/images/plantifeedpics/bg2.png'); background-size: cover; background-position: center center;">
+     <section id="home-section" class="section nft-hero" id="hero" style="background-image: url('assets/images/plantifeedpics/grass.jpg'); background-size: cover; background-position: center center;">
     <div class="container mb-8">
     <div class="row justify-content-between align-items-center ">
-                        <div class="col-lg-6">
+                        <div class="col-lg-8">
                             <div>
-                            <h1 class="display-8 fw-bold mb-8 text-white" style="font-size: 35px; font-weight: 800;">The Center for Urban Agriculture and Innovation</h1>
-                        
-                            <p class="lead text-white text-justify center">The Center for Urban Agriculture and Innovation is one of many proofs of Mayor Joy Belmonte’s project in his urban development program, especially in his efforts to address the challenge of “zero hunger” in Quezon City. Through CUAI at Quezon City University, we believe that participating in this activity is one of the solutions to improving our society and health.</p>
-
+                            <h1 class="display-8 fw-bold mb-8 text-white" style="font-size: 35px; font-weight: 800; text-shadow: 0 0 1px #FFFF00;">The Center for Urban<br>Agriculture and Innovation</h1>
+<p class="lead text-white text-justify center" style="text-shadow: 5 5 5px #FFFF00;">The Center for Urban Agriculture and Innovation is one of many proofs of <strong>Mayor Joy Belmonte’s</strong> project in his urban development program, especially in his efforts to address the challenge of <strong>“zero hunger”</strong> in <strong>Quezon City.</strong> Through <strong>CUAI</strong> at <strong>Quezon City University,</strong> we believe that participating in this activity is one of the solutions to improving our <strong>society and health.</strong></p>
                             </div>
                             
                            
@@ -208,133 +205,123 @@
 <!-- end plan -->
 
 
-<section class="" id="try" style="padding-top:2px;">
-            <div class="auth-page-content overflow-hidden pt-lg-3">
-            <div class="container-fluid card" style="background-color: #066903">
-            <br>
-            <h1 class="display-8 fw-bold mb-8 text-white text-center" style="font-size: 30px; font-weight: 800;">CUAI TEAM</h1>
-         <h6 class="display-8 fw-bold mb-8 text-white text-center" style="font-size: 25px;">Center for Urban Agriculture and Innovations</h6><br>
-        <!-- start team -->
 
-                <!-- end row -->
-                <div class="row center justify-content-center">
-    <div class="col-lg-3 col-sm-6">
-        <div class="card">
-            <div class="card-body text-center p-4">
-                <div class="avatar-xl mx-auto mb-4 position-relative">
-                    <img src="/assets/images/plantifeedpics/Romel.jpg" alt="" class="img-fluid rounded-circle">
-                    
-                </div>
-                <!-- end card body -->
-                <h5 class="mb-1"><a href="https://www.facebook.com/nafecot" class="text-body">Romel O. Sevilla</a></h5>
-                <p class="text-muted mb-0 ff-secondary">Head of the Center for Urban Agriculture and Innovation</p>
-               
-            </div>
-        </div>
-        <!-- end card -->
-    </div>
-    <!-- end col -->
-</div>
-<!-- end row -->
+<div class="container" style="margin-top:30px;">
+    
+		<div class="row justify-content-center text-center mb-2 mb-lg-4">
+			<div class="col-12 col-lg-8 col-xxl-7 text-center mx-auto">
+				<h4 class="display-6 fw-bold">Meet the Team</h4>
+                
+				<p class="lead text-black lh-base text-center" style="max-width: 800px; margin: 0 auto;">Recognize the team of Urban Farming's foundation and the reason of fruitful success in Quezon City!</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12"> 
+				<div class="card plan-box text-center border-0 ">
+					<div class="card-body p-3">
+						<div class="mb-4 mx-lg-3 mx-xxl-5"><img class="img-fluid rounded-circle" src="assets/images/plantifeedpics/Romel.jpg"></div>
+						<h5 class="fw-bold">Rommel O. Sevilla</h5>
+						<div class="text-muted">
+							Head of Center for Urban Agriculture and Innovation
+						</div>
+						<div class="d-flex justify-content-center mt-4">
+							<a class="btn btn-sm me-2" href="">
+                                 <a class="btn btn-sm me-2" href="https://web.facebook.com/nafecot"><svg class="bi bi-facebook" fill="currentColor" height="16" viewbox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg">
+                                 <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"></path></svg></a> 
+                        </div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="card plan-box text-center border-0">
+					<div class="card-body p-3">
+						<div class="mb-4 mx-lg-3 mx-xxl-5"><img class="img-fluid rounded-circle" src="assets/images/plantifeedpics/Asilo.jpg"></div>
+						<h5 class="fw-bold">Jaylenon R. Asilo</h5>
+						<div class="text-muted">
+							Agriculturist
+						</div>
+						<div class="d-flex justify-content-center mt-4">
+							<a class="btn btn-sm me-2" href="">
+                                 <a class="btn btn-sm me-2" href="https://web.facebook.com/profile.php?id=61557374728163"><svg class="bi bi-facebook" fill="currentColor" height="16" viewbox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg">
+                                 <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"></path></svg></a> 
+                        </div>
+					</div>
+				</div>
+			</div>
+            <div class="col-md-4">
+				<div class="card plan-box text-center border-0">
+					<div class="card-body p-3">
+						<div class="mb-4 mx-lg-3 mx-xxl-5"><img class="img-fluid rounded-circle" src="assets/images/plantifeedpics/Justine.jpg"></div>
+						<h5 class="fw-bold">Justine Angela Marielle Sanchez</h5>
+						<div class="text-muted">
+							Administrative Staff
+						</div>
+						<div class="d-flex justify-content-center mt-4">
+							<a class="btn btn-sm me-2" href="">
+                                 <a class="btn btn-sm me-2" href="https://web.facebook.com/tintineeeeeee"><svg class="bi bi-facebook" fill="currentColor" height="16" viewbox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg">
+                                 <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"></path></svg></a> 
+                        </div>
+					</div>
+				</div>
+			</div>
+            <div class="col-md-4">
+				<div class="card plan-box text-center border-0">
+					<div class="card-body p-3">
+						<div class="mb-4 mx-lg-3 mx-xxl-5"><img class="img-fluid rounded-circle"  src="assets/images/plantifeedpics/Malindao.png"></div>
+						<h5 class="fw-bold">Justine Malindao</h5>
+						<div class="text-muted">
+							Agriculturist
+						</div>
+						<div class="d-flex justify-content-center mt-4">
+							<a class="btn btn-sm me-2" href="">
+                                 <a class="btn btn-sm me-2" href="https://web.facebook.com/justin.malindao"><svg class="bi bi-facebook" fill="currentColor" height="16" viewbox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg">
+                                 <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"></path></svg></a> 
+                        </div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="card plan-box text-center border-0">
+					<div class="card-body p-3">
+						<div class="mb-4 mx-lg-3 mx-xxl-5"><img class="img-fluid rounded-circle" src="assets/images/plantifeedpics/Loo.png"></div>
+						<h5 class="fw-bold">Hipolito Lopez</h5>
+						<div class="text-muted">
+							Farm Worker
+						</div>
+						<div class="d-flex justify-content-center mt-4">
+							<a class="btn btn-sm me-2" href="">
+                                 <a class="btn btn-sm me-2" href="https://web.facebook.com/hipolito.lopez.3304673"><svg class="bi bi-facebook" fill="currentColor" height="16" viewbox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg">
+                                 <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"></path></svg></a> 
+                        </div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6 ">
+				<div class="card plan-box text-center border-0 mb-3">
+					<div class="card-body p-3">
+						<div class="mb-4 mx-lg-3 mx-xxl-5"><img class="img-fluid rounded-circle" src="assets/images/plantifeedpics/Orain.png"></div>
+						<h5 class="fw-bold">Jonabelle Orain</h5>
+						<div class="text-muted">
+							Farm Worker
+						</div>
+						<div class="d-flex justify-content-center mt-4">
+							<a class="btn btn-sm me-2" href="">
+                                 <a class="btn btn-sm me-2" href="https://web.facebook.com/jona.olshoppe.75"><svg class="bi bi-facebook" fill="currentColor" height="16" viewbox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg">
+                                 <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"></path></svg></a> 
+                        </div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
+                
 
-<div class="row justify-content-center">
-    <div class="col-lg-3 col-sm-6">
-        <div class="card mb-4">
-            <div class="card-body text-center p-4">
-                <div class="avatar-xl mx-auto mb-4 position-relative">
-                    <img src="assets/images/plantifeedpics/rounded.png" alt="" class="img-fluid rounded-circle">
-                   
-                </div>
-                <!-- end card body -->
-                <h5 class="mb-1"><a href="pages-profile.html" class="text-body">Jaylenon R. Asilo</a></h5>
-                <p class="text-muted mb-0 ff-secondary">Agriculturist</p>
-            </div>
-        </div>
-        <!-- end card -->
-    </div>
-    <!-- end col -->
-
-    <!-- Add space between the two cards -->
-    <div class="col-lg-2 col-sm-6 d-sm-block d-none"></div>
-
-    <div class="col-lg-3 col-sm-6">
-        <div class="card mb-4">
-            <div class="card-body text-center p-4">
-                <div class="avatar-xl mx-auto mb-4 position-relative">
-                    <img src="assets/images/plantifeedpics/rounded.png" alt="" class="img-fluid rounded-circle">
-                    
-                </div>
-                <!-- end card body -->
-                <h5 class="mb-1"><a href="pages-profile.html" class="text-body">Justin Malindao</a></h5>
-                <p class="text-muted mb-0 ff-secondary">Agriculturist</p>
-            </div>
-        </div>
-        <!-- end card -->
-    </div>
-    <!-- end col -->
-</div>
-
-<!-- end row -->
-
-
-
-<div class="row justify-content-center">
-    <div class="col-lg-3 col-sm-6">
-        <div class="card mb-4">
-            <div class="card-body text-center p-4">
-                <div class="avatar-xl mx-auto mb-4 position-relative">
-                    <img src="/assets/images/plantifeedpics/Jonabelle.jpg" alt="" class="img-fluid rounded-circle">
-                    
-                </div>
-                <!-- end card body -->
-                <h5 class="mb-1"><a href="pages-profile.html" class="text-body">Jonabelle Orain</a></h5>
-                <p class="text-muted mb-0 ff-secondary">Farm Worker</p>
-            </div>
-        </div>
-        <!-- end card -->
-    </div>
-    <!-- end col -->
-
-    <!-- Add space between the two cards -->
-    <div class="col-lg-2 d-lg-block d-none"></div>
-
-    <div class="col-lg-3 col-sm-6">
-        <div class="card mb-4">
-            <div class="card-body text-center p-4">
-                <div class="avatar-xl mx-auto mb-4 position-relative">
-                    <img src="assets/images/plantifeedpics/rounded.png" alt="" class="img-fluid rounded-circle">
-                    
-                </div>
-                <!-- end card body -->
-                <h5 class="mb-1"><a href="pages-profile.html" class="text-body">Hipolito Lopez</a></h5>
-                <p class="text-muted mb-0 ff-secondary">Farm Worker</p>
-            </div>
-        </div>
-        <!-- end card -->
-    </div>
-    <!-- end col -->
-</div>
-
-<!-- end row -->
-
-
-
-<!-- end col -->
-</div>
-
-<!-- end row -->
-</div>
-<div>
-</div>
-<div>
-    <!-- end container -->
-</section>
-<!-- end features -->
-<div class="col-lg-12">
+    <div class="col-lg-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h4 class="card-title mb-0"><strong>Center for Urban Agriculture and Innovation Team</strong></h4>
+                                    
+                                <h2 class="card-title mb-0 text-center"><strong>Inauguration of the Center for Urban Agriculture and Innovation</strong></h2>
                                 </div><!-- end card header -->
                                 <div class="card-body">
                                     <!-- <p class="text-muted">Use <code>responsive-swiper</code> class to set a responsive swiper.</p> -->
@@ -345,7 +332,7 @@
                                             <div class="swiper-slide">
                                                 <div class="gallery-box card">
                                                     <div class="gallery-container">
-                                                        <a class="image-popup" href="assets/images/aboutus/pic1.jpg" title="">
+                                                        <!-- <a class="image-popup" href="assets/images/aboutus/pic1.jpg" title=""> -->
                                                             <img class="gallery-img img-fluid mx-auto" src="assets/images/aboutus/pic1.jpg" alt="" />
                                                             <div class="gallery-overlay">
                                                                 <!-- <h5 class="overlay-caption">CUIA Farm</h5> -->
@@ -360,7 +347,7 @@
                                             <div class="swiper-slide">
                                                 <div class="gallery-box card">
                                                     <div class="gallery-container">
-                                                        <a class="image-popup" href="assets/images/aboutus/pic2.jpg" title="">
+                                                        <!-- <a class="image-popup" href="assets/images/aboutus/pic2.jpg" title=""> -->
                                                             <img class="gallery-img img-fluid mx-auto" src="assets/images/aboutus/pic2.jpg" alt="" />
                                                             <div class="gallery-overlay">
                                                                 <!-- <h5 class="overlay-caption">Working at a coffee shop</h5> -->
@@ -375,7 +362,7 @@
                                             <div class="swiper-slide">
                                                 <div class="gallery-box card mb-0">
                                                     <div class="gallery-container">
-                                                        <a class="image-popup" href="assets/images/aboutus/pic3.jpg" title="">
+                                                        <!-- <a class="image-popup" href="assets/images/aboutus/pic3.jpg" title=""> -->
                                                             <img class="gallery-img img-fluid mx-auto" src="assets/images/aboutus/pic3.jpg" alt="">
                                                             <div class="gallery-overlay">
                                                                 <!-- <h5 class="overlay-caption">Fun day at the Hill Station</h5> -->
@@ -390,7 +377,7 @@
                                             <div class="swiper-slide">
                                                 <div class="gallery-box card">
                                                     <div class="gallery-container">
-                                                        <a class="image-popup" href="assets/images/aboutus/pic4.jpg" title="">
+                                                        <!-- <a class="image-popup" href="assets/images/aboutus/pic4.jpg" title=""> -->
                                                             <img class="gallery-img img-fluid mx-auto" src="assets/images/aboutus/pic4.jpg" alt="" />
                                                             <div class="gallery-overlay">
                                                                 <!-- <h5 class="overlay-caption">Drawing a sketch</h5> -->
@@ -405,7 +392,7 @@
                                             <div class="swiper-slide">
                                                 <div class="gallery-box card">
                                                     <div class="gallery-container">
-                                                        <a class="image-popup" href="assets/images/aboutus/pic6.jpg" title="">
+                                                        <!-- <a class="image-popup" href="assets/images/aboutus/pic6.jpg" title=""> -->
                                                             <img class="gallery-img img-fluid mx-auto" src="assets/images/aboutus/pic6.jpg" alt="" />
                                                             <div class="gallery-overlay">
                                                                 <!-- <h5 class="overlay-caption">Project discussion with team</h5> -->
@@ -426,6 +413,7 @@
                         <!--end col-->
                     </div>
                     <!--end row-->
+
 
 
 

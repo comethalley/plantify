@@ -62,7 +62,7 @@
 
                                                 <th class="sort" data-sort="">#</th>
                                                 <th class="sort" data-sort="">Plant Name</th>
-                                                <th class="sort" data-sort="">Image  </th>
+                                                <th class="sort" data-sort="">Image </th>
                                                 <th class="sort" data-sort="">Season</th>
                                                 <!-- <th class="sort" data-sort="">Information</th> -->
                                                 <th class="sort" data-sort="">Companion</th>
@@ -76,7 +76,7 @@
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $item->plant_name }}</td>
-                                                <td width="200px" height="100px"><img src="/images/{{ $item->image }}" > </td>
+                                                <td width="200px" height="100px"><img src="/images/{{ $item->image }}"> </td>
                                                 <td>{{ $item->seasons }}</td>
                                                 <!-- <td>{!! $item->information !!}</td> -->
                                                 <td>{{ $item->companion }}</td>
@@ -136,7 +136,7 @@
                             <!--Add Plantinfo Modal-->
 
                             <div class="modal fade" id="showModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered modal-lg">
+                                <div class="modal-dialog modal-dialog-centered modal-xl">
                                     <div class="modal-content">
                                         <div class="modal-header bg-light p-3">
                                             <h5 class="modal-title" id="exampleModalLabel">Add Plant Information</h5>
@@ -162,7 +162,7 @@
                                                     <!-- <label for="customername-field" class="form-label">Season</label> -->
                                                     <div class="form-group">
                                                         <label for="mode">Season</label>
-                                                        <select class="form-select" id="seasons">
+                                                        <select class="form-select" id="seasons" multiple="multiple">
                                                             <option value="January">January</option>
                                                             <option value="February">February</option>
                                                             <option value="March">March</option>
@@ -190,7 +190,7 @@
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Information</label>
                                                     <!-- <input type="text" name="information" id="information" class="form-control" placeholder="Plant Information" required /> -->
-                                                    <div id="editor">
+                                                    <div id="editor" style="height:200px">
 
                                                     </div>
                                                 </div>
@@ -223,7 +223,7 @@
 
 
                             <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered modal-lg">
+                                <div class="modal-dialog modal-dialog-centered modal-xl">
                                     <div class="modal-content">
                                         <div class="modal-header bg-light p-3">
                                             <h5 class="modal-title" id="exampleModalLabel">Edit Plant Information</h5>
@@ -242,39 +242,39 @@
                                                 </div>
 
                                                 <div class="mb-3">
-                                                <label for="mode">Season</label>            
-                                                        <select class="form-select" id="edit_seasons">
+                                                    <label for="mode">Season</label>
+                                                    <select class="form-select" id="edit_seasons">
                                                         <option value="January">January</option>
-                                                            <option value="February">February</option>
-                                                            <option value="March">March</option>
-                                                            <option value="April">April</option>
-                                                            <option value="May">May </option>
-                                                            <option value="June">June</option>
-                                                            <option value="July">July</option>
-                                                            <option value="August">August</option>
-                                                            <option value="September">September</option>
-                                                            <option value="October">October</option>
-                                                            <option value="November">November</option>
-                                                            <option value="December">December</option>
-                                                            <option value="All Season">All Season</option>
-                                                        </select>
-                                                        
-                                                </div>
-                                                <div class="mb-3">
-                                                <label for="customername-field" class="form-label">Information</label>
-                                                    <!-- <input type="text" name="information" id="edit_information" class="form-control" placeholder="Plant Information" required /> -->
-                                                    <div id="edit-editor">
+                                                        <option value="February">February</option>
+                                                        <option value="March">March</option>
+                                                        <option value="April">April</option>
+                                                        <option value="May">May </option>
+                                                        <option value="June">June</option>
+                                                        <option value="July">July</option>
+                                                        <option value="August">August</option>
+                                                        <option value="September">September</option>
+                                                        <option value="October">October</option>
+                                                        <option value="November">November</option>
+                                                        <option value="December">December</option>
+                                                        <option value="All Season">All Season</option>
+                                                    </select>
 
-                                                    
                                                 </div>
-                                                </div>      
                                                 <div class="mb-3">
-                                                          
-                                                          <img src=""  alt="" srcset="" id="edit_image_preview" width="200px" height="200px" >
-                                                          <label for="formFile" class="form-label"></label>
-                                                        <input class="form-control" type="file" id="edit_image" name="edit_image">
+                                                    <label for="customername-field" class="form-label">Information</label>
+                                                    <!-- <input type="text" name="information" id="edit_information" class="form-control" placeholder="Plant Information" required /> -->
+                                                    <div id="edit-editor" style="height: 100px;">
+
+
+                                                    </div>
                                                 </div>
-                                                
+                                                <div class="mb-3">
+
+                                                    <img src="" alt="" srcset="" id="edit_image_preview" width="200px" height="200px">
+                                                    <label for="formFile" class="form-label"></label>
+                                                    <input class="form-control" type="file" id="edit_image" name="edit_image">
+                                                </div>
+
 
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Companion</label>
@@ -308,8 +308,7 @@
                                         <div class="modal-body p-5 text-center">
                                             <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop" colors="primary:#405189,secondary:#f06548" style="width:90px;height:90px"></lord-icon>
                                             <div class="mt-4 text-center">
-                                                <h4>You are about to delete a order ?</h4>
-                                                <p class="text-muted fs-15 mb-4">Deleting your order will remove all of your information from our database.</p>
+                                                <h4>You are about to delete a plant information ?</h4>
                                                 <div class="hstack gap-2 justify-content-center remove">
                                                     <button class="btn btn-link link-success fw-medium text-decoration-none" id="deleteRecord-close" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i> Close</button>
                                                     <form method="POST" action="" style="display:inline">
@@ -340,27 +339,25 @@
 </div>
 
 <script>
-    $(document).ready(function(){
-    $("#").click(function(){
-        $('.modal').modal('hide');
-        $('body').removeClass('modal-open');
-        $('.modal-backdrop').remove();
-        $("#").modal("hide")
-        $("#").modal("show")
+    $(document).ready(function() {
+        $("#").click(function() {
+            $('.modal').modal('hide');
+            $('body').removeClass('modal-open');
+            $('.modal-backdrop').remove();
+            $("#").modal("hide")
+            $("#").modal("show")
+        });
     });
-});
 
- 
-$("#create").click(function(){
-    $('#showModal').modal('hide');
-    Swal.fire({
-        title: "Successfully added",
-        text: "Are you ready for the next level?", <br>
-        icon: "success",
-        showConfirmButton: false // Remove the OK button
+
+    $("#create").click(function() {
+        $('#showModal').modal('hide');
+        Swal.fire({
+            title: "Successfully added",
+            icon: "success",
+            showConfirmButton: false // Remove the OK button
+        });
     });
-});
-
 </script>
 
 

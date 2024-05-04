@@ -34,7 +34,7 @@
                     <div class="col-xl-3 scrollable" style="overflow-y: auto; max-height: 100vh;">
                         <div class="card card-h-100">
                             <div class="card-body" style="display:flex; justify-content:center; align-items:center;">
-                                @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 3 || auth()->user()->role_id == 4)
+                                @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 3)
                                 {{-- Display only for role_id 1 (Admin) --}}
                                 <button type="button" class="btn btn-success w-100" data-bs-toggle="modal" id="create-btn" data-bs-target="#usingModal"><i class="ri-add-line align-bottom me-1"></i> Create New Plantings</button>
 
@@ -124,8 +124,8 @@
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="seed" class="form-label">Seeds Amount (g).</label>
-                                        <input type="text" name="seed" id="seed-input" class="form-control" placeholder="Seed Amount (g)." required />
+                                        <label for="seed" class="form-label">Enter Amount.</label>
+                                        <input type="text" name="seed" id="seed-input" class="form-control" placeholder="If the item is Seedlings the amount is in pieces otherwise it will be grams." required />
                                     </div>
 
                                     <!-- =================== -->
@@ -376,21 +376,22 @@
                     @csrf
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="multiple-used" class="form-label">Seeds Amount (g).</label>
-                                    <input type="text" id="multiple-used" class="form-control" value="1" />
+                                    <label for="multiple-used" class="form-label item-text">Multiple Items</label>
+                                    <input type="text" id="multiple-used" class="form-control" placeholder="" value="1" />
                                 </div>
                             </div>
-                            <!-- <div class="col-md-6">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="mode">Mode</label>
-                                    <select class="form-select" id="mode">
-                                        <option value="1">Per pack/box</option>
-                                        <option value="2">Per pieces</option>
+                                    <select class="form-select selecting" id="mode">
+                                        <option value="1">Pack</option>
+                                        <option value="2">Weight (grams)</option>
+                                        <option value="3">Quantity (pieces)</option>
                                     </select>
                                 </div>
-                            </div> -->
+                            </div>
                         </div>
 
 
@@ -399,8 +400,8 @@
                             <input type="text" name="status" id="customername-field" class="form-control" value="Planted" required readonly />
                         </div>
                         <center>
-                            <p class="text-muted">Scan the Seed's Qr Code Generated from the Inventory</p>
-                        </center><br>
+                            <p class="text-muted">Scan the Seed's Qr Code Generated from the Inventory > Supplier</p>
+                        </center>
                         <video id="using-preview" style="width: 100%;"></video>
                         <center>
                             <p class="lead text-danger" id="used-qr"></p>
@@ -779,7 +780,7 @@
                 endDateInput.value = endDateFormatted;
             });
 
-            function createPlanted(parsedMultipleUsed, seedName, daysHarvest) {
+            function createPlanted(seedName, daysHarvest, type, amount) {
                 var startDate = new Date().toISOString().slice(0, 10);
                 var startDateObject = new Date(startDate);
                 var endDateObject = new Date(startDateObject.getTime() + (daysHarvest * 24 * 60 * 60 * 1000));
@@ -797,7 +798,8 @@
                         status: "Planted",
                         harvested: 0,
                         destroyed: 0,
-                        seed: parsedMultipleUsed
+                        seed: amount,
+                        type: type
                     },
                     success: function(response) {
                         calendar.refetchEvents();
@@ -809,6 +811,21 @@
                     }
                 });
             }
+
+            $('.selecting').change(function() {
+                var selectedValue = $(this).val();
+                console.log("Selected value: " + selectedValue);
+
+                // You can add your logic here based on the selected option
+                // For example:
+                if (selectedValue === "2") {
+                    $(".item-text").text('Piece Amount')
+                } else if (selectedValue === "3") {
+                    $(".item-text").text('Grams Amount')
+                } else {
+                    $(".item-text").text('Multiple Items')
+                }
+            });
             let usingScanner;
             let usingModal = document.getElementById("usingModal");
 
@@ -852,7 +869,7 @@
                                 timer: 2000,
                             });
                             startUsedScanner();
-                            createPlanted(parsedMultipleUsed, data.seedName, data.daysHarvest);
+                            createPlanted(data.seedName, data.daysHarvest, data.type, data.amount);
                         },
                         error: function(xhr, status, error) {
                             console.error("Error:", status, error);

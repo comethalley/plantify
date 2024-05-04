@@ -44,6 +44,14 @@ class InventoryController extends Controller
     {
         $id = Auth::user()->id;
 
+        $user = User::where('id', $id)
+            ->where('status', 1)
+            ->firstOrFail();
+
+        if ($user->role_id == 2) {
+            $id = 1;
+        }
+
         $user = User::select('users.*', 'farms.id AS farm_id')
             ->leftJoin('farms', 'farms.farm_leader', '=', 'users.id')
             ->where('users.id', $id)
@@ -227,7 +235,16 @@ class InventoryController extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
+
         $id = Auth::user()->id;
+
+        $user = User::where('id', $id)
+            ->where('status', 1)
+            ->firstOrFail();
+
+        if ($user->role_id == 2) {
+            $id = 1;
+        }
 
         $user = User::select('users.*', 'farms.id AS farm_id')
             ->leftJoin('farms', 'farms.farm_leader', '=', 'users.id')

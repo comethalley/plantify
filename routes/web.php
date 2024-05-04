@@ -215,6 +215,10 @@ Route::post('/archiveFL/{id}', [AuthController::class, 'archiveFarmLeader']);
 Route::get('/users/farmers', [AuthController::class, 'getFarmers']);
 
 Route::post('/addFarmers', [AuthController::class, 'createFarmers']);
+Route::get('/users/archived', [AuthController::class, 'getArchived']);
+Route::get('/getAllArchiveUsers', [AuthController::class, 'getAllArchiveUsers']);
+Route::get('/getUsers/{id}', [AuthController::class, 'viewUsers']);
+Route::post('/restoreUser/{id}', [AuthController::class, 'restoreUser']);
 
 Route::get('/farm_locations', [qcmaps::class, 'index']);
 Route::get('/get_maps', [qcmaps::class, 'getMaps']);

@@ -49,7 +49,7 @@
                                 <div class="col-sm-auto">
                                     <div class="d-flex gap-1 flex-wrap">
                                         <button type="button" class="btn btn-secondary waves-effect waves-light" data-bs-toggle="modal" id="create-btn" data-bs-target="#receiveModal"><i class="ri-add-line align-bottom me-1"></i> Add Stock</button>
-                                        <button type="button" class="btn btn-success waves-effect waves-light" data-bs-toggle="modal" id="create-btn" data-bs-target="#usingModal"><i class="ri-add-line align-bottom me-1"></i> Release</button>
+                                        <!-- <button type="button" class="btn btn-success waves-effect waves-light" data-bs-toggle="modal" id="create-btn" data-bs-target="#usingModal"><i class="ri-add-line align-bottom me-1"></i> Release</button> -->
                                         <button class="btn btn-soft-danger" id="remove-actions" onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button>
                                     </div>
                                 </div>
@@ -76,14 +76,14 @@
                                         <thead class="text-muted table-light">
                                             <tr class="text-uppercase">
 
-                                                <th class="sort" data-sort="id">ID</th>
-                                                <th class="sort" data-sort="customer_name">Code</th>
-                                                <th class="sort" data-sort="date">Seed Name</th>
-                                                <th class="sort" data-sort="amount">Supplier</th>
-                                                <th class="sort" data-sort="payment">Available</th>
-                                                <th class="sort" data-sort="payment">Used</th>
-                                                <th class="sort" data-sort="payment">Total</th>
-                                                <th class="sort" data-sort="city">Logs</th>
+                                                <th data-sort="id">ID</th>
+                                                <th data-sort="customer_name">Code</th>
+                                                <th data-sort="date">Seed Name</th>
+                                                <th data-sort="amount">Supplier</th>
+                                                <th data-sort="payment">Available</th>
+                                                <th data-sort="payment">Used</th>
+                                                <th data-sort="payment">Total</th>
+                                                <th data-sort="city">Logs</th>
                                             </tr>
                                         </thead>
                                         <tbody class="list form-check-all">

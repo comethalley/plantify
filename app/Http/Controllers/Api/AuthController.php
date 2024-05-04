@@ -118,6 +118,7 @@ class AuthController extends Controller
         return response()->json(['farmLeaders' => $farmLeaders, 'role' => $role], 200);
     }
 
+
     public function getAllAdmin()
     {
         $admins = DB::table('users')
@@ -131,6 +132,24 @@ class AuthController extends Controller
             )
             ->get();
         return response()->json(['admins' => $admins], 200);
+    }
+
+
+    public function getAllArchiveUsers()
+    {
+        $restore = DB::table('users')
+            ->where('users.status', 0)
+            ->leftJoin('roles', 'roles.id', '=', 'users.role_id')
+            ->select(
+                "users.id",
+                'users.firstname',
+                "users.lastname",
+                "users.email",
+                "roles.description"
+
+            )
+            ->get();
+        return response()->json(['restore' => $restore], 200);
     }
 
     public function viewAdmin($id)
@@ -153,6 +172,31 @@ class AuthController extends Controller
         } catch (ModelNotFoundException $e) {
 
             return response()->json(['error' => 'UOM not found'], 404);
+        } catch (\Exception $e) {
+
+            return response()->json(['error' => 'Internal Server Error'], 500);
+        }
+    }
+
+    public function viewUsers($id)
+    {
+        try {
+            User::findOrFail($id);
+
+            $restore = DB::table('users')
+                ->where('status', 0)
+                ->where('id', $id)
+                ->select(
+                    "id",
+                    'firstname',
+                    "lastname",
+                    "email",
+                )
+                ->first();
+            return response()->json(['restore' => $restore], 200);
+        } catch (ModelNotFoundException $e) {
+
+            return response()->json(['error' => 'User not found'], 404);
         } catch (\Exception $e) {
 
             return response()->json(['error' => 'Internal Server Error'], 500);
@@ -307,6 +351,32 @@ class AuthController extends Controller
             return response()->json(['error' => 'Internal Server Error'], 500);
         }
     }
+
+    public function restoreUser(Request $request, $id)
+    {
+        try {
+            $user = User::where('id', $id)
+                ->where('status', 0)
+                ->firstOrFail();
+
+            $user->update([
+                'status' => 1,
+            ]);
+
+            if ($user) {
+                return response()->json(['message' => 'Admin Archive Successfully'], 200);
+            } else {
+                return response()->json(['error' => 'Internal Server Error'], 500);
+            }
+        } catch (ModelNotFoundException $e) {
+
+            return response()->json(['error' => 'User not found'], 404);
+        } catch (\Exception $e) {
+
+            return response()->json(['error' => 'Internal Server Error'], 500);
+        }
+    }
+
 
     public function archiveFarmLeader(Request $request, $id)
     {
@@ -709,6 +779,11 @@ class AuthController extends Controller
     public function getFarmers()
     {
         return view('pages.users.farmers');
+    }
+
+    public function getArchived()
+    {
+        return view('pages.users.restore');
     }
 
     public function landingpage()

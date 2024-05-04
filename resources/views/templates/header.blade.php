@@ -53,6 +53,7 @@
     <script src="{{ asset('assets/js/fertilizer.js') }}"></script>
     <script src="{{ asset('assets/js/inventory_fertilizer.js') }}"></script>
     <script src="{{ asset('assets/js/farmers.js') }}"></script>
+    <script src="{{ asset('assets/js/restore.js') }}"></script>
 
 
     <!--markusread JS-->
@@ -655,7 +656,7 @@
 
                                     @if(session('user') && session('user')->role_id == 1 || session('user') && session('user')->role_id == 2)
                                     <li class="nav-item">
-                                        <a href="/users/farm-leader" class="nav-link" style="color:white"> Restore Users </a>
+                                        <a href="/users/archived" class="nav-link" style="color:white"> Restore Users </a>
                                     </li>
                                     @endif
                                 </ul>

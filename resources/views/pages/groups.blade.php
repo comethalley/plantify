@@ -78,11 +78,11 @@
                             <div class="chat-message-list">
                                 <ul class="list-unstyled chat-list chat-user-list mb-0" id="channelList">
                                     @forelse($groups as $group)
-                                        @if(auth()->user()->role_id == 2 && $group->group_name == 'Admin and Farm Leaders')
-                                            {{-- Display only for role_id 2 (Admin and Farm Leaders) --}}
+                                        @if(in_array(auth()->user()->role_id, [1, 2]) && $group->group_name == 'Admin and Farm Leaders')
+                                            {{-- Display only for role_id 1 or 2 (Admin and Farm Leaders) --}}
                                             <button type="button" class="btn channel-button" data-group-id="{{ $group->id }}" data-farm-id="{{ optional($farmLeaders)->id }}">
                                                 <div class="d-flex align-items-center">
-                                                <img class="rounded-circle header-profile-user" src="{{asset('assets/images/plantifeedpics/rounded.png')}}" alt="Header Avatar">
+                                                    <img class="rounded-circle header-profile-user" src="{{ asset('assets/images/plantifeedpics/rounded.png') }}" alt="Header Avatar">
                                                     <div class="ms-2">
                                                         <h6 class="mb-0">{{ $group->group_name }}</h6>
                                                         @if ($group->unread_message_count > 0)

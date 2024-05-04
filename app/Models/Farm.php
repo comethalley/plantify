@@ -34,4 +34,14 @@ class Farm extends Model
     {
         return $this->hasMany(User::class, 'farm_leader');
     }
+    
+    public function farmLeader()
+    {
+        return $this->belongsTo(User::class, 'farm_leader');
+    }
+
+    public function farmers()
+    {
+        return $this->hasMany(Farmer::class, 'farmleader_id');
+    }
 }

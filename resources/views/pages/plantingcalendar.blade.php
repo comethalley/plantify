@@ -31,6 +31,22 @@
                 </div>
 
                 <div class="row scrollable">
+                    
+                    <div class="col-xl-9">
+                        <div class="input-group mb-3">
+                            <input type="text" id="searchInput" class="form-control" placeholder="Search Planting">
+                            <div class="input-group-append">
+                                <button id="searchButton" class="btn btn-primary">{{__('Search')}}</button>
+                            </div>
+                        </div>
+
+                        <div class="card card-h-100">
+                            <div class="card-body">
+                                <div id="calendar"></div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="col-xl-3 scrollable" style="overflow-y: auto; max-height: 100vh;">
                         <div class="card card-h-100">
                             <div class="card-body" style="display:flex; justify-content:center; align-items:center;">
@@ -80,20 +96,7 @@
 
                     </div>
 
-                    <div class="col-xl-9">
-                        <div class="input-group mb-3">
-                            <input type="text" id="searchInput" class="form-control" placeholder="Search Planting">
-                            <div class="input-group-append">
-                                <button id="searchButton" class="btn btn-primary">{{__('Search')}}</button>
-                            </div>
-                        </div>
-
-                        <div class="card card-h-100">
-                            <div class="card-body">
-                                <div id="calendar"></div>
-                            </div>
-                        </div>
-                    </div>
+                    
                 </div>
 
 
@@ -384,11 +387,11 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="mode">Mode</label>
+                                    <label for="mode">Unit of Measurement</label>
                                     <select class="form-select selecting" id="mode">
-                                        <option value="1">Pack</option>
-                                        <option value="2">Weight (grams)</option>
-                                        <option value="3">Quantity (pieces)</option>
+                                        <option value="1">Per Pack</option>
+                                        <option value="2">Per Gram(s)</option>
+                                        <option value="3">Per Piece(s)</option>
                                     </select>
                                 </div>
                             </div>
@@ -819,9 +822,9 @@
                 // You can add your logic here based on the selected option
                 // For example:
                 if (selectedValue === "2") {
-                    $(".item-text").text('Piece Amount')
+                    $(".item-text").text('Weight')
                 } else if (selectedValue === "3") {
-                    $(".item-text").text('Grams Amount')
+                    $(".item-text").text('Quantity')
                 } else {
                     $(".item-text").text('Multiple Items')
                 }

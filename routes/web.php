@@ -104,6 +104,7 @@ Route::get('/get-fertilizer', [InventoryController::class, 'getFertilizer']);
 Route::post('/edit-fertilizer/{id}', [InventoryController::class, 'updateFertilizer']);
 Route::post('/archive-fertilizer/{id}', [InventoryController::class, 'archiveFertilizer']);
 Route::get('/inventory/tools', [InventoryController::class, 'tools']);
+Route::post('/archiveSeed/{id}', [InventoryController::class, 'archiveSeed']);
 Route::get('/send-message', [SendMessageController::class, 'index']);
 
 
@@ -255,7 +256,7 @@ Route::put('/change-attendee-status/{id}', [AttendanceControler::class, 'changeS
 
 Route::get('/fetch-attendees/{event_id}', [AttendanceControler::class, 'fetchAttendees']);
 
-
+Route::get('/attendees/filterByStatus', [AttendanceController::class, 'filterBystatus']);
 // End Full Calender=================================================================
 
 Route::get('/plantcalendar', [PlantCalendar::class, 'index']);
@@ -296,15 +297,15 @@ Route::post('/fertarchive/{id}', [PlantInfoController::class, 'fertarchive']);
 //For farm management =======================================================
 
 //index farm-mamangement//
-Route::get('/Farms-District-5', [FarmController::class, 'index']);
-Route::post('/add-farms', [FarmController::class, 'addFarms'])->name('add.farms');
-Route::get('/archive-farm/{id}', [FarmController::class, 'archiveFarm'])->name('archive.farm');
+// Route::get('/Farms-District-5', [FarmController::class, 'index']);
+// Route::post('/add-farms', [FarmController::class, 'addFarms'])->name('add.farms');
+// Route::get('/archive-farm/{id}', [FarmController::class, 'archiveFarm'])->name('archive.farm');
 
 //view farm-management//
-Route::get('/Farm-Management-High', [FarmController::class, 'viewFarms'])->name('farms.view');
-Route::get('/Farm-Management', [FarmController::class, 'viewFarms3'])->name('farms.view3');
-Route::get('/farms/filterByStatus', [FarmController::class, 'filterByStatus']);
-Route::post('/update-status/{id}', [FarmController::class, 'updateStatus'])->name('update.status');
+// Route::get('/Farm-Management-High', [FarmController::class, 'viewFarms'])->name('farms.view');
+// Route::get('/Farm-Management', [FarmController::class, 'viewFarms3'])->name('farms.view3');
+// Route::get('/farms/filterByStatus', [FarmController::class, 'filterByStatus']);
+// Route::post('/update-status/{id}', [FarmController::class, 'updateStatus'])->name('update.status');
 
 
 //view pdf/img farm-management//
@@ -314,12 +315,12 @@ Route::post('/update-status/{id}', [FarmController::class, 'updateStatus'])->nam
 // Route::get('/view-image2/{id}', [FarmController::class, 'viewImage2'])->name('view.image');
 
 //xfarms farm-management//
-Route::get('/view-archivefarms', [FarmController::class, 'viewArchiveFarms'])->name('archivefarms.xfarms');
-Route::get('/farms/filterByStatus1', [FarmController::class, 'filterByStatus1']);
-Route::get('/farm/{id}/details', [FarmController::class, 'getFarmDetails']);
-Route::post('/update-farm-status-cancel/{id}', [FarmController::class, 'updateStatusCancel']);
-Route::post('/update-farms/{id}', [FarmController::class, 'updateFarm'])->name('farms.update');
-Route::post('/set-date-farm/{id}', [FarmController::class, 'SetDateStatus'])->name('set.date.farm');
+// Route::get('/view-archivefarms', [FarmController::class, 'viewArchiveFarms'])->name('archivefarms.xfarms');
+// Route::get('/farms/filterByStatus1', [FarmController::class, 'filterByStatus1']);
+// Route::get('/farm/{id}/details', [FarmController::class, 'getFarmDetails']);
+// Route::post('/update-farm-status-cancel/{id}', [FarmController::class, 'updateStatusCancel']);
+// Route::post('/update-farms/{id}', [FarmController::class, 'updateFarm'])->name('farms.update');
+// Route::post('/set-date-farm/{id}', [FarmController::class, 'SetDateStatus'])->name('set.date.farm');
 
 
 
@@ -358,6 +359,7 @@ Route::get('/Tools-District-5', [RequestController::class, 'index1']);
 Route::get('/requests', [RequestController::class, 'index']);
 Route::post('/add-tools', [RequestController::class, 'addTools'])->name('add.tools');
 Route::get('/request/{id}/details', [RequestController::class, 'getRequestDetails']);
+Route::get('/view-pdf/{id}/{title?}', [RequestController::class, 'viewPdfRequest'])->name('view.pdf');
 
 
 // ===================================================================================

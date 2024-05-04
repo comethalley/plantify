@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <title>PlantiCUAI</title>
-    <link rel="shortcut icon" type="image/x-icon" href="assets/images/plantifeedpics/rounded.png" class="img-fluid" />
+    <link rel="shortcut icon" type="image/x-icon" href="../assets/images/plantifeedpics/rounded.png" class="img-fluid" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
@@ -537,10 +537,13 @@
                                 <h6 class="dropdown-header">Welcome {{ Auth::user()->role }}</h6>
                                 @endif
 
-                                <a class="dropdown-item" href="{{ route('profile-feed') }}"><i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i>
+                                <a class="dropdown-item" href="/profile-feed"><i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i>
                                     <span class="align-middle">Profile</span></a>
+                                @if(session('user') && session('user')->role_id != 5)
                                 <a class="dropdown-item" href="/tasks"><i class="mdi mdi-calendar-check-outline text-muted fs-16 align-middle me-1"></i>
-                                    <span class="align-middle">Taskboard</span></a>
+                                    <span class="align-middle">Taskboard</span>
+                                </a>
+                                @endif
 
                                 <div class="dropdown-divider"></div>
 
@@ -778,7 +781,7 @@
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="/Tools-District-5" role="button" style="color:white">
                                 <i class="ri-tools-fill"></i>
-                                <span data-key="t-dashboards">Tools/Seedlings</span>
+                                <span data-key="t-dashboards">Tools and Seedlings Request</span>
                             </a>
                         </li>
                         <!-- <li class="nav-item">

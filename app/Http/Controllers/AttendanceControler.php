@@ -101,7 +101,7 @@ public function submit(Request $request, $event_id)
     $event->attendees()->save($attendance);
    
     // Redirect the atten$attendance to a success page or display a success message
-    return redirect('/schedules');
+    return redirect()->back();
 }
 
 

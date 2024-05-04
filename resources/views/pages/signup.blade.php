@@ -27,7 +27,7 @@
         html {
             height: 100%;
             background: darkgreen;
-            */ Prevent scrollbars
+
         }
 
         .container {
@@ -79,9 +79,11 @@
                                     </div>
                                     <div class="d-flex justify-content-center h-100 d-flex flex-column">
 
+
                                         
                                             <img src="assets/images/plantifeedpics/landing-page.png" alt="" class="img-fluid">
                                         
+
 
                                     </div>
                                 </div>

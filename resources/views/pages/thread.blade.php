@@ -163,7 +163,7 @@
                                                                 <div class="d-flex align-items-center">
                                                                     <div class="flex-shrink-0 chat-user-img online user-own-img align-self-center me-3 ms-0">
                                                                     @if($profileSettings)
-                                                                        <img src="{{ $profileSettings->profile_image ? asset('storage/' . $profileSettings->profile_image) : asset('path_to_default_image') }}" alt="" class="avatar-lg img-thumbnail rounded-circle mx-auto profile-img">
+                                                                        <img src="{{ $profileSettings->profile_image ? asset('storage/' . $profileSettings->profile_image) : asset('path_to_default_image') }}" alt="" class="rounded-circle header-profile-user">
                                                                     @else
                                                                         <img class="rounded-circle header-profile-user" src="{{asset('assets/images/plantifeedpics/rounded.png')}}" alt="Header Avatar">
                                                                     @endif

@@ -28,6 +28,7 @@
         </div>
         <div class="feels-like">
           <h2 id="feels-like">Feels Like: 0</h2>
+          <span class="temp-unit">°C</span>
         </div>
         <div class="date-time">
           <p id="date-time">Monday, 12:00</p>
@@ -43,15 +44,16 @@
             <p id="rain">perc - 0%</p>
           </div>
         </div>
-      </div>
-      <div class="location">
-        <div class="location-icon">
-          <i class="fas fa-map-marker-alt"></i>
+        <div class="location">
+          <div class="location-icon">
+            <i class="fas fa-map-marker-alt"></i>
+          </div>
+          <div class="location-text">
+            <p id="location">location</p>
+          </div>
         </div>
-        <div class="location-text">
-          <p id="location">location</p>
-        </div>
       </div>
+      <span class="badge badge-label bg-primary"><i class="mdi mdi-circle-medium"></i> Weather Data - Visual Crossing</span>
     </div>
     <div class="main">
       <nav>

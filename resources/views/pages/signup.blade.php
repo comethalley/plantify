@@ -27,7 +27,7 @@
         html {
             height: 100%;
             background: darkgreen;
-            */ Prevent scrollbars
+
         }
 
         .container {
@@ -68,9 +68,9 @@
                                 <div class="p-lg-5 p-4 auth-one-bg h-100">
                                     <div class="position-relative h-100 d-flex flex-column">
 
-                                        <a href="/" class="d-block"><br><br><br>
-                                            <img src="assets/images/plantifeedpics/landing-page.png" alt="" class="img-fluid">
-                                        </a>
+                                        <br><br><br><br>
+                                        <img src="assets/images/plantifeedpics/landing-page.png" alt="" class="img-fluid mt-5">
+
 
                                     </div>
                                 </div>
@@ -166,7 +166,7 @@
                                                 </div>
 
                                                 <div class="mt-4">
-                                                    <button type="submit" class="btn btn-link text-white w-100" style="background-color:#066903;" href="">Sign Up for Public user</a>
+                                                    <button type="submit" class="btn btn-link text-white w-100" style="background-color:#066903;" href="">Sign Up</a>
                                                 </div>
                                                 <div class="mt-1 text-center">
                                                     <p class="mb-0">Already have an account ? <a href="/login" class="fw-semibold text-decoration-underline" style="color:#066903;"> Sign In</a> </p>

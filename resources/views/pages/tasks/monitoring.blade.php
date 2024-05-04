@@ -681,8 +681,8 @@ input:valid + span::after {
         success: function(data) {
             $('#task-edit').modal('hide');
             Swal.fire({
-                title: "Successfully archived",
-                text: "Are you ready for the next level?",
+                title: "Successfully Updated",
+                // text: "Are you ready for the next level?",
                 icon: "success"
             });
             console.log(data);

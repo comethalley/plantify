@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Event Pre-Registration Form</title>
+    <link rel="shortcut icon" type="image/x-icon" href="../assets/images/plantifeedpics/rounded.png" class="img-fluid" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
@@ -156,20 +157,28 @@
 
  <div class="row">
     <div class="col-xl-12">
-        <div class="card card-lg">
-            <div class="card-header align-items-center d-flex" style="background-color:#25A90B;">
-                <h1 class="card-title text-center text-justify custom-title" style="font-size: 1rem; color: white;"><strong>Fill Up Form</strong></h1><br>      
-                <div class="flex-shrink-0">
-                    <div class="form-check form-switch form-switch-right form-switch-md"></div>       
+        <div class="card card-lg border ">
+            <div class="card-header " style="background-color:#25A90B;">
+                <div class="mx-auto d-flex align-items-center justify-content-center">
+                    <img src="/assets/images/cuai2.jpg" alt="Event Image" class="img-fluid justify-align-center" style="width: 70px;">&nbsp;
+                    &nbsp;
+                    <h1 class="card-title text-center text-justify custom-title" style="font-size: 1rem; color: white;"><strong>Fill Up Form</strong></h1>
+
                 </div>
+    
+                    
             </div><!-- end card header -->
+
+            <div class="card-body d-flex">
             <div class="card-body">
+                
                 <div class="card-title-container justify-text-center">
                     <h1 class="card-title text-center text-justify custom-title" style="font-size: 1.3rem; margin-bottom: 15px;"><strong>Pre-Registration Form</strong></h1>
                     <h5 class="card-title text-center mb-2 "><strong>Event Name: {{ $event->title }}</strong></h5>
                     <p class="card-text text-center mb-2 "><strong>Date: {{ date('F j, Y', strtotime($event->start)) }} to {{ date('F j, Y', strtotime($event->end)) }}</strong> </p>
                     <p class="card-text text-center" style="border-bottom: 1px solid #000;"><strong>{{ date('g:i A', strtotime($event->starttime)) }} to {{ date('g:i A', strtotime($event->endtime)) }}</strong></p>
                     <hr>
+                    
          
                     <form action="{{ route('register', ['event_id' => $event->id]) }}" method="POST">
                         @csrf
@@ -239,27 +248,46 @@
                                         </div>
                                     </div>
                                 </div><!--end row-->
-                                <div class="row gy-4">
+                                <div class="row gy-4 mb-2">
                                     <div class="col">
                                     <label for="barangay" class="form-label">Barangay:</label>
                                         <select class="form-select" id="barangay" name="barangay" required>
                                             <option value="" disabled selected>Select your barangay</option>
-                                            <option value="Barangay 1">Barangay 1</option>
-                                            <option value="Barangay 2">Barangay 2</option>
-                                            <option value="Barangay 3">Barangay 3</option>
+                                            <option value="Bagbag">Bagbag</option>
+                                            <option value="Capr">Capri</option>
+                                            <option value="Fairview">Fairview</option>
+                                            <option value="Greater Lagro">Greater Lagro</option>
+                                            <option value="Gulod">Gulod</option>
+                                            <option value="Kaligayahan">Kaligayahan</option>
+                                            <option value="Nagkaisang Nayon">Nagkaisang Nayon</option>
+                                            <option value="North Fairview">North Fairview</option>
+                                            <option value="Novaliches Proper">Novaliches Proper</option>
+                                            <option value="Pasong Putik Proper">Pasong Putik Proper</option>
+                                            <option value="San Agustin">San Agustin</option>
+                                            <option value="San Bartolome">San Bartolome</option>
+                                            <option value="Santa Lucia">Santa Lucia</option>
+                                            <option value="Santa Monica">Santa Monica</option>
+                                            
+                                            
+                                            
+                                            
                                             
                                         </select>
                                     </div>
                                 </div><!--end row-->
-                                <div class="d-flex justify-content-end">
-                                    <button type="submit" class="btn btn-success waves-effect waves-light">Submit</button>
-                                </div>
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
+         <!-- Button in Footer -->
+         <div class="card-footer d-flex justify-content-end mb-2">
+                <button type="button" class="btn btn-success">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
     </div>
 </div>
 
@@ -274,3 +302,29 @@
 </body>
 
 </html>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const submitButton = document.getElementById('submitButton');
+
+    submitButton.addEventListener('click', function() {
+        // Show SweetAlert confirmation dialog
+        Swal.fire({
+            title: 'Successful',
+            text: 'Successfully Registered',
+            icon: 'success',
+            showConfirmButton: false,
+            timer: 10000 // Adjust the duration as needed
+           
+            
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Reload the page if the user confirms
+                window.location.reload();
+            } else {
+                // Do nothing if the user cancels
+            }
+        });
+    });
+});
+    </script>

@@ -161,24 +161,24 @@ class AuthController extends Controller
 
     public function viewfarmLeaders($id)
     {
-        try {
-            $user = User::findOrFail($id);
 
-            $farmLeaders = DB::table('users')
-                ->where('status', 1)
-                ->where('role_id', 3)
-                ->where('id', $id)
-                ->select(
-                    "id",
-                    'firstname',
-                    "lastname",
-                    "email",
-                )
-                ->first();
+        $user = User::findOrFail($id);
 
-            if (!$farmLeaders) {
-                return response()->json(['error' => 'Farm Leader not found'], 404);
-            }
+        $farmLeaders = DB::table('users')
+            ->where('status', 1)
+            ->where('role_id', 3)
+            ->where('id', $id)
+            ->select(
+                "id",
+                'firstname',
+                "lastname",
+                "email",
+            )
+            ->first();
+
+        if (!$farmLeaders) {
+            return response()->json(['error' => 'Farm Leader not found'], 404);
+        }
 
 
         // Find the farm associated with the farm leader
@@ -196,9 +196,12 @@ class AuthController extends Controller
                 // 'farmLocation' => null,
                 'farm' => null
             ], 200);
-
         }
     }
+
+
+
+
 
     public function updateAdmin(Request $request, $id)
     {
@@ -340,7 +343,7 @@ class AuthController extends Controller
                     'status' => 0,
                 ]);
             }
-            
+
             $user->update([
                 'status' => 0,
             ]);
@@ -502,7 +505,7 @@ class AuthController extends Controller
             'area' => $data['area'],
             'status' => "Created",
             'farm_leader' => $farmLeaderId, // Assuming 'farm_leader' is the field name in the farms table
-        ]); 
+        ]);
 
         // Create a new farm location record
         $farmLocation = new FarmLocation();

@@ -73,6 +73,7 @@ class PlantCalendar extends Controller
         $item->harvested = $request->harvested;
         $item->destroyed = $request->destroyed;
         $item->type = $request->type;
+        $item->is_deleted = 1;
         $item->save();
 
         $title = $request->title;
@@ -93,8 +94,6 @@ class PlantCalendar extends Controller
 
     public function getEvents()
     {
-        // $events = CalendarPlanting::all();
-
         $id = Auth::user()->id;
 
         $user = User::select('users.*', 'farms.id AS farm_id')
@@ -105,12 +104,20 @@ class PlantCalendar extends Controller
         // If the user is authenticated and is a farm leader
         if ($user->role_id === '3') {
             // Retrieve events for the farm associated with the farm leader
-            $events = CalendarPlanting::where('farm_id', $user->farm_id)->orderBy('id', 'DESC')->get();
+            $events = CalendarPlanting::where('farm_id', $user->farm_id)
+                ->where('is_deleted', 1) // Filter events with is_deleted = 1
+                ->orderBy('id', 'DESC')
+                ->get();
         } elseif ($user->role_id === '5') {
-            $events = CalendarPlanting::where('farm_id', "00" . $user->id)->orderBy('id', 'DESC')->get();
+            $events = CalendarPlanting::where('farm_id', "00" . $user->id)
+                ->where('is_deleted', 1) // Filter events with is_deleted = 1
+                ->orderBy('id', 'DESC')
+                ->get();
         } else {
             // If the user is not a farm leader, retrieve all events
-            $events = CalendarPlanting::orderBy('id', 'DESC')->get();
+            $events = CalendarPlanting::where('is_deleted', 1) // Filter events with is_deleted = 1
+                ->orderBy('id', 'DESC')
+                ->get();
         }
 
         // Include additional details in the response
@@ -126,6 +133,7 @@ class PlantCalendar extends Controller
                 'harvested' => $event->harvested,
                 'destroyed' => $event->destroyed,
                 'seed' => $event->seed,
+                'type' => $event->type,
                 // Add other fields as needed
 
             ];
@@ -134,26 +142,42 @@ class PlantCalendar extends Controller
         return response()->json($formattedEvents);
     }
 
+
+
     public function getdata($id)
     {
-        $data = CalendarPlanting::findOrFail($id);
+        // Retrieve data with is_deleted equal to 1
+        $data = CalendarPlanting::where('is_deleted', 1)->findOrFail($id);
 
         return response()->json($data);
     }
 
+
+
     public function deleteEvent(Request $request, $id)
     {
-        $event = CalendarPlanting::find($id)->delete();
+        $event = CalendarPlanting::find($id);
+        
+        if ($event) {
+            // Update the is_deleted field to 0 instead of deleting the event
+            $event->is_deleted = 0;
+            $event->save();
 
-        $updatedEvents = CalendarPlanting::all();
+            // Retrieve all events including the updated one
+            $updatedEvents = CalendarPlanting::all();
 
-        return response()->json([
-            'message' => 'Planting deleted successfully',
-            'events' => $updatedEvents,
-        ]);
-
-        return response()->json($event);
+            return response()->json([
+                'message' => 'Planting status updated successfully',
+                'events' => $updatedEvents,
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'Unable to update event status. Event not found.'
+            ], 404);
+        }
     }
+
+    
 
     public function update(Request $request, $id)
     {
@@ -178,6 +202,7 @@ class PlantCalendar extends Controller
             'harvested' => $request->input('harvested'),
             'destroyed' => $request->input('destroyed'),
             'seed' => $request->input('seed'),
+            'type' => $request->input('type'),
         ]);
 
         $updatedEvents = CalendarPlanting::all();
@@ -193,7 +218,7 @@ class PlantCalendar extends Controller
 
     public function resize(Request $request, $id)
     {
-        $event = CalendarPlanting::findOrFail($id);
+        $deventata = CalendarPlanting::where('is_deleted', 1)->findOrFail($id);
 
         $newEndDate = Carbon::parse($request->input('end'))->setTimezone('UTC');
         $event->update(['end' => $newEndDate]);

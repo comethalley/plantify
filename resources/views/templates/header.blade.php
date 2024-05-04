@@ -223,25 +223,25 @@
 
                                 <div class="tab-content position-relative overflow-auto" id="notificationItemsTabContent">
                                     <div class="tab-pane fade show active py-2 ps-2" id="all-noti-tab" role="tabpanel">
-                                    @if(auth()->user() && auth()->user()->notifications)
-    @foreach (auth()->user()->notifications as $notification)
-        <div class="text-reset notification-item d-block dropdown-item position-relative">
-            @if ($notification->type === 'App\Notifications\NewNotificationEvent')
-                <div class="d-flex">
-                    <img src="../assets/images/event/event.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
-                    <div class="flex-grow-1">
-                        <a href="#" class="stretched-link event-notification" data-event-id="{{ $notification->event_id }}">
-                            <h6 class="mt-0 mb-1 fs-13 fw-semibold">{{ $notification->data['title']}}</h6>
-                        </a>
-                        <div class="fs-13 text-muted">
-                            <p class="mb-1">Check it out we have new events 📆.</p>
-                        </div>
-                        <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
-                            <span><i class="mdi mdi-clock-outline" id="notification-time"></i>{{ $notification->created_at->diffForHumans() }}</span>
-                        </p>
-                    </div>
-                </div>
-       
+                                        @if(auth()->user() && auth()->user()->notifications)
+                                        @foreach (auth()->user()->notifications as $notification)
+                                        <div class="text-reset notification-item d-block dropdown-item position-relative">
+                                            @if ($notification->type === 'App\Notifications\NewNotificationEvent')
+                                            <div class="d-flex">
+                                                <img src="../assets/images/event/event.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                                <div class="flex-grow-1">
+                                                    <a href="#" class="stretched-link event-notification" data-event-id="{{ $notification->event_id }}">
+                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">{{ $notification->data['title']}}</h6>
+                                                    </a>
+                                                    <div class="fs-13 text-muted">
+                                                        <p class="mb-1">Check it out we have new events 📆.</p>
+                                                    </div>
+                                                    <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+                                                        <span><i class="mdi mdi-clock-outline" id="notification-time"></i>{{ $notification->created_at->diffForHumans() }}</span>
+                                                    </p>
+                                                </div>
+                                            </div>
+
 
                                             @elseif ($notification->type === 'App\Notifications\NewplantingNotification')
                                             <div class="d-flex">
@@ -647,7 +647,7 @@
                                     </li>
                                     @endif
 
-                                    @if(session('user') && session('user')->role_id == 3 || session('user') && session('user')->role_id == 1 || ession('user') && session('user')->role_id == 2)
+                                    @if(session('user') && session('user')->role_id == 3 || session('user') && session('user')->role_id == 1 || session('user') && session('user')->role_id == 2)
                                     <li class="nav-item">
                                         <a href="/users/farmers" class="nav-link" style="color:white"> Farmers </a>
                                     </li>
@@ -701,11 +701,11 @@
                                             <li class="nav-item">
                                                 <a href="/schedules" class="nav-link" style="color:white"> Event Calendar </a>
                                             </li>
-                                           
+
                                             @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2)
                                             <li class="nav-item">
 
-                                            <a href="/attendance" class="nav-link" style="color:white">Event Registration</a>
+                                                <a href="/attendance" class="nav-link" style="color:white">Event Registration</a>
 
                                             </li>
                                             @endif
@@ -1019,34 +1019,34 @@
         });
     </script>
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var eventNotificationLinks = document.querySelectorAll('.event-notification');
-        eventNotificationLinks.forEach(function(link) {
-            link.addEventListener('click', function(event) {
-                event.preventDefault();
-                var eventId = this.getAttribute('data-event-id');
+        document.addEventListener('DOMContentLoaded', function() {
+            var eventNotificationLinks = document.querySelectorAll('.event-notification');
+            eventNotificationLinks.forEach(function(link) {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    var eventId = this.getAttribute('data-event-id');
 
-                // Here you should fetch event details data from your server/database
-                var eventData = {
-                    // Fetch event details based on eventId
-                    // For demonstration, I'm using dummy data
-                    title: "Event Title",
-                    description: "Event Description",
-                    // Add more details as needed
-                };
+                    // Here you should fetch event details data from your server/database
+                    var eventData = {
+                        // Fetch event details based on eventId
+                        // For demonstration, I'm using dummy data
+                        title: "Event Title",
+                        description: "Event Description",
+                        // Add more details as needed
+                    };
 
-                // Now populate the modal with event details
-                document.getElementById('eventtitle').textContent = eventData.title;
-                document.getElementById('eventdescription').textContent = eventData.description;
-                // Populate other fields as needed
+                    // Now populate the modal with event details
+                    document.getElementById('eventtitle').textContent = eventData.title;
+                    document.getElementById('eventdescription').textContent = eventData.description;
+                    // Populate other fields as needed
 
-                // Show the modal
-                var eventDetailsModal = new bootstrap.Modal(document.getElementById('EventdetailModal'));
-                eventDetailsModal.show();
+                    // Show the modal
+                    var eventDetailsModal = new bootstrap.Modal(document.getElementById('EventdetailModal'));
+                    eventDetailsModal.show();
+                });
             });
         });
-    });
-</script>
+    </script>
 
     <div id="google_translate_element"></div>
     <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>

@@ -92,6 +92,7 @@ class InventoryController extends Controller
                 'plant_infos.plant_name as seedName',
             )
             ->where('suppliers.id', $id)
+            ->where('supplier_seeds.status', '1')
             ->orderBy('supplier_seeds.id', 'DESC')
             ->get();
 
@@ -864,5 +865,28 @@ class InventoryController extends Controller
     public function tools()
     {
         return view("pages.inventory.tools");
+    }
+
+    public function archiveSeed(Request $request, $id)
+    {
+        try {
+            $uoms = SupplierSeed::findOrFail($id);
+
+            $uoms->update([
+                'status' => 0
+            ]);
+
+            if ($uoms) {
+                return response()->json(['message' => 'Measurement Updated Successfully', 'supplier' => $uoms->supplier_id], 200);
+            } else {
+                return response()->json(['error' => 'Internal Server Error'], 500);
+            }
+        } catch (ModelNotFoundException $e) {
+
+            return response()->json(['error' => 'Item not found'], 404);
+        } catch (\Exception $e) {
+
+            return response()->json(['error' => 'Internal Server Error'], 500);
+        }
     }
 }

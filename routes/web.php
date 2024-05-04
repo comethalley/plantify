@@ -104,6 +104,7 @@ Route::get('/get-fertilizer', [InventoryController::class, 'getFertilizer']);
 Route::post('/edit-fertilizer/{id}', [InventoryController::class, 'updateFertilizer']);
 Route::post('/archive-fertilizer/{id}', [InventoryController::class, 'archiveFertilizer']);
 Route::get('/inventory/tools', [InventoryController::class, 'tools']);
+Route::post('/archiveSeed/{id}', [InventoryController::class, 'archiveSeed']);
 Route::get('/send-message', [SendMessageController::class, 'index']);
 
 

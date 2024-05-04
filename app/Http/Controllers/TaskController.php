@@ -159,22 +159,22 @@ public function update(Request $request, Task $task)
 
     // Handle image upload if provided
     if ($request->hasFile('image')) {
-        $image = $request->file('image');
-        
-        // Get the file extension
-        $extension = $image->getClientOriginalExtension();
-        
-        // Generate a unique filename using task ID, a unique identifier (e.g., timestamp), and file extension
-        $filename = $task->id . '_' . time() . '.' . $extension; 
-        
-        // Store the image with the generated filename
-        $image->storeAs('public/images', $filename);
+    $image = $request->file('image');
     
-        // Save the filename to the task record in the database
-        $task->image = $filename;
-        $task->save();
-    }
+    // Get the file extension
+    $extension = $image->getClientOriginalExtension();
     
+    // Generate a unique filename using task ID, a unique identifier (e.g., timestamp), and file extension
+    $filename = $task->id . '_' . time() . '.' . $extension; 
+    
+    // Store the image with the generated filename
+    $image->storeAs('public/images', $filename);
+
+    // Save the filename to the task record in the database
+    $task->image = $filename;
+    $task->save();
+}
+
     
 
 

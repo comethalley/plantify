@@ -245,7 +245,7 @@ input:valid + span::after {
                                         <span class="badge badge-<?php echo strtolower($task->status); ?>"><?php echo $task->status; ?></span>
                                     </td>
                                     <td>
-                                    @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 3 || auth()->user()->role_id == 4 ) 
+                                    @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 3|| auth()->user()->role_id == 4 ) 
                                         {{-- Display only for role_id 1, 2, 3 (Super Admin, Admin, Farmerleader,farmer) --}}
                                         <a href="#" class="btn btn-primary btn-sm task-edit" data-task-id="{{ $task->id }}" data-task-title="{{ $task->title }}" data-task-description="{{ $task->description }}" data-task-priority="{{ $task->priority }}" data-task-due_date="{{ $task->due_date }}" data-task-user_id="{{ $task->user_id }}" data-task-status="{{ $task->status }}" data-task-image="{{ $task->image }}" >
                                             <i class="ri-pencil-fill fs-16"></i>
@@ -356,7 +356,6 @@ input:valid + span::after {
    
 </div>
 
-
                 </div>
                 <div class="modal-footer" style="display: block;">
                     <div class="hstack gap-2 justify-content-end">
@@ -439,15 +438,18 @@ input:valid + span::after {
                 </select>
             </div>
         </div>
+        @foreach($tasks as $task)
+    <div>
+        <p>{{ $task->task_name }}</p>
         <div class="col-md-7 mb-3">
-    <label for="image">Upload Image</label>
-    <a href="{{ asset('storage/images/' .  $task->image) }}" target="_blank">
-        <img src="{{ asset('storage/images/' . $task->image) }}" id="preview_image" alt="Task Image" style="max-width: 100%; max-height: 100px;">
-    </a>
-</div>
-
+            <label for="image">Validation:</label>
+            <div>
+                <img src="{{ asset('storage/images/' . $task->image) }}" alt="Larawan ng Gawain" style="max-width: 100%; max-height: 100px;">
+            </div>
+        </div>
+    </div>
+@endforeach
 @endif
-
                         
                         @if(auth()->user()->role_id == 4)
     <div class="modal-body">
@@ -728,7 +730,10 @@ input:valid + span::after {
         formData.append('priority', priority);
         formData.append('status', status);
         formData.append('user_id', user_id);
+        @if(auth()->user()->role_id == 4)
         formData.append('image', $('#image')[0].files[0]);
+        @endif
+
         $.ajax({
     url: "/tasks/" + id,
     method: "POST", // Change method to POST

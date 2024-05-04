@@ -87,41 +87,50 @@
                  
         </div>
                 <hr>
-               
-<div class="dropdown text-right">
-    <div class="d-flex justify-content-end mb-2">
-        <div class="dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <button class="btn  me-2" type="button" id="filterDropdown">
-                Filter
-            </button>
+             <div class="row">
+    <div class="col">
+        <div class="row">
+            <div class="col-xxl-5 col-sm-6">
+                <div class="search-box">
+                    <input type="text" class="form-control search" placeholder="Search for order ID, customer, order status or something...">
+                    <i class="ri-search-line search-icon"></i>
+                </div>
+            </div>
+            <div class="col-auto">
+                <button class="btn btn-primary" id="downloadBtn"><i class="fas fa-download m-1"></i>Download</button>
+            </div>
+             <div class="col">
+                <div class="dropdown d-grid mb-3">
+                    <button class="btn btn-success dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        Filter Status
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="filterDropdown">
+                        <li><a class="dropdown-item filter-option" href="javascript:void(0);" data-status="all">Show All</a></li>
+                        <li><a class="dropdown-item filter-option" href="javascript:void(0);" data-status="1">Status 1</a></li>
+                        <li><a class="dropdown-item filter-option" href="javascript:void(0);" data-status="2">Status 2</a></li>
+                        <!-- Add more options as needed -->
+                    </ul>
+                </div>
+            </div>
         </div>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="#" onclick="filterAttendees('all')">All</a>
-            <a class="dropdown-item" href="#" onclick="filterAttendees('registered')">Registered</a>
-            <a class="dropdown-item" href="#" onclick="filterAttendees('pre-registered')">Pre-registered</a>
-        </div>
-        <button type="button" class="btn btn-primary download-btn"><i class="ri-download-2-line"></i> Download</button>
     </div>
 </div>
 
 
+<div class="table-responsive">
+    <table id="attendeesTable">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Barangay</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
 
-
-
-                <div class="table-responsive">
-
-                    <table id="attendeesTable">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Barangay</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
 
 
 
@@ -143,63 +152,157 @@
 </div>
 <!-- END layout-wrapper -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
 <script>
     $(document).ready(function() {
-    var urlParams = new URLSearchParams(window.location.search);
-    var eventId = urlParams.get('id');
-    if (eventId) {
-        fetchAttendees(eventId);
-    }
+        var urlParams = new URLSearchParams(window.location.search);
+        var eventId = urlParams.get('id');
+        if (eventId) {
+            fetchAttendees(eventId);
+        }
 
-    function fetchAttendees(eventId) {
-        $.ajax({
-            url: '/fetch-attendees/' + eventId,
-            method: 'GET',
-            success: function(response) {
-                $('#attendeesTable tbody').empty(); // Clear existing rows
-                if (response.length > 0) {
-                    response.forEach(function(attendee) {
-                        $('#attendeesTable tbody').append('<tr><td>' + attendee.first_name + ' ' + attendee.last_name + '</td><td>' + attendee.email + '</td><td>' + attendee.barangay + '</td><td>' + attendee.status + '</td><td><button class="change-status-btn" data-id="' + attendee.id + '">Change Status</button></td></tr>');
-                    });
-                } else {
-                    $('#attendeesTable tbody').append('<tr><td colspan="4">No attendees found for this event ID.</td></tr>');
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error('Error fetching attendees:', error);
-                $('#attendeesTable tbody').append('<tr><td>' + attendee.first_name + ' ' + attendee.last_name + '</td><td>' + attendee.email + '</td><td>' + attendee.barangay + '</td><td>' + attendee.status + '</td><td><button class="change-status-btn" data-id="' + attendee.id + '">Change Status</button></td></tr>');
-
-            }
-        });
-    }
-});
-
-
-$(document).on('click', '.change-status-btn', function() {
-    var attendeeId = $(this).data('id');
-    changeAttendeeStatus(attendeeId);
-});
-
-
-function changeAttendeeStatus(attendeeId) {
-    $.ajax({
-        url: '/change-attendee-status/' + attendeeId,
-        method: 'PUT',
-        success: function(response) {
-            // Update the status in the table
-            $('#attendeesTable tbody tr').each(function() {
-                if ($(this).find('button').data('id') == attendeeId) {
-                    $(this).find('td:last').text(response.attendee.status);
+        function fetchAttendees(eventId) {
+            $.ajax({
+                url: '/fetch-attendees/' + eventId,
+                method: 'GET',
+                success: function(response) {
+                    $('#attendeesTable tbody').empty(); // Clear existing rows
+                    if (response.length > 0) {
+                        response.forEach(function(attendee) {
+                            $('#attendeesTable tbody').append('<tr><td>' + attendee.first_name + ' ' + attendee.last_name + '</td><td>' + attendee.email + '</td><td>' + attendee.barangay + '</td><td>' + attendee.status + '</td></tr>');
+                        });
+                    } else {
+                        $('#attendeesTable tbody').append('<tr><td colspan="4">No attendees found for this event ID.</td></tr>');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching attendees:', error);
                 }
             });
-        },
-        error: function(xhr, status, error) {
-            console.error('Error changing status:', error);
-            alert('An error occurred while changing status.');
+        }
+
+        // Click event handler for the filter options
+        $('.filter-option').click(function() {
+            var statusToFilter = $(this).data('status'); // Get the status from data attribute
+            filterAttendeesByStatus(statusToFilter);
+        });
+
+        // Function to filter attendees by status
+        function filterAttendeesByStatus(status) {
+            $('#attendeesTable tbody tr').hide(); // Hide all rows
+            if (status === 'all') {
+                $('#attendeesTable tbody tr').show(); // Show all rows if status is 'all'
+            } else {
+                $('#attendeesTable tbody tr').each(function() {
+                    if ($(this).find('td:last').text() == status) {
+                        $(this).show(); // Show rows with the specified status
+                    }
+                });
+            }
         }
     });
-}
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.querySelector('.search');
+    const attendeesTable = document.getElementById('attendeesTable').getElementsByTagName('tbody')[0];
+
+    searchInput.addEventListener('input', function() {
+        const searchText = this.value.toLowerCase();
+
+        filterAttendees(searchText);
+    });
+
+    function filterAttendees(searchText) {
+        const rows = attendeesTable.getElementsByTagName('tr');
+
+        for (let i = 0; i < rows.length; i++) {
+            const row = rows[i];
+            const name = row.cells[0].innerText.toLowerCase();
+            const email = row.cells[1].innerText.toLowerCase();
+            const barangay = row.cells[2].innerText.toLowerCase();
+            const status = row.cells[3].innerText.toLowerCase();
+
+            if (name.includes(searchText) || email.includes(searchText) || barangay.includes(searchText) || status.includes(searchText)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        }
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const downloadBtn = document.getElementById('downloadBtn');
+
+    downloadBtn.addEventListener('click', function() {
+        downloadFile();
+    });
+
+    function downloadFile() {
+        // Get the table element
+        const table = document.getElementById('attendeesTable');
+
+        // Get the table rows
+        const rows = table.querySelectorAll('tbody tr');
+
+        // Initialize data array with header row
+        const data = [['Name', 'Email', 'Barangay', 'Status']];
+
+        // Loop through each row and extract cell data
+        rows.forEach(row => {
+            const rowData = [];
+            // Get cell data for each row
+            row.querySelectorAll('td').forEach(cell => {
+                rowData.push(cell.textContent.trim());
+            });
+            // Add row data to data array
+            data.push(rowData);
+        });
+
+        // Create a new workbook
+        const workbook = XLSX.utils.book_new();
+
+        // Convert data array to worksheet
+        const worksheet = XLSX.utils.aoa_to_sheet(data);
+
+        // Add the worksheet to the workbook
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Attendees');
+
+        // Generate Excel file
+        const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+
+        // Convert Excel buffer to Blob
+        const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
+
+        // Create a download link
+        const url = URL.createObjectURL(blob);
+
+        // Create a link element and trigger the download
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'Attendees.xlsx'); // Set the filename
+        document.body.appendChild(link);
+        link.click();
+
+        // Clean up
+        URL.revokeObjectURL(url);
+        document.body.removeChild(link);
+    }
+});
+
+
+
 </script>
+
+
+
+
+
+
+
+
 
 
 <!-- Bootstrap JS (including Popper) -->

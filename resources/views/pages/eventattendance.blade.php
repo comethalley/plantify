@@ -99,48 +99,59 @@
                 <div class="col-lg-12">
                     <div class="card" id="orderList">
                         <div class="card-header border-0">
-                            <div class="row align-items-center gy-3">
+                            <div class="row align-items-center gy-2">
                                 <div class="col-sm">
-                                    <h5 class="card-title mb-0">Event List</h5>
+                                    <h5 class="card-title mb-2">Event List</h5>
                                 </div>
                                 
                                 <div class="col-sm-auto">
                                     <div class="d-flex gap-1 flex-wrap">
+                                <div class="dropdown d-grid justify-content-end mb-3">
+                                    <button class="btn btn-success dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Filter Status
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="filterDropdown">
+                                        <li><a class="dropdown-item filter-option" href="javascript:void(0);" data-status="all">Show All</a></li>
+                                        <li><a class="dropdown-item filter-option" href="javascript:void(0);" data-status="1">Upcoming Event</a></li>
+                                        <li><a class="dropdown-item filter-option" href="javascript:void(0);" data-status="2">Ongoing Event</a></li>
+                                        <li><a class="dropdown-item filter-option" href="javascript:void(0);" data-status="3">Finished Event</a></li>
+                                        <!-- Add more options as needed -->
+                                    </ul>
+                                </div>
 
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="card-body border border-dashed border-end-0 border-start-0">
-                        <div class="d-flex justify-content-end"> <!-- Add this container -->
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="filterDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Filter
-        </button>
-    </div>
-                       </div>
+                        
 
-    <div class="card">
-        <div class="row">
-    @foreach ($events as $event)
-        <div class="col-md-3 px-4">
-            <a href="{{ route('event.details', ['id' => $event->id]) }}" class="event-card">
-                <div class="event-image align-items-center ">
-                    @if ($event->image)
-                        <img src="../assests/images/event/{{$event->image}}" alt="Event Image">
-                    @else
-                        <img src="https://via.placeholder.com/150" alt="Placeholder Image">
-                    @endif
-                </div>
-                <div class="event-details">
-                    <div class="event-title ">{{ $event->title }}</div>
-                    <div class="event-date">{{ date('F j, Y', strtotime($event->start)) }} to {{ date('F j, Y', strtotime($event->end)) }}</div>
-                    <div class="">{{ date('g:i A', strtotime($event->starttime)) }} to {{ date('g:i A', strtotime($event->endtime)) }}</div>
-                </div>
-            </a>
-        </div>
-    @endforeach
-    </div>
-</div>
+                            <div class="card">
+                                 <div class="row">
+                                         @foreach ($events as $event)
+                                    <div class="col-md-3 px-4">
+                                        <a href="{{ route('event.details', ['id' => $event->id]) }}" class="event-card">
+                                            <div class="event-image align-items-center ">
+                                                @if ($event->image)
+                                                    <img src="../assests/images/event/{{$event->image}}" alt="Event Image">
+                                                @else
+                                                    <img src="https://via.placeholder.com/150" alt="Placeholder Image">
+                                                @endif
+                                            </div>
+                                            <div class="event-details">
+                                            <div class="event-title">{{ $event->title }}</div>
+                                            <div class="event-date" data-start="{{ $event->start }}" data-end="{{ $event->end }}">
+                                                {{ date('F j, Y', strtotime($event->start)) }} to {{ date('F j, Y', strtotime($event->end)) }}
+                                            </div>
+                                            <div>
+                                                {{ date('g:i A', strtotime($event->starttime)) }} to {{ date('g:i A', strtotime($event->endtime)) }}
+                                            </div>
+                                        </div>
+
+                                        </a>
+                                    </div>
+                                   @endforeach
+                                </div>
+                            </div>
 
 
     
@@ -172,5 +183,41 @@
             });
         });
     });
+
+    document.addEventListener('DOMContentLoaded', function() {
+    const filterOptions = document.querySelectorAll('.filter-option');
+    const eventCards = document.querySelectorAll('.card .col-md-3');
+
+    filterOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            const status = this.getAttribute('data-status');
+            const currentDate = new Date();
+
+            eventCards.forEach(card => {
+                const startDate = new Date(card.querySelector('.event-date').getAttribute('data-start'));
+                const endDate = new Date(card.querySelector('.event-date').getAttribute('data-end'));
+
+                let cardStatus = '';
+
+                if (currentDate < startDate) {
+                    cardStatus = 'Upcoming Event';
+                } else if (currentDate >= startDate && currentDate <= endDate) {
+                    cardStatus = 'Ongoing Event';
+                } else {
+                    cardStatus = 'Finished Event';
+                }
+
+                if (status === 'all' || status === cardStatus) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    });
+});
+
+
+
 </script>
 @include('templates.footer')

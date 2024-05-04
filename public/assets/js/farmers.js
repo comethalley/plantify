@@ -123,38 +123,38 @@ $(document).ready(function () {
     //     });
     // }
 
-    function archiveFarmLeader() {
-        var farmLeaderID = $("#archive-adminID").val();
-        // var unitName =  $('#edit-unit-name').val()
+    // function archiveFarmLeader() {
+    //     var farmLeaderID = $("#archive-adminID").val();
+    //     // var unitName =  $('#edit-unit-name').val()
 
-        $.ajax({
-            url: "/archiveFL/" + farmLeaderID,
-            method: "POST",
-            headers: {
-                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-            },
-            success: function (data) {
-                console.log(data);
-                getFarmLeader();
-                $("#adminArchiveShowModal").modal("hide");
-                Swal.fire({
-                    title: "Successfully Archived",
-                    // text: "Are you ready for the next level?",
-                    icon: "success",
-                    showConfirmButton: false, // Remove the OK button
-                    timer: 2000,
-                });
-            },
-            error: function (xhr, status, error) {
-                if (xhr.status === 422) {
-                    var errors = JSON.parse(xhr.responseText);
-                    console.error("Validation Error:", errors);
-                } else {
-                    console.error("Error:", error);
-                }
-            },
-        });
-    }
+    //     $.ajax({
+    //         url: "/archiveFL/" + farmLeaderID,
+    //         method: "POST",
+    //         headers: {
+    //             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+    //         },
+    //         success: function (data) {
+    //             console.log(data);
+    //             getFarmLeader();
+    //             $("#adminArchiveShowModal").modal("hide");
+    //             Swal.fire({
+    //                 title: "Successfully Archived",
+    //                 // text: "Are you ready for the next level?",
+    //                 icon: "success",
+    //                 showConfirmButton: false, // Remove the OK button
+    //                 timer: 2000,
+    //             });
+    //         },
+    //         error: function (xhr, status, error) {
+    //             if (xhr.status === 422) {
+    //                 var errors = JSON.parse(xhr.responseText);
+    //                 console.error("Validation Error:", errors);
+    //             } else {
+    //                 console.error("Error:", error);
+    //             }
+    //         },
+    //     });
+    // }
 
     $("#add-farmers-btn").on("click", function () {
         console.log("add-btn is clicked");
@@ -226,9 +226,9 @@ $(document).ready(function () {
     //     updateFarmLeader();
     // });
 
-    $("#archive-farmleader-btn").on("click", function () {
-        archiveFarmLeader();
-    });
+    // $("#archive-farmleader-btn").on("click", function () {
+    //     archiveFarmLeader();
+    // });
 
     $(document).on("click", ".edit_farmleader_btn", function (event) {
         event.preventDefault();

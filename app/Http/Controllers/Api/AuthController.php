@@ -310,58 +310,45 @@ class AuthController extends Controller
 
     public function archiveFarmLeader(Request $request, $id)
     {
-        try {
-            // Find the farm leader
-            $user = User::where('id', $id)
-                ->where('status', 1)
-                ->firstOrFail();
+        // Find the farm leader
+        $user = User::where('id', $id)
+            ->where('status', 1)
+            ->firstOrFail();
 
-            // Find the farm associated with the farm leader
-            $farm = Farm::where('farm_leader', $user->id)->first();
+        // Find the farm associated with the farm leader
+        $farm = Farm::where('farm_leader', $user->id)->first();
 
-            if ($farm) {
-                // Find the farmers associated with the farm leader's ID
-                $farmers = Farmer::where('farmleader_id', $user->id)->get();
+        if ($farm) {
+            // Find the farmers associated with the farm leader's ID
+            $farmers = Farmer::where('farmleader_id', $user->id)->get();
 
-                if ($farmers != "") {
-                    foreach ($farmers as $farmer) {
-                        $farmerUser = User::findOrFail($farmer->farmer_id);
-                        $farmerUser->update([
-                            'status' => 0,
-                        ]);
-                    }
-                }
-
-                $farmLocation = FarmLocation::where('address', $farm->address)->first();
-                if ($farmLocation) {
-                    $farmLocation->update([
+            if ($farmers != "") {
+                foreach ($farmers as $farmer) {
+                    $farmerUser = User::findOrFail($farmer->farmer_id);
+                    $farmerUser->update([
                         'status' => 0,
                     ]);
                 }
-                // archive the farm
-                $farm->update([
+            }
+
+            $farmLocation = FarmLocation::where('address', $farm->address)->first();
+            if ($farmLocation) {
+                $farmLocation->update([
                     'status' => 0,
                 ]);
             }
-
-            $user->update([
+            // archive the farm
+            $farm->update([
                 'status' => 0,
             ]);
-
-            return response()->json(['message' => 'Farm Leader Archived Successfully'], 200);
-        } catch (ModelNotFoundException $e) {
-            return response()->json(['error' => 'Farm Leader not found'], 404);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Internal Server Error'], 500);
         }
+
+        $user->update([
+            'status' => 0,
+        ]);
+
+        return response()->json(['message' => 'Farm Leader Archived Successfully'], 200);
     }
-
-
-
-
-
-
-
 
     public function signup(Request $request)
     {

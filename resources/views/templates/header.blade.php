@@ -653,7 +653,7 @@
                                     </li>
                                     @endif
 
-                                    @if(session('user') && session('user')->role_id == 3)
+                                    @if(session('user') && session('user')->role_id == 3 || session('user') && session('user')->role_id == 1 || ession('user') && session('user')->role_id == 2)
                                     <li class="nav-item">
                                         <a href="/users/farmers" class="nav-link" style="color:white"> Farmers </a>
                                     </li>

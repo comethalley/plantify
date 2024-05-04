@@ -79,13 +79,13 @@
                                         <thead class="text-muted table-light">
                                             <tr class="text-uppercase">
 
-                                                <th class="sort" data-sort="id">ID</th>
-                                                <th class="sort" data-sort="first_name">First Name</th>
-                                                <th class="sort" data-sort="last_name">Last Name</th>
-                                                <th class="sort" data-sort="payment">Email Address</th>
-                                                <!-- <th class="sort" data-sort="address">Address</th> -->
-                                                <!-- <th class="sort" data-sort="contact">Contact</th> -->
-                                                <th class="sort" data-sort="city">Action</th>
+                                                <th data-sort="id">ID</th>
+                                                <th data-sort="first_name">First Name</th>
+                                                <th data-sort="last_name">Last Name</th>
+                                                <th data-sort="payment">Email Address</th>
+                                                <!-- <th data-sort="address">Address</th> -->
+                                                <!-- <th data-sort="contact">Contact</th> -->
+                                                <th data-sort="city">Action</th>
 
 
                                             </tr>

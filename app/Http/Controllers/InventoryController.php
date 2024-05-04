@@ -465,6 +465,12 @@ class InventoryController extends Controller
             $record = Stock::where('supplier_seeds_id', $supplier_seedsID)->first();
 
             if ($record) {
+                $getStock = Stock::find($record->id);
+
+                if ($quantity > $getStock->available_seed) {
+                    return response()->json(['message' => 'Insufficient stock.'], 403);
+                }
+
                 $totalUsed = $quantity + $record->used_seed;
                 $record->update([
                     'used_seed' => $totalUsed,

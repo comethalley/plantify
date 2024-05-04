@@ -80,13 +80,13 @@
                                         <thead class="text-muted table-light">
                                             <tr class="text-uppercase">
 
-                                                <th class="sort" data-sort="id">ID</th>
-                                                <th class="sort" data-sort="first_name">First Name</th>
-                                                <th class="sort" data-sort="last_name">Last Name</th>
-                                                <th class="sort" data-sort="payment">Email Address</th>
-                                                <!-- <th class="sort" data-sort="address">Address</th>
-                                                <th class="sort" data-sort="contact">Contact</th> -->
-                                                <th class="sort" data-sort="city">Action</th>
+                                                <th data-sort="id">ID</th>
+                                                <th data-sort="first_name">First Name</th>
+                                                <th data-sort="last_name">Last Name</th>
+                                                <th data-sort="payment">Email Address</th>
+                                                <!-- <th data-sort="address">Address</th>
+                                                <th data-sort="contact">Contact</th> -->
+                                                <th data-sort="city">Action</th>
 
 
 
@@ -165,67 +165,67 @@
                                             @csrf
                                             <div class="modal-body">
                                                 <div class="row">
-                                                <input type="hidden" id="id-field" />
+                                                    <input type="hidden" id="id-field" />
 
-                                                <input type="text" id="orderId" class="form-control" placeholder="ID" readonly hidden />
+                                                    <input type="text" id="orderId" class="form-control" placeholder="ID" readonly hidden />
 
-                                                <!-- <div class="mb-3">
+                                                    <!-- <div class="mb-3">
                                                     <label for="customername-field" class="form-label">First Name</label>
                                                     <input type="text" name="supplier-name" id="firstname" class="form-control" placeholder="Enter name" required />
                                                 </div> -->
 
-                                                <!-- <div class="mb-3">
+                                                    <!-- <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Last Name</label>
                                                     <input type="text" name="description" id="lastname" class="form-control" placeholder="Enter Description" required />
                                                 </div> -->
 
-                                                <div class="mb-3">
-                                                    <label for="customername-field" class="form-label">Email Address</label>
-                                                    <input type="email" name="email" id="email" class="form-control" placeholder="Enter Email" required />
-                                                </div>
+                                                    <div class="mb-3">
+                                                        <label for="customername-field" class="form-label">Email Address</label>
+                                                        <input type="email" name="email" id="email" class="form-control" placeholder="Enter Email" required />
+                                                    </div>
 
-                                                <div class="mb-3 col-md-6">
-                                                <label for="seed" class="form-label">Barangay</label>
-                                                <select name="barangay_name" id="barangay_name" class="form-select" required>
-                                                    <option value="">Select Barangay</option>
-                                                   
-                                                    @foreach ($barangays as $option)
-                                                        <option value="{{ $option->barangay_name }}">{{ $option->barangay_name }}</option>
-                                                    @endforeach
+                                                    <div class="mb-3 col-md-6">
+                                                        <label for="seed" class="form-label">Barangay</label>
+                                                        <select name="barangay_name" id="barangay_name" class="form-select" required>
+                                                            <option value="">Select Barangay</option>
 
-                                                </select>
-                                                </div>
-                                                <div class="mb-3 col-md-6">
-                                                    <label for="customername-field" class="form-label">Area (sqm)</label>
-                                                    <input type="number" name="area" id="area" class="form-control" placeholder="Enter Area (sqm)" required />
-                                                </div>
+                                                            @foreach ($barangays as $option)
+                                                            <option value="{{ $option->barangay_name }}">{{ $option->barangay_name }}</option>
+                                                            @endforeach
 
-                                                <div class="mb-3">
-                                                    <label for="customername-field" class="form-label">Farm Name</label>
-                                                    <input type="text" name="farm_name" id="farm_name" class="form-control" placeholder="Enter Farm Name" required />
-                                                </div>
+                                                        </select>
+                                                    </div>
+                                                    <div class="mb-3 col-md-6">
+                                                        <label for="customername-field" class="form-label">Area (sqm)</label>
+                                                        <input type="number" name="area" id="area" class="form-control" placeholder="Enter Area (sqm)" required />
+                                                    </div>
 
-                                                <div class="mb-3">
-                                                    <label for="customername-field" class="form-label">Complete Address</label>
-                                                    <input type="text" name="address" id="address" class="form-control" placeholder="Enter Complete Address" required />
-                                                </div>
-                                                
-                                                <div class="mb-3">
-                                                    <label for="latitude">Latitude:</label>
-                                                    <input type="text" class="form-control" id="latitude" name="latitude" placeholder="e.g. 14.745692064170463" required>
-                                                </div> 
+                                                    <div class="mb-3">
+                                                        <label for="customername-field" class="form-label">Farm Name</label>
+                                                        <input type="text" name="farm_name" id="farm_name" class="form-control" placeholder="Enter Farm Name" required />
+                                                    </div>
 
-                                                <div class="mb-3">
-                                                    <label for="longitude">Longitude:</label>
-                                                    <input type="text" class="form-control" id="longitude" name="longitude" placeholder="e.g. 121.05243279106442" required>
-                                                </div>
-                                                <center>
-                                                <div class="">
-                                                    <label for="latitude" class="text-muted">Get your Latitude and Longitude in Google Maps</label>                                                    
-                                                </div>
-                                                </center>
+                                                    <div class="mb-3">
+                                                        <label for="customername-field" class="form-label">Complete Address</label>
+                                                        <input type="text" name="address" id="address" class="form-control" placeholder="Enter Complete Address" required />
+                                                    </div>
 
-                                                <!-- <div class="mb-3">
+                                                    <div class="mb-3">
+                                                        <label for="latitude">Latitude:</label>
+                                                        <input type="text" class="form-control" id="latitude" name="latitude" placeholder="e.g. 14.745692064170463" required>
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label for="longitude">Longitude:</label>
+                                                        <input type="text" class="form-control" id="longitude" name="longitude" placeholder="e.g. 121.05243279106442" required>
+                                                    </div>
+                                                    <center>
+                                                        <div class="">
+                                                            <label for="latitude" class="text-muted">Get your Latitude and Longitude in Google Maps</label>
+                                                        </div>
+                                                    </center>
+
+                                                    <!-- <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Address</label>
                                                     <input type="address" name="address" id="address" class="form-control" placeholder="Enter Address" required />
                                                 </div>
@@ -286,7 +286,7 @@
 
                             <div class="modal fade" id="editFLModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content">
+                                    <div class="modal-content">
                                         <div class="modal-header bg-light p-3">
                                             <h5 class="modal-title" id="exampleModalLabel">Edit Farm Leader</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
@@ -349,16 +349,16 @@
                                         <form method="post" action="/add-supplier">
                                             @csrf
                                             <div class="modal-body">
-                                                
-                                            <div class="mt-4 text-center">
-                                                <input type="hidden" id="archive-adminID" class="form-control" placeholder="ID" readonly />
-                                                <h4>You are about to archive this user: <span id="archive-admin-name"></span></h4>
-                                                <p class="text-muted fs-15 mb-4">Deleting this user will also delete the associated farm, farm location, and farmers on that farm. Are you sure you want to proceed?</p>
-                                                <div class="hstack gap-2 justify-content-center remove">
-                                                    <button type="button" class="btn btn-link link-success fw-medium text-decoration-none" id="deleteRecord-close" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i> Close</button>
-                                                    <button type="button" class="btn btn-danger" id="archive-farmleader-btn">Yes, Archive It</button>
+
+                                                <div class="mt-4 text-center">
+                                                    <input type="hidden" id="archive-adminID" class="form-control" placeholder="ID" readonly />
+                                                    <h4>You are about to archive this user: <span id="archive-admin-name"></span></h4>
+                                                    <p class="text-muted fs-15 mb-4">Deleting this user will also delete the associated farm, farm location, and farmers on that farm. Are you sure you want to proceed?</p>
+                                                    <div class="hstack gap-2 justify-content-center remove">
+                                                        <button type="button" class="btn btn-link link-success fw-medium text-decoration-none" id="deleteRecord-close" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i> Close</button>
+                                                        <button type="button" class="btn btn-danger" id="archive-farmleader-btn">Yes, Archive It</button>
+                                                    </div>
                                                 </div>
-                                            </div>
                                             </div>
                                         </form>
                                     </div>
@@ -412,8 +412,6 @@
             downloadAdminTableAsExcel('farmerLeader-tbl', 'farmleaders_data');
         });
     });
-
-    
 </script>
 
 

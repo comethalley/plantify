@@ -29,6 +29,7 @@
             background: #066903;
             /* Prevent scrollbars */
         }
+
         .container {
             position: absolute;
             top: 0;
@@ -50,11 +51,12 @@
     </style>
 </head>
 
-<body> 
-<div class="auth-one-bg-position auth-one-bg" id="auth-particles">
-<!-- <div class="bg-overlay"></div> -->
-        <canvas class="particles-js-canvas-el" width="100%" height="100%" style="width: 100%; height: 100%;"></canvas></div>
-        
+<body>
+    <div class="auth-one-bg-position auth-one-bg" id="auth-particles">
+        <!-- <div class="bg-overlay"></div> -->
+        <canvas class="particles-js-canvas-el" width="100%" height="100%" style="width: 100%; height: 100%;"></canvas>
+    </div>
+
     <div class="auth-page-content d-flex justify-content-center">
         <div class="container">
             <div class="row">
@@ -63,12 +65,11 @@
                         <div class="row d-flex justify-content-center">
                             <div class="col-lg-6">
                                 <div class="p-lg-5 p-4">
-                                        <div class="mb-4">
-                                            <a href="/" class="d-block">
-                                            <img src="assets/images/plantifeedpics/landing-page.png" alt="" class="img-fluid">
+                                    <div class="mb-4">
+                                        <img src="assets/images/plantifeedpics/landing-page.png" alt="" class="img-fluid">
 
-                                            </a>
-                                        </div>    
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                             <!-- end col -->
@@ -96,7 +97,7 @@
 
                                                 <div class="mb-3">
                                                     <label for="username" class="form-label">Email</label>
-                                                    <input type="text" class="form-control" id="username" name="email" placeholder="Enter username">
+                                                    <input type="text" class="form-control" id="username" name="email" placeholder="Enter email address">
                                                 </div>
 
                                                 <div class="mb-3">
@@ -135,7 +136,7 @@
                     <!-- end col -->
 
                 </div>
-                
+
                 <!-- end row -->
             </div>
             <!-- end container -->
@@ -144,14 +145,14 @@
 
 
     </div>
-                <!-- end row -->
-            </div>
-            <!-- end container -->
-        </div>
-        
+    <!-- end row -->
+    </div>
+    <!-- end container -->
+    </div>
 
 
-   
+
+
     <!-- end auth-page-wrapper -->
 
     <!-- JAVASCRIPT -->

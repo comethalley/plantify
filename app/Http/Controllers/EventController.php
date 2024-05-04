@@ -103,7 +103,33 @@ class EventController extends Controller
         //dd($data);
         return response()->json($data);
     }
-
+    public function getCalendarEvents(Request $request)
+    {
+        $role = auth()->user()->role_id;
+        $selectedVisibility = $request->input('visibility');
+    
+        if ($role == 1) {
+            // Super Admin can see all events
+            $events = Event::all();
+        } elseif ($role == 2) {
+            // Admin can see all events
+            $events = Event::all();
+        } elseif ($role == 3 && $selectedVisibility == 'farmleader') {
+            // Farmer Leader can see specific events
+            $events = Event::where('visibility', 'farmleader')->get();
+        } elseif ($role == 4 && $selectedVisibility == 'farmer') {
+            // Farmer can see specific events
+            $events = Event::where('visibility', 'farmer')->get();
+        } elseif ($role == 5 && $selectedVisibility == 'publicuser') {
+            // Public User can see specific events
+            $events = Event::where('visibility', 'publicuser')->get();
+        } else {
+            // Default to no events if no matching role and visibility
+            $events = [];
+        }
+    
+        return response()->json($events);
+    }
 
     public function deleteEvent(Request $request, $id)
     {

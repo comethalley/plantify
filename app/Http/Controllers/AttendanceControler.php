@@ -27,22 +27,30 @@ class AttendanceControler extends Controller
     {
         // Fetch attendees for the specified event ID
         $attendees = EventAttendance::where('event_id', $event_id)
-            ->select('first_name', 'last_name', 'email', 'barangay')
-            ->get();
-        
-        return response()->json($attendees);
+
+        ->select('first_name', 'last_name', 'email', 'barangay', 'status')
+        ->get();
+    
+    return response()->json($attendees);
     }
-    public function showAttendanceList($id)
+
+    public function changeStatus($id)
     {
-        
-    $event = EventAttendance::where('event_id', $id)->get();
-    if ($event) {
-        return view('pages.eventattendees', ['event' => $event]);
-    } else {
-        // Handle the case where no attendees are found for the specified event ID
-        return view('pages.noattendees');
+        $attendee = EventAttendance::findOrFail($id);
+        if (!$attendee) {
+            return response()->json(['error' => 'Attendee not found'], 404);
+        }
+    
+        $attendee->update([
+            'status' => 2,
+        ]);
+    
+        return response()->json(['message' => 'Attendee status updated successfully', 'attendee' => $attendee]);
     }
-    }
+
+      
+    
+   
     
     public function attendees(Request $request) {
         $eventId = $request->input('id');
@@ -63,15 +71,14 @@ public function submit(Request $request, $event_id)
 {
     // Validate the form data
     $validatedData = $request->validate([
-        'firstName' => 'required|string',
-        'lastName' => 'required|string',
-        'middleInitial' => 'nullable|string|max:1',
+        'first_name' => 'required|string',
+        'last_name' => 'required|string',
+        'middle_initial' => 'nullable|string|max:1',
         'email' => 'required|email',
         'contact' => 'required|string',
         'age' => 'required|integer',
         'address' => 'required|string',
         'barangay' => 'required|string',
-        // Add more validation rules for other fields as needed
     ]);
 
     // Find the event
@@ -79,20 +86,21 @@ public function submit(Request $request, $event_id)
 
     // Create a new EventAttendance model instance and populate it with the form data
     $attendance = new EventAttendance();
-    $attendance->first_name = $validatedData['firstName'];
-    $attendance->last_name = $validatedData['lastName'];
-    $attendance->middle_initial = $validatedData['middleInitial'];
+    $attendance->first_name = $validatedData['first_name'];
+    $attendance->last_name = $validatedData['last_name'];
+    $attendance->middle_initial = $validatedData['middle_initial'];
     $attendance->email = $validatedData['email'];
     $attendance->contact = $validatedData['contact'];
     $attendance->age = $validatedData['age'];
     $attendance->address = $validatedData['address'];
     $attendance->barangay = $validatedData['barangay'];
+    $attendance->status = 1;
     // Add more fields as needed
 
     // Save the model instance to the database
     $event->attendees()->save($attendance);
-    Mail::to($request->email)->send(new WelcomeMail());
-    // Redirect the user to a success page or display a success message
+   
+    // Redirect the atten$attendance to a success page or display a success message
     return redirect('/schedules');
 }
 

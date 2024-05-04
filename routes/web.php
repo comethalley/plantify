@@ -218,15 +218,16 @@ Route::get('/upcomingevent', [EventController::class, 'notifyUpcomingEvents']);
 Route::get('/events/{eventId}/interested', [EventController::class, 'storeInterested']);
 Route::view('add-schedule', 'pages.add');
 Route::post('create-schedule', [EventController::class, 'create']);
-Route::get('/generate-registration-form/{id}', [EventController::class, 'generateRegistrationForm'])->name('generate.registration.form');
+Route::get('/events/calendar', [EventController::class, 'getCalendarEvents'])->name('events.calendar');
 
-Route::get('/event/{eventId}/register', [EventController::class, 'registerForm']);
+
 //FOR attendance ROUTES===========================================
 Route::get('/attendance', [AttendanceControler::class, 'index']);
 Route::get('/attendees', [AttendanceControler::class, 'attendees'])->name('event.details');
-Route::post('/event/attendance/submit/{event_id}', [AttendanceControler::class, 'submit'])->name('event.attendance.submit');
+Route::post('/event/attendance/submit/{event_id}', [AttendanceControler::class, 'submit'])->name('register');
 Route::get('/event/{eventId}/attendance', [AttendanceControler::class, 'showAttendanceList']);
-Route::get('/event/attendance/form/{id}', [AttendanceControler::class, 'attendanceForm'])->name('event.attendance.form');
+Route::get('/event/form/{id}', [AttendanceControler::class, 'attendanceForm'])->name('event.attendance.form');
+Route::put('/change-attendee-status/{id}', [AttendanceControler::class, 'changeStatus']);
 
 
 Route::get('/fetch-attendees/{event_id}', [AttendanceControler::class, 'fetchAttendees']);

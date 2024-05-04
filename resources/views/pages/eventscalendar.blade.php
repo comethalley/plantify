@@ -174,7 +174,7 @@
         <option value="all">all</option>
         <option value="farmleader">farmleader</option>
         <option value="farmer">farmer</option>
-        <option value="bagbag">bagbag</option>
+        <option value="publicuser">publicuser</option>
     </select>
 </div>
                                                     
@@ -483,7 +483,7 @@ $('#eventendtime').text(moment(response.endtime, 'HH:mm:ss').format('h:mm A'));
             // Show the modal
             $('#EventdetailModal').modal('show');
 
-            $('#interested-btn').attr('href', '/event/attendance/form/'+ eventId);
+            $('#interested-btn').attr('href', '/event/form/'+ eventId);
         },
         error: function(xhr, status, error) {
             // Handle errors
@@ -762,18 +762,6 @@ function filterAndDisplayEvents(searchKeywords) {
     }
 });
 
-document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.invite-btn').forEach(function(button) {
-            button.addEventListener('click', function() {
-                var link = this.getAttribute('data-link');
-                navigator.clipboard.writeText(link).then(function() {
-                    alert('Link copied to clipboard: ' + link);
-                }).catch(function() {
-                    alert('Failed to copy link to clipboard.');
-                });
-            });
-        });
-    });
 
 
 </script>

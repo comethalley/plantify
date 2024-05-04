@@ -24,6 +24,7 @@ return new class extends Migration
             $table->integer('age');
             $table->string('address');
             $table->string('barangay');
+            $table->string('status');
             // Add more fields as needed
             $table->timestamps();
         });

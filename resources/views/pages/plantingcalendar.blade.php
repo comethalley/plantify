@@ -31,7 +31,7 @@
                 </div>
 
                 <div class="row scrollable">
-                    
+
                     <div class="col-xl-9">
                         <div class="input-group mb-3">
                             <input type="text" id="searchInput" class="form-control" placeholder="Search Planting">
@@ -96,7 +96,7 @@
 
                     </div>
 
-                    
+
                 </div>
 
 
@@ -187,7 +187,7 @@
 
                                     <div class="event-details">
                                         <div class="d-flex mb-2">
-                                            <div class="flex-grow-1 d-flex align-items-center"> 
+                                            <div class="flex-grow-1 d-flex align-items-center">
                                                 <div class="flex-shrink-0 me-3">
                                                     <i class="ri-leaf-fill text-muted fs-16"></i>
                                                 </div>
@@ -208,7 +208,7 @@
                                             </div>
                                         </div>
                                         <div class="d-flex align-items-center mb-2">
-                                            <div class="flex-shrink-0 me-3">   
+                                            <div class="flex-shrink-0 me-3">
                                                 <i class="ri-map-pin-line text fs-16"></i>
                                             </div>
                                             <div class="flex-grow-1">
@@ -705,7 +705,7 @@
                         seed: seed,
                         harvested: harvested,
                         destroyed: destroyed,
-                        type: type, 
+                        type: type,
                     },
                     success: function(data) {
                         calendar.refetchEvents();
@@ -896,6 +896,14 @@
                         },
                         error: function(xhr, status, error) {
                             console.error("Error:", status, error);
+                            var errorMessage = xhr.responseJSON.message; // Assuming error response contains a 'message' property
+                            Swal.fire({
+                                title: "There is an error processing your request",
+                                text: errorMessage,
+                                icon: "error",
+                                showConfirmButton: false,
+                                timer: 3000
+                            });
                         },
                     });
                 }
@@ -1018,8 +1026,6 @@
                 updateVisibility(status); // Update visibility based on the new status
             });
         });
-
-       
     </script>
 
 

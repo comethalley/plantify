@@ -469,6 +469,10 @@ class InventoryController extends Controller
                 ->where('status', '1')
                 ->first();
 
+            if (!$supplierSeeds) {
+                return response()->json(['message' => 'Item not found, Go to the Inventory > Stocks to add the item'], 403);
+            }
+
             $supplier_seedsID = $supplierSeeds->id;
             $quantity = $multiplier;
             if ($mode == 1) {
@@ -486,7 +490,7 @@ class InventoryController extends Controller
                 // $getStock = Stock::find($record->id);
 
                 if ($quantity > $record->available_seed) {
-                    return response()->json(['message' => 'Insufficient stock.'], 403);
+                    return response()->json(['message' => 'Insufficient stock. Go to the Inventory > Stocks and restock your inventory'], 403);
                 }
 
                 $totalUsed = $quantity + $record->used_seed;

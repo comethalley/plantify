@@ -513,6 +513,7 @@ class AuthController extends Controller
         $farmLocation->longitude = $data['longitude'];
         $farmLocation->location_name = $data['farm_name'];
         $farmLocation->address = $data['address'];
+        $farmLocation->status = 1;
         $farmLocation->save();
 
         // If both farm, farm leader, and farm location are successfully created, send email invitation

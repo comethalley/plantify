@@ -30,7 +30,7 @@ class qcmaps extends Controller
         $item->longitude = $request->longitude;
         $item->location_name = $request->location_name;
         $item->address = $request->address;
-        $item->status = 1;
+        $item->status = $request->status;
         $item->save();
 
         return redirect('/farm_locations');

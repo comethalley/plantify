@@ -2,6 +2,8 @@
 
 <head>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
@@ -11,31 +13,43 @@
             /* Adjust the max-height as needed */
             overflow: hidden !important;
         }
+
+        
     </style>
 </head>
 
 <div class="main-content" id="maincontent">
     <div class="page-content">
         <div class="container-fluid">
-            <div class="position-relative mx-n4 mt-n4">
-                <div class="profile-wid-bg profile-setting-img">
-                    <img src="@if($profileSettings && $profileSettings->cover_image) {{ asset('storage/images/' . $profileSettings->cover_image) }} @else {{ asset('https://velzon-svelte-saas.vercel.app/_app/immutable/assets/profile-bg.da0d9401.jpg') }} @endif" class="profile-wid-img" alt="Cover Image">
-                    <div class="overlay-content">
-                        <form id="uploadCoverForm" method="POST" action="/upload-cover" enctype="multipart/form-data">
-                            @csrf
-                            <input type="hidden" name="user_id" value="{{ auth()->id() }}">
-                            <div class="text-end p-3">
-                                <div class="p-0 ms-auto rounded-circle profile-photo-edit">
-                                    <input id="profile-foreground-img-file-input" class="profile-foreground-img-file-input form-control" type="file" name="cover_image">
-                                    <label class="profile-photo-edit btn btn-light form-label" for="profile-foreground-img-file-input">
-                                        <i class="ri-image-edit-line align-bottom me-1"></i> Change Cover
-                                    </label>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+        <div class="position-relative mx-n4 mt-n4">
+        <div class="profile-foreground position-relative d-flex justify-content-center align-items-center" style="height: 250px; overflow: hidden; position: relative;">
+    @if($profileSettings && $profileSettings->cover_image)
+    <img src="{{ asset('storage/images/' . $profileSettings->cover_image) }}" alt="Cover Image" class="profile-wid-img img-fluid" style="width: 100%;">
+    @else
+   <div class="flex-column profile-foreground position-relative mx-n4 mt-n4 d-flex justify-content-center align-items-center" style="height: 250px; overflow: hidden;">
+    <img src="assets/images/plantifeedpics/nocover.png" alt="Default Cover Image" class="profile-wid-img" style="width: 80px; height: 80px;">
+    <p class="mt-3" style="color: grey; font-size: 15px;">No cover available</p>
+</div>
+
+    @endif
+    <div class="overlay-content position-absolute top-0 end-0 p-3">
+    <form id="uploadCoverForm" method="POST" action="/upload-cover" enctype="multipart/form-data">
+    @csrf
+    <input type="hidden" name="user_id" value="{{ auth()->id() }}">
+    <!-- Baguhin ang background-color ng button at color ng text -->
+    <label class="profile-photo-edit btn btn-light form-label" for="profile-foreground-img-file-input" style="background-color: darkgreen; color: white; transition: background-color 0.3s;" onmouseover="this.style.backgroundColor='darkgreen'" onmouseout="this.style.backgroundColor='green'">
+        <i class="ri-image-edit-line align-bottom me-1"></i> Change Cover
+    </label>
+    <input id="profile-foreground-img-file-input" class="profile-foreground-img-file-input form-control" type="file" name="cover_image" style="display: none;">
+</form>
+
+
+
+    </div>
+</div>
+
+</div>
+
 
         </div>
         <div class="row">
@@ -50,7 +64,7 @@
                                     <img src="{{ asset('storage/images/' . $profileSettings->profile_image) }}" class="rounded-circle avatar-xl img-thumbnail user-profile-image" alt="Profile Image">
                                     @else
                                     <div class="avatar-lg">
-                                        <img style="padding:15px;" src="assets/images/plantifeedpics/profile-default.png" alt="user-img" class="img-thumbnail rounded-circle">
+                                        <img style="padding:2px;" src="assets/images/plantifeedpics/profile-default.png" alt="user-img" class="img-thumbnail rounded-circle">
                                     </div>
                                     @endif
                                     <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
@@ -115,86 +129,85 @@
                         <div class="tab-content">
                            
                             <div class="tab-pane" id="personalDetailsForm">
-                                <form method="POST" action="{{ route('profile.update') }}">
-                                    @csrf
-                                    @method('PUT')
+                            <div class="tab-pane" id="personalDetailsForm">
+    <form method="POST" action="{{ route('profile.update') }}" id="profileForm">
+        @csrf
+        @method('PUT')
 
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <label for="firstname">First Name</label>
-                                                <input id="firstname" type="text" class="form-control" name="firstname" value="{{ old('firstname') }}" required autofocus>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <label for="lastname">Last Name</label>
-                                                <input id="lastname" type="text" class="form-control" name="lastname" value="{{ old('lastname') }}" required>
-                                            </div>
-                                        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label for="firstname">First Name</label>
+                    <input id="firstname" type="text" class="form-control" name="firstname" value="{{ old('firstname') }}" required autofocus>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label for="lastname">Last Name</label>
+                    <input id="lastname" type="text" class="form-control" name="lastname" value="{{ old('lastname') }}" required>
+                </div>
+            </div>
 
-                                        <div class="col-lg-6 mt-4">
-                                            <div class="form-group">
-                                                <label for="email">Email Address</label>
-                                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required style="width: 100%;">
-                                            </div>
-                                        </div>
-                                    </div>
+            <div class="col-lg-6 mt-4">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required style="width: 100%;">
+                </div>
+            </div>
+        </div>
 
-                                    <div style="margin-top:13px; display: flex; align-items:flex-end; justify-content:flex-end;">
-                                        <button style="background-color: green; transition: background-color 0.3s;" type="submit" class="btn btn-primary" onmouseover="this.style.backgroundColor='darkgreen'" onmouseout="this.style.backgroundColor='green'">Update Profile</button>
-                                    </div>
-                                </form>
-
+        <div style="margin-top:13px; display: flex; align-items:flex-end; justify-content:flex-end;">
+            <button id="updateButton" style="background-color: green; transition: background-color 0.3s;" type="submit" class="btn btn-primary" onmouseover="this.style.backgroundColor='darkgreen'" onmouseout="this.style.backgroundColor='green'" disabled>Update Profile</button>
+        </div>
+    </form>
+</div>
 
 
                             </div>
 
                             <div class="tab-pane" id="changePasswordForm" style="display: none;">
+    <form method="POST" action="{{ route('profile.updatePassword') }}" id="passwordForm">
+        @csrf
 
-                            <form method="POST" action="{{ route('profile.updatePassword') }}">
-    @csrf
-
-    <div class="form-group row" style="display:grid;">
-        <div>
-            <label for="old-password" class="col-md-4 col-form-label text-md-right">Old Password</label>
-
-            <div class="col-md-6">
-                <input id="old-password" type="password" class="form-control" name="old_password" required autocomplete="current-password">
-            </div>
-            @if ($errors->has('old_password'))
-        <span class="text-danger">{{ $errors->first('old_password') }}</span>
-        @endif
-        </div>
-
-        <div>
-            <label for="password" class="col-md-4 col-form-label text-md-right">New Password</label>
-
-            <div class="col-md-6">
-                <input id="password" type="password" class="form-control" name="password" required autocomplete="new-password">
-            </div>
-        </div>
-
-        <div>
-            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">Confirm Password</label>
-
-            <div class="col-md-6">
-                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
-
-                <!-- Error Message -->
-                @if ($errors->has('password'))
-                <span class="text-danger">{{ $errors->first('password') }}</span>
+        <div class="form-group row" style="display:grid;">
+            <div>
+                <label for="old-password" class="col-md-4 col-form-label text-md-right">Old Password</label>
+                <div class="col-md-6">
+                    <input id="old-password" type="password" class="form-control" name="old_password" required autocomplete="current-password">
+                </div>
+                @if ($errors->has('old_password'))
+                <span class="text-danger">{{ $errors->first('old_password') }}</span>
                 @endif
             </div>
-        </div>
-    </div>
 
-    <div style="display: flex; align-items:flex-end; justify-content:flex-end;">
-        <button type="submit" class="btn btn-primary" style="background-color: green; transition: background-color 0.3s;" onmouseover="this.style.backgroundColor='darkgreen'" onmouseout="this.style.backgroundColor='green'">
-            Update Password
-        </button>
-    </div>
-</form>
+            <div>
+                <label for="password" class="col-md-4 col-form-label text-md-right">New Password</label>
+                <div class="col-md-6">
+                    <input id="password" type="password" class="form-control" name="password" required autocomplete="new-password">
+                </div>
+            </div>
+
+            <div>
+                <label for="password-confirm" class="col-md-4 col-form-label text-md-right">Confirm Password</label>
+                <div class="col-md-6">
+                    <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                    <!-- Error Message -->
+                    @if ($errors->has('password'))
+                    <span class="text-danger">{{ $errors->first('password') }}</span>
+                    @endif
+                </div>
+            </div>
+        </div>
+
+        <div style="display: flex; align-items:flex-end; justify-content:flex-end;">
+            <button id="updatePasswordButton" type="submit" class="btn btn-primary" style="background-color: green; transition: background-color 0.3s;" onmouseover="this.style.backgroundColor='darkgreen'" onmouseout="this.style.backgroundColor='green'" disabled>
+                Update Password
+            </button>
+        </div>
+    </form>
+</div>
+
+
 
 
                                 <!-- <div class="mt-4 mb-3 border-bottom pb-2">
@@ -252,49 +265,53 @@
                 @csrf
             
                 <div class="card">
-                    <div class="card-body">
-                        <!-- Other Infos -->
-                        <h5 class="card-title mb-3">Other Infos</h5>
-                        <!-- Facebook -->
-                        <div class="row">
-                        <!-- City -->
-                            <div class="mb-3 d-flex">
-                                <div class="avatar-xs d-block flex-shrink-0 me-3"><span class="avatar-title rounded-circle fs-16 bg-info"><i class="ri-building-fill"></i></span></div>
-                                <input id="cityInput" class="form-control form-control" type="text" name="city" placeholder="City">
-                            </div>
-                            <!-- Age -->
-                            <div class="col-md-6 mb-3 d-flex">
-                                <div class="avatar-xs d-block flex-shrink-0 me-3"><span class="avatar-title rounded-circle fs-16 bg-warning text-dark"><i class="ri-user-fill"></i></span></div>
-                                <input id="ageInput" class="form-control form-control" type="number" name="age" placeholder="Age">
-                            </div>
-                            <!-- Sex -->
-                            <div class="col-md-6 mb-3 d-flex">
-                                <div class="avatar-xs d-block flex-shrink-0 me-3">
-                                    <span class="avatar-title rounded-circle fs-16 bg-white">
-                                        <img src="assets/images/plantifeedpics/sexicon.png" alt="Sex Icon">
-                                    </span>
-                                </div>
-                                <select id="sexSelect" class="form-select"  name="sex">
-                                    <option selected disabled>Select Sex</option>
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
-                                </select>
-                            </div>
+    <div class="card-body">
+        <!-- Other Infos -->
+        <h5 class="card-title mb-3">Other Infos</h5>
+        <!-- Facebook -->
+        <div class="row">
+            <!-- City -->
+            <div class="mb-3 d-flex">
+                <div class="avatar-xs d-block flex-shrink-0 me-3"><span class="avatar-title rounded-circle fs-16 bg-info"><i class="ri-building-fill"></i></span></div>
+                <input id="cityInput" class="form-control form-control" type="text" name="city" placeholder="City">
+            </div>
+            <!-- Age -->
+            <div class="col-md-6 mb-3 d-flex">
+    <div class="avatar-xs d-block flex-shrink-0 me-3"><span class="avatar-title rounded-circle fs-16 bg-warning text-dark"><i class="ri-user-fill"></i></span></div>
+    <input id="ageInput" class="form-control form-control" type="text" name="age" placeholder="Age">
+</div>
 
-                            <!-- Bio -->
-                            <div style="display: grid; grid-template-columns: 49px 1fr; ">
-                                <img src="assets/images/plantifeedpics/bio.png" alt="bio" class="me-2" style=" margin:0 !important; width: 32px; height: 32px; ">
-                                <textarea style="width:100%; resize:none; " id="bioTextarea" class="form-control" name="bio" placeholder="Bio"></textarea>
-                            </div>
-                        </div>
 
-                            <!-- Submit button -->
-                            <div style="display: flex; align-items:flex-end; justify-content:flex-end; margin-top:10px;">
-                                <button type="submit" class="btn btn-primary" style="background-color: green; transition: background-color 0.3s; ;" onmouseover="this.style.backgroundColor='darkgreen'" onmouseout="this.style.backgroundColor='green'">Save</button>
-                            </div>
-                    </div>
-                </div>
-                
+            <!-- Sex -->
+            <div class="col-md-6 mb-3 d-flex">
+    <div class="avatar-xs d-block flex-shrink-0 me-3">
+        <span class="avatar-title rounded-circle fs-16 bg-white">
+            <img src="assets/images/plantifeedpics/sexicon.png" alt="Sex Icon">
+        </span>
+    </div>
+    <select id="sexSelect" class="form-select" name="sex">
+        <option selected>Select Sex</option>
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+    </select>
+</div>
+
+
+            <!-- Bio -->
+            <div style="display: grid; grid-template-columns: 49px 1fr; ">
+                <img src="assets/images/plantifeedpics/bio.png" alt="bio" class="me-2" style=" margin:0 !important; width: 32px; height: 32px; ">
+                <textarea style="width:100%; resize:none; " id="bioTextarea" class="form-control" name="bio" placeholder="Bio"></textarea>
+            </div>
+        </div>
+
+        <!-- Submit button -->
+        <div style="display: flex; align-items:flex-end; justify-content:flex-end; margin-top:10px;">
+            <button id="saveButton" type="submit" class="btn btn-primary" style="background-color: green; transition: background-color 0.3s; ;" onmouseover="this.style.backgroundColor='darkgreen'" onmouseout="this.style.backgroundColor='green'" disabled>Save</button>
+        </div>
+    </div>
+</div>
+
+
 
             </form>
 
@@ -315,7 +332,12 @@
 </div>
 
 
+<script>
+    document.getElementById('ageInput').addEventListener('input', function() {
+    this.value = this.value.replace(/[^0-9]/g, ''); // Ito ay mag-aalis ng anumang hindi numerong character sa input
+});
 
+</script>
 
 <script>
     $(document).ready(function() {
@@ -410,6 +432,66 @@
     // I-bind ang function sa pagbabago ng file input para sa profile image
     document.getElementById('profile-img-file-input').addEventListener('change', () => uploadImage('profile'));
 </script>
+
+
+<script>
+    $(document).ready(function() {
+        // Enable the update button if any input field is not empty
+        $('#firstname, #lastname, #email').on('input', function() {
+            var anyFieldNotEmpty = $('#firstname').val() || $('#lastname').val() || $('#email').val();
+            $('#updateButton').prop('disabled', !anyFieldNotEmpty);
+        });
+    });
+</script>
+
+<script>
+  $('#saveButton').prop('disabled', true); // Initially disable the save button
+
+// Enable the save button only if all fields are not empty and sex is not 'Select Sex'
+$('#cityInput, #ageInput, #sexSelect, #bioTextarea').on('input', function() {
+    var city = $('#cityInput').val();
+    var age = $('#ageInput').val();
+    var sex = $('#sexSelect').val();
+    var bio = $('#bioTextarea').val();
+
+    var anyFieldNotEmpty = city || age || (sex !== 'Select Sex') || bio;
+    $('#saveButton').prop('disabled', !anyFieldNotEmpty);
+});
+
+// Disable form submission if sex is 'Select Sex'
+$('#profileForm').on('submit', function(event) {
+    var sex = $('#sexSelect').val();
+    if (sex === 'Select Sex') {
+        event.preventDefault(); // Prevent form submission
+        alert('Please select a valid sex.'); // Show an alert message
+    }
+});
+
+</script>
+
+<script>
+    $(document).ready(function() {
+        // Enable the update button if all fields have a value
+        $('#old-password, #password, #password-confirm').on('input', function() {
+            var oldPassword = $('#old-password').val();
+            var newPassword = $('#password').val();
+            var confirmPassword = $('#password-confirm').val();
+            var allFieldsFilled = oldPassword && newPassword && confirmPassword;
+            $('#updatePasswordButton').prop('disabled', !allFieldsFilled);
+        });
+    });
+</script>
+
+@if (Session::has('message'))
+    <script>
+        Swal.fire({
+            text: "{{ Session::get('message') }}",
+            icon: "success",
+            showConfirmButton: true
+        });
+    </script>
+@endif
+
 
 
 

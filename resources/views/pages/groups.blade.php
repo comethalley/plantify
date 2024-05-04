@@ -457,12 +457,16 @@ function updateConversation(messages) {
     // Loop through each message and append it to the conversation area
     messages.forEach(function(message) {
         var messageItem = $('<li class="chat-list"></li>');
+        
 
         // Conditionally apply CSS class for message alignment
         if (message.sender_id == "{{ auth()->user()->id }}") {
             messageItem.addClass('right'); // Align message to the right for logged-in user
+            var name = "";
+
         } else {
-            messageItem.addClass('left'); // Align message to the left for other users
+            messageItem.addClass('left'); 
+            var name = message.sender ? (message.sender.firstname + ' ' + message.sender.lastname) : 'Anonymous';
         }
 
         // Construct the message content based on message type
@@ -473,6 +477,7 @@ function updateConversation(messages) {
                 // If message status is true
                 messageContent = $('<div class="conversation-list">' +
                     '<div class="user-chat-content">' +
+                    '<p class="text-muted" style="font-size: 12px;">'+ name +' </p>' +
                     '<div class="ctext-wrap">' +
                     '<div class="ctext-wrap-content">' +
                     '<div class="message-dropdown">' +
@@ -497,6 +502,7 @@ function updateConversation(messages) {
                 // If message status is false
                 messageContent = $('<div class="conversation-list">' +
                     '<div class="user-chat-content">' +
+                    '<p class="text-muted" style="font-size: 12px;">'+ name +' </p>' +
                     '<div class="ctext-wrap">' +
                     '<div class="ctext-wrap-content">' +
                     '<div class="message-dropdown">' +
@@ -518,6 +524,7 @@ function updateConversation(messages) {
                 // If message is image
                 messageContent = $('<div class="conversation-list">' +
                     '<div class="user-chat-content">' +
+                    '<p class="text-muted" style="font-size: 12px;">'+ name +' </p>' + 
                     '<div class="ctext-wrap">' +
                     '<div class="ctext-wrap-content">' +
                     '<div class="message-dropdown" style="position: relative;">' + // Add position: relative; to make positioning easier

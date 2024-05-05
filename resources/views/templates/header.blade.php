@@ -628,7 +628,7 @@
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="/dashboard/analytics" role="button" style="color:white">
                                 <i class="ri-dashboard-2-line"></i>
-                                <span data-key="t-dashboards">Dashboards</span>
+                                <span data-key="t-dashboards">Dashboard</span>
                             </a>
                         </li>
 

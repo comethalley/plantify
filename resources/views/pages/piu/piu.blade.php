@@ -16,7 +16,7 @@
         <div class="row g-3">
             <div class="col-xxl-5 col-sm-6">
                 <div class="search-box">
-                    <input type="text" id="searchInput" class="form-control search" placeholder="Search for order ID, customer, order status or something...">
+                    <input type="text" id="searchInput" class="form-control search" placeholder="Search for order plant information or something...">
                     <i class="ri-search-line search-icon"></i>
                 </div>
             </div>

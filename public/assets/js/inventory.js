@@ -145,7 +145,7 @@ $(document).ready(function () {
                 $("#showModal").modal("hide");
                 Swal.fire({
                     title: "Successfully Supplier Added",
-                    text: "Are you ready for the next level?",
+                    // text: "Are you ready for the next level?",
                     icon: "success",
                 });
                 console.log(data);
@@ -187,7 +187,7 @@ $(document).ready(function () {
                 $("#editModal").modal("hide");
                 Swal.fire({
                     title: "Successfully Updated",
-                    text: "Are you ready for the next level?",
+                    // text: "Are you ready for the next level?",
                     icon: "success",
                 });
 
@@ -218,7 +218,7 @@ $(document).ready(function () {
                 $("#archiveModal").modal("hide");
                 Swal.fire({
                     title: "Successfully Archive",
-                    text: "Are you ready for the next level?",
+                    // text: "Are you ready for the next level?",
                     icon: "success",
                 });
                 console.log(data);
@@ -240,15 +240,15 @@ $(document).ready(function () {
         var seedID = $("#seed").val();
         var uomID = $("#uom").val();
         var quantity = $("#qty").val();
-    
+
         // Create a FormData object to handle file uploads
         var formData = new FormData();
-        formData.append('image', $('#image')[0].files[0]); // Append the image file
-        formData.append('supplier_id', supplier_id);
-        formData.append('seed_id', seedID);
-        formData.append('uom_id', uomID);
-        formData.append('quantity', quantity);
-    
+        formData.append("image", $("#image")[0].files[0]); // Append the image file
+        formData.append("supplier_id", supplier_id);
+        formData.append("seed_id", seedID);
+        formData.append("uom_id", uomID);
+        formData.append("quantity", quantity);
+
         $.ajax({
             url: "/add-seed",
             method: "POST",
@@ -265,7 +265,7 @@ $(document).ready(function () {
                 $("#seed").val(0);
                 $("#uom").val(0);
                 $("#qty").val(0);
-    
+
                 if (xhr.status === 200) {
                     getSupplier(supplier_id);
                 } else if (xhr.status === 404) {
@@ -472,6 +472,4 @@ $(document).ready(function () {
         console.log("void-btn is clicked");
         voidItem();
     });
-
-  
 });

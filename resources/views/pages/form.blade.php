@@ -33,15 +33,7 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
 
-    <script src="{{ asset('assets/js/inventory.js') }}"></script>
-    <script src="{{ asset('assets/js/uom.js') }}"></script>
-    <script src="{{ asset('assets/js/admin.js') }}"></script>
-    <script src="{{ asset('assets/js/farmleader.js') }}"></script>
-    <script src="{{ asset('assets/js/plantinfo.js') }}"></script>
-    <script src="{{ asset('assets/js/forum.js') }}"></script>
-    <script src="{{ asset('assets/js/fertilizer.js') }}"></script>
-    <script src="{{ asset('assets/js/inventory_fertilizer.js') }}"></script>
-    <script src="{{ asset('assets/js/farmers.js') }}"></script>
+   
 
     <!--markusread JS-->
     <script src="{{ asset('assets/js/markasread.js') }}"></script>

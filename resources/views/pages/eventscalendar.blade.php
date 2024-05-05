@@ -169,14 +169,14 @@
                                                     </div>
                                                     
                                                     <div class="mb-3">
-                                                        <label class="form-label">Who can see it?</label>
-                                                        <select name="visibility" id="choices-multiple-remove-button" data-choices data-choices-remove-item multiple onchange="filterCalendarEvents()">
-                                                            <option value="all">all</option>
-                                                            <option value="3">farmleader</option> 
-                                                            <option value="4">farmer</option> 
-                                                            <option value="5">publicuser</option> 
-                                                        </select>
-                                                    </div>
+    <label class="form-label">Who can see it?</label>
+    <select name="visibility" id="choices-multiple-remove-button" data-choices data-choices-remove-item multiple>
+        <option value="all">all</option>
+        <option value="farmleader">farmleader</option>
+        <option value="farmer">farmer</option>
+        <option value="bagbag">bagbag</option>
+    </select>
+</div>
                                                     
                                        <div class="mb-3">
                                                     <label for="location" class="form-label">Location</label>
@@ -767,7 +767,7 @@ function filterAndDisplayEvents(searchKeywords) {
             });
         }
 </script>
-
+<script>
 document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('searchInput');
     const searchButton = document.getElementById('searchButton');
@@ -815,7 +815,20 @@ document.addEventListener('DOMContentLoaded', function() {
     <script>
       
     </script>
-    <script>
- 
-</script>
+    <<script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="assets/libs/simplebar/simplebar.min.js"></script>
+<script src="assets/libs/node-waves/waves.min.js"></script>
+<script src="assets/libs/feather-icons/feather.min.js"></script>
+<script src="assets/js/pages/plugins/lord-icon-2.1.0.js"></script>
+<script src="assets/js/plugins.js"></script>
+
+<!--jquery cdn-->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<!--select2 cdn-->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<script src="assets/js/pages/select2.init.js"></script>
+
+<!-- App js -->
+<script src="assets/js/app.js"></script>
 @include('templates.footer')

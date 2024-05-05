@@ -89,39 +89,39 @@
         </div>
                 <hr>
                 <div class="row mb-2">
-    <div class="col mb-2">
-        <div class="row">
-            <div class="col-xxl-4 col-sm-5">
+    <div class="col-md-12 mb-2">
+        <div class="row align-items-center">
+            <div class="col-12 col-md-6 col-lg-4">
                 <div class="search-box">
                     <input type="text" class="form-control search" placeholder="Search for order ID, customer, order status or something...">
                     <i class="ri-search-line search-icon"></i>
                 </div>
             </div>
-            <div class="col">                            
+            <div class="col-12 col-md-6 col-lg-4">
                 <!-- Nav tabs -->
-                <div class="container">
-                    <ul class="nav nav-tabs" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link active" data-bs-toggle="tab" href="#home" role="tab" aria-selected="true">
-                                Pre-Registered
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="tab" href="#registered" role="tab" aria-selected="false">
-                                Registered
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-bs-toggle="tab" href="#home" role="tab" aria-selected="true" data-status="1">
+                            Pre-Registered
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab" href="#registered" role="tab" aria-selected="false" data-status="2">
+                            Registered
+                        </a>
+                    </li>
+                </ul>
             </div>
-            <div class="col">
-            <button class="btn btn-primary btn-m mr-2" id="downloadBtn"><i class="fas fa-download m-1"></i>Download</button>
-            <button class="btn btn-success btn-m" id="saved"><i class="m-1"></i>Saved</button>
-
+            <div class="col-6 col-md-3 col-lg-2 mb-2">
+                <button class="btn btn-primary btn-block" id="downloadBtn"><i class="fas fa-download mr-1"></i>Download</button>
+            </div>
+            <div class="col-6 col-md-3 col-lg-2">
+                <button class="btn btn-primary btn-block" id="update-status-btn">Saved</button>
             </div>
         </div>
     </div>
 </div>
+
 
 
 
@@ -136,6 +136,7 @@
                 <table class="table" id="attendeesTable">
                     <thead>
                         <tr>
+                            
                             <th>Name</th>
                             <th>Email</th>
                             <th>Barangay</th>
@@ -155,6 +156,7 @@
                 <table class="table" id="attendeesTable">
                     <thead>
                         <tr>
+                            
                             <th>Name</th>
                             <th>Email</th>
                             <th>Barangay</th>
@@ -193,54 +195,44 @@
 
 <script>
     $(document).ready(function() {
-        var urlParams = new URLSearchParams(window.location.search);
-        var eventId = urlParams.get('id');
-        if (eventId) {
-            fetchAttendees(eventId);
-        }
+    var urlParams = new URLSearchParams(window.location.search);
+    var eventId = urlParams.get('id');
+    if (eventId) {
+        fetchAttendees(eventId, 1); // Fetch pre-registered attendees by default
+    }
 
-        function fetchAttendees(eventId) {
-            $.ajax({
-                url: '/fetch-attendees/' + eventId,
-                method: 'GET',
-                success: function(response) {
-                    $('#attendeesTable tbody').empty(); // Clear existing rows
-                    if (response.length > 0) {
-                        response.forEach(function(attendee) {
-                            $('#attendeesTable tbody').append('<tr><td>' + attendee.first_name + ' ' + attendee.last_name + '</td><td>' + attendee.email + '</td><td>' + attendee.barangay + '</td><td>' + attendee.status + '</td></tr>');
-                        });
-                    } else {
-                        $('#attendeesTable tbody').append('<tr><td colspan="4">No attendees found for this event ID.</td></tr>');
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error fetching attendees:', error);
+    function fetchAttendees(eventId, status) {
+        $.ajax({
+            url: '/fetch-attendees/' + eventId,
+            method: 'GET',
+            success: function(response) {
+                $('#attendeesTable tbody').empty(); // Clear existing rows
+                if (response.length > 0) {
+                    response.forEach(function(attendee) {
+                        if (attendee.status == status) {
+                            $('#attendeesTable tbody').append('<tr><td>' + attendee.first_name + ' ' + attendee.last_name + '</td><td>' + attendee.email + '</td><td>' + attendee.barangay + '</td><td>' + attendee.status + '</td><td><input type="checkbox" class="attendee-checkbox" data-id="' + attendee.id + '"></td></tr>');
+
+                        }
+                    });
+                } else {
+                    $('#attendeesTable tbody').append('<tr><td colspan="4">No attendees found for this event ID.</td></tr>');
                 }
-            });
-        }
-
-        // Click event handler for the filter options
-       
-    });
-
-    $('.filter-option').click(function() {
-            var statusToFilter = $(this).data('status'); // Get the status from data attribute
-            filterAttendeesByStatus(statusToFilter);
-        });
-
-        // Function to filter attendees by status
-        function filterAttendeesByStatus(status) {
-            $('#attendeesTable tbody tr').hide(); // Hide all rows
-            if (status === 'all') {
-                $('#attendeesTable tbody tr').show(); // Show all rows if status is 'all'
-            } else {
-                $('#attendeesTable tbody tr').each(function() {
-                    if ($(this).find('td:last').text() == status) {
-                        $(this).show(); // Show rows with the specified status
-                    }
-                });
+            },
+            error: function(xhr, status, error) {
+                console.error('Error fetching attendees:', error);
             }
-        }
+        });
+    }
+
+    // Click event handler for the filter options
+    $('.nav-link').click(function(e) {
+        e.preventDefault();
+        var status = $(this).data('status'); // Assuming data-status attribute is set in the HTML
+        fetchAttendees(eventId, status);
+    });
+});
+
+   
 
 
       document.addEventListener('DOMContentLoaded', function() {
@@ -332,7 +324,31 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 </script>
-
+<script>
+    $(document).ready(function() {
+        $('#update-status-btn').click(function() {
+            // Loop through each selected checkbox
+            $('.attendee-checkbox:checked').each(function() {
+                var attendeeId = $(this).data('id');
+                // Perform an AJAX request to update the status
+                $.ajax({
+                    url: '{{ route("update-attendee-status") }}',
+                    type: 'POST',
+                    data: {
+                        attendeeId: attendeeId
+                    },
+                    success: function(response) {
+                        // Update the status in the table
+                        $('.attendee-checkbox[data-id="' + attendeeId + '"]').closest('tr').find('td:last').text('Status 2');
+                    },
+                    error: function() {
+                        alert('Error updating status.');
+                    }
+                });
+            });
+        });
+    });
+</script>
 
 
 

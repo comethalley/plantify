@@ -18,9 +18,10 @@ class qcmaps extends Controller
     public function getMaps()
     {
         $id = Auth::user()->id;
-        $farmLocations = FarmLocation::where('status', 1)->get();
+        $farmLocations = FarmLocation::with('users')->where('status', 1)->get();
         return response()->json($farmLocations);
     }
+    
 
 
     public function store(Request $request)

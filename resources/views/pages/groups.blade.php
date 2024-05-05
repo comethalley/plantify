@@ -142,7 +142,7 @@
                             <!-- conversation user -->
                             <div class="position-relative">
                                 <div class="position-relative" id="users-chat">
-                                    <div class="p-3 user-chat-topbar">
+                                    <div class="p-4 user-chat-topbar">
                                         <div class="row align-items-center">
                                             <div class="col-sm-4 col-8">
                                                 <div class="d-flex align-items-center">

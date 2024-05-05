@@ -296,6 +296,17 @@
 </div>
 <!-- END layout-wrapper -->
 
+<script>
+    $(document).ready(function() {
+        $('.search').on('keyup', function() {
+            var value = $(this).val().toLowerCase();
+            $('#farmers-tbl tbody tr').filter(function() { // Only target tbody rows
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
+
 
 @include('templates.footer')
 

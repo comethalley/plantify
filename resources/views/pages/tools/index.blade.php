@@ -234,71 +234,70 @@
         <!-- Modals -->
 
         <div class="modal fade" id="addfarmModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header bg-light p-3">
-                        <h5 class="modal-title" id="exampleModalLabel">Request Supply &nbsp;</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
-                    </div>
-                    <form id="addFarmForm" action="" method="post">
-                        @csrf
-                        <div class="modal-body">
-                            <div class="row mb-3">
-                                <div class="col-md-6" style="padding-top: 10px;">
-
-                                    <label for="supply_tool" class="form-label">Tools &nbsp;<span class="required-asteroid">*</span></label>
-                                    <select id="supply_tool" name="supply_tool" class="form-select" style="width: 95%;" required onchange="toggleFields()">
-                                        <option value="">Select Tools</option>
-                                        @foreach($supplyTools as $id => $type)
-                                        <option value="{{ $id }}">{{ $type }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="d-flex align-items-end">
-                                        <div class="me-2" style="padding-top: 10px;">
-                                            <label for="count_tool" class="form-label">Quantity &nbsp;<span class="required-asteroid">*</span></label>
-                                            <input type="number" name="count_tool" id="count_tool" class="form-control" style="width: 109px;" title="This field is required to fill up" placeholder="Enter Quantity" required onchange="toggleFields()" />
-                                        </div>
-                                        <div>
-                                            <button type="button" class="btn btn-primary add-btn">+</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-md-6" style="padding-top: 10px;">
-                                    <label for="supply_seedling" class="form-label">Seedlings &nbsp;<span class="required-asteroid">*</span></label>
-                                    <select id="supply_seedling" name="supply_seedling" class="form-select" style="width: 95%;" required onchange="toggleFields()">
-                                        <option value="">Select Seedlings</option>
-                                        @foreach($supplySeedlings as $id => $type)
-                                        <option value="{{ $id }}">{{ $type }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="d-flex align-items-end">
-                                        <div class="me-2" style="padding-top: 10px;">
-                                            <label for="count_seedling" class="form-label">Quantity &nbsp;<span class="required-asteroid">*</span></label>
-                                            <input type="number" name="count_seedling" id="count_seedling" class="form-control" style="width: 109px;" title="This field is required to fill up" placeholder="Enter Quantity" required onchange="toggleFields()" />
-                                        </div>
-                                        <div>
-                                            <button type="button" class="btn btn-primary add-btn1">+</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="file-input-container">
-                                <div class="file-input-wrapper">
-                                    <label for="letter_content" class="form-label">Request Letter &nbsp;<span class="required-asteroid">*</span></label>
-                                    <input type="file" name="letter_content" class="form-control file-input" accept="application/pdf" required />
-                                    <button type="button" class="btn btn-danger cancel-btn" title="This field is required to fill up" onclick="cancelUpload('letter_content')">Cancel</button>
-                                </div>
-                            </div>
-                            <br>
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-light p-3">
+                <h5 class="modal-title" id="exampleModalLabel">Request Supply &nbsp;</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+            </div>
+            <form id="addFarmForm" action="" method="post">
+                @csrf
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6" style="padding-top: 10px;">
+                            <label for="supply_tool" class="form-label">Tools &nbsp;<span class="required-asteroid">*</span></label>
+                            <select id="supply_tool" name="supply_tool" class="form-select" required onchange="toggleFields()">
+                                <option value="">Select Tools</option>
+                                @foreach($supplyTools as $id => $type)
+                                <option value="{{ $id }}">{{ $type }}</option>
+                                @endforeach
+                            </select>
                         </div>
-                        <div class="alert alert-danger" style="display:none" id="error-messages"></div>
-                        <div class="alert alert-danger" style="display:none" id="error-messages1"></div>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-end">
+                                <div class="me-2" style="padding-top: 10px;">
+                                    <label for="count_tool" class="form-label">Quantity &nbsp;<span class="required-asteroid">*</span></label>
+                                    <input type="number" name="count_tool" id="count_tool" class="form-control" style="width: 109px;" title="This field is required to fill up" placeholder="Enter Quantity" required onchange="toggleFields()" />
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-primary add-btn">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6" style="padding-top: 10px;">
+                            <label for="supply_seedling" class="form-label">Seedlings &nbsp;<span class="required-asteroid">*</span></label>
+                            <select id="supply_seedling" name="supply_seedling" class="form-select" required onchange="toggleFields()">
+                                <option value="">Select Seedlings</option>
+                                @foreach($supplySeedlings as $id => $type)
+                                <option value="{{ $id }}">{{ $type }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-end">
+                                <div class="me-2" style="padding-top: 10px;">
+                                    <label for="count_seedling" class="form-label">Quantity &nbsp;<span class="required-asteroid">*</span></label>
+                                    <input type="number" name="count_seedling" id="count_seedling" class="form-control" style="width: 109px;" title="This field is required to fill up" placeholder="Enter Quantity" required onchange="toggleFields()" />
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-primary add-btn1">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="file-input-container">
+                        <div class="file-input-wrapper">
+                            <label for="letter_content" class="form-label">Request Letter &nbsp;<span class="required-asteroid">*</span></label>
+                            <input type="file" name="letter_content" class="form-control file-input" accept="application/pdf" required />
+                            <button type="button" class="btn btn-danger cancel-btn" title="This field is required to fill up" onclick="cancelUpload('letter_content')">Cancel</button>
+                        </div>
+                    </div>
+                    <br>
+                </div>
+                <div class="alert alert-danger" style="display:none" id="error-messages"></div>
+                <div class="alert alert-danger" style="display:none" id="error-messages1"></div>
 
                         <div class="modal-footer">
                             <div class="hstack gap-2 justify-content-end">

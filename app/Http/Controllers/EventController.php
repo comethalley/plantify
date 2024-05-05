@@ -8,6 +8,7 @@ use App\Notifications\NewNotificationEvent;
 use App\Events\EventCreated;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Interest;
 use App\Notifications\UpcomingEventNotification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
@@ -24,6 +25,30 @@ class EventController extends Controller
 
     }
 
+    
+    public function generateRegistrationForm($id) {
+        // Fetch event details based on the $id from the database
+        $event = Event::find($id);
+        // Pass the event details to the blade view
+        return view('pages.form', ['event' => $event]);
+    
+    }
+    public function storeInterested(Request $request, $eventId)
+    {
+        // Get the event
+        $event = Event::findOrFail($eventId);
+        
+        // Store the interest
+        $event->interestedUsers()->attach(auth()->id());
+    
+        return response()->json(['message' => 'Interest stored successfully']);
+    }
+    public function show($id)
+    {
+        $event = Event::findOrFail($id); // Assuming Event is your model representing events
+
+        return response()->json($event);
+    }
     public function create(Request $request)
     {
         $item = new Event();
@@ -32,6 +57,7 @@ class EventController extends Controller
         $item->end = $request->end;
         $item->starttime = $request->starttime;
         $item->endtime = $request->endtime;
+        $item->visibility = $request->visibility;
         $item->location = $request->location;
         $item->description = $request->description;
 
@@ -63,13 +89,6 @@ class EventController extends Controller
         return redirect('/schedules');
     }
 
-    public function show($id)
-    {
-        $event = Event::findOrFail($id); // Assuming Event is your model representing events
-
-        return response()->json($event);
-    }
-
     public function getEvents()
     {
         $events = Event::where('status', '!=', 0)->get();
@@ -84,7 +103,33 @@ class EventController extends Controller
         //dd($data);
         return response()->json($data);
     }
-
+    public function getCalendarEvents(Request $request)
+    {
+        $role = auth()->user()->role_id;
+        $selectedVisibility = $request->input('visibility');
+    
+        if ($role == 1) {
+            // Super Admin can see all events
+            $events = Event::all();
+        } elseif ($role == 2) {
+            // Admin can see all events
+            $events = Event::all();
+        } elseif ($role == 3 && $selectedVisibility == 'farmleader') {
+            // Farmer Leader can see specific events
+            $events = Event::where('visibility', 'farmleader')->get();
+        } elseif ($role == 4 && $selectedVisibility == 'farmer') {
+            // Farmer can see specific events
+            $events = Event::where('visibility', 'farmer')->get();
+        } elseif ($role == 5 && $selectedVisibility == 'publicuser') {
+            // Public User can see specific events
+            $events = Event::where('visibility', 'publicuser')->get();
+        } else {
+            // Default to no events if no matching role and visibility
+            $events = [];
+        }
+    
+        return response()->json($events);
+    }
 
     public function deleteEvent(Request $request, $id)
     {

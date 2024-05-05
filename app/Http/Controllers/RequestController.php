@@ -18,6 +18,10 @@ use Carbon\Carbon;
 
 class RequestController extends Controller
 {
+    public function index()
+    {
+        return view('pages.tools.request');
+    }
     public function index1()
     {
         $user = Auth::user();
@@ -111,6 +115,7 @@ class RequestController extends Controller
                 'status' => $request->input('status', 'Requested'),
             ]);
 
+
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
             Log::error($e);
@@ -135,6 +140,7 @@ class RequestController extends Controller
             'date_return' => $remarkrequests->pluck('date_return'),
         ]);
     }
+
 
     public function viewPdfRequest($id)
     {
@@ -169,36 +175,6 @@ class RequestController extends Controller
         } catch (\Exception $e) {
             // Handle any other exceptions that might occur
             return response()->json(['error' => $e->getMessage()], 500);
-        }
-    }
-
-    public function SetDateStatus($id, Request $request)
-    {
-        try {
-            $validatedData = $request->validate([
-                'select_picked' => 'required|date', 
-            ]);
-
-            $request = RequestN::findOrFail($id);
-
-            $request->status = 'Visiting';
-
-            $request->save();
-
-            $user = Auth::user();
-
-            RemarkRequest::create([
-                'request_id' => $request->id,
-                'remarks' => 'For Request Picked Date',
-                'remark_status' => 'Ready',
-                'validated_by' => $user->firstname . ' ' . $user->lastname,
-                'select_picked' => $validatedData['select_picked'] 
-            ]);
-
-            return response()->json(['success' => true, 'message' => 'Farm status updated successfully']);
-        } catch (\Exception $e) {
-            \Log::error('Error updating farm status to "Cancel" for farm ID ' . $id . ': ' . $e->getMessage());
-            return response()->json(['success' => false, 'message' => 'Error updating farm status to "Set Date"']);
         }
     }
 }

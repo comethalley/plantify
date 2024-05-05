@@ -49,7 +49,7 @@
                                                         $hasMessages = $user->messages->isNotEmpty();
                                                     @endphp
 
-                                                    @if($hasMessages)
+                                                    @if($hasMessages && $user->status == 1)
                                                         <li class="mb-3">
                                                             <button type="button" class="btn member-button" data-member-id="{{ $user->id }}" data-thread-id="{{ $user->thread_id }}">
                                                                 <!-- Your user display content -->
@@ -457,7 +457,7 @@ $(document).ready(function() {
 
     Pusher.logToConsole = true;
 
-var pusher = new Pusher('54f1c49cb67ee0620dac', {
+var pusher = new Pusher('ebad2ef1a296a8ac5320', {
     cluster: 'ap1'
 });
 

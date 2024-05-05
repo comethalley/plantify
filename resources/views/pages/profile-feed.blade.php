@@ -56,7 +56,7 @@
     padding-top: 7px;
 " class="col-auto">
                             @if($profileSettings->profile_image)
-                            <img src="{{ asset('storage/images/' . $profileSettings->profile_image) }}" alt="Profile Image" class="rounded-circle avatar-xl img-thumbnail user-profile-image">
+                            <img style="padding: 2px; border: 3px solid #006400;" src="{{ asset('storage/images/' . $profileSettings->profile_image) }}" alt="Profile Image" class="rounded-circle avatar-xl img-thumbnail user-profile-image">
                             @else
                             <div class="avatar-lg">
                                 <img style="padding: 2px; border: 3px solid #006400;" src="assets/images/plantifeedpics/profile-default.png" alt="user-img" class="img-thumbnail rounded-circle">
@@ -162,12 +162,7 @@
                                                             <th class="ps-0" scope="row">Age :</th>
                                                             <td class="text-muted">{{ $profileSettingsOther->age ?? 'None' }}</td>
                                                         </tr>
-                                                        <tr>
-                                                            <th class="ps-0" scope="row">Sex :</th>
-                                                            <td class="text-muted">
-                                                                {{ optional($profileSettingsOther)->sex ? ucfirst($profileSettingsOther->sex) : 'None' }}
-                                                            </td>
-                                                        </tr>
+                                                     
 
                                                         <tr>
                                                             <th class="ps-0" scope="row">City :</th>
@@ -184,10 +179,10 @@
                                                 </table>
                                             </div>
                                         </div>
-                                        <div style="flex: 1; margin-left: 20px;">
-                                            <h5 class="card-title mb-3" data-svelte-h="svelte-atvroz">My Bio</h5>
-                                            <td class="text-muted">{{ $profileSettingsOther->bio ?? 'No Bio' }}</td>
-                                        </div>
+                                        <div style="flex: 1 1 50%; max-width: 50%; margin-left: 20px;">
+        <h5 class="card-title mb-3" data-svelte-h="svelte-atvroz">My Bio</h5>
+        <td class="text-muted">{{ $profileSettingsOther->bio ?? 'No Bio' }}</td>
+    </div>
                                     </div>
                                 </div>
 

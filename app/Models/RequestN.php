@@ -29,6 +29,8 @@ class RequestN extends Model
         'requested_by',
         'status',
         'date_return',
+        'picked_date',
+
     ];
 
 }

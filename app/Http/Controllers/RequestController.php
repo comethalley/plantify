@@ -133,6 +133,8 @@ class RequestController extends Controller
             'validated_by' => $remarkrequests->pluck('validated_by'),
             'created_at' => $remarkrequests->pluck('created_at'),
             'date_return' => $remarkrequests->pluck('date_return'),
+            'select_picked' => $remarkrequests->pluck('select_picked'),
+
         ]);
     }
 
@@ -181,7 +183,7 @@ class RequestController extends Controller
 
             $request = RequestN::findOrFail($id);
 
-            $request->status = 'Visiting';
+            $request->status = 'Ready';
 
             $request->save();
 

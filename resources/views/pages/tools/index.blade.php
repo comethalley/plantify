@@ -131,6 +131,7 @@
                                                 <label class="badge text-wrap" style="font-size: 12px; margin-bottom: 10px; padding: 2px; background-color: #E65C19; color: #000;" onclick="return false;">{{ $request->status }}</label>
                                                 <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
                                                 @break
+                                                @case('ready')
                                                 @case('picked')
                                                 <label class="badge text-wrap" style="font-size: 12px; margin-bottom: 10px; padding: 2px; background-color: #121481; color: #FFF;" onclick="return false;">{{ $request->status }}</label>
                                                 <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
@@ -178,6 +179,7 @@
                                                                     <span class="black">View Request Form</span>
                                                                 </div>
                                                                 @endif
+                                                                <div class="centered-container times-new-roman-bold">
 
                                                                 @if($request->status == 'Picked')
                                                     <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Set Date Application">
@@ -189,6 +191,7 @@
                                                         </a>
                                                     </li>
                                                     @endif
+</div>
                                                             </a>
                                                         </li>
                                                     </ul>
@@ -246,7 +249,7 @@
                     <div class="row mb-3">
                         <div class="col-md-6" style="padding-top: 10px;">
                             <label for="supply_tool" class="form-label">Tools &nbsp;<span class="required-asteroid">*</span></label>
-                            <select id="supply_tool" name="supply_tool" class="form-select" required onchange="toggleFields()">
+                            <select id="supply_tool" name="supply_tool" class="form-select"style="width: 95%; " required onchange="toggleFields()">
                                 <option value="">Select Tools</option>
                                 @foreach($supplyTools as $id => $type)
                                 <option value="{{ $id }}">{{ $type }}</option>
@@ -268,7 +271,7 @@
                     <div class="row mb-3">
                         <div class="col-md-6" style="padding-top: 10px;">
                             <label for="supply_seedling" class="form-label">Seedlings &nbsp;<span class="required-asteroid">*</span></label>
-                            <select id="supply_seedling" name="supply_seedling" class="form-select" required onchange="toggleFields()">
+                            <select id="supply_seedling" name="supply_seedling" class="form-select"style="width: 95%; " required onchange="toggleFields()">
                                 <option value="">Select Seedlings</option>
                                 @foreach($supplySeedlings as $id => $type)
                                 <option value="{{ $id }}">{{ $type }}</option>
@@ -537,7 +540,7 @@
                         var nextDateString1 = nextDate1.toISOString().split('T')[0];
                         var nextDateString2 = nextDate2.toISOString().split('T')[0];
 
-                        $("#SetDateBtn").data("farm-id", id);
+                        $("#SetDateBtn").data("request-id", id);
 
                         $("#availability1").val(selectDate);
                         $("label[for='availability1']").text(selectDate);
@@ -583,7 +586,6 @@
                             }
                         });
 
-                        // Close the modal after processing
                         $("#SetDateModal").modal("hide");
                     });
             
@@ -678,7 +680,7 @@
                             var validatedByParagraph = createParagraphs(data.validated_by[index], true);
 
                             var remarkText = remark || "";
-                            var visitDateText = data.date_return[index] ? new Date(data.date_return[index]).toLocaleDateString('en-US', {
+                            var visitDateText = data.select_picked[index] ? new Date(data.select_picked[index]).toLocaleDateString('en-US', {
                                 month: 'long',
                                 day: 'numeric',
                                 year: 'numeric'

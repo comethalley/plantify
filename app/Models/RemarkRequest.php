@@ -14,7 +14,7 @@ class RemarkRequest extends Model
         'remarks',
         'remark_status',
         'validated_by',
-        'date_return',
+        'select_picked',
 
     ];
 }

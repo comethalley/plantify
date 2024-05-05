@@ -79,21 +79,39 @@
                                                     <b style="font-family: 'Bahnschrift', sans-serif; font-size: 15px;">Name :</b> &nbsp;{{ strtoupper($request->requested_by_firstname) }} {{ strtoupper($request->requested_by_lastname) }}<br>
                                                 </span>
                                                 <span class="supply-tool">
-                                                    <b style="font-family: 'Bahnschrift', sans-serif; font-size: 15px;">Tool :</b> &nbsp;
-                                                    <span class="supply-tool-value">{{ strtoupper($request->supply_tool) }}</span><br>
+                                                    @if($request->supply_tool)
+                                                    <b style="font-family: 'Bahnschrift', sans-serif; font-size: 15px;">Tools :</b> &nbsp;
+
+                                                    <span class="supply-tool-value">{{ strtoupper($request->supply_tool) }}</span>
+                                                    <span class="count-tool-value">{{ "(" . (empty($request->count_tool) ? '1' : strtoupper($request->count_tool)) . ")" }}</span>,<br>
+                                                    @endif
+                                                    @if($request->supply_tool1)
+
+                                                    <span class="supply-tool1-value">{{ strtoupper($request->supply_tool1) }}</span>
+                                                    <span class="count-tool1-value">{{ "(" . (empty($request->count_tool1) ? '1' :strtoupper($request->count_tool1)) . ")" }}</span>,<br>
+                                                    @endif
+                                                    @if($request->supply_tool2)
+                                                    <span class="supply-tool2-value">{{ strtoupper($request->supply_tool2) }}</span>
+                                                    <span class="count-tool2-value">{{ "(" . (empty($request->count_tool2) ? '1' : strtoupper($request->count_tool2)) . ")" }}</span>,<br>
+                                                    @endif
                                                 </span>
                                                 <span class="supply-seedling">
-                                                    <b style="font-family: 'Bahnschrift', sans-serif; font-size: 15px;">Seedling :</b> &nbsp;
-                                                    <span class="supply-seedling-value">{{ strtoupper($request->supply_seedling) }}</span><br>
-                                                </span>
-                                                <span class="count-tool">
-                                                    <b style="font-family: 'Bahnschrift', sans-serif; font-size: 15px;">Tool Quantity :</b> &nbsp;
-                                                    <span class="count-tool-value">{{ strtoupper($request->count_tool) }}</span><br>
-                                                </span>
-                                                <span class="count-seedling">
-                                                    <b style="font-family: 'Bahnschrift', sans-serif; font-size: 15px;">Seedling Quantity :</b> &nbsp;
-                                                    <span class="count-seedling-value">{{ strtoupper($request->count_seedling) }}</span><br>
-                                                </span>
+                                                    @if($request->supply_seedling)
+                                                    <b style="font-family: 'Bahnschrift', sans-serif; font-size: 15px;">Seedlings :</b> &nbsp;
+
+                                                    <span class="supply-seedling-value">{{ strtoupper($request->supply_seedling) }}</span>
+                                                    <span class="count-seedling-value">{{ "(" . (empty($request->count_seedling) ? '1' : strtoupper($request->count_seedling)) . ")" }}</span>,<br>
+                                                    @endif
+                                                    @if($request->supply_seedling1)
+                                                    <span class="supply-seedling1-value">{{ strtoupper($request->supply_seedling1) }}</span>
+                                                    <span class="count-seedling1-value">{{ "(" . (empty($request->count_seedling1) ? '1' : strtoupper($request->count_seedling1)) . ")" }}</span>,<br>
+                                                    @endif
+                                                    @if($request->supply_seedling2)
+                                                    <span class="supply-seedling2-value">{{ strtoupper($request->supply_seedling2) }}</span>
+                                                    <span class="count-seedling2-value">{{ "(" . (empty($request->count_seedling2) ? '1' : strtoupper($request->count_seedling2)) . ")" }}</span,><br>
+                                                        @endif
+                                                    </span>
+
                                             </td>
                                             <td class="status vertical-line">
                                                 @switch(strtolower(str_replace(' ', '-', $request->status)))
@@ -114,7 +132,7 @@
                                                 <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
                                                 @break
                                                 @case('picked')
-                                                <label class="badge text-wrap" style="font-size: 12px; margin-bottom: 10px; padding: 2px; background-color: #121481; color: #000;" onclick="return false;">{{ $request->status }}</label>
+                                                <label class="badge text-wrap" style="font-size: 12px; margin-bottom: 10px; padding: 2px; background-color: #121481; color: #FFF;" onclick="return false;">{{ $request->status }}</label>
                                                 <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
                                                 @break
                                                 @case('failed-to-pick')
@@ -149,14 +167,28 @@
                                                 <i style="font-size: 13px;">Click "Validation Remarks" for more specific updates</i>
                                             </td>
                                             <td class="actions vertical-line ">
+                                            @if($request->status == 'Requested' || $request->status == 'Ready')
+
                                                 <div class="centered-container times-new-roman-bold">
                                                     <ul class="list-inline hstack gap-2 mb-0">
                                                         <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="View Application">
-                                                            <a href="#" data-bs-toggle="modal" data-bs-target="#viewModals" class="btn btn-outline-secondary text-primary d-inline-block edit-item-btn d-flex align-items-center justify-content-center custom-btn mt-2" onclick="showRequestDetails('{{ $request->id }}', '{{ $request->supply_tool }}', '{{ $request->supply_seedling }}', '{{ $request->count_tool }}', '{{ $request->count_seedling }}', '{{ $request->letter_content }}', '{{ $request->requested_by }}', '{{ $request->status }}', '{{ $request->date_return }}', '{{ $request->requested_by_firstname }}', '{{ $request->requested_by_lastname }}');">
+                                                            <a href="#" data-bs-toggle="modal" data-bs-target="#viewModals" class="btn btn-outline-secondary text-primary d-inline-block edit-item-btn d-flex align-items-center justify-content-center custom-btn mt-2" onclick="showRequestDetails('{{ $request->id }}', '{{ $request->supply_tool }}', '{{ $request->supply_tool1 }}', '{{ $request->supply_tool2 }}', '{{ $request->supply_seedling }}', '{{ $request->supply_seedling1 }}', '{{ $request->supply_seedling2 }}', '{{ $request->count_tool }}', '{{ $request->count_tool1 }}', '{{ $request->count_tool2 }}', '{{ $request->count_seedling }}', '{{ $request->count_seedling1 }}', '{{ $request->count_seedling2 }}', '{{ $request->letter_content }}', '{{ $request->requested_by }}', '{{ $request->status }}', '{{ $request->date_return }}', '{{ $request->requested_by_firstname }}', '{{ $request->requested_by_lastname }}');">
                                                                 <div class="d-flex align-items-center">
                                                                     <i class="ri-profile-line fs-3 me-2 black"></i>
                                                                     <span class="black">View Request Form</span>
                                                                 </div>
+                                                                @endif
+
+                                                                @if($request->status == 'Picked')
+                                                    <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Set Date Application">
+                                                        <a href="#" data-bs-toggle="modal" data-bs-target="#SetDateModal" class="btn btn-outline-warning waves-effect waves-light text-primary d-inline-block edit-item-btn d-flex align-items-center justify-content-center mt-2 btn-custom-width" onclick="setDate('{{ $request->id }}', '{{ $request->picked_date }}')">
+                                                            <div class="d-flex align-items-center">
+                                                                <i class="mdi mdi-calendar-check fs-3 me-2 black"></i>
+                                                                <span class="black">Set Pick Date</span>
+                                                            </div>
+                                                        </a>
+                                                    </li>
+                                                    @endif
                                                             </a>
                                                         </li>
                                                     </ul>
@@ -172,7 +204,7 @@
                         @else
                         <tr>
                             <td colspan="7">
-                                <div id="lordIconContainer" style="text-align: center;"></div>
+                                <div id="lordIconContainer1" style="text-align: center;"></div>
                                 <p id="noFarmsMessage" style="text-align: center; font-size: 21px;">No Farms found.</p>
                             </td>
                         </tr>
@@ -202,83 +234,84 @@
         <!-- Modals -->
 
         <div class="modal fade" id="addfarmModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header bg-light p-3">
-                <h5 class="modal-title" id="exampleModalLabel">Request Supply &nbsp;</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-light p-3">
+                        <h5 class="modal-title" id="exampleModalLabel">Request Supply &nbsp;</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+                    </div>
+                    <form id="addFarmForm" action="" method="post">
+                        @csrf
+                        <div class="modal-body">
+                            <div class="row mb-3">
+                                <div class="col-md-6" style="padding-top: 10px;">
+
+                                    <label for="supply_tool" class="form-label">Tools &nbsp;<span class="required-asteroid">*</span></label>
+                                    <select id="supply_tool" name="supply_tool" class="form-select" style="width: 95%;" required onchange="toggleFields()">
+                                        <option value="">Select Tools</option>
+                                        @foreach($supplyTools as $id => $type)
+                                        <option value="{{ $id }}">{{ $type }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="d-flex align-items-end">
+                                        <div class="me-2" style="padding-top: 10px;">
+                                            <label for="count_tool" class="form-label">Quantity &nbsp;<span class="required-asteroid">*</span></label>
+                                            <input type="number" name="count_tool" id="count_tool" class="form-control" style="width: 109px;" title="This field is required to fill up" placeholder="Enter Quantity" required onchange="toggleFields()" />
+                                        </div>
+                                        <div>
+                                            <button type="button" class="btn btn-primary add-btn">+</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6" style="padding-top: 10px;">
+                                    <label for="supply_seedling" class="form-label">Seedlings &nbsp;<span class="required-asteroid">*</span></label>
+                                    <select id="supply_seedling" name="supply_seedling" class="form-select" style="width: 95%;" required onchange="toggleFields()">
+                                        <option value="">Select Seedlings</option>
+                                        @foreach($supplySeedlings as $id => $type)
+                                        <option value="{{ $id }}">{{ $type }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="d-flex align-items-end">
+                                        <div class="me-2" style="padding-top: 10px;">
+                                            <label for="count_seedling" class="form-label">Quantity &nbsp;<span class="required-asteroid">*</span></label>
+                                            <input type="number" name="count_seedling" id="count_seedling" class="form-control" style="width: 109px;" title="This field is required to fill up" placeholder="Enter Quantity" required onchange="toggleFields()" />
+                                        </div>
+                                        <div>
+                                            <button type="button" class="btn btn-primary add-btn1">+</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="file-input-container">
+                                <div class="file-input-wrapper">
+                                    <label for="letter_content" class="form-label">Request Letter &nbsp;<span class="required-asteroid">*</span></label>
+                                    <input type="file" name="letter_content" class="form-control file-input" accept="application/pdf" required />
+                                    <button type="button" class="btn btn-danger cancel-btn" title="This field is required to fill up" onclick="cancelUpload('letter_content')">Cancel</button>
+                                </div>
+                            </div>
+                            <br>
+                        </div>
+                        <div class="alert alert-danger" style="display:none" id="error-messages"></div>
+                        <div class="alert alert-danger" style="display:none" id="error-messages1"></div>
+
+                        <div class="modal-footer">
+                            <div class="hstack gap-2 justify-content-end">
+                                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-success" onclick="submitForm()">Submit Farm</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <form id="addFarmForm" action="" method="post">
-                @csrf
-                <div class="modal-body">
-                    <div class="row mb-3">
-                        <div class="col-md-6" style="padding-top: 10px;">
-                            <label for="supply_tool" class="form-label">Tools &nbsp;<span class="required-asteroid">*</span></label>
-                            <select id="supply_tool" name="supply_tool" class="form-select" required onchange="toggleFields()">
-                                <option value="">Select Tools</option>
-                                @foreach($supplyTools as $id => $type)
-                                <option value="{{ $id }}">{{ $type }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="d-flex align-items-end">
-                                <div class="me-2" style="padding-top: 10px;">
-                                    <label for="count_tool" class="form-label">Quantity &nbsp;<span class="required-asteroid">*</span></label>
-                                    <input type="number" name="count_tool" id="count_tool" class="form-control" style="width: 109px;" title="This field is required to fill up" placeholder="Enter Quantity" required onchange="toggleFields()" />
-                                </div>
-                                <div>
-                                    <button type="button" class="btn btn-primary add-btn">+</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6" style="padding-top: 10px;">
-                            <label for="supply_seedling" class="form-label">Seedlings &nbsp;<span class="required-asteroid">*</span></label>
-                            <select id="supply_seedling" name="supply_seedling" class="form-select" required onchange="toggleFields()">
-                                <option value="">Select Seedlings</option>
-                                @foreach($supplySeedlings as $id => $type)
-                                <option value="{{ $id }}">{{ $type }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="d-flex align-items-end">
-                                <div class="me-2" style="padding-top: 10px;">
-                                    <label for="count_seedling" class="form-label">Quantity &nbsp;<span class="required-asteroid">*</span></label>
-                                    <input type="number" name="count_seedling" id="count_seedling" class="form-control" style="width: 109px;" title="This field is required to fill up" placeholder="Enter Quantity" required onchange="toggleFields()" />
-                                </div>
-                                <div>
-                                    <button type="button" class="btn btn-primary add-btn1">+</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="file-input-container">
-                        <div class="file-input-wrapper">
-                            <label for="letter_content" class="form-label">Request Letter &nbsp;<span class="required-asteroid">*</span></label>
-                            <input type="file" name="letter_content" class="form-control file-input" accept="application/pdf" required />
-                            <button type="button" class="btn btn-danger cancel-btn" title="This field is required to fill up" onclick="cancelUpload('letter_content')">Cancel</button>
-                        </div>
-                    </div>
-                    <br>
-                </div>
-                <div class="alert alert-danger" style="display:none" id="error-messages"></div>
-                <div class="alert alert-danger" style="display:none" id="error-messages1"></div>
-
-                <div class="modal-footer">
-                    <div class="hstack gap-2 justify-content-end">
-                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-success" onclick="submitForm()">Submit Farm</button>
-                    </div>
-                </div>
-            </form>
         </div>
-    </div>
-</div>
 
-<style></style>
+        <style></style>
 
         <!-- Modals -->
 
@@ -393,8 +426,16 @@
                                         <label for="supply_tool_modal" class="form-label custom-label">Supply Tool:</label>
                                         <input type="text" id="supply_tool_modal" class="form-control" name="supply_tool" disabled placeholder="N/A">
                                         <br>
+                                        <input type="text" id="supply_tool_modal1" class="form-control" name="supply_tool1" disabled placeholder="N/A">
+                                        <br>
+                                        <input type="text" id="supply_tool_modal2" class="form-control" name="supply_tool2" disabled placeholder="N/A">
+                                        <br>
                                         <label for="supply_seedling_modal" class="form-label custom-label">Supply Seedling:</label>
                                         <input type="text" id="supply_seedling_modal" class="form-control" name="supply_seedling" disabled placeholder="N/A">
+                                        <br>
+                                        <input type="text" id="supply_seedling_modal1" class="form-control" name="supply_seedling1" disabled placeholder="N/A">
+                                        <br>
+                                        <input type="text" id="supply_seedling_modal2" class="form-control" name="supply_seedling2" disabled placeholder="N/A">
                                         <br>
                                         <div class="list-group-item nested-2">
                                             <i class="mdi mdi-folder fs-16 align-middle text-warning me-2"></i> Content Letter (PDF)
@@ -410,10 +451,18 @@
                                     </div>
                                     <div class="col-md-6">
                                         <label for="quantity_modal" class="form-label custom-label">Quantity:</label>
-                                        <input type="text" id="quantity_modal" class="form-control" name="quantity" disabled placeholder="N/A">
+                                        <input type="text" id="count_tool_modal" class="form-control" name="count_tool" disabled placeholder="N/A">
+                                        <br>
+                                        <input type="text" id="count_tool_modal1" class="form-control" name="count_tool1" disabled placeholder="N/A">
+                                        <br>
+                                        <input type="text" id="count_tool_modal2" class="form-control" name="count_tool2" disabled placeholder="N/A">
                                         <br>
                                         <label for="quantity_modal" class="form-label custom-label">Quantity:</label>
-                                        <input type="text" id="quantity_modal" class="form-control" name="quantity" disabled placeholder="N/A">
+                                        <input type="text" id="count_seedling_modal" class="form-control" name="count_seedling" disabled placeholder="N/A">
+                                        <br>
+                                        <input type="text" id="count_seedling_modal1" class="form-control" name="count_seedling1" disabled placeholder="N/A">
+                                        <br>
+                                        <input type="text" id="count_seedling_modal2" class="form-control" name="count_seedling2" disabled placeholder="N/A">
                                         <br>
                                     </div>
                                 </div>
@@ -428,9 +477,48 @@
                 background-color: blue;
             }
         </style>
+
+        <!-- Modals -->
+
+<div class="modal fade" id="SetDateModal" tabindex="-1" role="dialog" aria-labelledby="SetDateModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header p-4">
+                                <h5 class="modal-title" id="SetDateModalLabel">Set Date of Pick</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Select the availability dates to pick-up in your farm.<br><br>
+
+                                <!-- Error message for date selection -->
+                                <div id="dateErrorMessage" style="color: red; text-align: center; display: none;">Select dates required</div>
+                                <!-- Date selection inputs -->
+                                <input type="radio" id="availability1" name="availability" value="option1">
+                                <label for="availability1"></label><br>
+                                <input type="radio" id="availability2" name="availability" value="option2">
+                                <label for="availability2"></label><br>
+                                <input type="radio" id="availability3" name="availability" value="option3">
+                                <label for="availability3"></label>
+                            </div>
+                            <div class="modal-body" style="color: red; text-align: center;">
+                                Are you sure you want to Set the date to Pick?
+                            </div>
+                            <hr>
+                            <div class="modal-footer">
+                                <!-- No Button with custom text -->
+                                <button type="button" class="btn btn-link link-success fw-medium text-decoration-none" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i>Close</button>
+                                <!-- Yes Button with custom text -->
+                                <button type="button" class="btn btn-danger" id="SetDateBtn">Yes, Set it</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
         <!-- Modals -->
 
 
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -440,130 +528,66 @@
         <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,800;1,800&display=swap" rel="stylesheet">
 
         <script>
-document.addEventListener("DOMContentLoaded", function() {
-    // Initialize counters for each button type
-    const buttonCounts = {
-        "add-btn": 0,
-        "add-btn1": 0
-    };
 
-    // Function to remove the added row
-    function removeRow(button) {
-        const rowToRemove = button.closest(".row-item");
-        rowToRemove.parentNode.removeChild(rowToRemove);
-    }
+                function setDate(id, selectDate) {
+                        var nextDate1 = new Date(selectDate);
+                        var nextDate2 = new Date(selectDate);
+                        nextDate1.setDate(nextDate1.getDate() + 1);
+                        nextDate2.setDate(nextDate2.getDate() + 2)
 
-    // Get all the plus buttons for tools
-    const plusButtons = document.querySelectorAll(".add-btn");
+                        var nextDateString1 = nextDate1.toISOString().split('T')[0];
+                        var nextDateString2 = nextDate2.toISOString().split('T')[0];
 
-    // Add event listener to each plus button for tools
-    plusButtons.forEach(function(button) {
-        button.addEventListener("click", function() {
-            // Check if maximum count has been reached for this button type
-            if (buttonCounts["add-btn"] < 2) {
-                // Get the parent element of the clicked button
-                const parentDiv = button.closest(".row");
+                        $("#SetDateBtn").data("farm-id", id);
 
-                // Create the HTML content for tools to be appended
-                const htmlContent = `
-                    <div class="row-item">
-                        <div class="col-md-6" style="padding-top: 10px;">
-                            <select id="supply_tool${buttonCounts["add-btn"] + 1}" name="supply_tool${buttonCounts["add-btn"] + 1}" class="form-select" required onchange="toggleFields()">
-                                <option value="">Select Tools</option>
-                                @foreach($supplyTools as $id => $type)
-                                    <option value="{{ $id }}">{{ $type }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="d-flex align-items-end">
-                                <div class="me-2" style="padding-top: 10px;">
-                                    <input type="number" name="count_tool${buttonCounts["add-btn"] + 1}" id="count_tool${buttonCounts["add-btn"] + 1}" class="form-control" style="width: 109px;" title="This field is required to fill up" placeholder="Enter Quantity" required onchange="toggleFields()" />
-                                </div>
-                                <div>
-                                    <button type="button" class="btn btn-danger remove-btn">Remove</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
+                        $("#availability1").val(selectDate);
+                        $("label[for='availability1']").text(selectDate);
 
-                // Append the HTML content for tools to the parent div
-                parentDiv.insertAdjacentHTML("beforeend", htmlContent);
+                        $("#availability2").val(nextDateString1);
+                        $("label[for='availability2']").text(nextDateString1);
 
-                // Increment the count for the clicked button type
-                buttonCounts["add-btn"]++;
+                        $("#availability3").val(nextDateString2);
+                        $("label[for='availability3']").text(nextDateString2);
 
-                // Get the newly added remove button
-                const removeButtons = parentDiv.querySelectorAll(".remove-btn");
-                const lastRemoveButton = removeButtons[removeButtons.length - 1];
+                        $("#SetDateModal").modal("show");
+                    }
 
-                // Add event listener to the remove button
-                lastRemoveButton.addEventListener("click", function() {
-                    removeRow(lastRemoveButton);
-                });
-            }
-        });
-    });
+                    $("#SetDateBtn").click(function() {
+                        var id = $(this).data("request-id");
 
-    // Get all the plus buttons for seedlings
-    const plusButtons1 = document.querySelectorAll(".add-btn1");
+                        var selectedDate = $('input[name="availability"]:checked').val();
 
-    // Add event listener to each plus button for seedlings
-    plusButtons1.forEach(function(button) {
-        button.addEventListener("click", function() {
-            // Check if maximum count has been reached for this button type
-            if (buttonCounts["add-btn1"] < 2) {
-                // Get the parent element of the clicked button
-                const parentDiv = button.closest(".row");
+                        if (!selectedDate) {
+                            $("#dateErrorMessage").show();
+                            return; 
+                        } else {
+                            $("#dateErrorMessage").hide();
+                        }
 
-                // Create the HTML content for seedlings to be appended
-                const htmlContent = `
-                    <div class="row-item">
-                        <div class="col-md-6" style="padding-top: 10px;">
-                            <select id="supply_seedling${buttonCounts["add-btn1"] + 1}" name="supply_seedling${buttonCounts["add-btn1"] + 1}" class="form-select" required onchange="toggleFields()">
-                                <option value="">Select Seedlings</option>
-                                @foreach($supplySeedlings as $id => $type)
-                                    <option value="{{ $id }}">{{ $type }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="d-flex align-items-end">
-                                <div class="me-2" style="padding-top: 10px;">
-                                    <input type="number" name="count_seedling${buttonCounts["add-btn1"] + 1}" id="count_seedling${buttonCounts["add-btn1"] + 1}" class="form-control" style="width: 109px;" title="This field is required to fill up" placeholder="Enter Quantity" required onchange="toggleFields()" />
-                                </div>
-                                <div>
-                                    <button type="button" class="btn btn-danger remove-btn">Remove</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
+                        $.ajax({
+                            url: "/set-date-request/" + id,
+                            type: "POST",
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            data: {
+                                status: "Ready",
+                                select_picked: selectedDate
+                            },
+                            success: function(response) {
+                                console.log(response);
 
-                // Append the HTML content for seedlings to the parent div
-                parentDiv.insertAdjacentHTML("beforeend", htmlContent);
+                                location.reload();
+                            },
+                            error: function(error) {
+                                console.error("Error updating request status:", error);
+                            }
+                        });
 
-                // Increment the count for the clicked button type
-                buttonCounts["add-btn1"]++;
-
-                // Get the newly added remove button
-                const removeButtons = parentDiv.querySelectorAll(".remove-btn");
-                const lastRemoveButton = removeButtons[removeButtons.length - 1];
-
-                // Add event listener to the remove button
-                lastRemoveButton.addEventListener("click", function() {
-                    removeRow(lastRemoveButton);
-                });
-            }
-        });
-    });
-});
-
-
-
-
-
+                        // Close the modal after processing
+                        $("#SetDateModal").modal("hide");
+                    });
+            
 
             $(document).ready(function() {
                 $('#searchInput').on('input', function() {
@@ -588,13 +612,24 @@ document.addEventListener("DOMContentLoaded", function() {
                 });
             });
 
-            function showRequestDetails(id, supplyTool, supplySeedling, quantity, requestedBy, status, letterContent, requestLeaderFirstName, requestLeaderLastName) {
+            function showRequestDetails(id, supplyTool, supplyTool1, supplyTool2, supplySeedling, supplySeedling1, supplySeedling2, countTool, countTool1, countTool2, countSeedling, countSeedling1, countSeedling2, requestedBy, status, letterContent, requestLeaderFirstName, requestLeaderLastName) {
 
 
                 $('#request_id_modal').val(id);
                 $('#supply_tool_modal').val(supplyTool);
                 $('#supply_seedling_modal').val(supplySeedling);
-                $('#quantity_modal').val(quantity);
+                $('#supply_tool_modal1').val(supplyTool1);
+                $('#supply_tool_modal2').val(supplyTool2);
+                $('#supply_seedling_modal').val(supplySeedling);
+                $('#supply_seedling_modal1').val(supplySeedling1);
+                $('#supply_seedling_modal2').val(supplySeedling2);
+                $('#count_tool_modal').val(countTool);
+                $('#count_tool_modal1').val(countTool1);
+                $('#count_tool_modal2').val(countTool2);
+                $('#count_seedling_modal').val(countSeedling);
+                $('#count_seedling_modal1').val(countSeedling1);
+                $('#count_seedling_modal2').val(countSeedling2);
+
 
 
                 $('#letter_content_modal')
@@ -735,45 +770,165 @@ document.addEventListener("DOMContentLoaded", function() {
                 $('#statusModal').modal('show');
             }
 
+
+            document.addEventListener("DOMContentLoaded", function() {
+                // Initialize counters for each button type
+                const buttonCounts = {
+                    "add-btn": 0,
+                    "add-btn1": 0
+                };
+
+                // Function to remove the added row
+                function removeRow(button) {
+                    const rowToRemove = button.closest(".row-item");
+                    const parentDiv = rowToRemove.closest(".row");
+                    const isTool = parentDiv.classList.contains("tools-row");
+
+                    // Decrement the count for the corresponding button type
+                    if (isTool) {
+                        buttonCounts["add-btn1"]--;
+                    } else {
+                        buttonCounts["add-btn"]--;
+                    }
+
+                    rowToRemove.parentNode.removeChild(rowToRemove);
+                }
+                function removeRow1(button) {
+                    const rowToRemove = button.closest(".row-item");
+                    const parentDiv = rowToRemove.closest(".row");
+                    const isSeedling = parentDiv.classList.contains("seedlings-row");
+
+                    // Decrement the count for the corresponding button type
+                    if (isSeedling) {
+                        buttonCounts["add-btn"]--;
+                    } else {
+                        buttonCounts["add-btn1"]--;
+                    }
+
+                    rowToRemove.parentNode.removeChild(rowToRemove);
+                }
+
+                // Get all the plus buttons for tools
+                const plusButtons = document.querySelectorAll(".add-btn");
+
+                // Add event listener to each plus button for tools
+                plusButtons.forEach(function(button) {
+                    button.addEventListener("click", function() {
+                        // Check if maximum count has been reached for this button type
+                        if (buttonCounts["add-btn"] < 2) {
+                            // Get the parent element of the clicked button
+                            const parentDiv = button.closest(".row");
+
+                            // Create the HTML content for tools to be appended
+                            const htmlContent = `
+                <div class=" row-item col-md-30 d-flex">
+    <div class="col-md-6 d-flex" style="padding-top: 10px; ">
+        <select id="supply_tool${buttonCounts["add-btn"] + 1}" name="supply_tool${buttonCounts["add-btn"] + 1}" class="form-select" style="width: 90%; "required onchange="toggleFields()">
+            <option value="">Select Tools</option>
+            @foreach($supplyTools as $id => $type)
+            <option value="{{ $id }}">{{ $type }}</option>
+            @endforeach
+        </select>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="d-flex align-items-end">
+            <div class="me-2" style="padding-top: 10px;padding-left: 13px;">
+                <input type="number" name="count_tool${buttonCounts["add-btn"] + 1}" id="count_tool${buttonCounts["add-btn"] + 1}" class="form-control" style="width: 109px;" title="This field is required to fill up" placeholder="Enter Quantity" required onchange="toggleFields()" />
+            </div>
+            <div >
+                <button type="button" class="btn btn-danger remove-btn">Remove</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+                `;
+
+                            // Append the HTML content for tools to the parent div
+                            parentDiv.insertAdjacentHTML("beforeend", htmlContent);
+
+                            // Increment the count for the clicked button type
+                            buttonCounts["add-btn"]++;
+
+                            // Get the newly added remove button
+                            const removeButtons = parentDiv.querySelectorAll(".remove-btn");
+                            const lastRemoveButton = removeButtons[removeButtons.length - 1];
+
+                            // Add event listener to the remove button
+                            lastRemoveButton.addEventListener("click", function() {
+                                removeRow(lastRemoveButton);
+                            });
+                        }
+                    });
+                });
+
+                // Get all the plus buttons for seedlings
+                const plusButtons1 = document.querySelectorAll(".add-btn1");
+
+                // Add event listener to each plus button for seedlings
+                plusButtons1.forEach(function(button) {
+                    button.addEventListener("click", function() {
+                        // Check if maximum count has been reached for this button type
+                        if (buttonCounts["add-btn1"] < 2) {
+                            // Get the parent element of the clicked button
+                            const parentDiv = button.closest(".row");
+
+                            // Create the HTML content for seedlings to be appended
+                            const htmlContent = `
+                <div class=" row-item col-md-30 d-flex">
+    <div class="col-md-6 d-flex" style="padding-top: 10px; ">
+        <select id="supply_seedling${buttonCounts["add-btn1"] + 1}" name="supply_seedling${buttonCounts["add-btn1"] + 1}" class="form-select" style="width: 90%; "required onchange="toggleFields()">
+            <option value="">Select Seedlings</option>
+            @foreach($supplySeedlings as $id => $type)
+            <option value="{{ $id }}">{{ $type }}</option>
+            @endforeach
+        </select>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="d-flex align-items-end">
+            <div class="me-2" style="padding-top: 10px;padding-left: 13px;">
+                <input type="number" name="count_seedling${buttonCounts["add-btn1"] + 1}" id="count_seedling${buttonCounts["add-btn1"] + 1}" class="form-control" style="width: 109px;" title="This field is required to fill up" placeholder="Enter Quantity" required onchange="toggleFields()" />
+            </div>
+            <div>
+                <button type="button" class="btn btn-danger remove-btn1">Remove</button>
+            </div>
+        </div>
+    </div>
+</div>
+                `;
+
+                            // Append the HTML content for seedlings to the parent div
+                            parentDiv.insertAdjacentHTML("beforeend", htmlContent);
+
+                            // Increment the count for the clicked button type
+                            buttonCounts["add-btn1"]++;
+
+                            // Get the newly added remove button
+                            const removeButtons = parentDiv.querySelectorAll(".remove-btn1");
+                            const lastRemoveButton = removeButtons[removeButtons.length - 1];
+
+                            // Add event listener to the remove button
+                            lastRemoveButton.addEventListener("click", function() {
+                                removeRow1(lastRemoveButton);
+                            });
+                        }
+                    });
+                });
+            });
+
             function toggleFields() {
                 var supplyTool = document.getElementById('supply_tool');
-                var supplyTool1 = document.getElementById('supply_tool1');
-                var supplyTool2 = document.getElementById('supply_tool2');
-
                 var supplySeedling = document.getElementById('supply_seedling');
-                var supplySeedling1 = document.getElementById('supply_seedling1');
-                var supplySeedling2 = document.getElementById('supply_seedling2');
-
                 var countTool = document.getElementById('count_tool');
-                var countTool1 = document.getElementById('count_tool1');
-                var countTool2 = document.getElementById('count_tool2');
-
                 var countSeedling = document.getElementById('count_seedling');
-                var countSeedling1 = document.getElementById('count_seedling1');
-                var countSeedling2 = document.getElementById('count_seedling2');
-
 
 
                 if (supplyTool.value !== '') {
 
                     supplySeedling.removeAttribute('required');
-                    supplySeedling1.removeAttribute('required');
-                    supplySeedling2.removeAttribute('required');
-
                     countSeedling.removeAttribute('required');
-                    countSeedling1.removeAttribute('required');
-                    countSeedling2.removeAttribute('required');
-
-
-                    countTool.setAttribute('required', 'required');
-                } else if (supplyTool1.value !== '') {
-                    supplySeedling.removeAttribute('required');
-                    supplySeedling1.removeAttribute('required');
-                    supplySeedling2.removeAttribute('required');
-                    countSeedling.removeAttribute('required');
-                    countSeedling1.removeAttribute('required');
-                    countSeedling2.removeAttribute('required');
-                    supplyTool.removeAttribute('required');
                     countTool.setAttribute('required', 'required');
                 } else if (supplySeedling.value !== '') {
 
@@ -797,8 +952,8 @@ document.addEventListener("DOMContentLoaded", function() {
                     countSeedling.setAttribute('required', 'required');
 
                 }
+                
             }
-
 
             function submitForm() {
                 // Hide any previous error messages
@@ -885,11 +1040,21 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
+
             function cancelUpload(inputName) {
                 $('input[name="' + inputName + '"]').val(null);
             }
 
             var lordIconContainer = document.getElementById("lordIconContainer");
+            var lordIcon = document.createElement("lord-icon");
+            lordIcon.setAttribute("src", "https://cdn.lordicon.com/anqzffqz.json");
+            lordIcon.setAttribute("trigger", "loop");
+            lordIcon.setAttribute("stroke", "bold");
+            lordIcon.setAttribute("state", "morph-check");
+            lordIcon.setAttribute("style", "width:250px;height:250px");
+            lordIconContainer.appendChild(lordIcon);
+
+            var lordIconContainer = document.getElementById("lordIconContainer1");
             var lordIcon = document.createElement("lord-icon");
             lordIcon.setAttribute("src", "https://cdn.lordicon.com/anqzffqz.json");
             lordIcon.setAttribute("trigger", "loop");

@@ -338,7 +338,6 @@ Route::post('/tasks/{task}/archive', [TaskController::class, 'archive'])->name('
 Route::get('/archived', [TaskController::class, 'showArchived'])->name('archived');
 Route::post('/tasks/{task}/restore', [TaskController::class, 'restore'])->name('tasks.restore');
 
-
 //============================================================================================
 
 //EXPENSES MANAGEMENT ====================================================================================

@@ -13,10 +13,8 @@ class ProfileOtherInfo extends Model
 
     protected $fillable = [
         'user_id',
-      
         'city',
         'age',
-        'sex',
         'bio',
         // Iba pang mga field na nais mong maging fillable
     ];

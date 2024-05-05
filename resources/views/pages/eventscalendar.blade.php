@@ -81,9 +81,9 @@
                         
                     <div class="input-group mb-3">
                         <input type="text" id="searchInput" class="form-control" placeholder="Search events">
-                            <div class="input-group-append">
-                                <button id="searchButton" class="btn btn-success">{{__('Search')}}</button>
-                            </div>
+                        <div class="input-group-append">
+                            <button id="searchButton" class="btn btn-success">{{__('Search')}}</button>
+                        </div>
                     </div>
 
                         <div class="card card-h-100">
@@ -120,15 +120,31 @@
                                                     <input type="text" name="title" id="customername-field" class="form-control" placeholder="Enter name" required />
                                                 </div>
 
-                                                <div class="mb-3">
-                                                    <label for="start-datepicker" class="form-label">Start</label>
-                                                    <input type="text" name="start" id="start-datepicker" class="form-control" placeholder="Enter Start Date" required/>
-                                                </div>
+                                               
+                                                
+                                                <div class="col-12" id="event-time">
+                                                        <div class="row">
+                                                            <div class="col-6">
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">Start Date</label>
+                                                                    <div class="input-group">
+                                                                        <input id="start-datepicker" name="start" type="text" class="form-control flatpickr flatpickr-input active" placeholder="Select start date" readonly="readonly" required>
+                                                                        <span class="input-group-text"><i class="ri-time-line"></i></span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">End Date</label>
+                                                                    <div class="input-group">
+                                                                        <input id="end-datepicker" name="end" type="text" class="form-control flatpickr flatpickr-input" placeholder="Select end date" readonly="readonly" required>
+                                                                        <span class="input-group-text"><i class="ri-time-line"></i></span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
 
-                                                <div class="mb-3">
-                                                    <label for="end-datepicker" class="form-label">End</label>
-                                                    <input type="text" name="end" id="end-datepicker" class="form-control" placeholder="Enter End Date" required/>
-                                                </div>
                                                 <div class="col-12" id="event-time">
                                                         <div class="row">
                                                             <div class="col-6">
@@ -151,17 +167,28 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                <div class="mb-3">
+                                                    
+                                                    <div class="mb-3">
+    <label class="form-label">Who can see it?</label>
+    <select name="visibility" id="choices-multiple-remove-button" data-choices data-choices-remove-item multiple>
+        <option value="all">all</option>
+        <option value="farmleader">farmleader</option>
+        <option value="farmer">farmer</option>
+        <option value="publicuser">publicuser</option>
+    </select>
+</div>
+                                                    
+                                       <div class="mb-3">
                                                     <label for="location" class="form-label">Location</label>
                                                     <input type="text" name="location" id="customername-field" class="form-control" placeholder="Enter Location"  required/>
                                                 </div>
 
                                                 <div class="mb-3">
-                                                    <label for="description" class="form-label">Description</label>
+                                                    <label for="description" class="form-label">About Event</label>
                                                     <input type="text" name="description" id="description" class="form-control" placeholder="Enter description" required/>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="image" class="form-label">Image</label>
+                                                    <label for="image" class="form-label">Upload Image Poster</label>
                                                     <input type="file" name="image" id="image" class="form-control" accept="image/*" />
                                                 </div>
                                             </div>
@@ -177,111 +204,57 @@
                                 </div> 
                             </div> <!-- end modal-->
 
-    <!---event detail EventModal--->
-    <div class="modal fade" id="EventdetailModal" tabindex="-1" role="dialog" aria-labelledby="EventdetailModal" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0">
-            <div class="modal-header p-3 bg-soft-success">
-                <h5 class="modal-title" id="modal-title">Event details</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
-            </div>
-            <div class="modal-body p-4">
-                <form class="needs-validation view-event" name="event-form" id="form-event" novalidate="">
-                    <div class="d-flex">
-                        <div class="me-4">
-                            <!-- Image -->
-                            <img src="" alt="Event Image" class="img-fluid" style="max-width: 200px;" id="eventimage">
-                        </div>
-                        <div class="flex-grow-1">
-                            <!-- Event details -->
-                            <div class="event-details">
-                                <div class="d-flex mb-2">
-                                    <div class="flex-grow-1 d-flex align-items-center">
-                                        <div class="flex-shrink-0 me-3">
-                                            <i class="ri-calendar-event-line text-muted fs-16"></i>
+                <div class="modal fade" id="EventdetailModal" tabindex="-1" role="dialog" aria-labelledby="EventdetailModal" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-lg"> <!-- Adjust modal size using Bootstrap classes -->
+                        <div class="modal-content">
+                            <div class="modal-header p-3 bg-success text-white">
+                                <h5 class="modal-title">Event Details</h5>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body p-4">
+                                <div class="row">
+                                    <div class="col-md-6 mb-4"> <!-- Image Column -->
+                                        <img src="" alt="Event Image" class="img-fluid rounded" id="eventimage" style="width: 100%; max-height: 250px;">
+                                    </div>
+                                    <div class="col-md-6"> <!-- Details Column -->
+                                        <div class="text-center mb-4">
+                                            <div class="event-details">
+                                                <h5 class="fw-bold mb-4 fs-5" id="eventtitle"></h5>
+                                            </div>
                                         </div>
-
-                                        <div class="flex-grow-1">
-                                            <h5 class="d-block - fw-semibold semibold mb-0">Event Name: <span id="eventtitle"></span></h5>
+                                        <div class="mb-3 fs-6">
+                                            <i class="ri-calendar-event-line text-muted me-2"></i>
+                                            <span id="eventstart"></span> - <span id="eventend"></span>
                                         </div>
-                                    </div>
-                                </div>
-
-                                <div class="d-flex align-items-center mb-2">
-                                    <div class="flex-shrink-0 me-3">
-                                        <i class="ri-time-line text-muted fs-16"></i>
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <h5 class="d-block fw-semibold mb-0">Start: <span id="eventstart"></span></h5>
-                                    </div>
-                                </div>
-
-                                <div class="d-flex align-items-center mb-2">
-                                    <div class="flex-shrink-0 me-3">
-                                        <i class="ri-time-line text-muted fs-16"></i>
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <h5 class="d-block fw-semibold mb-0">End: <span id="eventend"></span></h5>
-                                    </div>
-                                </div>
-                                <div class="d-flex align-items-center mb-2">
-                                    <div class="flex-shrink-0 me-3">
-                                        <i class="ri-map-pin-line text fs-16"></i>
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <h5 class="d-block fw-semibold mb-0">Location: <span id="eventlocation"></span> <br> <span id="timepicker2"></h5>
-                                    </div>
-                                </div>
-                                <div class="d-flex mb-3">
-                                    <div class="flex-shrink-0 me-3">
-                                        <i class="ri-discuss-line text-muted fs-16"></i>
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <h5 class="d-block fw-semibold mb-0">Description: <span id="eventdescription"></span></h5>
+                                        <div class="mb-3 fs-6">
+                                            <i class="ri-time-line text-muted me-2"></i>
+                                            <span id="eventstarttime"></span> - <span id="eventendtime"></span>
+                                        </div>
+                                        <div class="mb-3 fs-6">
+                                            <i class="ri-map-pin-line text-muted me-2"></i>
+                                            <span id="eventlocation"></span>
+                                        </div>
+                                        <div class="mb-3 fs-6 mb-5"> <!-- Added mb-4 class for bottom margin -->
+                                            <i class="ri-discuss-line text-muted me-2"></i>
+                                            <span id="eventdescription"></span>
+                                        </div>
+                                        <div class="hstack gap-2 justify-content-end">
+                                            @if(auth()->user()->role_id == 3 || auth()->user()->role_id == 4)
+                                                <a href="#" id="interested-btn" class="btn btn-primary" target="_blank">Interested</a>
+                                            @endif
+                                            @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2)
+                                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#archiveModal1">Delete</button>
+                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editexampleModal">Edit</button>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    @if(auth()->user()->role_id == 1)
-                            {{-- Display only for role_id 1 (Admin) --}}
-                            <div class="hstack gap-2 justify-content-end">
-                        <button  type="button" class="btn btn-danger"data-bs-toggle="modal" data-bs-target="#archiveModal">Delete</button>
-                        <button  type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editexampleModal">Edit</button>
-                    </div>
-                            @elseif(auth()->user()->role_id == 2)
-                            {{-- Display only for role_id 2 (
-                                 Admin) --}}
-                                 <div class="hstack gap-2 justify-content-end">
-                        <button type="button" class="btn btn-danger"data-bs-toggle="modal" data-bs-target="#archiveModal">Delete</button>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editexampleModal">Edit</button>
-                    </div>
-                            @elseif(auth()->user()->role_id == 3)
-                            {{-- Display for role_id 3 (Farm Leader) --}}
-                            <div class="hstack gap-2 justify-content-end">
-                        <button hidden type="button" class="btn btn-danger"data-bs-toggle="modal" data-bs-target="#archiveModal">Delete</button>
-                        <button hidden type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editexampleModal">Edit</button>
-                    </div>
-                            @elseif(auth()->user()->role_id == 4 )
-                            {{-- Display only for role_id 4 ( Farmers) --}}
-                            <div class="hstack gap-2 justify-content-end">
-                        <button hidden type="button" class="btn btn-danger"data-bs-toggle="modal" data-bs-target="#archiveModal">Delete</button>
-                        <button hidden type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editexampleModal">Edit</button>
-                    </div>
-                            @elseif(auth()->user()->role_id == 5 )
-                            {{-- Display only for role_id 5 (Public Users) --}}
-                            <div class="hstack gap-2 justify-content-end">
-                        <button hidden type="button" class="btn btn-danger"data-bs-toggle="modal" data-bs-target="#archiveModal">Delete</button>
-                        <button hidden type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editexampleModal">Edit</button>
-                    </div>
-                            @endif
-                   
+                </div>
 
-                </form>
-            </div>
-        </div> <!-- end modal-content-->
-    </div> <!-- end modal dialog-->
-</div>
+
 <!-- Update and Delete Event Modal -->
 <div class="modal fade" id="editexampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
@@ -334,6 +307,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
+                                     
                                             <div class="form-group mb-3">
                                                 <label for="updateLocation">Location:</label>
                                                 <input type="text" class="form-control" id="updateLocation" placeholder="Enter location" required>
@@ -370,7 +344,7 @@
     <!-- container-fluid -->
 </div>
        <!--Archive Supplier Modal-->
-       <div class="modal fade" id="archiveModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+       <div class="modal fade" id="archiveModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header bg-light p-3">
@@ -388,7 +362,7 @@
                                                     <p class="text-muted fs-15 mb-4">Are you sure you want to proceed ?</p>
                                                     <div class="hstack gap-2 justify-content-center remove">
                                                         <button type="button" class="btn btn-link link-success fw-medium text-decoration-none" id="deleteRecord-close" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i> Close</button>
-                                                        <button type="button" class="btn btn-danger" id="delete-record">Yes, Archive It</button>
+                                                        <button type="button" class="btn btn-danger" id="delete-record1">Yes, Archive It</button>
                                                     </div>
                                                 </div>
 
@@ -460,7 +434,7 @@
                 },
                
                 eventClick: function (info) {
-                  //  console.log(info.event)
+                   console.log(info.event)
                   //  console.log("Event is", info.event._def.extendedProps);
                     var eventTitle = info.event._def.title;
                     var eventId = info.event._def.publicId;
@@ -468,7 +442,10 @@
                     var eventEnd = info.event.end;
                     var eventLocation = info.event.extendedProps.location;
                 var eventDescription = info.event.extendedProps.description;
-               
+                var starttime = info.event._def.extendedProps.starttime;
+                var starttime = info.event.starttime;
+                var endtime = info.event._def.extendedProps.endtime;
+                var endtime = info.event.endtime;
                     var event = info.event._def.extendedProps;
                     var date = info.event._instance.range;
                     
@@ -489,8 +466,8 @@
             $('#eventtitle').text(response.title);
             $('#eventstart').text(moment(response.start).format('MMMM D, YYYY'));
             $('#eventend').text(moment(response.end).format('MMMM D, YYYY'));
-            $('#timepicker1').text(response.starttime);
-$('#timepicker2').val(response.endtime);
+    $('#eventstarttime').text(moment(response.starttime, 'HH:mm:ss').format('h:mm A'));
+$('#eventendtime').text(moment(response.endtime, 'HH:mm:ss').format('h:mm A'));
             $('#eventlocation').text(response.location);
             $('#eventdescription').text(response.description);
             var imageUrl = "assests/images/event/"+response.image;
@@ -498,6 +475,8 @@ $('#timepicker2').val(response.endtime);
             $('#eventimage').attr('src', imageUrl);
             // Show the modal
             $('#EventdetailModal').modal('show');
+
+            $('#interested-btn').attr('href', '/event/form/'+ eventId);
         },
         error: function(xhr, status, error) {
             // Handle errors
@@ -507,23 +486,23 @@ $('#timepicker2').val(response.endtime);
 
 
                         $('#updateEventTitle').val(eventTitle);
-                        $('#Eventstart-datepicker').val(moment(eventStart).format("YYYY-MM-DD"));
-                        $('#Eventend-datepicker').val(moment(eventEnd).format("YYYY-MM-DD"));
+                        $('#Eventstart-datepicker').val(moment(eventStart).format("Y-m-d"));
+                        $('#Eventend-datepicker').val(moment(eventEnd).format("Y-m-d"));
                         $('#updateLocation').val(eventLocation);
-                        $('#timepicker1').val(starttime);
-            $('#timepicker2').val(endtime);
                         $('#updateDescription').val(eventDescription);
-                        $('#updateimage').attr('src', event.image); 
+                        $('#timepicker1').val(moment(starttime).format('HH:mm:ss'));
+$('#timepicker2').val(moment(endtime).format('HH:mm:ss'));
+
                     // Store event ID fo var eventId = event.id;r update and delete
                     var eventId = event.id;
                     $('#updateEventBtn').data('event-id', eventId);
-                    $('#delete-record').data('event-id', eventId);
+                    $('#delete-record1').data('event-id', eventId);
 
                                     // When the user clicks the delete button in the modal// Store event ID for update and delete
  var eventId = info.event.id;
-$('#delete-record').data('event-id', eventId);
+$('#delete-record1').data('event-id', eventId);
 
-   $('#delete-record').on('click', function () {
+   $('#delete-record1').on('click', function () {
     handleEventDelete($(this).data('event-id'));
         });
 
@@ -538,7 +517,7 @@ function handleEventDelete(eventId) {
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
                     calendar.refetchEvents();
-                    $('#archiveModal').modal('hide');
+                    $('#archiveModal1').modal('hide');
                     Swal.fire({
                     title: "Successfully archived",
                     text: "Are you ready for the next level?",
@@ -590,7 +569,7 @@ function handleEventDelete(eventId) {
                         location: location,
                         description: description,
                         starttime: starttime,
-            endtime: endtime,
+                        endtime: endtime,
                     },
 
                     
@@ -624,7 +603,6 @@ function handleEventDelete(eventId) {
         });
 
   
-                  
                 },
 
 
@@ -654,9 +632,35 @@ function filterAndDisplayEvents(searchKeywords) {
                 }
             });
         }
+
+        $(document).ready(function() {
+    $('#create-btn').click(function(e) {
+        e.preventDefault();
+        
+        // Get the selected visibility option
+        var selectedVisibility = $('#choices-multiple-remove-button').val();
+        
+        // Send an AJAX request to fetch events based on the selected visibility
+        $.ajax({
+            url: "{{ route('events.calendar') }}",
+            type: 'GET',
+            data: { visibility: selectedVisibility },
+            success: function(response) {
+                // Handle success response and display the calendar
+                console.log(response);
+                // Code to display the calendar events goes here
+            },
+            error: function(xhr, status, error) {
+                // Handle error
+                console.error(xhr.responseText);
+            }
+        });
+    });
+});
+        
 </script>
        
-     
+<script>
                         // Update Event Button Click
                      
        
@@ -723,12 +727,12 @@ flatpickr("#timepicker2",{
 
 <script>
     $(document).ready(function(){
-    $("#deleteEventBtn").click(function(){
+    $("#delete-record1").click(function(){
         $('.modal').modal('hide');
         $('body').removeClass('modal-open');
         $('.modal-backdrop').remove();
         $("#EventdetailModal").modal("hide")
-        $("#archiveModal").modal("show")
+        $("#archiveModal1").modal("show")
     });
 });
 
@@ -764,6 +768,77 @@ function filterAndDisplayEvents(searchKeywords) {
             });
         }
 </script>
+<script>
+   document.getElementById('interestButton').addEventListener('click', function() {
+    this.classList.toggle('interested');
+    if (this.classList.contains('interested')) {
+        this.innerHTML = '<i id="starIcon" class="fas fa-star"></i> Interested';
+    } else {
+        this.innerHTML = '<i id="starIcon" class="fas fa-star"></i> I\'m Interested';
+    }
+});
 
 
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    const searchButton = document.getElementById('searchButton');
+    const eventsContainer = document.getElementById('eventsContainer');
+
+    function fetchEvents(searchTerm = '') {
+        fetch(`/getEvents?searchTerm=${encodeURIComponent(searchTerm)}`)
+            .then(response => response.json())
+            .then(events => renderEvents(events))
+            .catch(error => console.error('Error fetching events:', error));
+    }
+
+    function renderEvents(events) {
+        eventsContainer.innerHTML = ''; // Clear previous events
+
+        events.forEach(event => {
+            const eventElement = document.createElement('div');
+            eventElement.textContent = `${event.title} - ${event.date}`;
+            eventsContainer.appendChild(eventElement);
+        });
+    }
+
+    // Initial fetch of events (without search term)
+    fetchEvents();
+
+    searchButton.addEventListener('click', function() {
+        const searchTerm = searchInput.value.trim();
+        fetchEvents(searchTerm);
+    });
+
+    // Optionally, you can trigger the search on pressing Enter in the search input
+    searchInput.addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') {
+            const searchTerm = searchInput.value.trim();
+            fetchEvents(searchTerm);
+        }
+    });
+});
+
+
+</script>
+
+</script>
+ <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+    <script>
+        const select = new Choices('#choices-multiple-remove-button', {
+            removeItemButton: true,
+        });
+    </script>
+    <script>
+    // // Get the current URL
+    // let currentUrl = window.location.href;
+
+    // // Extract the event ID from the URL
+    // let eventId = currentUrl.substr(currentUrl.lastIndexOf('/') + 1);
+
+    // // Redirect to the form page when the button is clicked
+    // document.getElementById('interested-btn').addEventListener('click', function() {
+    //     window.location.href = "/event/attendance/form/" + eventId;
+    // });
+</script>
 @include('templates.footer')

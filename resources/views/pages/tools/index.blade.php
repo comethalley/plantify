@@ -120,7 +120,7 @@
                                                 <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
                                                 @break
                                                 @case('available')
-                                                <label class="badge text-wrap" style="font-size: 12px; margin-bottom: 10px; padding: 2px; background-color: #A5DD9B; color: #FFF;" onclick="return false;">{{ $request->status }}</label>
+                                                <label class="badge text-wrap" style="font-size: 12px; margin-bottom: 10px; padding: 2px; background-color: #A5DD9B; color: #000;" onclick="return false;">{{ $request->status }}</label>
                                                 <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
                                                 @break
                                                 @case('unavailable')
@@ -128,7 +128,7 @@
                                                 <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
                                                 @break
                                                 @case('ready-to-be-pick')
-                                                <label class="badge text-wrap" style="font-size: 12px; margin-bottom: 10px; padding: 2px; background-color: #E65C19; color: #000;" onclick="return false;">{{ $request->status }}</label>
+                                                <label class="badge text-wrap" style="font-size: 12px; margin-bottom: 10px; padding: 2px; background-color: #E65C19; color: #FFF;" onclick="return false;">{{ $request->status }}</label>
                                                 <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
                                                 @break
                                                 @case('ready')

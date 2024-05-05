@@ -145,6 +145,9 @@ $(document).ready(function () {
                 $("#showModal").modal("hide");
                 Swal.fire({
                     title: "Successfully Supplier Added",
+
+                    // text: "Are you ready for the next level?",
+
                     icon: "success",
                 });
                 console.log(data);
@@ -186,6 +189,9 @@ $(document).ready(function () {
                 $("#editModal").modal("hide");
                 Swal.fire({
                     title: "Successfully Updated",
+
+                    // text: "Are you ready for the next level?",
+
                     icon: "success",
                 });
 
@@ -216,6 +222,9 @@ $(document).ready(function () {
                 $("#archiveModal").modal("hide");
                 Swal.fire({
                     title: "Successfully Archive",
+
+                    // text: "Are you ready for the next level?",
+
                     icon: "success",
                 });
                 console.log(data);
@@ -236,6 +245,7 @@ $(document).ready(function () {
         var supplier_id = $("#supplier-id").val();
         var seedID = $("#seed").val();
         var quantity = $("#qty").val();
+
         var type = $('#seed_type').val();
     
         // Create a FormData object to handle file uploads
@@ -263,7 +273,7 @@ $(document).ready(function () {
                 $("#seed").val(0);
                 $("#uom").val(0);
                 $("#qty").val(0);
-    
+
                 if (xhr.status === 200) {
                     getSupplier(supplier_id);
                 } else if (xhr.status === 404) {
@@ -470,6 +480,4 @@ $(document).ready(function () {
         console.log("void-btn is clicked");
         voidItem();
     });
-
-  
 });

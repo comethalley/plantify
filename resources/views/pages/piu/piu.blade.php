@@ -11,21 +11,20 @@
 
                         </div>
             </div>
-<div class="card-body border border-dashed border-end-0 border-start-0" style="padding-bottom: 20px;">
-    <form>
-        <div class="row g-3">
-            <div class="col-xxl-5 col-sm-6">
-                <div class="search-box">
-                    <input type="text" id="searchInput" class="form-control search" placeholder="Search for order ID, customer, order status or something...">
-                    <i class="ri-search-line search-icon"></i>
-                </div>
-            </div>
-        </div>
-        <!--end row-->
-    </form>
-</div>
-
-
+            <div class="card-body border border-dashed border-end-0 border-start-0">
+                                <form action="{{url('searchpiu')}}" method="POST">
+                                    @csrf
+                                    <div class="row g-3">
+                                        <div class="col-xxl-5 col-sm-6">
+                                        
+                                            <!-- <div class="search-box">
+                                            <div class="d-flex align-items-center ">
+                                                        <input type="text" id="search" name="plant_name" class="form-control me-2" >
+                                                        <button  type="submit"  class="btn btn-primary bg-gradient waves-effect waves-light mdi mdi-magnify search-widget-icon"></button>
+                                            </div>
+                                        </div> -->
+                                    </div>
+                                    <!--end row-->
                 <!-- start page title -->
  <div class="row row-cols-1 row-cols-sm-2 row-cols-xl-4 row-cols-xxl-4">
     @foreach($piu as $plant_info)
@@ -50,51 +49,6 @@
                         </div>  
                 </div>   
             </div>
- 
-            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function() {
-        $('#searchInput').on('keyup', function() {
-            var searchText = $(this).val().toLowerCase();
-            
-            // Loop through each card
-            $('.row-cols-1.row-cols-sm-2.row-cols-xl-4.row-cols-xxl-4').each(function() {
-                var $columns = $(this).children('.col-sm-6');
-                var found = false;
-                
-                $columns.each(function() {
-                    var $card = $(this).find('.card');
-                    var plantName = $card.find('.card-title').text().toLowerCase();
-                    
-                    // Check if the plant name contains the search text
-                    if (plantName.includes(searchText)) {
-                        // Move the column containing the matching plant name to the beginning
-                        $(this).prependTo($(this).parent());
-                        found = true;
-                    }
-                    
-                    // Show or hide the card based on whether it matches the search text
-                    if (plantName.includes(searchText)) {
-                        $card.show();
-                    } else {
-                        $card.hide();
-                    }
-                });
-                
-                // If no match found, keep the original order and show all cards
-                if (!found) {
-                    $columns.each(function(index) {
-                        $(this).appendTo($(this).parent());
-                        $(this).find('.card').show();
-                    });
-                }
-            });
-        });
-    });
 
-
-
-
-</script>
 <@include('templates.footer')
 

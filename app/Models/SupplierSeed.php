@@ -10,7 +10,6 @@ class SupplierSeed extends Model
     use HasFactory;
     protected $fillable = [
         "supplier_id",
-        "type",
         "image",
         "uom_id",
         "seed_id",

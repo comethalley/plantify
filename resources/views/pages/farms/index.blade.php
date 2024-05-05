@@ -169,7 +169,7 @@
                                 </div>
                                 <br><br>
                                 <div class="row mb-3">
-                                    <div class="col-md-9">
+                                    <div class="col-md-12">
                                         <label for="farm_name" class="form-label">Farm Name</label>
                                         <input type="text" name="farm_name" class="form-control" title="This field is required to fill up" placeholder="Enter Farm Name" required />
                                     </div>
@@ -182,19 +182,16 @@
                                             @endforeach
                                         </select>
                                     </div> -->
-                                    <div class="col-md-3">
-                                        <label for="area" class="form-label"> &nbsp; Area (sqm)</label>
-                                        <input type="text" name="area" class="form-control" title="This field is required to fill up" placeholder="Enter Area" required />
-                                    </div>
                                 </div>
                                 <div class="row mb-3">
-                                    <div class="col-md-12">
+                                    <div class="col-md-6">
                                         <label for="address" class="form-label"> &nbsp; Address</label>
                                         <input type="text" name="address" class="form-control" title="This field is required to fill up" placeholder="Enter Address" required />
-
-                                
                                     </div>
-                                    
+                                    <div class="col-md-6">
+                                        <label for="area" class="form-label"> &nbsp; Area</label>
+                                        <input type="text" name="area" class="form-control" title="This field is required to fill up" placeholder="Enter Area" required />
+                                    </div>
                                 </div>
 
                                 <!-- <label for="title_land" class="form-label">Title Land</label>
@@ -256,36 +253,35 @@
                 }
 
                 function submitForm() {
-    document.getElementById('error-messages').style.display = 'none';
-    var form = document.getElementById('addFarmForm');
-    var formData = new FormData(form);
+                    document.getElementById('error-messages').style.display = 'none';
+                    var form = document.getElementById('addFarmForm');
+                    var formData = new FormData(form);
 
-    fetch('{{ route("add.tools") }}', {
-        method: 'POST',
-        body: formData,
-        headers: {
-            'X-CSRF-Token': '{{ csrf_token() }}',
-        },
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then(data => {
-        if (data.success) {
-            location.reload();
-        } else {
-            document.getElementById('error-messages').style.display = 'block';
-            for (var key in data.errors) {
-                document.getElementById('error-messages').innerHTML += '<p>' + data.errors[key][0] + '</p>';
-            }
-        }
-    })
-    .catch(error => console.error('Error:', error));
-}
-
+                    fetch('{{ route("add.farms") }}', {
+                            method: 'POST',
+                            body: formData,
+                            headers: {
+                                'X-CSRF-Token': '{{ csrf_token() }}',
+                            },
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            if (data.success) {
+                                location.reload();
+                            } else {
+                                document.getElementById('error-messages').style.display = 'block';
+                                for (var key in data.errors) {
+                                    document.getElementById('error-messages').innerHTML += '<p>' + data.errors[key][0] + '</p>';
+                                }
+                            }
+                        })
+                        .catch(error => console.error('Error:', error));
+                }
 
 
                 $(document).ready(function() {
@@ -313,6 +309,11 @@
                         }
                     });
                 });
+
+
+
+
+
 
 
                 var lordIconContainer = document.getElementById("lordIconContainer");

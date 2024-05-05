@@ -93,18 +93,9 @@ $(document).ready(function () {
                         errorMessage = "Validation error occurred.";
                     }
 
-                    Swal.fire({
-                        title: "Validation Error",
-                        text: errorMessage,
-                        icon: "error",
-                    });
+                    alert(errorMessage);
                 } else {
                     console.error("Error:", error);
-                    Swal.fire({
-                        title: "Error",
-                        text: "An error occurred while processing your request. Please try again later.",
-                        icon: "error",
-                    });
                 }
             },
         });
@@ -188,18 +179,9 @@ $(document).ready(function () {
                         errorMessage = "Validation error occurred.";
                     }
 
-                    Swal.fire({
-                        title: "Validation Error",
-                        text: errorMessage,
-                        icon: "error",
-                    });
+                    alert(errorMessage);
                 } else {
                     console.error("Error:", error);
-                    Swal.fire({
-                        title: "Error",
-                        text: "An error occurred while processing your request. Please try again later.",
-                        icon: "error",
-                    });
                 }
             },
         });

@@ -486,7 +486,6 @@ a:hover {
             <input type="text" name="description" id="edit-description" class="form-control" value="{{ isset($task) ? $task->description : '' }}" required readonly>
         </div>
 
-
         <div class="row">
             <div class="col-md-7 mb-3">
                 <label for="due_date" class="form-label">Date and Time</label>
@@ -495,7 +494,6 @@ a:hover {
                     <span class="input-group-text clickable-span"></span>
                 </div>
             </div>
-
 
             <div class="col-md-5 mb-3">
                 <label for="priority" class="form-label">Priority</label>
@@ -738,7 +736,6 @@ a:hover {
     $(document).on('click', '#edit-btn', function(event) {
         event.preventDefault();
 
-
         var id = $('#edit-task_id').val();
         var title = $('#edit-title').val();
         var description = $('#edit-description').val();
@@ -785,7 +782,6 @@ a:hover {
                 } else {
                     console.error("Error:", error);
                 }
-
             }
         });
     });

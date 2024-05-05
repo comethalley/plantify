@@ -54,12 +54,9 @@
                                                 <th scope="col" style="width: 25px;">
 
                                                 </th>
-                                                <th data-sort="customer_name">Seed Name: </th>
-                                                @foreach ($createplantings as $event)
-                                                <th data-sort="date">{{ $event->type === 'Seeds' ? 'Seed Weight (g)' : 'Seed Quantity (pcs)' }}</th>
-                                                @endforeach
-                                                <th data-sort="date">Planting Type: </th>
 
+                                                <th data-sort="customer_name">Seed Name: </th>
+                                                <th data-sort="date">Seeds Amount (g): </th>
                                                 <th data-sort="amount">Plants Harvested (kg): </th>
                                                 <th data-sort="payment">Plants Destroyed (kg): </th>
                                                 <th data-sort="payment">Planting Date: </th>
@@ -67,7 +64,6 @@
                                                 <th data-sort="city">Status: </th>
                                                 <th data-sort="city">Barangay: </th>
                                                 <th data-sort="city">Farm: </th>
-
                                             </tr>
                                         </thead>
                                         <tbody class="list form-check-all">
@@ -79,7 +75,6 @@
                                                 </th>
                                                 <td class="customer_name">{{ $event->title }} </td>
                                                 <td class="customer_name">{{ $event->seed }}</td>
-                                                <td class="customer_name">{{ $event->type }}</td>
                                                 <td class="date">{{ $event->harvested }}</td>
                                                 <td class="amount">{{ $event->destroyed }}</td>
                                                 <td class="payment">

@@ -178,17 +178,16 @@
             <br>
             <script>
                 flatpickr('#dateInput', {
-                dateFormat: 'd M, Y',
-                defaultDate: 'today',
-                readOnly: true,
-                maxDate: 'today' // Disable future dates
-            });
+                    dateFormat: 'd M, Y',
+                    defaultDate: 'today',
+                    readOnly: true
+                });
 
                 let isCelsius = true; // Global variable to track temperature unit
                 let currentWeatherData = []; // Store the fetched data
 
                 async function fetchWeatherDataForDate(date) {
-                    const api_key = "Y425EKTTQPY9NXU3P8SUQNTMW"; // Replace with your API key
+                    const api_key = "UQCDAHREW2AP33F6RGNT3X2Z9"; // Replace with your API key
                     const location = "Quezon City";
                     const startDate = new Date(date);
                     const endDate = new Date(startDate);
@@ -258,42 +257,30 @@
                     const dateInput = document.getElementById('dateInput').value;
                     fetchWeatherDataForDate(dateInput);
                 }
-                $(document).ready(function() {
-    $("#exportButton").click(function() {
+
+        $(document).ready(function() {
+        $("#exportButton").click(function() {
         var table = $('#example-table').clone();
+        var tableHtml = table.prop('outerHTML');
 
-        // Add user's first name, last name, and current date to the table
-        var userFirstName = "<?php echo Auth::user()->firstname; ?>";
-        var userLastName = "<?php echo Auth::user()->lastname; ?>";
-        var currentDate = new Date().toLocaleDateString();
-        var userRow = $('<tr><td colspan="6">Prepared by: ' + userFirstName + ' ' + userLastName + '</td></tr>');
-        var dateRow = $('<tr><td colspan="6">Date: ' + currentDate + '</td></tr>');
-        table.prepend(userRow);
-        table.prepend(dateRow);
+        var dataType = 'application/vnd.ms-excel';
+        var filename = 'download.xls';
 
-        exportTableToExcel(table);
+        var downloadLink = document.createElement("a");
+        document.body.appendChild(downloadLink);
+
+        if (navigator.msSaveOrOpenBlob) {
+            var blob = new Blob(['\ufeff', tableHtml], {
+                type: dataType
+            });
+            navigator.msSaveOrOpenBlob(blob, filename);
+        } else {
+            downloadLink.href = 'data:' + dataType + ', ' + encodeURIComponent(tableHtml);
+            downloadLink.download = filename;
+            downloadLink.click();
+        }
     });
 });
-
-function exportTableToExcel(table) {
-    var tableHtml = table.prop('outerHTML');
-    var dataType = 'application/vnd.ms-excel';
-    var filename = 'download.xls';
-
-    var downloadLink = document.createElement("a");
-    document.body.appendChild(downloadLink);
-
-    if (navigator.msSaveOrOpenBlob) {
-        var blob = new Blob(['\ufeff', tableHtml], {
-            type: dataType
-        });
-        navigator.msSaveOrOpenBlob(blob, filename);
-    } else {
-        downloadLink.href = 'data:' + dataType + ', ' + encodeURIComponent(tableHtml);
-        downloadLink.download = filename;
-        downloadLink.click();
-    }
-}
             </script>
 </body>
 

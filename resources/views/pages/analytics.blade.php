@@ -9,14 +9,12 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="{{ asset('assets/css/analytics.css') }}" rel="stylesheet" type="text/css" />
-    {{-- <link href="{{ asset('assets/css/weather.css') }}" rel="stylesheet" type="text/css" /> --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.debug.js" integrity="sha512-+dBKPkFZW8e2RJv00jKz8d5MsWjI9g6I78I/zfE6hW7dPWGw/DLtCeEI+X3k/tEs+cOjDvg6Tbz5JG+LnVQQg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script   script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.3/html2canvas.min.js"></script>
     <script src="{{ asset('assets/js/donut.js') }}"></script>
     <script src="assets/js/donut.js"></script>
     <link rel="shortcut icon" type="image/x-icon" href="assets/images/plantifeedpics/plants.png" class="img-fluid" />
     <script src="https://kit.fontawesome.com/8ff31c595e.js" crossorigin="anonymous"></script>
-    
 
     <style>
 
@@ -51,7 +49,6 @@
     justify-content: space-between;
     }
 
-    
     .cards .card {
         width: 100px;
         height: 130px;
@@ -74,19 +71,6 @@
         display: flex;
         justify-content: center;
     }
-
-    @media (max-width: 600px) {
-    .cards {
-        flex-wrap: wrap;
-        justify-content: space-between;
-        align-items: flex-start;
-    }
-
-    .cards .card {
-        width: calc(50% - 20px);
-        margin-bottom: 20px;
-    }
-}
         </style>
 </head>
 
@@ -124,7 +108,6 @@
 
                                                 <p class="text-muted mb-0">Here's what's happening with your farm today.</p>
                                             </div>  
-                                            @if(session('user') && session('user')->role_id != 5)
                                             <div class="mt-3 mt-lg-0">
                                                 <form action="javascript:void(0);">
                                                     <div class="row g-3 mb-0 align-items-center">
@@ -132,11 +115,10 @@
                                                         <div class="col-auto">
                                                             <button type="button" class="btn btn-soft-success material-shadow-none" onclick="downloadPDF()"><i class="ri-add-circle-line align-middle"></i>Download Report</button>
                                                         </div>
-                                                        <!--end row-->
-                                                    </div>
+                                                        
+                                                    <!--end row-->
                                                 </form>
-                                            </div>
-                                            @endif                      
+                                            </div>                                 
                                         </div><!-- end card header -->
                                     </div>
                                     <br>
@@ -145,7 +127,7 @@
 
                 
                     <div class="row ">
-                        <div class="col-xl-12 d-inline-block">
+                        <div class="col-xl-12">
                             <div class="card">
                                 <div class="card-body">
                                     <div class="sidebar" hidden>
@@ -158,10 +140,6 @@
                                                 <h1 id="temp">0</h1>
                                                 <span class="temp-unit">°C</span>
                                             </div>
-                                            <div class="feels-like">
-                                                <h2 id="feels-like">Feels Like: 0</h2>
-                                                <span class="temp-unit">°C</span>
-                                              </div>
                                             <div class="date-time">
                                                 <p id="date-time">Monday, 12:00</p>
                                             </div>
@@ -615,41 +593,11 @@
                             </div>
                         </div> --}}
 
-                        @if(session('user') && session('user')->role_id != 5)
                         <div class="col-xl-12">
-                            <div class="card">
+                            <div class="card" >
                                 <div class="card-body">
-                                    <h2 class="mb-4 text-center"><span style="color: #57AA2C;"><strong>Harvesting Metrics</strong></span></h2>
-                                    <div class="row position-relative" style="height: 65vh;">
-                                        @if(session('user') && (session('user')->role_id == 3 || session('user')->role_id == 4))
-                                            <div class="col-md-3">
-                                                <div class="align-items-center justify-content-center ">
-                                                    <div class="col-xl-12 barangaySelector ">
-                                                        <label for="">Barangay:</label>
-                                                        <select id="barangaySelect" class="w-100" readonly>
-                                                            <option value="{{ $barangayName }}" selected>{{ $barangayName }}</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="mt-3 col-xl-12 barangaySelector ">
-                                                        <label for="">Farm:</label>
-                                                        <select id="farmSelect" class="w-100" readonly>
-                                                            <option value="{{ $farmName }}" selected>{{ $farmName }}</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="mt-3 col-xl-12 barangaySelector">
-                                                        <label for="">Year:</label>
-                                                        <select id="yearSelect" class="w-100">
-                                                            <option value="" disabled>Select Year</option>
-                                                            <option value="2024" selected>2024</option>
-                                                            <option value="2023">2023</option>
-                                                            <option value="2022">2022</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @elseif(session('user') && session('user')->role_id == 5)
-                                            <!-- Do nothing, section will not be displayed -->
-                                        @else
+                                    <h2 class="mb-4 text-center"><span style="color: #57AA2C;"> <strong>Harvesting Metrics</strong></span></h2>
+                                        <div class="row position-relative " style="height: 65vh;">
                                             <div class="col-md-3">
                                                 <div class="align-items-center justify-content-center ">
                                                     <div class="col-xl-12 barangaySelector">
@@ -657,7 +605,7 @@
                                                         <select id="barangaySelect" class="w-100">
                                                             <option value="" selected disabled>Select Barangay</option>
                                                             @foreach($barangayOptions as $option)
-                                                            <option value="{{ $option['text'] }}">{{ $option['text'] }}</option>
+                                                                <option value="{{ $option['text'] }}">{{ $option['text'] }}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
@@ -679,24 +627,19 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        @endif
-                                        <div class="col-lg-9">
-                                            <div class="text-muted">
-                                                @if(session('user') && session('user')->role_id != 5)
-                                                
-                                                <div id="farmChart"></div>
-                                                @endif
-                                                <div id="month-details" style="display: none;"></div>
+
+                                            <div class="col-lg-9"> 
+                                                <div class="text-muted">                         
+                                                    <div id="farmChart"></div>
+                                                    <div id="month-details" style="display: none;"></div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                        
                                 </div>
                             </div>
                         </div>
-                        @endif
-                        
-                
+                     
                             <!-- INSERT HERE NEW ROW  -->
                         
 

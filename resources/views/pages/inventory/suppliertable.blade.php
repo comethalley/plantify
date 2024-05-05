@@ -1,5 +1,5 @@
 <div class="table-responsive table-card mb-1">
-    <table class="table align-middle" id="supplierTable">
+    <table class="table table-nowrap align-middle" id="supplierTable">
         <thead class="text-muted table-light">
             <tr class="text-uppercase">
                 <!-- <th scope="col" style="width: 25px;">
@@ -7,12 +7,12 @@
                         <input class="form-check-input" type="checkbox" id="checkAll" value="option">
                     </div>
                 </th> -->
-                <th data-sort="id">Supplier ID</th>
-                <th data-sort="customer_name">Supplier Name</th>
-                <th data-sort="date">Address</th>
-                <th data-sort="amount">Contact</th>
-                <th data-sort="payment">Email</th>
-                <th data-sort="city">Action</th>
+                <th class="sort" data-sort="id">Supplier ID</th>
+                <th class="sort" data-sort="customer_name">Supplier Name</th>
+                <th class="sort" data-sort="date">Address</th>
+                <th class="sort" data-sort="amount">Contact</th>
+                <th class="sort" data-sort="payment">Email</th>
+                <th class="sort" data-sort="city">Action</th>
             </tr>
         </thead>
         <tbody class="list form-check-all">

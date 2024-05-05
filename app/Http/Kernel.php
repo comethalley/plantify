@@ -21,7 +21,6 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
-        
     ];
 
     /**
@@ -37,8 +36,6 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
-            \App\Http\Middleware\FarmNameMiddleware::class,
-            \App\Http\Middleware\CheckUserStatus::class,
         ],
 
         'api' => [
@@ -69,29 +66,4 @@ class Kernel extends HttpKernel
         'checkrole' => \App\Http\Middleware\CheckRole::class,
 
     ];
-
-    // In your console kernel (app/Console/Kernel.php), define a new scheduled command:
-    protected function schedule(Schedule $schedule)
-{
-    $schedule->call(function () {
-        // Get online user IDs from session data
-        $onlineUserIds = collect(session()->all())->filter(function ($value, $key) {
-            return starts_with($key, 'user_');
-        })->keys();
-    
-        // Query online users
-        $onlineUsers = User::whereIn('id', $onlineUserIds)->get();
-    
-        // Check status and logout inactive users
-        foreach ($onlineUsers as $user) {
-            if ($user->status === 0) {
-                Auth::logoutOtherDevices($user->password);
-                $user->update(['status' => 0]);
-                Log::info('User ' . $user->id . ' has been logged out due to inactive status.');
-            }
-        }
-    })->everyThirtySeconds(); // Change this line to run the task every 30 seconds
-}
-
-    
 }

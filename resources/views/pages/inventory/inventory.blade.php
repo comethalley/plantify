@@ -242,15 +242,6 @@
                                                     </div>
                                                     <div class="col-lg-3">
                                                         <div class="input-group">
-                                                            <select class="form-select" id="seed_type">
-                                                                <option value="">Choose Type</option>
-                                                                <option value="Seedlings">Seedlings</option>
-                                                                <option value="Seeds">Seeds</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-3">
-                                                        <div class="input-group">
                                                             <select class="form-select" id="seed">
                                                                 <option selected="" value="0">Choose Seed</option>
                                                                 @foreach($seeds as $per_seeds)
@@ -259,7 +250,7 @@
                                                             </select>
                                                         </div>
                                                     </div>
-                                                    <!-- <div class="col-lg-3">
+                                                    <div class="col-lg-3">
                                                         <div class="input-group">
                                                             <select class="form-select" id="uom">
                                                                 <option selected="" value="0">Unit of Measurement</option>
@@ -268,7 +259,7 @@
                                                                 @endforeach
                                                             </select>
                                                         </div>
-                                                    </div> -->
+                                                    </div>
                                                     <div class="col-lg-2">
                                                         <div class="mb-3">
                                                             <input type="text" name="qty" id="qty" class="form-control" placeholder="Enter Qty" required />
@@ -306,84 +297,6 @@
 
 </div>
 <!-- END layout-wrapper -->
-
-<script>
-    $(document).ready(function() {
-        $(".download-btn").click(function() {
-            var table = $('#supplierTable').clone();
-
-            // Add user's first name, last name, and current date to the table
-            var userFirstName = "<?php echo Auth::user()->firstname; ?>";
-            var userLastName = "<?php echo Auth::user()->lastname; ?>";
-            var currentDate = new Date().toLocaleDateString();
-            var userRow = $('<tr><td colspan="6">Prepared by: ' + userFirstName + ' ' + userLastName + '</td></tr>');
-            var dateRow = $('<tr><td colspan="6">Date: ' + currentDate + '</td></tr>');
-            table.append(userRow); // Append at the bottom
-            table.append(dateRow); // Append at the bottom
-
-            exportTableToCSV(table);
-        });
-    });
-
-    function exportTableToCSV(table) {
-        var rows = table.find('tr').get();
-        var csvContent = '';
-
-        // Iterate over table rows
-        rows.forEach(function(row) {
-            var rowData = [];
-            $(row).find('td').each(function() {
-                rowData.push($(this).text());
-            });
-            csvContent += rowData.join(',') + '\n';
-        });
-
-        var currentDate = new Date().toLocaleDateString();
-        var userFirstName = "<?php echo Auth::user()->firstname; ?>";
-        var userLastName = "<?php echo Auth::user()->lastname; ?>";
-
-        csvContent += 'Date: ' + currentDate + '\n';
-        csvContent += 'Prepared by: ' + userFirstName + ' ' + userLastName + '\n';
-
-        var blob = new Blob([csvContent], {
-            type: 'text/csv;charset=utf-8;'
-        });
-
-        var currentDate = new Date();
-        var year = currentDate.getFullYear();
-        var month = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // Adding 1 to month as it's zero-based
-        var day = currentDate.getDate().toString().padStart(2, '0');
-        var formattedDate = year + '-' + month + '-' + day;
-
-        var filename = 'suppliers_' + formattedDate + '.csv';
-
-        if (navigator.msSaveBlob) { // IE 10+
-            navigator.msSaveBlob(blob, filename);
-        } else {
-            var link = document.createElement("a");
-            if (link.download !== undefined) { // Feature detection
-                var url = URL.createObjectURL(blob);
-                link.setAttribute("href", url);
-                link.setAttribute("download", filename);
-                link.style.visibility = 'hidden';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-            }
-        }
-    }
-</script>
-
-<script>
-    $(document).ready(function() {
-        $('.search').on('keyup', function() {
-            var value = $(this).val().toLowerCase();
-            $('#supplierTable tbody tr').filter(function() { // Only target tbody rows
-                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-            });
-        });
-    });
-</script>
 
 
 

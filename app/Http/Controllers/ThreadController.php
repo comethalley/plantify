@@ -10,7 +10,6 @@ use App\Models\Farm;
 use App\Models\Group;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\ProfileSettings;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Pusher\Pusher;
@@ -31,7 +30,7 @@ class ThreadController extends Controller
         $farm = Farm::where('farm_leader', $user->id)->first();
     
         // Pass the user and farm data to the view
-        return view('pages.thread', compact('user', 'farm', 'profileSettings'));
+        return view('pages.thread', compact('user', 'farm'));
     }
 
 /**
@@ -49,8 +48,6 @@ public function showThread($threadId)
     $currentUser = Auth::user();
 
     $user = auth()->user();
-
-    $profileSettings = ProfileSettings::where('user_id', $currentUser->id)->first();
 
     $farm = Farm::where('farm_leader', $user->id)->first();
 
@@ -82,7 +79,7 @@ public function showThread($threadId)
         ->first();
 
     // Return to the view with the updated data
-    return view('pages.thread', compact('thread', 'filteredUsers', 'messages', 'groups', 'farmLeaders', 'farm', 'user', 'profileSettings'));
+    return view('pages.thread', compact('thread', 'filteredUsers', 'messages', 'groups', 'farmLeaders', 'farm', 'user'));
 }
 
 

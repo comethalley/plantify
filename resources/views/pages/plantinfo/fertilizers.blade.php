@@ -34,7 +34,7 @@
                                 </div>
                                 <div class="col-sm-auto">
                                     <div class="d-flex gap-1 flex-wrap">
-                                        <button type="button" class="btn btn-success add-btn" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModal"><i class="ri-add-line align-bottom me-1"></i> Add Fertilizer</button>
+                                        <button type="button" class="btn btn-success add-btn" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModal"><i class="ri-add-line align-bottom me-1"></i> Add New Plant</button>
                                         <button class="btn btn-soft-danger" id="remove-actions" onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button>
                                     </div>
                                 </div>
@@ -73,7 +73,7 @@
                                             <tr>    
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $item->fer_name }}</td>
-                                                <td width="200px" height="100px"><img src="/images/{{ $item->fer_image }}" alt=""></td>
+                                                <td><img src="/images/{{ $item->fer_image }}" alt="" width="200px" height="200px"></td>
                                                 <td>{{ $item->fer_information }}</td>
                                                 
                                                 
@@ -82,11 +82,11 @@
 
                                                 <td>
                                                     <ul class="list-inline hstack gap-2 mb-0">
-                                                        <!-- <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="View">
+                                                        <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="View">
                                                             <a href="" class="text-primary d-inline-block supplier_btn" data-bs-target="#viewModal" data-bs-toggle="modal" data-supplier-id="">
                                                                 <i class="ri-eye-fill fs-16"></i>
                                                             </a>
-                                                        </li> -->
+                                                        </li>
                                                         <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Edit">
                                                             <a href="#" class="text-primary d-inline-block edit-fer-btn" data-fertilizers-id="{{$item->id}}">
                                                                 <i class="ri-pencil-fill fs-16"></i>
@@ -161,7 +161,7 @@
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Information</label>
                                                     <textarea type="textarea" name="fer_information" id="fer_information" class="form-control" placeholder="Fertilizer Information" required> </textarea>
-                                                </div>  
+                                                </div>
 
 
 
@@ -232,8 +232,8 @@
                                         <div class="modal-body p-5 text-center">
                                             <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop" colors="primary:#405189,secondary:#f06548" style="width:90px;height:90px"></lord-icon>
                                             <div class="mt-4 text-center">
-                                                <h4>You are about to delete a fertilizer ?</h4>
-                                                
+                                                <h4>You are about to delete a order ?</h4>
+                                                <p class="text-muted fs-15 mb-4">Deleting your order will remove all of your information from our database.</p>
                                                 <div class="hstack gap-2 justify-content-center remove">
                                                     <button class="btn btn-link link-success fw-medium text-decoration-none" id="deleteRecord-close" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i> Close</button>
                                                     <form method="POST" action="" style="display:inline">

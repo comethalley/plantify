@@ -3,8 +3,8 @@
 <head>
 
     <meta charset="utf-8">
-    <title>Two Step Verification | PlantiCUAI</title>
-    <link rel="shortcut icon" type="image/x-icon" href="assets/images/plantifeedpics/rounded.png" class="img-fluid" />
+    <title>Two Step Verification | Plantify</title>
+    <link rel="shortcut icon" type="image/x-icon" href="assets/images/plantifeedpics/plants.png" class="img-fluid" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin &amp; Dashboard Template" name="description">
     <meta content="Themesbrand" name="author">
@@ -141,13 +141,12 @@
                                         </div>
 
                                         <div class="mt-5 text-center">
-                                            <!-- <p>The code is valid for 5 minutes. Do not share this code with anyone for security reasons </p> -->
-                                            <p class="mb-0" id="available">Resend Code is Available in <span id="time-left"></span> </p>
+                                            <p>The code is valid for 5 minutes. Do not share this code with anyone for security reasons </p>
                                         </div>
 
                                         <div class="mt-5 text-center">
                                             <p class="mb-0" id="resend-code">Didn't receive a code ? <a href="#" class="fw-semibold text-primary text-decoration-underline" id="resendCode">Resend</a> </p>
-                                            <!-- <p class="mb-0" id="available">Resend Code is Available in <span id="time-left"></span> </p> -->
+                                            <p class="mb-0" id="available">Resend Code is Available in <span id="time-left"></span> </p>
                                         </div>
                                     </div>
                                 </div>
@@ -216,7 +215,6 @@
                 if (remainingTime > 0) {
                     $("#available").show();
                     $("#time-left").text(minutes + "m " + seconds + "s");
-                    $("#resend-code").hide();
                 } else {
                     // Hide the countdown when time reaches zero
                     $("#available").hide();
@@ -283,7 +281,6 @@
                         $("#resend-code").hide();
                         $("#available").show();
                         localStorage.setItem('timerStartTime', Date.now());
-                        location.reload()
                     },
                     error: function(xhr, status, error) {
                         console.error("Error:", status, error);

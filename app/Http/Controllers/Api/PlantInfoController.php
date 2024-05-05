@@ -359,7 +359,7 @@ public function fupdate(Request $request, $id) {
     $validator = Validator::make($request->all(), [
         'fer_name' => 'required|string|max:55',
         'fer_image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-        'fer_information' => 'required'
+        'fer_information' => 'required|string|max:255'
     ]);
 
     if ($validator->fails()) {
@@ -409,15 +409,15 @@ public function fedit($id) {
 public function fertarchive(Request $request, $id)
     {
 
-        $fertilizers = Fertilizers::where('id', $id)->where('fer_status', 1);
+        $fertilizers = Fertilizers::where('id', $id)->where('pes_status', 1);
 
 
 
         $fertilizers->update([
-            "fer_status" => 0
+            "pes_status" => 0
 
         ]);
-        return response()->json(['fertilizers' => $fertilizers], 200);
+        return response()->json(['pesticides' => $pesticides], 200);
     }
 
     public function pesarchive(Request $request, $id)

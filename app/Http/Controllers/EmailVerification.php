@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Libraries\PlantifyLibrary;
-use App\Mail\MailForgot;
 use App\Models\EmailVerification as ModelsEmailVerification;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -15,8 +14,6 @@ use App\Mail\MailInvitation;
 use App\Mail\MailVerificationCode;
 use Carbon\Carbon;
 use Exception;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
@@ -162,18 +159,12 @@ class EmailVerification extends Controller
                 'regex:/[0-9]+/',
                 'regex:/[!@#$%^&*(),.?":{}|<>]+/'
             ],
-        ], [
-            'password.required' => 'Password is required.',
-            'password.string' => 'Password must be a string.',
-            'password.confirmed' => 'Password confirmation does not match.',
-            'password.min' => 'Password must be at least :min characters.',
-            'password.regex' => 'Password format is incorrect. It must contain at least one uppercase letter, one lowercase letter, one digit, and one special character.'
         ]);
         // dd($validator);
 
         if ($validator->fails()) {
             $generateHash = $this->plantifyLibrary->generatehash($id);
-            $url = url('/verify-email') . '?l=' . $generateHash;
+            $url = url('/verify-email').'?l='.$generateHash;
             return redirect($url)->withErrors($validator)->withInput();
         }
 
@@ -186,136 +177,5 @@ class EmailVerification extends Controller
         ]);
 
         return redirect()->route('login')->with('error', 'User not found.');
-    }
-
-    public function showForgotPasswordForm()
-    {
-        return view('pages.forgot-password');
-    }
-
-    public function changePasswordView(Request $request)
-    {
-        $l = $request->query('l');
-        $verifyhash = $this->plantifyLibrary->verifydatafromhashid($l);
-
-        $user = User::where('id', $verifyhash)->first();
-
-        if (!$user) {
-            return redirect()->route('login')->with('error', 'User not found.');
-        }
-
-        return view('pages.change-password', ['user' => $user]);
-    }
-
-    public function forgotPassword(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email|',
-        ]);
-
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
-
-        $email = $request->input('email');
-
-        $user = User::where('email', $email)->first();
-
-        if (!$user) {
-            $validator->errors()->add('email', 'Email not found');
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
-
-        $id = $user->id;
-
-        $generateHash = $this->plantifyLibrary->generatehash($id);
-        $url = url('/change-password') . '?l=' . $generateHash;
-
-        $data = [
-            "subject" => "Forgot Password Link",
-            "email" => $email,
-            "link" => $url,
-            // "password" => $generate_password,
-            "body" => "Join the urban green revolution !",
-        ];
-
-        Mail::to($email)->send(new MailForgot($data));
-
-        Session::flash('success', 'Forgot password link has been sent to your email.');
-
-        return redirect()->back();
-    }
-
-    public function publicEmailVerification(Request $request)
-    {
-        $l = $request->query('l');
-        $verifyhash = $this->plantifyLibrary->verifydatafromhashid($l);
-
-        $user = DB::table('users')
-            ->where('id', $verifyhash)
-            ->select(
-                "email_verified_at",
-            )
-            ->first();
-
-        // dd($user);
-
-        if ($user->email_verified_at != null) {
-
-            return redirect()->route('login');
-        }
-
-        $farmLeaders = DB::table('users')
-            ->where('status', 1)
-            ->where('id', $verifyhash)
-            ->select(
-                "id",
-                'firstname',
-                "lastname",
-                "email",
-            )
-            ->first();
-
-        $checkSendedCode = ModelsEmailVerification::where('user_id', $verifyhash)->first();
-
-        //dd($checkSendedCode);
-
-        if ($checkSendedCode == "") {
-            $generateCode = $this->generateCode();
-            $emailCode = ModelsEmailVerification::create([
-                'user_id' => $verifyhash,
-                'email_code' => $generateCode,
-                'status' => 0,
-            ]);
-
-            $this->sendEmailCode($farmLeaders->email, $emailCode->email_code);
-        }
-
-        return view('pages.verification', compact('farmLeaders'));
-    }
-
-    public function publicEmailConfirm(Request $request, $id)
-    {
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|string',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
-
-        $verificationCode = $request['email'];
-
-        $emailVerification = ModelsEmailVerification::where('user_id', $id)->where('email_code', $verificationCode)->first();
-
-        if ($emailVerification) {
-
-            $user = User::findOrFail($id);
-            $user->email_verified_at = Carbon::now();
-            $user->save();
-            return response()->json(['message' => 'Email Verified Successfully']);
-        } else {
-            return response()->json(['message' => 'Email verification failed. The verification code you provided may be invalid or expired. Please resend a new verification link.']);
-        }
     }
 }

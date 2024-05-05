@@ -31,29 +31,15 @@
                 </div>
 
                 <div class="row scrollable">
-
-                    <div class="col-xl-9">
-                        <div class="input-group mb-3">
-                            <input type="text" id="searchInput" class="form-control" placeholder="Search Planting">
-                            <div class="input-group-append">
-                                <button id="searchButton" class="btn btn-primary">{{__('Search')}}</button>
-                            </div>
-                        </div>
-
-                        <div class="card card-h-100">
-                            <div class="card-body">
-                                <div id="calendar"></div>
-                            </div>
-                        </div>
-                    </div>
-
                     <div class="col-xl-3 scrollable" style="overflow-y: auto; max-height: 100vh;">
                         <div class="card card-h-100">
                             <div class="card-body" style="display:flex; justify-content:center; align-items:center;">
                                 @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 3)
                                 {{-- Display only for role_id 1 (Admin) --}}
                                 <button type="button" class="btn btn-success w-100" data-bs-toggle="modal" id="create-btn" data-bs-target="#usingModal"><i class="ri-add-line align-bottom me-1"></i> Create New Plantings</button>
-
+                                @elseif(auth()->user()->role_id == 4 )
+                                {{-- Display only for role_id 4 (Farmers) --}}
+                                <button hidden type="button" class="btn btn-success w-100" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModalExample"><i class="mdi mdi-plus"></i>Create New Plantings</button>
                                 @elseif(auth()->user()->role_id == 5 )
                                 {{-- Display only for role_id 5 (Public Users) --}}
                                 <button type="button" class="btn btn-success w-100" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModalExample"><i class="mdi mdi-plus"></i>Create New Plantings</button>
@@ -96,7 +82,20 @@
 
                     </div>
 
+                    <div class="col-xl-9">
+                        <div class="input-group mb-3">
+                            <input type="text" id="searchInput" class="form-control" placeholder="Search Planting">
+                            <div class="input-group-append">
+                                <button id="searchButton" class="btn btn-primary">{{__('Search')}}</button>
+                            </div>
+                        </div>
 
+                        <div class="card card-h-100">
+                            <div class="card-body">
+                                <div id="calendar"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
 
@@ -127,8 +126,8 @@
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="seed" class="form-label">Enter Amount.</label>
-                                        <input type="text" name="seed" id="seed-input" class="form-control" placeholder="If the item is Seedlings the amount is in pieces otherwise it will be grams." required />
+                                        <label for="seed" class="form-label">Seeds Amount (g).</label>
+                                        <input type="text" name="seed" id="seed-input" class="form-control" placeholder="Seed Amount (g)." required />
                                     </div>
 
                                     <!-- =================== -->
@@ -193,7 +192,7 @@
                                                 </div>
 
                                                 <div class="flex-grow-1">
-                                                    <h6 class="d-block - fw-semibold semibold mb-0">Seed Name: </h6><span id="eventtitle"></span>
+                                                    <h6 class="d-block - fw-semibold semibold mb-0">Seed Name: <span id="eventtitle"></span></h6>
 
                                                 </div>
                                             </div>
@@ -203,16 +202,8 @@
                                             <div class="flex-shrink-0 me-3">
                                                 <i class="ri-scales-2-line text-muted fs-16"></i>
                                             </div>
-                                            <div class="flex-grow-1 group">
-                                                <h6 class="d-block fw-semibold mb-0" for="typeLabel"> </h6><span id="eventseed"></span>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex align-items-center mb-2">
-                                            <div class="flex-shrink-0 me-3">
-                                                <i class="ri-map-pin-line text fs-16"></i>
-                                            </div>
                                             <div class="flex-grow-1">
-                                                <h6 class="d-block fw-semibold mb-0">Planting Type: </span></h6><span id="eventtype">
+                                                <h6 class="d-block fw-semibold mb-0">Seed Amount (g): <span id="eventseed"></span></h6>
                                             </div>
                                         </div>
 
@@ -221,7 +212,7 @@
                                                 <i class="ri-plant-line text-muted fs-16"></i>
                                             </div>
                                             <div class="flex-grow-1">
-                                                <h6 class="d-block fw-semibold mb-0">Estimated Plant Harvested (kg): </h6><span id="eventharvested"></span>
+                                                <h6 class="d-block fw-semibold mb-0">Estimated Plant Harvested (kg): <span id="eventharvested"></span></h6>
                                             </div>
                                         </div>
 
@@ -230,7 +221,7 @@
                                                 <i class=" ri-delete-bin-line text-muted fs-16"></i>
                                             </div>
                                             <div class="flex-grow-1">
-                                                <h6 class="d-block fw-semibold mb-0">Estimated Plant Destroyed (kg): </h6><span id="eventdestroyed"></span>
+                                                <h6 class="d-block fw-semibold mb-0">Estimated Plant Destroyed (kg): <span id="eventdestroyed"></span></h6>
                                             </div>
                                         </div>
 
@@ -239,7 +230,7 @@
                                                 <i class="ri-calendar-check-fill text-muted fs-16"></i>
                                             </div>
                                             <div class="flex-grow-1">
-                                                <h6 class="d-block fw-semibold mb-0">Planting Date: </h6><span id="eventstart"></span>
+                                                <h6 class="d-block fw-semibold mb-0">Planting Date: <span id="eventstart"></span></h6>
                                             </div>
                                         </div>
 
@@ -248,7 +239,7 @@
                                                 <i class="ri-calendar-event-fill text-muted fs-16"></i>
                                             </div>
                                             <div class="flex-grow-1">
-                                                <h6 class="d-block fw-semibold mb-0">Harvested Date: </h6><span id="eventend"></span>
+                                                <h6 class="d-block fw-semibold mb-0">Harvested Date: <span id="eventend"></span></h6>
                                             </div>
                                         </div>
                                         <div class="d-flex align-items-center mb-2">
@@ -256,7 +247,7 @@
                                                 <i class="ri-map-pin-line text fs-16"></i>
                                             </div>
                                             <div class="flex-grow-1">
-                                                <h6 class="d-block fw-semibold mb-0">Status: </h6><span id="eventstatus"></span>
+                                                <h6 class="d-block fw-semibold mb-0">Status: <span id="eventstatus"></span></h6>
                                             </div>
                                         </div>
 
@@ -308,24 +299,20 @@
                         <div class="form-group">
                             <div class="form-group mb-3">
                                 <label for="updateEventTitle">Seed Name:</label>
-                                <input type="text" class="form-control" id="updateEventTitle" readonly>
+                                <input type="text" class="form-control" id="updateEventTitle" placeholder="Enter Seed Name">
                             </div>
+
+
 
                             <div class="form-group mb-3">
-                                <label for="typeLabel"></label>
-                                <input type="text" class="form-control" id="updateEventSeed" readonly>
+                                <label for="updateEventSeed">Seeds Amount (g):</label>
+                                <input type="text" class="form-control" id="updateEventSeed" placeholder="Enter Seeds Amount (g)" readonly>
                             </div>
-
-                            <div class="form-group mb-3">
-                                <label id="typeLabel" for="updateEventType">Planting Type:</label>
-                                <input type="text" class="form-control" id="updateEventType" readonly>
-                            </div>
-
 
                             <div class="form-group mb-3">
                                 <label for="updatestatus">Status:</label>
                                 <select name="updatestatus" id="updatestatus" class="form-control">
-                                    <option id="updatestatus" readonly selected>Planted</option>
+                                    <option value="Status" readonly selected>Planted</option>
                                     <option value="Harvested">Harvested</option>
                                     <option value="Destroyed">Destroyed</option>
                                 </select>
@@ -391,22 +378,21 @@
                     @csrf
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <div class="mb-3">
-                                    <label for="multiple-used" class="form-label item-text">Multiple Items</label>
-                                    <input type="text" id="multiple-used" class="form-control" placeholder="" value="1" />
+                                    <label for="multiple-used" class="form-label">Seeds Amount (g).</label>
+                                    <input type="text" id="multiple-used" class="form-control" value="1" />
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <!-- <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="mode">Unit of Measurement</label>
-                                    <select class="form-select selecting" id="mode">
-                                        <option value="1">Per Pack</option>
-                                        <option value="2">Per Gram(s)</option>
-                                        <option value="3">Per Piece(s)</option>
+                                    <label for="mode">Mode</label>
+                                    <select class="form-select" id="mode">
+                                        <option value="1">Per pack/box</option>
+                                        <option value="2">Per pieces</option>
                                     </select>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
 
 
@@ -415,8 +401,8 @@
                             <input type="text" name="status" id="customername-field" class="form-control" value="Planted" required readonly />
                         </div>
                         <center>
-                            <p class="text-muted">Scan the Seed's Qr Code Generated from the Inventory > Supplier</p>
-                        </center>
+                            <p class="text-muted">Scan the Seed's Qr Code Generated from the Inventory</p>
+                        </center><br>
                         <video id="using-preview" style="width: 100%;"></video>
                         <center>
                             <p class="lead text-danger" id="used-qr"></p>
@@ -543,7 +529,6 @@
                 eventClick: function(info) {
                     var eventTitle = info.event.title;
                     var eventSeed = info.event.extendedProps.seed;
-                    var eventType = info.event.extendedProps.type;
                     var eventHarvested = info.event.extendedProps.harvested;
                     var eventDestroyed = info.event.extendedProps.destroyed;
                     var eventStart = info.event.start;
@@ -553,7 +538,6 @@
                     // Display event details in the Event Detail Modal
                     $('#eventtitle').text(eventTitle);
                     $('#eventseed').text(eventSeed);
-                    $('#eventtype').text(eventType);
                     $('#eventharvested').text(eventHarvested);
                     $('#eventdestroyed').text(eventDestroyed);
                     $('#eventstart').text(moment(eventStart).format("YYYY-MM-DD"));
@@ -567,7 +551,6 @@
                     // Populate update modal fields
                     $('#updateEventTitle').val(eventTitle);
                     $('#updateEventSeed').val(eventSeed);
-                    $('#updateEventType').val(eventType);
                     $('#updateEventDestroyed').val(eventDestroyed);
                     $('#updateEventHarvested').val(eventHarvested);
                     $('#updatestart-datepicker').val(moment(eventStart).format("YYYY-MM-DD"));
@@ -624,7 +607,6 @@
                 var eventId = $('#deleteEventBtn').data('event-id');
                 var title = $('#updateEventTitle').val();
                 var seed = $('#updateEventSeed').val();
-                var type = $('#updateEventType').val();
                 var harvested = $('#updateEventHarvested').val();
                 var destroyed = $('#updateEventDestroyed').val();
                 var start = $('#updatestart-datepicker').val();
@@ -644,7 +626,7 @@
 
 
 
-                if (title && start && end && status && seed && harvested && destroyed && type) {
+                if (title && start && end && status && seed && harvested && destroyed) {
                     $.ajax({
                         url: "/plantcalendar/" + eventId,
                         type: "PUT",
@@ -659,7 +641,6 @@
                             seed: seed,
                             harvested: harvested,
                             destroyed: destroyed,
-                            type: type,
                         },
 
 
@@ -694,7 +675,7 @@
                 handleEventDelete($(this).data('event-id'));
             });
 
-            function handleEventUpdate(eventId, start, end, status, seed, harvested, destroyed, type) {
+            function handleEventUpdate(eventId, start, end, status, seed, harvested, destroyed) {
                 $.ajax({
                     url: "/plantcalendar/" + eventId,
                     type: "PUT",
@@ -705,7 +686,6 @@
                         seed: seed,
                         harvested: harvested,
                         destroyed: destroyed,
-                        type: type,
                     },
                     success: function(data) {
                         calendar.refetchEvents();
@@ -717,7 +697,6 @@
                     }
                 });
             }
-
 
             function handleEventDelete(eventId) {
                 // Close Update/Delete Event Modal
@@ -802,7 +781,7 @@
                 endDateInput.value = endDateFormatted;
             });
 
-            function createPlanted(seedName, daysHarvest, type, amount) {
+            function createPlanted(parsedMultipleUsed, seedName, daysHarvest) {
                 var startDate = new Date().toISOString().slice(0, 10);
                 var startDateObject = new Date(startDate);
                 var endDateObject = new Date(startDateObject.getTime() + (daysHarvest * 24 * 60 * 60 * 1000));
@@ -820,8 +799,7 @@
                         status: "Planted",
                         harvested: 0,
                         destroyed: 0,
-                        seed: amount,
-                        type: type
+                        seed: parsedMultipleUsed
                     },
                     success: function(response) {
                         calendar.refetchEvents();
@@ -833,22 +811,6 @@
                     }
                 });
             }
-
-            $('.selecting').change(function() {
-                var selectedValue = $(this).val();
-                console.log("Selected value: " + selectedValue);
-
-                // You can add your logic here based on the selected option
-                // For example:
-                if (selectedValue === "2") {
-                    $(".item-text").text('Weight')
-                } else if (selectedValue === "3") {
-                    $(".item-text").text('Quantity')
-                } else {
-                    $(".item-text").text('Multiple Items')
-                }
-            });
-
             let usingScanner;
             let usingModal = document.getElementById("usingModal");
 
@@ -892,18 +854,10 @@
                                 timer: 2000,
                             });
                             startUsedScanner();
-                            createPlanted(data.seedName, data.daysHarvest, data.type, data.amount);
+                            createPlanted(parsedMultipleUsed, data.seedName, data.daysHarvest);
                         },
                         error: function(xhr, status, error) {
                             console.error("Error:", status, error);
-                            var errorMessage = xhr.responseJSON.message; // Assuming error response contains a 'message' property
-                            Swal.fire({
-                                title: "There is an error processing your request",
-                                text: errorMessage,
-                                icon: "error",
-                                showConfirmButton: false,
-                                timer: 3000
-                            });
                         },
                     });
                 }
@@ -956,29 +910,6 @@
             usingModal.addEventListener("hidden.bs.modal", function() {
                 stopUsedScanner();
                 lastUsedScannedContent = "";
-            });
-
-            var eventTypeSpan = document.getElementById("eventtype");
-            var typeLabels = document.querySelectorAll("h6[for='typeLabel']");
-            var typeLabelsFlex = document.querySelectorAll("label[for='typeLabel']");
-
-            eventTypeSpan.addEventListener("DOMSubtreeModified", function() {
-                var eventType = eventTypeSpan.textContent.trim();
-
-                typeLabels.forEach(function(label) {
-                    if (eventType === "Seeds") {
-                        label.textContent = "Seed Weight (g):";
-                    } else {
-                        label.textContent = "Seed Quantity (pcs):";
-                    }
-                });
-                typeLabelsFlex.forEach(function(label) {
-                    if (eventType === "Seeds") {
-                        label.textContent = "Seed Weight (g):";
-                    } else {
-                        label.textContent = "Seed Quantity (pcs)";
-                    }
-                });
             });
 
         });

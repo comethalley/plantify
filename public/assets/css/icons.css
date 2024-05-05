@@ -44868,7 +44868,7 @@ readers do not read off random characters that represent icons */
 .ri-eye-line:before {
   content: "\ecb5";
 }
-s
+
 .ri-eye-off-fill:before {
   content: "\ecb6";
 }

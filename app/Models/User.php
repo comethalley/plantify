@@ -81,8 +81,5 @@ public function groupMembers()
     {
         return $this->belongsToMany(Group::class, 'group_members', 'user_id', 'group_id');
     }
-    public function interests()
-    {
-        return $this->hasMany(Interest::class);
-    }
+
 }

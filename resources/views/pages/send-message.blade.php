@@ -32,7 +32,7 @@
 
 <body data-bs-spy="scroll" data-bs-target="#navbar-example">
 
-    <nav class="navbar navbar-expand-lg navbar-landing fixed-top" id="navbar" style="background-color:#066903;padding: 4px;">
+    <nav class="navbar navbar-expand-lg navbar-landing fixed-top" id="navbar" style="background-color:#025830; padding: 4px;">
         
     <div class="container">
         <a class="navbar-brand text-white" href="/">

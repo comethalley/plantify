@@ -13,11 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('farmers', function (Blueprint $table) {
+        Schema::create('tools', function (Blueprint $table) {
             $table->id();
-            $table->string('farmleader_id');
-            $table->string('farmer_id');
-            $table->text('status');
+            $table->string('farm_name');
+            $table->string('farm_leader');
+            $table->string('address');
+            $table->string('borrow_tool');
+            $table->string('status');
+            $table->binary('request_letter');
             $table->timestamps();
         });
     }
@@ -29,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('farmers');
+        Schema::dropIfExists('tools');
     }
 };

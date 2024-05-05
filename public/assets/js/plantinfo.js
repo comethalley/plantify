@@ -587,12 +587,6 @@ $(document).ready(function () {
     function archiveFertInfo() {
         var FertID = $('#archiveID').val();
     
-        // Validate FertID
-        if (!FertID) {
-            alert("Please provide a valid FertID.");
-            return; // Exit function early if FertID is empty
-        }
-    
         $.ajax({
             url: "/fertarchive/" + FertID,
             method: "POST",
@@ -605,12 +599,9 @@ $(document).ready(function () {
             },
             error: function(xhr, status, error) {
                 console.error("Error:", status, error);
-                // Provide feedback to the user
-                alert("An error occurred while archiving fertilization information. Please try again later.");
             }
         });
     }
-    
 
     $(document).ready(function() {
         // Bind click event to the element with id "pesticide-archive"

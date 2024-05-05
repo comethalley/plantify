@@ -104,17 +104,32 @@ class AuthController extends Controller
             )
             ->get();
 
-        $farmLeaders = DB::table('users')
-            ->where('users.status', 1)
-            ->where('farmers.farmleader_id', $id)
-            ->leftJoin('farmers', 'farmers.farmer_id', '=', 'users.id')
-            ->select(
-                "users.id",
-                'users.firstname',
-                "users.lastname",
-                "users.email"
-            )
-            ->get();
+        if ($id == 1) {
+            $farmLeaders = DB::table('farmers')
+                ->where('users.status', 1)
+                ->leftJoin('users', 'farmers.farmer_id', '=', 'users.id')
+                ->select(
+                    "users.id",
+                    'users.firstname',
+                    "users.lastname",
+                    "users.email"
+                )
+                ->get();
+        } else {
+            $farmLeaders = DB::table('users')
+                ->where('users.status', 1)
+                ->where('farmers.farmleader_id', $id)
+                ->leftJoin('farmers', 'farmers.farmer_id', '=', 'users.id')
+                ->select(
+                    "users.id",
+                    'users.firstname',
+                    "users.lastname",
+                    "users.email"
+                )
+                ->get();
+        }
+
+
         return response()->json(['farmLeaders' => $farmLeaders, 'role' => $role], 200);
     }
 

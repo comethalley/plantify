@@ -628,7 +628,7 @@
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="/dashboard/analytics" role="button" style="color:white">
                                 <i class="ri-dashboard-2-line"></i>
-                                <span data-key="t-dashboards">Dashboards</span>
+                                <span data-key="t-dashboards">Dashboard</span>
                             </a>
                         </li>
 
@@ -777,19 +777,22 @@
                         </li> <!-- end Dashboard Menu -->
                         @endif
 
-                        @if(session('user') && session('user')->role_id == 3 || session('user') && session('user')->role_id == 1 )
+                        @if(session('user') && session('user')->role_id == 3)
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="/Tools-District-5" role="button" style="color:white">
                                 <i class="ri-tools-fill"></i>
                                 <span data-key="t-dashboards">Tools and Seedlings Request</span>
                             </a>
                         </li>
-                        <!-- <li class="nav-item">
-                            <a class="nav-link menu-link" href="/request" role="button" style="color:white">
+                        @endif
+
+                        @if(session('user') && session('user')->role_id == 1)
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="/requests" role="button" style="color:white">
                                 <i class="ri-tools-fill"></i>
-                                <span data-key="t-dashboards">Tools/Seedlings</span>
+                                <span data-key="t-dashboards">Tools and Seedlings Request</span>
                             </a>
-                        </li> -->
+                        </li>
                         @endif
 
                         <!-- <li class="nav-item">

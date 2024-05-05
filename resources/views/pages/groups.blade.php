@@ -53,7 +53,7 @@
                                                                 <img class="rounded-circle header-profile-user" src="{{asset('assets/images/plantifeedpics/rounded.png')}}" alt="Header Avatar">
                                                             @endif
                                                             @if ($user->unread_message_count > 0)
-                                                                <span class="position-absolute topbar-badge fs-10 translate-end badge rounded-pill bg-danger">{{ $user->unread_message_count }}</span>
+                                                                <span id="unreadBadge_{{ $user->id }}" class="position-absolute topbar-badge fs-10 translate-end badge rounded-pill bg-danger">{{ $user->unread_message_count }}</span>
                                                             @endif
                                                             <div class="ms-2">
                                                                 <h6 class="mb-0">{{ $user->firstname }} {{ $user->lastname }}</h6>
@@ -745,6 +745,10 @@ $(document).ready(function () {
     }
 });
 
+setInterval(function() {
+        // Reload the content
+        $('#userList').load(location.href + ' #userList');
+    }, 500); // 0.5 seconds
 
 
 </script>

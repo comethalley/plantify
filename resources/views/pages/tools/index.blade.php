@@ -294,7 +294,7 @@
                         <div class="file-input-wrapper">
                             <label for="letter_content" class="form-label">Request Letter &nbsp;<span class="required-asteroid">*</span></label>
                             <input type="file" name="letter_content" class="form-control file-input" accept="application/pdf" required />
-                            <button type="button" class="btn btn-danger cancel-btn" title="This field is required to fill up" onclick="cancelUpload('letter_content')">Cancel</button>
+                            <button type="button" class="btn btn-danger cancel-btn" title="This field is required to fill up" onclick="cancelUpload('letter_content')">Remove</button>
                         </div>
                     </div>
                     <br>
@@ -528,66 +528,79 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,800;1,800&display=swap" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         <script>
 
-                function setDate(id, selectDate) {
-                        var nextDate1 = new Date(selectDate);
-                        var nextDate2 = new Date(selectDate);
-                        nextDate1.setDate(nextDate1.getDate() + 1);
-                        nextDate2.setDate(nextDate2.getDate() + 2)
+function setDate(id, selectDate) {
+    var nextDate1 = new Date(selectDate);
+    var nextDate2 = new Date(selectDate);
+    nextDate1.setDate(nextDate1.getDate() + 1);
+    nextDate2.setDate(nextDate2.getDate() + 2)
 
-                        var nextDateString1 = nextDate1.toISOString().split('T')[0];
-                        var nextDateString2 = nextDate2.toISOString().split('T')[0];
+    var nextDateString1 = nextDate1.toISOString().split('T')[0];
+    var nextDateString2 = nextDate2.toISOString().split('T')[0];
 
-                        $("#SetDateBtn").data("request-id", id);
+    $("#SetDateBtn").data("request-id", id);
 
-                        $("#availability1").val(selectDate);
-                        $("label[for='availability1']").text(selectDate);
+    $("#availability1").val(selectDate);
+    $("label[for='availability1']").text(selectDate);
 
-                        $("#availability2").val(nextDateString1);
-                        $("label[for='availability2']").text(nextDateString1);
+    $("#availability2").val(nextDateString1);
+    $("label[for='availability2']").text(nextDateString1);
 
-                        $("#availability3").val(nextDateString2);
-                        $("label[for='availability3']").text(nextDateString2);
+    $("#availability3").val(nextDateString2);
+    $("label[for='availability3']").text(nextDateString2);
 
-                        $("#SetDateModal").modal("show");
-                    }
+    $("#SetDateModal").modal("show");
+}
 
-                    $("#SetDateBtn").click(function() {
-                        var id = $(this).data("request-id");
+$("#SetDateBtn").click(function () {
+    var id = $(this).data("request-id");
 
-                        var selectedDate = $('input[name="availability"]:checked').val();
+    var selectedDate = $('input[name="availability"]:checked').val();
 
-                        if (!selectedDate) {
-                            $("#dateErrorMessage").show();
-                            return; 
-                        } else {
-                            $("#dateErrorMessage").hide();
-                        }
+    if (!selectedDate) {
+        $("#dateErrorMessage").show();
+        return;
+    } else {
+        $("#dateErrorMessage").hide();
+    }
 
-                        $.ajax({
-                            url: "/set-date-request/" + id,
-                            type: "POST",
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            },
-                            data: {
-                                status: "Ready",
-                                select_picked: selectedDate
-                            },
-                            success: function(response) {
-                                console.log(response);
+    $.ajax({
+        url: "/set-date-request/" + id,
+        type: "POST",
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        data: {
+            status: "Ready",
+            select_picked: selectedDate
+        },
+        success: function (response) {
+            console.log(response);
 
-                                location.reload();
-                            },
-                            error: function(error) {
-                                console.error("Error updating request status:", error);
-                            }
-                        });
+            // Show SweetAlert success message with an OK button
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'Process completed successfully!',
+                showConfirmButton: true, // Show the OK button
+                allowOutsideClick: false // Prevent closing by clicking outside
+            }).then((result) => {
+                // Reload the page when the OK button is clicked or the message is closed
+                location.reload();
+            });
+        },
+        error: function (error) {
+            console.error("Error updating request status:", error);
+        }
+    });
 
-                        $("#SetDateModal").modal("hide");
-                    });
+    $("#SetDateModal").modal("hide");
+});
+
+
             
 
             $(document).ready(function() {
@@ -957,87 +970,120 @@
             }
 
             function submitForm() {
-                // Hide any previous error messages
-                document.getElementById('error-messages').style.display = 'none';
-                document.getElementById('error-messages').innerHTML = ''; // Clear existing messages
-                document.getElementById('error-messages1').style.display = 'none';
-                document.getElementById('error-messages1').innerHTML = ''; // Clear existing messages
+    // Show confirmation dialog
+    Swal.fire({
+        title: 'Are you sure?',
+        text: 'Do you want to submit this form?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, submit it!',
+        cancelButtonText: 'No, cancel!',
+        reverseButtons: true
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // If user confirms, proceed with form submission
+            // Hide any previous error messages
+            document.getElementById('error-messages').style.display = 'none';
+            document.getElementById('error-messages').innerHTML = ''; // Clear existing messages
+            document.getElementById('error-messages1').style.display = 'none';
+            document.getElementById('error-messages1').innerHTML = ''; // Clear existing messages
 
-                // Get form and required fields
-                var form = document.getElementById('addFarmForm');
-                var requiredFields = form.querySelectorAll('[required]');
-                var id = document.getElementById('request_id_modal').value;
+            // Get form and required fields
+            var form = document.getElementById('addFarmForm');
+            var requiredFields = form.querySelectorAll('[required]');
+            var id = document.getElementById('request_id_modal').value;
 
-
-                // Check if all required fields are filled
-                var isValid = true;
-                requiredFields.forEach(function(field) {
-                    if (!field.value.trim()) {
-                        isValid = false;
-                        field.classList.add('is-invalid'); // Add a visual cue for the user
-                    } else {
-                        field.classList.remove('is-invalid'); // Remove the visual cue if field is filled
-                    }
-                });
-
-                // Check if supply_count is not a single 0
-                var supplyCountField = document.getElementsByName('count_tool')[0];
-                if (supplyCountField.value.trim() === '0') {
+            // Check if all required fields are filled
+            var isValid = true;
+            requiredFields.forEach(function (field) {
+                if (!field.value.trim()) {
                     isValid = false;
-                    supplyCountField.classList.add('is-invalid');
-                    document.getElementById('error-messages1').style.display = 'block';
-                    document.getElementById('error-messages1').innerHTML = '<p>Supply count cannot be 0.</p>';
-                    return; // Stop form submission
+                    field.classList.add('is-invalid'); // Add a visual cue for the user
+                } else {
+                    field.classList.remove('is-invalid'); // Remove the visual cue if field is filled
                 }
+            });
 
-                var supplySeedlingField = document.getElementsByName('count_seedling')[0];
-                if (supplySeedlingField.value.trim() === '0') {
-                    isValid = false;
-                    supplySeedlingField.classList.add('is-invalid');
-                    document.getElementById('error-messages1').style.display = 'block';
-                    document.getElementById('error-messages1').innerHTML = '<p>Seedling count cannot be 0.</p>';
-                    return; // Stop form submission
-                }
-
-                if (!isValid) {
-                    // If any required field is empty, display error message
-                    document.getElementById('error-messages').style.display = 'block';
-                    document.getElementById('error-messages').innerHTML = '<p>Please fill out all required fields.</p>';
-                    return; // Stop form submission
-                }
-
-                // If all required fields are filled, proceed with form submission
-                var formData = new FormData(form);
-
-                fetch('{{ route("add.tools") }}', {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'X-CSRF-Token': '{{ csrf_token() }}',
-                        },
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        if (data.success) {
-                            location.reload();
-                        } else {
-                            document.getElementById('error-messages').style.display = 'block';
-                            for (var key in data.errors) {
-                                document.getElementById('error-messages').innerHTML += '<p>' + data.errors[key][0] + '</p>';
-                            }
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        document.getElementById('error-messages').style.display = 'block';
-                        document.getElementById('error-messages').innerHTML = '<p>An error occurred while processing your request. Please try again later.</p>';
-                    });
+            // Check if supply_count is not a single 0
+            var supplyCountField = document.getElementsByName('count_tool')[0];
+            if (supplyCountField.value.trim() === '0') {
+                isValid = false;
+                supplyCountField.classList.add('is-invalid');
+                document.getElementById('error-messages1').style.display = 'block';
+                document.getElementById('error-messages1').innerHTML = '<p>Supply count cannot be 0.</p>';
+                return; // Stop form submission
             }
+
+            var supplySeedlingField = document.getElementsByName('count_seedling')[0];
+            if (supplySeedlingField.value.trim() === '0') {
+                isValid = false;
+                supplySeedlingField.classList.add('is-invalid');
+                document.getElementById('error-messages1').style.display = 'block';
+                document.getElementById('error-messages1').innerHTML = '<p>Seedling count cannot be 0.</p>';
+                return; // Stop form submission
+            }
+
+            if (!isValid) {
+                // If any required field is empty, display error message
+                document.getElementById('error-messages').style.display = 'block';
+                document.getElementById('error-messages').innerHTML = '<p>Please fill out all required fields.</p>';
+                return; // Stop form submission
+            }
+
+            // If all required fields are filled, proceed with form submission
+            var formData = new FormData(form);
+
+            fetch('{{ route("add.tools") }}', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRF-Token': '{{ csrf_token() }}',
+                },
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        // Display success message with SweetAlert2
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: 'Your form has been submitted successfully!',
+                        }).then(() => {
+                            location.reload();
+                        });
+                    } else {
+                        // Display error message with SweetAlert2
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            html: data.errors ? Object.values(data.errors).join('<br>') : 'An error occurred while processing your request. Please try again later.',
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    // Display error message with SweetAlert2
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'An error occurred while processing your request. Please try again later.',
+                    });
+                });
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+            // If user cancels, do nothing or show a message
+            Swal.fire({
+                title: 'Cancelled',
+                text: 'Your form submission has been cancelled.',
+                icon: 'info'
+            });
+        }
+    });
+}
 
 
 

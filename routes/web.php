@@ -38,8 +38,7 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\AttendanceControler;
-
-
+use Illuminate\Support\Facades\Artisan;
 
 /*
 |--------------------------------------------------------------------------
@@ -419,3 +418,7 @@ Route::get('/getPost', [ForumController::class, 'getPost']);
 Route::get('/getComment/{num}', [CommentController::class, 'getComment']);
 Route::get('/getReply/{num}', [CommentController::class, 'getReply']);
 Route::post('/reply/store', [CommentController::class, 'createReply']);
+
+Route::get('/linkstorage', function () {
+    Artisan::call('storage:link');
+});

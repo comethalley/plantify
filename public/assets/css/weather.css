@@ -241,20 +241,20 @@ img {
 }
 
 /* Mobile Styles */
-@media (max-width: 600px) {
+@media (max-width: 400px) {
     /* Adjust to your breakpoint preference */
     .wrapper {
         flex-direction: column;
-        width: 100%;
-        min-width: 100%;
+        width: 70%;
+        min-width: 90%;
 
     }
     .sidebar,
     .main {
-        width: 100%;
+        width: 80%;
         min-width: 0;
         max-width: 47%;
-        padding: 25px;
+        padding: 50px;
         border-radius: 20px;
 
     }

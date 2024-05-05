@@ -105,7 +105,18 @@ input:valid + span::after {
         max-width: 250%;
         max-height: 150px; /* Adjust the height as per your requirement */
     }
+ img:focus {
+        outline: none;
+    }
 
+a {
+    color: blue;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
 
   </style>
 
@@ -142,39 +153,33 @@ input:valid + span::after {
             <div class="card-header border-0">
                 <div class="row align-items-center gy-3">
                     <div class="col-sm">
-                    @if(auth()->user()->role_id == 4) 
-                        {{-- Display only for role_id 4 (Farmers) --}}
-                        <h5 class="card-title mb-0">My Task</h5>
+                        @if(auth()->user()->role_id == 4) 
+                            {{-- Display only for role_id 4 (Farmers) --}}
+                            <h5 class="card-title mb-0">My Task</h5>
                         @endif
-                    @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 3 || auth()->user()->role_id == 5) 
-                    {{-- Display only for role_id 4 (Farmers) --}}
-                    <h5 class="card-title mb-0">Task List</h5>
-                    @endif
+                        @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 3 || auth()->user()->role_id == 5) 
+                            {{-- Display only for role_id 4 (Farmers) --}}
+                            <h5 class="card-title mb-0">Task List</h5>
+                        @endif
                     </div>
-                    <div class="col-sm-auto">
-                        <div class="d-flex gap-1 flex-wrap">
-                            
-                    @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 3) 
-                        {{-- Display only for roles 1, 2, or 3 --}}
-                        <button type="button" class="btn btn-success add-btn" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModal"><i class="ri-add-line align-bottom me-1"></i> Create</button>
-                    @endif
-
-                    @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 3 || auth()->user()->role_id == 4 ) 
-                        {{-- Display only for All --}}
-                        <a href="{{ route('taskshow') }}" class="btn btn-primary bg-gradient waves-effect waves-light">Show Complete Task</a>
-                    @endif
-
-                    @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 3 || auth()->user()->role_id == 4 ) 
-                        {{-- Display only for All --}}
-                        <a href="/missingtasks" class="btn btn-primary bg-gradient waves-effect waves-light">Missing Task</a>
-                    @endif
-
-
-                    @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 3) 
-                        {{-- Display only for SuperAdmin,Admin,Farmer Leader --}}
-                        <a href="{{ route('archived') }}" class="btn btn-primary bg-gradient waves-effect waves-light">Show Archived Task</a>
-                    @endif
-
+                        <div class="col-sm-auto">
+                            <div class="d-flex gap-1 flex-wrap">
+                            @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 3) 
+                                {{-- Display only for roles 1, 2, or 3 --}}
+                                <button type="button" class="btn btn-success add-btn" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModal"><i class="ri-add-line align-bottom me-1"></i> Create</button>
+                            @endif
+                            @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 3 || auth()->user()->role_id == 4 ) 
+                                {{-- Display only for All --}}
+                                <a href="{{ route('taskshow') }}" class="btn btn-primary bg-gradient waves-effect waves-light">Show Complete Task</a>
+                            @endif
+                            @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 3 || auth()->user()->role_id == 4 ) 
+                                {{-- Display only for All --}}
+                                <a href="/missingtasks" class="btn btn-primary bg-gradient waves-effect waves-light">Missing Task</a>
+                            @endif
+                            @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 3) 
+                                {{-- Display only for SuperAdmin,Admin,Farmer Leader --}}
+                                <a href="{{ route('archived') }}" class="btn btn-primary bg-gradient waves-effect waves-light">Show Archived Task</a>
+                            @endif
                             <!-- Dropdown Filter -->
                             <div class="dropdown">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuClickableOutside" data-bs-toggle="dropdown" aria-expanded="false">
@@ -191,7 +196,7 @@ input:valid + span::after {
                     </div>
                 </div>
             </div>
-            <div class="card-body border border-dashed border-end-0 border-start-0">
+            <div class="card-body border border-dashed border-end-0 border-start-0" style="max-height: 500px; overflow-y: auto;">
                 <table class="table table-nowrap align-middle">
                     <form>
                         <div class="row g-3">
@@ -206,17 +211,18 @@ input:valid + span::after {
                     <div class="table-responsive table-card mb-1">
                         <table class="table table-nowrap align-middle" id="tasksTable">
                             <thead class="text-muted table-light">
-                                <tr class="text-uppercase">
-                                    <th class="sort" data_sort="id">ID</th>
-                                    <th class="sort" data_sort="tittle">Title</th>
-                                    <th class="sort" data_sort="description">Description</th>
-                                    <th class="sort" data_sort="user_id">Assigned To</th>
-                                    <th class="sort" data_sort="due_date">Due</th>
-                                    <th class="sort" data_sort="priority">Priority</th>
-                                    <th class="sort" data_sort="status">Status</th>
-                                    @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 3 ||auth()->user()->role_id == 4 ) 
-                                     {{-- Display only for role_id 1,2,3 (Super Admin, Admin, Farmerleader) --}}
-                                    <th>Actions</th>
+                                <tr class="text-uppercase" style="text-align: justify;">
+                                    <th>ID</th>
+                                    <th>Title</th>
+                                    <th>Description</th>
+                                    <th>Assigned To</th>
+                                    <th>Due</th>
+                                    <th>Priority</th>
+                                    <th>Status</th>
+                                    <th>Validation Image</th>
+                                    @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 3 || auth()->user()->role_id == 4 ) 
+                                        {{-- Display only for role_id 1,2,3 (Super Admin, Admin, Farmerleader) --}}
+                                        <th>Actions</th>
                                     @endif
                                 </tr>
                             </thead>
@@ -245,37 +251,46 @@ input:valid + span::after {
                                         <span class="badge badge-<?php echo strtolower($task->status); ?>"><?php echo $task->status; ?></span>
                                     </td>
                                     <td>
+    @if($task->image)
+        <a href="{{ asset('storage/images/' . $task->image) }}" data-toggle="modal" data-target="#imageModal" style="color: blue; text-decoration: none;">
+            <img id="taskImage"  style="max-width: 85px; max-height: 50px; cursor: pointer;">
+            <span style="text-decoration: none;">View Image</span>
+        </a>
+    @else
+        No Image Uploaded
+    @endif
+</td>
+
+
+                                    <td>
                                     @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 3|| auth()->user()->role_id == 4 ) 
                                         {{-- Display only for role_id 1, 2, 3 (Super Admin, Admin, Farmerleader,farmer) --}}
                                         <a href="#" class="btn btn-primary btn-sm task-edit" data-task-id="{{ $task->id }}" data-task-title="{{ $task->title }}" data-task-description="{{ $task->description }}" data-task-priority="{{ $task->priority }}" data-task-due_date="{{ $task->due_date }}" data-task-user_id="{{ $task->user_id }}" data-task-status="{{ $task->status }}" data-task-image="{{ $task->image }}" >
                                             <i class="ri-pencil-fill fs-16"></i>
                                         </a>
-                                        @endif
-                                        @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 3 ) 
+                                    @endif
+                                    @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 3 ) 
                                         {{-- Display only for role_id 1, 2, 3 (Super Admin, Admin, Farmerleader) --}}
                                         <!-- Archive task button -->
                                         @if (!$task->archived)
-                                     <form id="archiveForm{{ $task->id }}" action="{{ route('tasks.archive', $task->id) }}" method="POST" style="display: inline;">
-                                        @csrf
-                                      <button type="button" class="btn btn-danger btn-sm" id="deletebtn" data-task-id="{{ $task->id }}">
-                                          <i class="ri-delete-bin-5-fill fs-16"></i>
-                                    </button>
-                                    </form>
+                                         <form id="archiveForm{{ $task->id }}" action="{{ route('tasks.archive', $task->id) }}" method="POST" style="display: inline;">
+                                            @csrf
+                                            <button type="button" class="btn btn-danger btn-sm" id="deletebtn" data-task-id="{{ $task->id }}">
+                                                <i class="ri-delete-bin-5-fill fs-16"></i>
+                                            </button>
+                                        </form>
                                         @endif
-
-                                        
                                         <!-- Complete task button -->
                                         @if (!$task->completed)
-                                       <form id="completeForm{{ $task->id }}" action="{{ route('tasks.complete', $task->id) }}" method="POST" style="display: inline;">
-                                       @csrf
-                                         <button type="button" class="btn btn-warning btn-sm complete-btn" data-task-id="{{ $task->id }}">
-                                      <i class="ri-checkbox-circle-line fs-16"></i>
-                                          </button>
-                                         </form>
+                                        <form id="completeForm{{ $task->id }}" action="{{ route('tasks.complete', $task->id) }}" method="POST" style="display: inline;">
+                                            @csrf
+                                            <button type="button" class="btn btn-warning btn-sm complete-btn" data-task-id="{{ $task->id }}">
+                                                <i class="ri-checkbox-circle-line fs-16"></i>
+                                            </button>
+                                        </form>
                                         @endif
                                     @endif
-                                    
-                                </td>
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -286,6 +301,7 @@ input:valid + span::after {
         </div>
     </div>
 </div>
+
 
      <!--Create Modal-->
      <div class="modal fade" id="showModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -353,9 +369,7 @@ input:valid + span::after {
     </select>
 </div>
 
-   
 </div>
-
                 </div>
                 <div class="modal-footer" style="display: block;">
                     <div class="hstack gap-2 justify-content-end">
@@ -368,6 +382,23 @@ input:valid + span::after {
         </div>
     </div>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="imageModalLabel">Validation Image</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img id="modalImage" src="" alt="" style="max-width: 100%;">
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <!-- Edit Task Modal -->
 <div class="modal fade" id="editTaskModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -438,17 +469,7 @@ input:valid + span::after {
                 </select>
             </div>
         </div>
-        @foreach($tasks as $task)
-    <div>
-        <p>{{ $task->task_name }}</p>
-        <div class="col-md-7 mb-3">
-            <label for="image">Validation:</label>
-            <div>
-                <img src="{{ asset('storage/images/' . $task->image) }}" alt="Larawan ng Gawain" style="max-width: 100%; max-height: 100px;">
-            </div>
-        </div>
-    </div>
-@endforeach
+        
 @endif
                         
                         @if(auth()->user()->role_id == 4)
@@ -513,7 +534,7 @@ input:valid + span::after {
         </div>
     </div>
 @endif
-<div class="modal-footer" style="display: block; margin-top: -0.3in;">
+<div class="modal-footer" style="display: block; margin-top: .3in;">
     <div class="hstack gap-2 justify-content-end">
         <button type="button" class="btn btn-light" id="close-modal" data-bs-dismiss="modal">Close</button>
         <button type="button" class="btn btn-success" id="edit-btn">Update Task</button>
@@ -893,4 +914,13 @@ input:valid + span::after {
 
 });
 </script>
+<script>
+    $(document).ready(function() {
+        $('#imageModal').on('show.bs.modal', function (event) {
+            var image = $(event.relatedTarget).attr('href');
+            $('#modalImage').attr('src', image);
+        });
+    });
+</script>
+
 <!-- END layout-wrappe

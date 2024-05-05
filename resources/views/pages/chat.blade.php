@@ -196,7 +196,7 @@
                         </div>
                             <div class="chat-content d-lg-flex">
                                 <!-- start chat conversation section -->
-                                <div class="w-100 overflow-hidden position-relative">
+                                <div class="w-100 overflow-hidden position-relative" style="background-image: url('{{ asset('assets/images/chat_bg.png') }}'); background-size: cover; position: relative;">
                                     <!-- conversation user -->
                                     <div class="position-relative">
                                         

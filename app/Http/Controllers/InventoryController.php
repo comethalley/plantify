@@ -44,6 +44,14 @@ class InventoryController extends Controller
     {
         $id = Auth::user()->id;
 
+        $user = User::where('id', $id)
+            ->where('status', 1)
+            ->firstOrFail();
+
+        if ($user->role_id == 2) {
+            $id = 1;
+        }
+
         $user = User::select('users.*', 'farms.id AS farm_id')
             ->leftJoin('farms', 'farms.farm_leader', '=', 'users.id')
             ->where('users.id', $id)
@@ -84,6 +92,7 @@ class InventoryController extends Controller
                 'plant_infos.plant_name as seedName',
             )
             ->where('suppliers.id', $id)
+            ->where('supplier_seeds.status', '1')
             ->orderBy('supplier_seeds.id', 'DESC')
             ->get();
 
@@ -227,7 +236,16 @@ class InventoryController extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
+
         $id = Auth::user()->id;
+
+        $user = User::where('id', $id)
+            ->where('status', 1)
+            ->firstOrFail();
+
+        if ($user->role_id == 2) {
+            $id = 1;
+        }
 
         $user = User::select('users.*', 'farms.id AS farm_id')
             ->leftJoin('farms', 'farms.farm_leader', '=', 'users.id')
@@ -451,6 +469,10 @@ class InventoryController extends Controller
                 ->where('status', '1')
                 ->first();
 
+            if (!$supplierSeeds) {
+                return response()->json(['message' => 'Item not found, Go to the Inventory > Stocks to add the item'], 403);
+            }
+
             $supplier_seedsID = $supplierSeeds->id;
             $quantity = $multiplier;
             if ($mode == 1) {
@@ -465,10 +487,10 @@ class InventoryController extends Controller
             $record = Stock::where('supplier_seeds_id', $supplier_seedsID)->first();
 
             if ($record) {
-                $getStock = Stock::find($record->id);
+                // $getStock = Stock::find($record->id);
 
-                if ($quantity > $getStock->available_seed) {
-                    return response()->json(['message' => 'Insufficient stock.'], 403);
+                if ($quantity > $record->available_seed) {
+                    return response()->json(['message' => 'Insufficient stock. Go to the Inventory > Stocks and restock your inventory'], 403);
                 }
 
                 $totalUsed = $quantity + $record->used_seed;
@@ -847,5 +869,28 @@ class InventoryController extends Controller
     public function tools()
     {
         return view("pages.inventory.tools");
+    }
+
+    public function archiveSeed(Request $request, $id)
+    {
+        try {
+            $uoms = SupplierSeed::findOrFail($id);
+
+            $uoms->update([
+                'status' => 0
+            ]);
+
+            if ($uoms) {
+                return response()->json(['message' => 'Measurement Updated Successfully', 'supplier' => $uoms->supplier_id], 200);
+            } else {
+                return response()->json(['error' => 'Internal Server Error'], 500);
+            }
+        } catch (ModelNotFoundException $e) {
+
+            return response()->json(['error' => 'Item not found'], 404);
+        } catch (\Exception $e) {
+
+            return response()->json(['error' => 'Internal Server Error'], 500);
+        }
     }
 }

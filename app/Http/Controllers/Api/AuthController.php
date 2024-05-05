@@ -104,19 +104,35 @@ class AuthController extends Controller
             )
             ->get();
 
-        $farmLeaders = DB::table('users')
-            ->where('users.status', 1)
-            ->where('farmers.farmleader_id', $id)
-            ->leftJoin('farmers', 'farmers.farmer_id', '=', 'users.id')
-            ->select(
-                "users.id",
-                'users.firstname',
-                "users.lastname",
-                "users.email"
-            )
-            ->get();
+        if ($role->role_id == 1 || $role->role_id == 2) {
+            $farmLeaders = DB::table('farmers')
+                ->where('users.status', 1)
+                ->leftJoin('users', 'farmers.farmer_id', '=', 'users.id')
+                ->select(
+                    "users.id",
+                    'users.firstname',
+                    "users.lastname",
+                    "users.email"
+                )
+                ->get();
+        } else {
+            $farmLeaders = DB::table('users')
+                ->where('users.status', 1)
+                ->where('farmers.farmleader_id', $id)
+                ->leftJoin('farmers', 'farmers.farmer_id', '=', 'users.id')
+                ->select(
+                    "users.id",
+                    'users.firstname',
+                    "users.lastname",
+                    "users.email"
+                )
+                ->get();
+        }
+
+
         return response()->json(['farmLeaders' => $farmLeaders, 'role' => $role], 200);
     }
+
 
     public function getAllAdmin()
     {
@@ -131,6 +147,24 @@ class AuthController extends Controller
             )
             ->get();
         return response()->json(['admins' => $admins], 200);
+    }
+
+
+    public function getAllArchiveUsers()
+    {
+        $restore = DB::table('users')
+            ->where('users.status', 0)
+            ->leftJoin('roles', 'roles.id', '=', 'users.role_id')
+            ->select(
+                "users.id",
+                'users.firstname',
+                "users.lastname",
+                "users.email",
+                "roles.description"
+
+            )
+            ->get();
+        return response()->json(['restore' => $restore], 200);
     }
 
     public function viewAdmin($id)
@@ -153,6 +187,31 @@ class AuthController extends Controller
         } catch (ModelNotFoundException $e) {
 
             return response()->json(['error' => 'UOM not found'], 404);
+        } catch (\Exception $e) {
+
+            return response()->json(['error' => 'Internal Server Error'], 500);
+        }
+    }
+
+    public function viewUsers($id)
+    {
+        try {
+            User::findOrFail($id);
+
+            $restore = DB::table('users')
+                ->where('status', 0)
+                ->where('id', $id)
+                ->select(
+                    "id",
+                    'firstname',
+                    "lastname",
+                    "email",
+                )
+                ->first();
+            return response()->json(['restore' => $restore], 200);
+        } catch (ModelNotFoundException $e) {
+
+            return response()->json(['error' => 'User not found'], 404);
         } catch (\Exception $e) {
 
             return response()->json(['error' => 'Internal Server Error'], 500);
@@ -308,6 +367,32 @@ class AuthController extends Controller
         }
     }
 
+    public function restoreUser(Request $request, $id)
+    {
+        try {
+            $user = User::where('id', $id)
+                ->where('status', 0)
+                ->firstOrFail();
+
+            $user->update([
+                'status' => 1,
+            ]);
+
+            if ($user) {
+                return response()->json(['message' => 'Admin Archive Successfully'], 200);
+            } else {
+                return response()->json(['error' => 'Internal Server Error'], 500);
+            }
+        } catch (ModelNotFoundException $e) {
+
+            return response()->json(['error' => 'User not found'], 404);
+        } catch (\Exception $e) {
+
+            return response()->json(['error' => 'Internal Server Error'], 500);
+        }
+    }
+
+
     public function archiveFarmLeader(Request $request, $id)
     {
         // Find the farm leader
@@ -356,23 +441,18 @@ class AuthController extends Controller
             'firstname' => 'required|string|max:55',
             'lastname' => 'required|string|max:55',
             'email' => 'required|email|unique:users,email',
-            'password' => [
-                'required',
-                'confirmed',
-                'min:8',
-                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/',
-            ],
+            'password' => ['required', 'string', 'confirmed', 'min:8', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/'],
         ], [
             'password.required' => 'Password is required.',
             'password.confirmed' => 'Password confirmation does not match.',
             'password.min' => 'Password must be at least :min characters.',
-            'password.regex' => 'Password format is incorrect. It must contain at least one uppercase letter, one lowercase letter, one digit, and one special character.',
+            'password.regex' => 'Password format is incorrect. It must contain at least one uppercase letter, one lowercase letter, and one digit.',
         ]);
-
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
+
 
         $data = $validator->validated();
 
@@ -709,6 +789,11 @@ class AuthController extends Controller
     public function getFarmers()
     {
         return view('pages.users.farmers');
+    }
+
+    public function getArchived()
+    {
+        return view('pages.users.restore');
     }
 
     public function landingpage()

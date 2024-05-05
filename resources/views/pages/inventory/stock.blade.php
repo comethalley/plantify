@@ -49,7 +49,7 @@
                                 <div class="col-sm-auto">
                                     <div class="d-flex gap-1 flex-wrap">
                                         <button type="button" class="btn btn-secondary waves-effect waves-light" data-bs-toggle="modal" id="create-btn" data-bs-target="#receiveModal"><i class="ri-add-line align-bottom me-1"></i> Add Stock</button>
-                                        <button type="button" class="btn btn-success waves-effect waves-light" data-bs-toggle="modal" id="create-btn" data-bs-target="#usingModal"><i class="ri-add-line align-bottom me-1"></i> Release</button>
+                                        <!-- <button type="button" class="btn btn-success waves-effect waves-light" data-bs-toggle="modal" id="create-btn" data-bs-target="#usingModal"><i class="ri-add-line align-bottom me-1"></i> Release</button> -->
                                         <button class="btn btn-soft-danger" id="remove-actions" onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button>
                                     </div>
                                 </div>
@@ -76,14 +76,14 @@
                                         <thead class="text-muted table-light">
                                             <tr class="text-uppercase">
 
-                                                <th class="sort" data-sort="id">ID</th>
-                                                <th class="sort" data-sort="customer_name">Code</th>
-                                                <th class="sort" data-sort="date">Seed Name</th>
-                                                <th class="sort" data-sort="amount">Supplier</th>
-                                                <th class="sort" data-sort="payment">Available</th>
-                                                <th class="sort" data-sort="payment">Used</th>
-                                                <th class="sort" data-sort="payment">Total</th>
-                                                <th class="sort" data-sort="city">Logs</th>
+                                                <th data-sort="id">ID</th>
+                                                <th data-sort="customer_name">Code</th>
+                                                <th data-sort="date">Seed Name</th>
+                                                <th data-sort="amount">Supplier</th>
+                                                <th data-sort="payment">Available</th>
+                                                <th data-sort="payment">Used</th>
+                                                <th data-sort="payment">Total</th>
+                                                <th data-sort="city">Logs</th>
                                             </tr>
                                         </thead>
                                         <tbody class="list form-check-all">
@@ -292,6 +292,84 @@
 
 </div>
 <!-- END layout-wrapper -->
+
+<script>
+    $(document).ready(function() {
+        $(".download-btn").click(function() {
+            var table = $('#supplierTable').clone();
+
+            // Add user's first name, last name, and current date to the table
+            var userFirstName = "<?php echo Auth::user()->firstname; ?>";
+            var userLastName = "<?php echo Auth::user()->lastname; ?>";
+            var currentDate = new Date().toLocaleDateString();
+            var userRow = $('<tr><td colspan="6">Prepared by: ' + userFirstName + ' ' + userLastName + '</td></tr>');
+            var dateRow = $('<tr><td colspan="6">Date: ' + currentDate + '</td></tr>');
+            table.append(userRow); // Append at the bottom
+            table.append(dateRow); // Append at the bottom
+
+            exportTableToCSV(table);
+        });
+    });
+
+    function exportTableToCSV(table) {
+        var rows = table.find('tr').get();
+        var csvContent = '';
+
+        // Iterate over table rows
+        rows.forEach(function(row) {
+            var rowData = [];
+            $(row).find('td').each(function() {
+                rowData.push($(this).text());
+            });
+            csvContent += rowData.join(',') + '\n';
+        });
+
+        var currentDate = new Date().toLocaleDateString();
+        var userFirstName = "<?php echo Auth::user()->firstname; ?>";
+        var userLastName = "<?php echo Auth::user()->lastname; ?>";
+
+        csvContent += 'Date: ' + currentDate + '\n';
+        csvContent += 'Prepared by: ' + userFirstName + ' ' + userLastName + '\n';
+
+        var blob = new Blob([csvContent], {
+            type: 'text/csv;charset=utf-8;'
+        });
+
+        var currentDate = new Date();
+        var year = currentDate.getFullYear();
+        var month = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // Adding 1 to month as it's zero-based
+        var day = currentDate.getDate().toString().padStart(2, '0');
+        var formattedDate = year + '-' + month + '-' + day;
+
+        var filename = 'suppliers_' + formattedDate + '.csv';
+
+        if (navigator.msSaveBlob) { // IE 10+
+            navigator.msSaveBlob(blob, filename);
+        } else {
+            var link = document.createElement("a");
+            if (link.download !== undefined) { // Feature detection
+                var url = URL.createObjectURL(blob);
+                link.setAttribute("href", url);
+                link.setAttribute("download", filename);
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+        }
+    }
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('.search').on('keyup', function() {
+            var value = $(this).val().toLowerCase();
+            $('#stocksTable tbody tr').filter(function() { // Only target tbody rows
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
 
 
 @include('templates.footer')

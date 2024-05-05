@@ -21,7 +21,8 @@ $(document).ready(function () {
         var tableBody = $("#farmers-tbl tbody");
         tableBody.empty();
     
-        var role = data.role; // Assuming role information is provided in the 'data' object
+        var role = data.role;
+        console.log(role) // Assuming role information is provided in the 'data' object
     
         $.each(data.farmLeaders, function (index, farmLeader) {
             var row =
@@ -43,9 +44,9 @@ $(document).ready(function () {
                 "'><i class='ri-pencil-fill fs-16'></i></a></li>";
     
             // Check if the user's role is 3 (assuming 'role' is the property containing the role information)
-            if (role != 3) {
-                // If user's role is 3, hide the archive button
-                row += "<li class='list-inline-item d-none' data-bs-toggle='tooltip' data-bs-trigger='hover' data-bs-placement='top' title='Remove'><a class='text-danger d-inline-block archive_farmleader_btn' href='' data-farmLeader-id='" +
+            if (role.length > 0 && parseInt(role[0].role_id) == 1) {
+                // If user's role is 1, hide the archive button
+                row += "<li class='list-inline-item' data-bs-toggle='tooltip' data-bs-trigger='hover' data-bs-placement='top' title='Remove'><a class='text-danger d-inline-block archive_farmleader_btn' href='' data-farmLeader-id='" +
                     farmLeader.id +
                     "'><i class='ri-delete-bin-5-fill fs-16'></i></a></li>";
             }

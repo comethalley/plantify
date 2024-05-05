@@ -173,19 +173,19 @@
                                             <div class="col">
                                                 <div>
                                                     <label for="firstName" class="form-label">First Name</label>
-                                                    <input type="text" class="form-control" id="firstName" name="first_name" placeholder="First Name">
+                                                    <input type="text" class="form-control" id="firstName" name="first_name" placeholder="First Name" required>
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div>
                                                     <label for="lastName" class="form-label">Last Name</label>
-                                                    <input type="text" class="form-control" id="lastName" name="last_name" placeholder="Last Name">
+                                                    <input type="text" class="form-control" id="lastName" name="last_name" placeholder="Last Name" required>
                                                 </div>
                                             </div>
                                             <div class="col-md-2">
                                                 <div>
                                                     <label for="middleInitial" class="form-label">M.I</label>
-                                                    <input type="text" class="form-control" id="middleInitial" name="middle_initial" placeholder="M.I">
+                                                    <input type="text" class="form-control" id="middleInitial" name="middle_initial" placeholder="M.I" maxlength="3" required>
                                                 </div>
                                             </div>
                                         </div><!-- end row -->
@@ -197,26 +197,26 @@
                                         <div>
                                             <label for="iconInput" class="form-label">Email Address</label>
                                             <div class="form-icon">
-                                                <input type="email" class="form-control form-control-icon" id="iconInput" name="email" placeholder="example@gmail.com">
+                                                <input type="email" class="form-control form-control-icon" id="iconInput" name="email" placeholder="example@gmail.com" required>
                                                 <i class="ri-mail-unread-line"></i>
                                             </div>
                                         </div>
                                     </div>
                                     <!--end col-->
 
-                                    <div class="col-xxl-3 col-md-6">
-                                        <div>
-                                            <label for="placeholderInput" class="form-label">Contact Number</label>
-                                            <input type="text" class="form-control" id="placeholderInput" name="contact" placeholder="09*********">
-                                        </div>
-                                    </div>
+                                    <<div class="col-xxl-3 col-md-6">
+                                <div>
+                                    <label for="placeholderInput" class="form-label">Contact Number</label>
+                                    <input type="text" class="form-control" id="placeholderInput" name="contact" placeholder="09*********" maxlength="11" pattern="[0-9]*" title="Please enter numbers only" required>
+                                </div>
+                            </div>
                                 </div>
                                 <!--end col-->
                                 <div class="row gy-4">
                                     <div class="col">
                                         <div>
                                             <label for="placeholderInput" class="form-label">Age</label>
-                                            <input type="text" class="form-control" id="placeholderInput" name="age" placeholder="18">
+                                            <input type="text" class="form-control" id="placeholderInput" name="age" placeholder="18" required>
                                         </div>
                                     </div>
                                 </div>
@@ -226,7 +226,7 @@
                                         <div class="col">
                                             <div>
                                                 <label for="placeholderInput" class="form-label">Complete Address</label>
-                                                <input type="text" class="form-control" id="placeholderInput" name="address" placeholder="Complete address">
+                                                <input type="text" class="form-control" id="placeholderInput" name="address" placeholder="Complete address" required>
                                             </div>
                                         </div>
                                     </div><!--end row-->
@@ -297,3 +297,4 @@
     });
 });
     </script>
+    

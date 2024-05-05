@@ -1,4 +1,5 @@
 @include('templates.header')
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <style>
     /* Style for the table */
     #attendeesTable {
@@ -116,7 +117,7 @@
                 <button class="btn btn-primary btn-block" id="downloadBtn"><i class="fas fa-download mr-1"></i>Download</button>
             </div>
             <div class="col-6 col-md-3 col-lg-2">
-                <button class="btn btn-primary btn-block" id="update-status-btn">Saved</button>
+                <button class="btn btn-primary btn-block" id="update-status-btn">Save</button>
             </div>
         </div>
     </div>
@@ -161,6 +162,7 @@
                             <th>Email</th>
                             <th>Barangay</th>
                             <th>Status</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -194,7 +196,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
 <script>
-    $(document).ready(function() {
+
+$.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+ $(document).ready(function() {
     var urlParams = new URLSearchParams(window.location.search);
     var eventId = urlParams.get('id');
     if (eventId) {
@@ -211,7 +219,6 @@
                     response.forEach(function(attendee) {
                         if (attendee.status == status) {
                             $('#attendeesTable tbody').append('<tr><td>' + attendee.first_name + ' ' + attendee.last_name + '</td><td>' + attendee.email + '</td><td>' + attendee.barangay + '</td><td>' + attendee.status + '</td><td><input type="checkbox" class="attendee-checkbox" data-id="' + attendee.id + '"></td></tr>');
-
                         }
                     });
                 } else {
@@ -230,7 +237,38 @@
         var status = $(this).data('status'); // Assuming data-status attribute is set in the HTML
         fetchAttendees(eventId, status);
     });
+
+    // Click event handler for the delete button
+    $('#update-status-btn').click(function() {
+        // Get all selected checkboxes
+        var selectedAttendees = $('.attendee-checkbox:checked');
+
+        // Create an array to store the selected attendee IDs
+        var attendeeIds = [];
+        selectedAttendees.each(function() {
+            attendeeIds.push($(this).data('id'));
+        });
+
+        // Send an AJAX request to update the status of selected attendees
+        $.ajax({
+            url: '/update-attendee-status',
+            method: 'POST',
+            data: {
+                attendeeIds: attendeeIds,
+                status: 2, // Assuming 2 represents the 'archived' status on the server
+                _token: '{{ csrf_token() }}' // Include the CSRF token
+            },
+            success: function(response) {
+                // Refresh the attendees table after successful deletion
+                fetchAttendees(eventId, 1);
+            },
+            error: function(xhr, status, error) {
+                console.error('Error updating status:', error);
+            }
+        });
+    });
 });
+
 
    
 
@@ -324,31 +362,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 </script>
-<script>
-    $(document).ready(function() {
-        $('#update-status-btn').click(function() {
-            // Loop through each selected checkbox
-            $('.attendee-checkbox:checked').each(function() {
-                var attendeeId = $(this).data('id');
-                // Perform an AJAX request to update the status
-                $.ajax({
-                    url: '{{ route("update-attendee-status") }}',
-                    type: 'POST',
-                    data: {
-                        attendeeId: attendeeId
-                    },
-                    success: function(response) {
-                        // Update the status in the table
-                        $('.attendee-checkbox[data-id="' + attendeeId + '"]').closest('tr').find('td:last').text('Status 2');
-                    },
-                    error: function() {
-                        alert('Error updating status.');
-                    }
-                });
-            });
-        });
-    });
-</script>
+
 
 
 
@@ -393,7 +407,18 @@ document.addEventListener('DOMContentLoaded', function() {
         window.location.href = link;
     }
 </script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+     $(document).ready(function() {
+        $("#update-status-btn").click(function() {
+            // Perform your update logic here
+            // For example, you might use an AJAX request to update the data on the server
 
+            // For demo purposes, let's assume the update is successful and we want to refresh the page
+            location.reload();
+        });
+    });
+</script>
  <!-- JAVASCRIPT -->
  <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="assets/libs/simplebar/simplebar.min.js"></script>

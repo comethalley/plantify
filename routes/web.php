@@ -253,7 +253,7 @@ Route::get('/event/form/{id}', [AttendanceControler::class, 'attendanceForm'])->
 Route::put('/change-attendee-status/{id}', [AttendanceControler::class, 'changeStatus']);
 Route::post('update-attendee-status', [AttendanceControler::class, 'updatestatus'])->name('update-attendee-status');
 
-
+Route::delete('/delete-attendee/{id}', [AttendanceControler::class, 'deleteAttendee'])->name('delete-attendee');
 Route::get('/fetch-attendees/{event_id}', [AttendanceControler::class, 'fetchAttendees']);
 
 Route::get('/attendees/filterByStatus', [AttendanceController::class, 'filterBystatus']);

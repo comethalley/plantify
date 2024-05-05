@@ -35,24 +35,39 @@ class AttendanceControler extends Controller
     }
 
     public function updateStatus(Request $request)
-{
-    $attendeeId = $request->input('attendeeId');
+    {
+        $request->validate([
+            'attendeeId' => 'required|integer' // Validate that 'attendeeId' is required and is an integer
+        ]);
     
-    // Update the status of the attendee with the given ID
-    $attendee = EventAttendance::find($attendeeId);
-    if ($attendee) {
-        $attendee->status = 2; // Assuming 2 is the status for "Saved"
-        $attendee->save();
+        $attendeeId = $request->input('attendeeId');
         
-        // Return a response indicating success
-        return response()->json(['message' => 'Status updated successfully']);
+        // Update the status of the attendee with the given ID
+        $attendee = EventAttendance::find($attendeeId);
+        if ($attendee) {
+            $attendee->status = 2; // Assuming 2 is the status for "Saved"
+            $attendee->save();
+            
+            // Return a response indicating success
+            return response()->json(['message' => 'Status updated successfully']);
+        }
+        
+        // Return a response indicating failure
+        return response()->json(['message' => 'Failed to update status'], 400);
     }
-    
-    // Return a response indicating failure
-    return response()->json(['message' => 'Failed to update status'], 400);
-}
       
-    
+    public function deleteAttendee($id)
+    {
+        $attendee = EventAttendance::find($id);
+    if (!$attendee) {
+        return response()->json(['message' => 'Attendee not found.'], 404);
+    }
+
+    $attendee->status = 0; // Change status to 0 (archived)
+    $attendee->save();
+
+    return response()->json(['message' => 'Attendee archived successfully.']);
+    }
    
     
     public function attendees(Request $request) {

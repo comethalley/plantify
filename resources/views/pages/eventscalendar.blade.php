@@ -12,91 +12,77 @@
 
    
  @section('content')
-        <!-- start page title -->
-        <div class="row">
-            <div class="col-12">
-                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                    <h4 class="mb-sm-0">Event Calendar</h4>
-
-                    <div class="page-title-right">
-                        <ol class="breadcrumb m-0">
-                            
-                            <li class="breadcrumb-item active">Event Calendar</li>
-                        </ol>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-12" >
-                 <!--start row-->
-
-                 <div class="row scrollable">
-                    <div class="col-xl-3 scrollable" style="overflow-y: auto; max-height: 100vh;">
-                        <div class="card card-h-100">
-                            <div class="card-body" style="display:flex; justify-content:center; align-items:center;">
-                                
-                            
-                            @if(auth()->user()->role_id == 1)
-                            {{-- Display only for role_id 1 (Admin) --}}
-                            <button type="button" class="btn btn-success w-100" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModalExample"><i class="mdi mdi-plus"></i>Create New Events</button>
-                            @elseif(auth()->user()->role_id == 2)
-                            {{-- Display only for role_id 2 (
-                                 Admin) --}}
-                            <button type="button" class="btn btn-success w-100" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModalExample"><i class="mdi mdi-plus"></i>Create New Events</button>
-                            @elseif(auth()->user()->role_id == 3)
-                            {{-- Display for role_id 3 (Farm Leader) --}}
-                            <button hidden type="button" class="btn btn-success w-100" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModalExample"><i class="mdi mdi-plus"></i>Create New Events</button>
-                            @elseif(auth()->user()->role_id == 4 )
-                            {{-- Display only for role_id 4 ( Farmers) --}}
-                            <button hidden type="button" class="btn btn-success w-100" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModalExample"><i class="mdi mdi-plus"></i>Create New Events</button>
-                            @elseif(auth()->user()->role_id == 5 )
-                            {{-- Display only for role_id 5 (Public Users) --}}
-                            <button hidden type="button" class="btn btn-success w-100" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModalExample"><i class="mdi mdi-plus"></i>Create New Events</button>
-                            @endif
-                            </div>
-                        </div>
-                        <div class="card scrollable">
-                            <div class="card-body bg-info-subtle" style="overflow-y: auto;" >
-                                <div class="d-flex">
-                                    <div class="flex-shrink-0">
-                                        <i data-feather="calendar" class="text-info icon-dual-info"></i>
-                                    </div>
-                                    <div class="flex-grow-1 ms-3">
-                                        <h6 class="fs-15">Welcome to your Calendar!</h6>
-                                        <p class="text-muted mb-0">Scheduled events will appear here.</p>
-                                    </div>
-                                 
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                                <h4 class="mb-sm-0">Event Calendar</h4>
+                                <div class="page-title-right">
+                                    <ol class="breadcrumb m-0">
+                                        <li class="breadcrumb-item active">Event Calendar</li>
+                                    </ol>
                                 </div>
                             </div>
                         </div>
-                                  
-                        @include('pages.displayevent')
-                                
-            </div> <!-- end col-->
- <!-- ============================================================ -->
-                <div class="col-xl-9">
-                        
-                    <div class="input-group mb-3">
-                        <input type="text" id="searchInput" class="form-control" placeholder="Search events">
-                        <div class="input-group-append">
-                            <button id="searchButton" class="btn btn-success">{{__('Search')}}</button>
-                        </div>
                     </div>
 
-                        <div class="card card-h-100">
-                            <div class="card-body">
-                                <div id="calendar"></div>
+                   
+                    <div class="container-fluid">
+    <div class="row">
+        <div class="col-xl-9">
+            <div class="input-group mb-3">
+                <input type="text" id="searchInput" class="form-control" placeholder="Search events">
+                <div class="input-group-append">
+                    <button id="searchButton" class="btn btn-success">{{__('Search')}}</button>
+                </div>
+            </div>
+            <div class="card card-h-100">
+                <div class="card-body">
+                    <div id="calendar"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-h-100">
+                        <div class="card-body" style="display:flex; justify-content:center; align-items:center;">
+                            @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2)
+                            <button type="button" class="btn btn-success w-100" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModalExample">
+                                <i class="mdi mdi-plus"></i>Create New Events
+                            </button>
+                            @elseif(auth()->user()->role_id == 3 || auth()->user()->role_id == 4 || auth()->user()->role_id == 5)
+                            <button hidden type="button" class="btn btn-success w-100" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModalExample">
+                                <i class="mdi mdi-plus"></i>Create New Events
+                            </button>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="card scrollable" style="max-height: 300px;">
+                        <div class="card-body bg-info-subtle" style="overflow-y: auto;">
+                            <div class="d-flex">
+                                <div class="flex-shrink-0">
+                                    <i data-feather="calendar" class="text-info icon-dual-info"></i>
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <h6 class="fs-15">Welcome to your Calendar!</h6>
+                                    <p class="text-muted mb-0">Scheduled events will appear here.</p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div><!-- end col -->
-                
-            </div> <!--end row-->
+                    @include('pages.displayevent')
+                </div>
+            </div>
+        </div>
     </div>
-        </div> <!-- end row-->
+</div>
+
+
+
+                       
+                    </div>
+                </div> <!-- end row-->
 <!-- ============================================================ -->
                 <div style='clear:both'></div>
 
@@ -172,12 +158,11 @@
     <label class="form-label">Who can see it?</label>
     <select name="visibility" id="choices-multiple-remove-button" data-choices data-choices-remove-item multiple>
         <option value="all">all</option>
-        <option value="farmleader">farmleader</option>
-        <option value="farmer">farmer</option>
-        <option value="bagbag">bagbag</option>
+        <option value="3">farmleader</option>
+        <option value="4">farmer</option>
+        <option value="5">publicuser</option>
     </select>
-</div>
-                                                    
+</div>                                         
                                        <div class="mb-3">
                                                     <label for="location" class="form-label">Location</label>
                                                     <input type="text" name="location" id="customername-field" class="form-control" placeholder="Enter Location"  required/>
@@ -431,8 +416,18 @@
                
                 // Open Add Event Modal
             $('#showModalExample').modal('show');
+            
                 },
                
+                eventRender: function (info) {
+        var currentUserRoleId = {{ auth()->user()->role_id }};
+        var eventVisibility = info.event.extendedProps.visibility;
+        // Hide the event if the current user's role does not match the event's visibility
+        if (currentUserRoleId !== eventVisibility) {
+            return false;
+        }
+    },
+
                 eventClick: function (info) {
                    console.log(info.event)
                   //  console.log("Event is", info.event._def.extendedProps);
@@ -626,6 +621,7 @@ function handleEventDelete(eventId) {
 filterCalendarEvents();
   
                 },
+              
 
 
             // Drag And Drop

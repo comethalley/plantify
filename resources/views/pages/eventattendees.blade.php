@@ -88,52 +88,43 @@
                  
         </div>
                 <hr>
-             <div class="row">
-    <div class="col">
+                <div class="row mb-2">
+    <div class="col mb-2">
         <div class="row">
-            <div class="col-xxl-5 col-sm-6">
+            <div class="col-xxl-4 col-sm-5">
                 <div class="search-box">
                     <input type="text" class="form-control search" placeholder="Search for order ID, customer, order status or something...">
                     <i class="ri-search-line search-icon"></i>
                 </div>
             </div>
-            <div class="col-auto">
-                <button class="btn btn-primary" id="downloadBtn"><i class="fas fa-download m-1"></i>Download</button>
-            </div>
-             <div class="col">
-                <!-- <div class="dropdown d-grid mb-3">
-                    <button class="btn btn-success dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                        Filter Status
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="filterDropdown">
-                        <li><a class="dropdown-item filter-option" href="javascript:void(0);" data-status="all">Show All</a></li>
-                        <li><a class="dropdown-item filter-option" href="javascript:void(0);" data-status="1">Status 1</a></li>
-                        <li><a class="dropdown-item filter-option" href="javascript:void(0);" data-status="2">Status 2</a></li>
-                       
+            <div class="col">                            
+                <!-- Nav tabs -->
+                <div class="container">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-bs-toggle="tab" href="#home" role="tab" aria-selected="true">
+                                Pre-Registered
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#registered" role="tab" aria-selected="false">
+                                Registered
+                            </a>
+                        </li>
                     </ul>
-                </div> -->
+                </div>
+            </div>
+            <div class="col">
+            <button class="btn btn-primary btn-m mr-2" id="downloadBtn"><i class="fas fa-download m-1"></i>Download</button>
+            <button class="btn btn-success btn-m" id="saved"><i class="m-1"></i>Saved</button>
 
-                
-                                 
-                                    <!-- Nav tabs -->
-                                    <div class="container">
-    <ul class="nav nav-tabs mb-3" role="tablist">
-        <li class="nav-item">
-            <a class="nav-link active" data-bs-toggle="tab" href="#home" role="tab" aria-selected="true">
-                Pre-Registered
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="tab" href="#registered" role="tab" aria-selected="false">
-                Registered
-            </a>
-        </li>
-    </ul>
-
-    </div>
+            </div>
         </div>
     </div>
 </div>
+
+
+
 
 <div class="row">
     <div class="col">
@@ -149,6 +140,8 @@
                             <th>Email</th>
                             <th>Barangay</th>
                             <th>Status</th>
+                            
+                            
                         </tr>
                     </thead>
                     <tbody>
@@ -249,13 +242,13 @@
             }
         }
 
-    document.addEventListener('DOMContentLoaded', function() {
+
+      document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.querySelector('.search');
     const attendeesTable = document.getElementById('attendeesTable').getElementsByTagName('tbody')[0];
 
     searchInput.addEventListener('input', function() {
         const searchText = this.value.toLowerCase();
-
         filterAttendees(searchText);
     });
 
@@ -277,7 +270,6 @@
         }
     }
 });
-
 document.addEventListener('DOMContentLoaded', function() {
     const downloadBtn = document.getElementById('downloadBtn');
 

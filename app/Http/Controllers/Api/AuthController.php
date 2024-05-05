@@ -104,7 +104,7 @@ class AuthController extends Controller
             )
             ->get();
 
-        if ($id == 1) {
+        if ($role->role_id == 1 || $role->role_id == 2) {
             $farmLeaders = DB::table('farmers')
                 ->where('users.status', 1)
                 ->leftJoin('users', 'farmers.farmer_id', '=', 'users.id')

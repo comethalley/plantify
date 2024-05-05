@@ -247,7 +247,7 @@ Route::post('/event/attendance/submit/{event_id}', [AttendanceControler::class, 
 Route::get('/event/{eventId}/attendance', [AttendanceControler::class, 'showAttendanceList']);
 Route::get('/event/form/{id}', [AttendanceControler::class, 'attendanceForm'])->name('event.attendance.form');
 Route::put('/change-attendee-status/{id}', [AttendanceControler::class, 'changeStatus']);
-
+Route::put('/update-attendee-status/{id}', 'AttendanceControler@updateStatus');
 
 Route::get('/fetch-attendees/{event_id}', [AttendanceControler::class, 'fetchAttendees']);
 

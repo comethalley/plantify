@@ -77,13 +77,14 @@
                         <img src="../assests/images/event/{{$event->image}}" alt="Event Image" class="img-fluid">
                     </div>
                    
-                    <div class="col-md-8" style="font-size: 16px;">
-                        <h3>{{ $event->title }}</h3>
-                        <p><strong>Date:</strong> {{ date('F j, Y', strtotime($event->start)) }} to {{ date('F j, Y', strtotime($event->end)) }}</p>
-                        <p><strong>Time:</strong> {{ date('g:i A', strtotime($event->starttime)) }} to {{ date('g:i A', strtotime($event->endtime)) }}</p>
-                        <p><strong>Location:</strong> {{ $event->location }}</p>
-                        <p><strong>Description:</strong>{{ $event->description }}</p>
-                    </div>
+  <div class="col-md-8" style="font-size: 16px;">
+    <h3>{{ $event->title }}</h3>
+    <p style="font-size: 14px;"><strong>Date:</strong> {{ date('F j, Y', strtotime($event->start)) }} to {{ date('F j, Y', strtotime($event->end)) }}</p>
+    <p style="font-size: 14px;"><strong>Time:</strong> {{ date('g:i A', strtotime($event->starttime)) }} to {{ date('g:i A', strtotime($event->endtime)) }}</p>
+    <p style="font-size: 14px;"><strong>Location:</strong> {{ $event->location }}</p>
+    <p style="font-size: 14px;"><strong>Description:</strong>{{ $event->description }}</p>
+</div>
+
                  
         </div>
                 <hr>
@@ -100,7 +101,7 @@
                 <button class="btn btn-primary" id="downloadBtn"><i class="fas fa-download m-1"></i>Download</button>
             </div>
              <div class="col">
-                <div class="dropdown d-grid mb-3">
+                <!-- <div class="dropdown d-grid mb-3">
                     <button class="btn btn-success dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                         Filter Status
                     </button>
@@ -108,30 +109,73 @@
                         <li><a class="dropdown-item filter-option" href="javascript:void(0);" data-status="all">Show All</a></li>
                         <li><a class="dropdown-item filter-option" href="javascript:void(0);" data-status="1">Status 1</a></li>
                         <li><a class="dropdown-item filter-option" href="javascript:void(0);" data-status="2">Status 2</a></li>
-                        <!-- Add more options as needed -->
+                       
                     </ul>
-                </div>
-            </div>
+                </div> -->
+
+                
+                                 
+                                    <!-- Nav tabs -->
+                                    <div class="container">
+    <ul class="nav nav-tabs mb-3" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" data-bs-toggle="tab" href="#home" role="tab" aria-selected="true">
+                Pre-Registered
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" href="#registered" role="tab" aria-selected="false">
+                Registered
+            </a>
+        </li>
+    </ul>
+
+    </div>
         </div>
     </div>
 </div>
 
+<div class="row">
+    <div class="col">
+        <div class="row">
 
-<div class="table-responsive">
-    <table id="attendeesTable">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Barangay</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
+    <div class="tab-content text-muted">
+        <div class="tab-pane fade show active" id="home" role="tabpanel">
+            <div class="table-responsive">
+                <table class="table" id="attendeesTable">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Barangay</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Pre-Registered table body goes here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="registered" role="tabpanel">
+            <div class="table-responsive">
+                <table class="table" id="attendeesTable">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Barangay</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Registered table body goes here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
-
-
 
 
 
@@ -183,7 +227,10 @@
         }
 
         // Click event handler for the filter options
-        $('.filter-option').click(function() {
+       
+    });
+
+    $('.filter-option').click(function() {
             var statusToFilter = $(this).data('status'); // Get the status from data attribute
             filterAttendeesByStatus(statusToFilter);
         });
@@ -201,8 +248,6 @@
                 });
             }
         }
-    });
-
 
     document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.querySelector('.search');
@@ -340,5 +385,20 @@ document.addEventListener('DOMContentLoaded', function() {
         window.location.href = link;
     }
 </script>
+
+ <!-- JAVASCRIPT -->
+ <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/libs/simplebar/simplebar.min.js"></script>
+    <script src="assets/libs/node-waves/waves.min.js"></script>
+    <script src="assets/libs/feather-icons/feather.min.js"></script>
+    <script src="assets/js/pages/plugins/lord-icon-2.1.0.js"></script>
+    <script src="assets/js/plugins.js"></script>
+
+    <!-- prismjs plugin -->
+    <script src="assets/libs/prismjs/prism.js"></script>
+
+    <!-- App js -->
+    <script src="assets/js/app.js"></script>
+
 
 @include('templates.footer')

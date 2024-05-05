@@ -34,20 +34,28 @@ class AttendanceControler extends Controller
     return response()->json($attendees);
     }
 
-    public function changeStatus($id)
+    public function updateStatus(Request $request, $id)
     {
-        $attendee = EventAttendance::findOrFail($id);
+        // Validate the request data if needed
+
+        // Find the attendee
+        $attendee = Attendee::find($id);
+
+        // If attendee not found, return error response
         if (!$attendee) {
             return response()->json(['error' => 'Attendee not found'], 404);
         }
-    
-        $attendee->update([
-            'status' => 2,
-        ]);
-    
+
+        // Update the status
+        $newStatus = 2; // Assuming the status will always be updated to 2 (Present)
+        $attendee->status = $newStatus;
+
+        // Save the changes
+        $attendee->save();
+
+        // Return success response
         return response()->json(['message' => 'Attendee status updated successfully', 'attendee' => $attendee]);
     }
-
       
     
    

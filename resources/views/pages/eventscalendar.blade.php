@@ -169,14 +169,14 @@
                                                     </div>
                                                     
                                                     <div class="mb-3">
-    <label class="form-label">Who can see it?</label>
-    <select name="visibility" id="choices-multiple-remove-button" data-choices data-choices-remove-item multiple>
-        <option value="all">all</option>
-        <option value="farmleader">farmleader</option>
-        <option value="farmer">farmer</option>
-        <option value="publicuser">publicuser</option>
-    </select>
-</div>
+                                                        <label class="form-label">Who can see it?</label>
+                                                        <select name="visibility" id="choices-multiple-remove-button" data-choices data-choices-remove-item multiple onchange="filterCalendarEvents()">
+                                                            <option value="all">all</option>
+                                                            <option value="3">farmleader</option> 
+                                                            <option value="4">farmer</option> 
+                                                            <option value="5">publicuser</option> 
+                                                        </select>
+                                                    </div>
                                                     
                                        <div class="mb-3">
                                                     <label for="location" class="form-label">Location</label>
@@ -602,6 +602,28 @@ function handleEventDelete(eventId) {
             }
         });
 
+        function filterCalendarEvents() {
+    var visibilitySelect = document.getElementById("choices-multiple-remove-button");
+    var selectedOptions = visibilitySelect.selectedOptions;
+    var calendarEvents = document.getElementById("calendar").children;
+
+    for (var i = 0; i < calendarEvents.length; i++) {
+        var event = calendarEvents[i];
+        var eventVisibility = event.dataset.visibility;
+
+        if (eventVisibility) {
+            if (eventVisibility === "all") {
+                event.style.display = "block"; // Show event
+            } else {
+                // Hide event if it doesn't match any selected visibility option
+                event.style.display = Array.from(selectedOptions).some(option => option.value === eventVisibility) ? "block" : "none";
+            }
+        }
+    }
+}
+
+// Initial filtering on page load
+filterCalendarEvents();
   
                 },
 
@@ -633,30 +655,7 @@ function filterAndDisplayEvents(searchKeywords) {
             });
         }
 
-        $(document).ready(function() {
-    $('#create-btn').click(function(e) {
-        e.preventDefault();
-        
-        // Get the selected visibility option
-        var selectedVisibility = $('#choices-multiple-remove-button').val();
-        
-        // Send an AJAX request to fetch events based on the selected visibility
-        $.ajax({
-            url: "{{ route('events.calendar') }}",
-            type: 'GET',
-            data: { visibility: selectedVisibility },
-            success: function(response) {
-                // Handle success response and display the calendar
-                console.log(response);
-                // Code to display the calendar events goes here
-            },
-            error: function(xhr, status, error) {
-                // Handle error
-                console.error(xhr.responseText);
-            }
-        });
-    });
-});
+      
         
 </script>
        
@@ -768,18 +767,7 @@ function filterAndDisplayEvents(searchKeywords) {
             });
         }
 </script>
-<script>
-   document.getElementById('interestButton').addEventListener('click', function() {
-    this.classList.toggle('interested');
-    if (this.classList.contains('interested')) {
-        this.innerHTML = '<i id="starIcon" class="fas fa-star"></i> Interested';
-    } else {
-        this.innerHTML = '<i id="starIcon" class="fas fa-star"></i> I\'m Interested';
-    }
-});
 
-
-<script>
 document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('searchInput');
     const searchButton = document.getElementById('searchButton');
@@ -825,20 +813,9 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
  <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
     <script>
-        const select = new Choices('#choices-multiple-remove-button', {
-            removeItemButton: true,
-        });
+      
     </script>
     <script>
-    // // Get the current URL
-    // let currentUrl = window.location.href;
-
-    // // Extract the event ID from the URL
-    // let eventId = currentUrl.substr(currentUrl.lastIndexOf('/') + 1);
-
-    // // Redirect to the form page when the button is clicked
-    // document.getElementById('interested-btn').addEventListener('click', function() {
-    //     window.location.href = "/event/attendance/form/" + eventId;
-    // });
+ 
 </script>
 @include('templates.footer')

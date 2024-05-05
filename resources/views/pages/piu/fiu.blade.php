@@ -68,28 +68,34 @@
 
 <script>
 $(document).ready(function() {
+    // Function to handle search input
     $('#searchInput').on('keyup', function() {
-        var searchText = $(this).val().toLowerCase();
+        var searchText = $(this).val().toLowerCase(); // Get the search text
         var resultCount = 0; // Initialize result count
+
+        // Loop through each card
         $('.card').each(function() {
-            var ferName = $(this).find('.card-title').text().toLowerCase();
-            if (ferName.includes(searchText)) {
-                $(this).closest('.col-sm-6').show();
-                resultCount++; // Increment result count for each match found
+            var cardTitle = $(this).find('.card-title').text().toLowerCase(); // Get card title
+            // Check if card title contains search text
+            if (cardTitle.includes(searchText)) {
+                $(this).closest('.col-sm-6').show(); // Show the parent container
+                resultCount++; // Increment result count
             } else {
-                $(this).closest('.col-sm-6').hide();
+                $(this).closest('.col-sm-6').hide(); // Hide the parent container
             }
         });
+
         // Display message if no results found
         if (resultCount === 0) {
-            $('#noFarmsMessageContainer').show();
+            $('#noFarmsMessageContainer').show(); // Show message container
         } else {
-            $('#noFarmsMessageContainer').hide();
+            $('#noFarmsMessageContainer').hide(); // Hide message container
         }
+
         // Hide message if search input is empty
         if (searchText === "") {
-            $('#noFarmsMessageContainer').hide();
-            $('.col-sm-6').show(); // Show all items if search input is empty
+            $('#noFarmsMessageContainer').hide(); // Hide message container
+            $('.col-sm-6').show(); // Show all items
         }
     });
 });

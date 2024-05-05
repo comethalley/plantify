@@ -687,53 +687,92 @@
                         destroyed: destroyed,
                     },
                     success: function(data) {
-                        calendar.refetchEvents();
-                        alert("Planting Updated Successfully");
-                    },
-                    error: function(error) {
-                        console.error("Error updating event:", error);
-                        alert("Error updating planting. Please try again.");
-                    }
-                });
-            }
+            calendar.refetchEvents();
+            // SweetAlert success message
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'Planting Updated Successfully',
+                confirmButtonText: 'OK'
+            });
+        },
+        error: function(error) {
+            console.error("Error updating event:", error);
+            // SweetAlert error message
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Error updating planting. Please try again.',
+                confirmButtonText: 'OK'
+            });
+        }
+    });
+}
 
-            function handleEventDelete(eventId) {
-                // Close Update/Delete Event Modal
-                $('#editexampleModal').modal('hide');
-                $('#EventdetailModal').modal('hide');
-
-                if (confirm("Are you sure you want to delete this event?")) {
-                    $.ajax({
-                        url: "/plantcalendardelete/" + eventId,
-                        type: "DELETE",
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        success: function(data) {
-                            calendar.refetchEvents();
-                            alert("Planting Deleted Successfully");
-                        },
-                        error: function(error) {
-                            console.error("Error deleting event:", error);
-                            alert("Error deleting planting. Please try again.");
-                        }
-                    });
+function handleEventDeletion(eventId) {
+    // Show SweetAlert confirmation dialog
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // User confirmed, proceed with deletion
+            $.ajax({
+                url: "/plantcalendardelete/" + eventId,
+                type: "DELETE",
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(data) {
+                    calendar.refetchEvents();
+                    // SweetAlert success message
+                    Swal.fire(
+                        'Deleted!',
+                        'Planting has been deleted.',
+                        'success'
+                    );
+                },
+                error: function(error) {
+                    console.error("Error deleting event:", error);
+                    // SweetAlert error message
+                    Swal.fire(
+                        'Error!',
+                        'Error deleting planting. Please try again.',
+                        'error'
+                    );
                 }
-            }
+            });
+        }
+    });
+}
 
-            function filterAndDisplayEvents(searchKeywords) {
-                $.ajax({
-                    method: 'GET',
-                    url: `/plantcalendar/search?title=${searchKeywords}`,
-                    success: function(response) {
-                        calendar.removeAllEvents();
-                        calendar.addEventSource(response);
-                    },
-                    error: function(error) {
-                        console.error('Error searching events:', error);
-                    }
-                });
-            }
+
+function filterAndDisplayEvents(searchKeywords) {
+    $.ajax({
+        method: 'GET',
+        url: `/plantcalendar/search?title=${searchKeywords}`,
+        success: function(response) {
+            calendar.removeAllEvents();
+            calendar.addEventSource(response);
+        },
+        error: function(error) {
+            console.error('Error searching events:', error);
+            // SweetAlert error message
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Error searching events. Please try again.',
+                confirmButtonText: 'OK'
+            });
+        }
+    });
+}
+
 
             function getEventBackgroundColor(status) {
                 if (status === 'Harvested') {

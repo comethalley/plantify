@@ -5,84 +5,73 @@
 <meta name="csrf-token" content="{{ csrf_token() }}" />
 
 
-<div class="main-content" >
+                    <div class="main-content">
+                        <div class="page-content">
+                            <div class="container-fluid">
 
-<div class="page-content">
-    <div class="container-fluid">
+                                @section('content')
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                                            <h4 class="mb-sm-0">Event Calendar</h4>
+                                            <div class="page-title-right">
+                                                <ol class="breadcrumb m-0">
+                                                    <li class="breadcrumb-item active">Event Calendar</li>
+                                                </ol>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
-   
- @section('content')
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                <h4 class="mb-sm-0">Event Calendar</h4>
-                                <div class="page-title-right">
-                                    <ol class="breadcrumb m-0">
-                                        <li class="breadcrumb-item active">Event Calendar</li>
-                                    </ol>
+                                <div class="row">
+                                    <div class="col-xl-9">
+                                        <div class="input-group mb-3">
+                                            <input type="text" id="searchInput" class="form-control" placeholder="Search events">
+                                            <div class="input-group-append">
+                                                <button id="searchButton" class="btn btn-success">{{__('Search')}}</button>
+                                            </div>
+                                        </div>
+                                        <div class="card card-h-100">
+                                            <div class="card-body">
+                                                <div id="calendar"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-3">
+                                        <div class="card card-h-100">
+                                            <div class="card-body" style="display:flex; justify-content:center; align-items:center;">
+                                                @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2)
+                                                <button type="button" class="btn btn-success w-100" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModalExample">
+                                                    <i class="mdi mdi-plus"></i>Create New Events
+                                                </button>
+                                                @elseif(auth()->user()->role_id == 3 || auth()->user()->role_id == 4 || auth()->user()->role_id == 5)
+                                                <button hidden type="button" class="btn btn-success w-100" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModalExample">
+                                                    <i class="mdi mdi-plus"></i>Create New Events
+                                                </button>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="card scrollable" style="max-height: 300px;">
+                                            <div class="card-body bg-info-subtle" style="overflow-y: auto;">
+                                                <div class="d-flex">
+                                                    <div class="flex-shrink-0">
+                                                        <i data-feather="calendar" class="text-info icon-dual-info"></i>
+                                                    </div>
+                                                    <div class="flex-grow-1 ms-3">
+                                                        <h6 class="fs-15">Welcome to your Calendar!</h6>
+                                                        <p class="text-muted mb-0">Scheduled events will appear here.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @include('pages.displayevent')
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> <!-- end container-fluid -->
+
                     </div>
 
-                   
-                    <div class="container-fluid">
-    <div class="row">
-        <div class="col-xl-9">
-            <div class="input-group mb-3">
-                <input type="text" id="searchInput" class="form-control" placeholder="Search events">
-                <div class="input-group-append">
-                    <button id="searchButton" class="btn btn-success">{{__('Search')}}</button>
-                </div>
-            </div>
-            <div class="card card-h-100">
-                <div class="card-body">
-                    <div id="calendar"></div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3">
-            <div class="row">
-                <div class="col-12">
-                    <div class="card card-h-100">
-                        <div class="card-body" style="display:flex; justify-content:center; align-items:center;">
-                            @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2)
-                            <button type="button" class="btn btn-success w-100" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModalExample">
-                                <i class="mdi mdi-plus"></i>Create New Events
-                            </button>
-                            @elseif(auth()->user()->role_id == 3 || auth()->user()->role_id == 4 || auth()->user()->role_id == 5)
-                            <button hidden type="button" class="btn btn-success w-100" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModalExample">
-                                <i class="mdi mdi-plus"></i>Create New Events
-                            </button>
-                            @endif
-                        </div>
-                    </div>
-                    <div class="card scrollable" style="max-height: 300px;">
-                        <div class="card-body bg-info-subtle" style="overflow-y: auto;">
-                            <div class="d-flex">
-                                <div class="flex-shrink-0">
-                                    <i data-feather="calendar" class="text-info icon-dual-info"></i>
-                                </div>
-                                <div class="flex-grow-1 ms-3">
-                                    <h6 class="fs-15">Welcome to your Calendar!</h6>
-                                    <p class="text-muted mb-0">Scheduled events will appear here.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    @include('pages.displayevent')
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-                       
-                    </div>
-                </div> <!-- end row-->
 <!-- ============================================================ -->
                 <div style='clear:both'></div>
 

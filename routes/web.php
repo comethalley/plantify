@@ -268,7 +268,7 @@ Route::get('/plantcalendar/search', [PlantCalendar::class, 'search']);
 Route::get('/calendar_list', [PlantCalendar::class, 'calendar_list']);
 
 Route::view('add-plantcalendar', 'pages.add');
-Route::post('create-plantcalendar', [PlantCalendar::class, 'create']);
+Route::post('/create-plantcalendar', [PlantCalendar::class, 'create']);
 
 
 

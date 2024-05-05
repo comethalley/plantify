@@ -430,12 +430,57 @@ $(document).ready(function () {
         });
     });
 
+    $(document).ready(function () {
+        Quill.register("modules/imageUploader", ImageUploader);
+        const quill3 = new Quill("#fer_information", {
+            theme: "snow",
+            modules: {
+                toolbar: [
+                    ["bold", "italic", "underline"],
+                    [{ header: 1 }, { header: 2 }],
+                    [{ list: "ordered" }, { list: "bullet" }],
+                    ["image"],
+                ],
+                imageUploader: {
+                    upload: (file) => {
+                        return new Promise((resolve, reject) => {
+                            const formData = new FormData();
+                            formData.append("image", file);
+    
+                            fetch(
+                                "https://api.imgbb.com/1/upload?key=cfcbefca16c54d2521b89d1537f0017e",
+                                {
+                                    method: "POST",
+                                    body: formData,
+                                }
+                            )
+                                .then((response) => response.json())
+                                .then((result) => {
+                                    console.log(result);
+                                    if (result.data && result.data.url) {
+                                        resolve(result.data.url);
+                                    } else {
+                                        reject(
+                                            "Invalid response from image uploader"
+                                        );
+                                    }
+                                })
+                                .catch((error) => {
+                                    reject("Upload failed");
+                                    console.error("Error:", error);
+                                });
+                        });
+                    },
+                },
+            },
+        });
+
     $(document).on("click", ".add-fertilizer", function (event) {
         event.preventDefault();
 
         console.log("Add Plant button clicked");
         var fer_name = $("#fer_name").val();
-        var fer_information = $("#fer_information").val();
+        var fer_information = quill3.root.innerHTML;
         var fer_image = $("#fer_image")[0].files[0];
         var fer_status = 1;
 
@@ -647,4 +692,4 @@ $(document).ready(function () {
         });
     }
     
- 
+})

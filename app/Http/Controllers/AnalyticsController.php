@@ -14,11 +14,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Codedge\Fpdf\Fpdf\Fpdf;
+use Illuminate\Support\Facades\Auth;
 
 class AnalyticsController extends Controller
 {
     public function downloadPdf() {
         $data = $this->count();
+        $userFirstName = Auth::user()->firstname; 
+        $userLastName = Auth::user()->lastname;
         $farmsDataResponse = $this->getFarmsData(request(), 1); // Replace 1 with the ID of the farm you want to retrieve data for
         
         $farmsData = json_decode($farmsDataResponse->getContent(), true); // Decode the JSON content into an associative array
@@ -26,7 +29,19 @@ class AnalyticsController extends Controller
         $pdf = new Fpdf();
         $pdf->AddPage();
         $pdf->SetFont('Arial', 'B', 16);
-        $pdf->Cell(0, 10, 'Analytics Report', 0, 1, 'C');
+        
+        // Add Image above the title
+        $pdf->Image('assets/images/plantifeedpics/center1.png', 10, 10, 70);
+        $pdf->Ln();
+        $pdf->SetY(40);
+        // Title
+        $pdf->Cell(0, 10, 'Users and Harvest Report', 0, 1, 'C');
+        $pdf->Ln();
+    
+        // Add user's first name and last name
+        $pdf->SetFont('Arial', '', 12);
+        $pdf->Cell(0, 10, 'Prepared by: ' . $userFirstName . ' ' . $userLastName, 0, 1);
+        $pdf->Cell(0, 10, 'Date: ' . date('Y-m-d'), 0, 1);
         $pdf->Ln();
     
         // General information
@@ -62,7 +77,6 @@ class AnalyticsController extends Controller
         // Output the PDF to the browser
         $pdf->Output('D');
     }
-    
 
     public function getFarmsData(Request $request, $id)
     {
@@ -144,17 +158,28 @@ class AnalyticsController extends Controller
         
         // Fetch other data based on user's role
         if ($user->role_id == 1 || $user->role_id == 2) {
-            $expensesData = Expense::all(['description', 'amount', 'created_at', 'budget_id'])->toJson();
             $plantingData = CalendarPlanting::all(['title', 'start', 'harvested', 'destroyed', 'start'])->toJson();
             $farmsData = Farm::with('barangays')->get()->toJson();
         } elseif ($user->role_id == 3 || $user->role_id == 4) {
-            $expensesData = Expense::where('budget_id', $user->id)->get(['description', 'amount', 'created_at'])->toJson();
+            $farmsData = Farm::where('id', $user->id)->with('barangays')->get()->toJson();
+            $farmleader = User::select('users.*', 'farms.id AS farm_id')
+                ->leftJoin('farms', 'farms.farm_leader', '=', 'users.id')
+                ->where('users.id', $user->id)
+                ->first();
+           
+            if ($farmleader) {
+                $plantingData = CalendarPlanting::where('farm_id', $farmleader->farm_id)
+                    ->get(['title', 'start', 'harvested', 'destroyed'])
+                    ->toJson();
+                   
+            } else {
+                $plantingData = collect()->toJson();
+            }
+            
         }
         
         return view('pages.analytics', compact('expensesData', 'plantingData', 'farmsData', 'barangayOptions', 'barangayName', 'farmName'));
     }
-
-
 
 
     public function getFarms($barangayName)

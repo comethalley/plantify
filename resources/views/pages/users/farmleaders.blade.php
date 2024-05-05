@@ -80,13 +80,13 @@
                                         <thead class="text-muted table-light">
                                             <tr class="text-uppercase">
 
-                                                <th class="sort" data-sort="id">ID</th>
-                                                <th class="sort" data-sort="first_name">First Name</th>
-                                                <th class="sort" data-sort="last_name">Last Name</th>
-                                                <th class="sort" data-sort="payment">Email Address</th>
-                                                <!-- <th class="sort" data-sort="address">Address</th>
-                                                <th class="sort" data-sort="contact">Contact</th> -->
-                                                <th class="sort" data-sort="city">Action</th>
+                                                <th data-sort="id">ID</th>
+                                                <th data-sort="first_name">First Name</th>
+                                                <th data-sort="last_name">Last Name</th>
+                                                <th data-sort="payment">Email Address</th>
+                                                <!-- <th data-sort="address">Address</th>
+                                                <th data-sort="contact">Contact</th> -->
+                                                <th data-sort="city">Action</th>
 
 
 
@@ -165,55 +165,67 @@
                                             @csrf
                                             <div class="modal-body">
                                                 <div class="row">
-                                                <input type="hidden" id="id-field" />
+                                                    <input type="hidden" id="id-field" />
 
-                                                <input type="text" id="orderId" class="form-control" placeholder="ID" readonly hidden />
+                                                    <input type="text" id="orderId" class="form-control" placeholder="ID" readonly hidden />
 
-                                                <!-- <div class="mb-3">
+                                                    <!-- <div class="mb-3">
                                                     <label for="customername-field" class="form-label">First Name</label>
                                                     <input type="text" name="supplier-name" id="firstname" class="form-control" placeholder="Enter name" required />
                                                 </div> -->
 
-                                                <!-- <div class="mb-3">
+                                                    <!-- <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Last Name</label>
                                                     <input type="text" name="description" id="lastname" class="form-control" placeholder="Enter Description" required />
                                                 </div> -->
 
-                                                <div class="mb-3">
-                                                    <label for="customername-field" class="form-label">Email Address</label>
-                                                    <input type="email" name="email" id="email" class="form-control" placeholder="Enter Email" required />
-                                                </div>
+                                                    <div class="mb-3">
+                                                        <label for="customername-field" class="form-label">Email Address</label>
+                                                        <input type="email" name="email" id="email" class="form-control" placeholder="Enter Email" required />
+                                                    </div>
 
-                                                <div class="mb-3 col-md-6">
-                                                <label for="seed" class="form-label">Barangay</label>
-                                                <select name="barangay_name" id="barangay_name" class="form-select" required>
-                                                    <option value="">Select Barangay</option>
-                                                   
-                                                    @foreach ($barangays as $option)
-                                                        <option value="{{ $option->barangay_name }}">{{ $option->barangay_name }}</option>
-                                                    @endforeach
+                                                    <div class="mb-3 col-md-6">
+                                                        <label for="seed" class="form-label">Barangay</label>
+                                                        <select name="barangay_name" id="barangay_name" class="form-select" required>
+                                                            <option value="">Select Barangay</option>
 
-                                                </select>
-                                                </div>
-                                                <div class="mb-3 col-md-6">
-                                                    <label for="customername-field" class="form-label">Area (sqm)</label>
-                                                    <input type="number" name="area" id="area" class="form-control" placeholder="Enter Area (sqm)" required />
-                                                </div>
+                                                            @foreach ($barangays as $option)
+                                                            <option value="{{ $option->barangay_name }}">{{ $option->barangay_name }}</option>
+                                                            @endforeach
 
-                                                <div class="mb-3">
-                                                    <label for="customername-field" class="form-label">Farm Name</label>
-                                                    <input type="text" name="farm_name" id="farm_name" class="form-control" placeholder="Enter Farm Name" required />
-                                                </div>
+                                                        </select>
+                                                    </div>
+                                                    <div class="mb-3 col-md-6">
+                                                        <label for="customername-field" class="form-label">Area (sqm)</label>
+                                                        <input type="number" name="area" id="area" class="form-control" placeholder="Enter Area (sqm)" required />
+                                                    </div>
 
-                                                <div class="mb-3">
-                                                    <label for="customername-field" class="form-label">Complete Address</label>
-                                                    <input type="text" name="address" id="address" class="form-control" placeholder="Enter Complete Address" required />
-                                                </div>
+                                                    <div class="mb-3">
+                                                        <label for="customername-field" class="form-label">Farm Name</label>
+                                                        <input type="text" name="farm_name" id="farm_name" class="form-control" placeholder="Enter Farm Name" required />
+                                                    </div>
 
-                                               
-                                                
+                                                    <div class="mb-3">
+                                                        <label for="customername-field" class="form-label">Complete Address</label>
+                                                        <input type="text" name="address" id="address" class="form-control" placeholder="Enter Complete Address" required />
+                                                    </div>
 
-                                                <!-- <div class="mb-3">
+                                                    <div class="mb-3">
+                                                        <label for="latitude">Latitude:</label>
+                                                        <input type="text" class="form-control" id="latitude" name="latitude" placeholder="e.g. 14.745692064170463" required>
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label for="longitude">Longitude:</label>
+                                                        <input type="text" class="form-control" id="longitude" name="longitude" placeholder="e.g. 121.05243279106442" required>
+                                                    </div>
+                                                    <center>
+                                                        <div class="">
+                                                            <label for="latitude" class="text-muted">Get your Latitude and Longitude in Google Maps</label>
+                                                        </div>
+                                                    </center>
+
+                                                    <!-- <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Address</label>
                                                     <input type="address" name="address" id="address" class="form-control" placeholder="Enter Address" required />
                                                 </div>
@@ -272,11 +284,11 @@
 
                             <!--Edit FarmLeader Modal-->
 
-                            <!-- <div class="modal fade" id="editFLModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="editFLModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header bg-light p-3">
-                                            <h5 class="modal-title" id="exampleModalLabel">Invite New Admin</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">Edit Farm Leader</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
                                         </div>
                                         <form method="post" action="/add-supplier">
@@ -284,32 +296,32 @@
                                             <div class="modal-body">
                                                 <input type="hidden" id="id-field" />
 
-                                                <input type="hidden" id="farmLeaderID" class="form-control" placeholder="ID" />
+                                                <input type="hidden" id="farmLeaderID" class="form-control" />
 
                                                 <div class="mb-3">
-                                                    <label for="customername-field" class="form-label">First Name</label>
-                                                    <input type="text" name="supplier-name" id="edit-firstname" class="form-control" placeholder="Enter name" required />
+                                                    <label for="edit-firstname" class="form-label">First Name</label>
+                                                    <input type="text" name="firstname" id="edit-firstname" class="form-control" placeholder="Enter First Name" required />
                                                 </div>
 
                                                 <div class="mb-3">
-                                                    <label for="customername-field" class="form-label">Last Name</label>
-                                                    <input type="text" name="description" id="edit-lastname" class="form-control" placeholder="Enter Description" required />
+                                                    <label for="edit-lastname" class="form-label">Last Name</label>
+                                                    <input type="text" name="lastname" id="edit-lastname" class="form-control" placeholder="Enter Last Name" required />
                                                 </div>
 
                                                 <div class="mb-3">
-                                                    <label for="customername-field" class="form-label">Email Address</label>
-                                                    <input type="email" name="email" id="edit-email" class="form-control" placeholder="Enter Email" required />
+                                                    <label for="edit-email" class="form-label">Email Address</label>
+                                                    <input type="email" name="email" id="edit-email" class="form-control" placeholder="Enter Email Address" required />
                                                 </div>
 
                                                 <div class="mb-3">
-                                                    <label for="customername-field" class="form-label">Address</label>
-                                                    <input type="address" name="address" id="customername-field" class="form-control" placeholder="Enter Address" required />
+                                                    <label for="farm" class="form-label">Farm Name</label>
+                                                    <input type="text" name="farm" id="farm" class="form-control" placeholder="Enter Farm" required />
                                                 </div>
 
-                                                <div class="mb-3">
-                                                    <label for="customername-field" class="form-label">Contact</label>
-                                                    <input type="contact" name="contact" id="customername-field" class="form-control" placeholder="Enter Contact" required />
-                                                </div>
+                                                <!-- <div class="mb-3">
+                                                    <label for="location" class="form-label">Location</label>
+                                                    <input type="text" name="location" id="location" class="form-control" placeholder="Enter Location" required />
+                                                </div> -->
 
                                             </div>
                                             <div class="modal-footer">
@@ -320,13 +332,14 @@
                                             </div>
                                         </form>
                                     </div>
+
                                 </div>
-                            </div> -->
+                            </div>
 
                             <!--End Edit FarmLeader Modal-->
 
                             <!-- Modal -->
-                            <!-- <div class="modal fade" id="adminArchiveShowModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="adminArchiveShowModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header bg-light p-3">
@@ -336,21 +349,21 @@
                                         <form method="post" action="/add-supplier">
                                             @csrf
                                             <div class="modal-body">
+
                                                 <div class="mt-4 text-center">
                                                     <input type="hidden" id="archive-adminID" class="form-control" placeholder="ID" readonly />
                                                     <h4>You are about to archive this user: <span id="archive-admin-name"></span></h4>
-                                                    <p class="text-muted fs-15 mb-4">Are you sure you want to proceed ?</p>
+                                                    <p class="text-muted fs-15 mb-4">Deleting this user will also delete the associated farm, farm location, and farmers on that farm. Are you sure you want to proceed?</p>
                                                     <div class="hstack gap-2 justify-content-center remove">
                                                         <button type="button" class="btn btn-link link-success fw-medium text-decoration-none" id="deleteRecord-close" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i> Close</button>
                                                         <button type="button" class="btn btn-danger" id="archive-farmleader-btn">Yes, Archive It</button>
                                                     </div>
                                                 </div>
-
                                             </div>
                                         </form>
                                     </div>
                                 </div>
-                            </div> -->
+                            </div>
                             <!--end modal -->
                         </div>
                     </div>
@@ -371,36 +384,80 @@
 
 <script>
     $(document).ready(function() {
-        function downloadAdminTableAsExcel(tableId, filename) {
-            var table = document.getElementById(tableId);
-            if (!table) {
-                console.error("Table element with ID '" + tableId + "' not found.");
-                return;
-            }
+        $(".download-farmleaders").click(function() {
+            var table = $('#farmerLeader-tbl').clone();
 
-            // Clone the table to manipulate without affecting the original table
-            var clonedTable = table.cloneNode(true);
+            // Add user's first name, last name, and current date to the table
+            var userFirstName = "<?php echo Auth::user()->firstname; ?>";
+            var userLastName = "<?php echo Auth::user()->lastname; ?>";
+            var currentDate = new Date().toLocaleDateString();
+            var userRow = $('<tr><td colspan="6">Prepared by: ' + userFirstName + ' ' + userLastName + '</td></tr>');
+            var dateRow = $('<tr><td colspan="6">Date: ' + currentDate + '</td></tr>');
+            table.append(userRow); // Append at the bottom
+            table.append(dateRow); // Append at the bottom
 
-            // Remove the action column from the cloned table
-            $(clonedTable).find("th[data-sort='city'], td[data-column='city']").remove();
-
-            var ws = XLSX.utils.table_to_sheet(clonedTable);
-
-            // Create a workbook with a single worksheet
-            var wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-
-            // Convert the workbook to a binary Excel file and trigger the download
-            XLSX.writeFile(wb, filename + '.xlsx');
-        }
-
-        $(document).on("click", ".download-farmleaders", function() {
-            //console.log("Download button clicked");
-            downloadAdminTableAsExcel('farmerLeader-tbl', 'farmleaders_data');
+            exportTableToCSV(table);
         });
     });
 
-    
+    function exportTableToCSV(table) {
+        var rows = table.find('tr').get();
+        var csvContent = '';
+
+        // Iterate over table rows
+        rows.forEach(function(row) {
+            var rowData = [];
+            $(row).find('td').each(function() {
+                rowData.push($(this).text());
+            });
+            csvContent += rowData.join(',') + '\n';
+        });
+
+        var currentDate = new Date().toLocaleDateString();
+        var userFirstName = "<?php echo Auth::user()->firstname; ?>";
+        var userLastName = "<?php echo Auth::user()->lastname; ?>";
+
+        csvContent += 'Date: ' + currentDate + '\n';
+        csvContent += 'Prepared by: ' + userFirstName + ' ' + userLastName + '\n';
+
+        var blob = new Blob([csvContent], {
+            type: 'text/csv;charset=utf-8;'
+        });
+
+        var currentDate = new Date();
+        var year = currentDate.getFullYear();
+        var month = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // Adding 1 to month as it's zero-based
+        var day = currentDate.getDate().toString().padStart(2, '0');
+        var formattedDate = year + '-' + month + '-' + day;
+
+        var filename = 'farmerleaders_' + formattedDate + '.csv';
+
+        if (navigator.msSaveBlob) { // IE 10+
+            navigator.msSaveBlob(blob, filename);
+        } else {
+            var link = document.createElement("a");
+            if (link.download !== undefined) { // Feature detection
+                var url = URL.createObjectURL(blob);
+                link.setAttribute("href", url);
+                link.setAttribute("download", filename);
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+        }
+    }
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('.search').on('keyup', function() {
+            var value = $(this).val().toLowerCase();
+            $('#farmerLeader-tbl tbody tr').filter(function() { // Only target tbody rows
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
 </script>
 
 

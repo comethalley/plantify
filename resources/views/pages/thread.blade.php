@@ -42,27 +42,32 @@
                                     
                                         <!-- Display the chat list -->
                                         <div class="chat-message-list">
-                                            <ul class="list-unstyled chat-list chat-user-list" id="userList">
-                                                @forelse($filteredUsers as $user) <!-- Change $users to $filteredUsers -->
+                                            <ul class="list-unstyled chat-list chat-user-list flex-column" id="userList">
+                                                @forelse($filteredUsers as $user)
                                                     @php
                                                         // Check if the user has any messages
                                                         $hasMessages = $user->messages->isNotEmpty();
                                                     @endphp
 
-                                                    @if($hasMessages)
-                                                        <button type="button" class="btn member-button" data-member-id="{{ $user->id }}" data-thread-id="{{ $user->thread_id }}">
-                                                            <!-- Your user display content -->
-                                                            <div class="d-flex align-items-center">
-                                                                <div class="avatar-sm">
+                                                    @if($hasMessages && $user->status == 1)
+                                                        <li class="mb-3">
+                                                            <button type="button" class="btn member-button" data-member-id="{{ $user->id }}" data-thread-id="{{ $user->thread_id }}">
+                                                                <!-- Your user display content -->
+                                                                <div class="d-flex align-items-center">
+                                                                    @if($profileSettings)
+                                                                        <img src="{{ $profileSettings->profile_image ? asset('storage/' . $profileSettings->profile_image) : asset('path_to_default_image') }}" alt="" >
+                                                                    @else
+                                                                        <img class="rounded-circle header-profile-user" src="{{asset('assets/images/plantifeedpics/rounded.png')}}" alt="Header Avatar">
+                                                                    @endif
                                                                     @if ($user->unread_message_count > 0)
                                                                         <span class="position-absolute topbar-badge fs-10 translate-end badge rounded-pill bg-danger">{{ $user->unread_message_count }}</span>
                                                                     @endif
+                                                                    <div class="ms-2">
+                                                                        <h6 class="mb-0">{{ $user->firstname }} {{ $user->lastname }}</h6>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="ms-2">
-                                                                    <h6 class="mb-0">{{ $user->firstname }} {{ $user->lastname }}</h6>
-                                                                </div>
-                                                            </div>
-                                                        </button>
+                                                            </button>
+                                                        </li>
                                                     @endif
                                                 @empty
                                                     <p>No other users found.</p>
@@ -77,50 +82,53 @@
                                         </div>
         
                                         <div class="chat-message-list">
-                                            <ul class="list-unstyled chat-list chat-user-list mb-0" id="channelList">
-                                                @forelse($groups as $group)
-                                                @if(auth()->user()->role_id == 2 && $group->group_name == 'Admin and Farm Leaders')
-                                                {{-- Display only for role_id 2 (Admin and Farm Leaders) --}}
-                                                <button type="button" class="btn channel-button" data-group-id="{{ $group->id }}" data-farm-id="{{ optional($farmLeaders)->id }}">
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="ms-2">
-                                                            <h6 class="mb-0">{{ $group->group_name }}</h6>
-                                                            @if ($group->unread_message_count > 0)
-                                                                <span class="position-absolute topbar-badge fs-10 translate-end badge rounded-pill bg-danger">{{ $group->unread_message_count }}</span>
-                                                            @endif
-                                                        </div>
+                                <ul class="list-unstyled chat-list chat-user-list mb-0" id="channelList">
+                                    @forelse($groups as $group)
+                                        @if(in_array(auth()->user()->role_id, [1, 2]) && $group->group_name == 'Admin and Farm Leaders')
+                                            {{-- Display only for role_id 1 or 2 (Admin and Farm Leaders) --}}
+                                            <button type="button" class="btn channel-button" data-group-id="{{ $group->id }}" data-farm-id="{{ optional($farmLeaders)->id }}">
+                                                <div class="d-flex align-items-center">
+                                                    <img class="rounded-circle header-profile-user" src="{{ asset('assets/images/plantifeedpics/rounded.png') }}" alt="Header Avatar">
+                                                    <div class="ms-2">
+                                                        <h6 class="mb-0">{{ $group->group_name }}</h6>
+                                                        @if ($group->unread_message_count > 0)
+                                                            <span class="position-absolute topbar-badge fs-10 translate-end badge rounded-pill bg-danger">{{ $group->unread_message_count }}</span>
+                                                        @endif
                                                     </div>
-                                                </button>
-                                                @elseif(auth()->user()->role_id == 3)
-                                                {{-- Display for role_id 3 (both Admin and Farm Leaders, Farm Leader and Farmers) --}}
-                                                <button type="button" class="btn channel-button" data-group-id="{{ $group->id }}" data-farm-id="{{ optional($farmLeaders)->id }}">
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="ms-2">
-                                                            <h6 class="mb-0">{{ $group->group_name }}</h6>
-                                                            @if ($group->unread_message_count > 0)
-                                                                <span class="position-absolute topbar-badge fs-10 translate-end badge rounded-pill bg-danger">{{ $group->unread_message_count }}</span>
-                                                            @endif
-                                                        </div>
+                                                </div>
+                                            </button>
+                                        @elseif(auth()->user()->role_id == 3)
+                                            {{-- Display for role_id 3 (both Admin and Farm Leaders, Farm Leader and Farmers) --}}
+                                            <button type="button" class="btn channel-button" data-group-id="{{ $group->id }}" data-farm-id="{{ optional($farmLeaders)->id }}">
+                                                <div class="d-flex align-items-center">
+                                                <img class="rounded-circle header-profile-user" src="{{asset('assets/images/plantifeedpics/rounded.png')}}" alt="Header Avatar">
+                                                    <div class="ms-2">
+                                                        <h6 class="mb-0">{{ $group->group_name }}</h6>
+                                                        @if ($group->unread_message_count > 0)
+                                                            <span class="position-absolute topbar-badge fs-10 translate-end badge rounded-pill bg-danger">{{ $group->unread_message_count }}</span>
+                                                        @endif
                                                     </div>
-                                                </button>
-                                                @elseif(auth()->user()->role_id == 4 && $group->group_name == 'Farm Leader and Farmers')
-                                                {{-- Display only for role_id 4 (Farm Leader and Farmers) --}}
-                                                <button type="button" class="btn channel-button" data-group-id="{{ $group->id }}" data-farm-id="{{ optional($farmLeaders)->id }}">
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="ms-2">
-                                                            <h6 class="mb-0">{{ $group->group_name }}</h6>
-                                                            @if ($group->unread_message_count > 0)
-                                                                <span class="position-absolute topbar-badge fs-10 translate-end badge rounded-pill bg-danger">{{ $group->unread_message_count }}</span>
-                                                            @endif
-                                                        </div>
+                                                </div>
+                                            </button>
+                                        @elseif(auth()->user()->role_id == 4 && $group->group_name == 'Farm Leader and Farmers')
+                                            {{-- Display only for role_id 4 (Farm Leader and Farmers) --}}
+                                            <button type="button" class="btn channel-button" data-group-id="{{ $group->id }}" data-farm-id="{{ optional($farmLeaders)->id }}">
+                                                <div class="d-flex align-items-center">
+                                                <img class="rounded-circle header-profile-user" src="{{asset('assets/images/plantifeedpics/rounded.png')}}" alt="Header Avatar">
+                                                    <div class="ms-2">
+                                                        <h6 class="mb-0">{{ $group->group_name }}</h6>
+                                                        @if ($group->unread_message_count > 0)
+                                                            <span class="position-absolute topbar-badge fs-10 translate-end badge rounded-pill bg-danger">{{ $group->unread_message_count }}</span>
+                                                        @endif
                                                     </div>
-                                                </button>
-                                                @endif
-                                                @empty
-                                                <p>No groups found.</p>
-                                                @endforelse
-                                            </ul>
-                                        </div>
+                                                </div>
+                                            </button>
+                                        @endif
+                                    @empty
+                                        <p>No groups found.</p>
+                                    @endforelse
+                                </ul>
+                            </div>
                                         <!-- End chat-message-list -->
                                     </div>
                                 </div>
@@ -137,11 +145,11 @@
                         <!-- Start User chat -->
                         <div class="user-chat w-100 overflow-hidden user-chat-show">
 
-                        <div class="chat-content d-lg-flex" style="background-image: url('{{ asset('storage/images/chat_bg.png') }}'); background-size: cover; ">
+                        <div class="chat-content d-lg-flex" style="background-image:  url('{{ asset('assets/images/chat_bg.png') }}'); background-size: cover; ">
                                 <!-- start chat conversation section -->
                                 <div class="w-100 overflow-hidden position-relative">
                                     <!-- conversation user -->
-                                    <div class="position-relative" style="height: 505px">
+                                    <div class="position-relative">
                                         
 
                                         <div class="position-relative" id="users-chat">
@@ -155,7 +163,11 @@
                                                             <div class="flex-grow-1 overflow-hidden">
                                                                 <div class="d-flex align-items-center">
                                                                     <div class="flex-shrink-0 chat-user-img online user-own-img align-self-center me-3 ms-0">
-                                                                        <img src="assets/images/users/avatar-2.jpg" class="rounded-circle avatar-xs" alt="">
+                                                                    @if($profileSettings)
+                                                                        <img src="{{ $profileSettings->profile_image ? asset('storage/' . $profileSettings->profile_image) : asset('path_to_default_image') }}" alt="" class="rounded-circle header-profile-user">
+                                                                    @else
+                                                                        <img class="rounded-circle header-profile-user" src="{{asset('assets/images/plantifeedpics/rounded.png')}}" alt="Header Avatar">
+                                                                    @endif
                                                                         @if($user->isOnline)
                                                                             <span class="user-status"></span> <!-- Display online status indicator -->
                                                                         @endif
@@ -293,7 +305,11 @@
         <!--end offcanvas-header-->
         <div class="offcanvas-body profile-offcanvas p-0">
             <div class="team-cover">
+            @if($profileSettings)
+                <img src="{{ $profileSettings->cover_image ? asset('storage/' . $profileSettings->cover_image) : asset('assets/images/small/img-9.jpg') }}" alt="" class="img-fluid" />
+            @else
                 <img src="assets/images/small/img-9.jpg" alt="" class="img-fluid" />
+            @endif
             </div>
             <div class="p-1 pb-4 pt-0">
                 <div class="team-settings">
@@ -308,7 +324,11 @@
                 <!--end col-->
             </div>
             <div class="p-3 text-center">
-                <img src="assets/images/users/avatar-2.jpg" alt="" class="avatar-lg img-thumbnail rounded-circle mx-auto profile-img">
+            @if($profileSettings)
+                <img src="{{ $profileSettings->profile_image ? asset('storage/' . $profileSettings->profile_image) : asset('path_to_default_image') }}" alt="" class="avatar-lg img-thumbnail rounded-circle mx-auto profile-img">
+            @else
+                <img  src="{{asset('assets/images/plantifeedpics/rounded.png')}}" alt="" class="avatar-lg img-thumbnail rounded-circle mx-auto profile-img">
+            @endif
                 <div class="mt-3">
                     <h5 class="fs-16 mb-1"><a href="javascript:void(0);" class="link-primary username"></a></h5>
                     @if($user->isOnline)
@@ -419,8 +439,7 @@ document.getElementById("chatinput-form").addEventListener("submit", function (e
                 'X-CSRF-TOKEN': '{{ csrf_token() }}',
             },
             success: function (response) {
-                // Assuming the response contains the newly created message text
-                appendMessageToConversation(messageInput); // Pass the message text to the function
+                
             },
             error: function (xhr, status, error) {
                 console.error('Error:', error);
@@ -438,7 +457,7 @@ $(document).ready(function() {
 
     Pusher.logToConsole = true;
 
-var pusher = new Pusher('3ad50bacd69a809040b1', {
+var pusher = new Pusher('ebad2ef1a296a8ac5320', {
     cluster: 'ap1'
 });
 
@@ -455,7 +474,7 @@ channel.bind('new-message', function(message) {
                 success: function(response) {
                     // Check if messages were fetched successfully
                     if (response.messages) {
-                        var messages = response.messages;
+                        var messages = response.messages;   
                         // Update the conversation area with fetched messages
                         updateConversation(messages);
                     }
@@ -496,12 +515,17 @@ function updateConversation(messages) {
         var imageRow = $('<div class="row mb-3"></div>');
         imageSet.forEach(function(imagePath) {
             var imageCol = $('<div class="col"></div>');
-            var imageItem = $('<img src="{{ asset('storage') }}/' + imagePath + '" style="max-width: 100px; max-height: 100px;" class="img-fluid img-thumbnail" alt="Attached Image">');
+            var imageItem = $('<img src="{{ asset('storage') }}/' + imagePath + '" style="max-width: 100px; max-height: 100px;" class="img-fluid img-thumbnail attached-image" alt="Attached Image">');
+            imageItem.click(function() {
+                $('#imageModal .modal-body img').attr('src', $(this).attr('src'));
+                $('#imageModal').modal('show');
+            });
             imageCol.append(imageItem);
             imageRow.append(imageCol);
         });
         attachedFiles.append(imageRow);
     });
+
 
     // Loop through each message and append it to the conversation area
     messages.forEach(function(message) {
@@ -569,8 +593,22 @@ function updateConversation(messages) {
                 '<div class="user-chat-content">' +
                 '<div class="ctext-wrap">' +
                 '<div class="ctext-wrap-content">' +
-                '<div class="message-dropdown">' +
+                '<div class="message-dropdown" style="position: relative;">' + // Add position: relative; to make positioning easier
+                '<div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5);">' + // Dark gray transparent background
+                '<a class="view-image-btn" href="#" data-bs-toggle="modal" data-bs-target="#imageModal">' + // Button to trigger modal
+                '</a>' +
+                '</div>' +
                 '<img src="{{ asset('storage') }}/' + message.image_path + '" style="max-width: 200px; max-height: 200px;" class="img-fluid" alt="Image">' +
+                '<div class="dropdown" style="position: absolute; bottom: 0; right: 0;">' + // Position dropdown at the bottom right corner
+                '<a class="dropdown-toggle" href="#" role="button" id="imageDropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">' +
+                '<i class="ri-more-fill"></i>' +
+                '</a>' +
+                '<ul class="dropdown-menu" aria-labelledby="imageDropdownMenuLink">' +
+                '<li><a class="dropdown-item" href="{{ asset('storage') }}/' + message.image_path + '" download=""><i class="ri-download-2-line me-2 text-muted align-bottom"></i>Download</a></li>' +
+                '<li><a class="dropdown-item view-image" href="#"><i class="ri-reply-line me-2 text-muted align-bottom"></i>View</a></li>' +
+                '</ul>' +
+                '</div>' +
+                '</div>' +
                 '</div>' +
                 '</div>' +
                 '<div class="conversation-name">' +
@@ -583,6 +621,25 @@ function updateConversation(messages) {
                 '</div>' +
                 '</div>' +
                 '</div>');
+
+            // Create modal for viewing image
+            var modalContent = '<div class="modal-dialog modal-dialog-centered modal-xl">' +
+                '<div class="modal-content">' +
+                '<div class="modal-body">' +
+                '<img src="{{ asset('storage') }}/' + message.image_path + '" class="img-fluid" alt="Image">' +
+                '</div>' +
+                '</div>' +
+                '</div>';
+
+            // Append modal to body
+            $('body').append('<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">' + modalContent + '</div>');
+
+            // Click event listener for "View" button
+            messageContent.find('.view-image').click(function(e) {
+                e.preventDefault();
+                $('#imageModal').modal('show'); // Show modal when "View" is clicked
+            });
+
         }
 
         // Append the message content to the message item

@@ -7,21 +7,20 @@
         <div class="container-fluid">
         <a href="/piu/piu"   class="btn btn-success waves-effect waves-light mb-4" class="col-xl-3 col-lg-4 col-sm-6"><i class="ri-arrow-left-line"></i></div></a>
                 <!-- start page title -->
-                <div class="container-fluid">
-    <div class="row">
-        <div class="col-12"> <!-- Set column to take up full width -->
-            <div class="card">
-                <div class="card-body" style="width: 100%;"> <!-- Set card body to take up full width -->
-                    <h4 class="card-title mb-4" style="font-size: 20px; font-weight: bold; font-weight: bold;">{{$piu->plant_name}}</h4>
-                    <p class="card-text mb-2" style="font-size: 20px; font-weight: bold; font-weight: bold;">Plant Information: <br> {!!$piu->information!!}</p>
-                </div>
-                <div class="card-footer">
-                    <!-- Footer content here if needed -->
-                </div>
-            </div><!-- end card -->
-        </div>
+ <div class="container-fluid">
+ <div class="row justify-text-center">
+    <div class="col-12"> <!-- Set column to take up full width -->
+        <div class="card">
+            <div class="card-body" style="width: 100%;"> <!-- Set card body to take up full width -->
+                <h4 class="card-title mb-4" style="font-size: 20px; font-weight: bold;">{{ $piu->plant_name }}</h4>
+                <p class="card-text mb-2" style="font-size: 20px; font-weight: bold;">Plant Information:<br></p>
+                {!! $piu->information !!}
+            </div>
+           
+        </div><!-- end card -->
     </div>
 </div>
+
 
 
 

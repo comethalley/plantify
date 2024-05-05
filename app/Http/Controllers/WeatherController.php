@@ -10,6 +10,7 @@ class WeatherController extends Controller
 {
     public function index()
     {
+        
         return view('pages.weather.index');
     }
 

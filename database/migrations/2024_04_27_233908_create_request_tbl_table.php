@@ -15,13 +15,24 @@ return new class extends Migration
     {
         Schema::create('request_tbl', function (Blueprint $table) {
             $table->id();
-            $table->string('supply_tool');
-            $table->string('supply_seedling');
-            $table->integer('supply_count');
+            $table->string('supply_tool')->nullable();
+            $table->string('supply_tool1')->nullable();
+            $table->string('supply_tool2')->nullable();
+            $table->integer('count_tool')->nullable();
+            $table->integer('count_tool1')->nullable();
+            $table->integer('count_tool2')->nullable();
+
+            $table->string('supply_seedling')->nullable();
+            $table->string('supply_seedling1')->nullable();
+            $table->string('supply_seedling2')->nullable();
+            $table->integer('count_seedling')->nullable();
+            $table->integer('count_seedling1')->nullable();
+            $table->integer('count_seedling2')->nullable();
+
             $table->binary('letter_content');
             $table->string('requested_by');
             $table->string('status');
-            $table->date('date_return');
+            $table->date('date_return')->nullable();
             $table->timestamps();
         });
     }

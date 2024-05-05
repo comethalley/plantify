@@ -60,7 +60,7 @@
                                                                         <img class="rounded-circle header-profile-user" src="{{asset('assets/images/plantifeedpics/rounded.png')}}" alt="Header Avatar">
                                                                     @endif
                                                                     @if ($user->unread_message_count > 0)
-                                                                        <span id="unreadBadge_{{ $user->id }}" class="position-absolute topbar-badge fs-10 translate-end badge rounded-pill bg-danger">{{ $user->unread_message_count }}</span>
+                                                                        <span class="position-absolute topbar-badge fs-10 translate-end badge rounded-pill bg-danger">{{ $user->unread_message_count }}</span>
                                                                     @endif
                                                                     <div class="ms-2">
                                                                         <h6 class="mb-0">{{ $user->firstname }} {{ $user->lastname }}</h6>
@@ -818,7 +818,7 @@ $(document).ready(function () {
                 },
                 success: function (response) {
                     // Update the UI to remove or update the badge
-                    $('#unreadBadge_' + userId).remove();
+                    $('.topbar-badge' + userId).remove();
                 },
                 error: function (xhr, status, error) {
                     console.error('Error:', error);
@@ -954,10 +954,7 @@ setInterval(function() {
         $('#userList').load(location.href + ' #userList');
     }, 500); // 0.5 seconds
 
-setInterval(function() {
-        // Reload the content
-        $('#users-chat').load(location.href + ' #users-chat');
-    }, 500); // 0.5 seconds
+
 
 
 

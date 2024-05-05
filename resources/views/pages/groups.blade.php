@@ -42,7 +42,7 @@
                                                 $hasMessages = $user->messages->isNotEmpty();
                                             @endphp
 
-                                            @if($hasMessages)
+                                            @if($hasMessages && $user->status == 1)
                                                 <li class="mb-3">
                                                     <button type="button" class="btn member-button" data-member-id="{{ $user->id }}" data-thread-id="{{ $user->thread_id }}">
                                                         <!-- Your user display content -->

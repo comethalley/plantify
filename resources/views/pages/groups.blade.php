@@ -302,7 +302,7 @@
                 },
                 success: function (response) {
                     // Update the UI to remove or update the badge
-                    $('.topbar-badge' + userId).remove();
+                    $('.topbar-badge[data-member-id="' + userId + '"]').remove();
                 },
                 error: function (xhr, status, error) {
                     console.error('Error:', error);

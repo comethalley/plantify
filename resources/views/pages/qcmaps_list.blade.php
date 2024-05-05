@@ -83,13 +83,18 @@
                                             @foreach ($farm_locations as $event)
 
                                             <tr>
-                                                <th scope="row">
-
-                                                </th>
+                                                <th scope="row"></th>
                                                 <td class="date">{{ $event->location_name }}</td>
-                                                <td class="amount">{{ $event->address }}</td>
-                                                <td class="customer_name">{{ $event->latitude }} </td>
-                                                <td class="customer_name">{{ $event->longitude }}</td>
+        <td class="amount">{{ $event->address }}</td>
+        <td class="customer_name">{{ $event->latitude }}</td>
+        <td class="customer_name">{{ $event->longitude }}</td>
+        <td>
+            {{-- Display farm leader name and email --}}
+            @if ($event->farmLeader)
+                <div>{{ $event->farmLeader->firstname }} {{ $event->farmLeader->lastname }}</div>
+                <div>{{ $event->farmLeader->email }}</div>
+            @endif
+        </td>
 
                                                 @if(auth()->user()->role_id == 1)
                                                 {{-- Display only for role_id 1 (Admin) --}}

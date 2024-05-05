@@ -198,7 +198,7 @@ class PlantCalendar extends Controller
             'start' => $start,
             'end' => $end,
             'status' => $request->input('status'),
-            'farm_id' => $user->farm_id,
+            // 'farm_id' => $user->farm_id,
             'harvested' => $request->input('harvested'),
             'destroyed' => $request->input('destroyed'),
             'seed' => $request->input('seed'),

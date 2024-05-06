@@ -150,7 +150,7 @@
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; <img id="weather-icon" src="" alt="">
                                 <span id="temperature-placeholder">--°C</span>
                             </button>
-                            @if(session('user') && (session('user')->role_id == 3 || session('user')->role_id == 4 ))
+                            @if(session('user') && (session('user')->role_id == 3 || session('user')->role_id == 4 || session('user')->role_id == 1 ))
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong><span id="temperature-placeholder">{{ $farmName }}</span></strong>
                             @endif
                         </div>

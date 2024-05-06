@@ -245,15 +245,15 @@ img {
     /* Adjust to your breakpoint preference */
     .wrapper {
         flex-direction: column;
-        width: 70%;
-        min-width: 90%;
+        width: 55%;
+        min-width: 80%;
 
     }
     .sidebar,
     .main {
         width: 80%;
         min-width: 0;
-        max-width: 47%;
+        max-width: 45%;
         padding: 50px;
         border-radius: 20px;
 
@@ -269,6 +269,102 @@ img {
             80% - 40px
         ); /* Full width minus padding for small screens */
         margin-bottom: 50px;
+    }
+  
+    .weather-icon #icon,
+    img {
+        width: auto;
+        max-width: 60%;
+        height: auto;
+    }
+    .condition-rain div i,
+    .location i {
+        width: auto;
+        max-width: 50%;
+    }
+    body {
+        background-size: 100% auto;
+        overflow-x: hidden;
+    }
+    /* Adjust font sizes and other properties as needed for smaller screens */
+}
+
+@media (max-width: 600px) {
+    /* Adjust to your breakpoint preference */
+    .wrapper {
+        flex-direction: column;
+        width: 100%;
+        min-width: 100%;
+
+    }
+    .sidebar,
+    .main {
+        width: 100%;
+        min-width: 0;
+        max-width: 45%;
+        padding: 50px;
+        border-radius: 20px;
+
+    }
+    .main .cards,
+    .highlights .cards {
+        justify-content: center;
+        width: 100%;
+    }
+    .card,
+    .card2 {
+        width: calc(
+            80% - 40px
+        ); /* Full width minus padding for small screens */
+        margin-bottom: 50px;
+    }
+  
+    .weather-icon #icon,
+    img {
+        width: auto;
+        max-width: 60%;
+        height: auto;
+    }
+    .condition-rain div i,
+    .location i {
+        width: auto;
+        max-width: 50%;
+    }
+    body {
+        background-size: 100% auto;
+        overflow-x: hidden;
+    }
+    /* Adjust font sizes and other properties as needed for smaller screens */
+}
+
+@media (max-width: 932px) {
+    /* Adjust to your breakpoint preference */
+    .wrapper {
+        flex-direction: column;
+        width: 55%;
+        min-width: 65%;
+
+    }
+    .sidebar,
+    .main {
+        width: 85%;
+        min-width: 0;
+        max-width: 45%;
+        padding: 50px;
+        border-radius: 20px;
+
+    }
+    .main .cards,
+    .highlights .cards {
+        justify-content: center;
+        width: 60%;
+    }
+    .card,
+    .card2 {
+        width: calc(
+            60% - 20px
+        ); /* Full width minus padding for small screens */
+        margin-bottom: 30px;
     }
   
     .weather-icon #icon,

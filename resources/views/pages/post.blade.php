@@ -1,6 +1,12 @@
+
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+</head>
+
 @foreach ($questions as $question)
 
-<div class="dropdown" style=" box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);   display: grid; background-color:white; margin-bottom:20px; padding:30px; border-radius:13px; ">
+<div class="dropdown" style=" max-width: 600px; margin: 0 auto; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);   display: grid; background-color:white; margin-bottom:20px; padding:30px; border-radius:13px; ">
 
     <div style="display: flex; justify-content:space-between;">
         <div style="display: flex; justify-content:space-between;">
@@ -21,12 +27,11 @@
             @if(Auth::check() && Auth::user()->id == $question->user_id)
 
             <button onclick="openEditModal('{{ $question->id }}')" style="width:100%; background-color:white; border:none; color:black; text-align:center; text-decoration:none; display:inline-block; font-size:13px; padding:20px; cursor:pointer;" onmouseover="this.style.backgroundColor='lightgray'" onmouseout="this.style.backgroundColor='white'">
-                <div style="display: flex; ">
+            <div style="display: flex; align-items: center;">
+    <img src="/assets/images/plantifeedpics/edits.png" alt="Edit" style="height: 20px; width: 20px; margin-right: 10px;">
+    <p style="margin: 0;">Edit</p>
+</div>
 
-                    <img src="/assets/images/plantifeedpics/edits.png" alt="Edit" style="height:20px; width:20px; margin-right:15px;">
-                    <p>Edit</p>
-
-                </div>
             </button>
 
             <div id="questionModal{{ $question->id }}" style="display:none; position:fixed; z-index:1; left:50px; top:0px; width:100%; height:100%; overflow:auto; background-color:rgba(0,0,0,0.4);">
@@ -97,21 +102,31 @@
 
             <br>
 
-            <button class="delete-question" data-question-id="{{ $question->id }}" style="background-color:white; border:none; color:black; text-align:center; text-decoration:none; display:inline-block; font-size:13px; padding:20px; cursor:pointer;" onmouseover="this.style.backgroundColor='lightgray'" onmouseout="this.style.backgroundColor='white'">
-                <div style="display: flex;">
-                    <img src="/assets/images/plantifeedpics/delete.png" alt="Delete" style="height:23px; width:23px; margin-right:15px;">
-                    Delete
-                </div>
-            </button>
+            <button class="delete-question" data-question-id="{{ $question->id }}" style="background-color: white; border: none; color: black; text-align: center; text-decoration: none; display: inline-flex; align-items: center; font-size: 13px; padding: 20px; cursor: pointer;" onmouseover="this.style.backgroundColor='lightgray'" onmouseout="this.style.backgroundColor='white'">
+    <i class="fas fa-trash-alt" style="margin-right: 5px;"></i>
+    <span>Delete</span>
+</button>
+
+
 
 
 
             @else
+            
+            <style>
+    button:hover {
+   
+        background-color: white; /* Kulay ng background kapag nai-hover */
+    }
+</style>
 
-            <button onclick="openReportModalQuestion('{{ $question->id }}')" style="display:flex; align-items:center; padding: 10px 20px; background-color: white; color: black; border: none;  cursor: pointer; " onmouseover="this.style.backgroundColor='lightgray'" onmouseout="this.style.backgroundColor='white'">
-                <img src=" /assets/images/plantifeedpics/report.png" alt="Report" style="height: 20px; width: 20px; margin-right: 10px;">
-                Report
-            </button>
+<button onclick="openReportModalQuestion('{{ $question->id }}')" style="padding: 20px; display: flex; align-items: center; color: black; border: none; cursor: pointer;">
+    <i class="fas fa-exclamation-triangle" style="margin-right: 5px;"></i>
+    <span style="flex: 1; text-align: left;">Report</span>
+</button>
+
+
+
 
             <div id="reportModalQuestion{{ $question->id }}" style="display: none; position: fixed; z-index: 1; left: 70px; top: 20px; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.4);">
 

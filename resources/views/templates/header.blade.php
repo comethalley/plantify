@@ -231,7 +231,7 @@
                                             <div class="d-flex">
                                                 <img src="../assets/images/event/event.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
                                                 <div class="flex-grow-1">
-                                                    <a href="#" class="stretched-link event-notification" data-event-id="{{ $notification->event_id }}">
+                                                    <a href="/schedules" class="stretched-link event-notification" data-event-id="{{ $notification->event_id }}">
                                                         <h6 class="mt-0 mb-1 fs-13 fw-semibold">{{ $notification->data['title']}}</h6>
                                                     </a>
                                                     <div class="fs-13 text-muted">
@@ -1026,33 +1026,7 @@
         });
     </script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var eventNotificationLinks = document.querySelectorAll('.event-notification');
-            eventNotificationLinks.forEach(function(link) {
-                link.addEventListener('click', function(event) {
-                    event.preventDefault();
-                    var eventId = this.getAttribute('data-event-id');
-
-                    // Here you should fetch event details data from your server/database
-                    var eventData = {
-                        // Fetch event details based on eventId
-                        // For demonstration, I'm using dummy data
-                        title: "Event Title",
-                        description: "Event Description",
-                        // Add more details as needed
-                    };
-
-                    // Now populate the modal with event details
-                    document.getElementById('eventtitle').textContent = eventData.title;
-                    document.getElementById('eventdescription').textContent = eventData.description;
-                    // Populate other fields as needed
-
-                    // Show the modal
-                    var eventDetailsModal = new bootstrap.Modal(document.getElementById('EventdetailModal'));
-                    eventDetailsModal.show();
-                });
-            });
-        });
+     
     </script>
 
     <div id="google_translate_element"></div>

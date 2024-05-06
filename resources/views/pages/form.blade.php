@@ -33,15 +33,7 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
 
-    <script src="{{ asset('assets/js/inventory.js') }}"></script>
-    <script src="{{ asset('assets/js/uom.js') }}"></script>
-    <script src="{{ asset('assets/js/admin.js') }}"></script>
-    <script src="{{ asset('assets/js/farmleader.js') }}"></script>
-    <script src="{{ asset('assets/js/plantinfo.js') }}"></script>
-    <script src="{{ asset('assets/js/forum.js') }}"></script>
-    <script src="{{ asset('assets/js/fertilizer.js') }}"></script>
-    <script src="{{ asset('assets/js/inventory_fertilizer.js') }}"></script>
-    <script src="{{ asset('assets/js/farmers.js') }}"></script>
+   
 
     <!--markusread JS-->
     <script src="{{ asset('assets/js/markasread.js') }}"></script>
@@ -153,153 +145,130 @@
 </head>
 
 <body>
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card card-lg border">
+                <div class="card-header" style="background-color:#25A90B;">
+                    <div class="mx-auto d-flex align-items-center justify-content-center">
+                        <img src="/assets/images/cuai2.jpg" alt="Event Image" class="img-fluid justify-align-center" style="width: 70px;">&nbsp;
+                        &nbsp;
+                        <h1 class="card-title text-center text-justify custom-title" style="font-size: 1rem; color: white;"><strong>Fill Up Form</strong></h1>
+                    </div>
+                </div><!-- end card header -->
 
+                <div class="card-body">
+                    <div class="card-title-container justify-text-center">
+                        <h1 class="card-title text-center text-justify custom-title" style="font-size: 1.3rem; margin-bottom: 15px;"><strong>Pre-Registration Form</strong></h1>
+                        <h5 class="card-title text-center mb-2"><strong>Event Name: {{ $event->title }}</strong></h5>
+                        <p class="card-text text-center mb-2"><strong>Date: {{ date('F j, Y', strtotime($event->start)) }} to {{ date('F j, Y', strtotime($event->end)) }}</strong></p>
+                        <p class="card-text text-center" style="border-bottom: 1px solid #000;"><strong>{{ date('g:i A', strtotime($event->starttime)) }} to {{ date('g:i A', strtotime($event->endtime)) }}</strong></p>
+                        <hr>
 
- <div class="row">
-    <div class="col-xl-12">
-        <div class="card card-lg border ">
-            <div class="card-header " style="background-color:#25A90B;">
-                <div class="mx-auto d-flex align-items-center justify-content-center">
-                    <img src="/assets/images/cuai2.jpg" alt="Event Image" class="img-fluid justify-align-center" style="width: 70px;">&nbsp;
-                    &nbsp;
-                    <h1 class="card-title text-center text-justify custom-title" style="font-size: 1rem; color: white;"><strong>Fill Up Form</strong></h1>
-
-                </div>
-    
-                    
-            </div><!-- end card header -->
-
-            <div class="card-body d-flex">
-            <div class="card-body">
-                
-                <div class="card-title-container justify-text-center">
-                    <h1 class="card-title text-center text-justify custom-title" style="font-size: 1.3rem; margin-bottom: 15px;"><strong>Pre-Registration Form</strong></h1>
-                    <h5 class="card-title text-center mb-2 "><strong>Event Name: {{ $event->title }}</strong></h5>
-                    <p class="card-text text-center mb-2 "><strong>Date: {{ date('F j, Y', strtotime($event->start)) }} to {{ date('F j, Y', strtotime($event->end)) }}</strong> </p>
-                    <p class="card-text text-center" style="border-bottom: 1px solid #000;"><strong>{{ date('g:i A', strtotime($event->starttime)) }} to {{ date('g:i A', strtotime($event->endtime)) }}</strong></p>
-                    <hr>
-                    
-         
-                    <form action="{{ route('register', ['event_id' => $event->id]) }}" method="POST">
-                        @csrf
-                        <div class="live-preview">
-                            <div class="row gy-4">
-                                <div class="col">
-                                    <div class="row">
-                                        <div class="col">
-                                            <div>
-                                                <label for="firstName" class="form-label">First Name</label>
-                                                <input type="text" class="form-control" id="firstName" name="first_name" placeholder="First Name">
+                        <form action="{{ route('register', ['event_id' => $event->id]) }}" method="POST">
+                            @csrf
+                            <div class="live-preview">
+                                <div class="row gy-4">
+                                    <div class="col">
+                                        <div class="row">
+                                            <div class="col">
+                                                <div>
+                                                    <label for="firstName" class="form-label">First Name</label>
+                                                    <input type="text" class="form-control" id="firstName" name="first_name" placeholder="First Name" required>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col">
-                                            <div>
-                                                <label for="lastName" class="form-label">Last Name</label>
-                                                <input type="text" class="form-control" id="lastName" name="last_name" placeholder="Last Name">
+                                            <div class="col">
+                                                <div>
+                                                    <label for="lastName" class="form-label">Last Name</label>
+                                                    <input type="text" class="form-control" id="lastName" name="last_name" placeholder="Last Name" required>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div>
-                                                <label for="middleInitial" class="form-label">M.I</label>
-                                                <input type="text" class="form-control" id="middleInitial" name="middle_initial" placeholder="M.I">
+                                            <div class="col-md-2">
+                                                <div>
+                                                    <label for="middleInitial" class="form-label">M.I</label>
+                                                    <input type="text" class="form-control" id="middleInitial" name="middle_initial" placeholder="M.I" maxlength="3" required>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div><!-- end row -->
-                                </div><!-- end col -->
-                            </div><!-- end row -->
-                                                                            
-                            <!--end col-->
-                            <div class="row gy-4">
-                                <div class="col">
-                                    <div>
-                                        <label for="iconInput" class="form-label">Email Address</label>
-                                        <div class="form-icon">
-                                            <input type="email" class="form-control form-control-icon" id="iconInput" name="email" placeholder="example@gmail.com">
-                                            <i class="ri-mail-unread-line"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--end col-->
-
-                                <div class="col-xxl-3 col-md-6">
-                                    <div>
-                                        <label for="placeholderInput" class="form-label">Contact Number</label>
-                                        <input type="text" class="form-control" id="placeholderInput" name="contact" placeholder="09*********">
-                                    </div>
-                                </div>
-                            </div>
-                                          
-                            <!--end col-->
-                            <div class="row gy-4">
-                                <div class="col">
-                                    <div>
-                                        <label for="placeholderInput" class="form-label">Age</label>
-                                        <input type="text" class="form-control" id="placeholderInput" name="age" placeholder="18">
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
+                                        </div><!-- end row -->
+                                    </div><!-- end col -->
+                                </div><!-- end row -->
                                 <!--end col-->
                                 <div class="row gy-4">
                                     <div class="col">
                                         <div>
-                                            <label for="placeholderInput" class="form-label">Complete Address</label>
-                                            <input type="text" class="form-control" id="placeholderInput" name="address" placeholder="Complete address">
+                                            <label for="iconInput" class="form-label">Email Address</label>
+                                            <div class="form-icon">
+                                                <input type="email" class="form-control form-control-icon" id="iconInput" name="email" placeholder="example@gmail.com" required>
+                                                <i class="ri-mail-unread-line"></i>
+                                            </div>
                                         </div>
                                     </div>
-                                </div><!--end row-->
-                                <div class="row gy-4 mb-2">
-                                    <div class="col">
-                                    <label for="barangay" class="form-label">Barangay:</label>
-                                        <select class="form-select" id="barangay" name="barangay" required>
-                                            <option value="" disabled selected>Select your barangay</option>
-                                            <option value="Bagbag">Bagbag</option>
-                                            <option value="Capr">Capri</option>
-                                            <option value="Fairview">Fairview</option>
-                                            <option value="Greater Lagro">Greater Lagro</option>
-                                            <option value="Gulod">Gulod</option>
-                                            <option value="Kaligayahan">Kaligayahan</option>
-                                            <option value="Nagkaisang Nayon">Nagkaisang Nayon</option>
-                                            <option value="North Fairview">North Fairview</option>
-                                            <option value="Novaliches Proper">Novaliches Proper</option>
-                                            <option value="Pasong Putik Proper">Pasong Putik Proper</option>
-                                            <option value="San Agustin">San Agustin</option>
-                                            <option value="San Bartolome">San Bartolome</option>
-                                            <option value="Santa Lucia">Santa Lucia</option>
-                                            <option value="Santa Monica">Santa Monica</option>
-                                            
-                                            
-                                            
-                                            
-                                            
-                                        </select>
-                                    </div>
-                                </div><!--end row-->
+                                    <!--end col-->
+
+                                    <<div class="col-xxl-3 col-md-6">
+                                <div>
+                                    <label for="placeholderInput" class="form-label">Contact Number</label>
+                                    <input type="text" class="form-control" id="placeholderInput" name="contact" placeholder="09*********" maxlength="11" pattern="[0-9]*" title="Please enter numbers only" required>
+                                </div>
                             </div>
-                        </div>
-                    </form>
+                                </div>
+                                <!--end col-->
+                                <div class="row gy-4">
+                                    <div class="col">
+                                        <div>
+                                            <label for="placeholderInput" class="form-label">Age</label>
+                                            <input type="text" class="form-control" id="placeholderInput" name="age" placeholder="18" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <!--end col-->
+                                    <div class="row gy-4">
+                                        <div class="col">
+                                            <div>
+                                                <label for="placeholderInput" class="form-label">Complete Address</label>
+                                                <input type="text" class="form-control" id="placeholderInput" name="address" placeholder="Complete address" required>
+                                            </div>
+                                        </div>
+                                    </div><!--end row-->
+                                    <div class="row gy-4 mb-2">
+                                        <div class="col">
+                                            <label for="barangay" class="form-label">Barangay:</label>
+                                            <select class="form-select" id="barangay" name="barangay" required>
+                                                <option value="" disabled selected>Select your barangay</option>
+                                                <option value="Bagbag">Bagbag</option>
+                                                <option value="Capr">Capri</option>
+                                                <option value="Fairview">Fairview</option>
+                                                <option value="Greater Lagro">Greater Lagro</option>
+                                                <option value="Gulod">Gulod</option>
+                                                <option value="Kaligayahan">Kaligayahan</option>
+                                                <option value="Nagkaisang Nayon">Nagkaisang Nayon</option>
+                                                <option value="North Fairview">North Fairview</option>
+                                                <option value="Novaliches Proper">Novaliches Proper</option>
+                                                <option value="Pasong Putik Proper">Pasong Putik Proper</option>
+                                                <option value="San Agustin">San Agustin</option>
+                                                <option value="San Bartolome">San Bartolome</option>
+                                                <option value="Santa Lucia">Santa Lucia</option>
+                                                <option value="Santa Monica">Santa Monica</option>
+                                            </select>
+                                        </div>
+                                    </div><!--end row-->
+                                    <div class="card-footer d-flex justify-content-end mb-2">
+                <button type="submit" class="btn btn-success" id="submitButton">Submit</button>
+            </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
-         <!-- Button in Footer -->
-         <div class="card-footer d-flex justify-content-end mb-2">
-                <button type="button" class="btn btn-success">Submit</button>
-            </div>
+            <!-- Button in Footer -->
+           
         </div>
     </div>
-</div>
     </div>
-</div>
-
-
-    <!-- Bootstrap JS (optional) -->
-  
-
-
-
-
-
+    </div>
 </body>
+
 
 </html>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -328,3 +297,4 @@
     });
 });
     </script>
+    

@@ -78,7 +78,7 @@
         <div class="container-fluid">
 
             <!-- start page title -->
-            <div class="row">
+            <div class="row mb-2">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                         <h4 class="mb-sm-0">Event Attendance</h4>
@@ -94,65 +94,66 @@
                 </div>
             </div>
             <!-- end page title -->
-
             <div class="row">
-                <div class="col-lg-12">
-                    <div class="card" id="orderList">
-                        <div class="card-header border-0">
-                            <div class="row align-items-center gy-2">
-                                <div class="col-sm">
-                                    <h5 class="card-title mb-2">Event List</h5>
-                                </div>
-                                
-                                <div class="col-sm-auto">
-                                    <div class="d-flex gap-1 flex-wrap">
-                                <div class="dropdown d-grid justify-content-end mb-3">
-                                    <button class="btn btn-success dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Filter Status
-                                    </button>
-                                    <ul class="dropdown-menu" aria-labelledby="filterDropdown">
-                                        <li><a class="dropdown-item filter-option" href="javascript:void(0);" data-status="all">Show All</a></li>
-                                        <li><a class="dropdown-item filter-option" href="javascript:void(0);" data-status="1">Upcoming Event</a></li>
-                                        <li><a class="dropdown-item filter-option" href="javascript:void(0);" data-status="2">Ongoing Event</a></li>
-                                        <li><a class="dropdown-item filter-option" href="javascript:void(0);" data-status="3">Finished Event</a></li>
-                                        <!-- Add more options as needed -->
-                                    </ul>
-                                </div>
-
-                                    </div>
-                                </div>
-                            </div>
+    <div class="col-lg-12">
+        <div class="card" id="orderList">
+            <div class="card-header border-0">
+                <div class="row align-items-center gy-2">
+                    <div class="col-sm">
+                        <h5 class="card-title mb-2">Event List</h5>
+                    </div>
+                    <div class="col-xxl-5 col-sm-6">
+                        <div class="search-box">
+                            <input type="text" id="searchInput" class="form-control search" placeholder="Search for order ID, customer, order status or something...">
+                            <i class="ri-search-line search-icon"></i>
                         </div>
-                        
+                    </div>
+                    <div class="col-sm-auto">
+                        <div class="dropdown d-grid justify-content-end mt-1">
+                            <button class="btn btn-success dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                Filter Status
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="filterDropdown">
+                                <li><a class="dropdown-item filter-option" href="javascript:void(0);" data-status="all">Show All</a></li>
+                                <li><a class="dropdown-item filter-option" href="javascript:void(0);" data-status="1">Upcoming Event</a></li>
+                                <li><a class="dropdown-item filter-option" href="javascript:void(0);" data-status="2">Ongoing Event</a></li>
+                                <li><a class="dropdown-item filter-option" href="javascript:void(0);" data-status="3">Finished Event</a></li>
+                                <!-- Add more options as needed -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                            <div class="card">
-                                 <div class="row">
-                                         @foreach ($events as $event)
-                                    <div class="col-md-3 px-4">
-                                        <a href="{{ route('event.details', ['id' => $event->id]) }}" class="event-card">
-                                            <div class="event-image align-items-center ">
-                                                @if ($event->image)
-                                                    <img src="../assests/images/event/{{$event->image}}" alt="Event Image">
-                                                @else
-                                                    <img src="https://via.placeholder.com/150" alt="Placeholder Image">
-                                                @endif
-                                            </div>
-                                            <div class="event-details">
-                                            <div class="event-title">{{ $event->title }}</div>
-                                            <div class="event-date" data-start="{{ $event->start }}" data-end="{{ $event->end }}">
-                                                {{ date('F j, Y', strtotime($event->start)) }} to {{ date('F j, Y', strtotime($event->end)) }}
-                                            </div>
-                                            <div>
-                                                {{ date('g:i A', strtotime($event->starttime)) }} to {{ date('g:i A', strtotime($event->endtime)) }}
-                                            </div>
-                                        </div>
-
-                                        </a>
-                                    </div>
-                                   @endforeach
+            <div class="card-body">
+                <div class="row">
+                    @foreach ($events as $event)
+                    <div class="col-md-3 px-4">
+                        <a href="{{ route('event.details', ['id' => $event->id]) }}" class="event-card">
+                            <div class="event-image align-items-center">
+                                @if ($event->image)
+                                <img src="../assests/images/event/{{$event->image}}" alt="Event Image">
+                                @else
+                                <img src="https://via.placeholder.com/150" alt="Placeholder Image">
+                                @endif
+                            </div>
+                            <div class="event-details">
+                                <div class="event-title h5 fw-bold"><strong>{{ $event->title }}</strong></div>
+                                <div class="event-date small text-muted" data-start="{{ $event->start }}" data-end="{{ $event->end }}">
+                                    {{ date('F j, Y', strtotime($event->start)) }} to {{ date('F j, Y', strtotime($event->end)) }}
+                                </div>
+                                <div class="small text-muted">
+                                    {{ date('g:i A', strtotime($event->starttime)) }} to {{ date('g:i A', strtotime($event->endtime)) }}
                                 </div>
                             </div>
-
+                        </a>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
     
                     </div>
@@ -170,6 +171,8 @@
 
 </div>
 <!-- END layout-wrapper -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.invite-btn').forEach(function(button) {
@@ -216,6 +219,21 @@
         });
     });
 });
+
+$(document).ready(function() {
+    $('#searchInput').on('input', function() {
+        var searchText = $(this).val().toLowerCase(); // Get the search text
+        $('.event-card').each(function() {
+            var eventTitle = $(this).find('.event-title').text().toLowerCase(); // Get the event title
+            if (eventTitle.includes(searchText)) {
+                $(this).closest('.col-md-3').show(); // Show the closest .col-md-3 container
+            } else {
+                $(this).closest('.col-md-3').hide(); // Hide the closest .col-md-3 container
+            }
+        });
+    });
+});
+
 
 
 

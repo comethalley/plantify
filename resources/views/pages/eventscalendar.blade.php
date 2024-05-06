@@ -5,98 +5,73 @@
 <meta name="csrf-token" content="{{ csrf_token() }}" />
 
 
-<div class="main-content" >
+                    <div class="main-content">
+                        <div class="page-content">
+                            <div class="container-fluid">
 
-<div class="page-content">
-    <div class="container-fluid">
-
-   
- @section('content')
-        <!-- start page title -->
-        <div class="row">
-            <div class="col-12">
-                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                    <h4 class="mb-sm-0">Event Calendar</h4>
-
-                    <div class="page-title-right">
-                        <ol class="breadcrumb m-0">
-                            
-                            <li class="breadcrumb-item active">Event Calendar</li>
-                        </ol>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-12" >
-                 <!--start row-->
-
-                 <div class="row scrollable">
-                    <div class="col-xl-3 scrollable" style="overflow-y: auto; max-height: 100vh;">
-                        <div class="card card-h-100">
-                            <div class="card-body" style="display:flex; justify-content:center; align-items:center;">
-                                
-                            
-                            @if(auth()->user()->role_id == 1)
-                            {{-- Display only for role_id 1 (Admin) --}}
-                            <button type="button" class="btn btn-success w-100" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModalExample"><i class="mdi mdi-plus"></i>Create New Events</button>
-                            @elseif(auth()->user()->role_id == 2)
-                            {{-- Display only for role_id 2 (
-                                 Admin) --}}
-                            <button type="button" class="btn btn-success w-100" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModalExample"><i class="mdi mdi-plus"></i>Create New Events</button>
-                            @elseif(auth()->user()->role_id == 3)
-                            {{-- Display for role_id 3 (Farm Leader) --}}
-                            <button hidden type="button" class="btn btn-success w-100" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModalExample"><i class="mdi mdi-plus"></i>Create New Events</button>
-                            @elseif(auth()->user()->role_id == 4 )
-                            {{-- Display only for role_id 4 ( Farmers) --}}
-                            <button hidden type="button" class="btn btn-success w-100" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModalExample"><i class="mdi mdi-plus"></i>Create New Events</button>
-                            @elseif(auth()->user()->role_id == 5 )
-                            {{-- Display only for role_id 5 (Public Users) --}}
-                            <button hidden type="button" class="btn btn-success w-100" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModalExample"><i class="mdi mdi-plus"></i>Create New Events</button>
-                            @endif
-                            </div>
-                        </div>
-                        <div class="card scrollable">
-                            <div class="card-body bg-info-subtle" style="overflow-y: auto;" >
-                                <div class="d-flex">
-                                    <div class="flex-shrink-0">
-                                        <i data-feather="calendar" class="text-info icon-dual-info"></i>
+                                @section('content')
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                                            <h4 class="mb-sm-0">Event Calendar</h4>
+                                            <div class="page-title-right">
+                                                <ol class="breadcrumb m-0">
+                                                    <li class="breadcrumb-item active">Event Calendar</li>
+                                                </ol>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="flex-grow-1 ms-3">
-                                        <h6 class="fs-15">Welcome to your Calendar!</h6>
-                                        <p class="text-muted mb-0">Scheduled events will appear here.</p>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xl-9">
+                                        <div class="input-group mb-3">
+                                            <input type="text" id="searchInput" class="form-control" placeholder="Search events">
+                                            <div class="input-group-append">
+                                                <button id="searchButton" class="btn btn-success">{{__('Search')}}</button>
+                                            </div>
+                                        </div>
+                                        <div class="card card-h-100">
+                                            <div class="card-body">
+                                                <div id="calendar"></div>
+                                            </div>
+                                        </div>
                                     </div>
-                                 
+                                    <div class="col-xl-3">
+                                        <div class="card card-h-100">
+                                            <div class="card-body" style="display:flex; justify-content:center; align-items:center;">
+                                                @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2)
+                                                <button type="button" class="btn btn-success w-100" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModalExample">
+                                                    <i class="mdi mdi-plus"></i>Create New Events
+                                                </button>
+                                                @elseif(auth()->user()->role_id == 3 || auth()->user()->role_id == 4 || auth()->user()->role_id == 5)
+                                                <button hidden type="button" class="btn btn-success w-100" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModalExample">
+                                                    <i class="mdi mdi-plus"></i>Create New Events
+                                                </button>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="card scrollable" style="max-height: 300px;">
+                                            <div class="card-body bg-info-subtle" style="overflow-y: auto;">
+                                                <div class="d-flex">
+                                                    <div class="flex-shrink-0">
+                                                        <i data-feather="calendar" class="text-info icon-dual-info"></i>
+                                                    </div>
+                                                    <div class="flex-grow-1 ms-3">
+                                                        <h6 class="fs-15">Welcome to your Calendar!</h6>
+                                                        <p class="text-muted mb-0">Scheduled events will appear here.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @include('pages.displayevent')
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                                  
-                        @include('pages.displayevent')
-                                
-            </div> <!-- end col-->
- <!-- ============================================================ -->
-                <div class="col-xl-9">
-                        
-                    <div class="input-group mb-3">
-                        <input type="text" id="searchInput" class="form-control" placeholder="Search events">
-                        <div class="input-group-append">
-                            <button id="searchButton" class="btn btn-success">{{__('Search')}}</button>
-                        </div>
+                        </div> <!-- end container-fluid -->
+
                     </div>
 
-                        <div class="card card-h-100">
-                            <div class="card-body">
-                                <div id="calendar"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- end col -->
-                
-            </div> <!--end row-->
-    </div>
-        </div> <!-- end row-->
 <!-- ============================================================ -->
                 <div style='clear:both'></div>
 
@@ -172,12 +147,11 @@
     <label class="form-label">Who can see it?</label>
     <select name="visibility" id="choices-multiple-remove-button" data-choices data-choices-remove-item multiple>
         <option value="all">all</option>
-        <option value="farmleader">farmleader</option>
-        <option value="farmer">farmer</option>
-        <option value="publicuser">publicuser</option>
+        <option value="3">farmleader</option>
+        <option value="4">farmer</option>
+        <option value="5">publicuser</option>
     </select>
-</div>
-                                                    
+</div>                                         
                                        <div class="mb-3">
                                                     <label for="location" class="form-label">Location</label>
                                                     <input type="text" name="location" id="customername-field" class="form-control" placeholder="Enter Location"  required/>
@@ -431,8 +405,18 @@
                
                 // Open Add Event Modal
             $('#showModalExample').modal('show');
+            
                 },
                
+                eventRender: function (info) {
+        var currentUserRoleId = {{ auth()->user()->role_id }};
+        var eventVisibility = info.event.extendedProps.visibility;
+        // Hide the event if the current user's role does not match the event's visibility
+        if (currentUserRoleId !== eventVisibility) {
+            return false;
+        }
+    },
+
                 eventClick: function (info) {
                    console.log(info.event)
                   //  console.log("Event is", info.event._def.extendedProps);
@@ -602,8 +586,31 @@ function handleEventDelete(eventId) {
             }
         });
 
+        function filterCalendarEvents() {
+    var visibilitySelect = document.getElementById("choices-multiple-remove-button");
+    var selectedOptions = visibilitySelect.selectedOptions;
+    var calendarEvents = document.getElementById("calendar").children;
+
+    for (var i = 0; i < calendarEvents.length; i++) {
+        var event = calendarEvents[i];
+        var eventVisibility = event.dataset.visibility;
+
+        if (eventVisibility) {
+            if (eventVisibility === "all") {
+                event.style.display = "block"; // Show event
+            } else {
+                // Hide event if it doesn't match any selected visibility option
+                event.style.display = Array.from(selectedOptions).some(option => option.value === eventVisibility) ? "block" : "none";
+            }
+        }
+    }
+}
+
+// Initial filtering on page load
+filterCalendarEvents();
   
                 },
+              
 
 
             // Drag And Drop
@@ -633,30 +640,7 @@ function filterAndDisplayEvents(searchKeywords) {
             });
         }
 
-        $(document).ready(function() {
-    $('#create-btn').click(function(e) {
-        e.preventDefault();
-        
-        // Get the selected visibility option
-        var selectedVisibility = $('#choices-multiple-remove-button').val();
-        
-        // Send an AJAX request to fetch events based on the selected visibility
-        $.ajax({
-            url: "{{ route('events.calendar') }}",
-            type: 'GET',
-            data: { visibility: selectedVisibility },
-            success: function(response) {
-                // Handle success response and display the calendar
-                console.log(response);
-                // Code to display the calendar events goes here
-            },
-            error: function(xhr, status, error) {
-                // Handle error
-                console.error(xhr.responseText);
-            }
-        });
-    });
-});
+      
         
 </script>
        
@@ -769,17 +753,6 @@ function filterAndDisplayEvents(searchKeywords) {
         }
 </script>
 <script>
-   document.getElementById('interestButton').addEventListener('click', function() {
-    this.classList.toggle('interested');
-    if (this.classList.contains('interested')) {
-        this.innerHTML = '<i id="starIcon" class="fas fa-star"></i> Interested';
-    } else {
-        this.innerHTML = '<i id="starIcon" class="fas fa-star"></i> I\'m Interested';
-    }
-});
-
-
-<script>
 document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('searchInput');
     const searchButton = document.getElementById('searchButton');
@@ -825,20 +798,22 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
  <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
     <script>
-        const select = new Choices('#choices-multiple-remove-button', {
-            removeItemButton: true,
-        });
+      
     </script>
-    <script>
-    // // Get the current URL
-    // let currentUrl = window.location.href;
+    <<script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="assets/libs/simplebar/simplebar.min.js"></script>
+<script src="assets/libs/node-waves/waves.min.js"></script>
+<script src="assets/libs/feather-icons/feather.min.js"></script>
+<script src="assets/js/pages/plugins/lord-icon-2.1.0.js"></script>
+<script src="assets/js/plugins.js"></script>
 
-    // // Extract the event ID from the URL
-    // let eventId = currentUrl.substr(currentUrl.lastIndexOf('/') + 1);
+<!--jquery cdn-->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<!--select2 cdn-->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-    // // Redirect to the form page when the button is clicked
-    // document.getElementById('interested-btn').addEventListener('click', function() {
-    //     window.location.href = "/event/attendance/form/" + eventId;
-    // });
-</script>
+<script src="assets/js/pages/select2.init.js"></script>
+
+<!-- App js -->
+<script src="assets/js/app.js"></script>
 @include('templates.footer')

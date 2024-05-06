@@ -1,4 +1,5 @@
 @include('templates.header')
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <style>
     /* Style for the table */
     #attendeesTable {
@@ -77,61 +78,101 @@
                         <img src="../assests/images/event/{{$event->image}}" alt="Event Image" class="img-fluid">
                     </div>
                    
-                    <div class="col-md-8" style="font-size: 16px;">
-                        <h3>{{ $event->title }}</h3>
-                        <p><strong>Date:</strong> {{ date('F j, Y', strtotime($event->start)) }} to {{ date('F j, Y', strtotime($event->end)) }}</p>
-                        <p><strong>Time:</strong> {{ date('g:i A', strtotime($event->starttime)) }} to {{ date('g:i A', strtotime($event->endtime)) }}</p>
-                        <p><strong>Location:</strong> {{ $event->location }}</p>
-                        <p><strong>Description:</strong>{{ $event->description }}</p>
-                    </div>
+  <div class="col-md-8" style="font-size: 16px;">
+    <h3>{{ $event->title }}</h3>
+    <p style="font-size: 14px;"><strong>Date:</strong> {{ date('F j, Y', strtotime($event->start)) }} to {{ date('F j, Y', strtotime($event->end)) }}</p>
+    <p style="font-size: 14px;"><strong>Time:</strong> {{ date('g:i A', strtotime($event->starttime)) }} to {{ date('g:i A', strtotime($event->endtime)) }}</p>
+    <p style="font-size: 14px;"><strong>Location:</strong> {{ $event->location }}</p>
+    <p style="font-size: 14px;"><strong>Description:</strong>{{ $event->description }}</p>
+</div>
+
                  
         </div>
                 <hr>
-             <div class="row">
-    <div class="col">
-        <div class="row">
-            <div class="col-xxl-5 col-sm-6">
+                <div class="row mb-2">
+    <div class="col-md-12 mb-2">
+        <div class="row align-items-center">
+            <div class="col-12 col-md-6 col-lg-4">
                 <div class="search-box">
                     <input type="text" class="form-control search" placeholder="Search for order ID, customer, order status or something...">
                     <i class="ri-search-line search-icon"></i>
                 </div>
             </div>
-            <div class="col-auto">
-                <button class="btn btn-primary" id="downloadBtn"><i class="fas fa-download m-1"></i>Download</button>
+            <div class="col-12 col-md-6 col-lg-4">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-bs-toggle="tab" href="#home" role="tab" aria-selected="true" data-status="1">
+                            Pre-Registered
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab" href="#registered" role="tab" aria-selected="false" data-status="2">
+                            Registered
+                        </a>
+                    </li>
+                </ul>
             </div>
-             <div class="col">
-                <div class="dropdown d-grid mb-3">
-                    <button class="btn btn-success dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                        Filter Status
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="filterDropdown">
-                        <li><a class="dropdown-item filter-option" href="javascript:void(0);" data-status="all">Show All</a></li>
-                        <li><a class="dropdown-item filter-option" href="javascript:void(0);" data-status="1">Status 1</a></li>
-                        <li><a class="dropdown-item filter-option" href="javascript:void(0);" data-status="2">Status 2</a></li>
-                        <!-- Add more options as needed -->
-                    </ul>
-                </div>
+            <div class="col-6 col-md-3 col-lg-2 mb-2">
+                <button class="btn btn-primary btn-block" id="downloadBtn"><i class="fas fa-download mr-1"></i>Download</button>
+            </div>
+            <div class="col-6 col-md-3 col-lg-2">
+                <button class="btn btn-primary btn-block" id="update-status-btn">Save</button>
             </div>
         </div>
     </div>
 </div>
 
 
-<div class="table-responsive">
-    <table id="attendeesTable">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Barangay</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
+
+
+
+<div class="row">
+    <div class="col">
+        <div class="row">
+
+    <div class="tab-content text-muted">
+        <div class="tab-pane fade show active" id="home" role="tabpanel">
+            <div class="table-responsive">
+                <table class="table" id="attendeesTable">
+                    <thead>
+                        <tr>
+                            
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Barangay</th>
+                            <th>Status</th>
+                            
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Pre-Registered table body goes here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="registered" role="tabpanel">
+            <div class="table-responsive">
+                <table class="table" id="attendeesTable">
+                    <thead>
+                        <tr>
+                            
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Barangay</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Registered table body goes here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
-
-
 
 
 
@@ -155,62 +196,89 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
 <script>
-    $(document).ready(function() {
-        var urlParams = new URLSearchParams(window.location.search);
-        var eventId = urlParams.get('id');
-        if (eventId) {
-            fetchAttendees(eventId);
-        }
 
-        function fetchAttendees(eventId) {
-            $.ajax({
-                url: '/fetch-attendees/' + eventId,
-                method: 'GET',
-                success: function(response) {
-                    $('#attendeesTable tbody').empty(); // Clear existing rows
-                    if (response.length > 0) {
-                        response.forEach(function(attendee) {
-                            $('#attendeesTable tbody').append('<tr><td>' + attendee.first_name + ' ' + attendee.last_name + '</td><td>' + attendee.email + '</td><td>' + attendee.barangay + '</td><td>' + attendee.status + '</td></tr>');
-                        });
-                    } else {
-                        $('#attendeesTable tbody').append('<tr><td colspan="4">No attendees found for this event ID.</td></tr>');
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error fetching attendees:', error);
-                }
-            });
-        }
-
-        // Click event handler for the filter options
-        $('.filter-option').click(function() {
-            var statusToFilter = $(this).data('status'); // Get the status from data attribute
-            filterAttendeesByStatus(statusToFilter);
-        });
-
-        // Function to filter attendees by status
-        function filterAttendeesByStatus(status) {
-            $('#attendeesTable tbody tr').hide(); // Hide all rows
-            if (status === 'all') {
-                $('#attendeesTable tbody tr').show(); // Show all rows if status is 'all'
-            } else {
-                $('#attendeesTable tbody tr').each(function() {
-                    if ($(this).find('td:last').text() == status) {
-                        $(this).show(); // Show rows with the specified status
-                    }
-                });
+$.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
-        }
+        });
+ $(document).ready(function() {
+    var urlParams = new URLSearchParams(window.location.search);
+    var eventId = urlParams.get('id');
+    if (eventId) {
+        fetchAttendees(eventId, 1); // Fetch pre-registered attendees by default
+    }
+
+    function fetchAttendees(eventId, status) {
+        $.ajax({
+            url: '/fetch-attendees/' + eventId,
+            method: 'GET',
+            success: function(response) {
+                $('#attendeesTable tbody').empty(); // Clear existing rows
+                if (response.length > 0) {
+                    response.forEach(function(attendee) {
+                        if (attendee.status == status) {
+                            $('#attendeesTable tbody').append('<tr><td>' + attendee.first_name + ' ' + attendee.last_name + '</td><td>' + attendee.email + '</td><td>' + attendee.barangay + '</td><td>' + attendee.status + '</td><td><input type="checkbox" class="attendee-checkbox" data-id="' + attendee.id + '"></td></tr>');
+                        }
+                    });
+                } else {
+                    $('#attendeesTable tbody').append('<tr><td colspan="4">No attendees found for this event ID.</td></tr>');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error fetching attendees:', error);
+            }
+        });
+    }
+
+    // Click event handler for the filter options
+    $('.nav-link').click(function(e) {
+        e.preventDefault();
+        var status = $(this).data('status'); // Assuming data-status attribute is set in the HTML
+        fetchAttendees(eventId, status);
     });
 
+    // Click event handler for the delete button
+    $('#update-status-btn').click(function() {
+        // Get all selected checkboxes
+        var selectedAttendees = $('.attendee-checkbox:checked');
 
-    document.addEventListener('DOMContentLoaded', function() {
+        // Create an array to store the selected attendee IDs
+        var attendeeIds = [];
+        selectedAttendees.each(function() {
+            attendeeIds.push($(this).data('id'));
+        });
+
+        // Send an AJAX request to update the status of selected attendees
+        $.ajax({
+            url: '/update-attendee-status',
+            method: 'POST',
+            data: {
+                attendeeIds: attendeeIds,
+                status: 2, // Assuming 2 represents the 'archived' status on the server
+                _token: '{{ csrf_token() }}' // Include the CSRF token
+            },
+            success: function(response) {
+                // Refresh the attendees table after successful deletion
+                fetchAttendees(eventId, 1);
+            },
+            error: function(xhr, status, error) {
+                console.error('Error updating status:', error);
+            }
+        });
+    });
+});
+
+
+   
+
+
+      document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.querySelector('.search');
     const attendeesTable = document.getElementById('attendeesTable').getElementsByTagName('tbody')[0];
 
     searchInput.addEventListener('input', function() {
         const searchText = this.value.toLowerCase();
-
         filterAttendees(searchText);
     });
 
@@ -232,7 +300,6 @@
         }
     }
 });
-
 document.addEventListener('DOMContentLoaded', function() {
     const downloadBtn = document.getElementById('downloadBtn');
 
@@ -340,5 +407,31 @@ document.addEventListener('DOMContentLoaded', function() {
         window.location.href = link;
     }
 </script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+     $(document).ready(function() {
+        $("#update-status-btn").click(function() {
+            // Perform your update logic here
+            // For example, you might use an AJAX request to update the data on the server
+
+            // For demo purposes, let's assume the update is successful and we want to refresh the page
+            location.reload();
+        });
+    });
+</script>
+ <!-- JAVASCRIPT -->
+ <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/libs/simplebar/simplebar.min.js"></script>
+    <script src="assets/libs/node-waves/waves.min.js"></script>
+    <script src="assets/libs/feather-icons/feather.min.js"></script>
+    <script src="assets/js/pages/plugins/lord-icon-2.1.0.js"></script>
+    <script src="assets/js/plugins.js"></script>
+
+    <!-- prismjs plugin -->
+    <script src="assets/libs/prismjs/prism.js"></script>
+
+    <!-- App js -->
+    <script src="assets/js/app.js"></script>
+
 
 @include('templates.footer')

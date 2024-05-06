@@ -34,22 +34,40 @@ class AttendanceControler extends Controller
     return response()->json($attendees);
     }
 
-    public function changeStatus($id)
+    public function updateStatus(Request $request)
     {
-        $attendee = EventAttendance::findOrFail($id);
-        if (!$attendee) {
-            return response()->json(['error' => 'Attendee not found'], 404);
-        }
-    
-        $attendee->update([
-            'status' => 2,
+        $request->validate([
+            'attendeeId' => 'required|integer' // Validate that 'attendeeId' is required and is an integer
         ]);
     
-        return response()->json(['message' => 'Attendee status updated successfully', 'attendee' => $attendee]);
+        $attendeeId = $request->input('attendeeId');
+        
+        // Update the status of the attendee with the given ID
+        $attendee = EventAttendance::find($attendeeId);
+        if ($attendee) {
+            $attendee->status = 2; // Assuming 2 is the status for "Saved"
+            $attendee->save();
+            
+            // Return a response indicating success
+            return response()->json(['message' => 'Status updated successfully']);
+        }
+        
+        // Return a response indicating failure
+        return response()->json(['message' => 'Failed to update status'], 400);
+    }
+      
+    public function deleteAttendee($id)
+    {
+        $attendee = EventAttendance::find($id);
+    if (!$attendee) {
+        return response()->json(['message' => 'Attendee not found.'], 404);
     }
 
-      
-    
+    $attendee->status = 0; // Change status to 0 (archived)
+    $attendee->save();
+
+    return response()->json(['message' => 'Attendee archived successfully.']);
+    }
    
     
     public function attendees(Request $request) {
@@ -101,7 +119,7 @@ public function submit(Request $request, $event_id)
     $event->attendees()->save($attendance);
    
     // Redirect the atten$attendance to a success page or display a success message
-    return redirect()->back();
+    return redirect('/schedules');
 }
 
 

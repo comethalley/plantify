@@ -145,6 +145,7 @@
                                                 <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
                                                 @break
                                                 @case('waiting-for-approval')
+                                                @case('waiting-for-return')
                                                 <label class="badge text-wrap" style="font-size: 12px; margin-bottom: 10px; padding: 2px; background-color: #FFC107; color: #000;" onclick="return false;">{{ $request->status }}</label>
                                                 <button type="button" class="badge text-wrap text-black-50" style="background-color: #D8D8D6; border: 0;" onclick="openStatusModal()">?</button>
                                                 @break
@@ -168,7 +169,7 @@
                                                 <i style="font-size: 13px;">Click "Validation Remarks" for more specific updates</i>
                                             </td>
                                             <td class="actions vertical-line ">
-                                            @if($request->status == 'Requested' || $request->status == 'Ready')
+                                            @if($request->status == 'Requested' || $request->status == 'Ready' || $request->status == 'Waiting-for-Return')
 
                                                 <div class="centered-container times-new-roman-bold">
                                                     <ul class="list-inline hstack gap-2 mb-0">
@@ -181,12 +182,22 @@
                                                                 @endif
                                                                 <div class="centered-container times-new-roman-bold">
 
-                                                                @if($request->status == 'Picked')
+                                                                @if($request->status == 'Ready-to-be-Pick')
                                                     <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Set Date Application">
                                                         <a href="#" data-bs-toggle="modal" data-bs-target="#SetDateModal" class="btn btn-outline-warning waves-effect waves-light text-primary d-inline-block edit-item-btn d-flex align-items-center justify-content-center mt-2 btn-custom-width" onclick="setDate('{{ $request->id }}', '{{ $request->picked_date }}')">
                                                             <div class="d-flex align-items-center">
                                                                 <i class="mdi mdi-calendar-check fs-3 me-2 black"></i>
                                                                 <span class="black">Set Pick Date</span>
+                                                            </div>
+                                                        </a>
+                                                    </li>
+                                                    @endif
+                                                    @if($request->status == 'Picked')
+                                                    <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Set Date Application">
+                                                        <a href="#" data-bs-toggle="modal" data-bs-target="#SetDateModal1" class="btn btn-outline-warning waves-effect waves-light text-primary d-inline-block edit-item-btn d-flex align-items-center justify-content-center mt-2 btn-custom-width" onclick="setDateReturn('{{ $request->id }}', '{{ $request->date_return }}')">
+                                                            <div class="d-flex align-items-center">
+                                                                <i class="mdi mdi-calendar-check fs-3 me-2 black"></i>
+                                                                <span class="black">Set Return Date</span>
                                                             </div>
                                                         </a>
                                                     </li>
@@ -519,6 +530,41 @@
 
         <!-- Modals -->
 
+        <div class="modal fade" id="SetDateModal1" tabindex="-1" role="dialog" aria-labelledby="SetDateModal1Label" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header p-4">
+                                <h5 class="modal-title" id="SetDateModal1Label">Set Date of Pick</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Select the availability dates to pick-up in your farm.<br><br>
+
+                                <!-- Error message for date selection -->
+                                <div id="dateErrorMessage" style="color: red; text-align: center; display: none;">Select dates required</div>
+                                <!-- Date selection inputs -->
+                                <input type="radio" id="availability11" name="availability1" value="option11">
+                                <label for="availability11"></label><br>
+                                <input type="radio" id="availability21" name="availability1" value="option21">
+                                <label for="availability21"></label><br>
+                                <input type="radio" id="availability31" name="availability1" value="option31">
+                                <label for="availability31"></label>
+                            </div>
+                            <div class="modal-body" style="color: red; text-align: center;">
+                                Are you sure you want to Set the date to Pick?
+                            </div>
+                            <hr>
+                            <div class="modal-footer">
+                                <!-- No Button with custom text -->
+                                <button type="button" class="btn btn-link link-success fw-medium text-decoration-none" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i>Close</button>
+                                <!-- Yes Button with custom text -->
+                                <button type="button" class="btn btn-danger" id="SetDateBtn1">Yes, Set it</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+        <!-- Modals -->
 
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -531,6 +577,76 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         <script>
+
+function setDateReturn(id, selectDateReturn) {
+    var nextDate1 = new Date(selectDateReturn);
+    var nextDate2 = new Date(selectDateReturn);
+    nextDate1.setDate(nextDate1.getDate() + 1);
+    nextDate2.setDate(nextDate2.getDate() + 2)
+
+    var nextDateString1 = nextDate1.toISOString().split('T')[0];
+    var nextDateString2 = nextDate2.toISOString().split('T')[0];
+
+    $("#SetDateBtn1").data("request-id", id);
+
+    $("#availability11").val(selectDateReturn);
+    $("label[for='availability11']").text(selectDateReturn);
+
+    $("#availability21").val(nextDateString1);
+    $("label[for='availability21']").text(nextDateString1);
+
+    $("#availability31").val(nextDateString2);
+    $("label[for='availability31']").text(nextDateString2);
+
+    $("#SetDateModal1").modal("show");
+}
+
+$("#SetDateBtn1").click(function () {
+    var id = $(this).data("request-id");
+
+    var selectDateReturn = $('input[name="availability1"]:checked').val();
+
+    if (!selectDateReturn) {
+        $("#dateErrorMessage").show();
+        return;
+    } else {
+        $("#dateErrorMessage").hide();
+    }
+
+    $.ajax({
+        url: "/set-date-request1/" + id,
+        type: "POST",
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        data: {
+            status: "Waiting-for-Return",
+            select_picked: selectDateReturn
+        },
+        success: function (response) {
+            console.log(response);
+
+            // Show SweetAlert success message with an OK button
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'Process completed successfully!',
+                showConfirmButton: true, // Show the OK button
+                allowOutsideClick: false // Prevent closing by clicking outside
+            }).then((result) => {
+                // Reload the page when the OK button is clicked or the message is closed
+                location.reload();
+            });
+        },
+        error: function (error) {
+            console.error("Error updating request status:", error);
+        }
+    });
+
+    $("#SetDateModal1").modal("hide");
+});
+
+
 
 function setDate(id, selectDate) {
     var nextDate1 = new Date(selectDate);

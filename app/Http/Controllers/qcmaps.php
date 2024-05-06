@@ -12,18 +12,20 @@ class qcmaps extends Controller
     public function index()
     {
         $id = Auth::user()->id;
-        return view('pages.qcmaps');
+        $farm_locations = FarmLocation::where('status', 1)->get(); // Fetch all farm locations
+        return view('pages.qcmaps', ['farm_locations' => $farm_locations]);
     }
     
     public function getMaps()
     {
         $id = Auth::user()->id;
-        $farmLocations = FarmLocation::with('users')->where('status', 1)->get();
+        $farmLocations = FarmLocation::with('farmLeader')
+            ->where('status', 1)
+            ->get();
+
         return response()->json($farmLocations);
     }
     
-
-
     public function store(Request $request)
     {
         $item = new FarmLocation();
@@ -62,7 +64,6 @@ class qcmaps extends Controller
             'updatedLocations' => $updatedLocations,
         ]);
     }
-
 
 
 }

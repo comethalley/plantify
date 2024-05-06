@@ -126,9 +126,19 @@
                                                     <input type="text" id="multiple-receive" class="form-control" value="1" />
                                                 </div>
                                                 <video id="preview" style="width: 100%;"></video>
+
+                                                <div class="mb-3 manual-form" style="display: none;">
+                                                    <input type="text" id="manual-code" class="form-control" />
+                                                    <br>
+                                                    <button type="button" class="btn btn-primary manual_submit">Submit</button>
+                                                </div>
+
                                                 <center>
                                                     <p class="lead text-danger" id="received-qr"></p>
                                                 </center><br>
+                                                <center>
+                                                    <a href="#" id="no_camera">Camera not available?</a>
+                                                </center>
 
                                             </div>
                                             <div class="modal-footer">
@@ -143,6 +153,7 @@
                                 </div>
                             </div>
                             <!--End Receiving Modal-->
+
 
                             <!--Using Modal-->
                             <!-- <div class="modal fade" id="usingModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

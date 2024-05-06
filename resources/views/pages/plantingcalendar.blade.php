@@ -8,10 +8,12 @@
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 
     <style>
-    .form-control[disabled] {
-        background-color: #f8f9fa; /* Light gray background */
-        cursor: not-allowed; /* Change cursor to not-allowed */
-    }
+        .form-control[disabled] {
+            background-color: #f8f9fa;
+            /* Light gray background */
+            cursor: not-allowed;
+            /* Change cursor to not-allowed */
+        }
     </style>
 </head>
 
@@ -349,7 +351,7 @@
 
                             <div class="form-group mb-3">
                                 <label for="updateEventHarvested">Estimated Plants Harvested (kg):</label>
-                                <input type="text" class="form-control" id="updateEventHarvested" placeholder="Enter Seeds Harvested" >
+                                <input type="text" class="form-control" id="updateEventHarvested" placeholder="Enter Seeds Harvested">
                             </div>
 
                             <div class="form-group mb-3">
@@ -361,7 +363,7 @@
                                 <label for="updatestart-datepicker" class="form-label">Planting Date:</label>
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="ri-calendar-event-line"></i></span>
-                                    <input type="text" name="start" id="updatestart-datepicker" class="form-control" data-toggle="flatpickr" data-flatpickr-enable-time="true" data-flatpickr-date-format="Y-m-d" placeholder="Enter Start Date" readonly required disabled/>
+                                    <input type="text" name="start" id="updatestart-datepicker" class="form-control" data-toggle="flatpickr" data-flatpickr-enable-time="true" data-flatpickr-date-format="Y-m-d" placeholder="Enter Start Date" readonly required disabled />
                                 </div>
                             </div>
 
@@ -369,7 +371,7 @@
                                 <label for="updateend-datepicker" class="form-label">Harvested Date:</label>
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="ri-calendar-event-line"></i></span>
-                                    <input type="text" name="end" id="updateend-datepicker" class="form-control" data-toggle="flatpickr" data-flatpickr-enable-time="true" data-flatpickr-date-format="Y-m-d" placeholder="Enter End Date" readonly required disabled/>
+                                    <input type="text" name="end" id="updateend-datepicker" class="form-control" data-toggle="flatpickr" data-flatpickr-enable-time="true" data-flatpickr-date-format="Y-m-d" placeholder="Enter End Date" readonly required disabled />
                                 </div>
                             </div>
 
@@ -434,9 +436,17 @@
                             <p class="text-muted">Scan the Seed's Qr Code Generated from the Inventory > Supplier</p>
                         </center>
                         <video id="using-preview" style="width: 100%;"></video>
+                        <div class="mb-3 use_manual-form" style="display: none;">
+                            <input type="text" id="use_manual-code" class="form-control" />
+                            <br>
+                            <button type="button" class="btn btn-primary use_manual_submit">Submit</button>
+                        </div>
                         <center>
                             <p class="lead text-danger" id="used-qr"></p>
                         </center><br>
+                        <center>
+                            <a href="#" id="no_camera">Camera not available?</a>
+                        </center>
                         <!-- <div class="mb-3">
                             <label for="seed" class="form-label">Seeds Amount (g).</label>
                             <input type="text" name="seed" id="seed-input" class="form-control" placeholder="Seed Amount (g)." required />
@@ -465,7 +475,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
-    <script type="text/javascript">
+    <script>
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -526,7 +536,7 @@
                 dateFormat: "Y-m-d",
                 minDate: "today",
             });
-            
+
             flatpickr("#datepicker", {
                 enableTime: false,
                 dateFormat: "Y-m-d",
@@ -648,7 +658,7 @@
                 var start = $('#updatestart-datepicker').val();
                 var end = $('#updateend-datepicker').val();
                 var status = $('#updatestatus').val();
-                
+
 
                 // Check if any required field is empty
                 if (!title || !start || !end || !status || !seed || !harvested || !destroyed) {
@@ -721,7 +731,7 @@
                 handleEventDelete($(this).data('event-id'));
             });
 
-            function handleEventUpdate(eventId, start, end, status, seed, harvested, destroyed, type,) {
+            function handleEventUpdate(eventId, start, end, status, seed, harvested, destroyed, type, ) {
                 $.ajax({
                     url: "/plantcalendar/" + eventId,
                     type: "PUT",
@@ -909,11 +919,14 @@
                     success: function(response) {
                         calendar.refetchEvents();
                         console.log('Success:', response);
-                        Swal.fire({
-                            title: "Success",
-                            text: "Planting created successfully.",
-                            icon: "success"
-                        });
+                        // Swal.fire({
+                        //     title: "Success",
+                        //     text: "Planting created successfully.",
+                        //     icon: "success"
+                        // });
+                        var Kalabasa = "Kalabasa";
+
+                        getPrediction(amount, 30, 60, 10, Kalabasa)
                     },
                     error: function(xhr, status, error) {
                         console.error('Error:', error);
@@ -946,6 +959,39 @@
                     }
                 });
             }
+
+            function getPrediction(quantity, temp, humidity, precipitation, cropname) {
+                const url = `http://localhost/cropsprediction/?planted_quantity=${quantity}&temperature=${temp}&humidity=${humidity}&precipitation=${precipitation}&crop_name=${cropname}`;
+
+                fetch(url)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log(data);
+                        var destroyed = data.predicted_destroyed
+                        var harvested = data.predicted_harvested
+                        Swal.fire({
+                            title: "Predicted Data",
+                            text: "Predicted Harvest: " + harvested + "kg, Predicted Destroyed: " + destroyed + "kg", // Convert data to string for displaying
+                            icon: "success"
+                        });
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                        Swal.fire({
+                            title: "There is an error processing your request",
+                            text: error.message,
+                            icon: "error",
+                            showConfirmButton: false,
+                            timer: 3000
+                        });
+                    });
+            }
+
 
 
 
@@ -1073,6 +1119,64 @@
                 lastUsedScannedContent = "";
             });
 
+
+            $("#no_camera").on("click", function() {
+                console.log("void-btn is clicked");
+
+                stopUsedScanner()
+                $('#using-preview').hide()
+                $('.use_manual-form').show()
+
+            });
+
+            $(".use_manual_submit").on("click", function() {
+                console.log("manual_submit is clicked");
+                var qrcode = $('#use_manual-code').val()
+                var multiplier = $('#multiple-used').val();
+                var mode = $('#mode').val();
+
+                $.ajax({
+                    url: "/remove-stock",
+                    method: "POST",
+                    headers: {
+                        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                            "content"
+                        ),
+                    },
+                    data: {
+                        qrcode: qrcode,
+                        multiplier: multiplier,
+                        mode: mode,
+                    },
+                    success: function(data) {
+                        //getStocksList();
+                        console.log(data);
+                        // Swal.fire({
+                        //     title: "Successfully Receive",
+                        //     text: "Item has been remove to inventory",
+                        //     icon: "success",
+                        //     showConfirmButton: false,
+                        //     timer: 2000,
+                        // });
+                        createPlanted(data.seedName, data.daysHarvest, data.type, data.amount);
+                        //location.reload()
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Error:", status, error);
+                        var errorMessage = xhr.responseJSON.message; // Assuming error response contains a 'message' property
+                        Swal.fire({
+                            title: "There is an error processing your request",
+                            text: errorMessage,
+                            icon: "error",
+                            showConfirmButton: false,
+                            timer: 3000
+                        });
+                    },
+                });
+            });
+
+
+
             var eventTypeSpan = document.getElementById("eventtype");
             var typeLabels = document.querySelectorAll("h6[for='typeLabel']");
             var typeLabelsFlex = document.querySelectorAll("label[for='typeLabel']");
@@ -1097,18 +1201,18 @@
             });
 
             $('#updatestatus').change(function() {
-            // Get the selected value
-            var selectedValue = $(this).val();
+                // Get the selected value
+                var selectedValue = $(this).val();
 
-            // Check if the selected value is Harvested or Destroyed
-            if (selectedValue === 'Harvested' || selectedValue === 'Destroyed') {
-                // Disable the select element
-                $(this).prop('disabled', true);
-            } else {
-                // Enable the select element
-                $(this).prop('disabled', false);
-            }
-        });
+                // Check if the selected value is Harvested or Destroyed
+                if (selectedValue === 'Harvested' || selectedValue === 'Destroyed') {
+                    // Disable the select element
+                    $(this).prop('disabled', true);
+                } else {
+                    // Enable the select element
+                    $(this).prop('disabled', false);
+                }
+            });
 
         });
 

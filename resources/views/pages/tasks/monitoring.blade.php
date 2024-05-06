@@ -164,7 +164,7 @@ a:hover {
                     </div>
                         <div class="col-sm-auto">
                             <div class="d-flex gap-1 flex-wrap">
-                            @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 3) 
+                            @if(auth()->user()->role_id == 3) 
                                 {{-- Display only for roles 1, 2, or 3 --}}
                                 <button type="button" class="btn btn-success add-btn" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModal"><i class="ri-add-line align-bottom me-1"></i> Create</button>
                             @endif
@@ -220,7 +220,7 @@ a:hover {
                                     <th>Priority</th>
                                     <th>Status</th>
                                     <th>Validation Image</th>
-                                    @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 3 || auth()->user()->role_id == 4 ) 
+                                    @if( auth()->user()->role_id == 3 || auth()->user()->role_id == 4 ) 
                                         {{-- Display only for role_id 1,2,3 (Super Admin, Admin, Farmerleader) --}}
                                         <th>Actions</th>
                                     @endif
@@ -263,13 +263,13 @@ a:hover {
 
 
                                     <td>
-                                    @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 3|| auth()->user()->role_id == 4 ) 
+                                    @if( auth()->user()->role_id == 3|| auth()->user()->role_id == 4 ) 
                                         {{-- Display only for role_id 1, 2, 3 (Super Admin, Admin, Farmerleader,farmer) --}}
                                         <a href="#" class="btn btn-primary btn-sm task-edit" data-task-id="{{ $task->id }}" data-task-title="{{ $task->title }}" data-task-description="{{ $task->description }}" data-task-priority="{{ $task->priority }}" data-task-due_date="{{ $task->due_date }}" data-task-user_id="{{ $task->user_id }}" data-task-status="{{ $task->status }}" data-task-image="{{ $task->image }}" >
                                             <i class="ri-pencil-fill fs-16"></i>
                                         </a>
                                     @endif
-                                    @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 3 ) 
+                                    @if( auth()->user()->role_id == 3 ) 
                                         {{-- Display only for role_id 1, 2, 3 (Super Admin, Admin, Farmerleader) --}}
                                         <!-- Archive task button -->
                                         @if (!$task->archived)
@@ -486,7 +486,6 @@ a:hover {
             <input type="text" name="description" id="edit-description" class="form-control" value="{{ isset($task) ? $task->description : '' }}" required readonly>
         </div>
 
-
         <div class="row">
             <div class="col-md-7 mb-3">
                 <label for="due_date" class="form-label">Date and Time</label>
@@ -495,7 +494,6 @@ a:hover {
                     <span class="input-group-text clickable-span"></span>
                 </div>
             </div>
-
 
             <div class="col-md-5 mb-3">
                 <label for="priority" class="form-label">Priority</label>
@@ -530,10 +528,10 @@ a:hover {
         </div>
 
         <div class="col-md-7 mb-3">
-            <label for="image">Upload Image</label>
-            <input type="file" name="image" class="form-control" id="image" accept="image/*">
-            
-        </div>
+    <label for="image">Upload Image (Max size: 2KB)</label>
+    <input type="file" name="image" class="form-control" id="image" accept="image/*">
+</div>
+
     </div>
 @endif
 <div class="modal-footer" style="display: block; margin-top: .3in;">
@@ -738,7 +736,6 @@ a:hover {
     $(document).on('click', '#edit-btn', function(event) {
         event.preventDefault();
 
-
         var id = $('#edit-task_id').val();
         var title = $('#edit-title').val();
         var description = $('#edit-description').val();
@@ -785,7 +782,6 @@ a:hover {
                 } else {
                     console.error("Error:", error);
                 }
-
             }
         });
     });
@@ -926,5 +922,15 @@ a:hover {
         });
     });
 </script>
+<script>
+    document.getElementById('image').addEventListener('change', function() {
+        const file = this.files[0];
+        if (file && file.size > 2 * 1024) {
+            alert('File size exceeds 2KB. Please select a smaller file.');
+            this.value = ''; // Clear the input field
+        }
+    });
+</script>
+
 
 <!-- END layout-wrappe

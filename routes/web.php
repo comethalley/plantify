@@ -25,6 +25,7 @@ use App\Http\Controllers\EmailVerification;
 use App\Http\Controllers\PiuController;
 use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\RequestController;
+use App\Http\Controllers\ToolController;
 use App\Http\Controllers\ProfilefeedController;
 use App\Http\Controllers\ProfileSettingsController;
 use App\Http\Requests\PdfRequest;
@@ -187,14 +188,14 @@ Route::get('/search-users', [ChatController::class, 'searchUsers']);
 Route::get('/threads/{threadId}/messages', [ThreadController::class, 'fetchMessages']);
 
 // Group Chats
-Route::get('/groups', [GroupController::class, 'index'])->name('groups.index');
-Route::get('/groups/{groupId}', [GroupController::class, 'show'])->name('groups.show'); // Make the farmId parameter optional
-Route::post('/groups/{group}/join', [GroupController::class, 'join'])->name('groups.join');
-Route::get('/groups/create', [GroupController::class, 'create'])->name('groups.create');
-Route::post('/store-group-message/{groupId}', [GroupController::class, 'storeGroupMessage'])->name('store.group.message');
-Route::delete('/delete-group-message/{messageId}', [GroupController::class, 'deleteMessage'])->name('delete.group.message');
-Route::post('/mark-group-messages-as-read/{groupId}', [GroupController::class, 'markGroupMessagesAsRead']);
-Route::get('/fetch-messages/{groupId}', [GroupController::class, 'fetchMessages'])->name('fetch.messages');
+// Route::get('/groups', [GroupController::class, 'index'])->name('groups.index');
+// Route::get('/groups/{groupId}', [GroupController::class, 'show'])->name('groups.show'); // Make the farmId parameter optional
+// Route::post('/groups/{group}/join', [GroupController::class, 'join'])->name('groups.join');
+// Route::get('/groups/create', [GroupController::class, 'create'])->name('groups.create');
+// Route::post('/store-group-message/{groupId}', [GroupController::class, 'storeGroupMessage'])->name('store.group.message');
+// Route::delete('/delete-group-message/{messageId}', [GroupController::class, 'deleteMessage'])->name('delete.group.message');
+// Route::post('/mark-group-messages-as-read/{groupId}', [GroupController::class, 'markGroupMessagesAsRead']);
+// Route::get('/fetch-messages/{groupId}', [GroupController::class, 'fetchMessages'])->name('fetch.messages');
 
 Route::get('/weather', [WeatherController::class, 'index']);
 Route::get('/pastweather', [WeatherController::class, 'pastweather']);
@@ -251,9 +252,8 @@ Route::post('/event/attendance/submit/{event_id}', [AttendanceControler::class, 
 Route::get('/event/{eventId}/attendance', [AttendanceControler::class, 'showAttendanceList']);
 Route::get('/event/form/{id}', [AttendanceControler::class, 'attendanceForm'])->name('event.attendance.form');
 Route::put('/change-attendee-status/{id}', [AttendanceControler::class, 'changeStatus']);
-Route::post('update-attendee-status', [AttendanceControler::class, 'updatestatus'])->name('update-attendee-status');
 
-Route::delete('/delete-attendee/{id}', [AttendanceControler::class, 'deleteAttendee'])->name('delete-attendee');
+
 Route::get('/fetch-attendees/{event_id}', [AttendanceControler::class, 'fetchAttendees']);
 
 Route::get('/attendees/filterByStatus', [AttendanceController::class, 'filterBystatus']);
@@ -269,7 +269,7 @@ Route::get('/plantcalendar/search', [PlantCalendar::class, 'search']);
 Route::get('/calendar_list', [PlantCalendar::class, 'calendar_list']);
 
 Route::view('add-plantcalendar', 'pages.add');
-Route::post('/create-plantcalendar', [PlantCalendar::class, 'create']);
+Route::post('create-plantcalendar', [PlantCalendar::class, 'create']);
 
 
 
@@ -339,6 +339,7 @@ Route::post('/tasks/{task}/archive', [TaskController::class, 'archive'])->name('
 Route::get('/archived', [TaskController::class, 'showArchived'])->name('archived');
 Route::post('/tasks/{task}/restore', [TaskController::class, 'restore'])->name('tasks.restore');
 
+
 //============================================================================================
 
 //EXPENSES MANAGEMENT ====================================================================================
@@ -355,13 +356,20 @@ Route::get('/expenses/get-expenses-by-category', [ExpenseController::class, 'get
 // TOOL REQUEST ======================================================================
 
 Route::get('/Tools-District-5', [RequestController::class, 'index1']);
-Route::get('/requests', [RequestController::class, 'index']);
 Route::post('/add-tools', [RequestController::class, 'addTools'])->name('add.tools');
 Route::get('/request/{id}/details', [RequestController::class, 'getRequestDetails']);
 Route::get('/view-pdf/{id}/{title?}', [RequestController::class, 'viewPdfRequest'])->name('view.pdf');
-Route::post('/set-date-request/{id}', [RequestController::class, 'SetDateStatus'])->name('set.date.request');
-Route::post('/set-date-request1/{id}', [RequestController::class, 'SetDateStatus1'])->name('set.date.return.request');
 
+
+Route::get('/requests', [ToolController::class, 'index']);
+Route::get('/getLetterContent', [ToolController::class, 'getLetterContent']);
+Route::post('/updateStatus', [ToolController::class, 'updateStatus']);
+Route::get('/availableList', [ToolController::class, 'availableList']);
+Route::get('/approvedList', [ToolController::class, 'approvedList']);
+Route::get('/pickedList', [ToolController::class, 'pickedList']);
+Route::get('/returnList', [ToolController::class, 'returnList']);
+Route::post('/set-picking-date', [ToolController::class, 'setPickingDate']);
+Route::post('/set-return-date', [ToolController::class, 'setReturnDate']);
 
 
 // ===================================================================================

@@ -72,11 +72,26 @@ class AttendanceControler extends Controller
     
     public function attendees(Request $request) {
         $eventId = $request->input('id');
+    
         // Fetch event details based on the $eventId from the database
         $event = Event::find($eventId);
-        // Pass the event details to the blade view
-        return view('pages.eventattendees', ['event' => $event]);
+    
+        // Fetch attendees for the event with status value 1
+        $attendeesWithStatus1 = EventAttendance::where('event_id', $eventId)
+                            ->where('status', 1)
+                            ->select('first_name', 'last_name', 'email', 'barangay', 'status')
+                            ->get();
+    
+        // Fetch attendees for the event with status value 2 (or any other value as needed)
+        $attendeesWithStatus2 = EventAttendance::where('event_id', $eventId)
+                            ->where('status', 2)
+                            ->select('first_name', 'last_name', 'email', 'barangay', 'status')
+                            ->get();
+    
+        return view('pages.eventattendees', ['event' => $event, 'attendeesWithStatus1' => $attendeesWithStatus1, 'attendeesWithStatus2' => $attendeesWithStatus2]);
     }
+    
+    
     public function attendanceForm($id) {
         // Fetch event details based on the $id from the database
         $event = Event::find($id);

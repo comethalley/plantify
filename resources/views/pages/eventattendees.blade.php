@@ -134,22 +134,32 @@
     <div class="tab-content text-muted">
         <div class="tab-pane fade show active" id="home" role="tabpanel">
             <div class="table-responsive">
-                <table class="table" id="attendeesTable">
-                    <thead>
-                        <tr>
-                            
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Barangay</th>
-                            <th>Status</th>
-                            
-                            
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Pre-Registered table body goes here -->
-                    </tbody>
-                </table>
+            <table class="table" id="attendeesTable">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Barangay</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($attendeesWithStatus1 as $attendee)
+            <tr>
+                <td>{{ $attendee->name }}</td>
+                <td>{{ $attendee->email }}</td>
+                <td>{{ $attendee->barangay }}</td>
+                <td>{{ $attendee->status }}</td>
+                <td>
+                <td>
+                <button class="btn btn-primary update-status-btn" data-id="{{ $attendee->id }}">Change Status</button>
+            </td>  <!-- Add action buttons here -->
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
             </div>
         </div>
         <div class="tab-pane fade" id="registered" role="tabpanel">
@@ -162,11 +172,21 @@
                             <th>Email</th>
                             <th>Barangay</th>
                             <th>Status</th>
-                            <th>Action</th>
+                          
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Registered table body goes here -->
+                    @foreach ($attendeesWithStatus2 as $attendee)
+            <tr>
+                <td>{{ $attendee->name }}</td>
+                <td>{{ $attendee->email }}</td>
+                <td>{{ $attendee->barangay }}</td>
+                <td>{{ $attendee->status }}</td>
+                <td>
+                    <!-- Add action buttons here -->
+                </td>
+            </tr>
+            @endforeach
                     </tbody>
                 </table>
             </div>
@@ -197,48 +217,48 @@
 
 <script>
 
-$(document).ready(function() {
-    // Setting up CSRF token for AJAX requests
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
+// $(document).ready(function() {
+//     // Setting up CSRF token for AJAX requests
+//     $.ajaxSetup({
+//         headers: {
+//             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+//         }
+//     });
 
-    var urlParams = new URLSearchParams(window.location.search);
-    var eventId = urlParams.get('id');
-    if (eventId) {
-        fetchAttendees(eventId, 1); // Fetch pre-registered attendees by default
-    }
+//     var urlParams = new URLSearchParams(window.location.search);
+//     var eventId = urlParams.get('id');
+//     if (eventId) {
+//         fetchAttendees(eventId, 1); // Fetch pre-registered attendees by default
+//     }
 
-    function fetchAttendees(eventId, status) {
-        $.ajax({
-            url: '/fetch-attendees/' + eventId,
-            method: 'GET',
-            success: function(response) {
-                $('#attendeesTable tbody').empty(); // Clear existing rows
-                if (response.length > 0) {
-                    response.forEach(function(attendee) {
-                        if (attendee.status == status) {
-                            $('#attendeesTable tbody').append('<tr><td>' + attendee.first_name + ' ' + attendee.last_name + '</td><td>' + attendee.email + '</td><td>' + attendee.barangay + '</td><td>' + attendee.status + '</td><td><input type="checkbox" class="attendee-checkbox" data-id="' + attendee.id + '"></td></tr>');
-                        }
-                    });
-                } else {
-                    $('#attendeesTable tbody').append('<tr><td colspan="4">No attendees found for this event ID.</td></tr>');
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error('Error fetching attendees:', error);
-            }
-        });
-    }
+//     function fetchAttendees(eventId, status) {
+//         $.ajax({
+//             url: '/fetch-attendees/' + eventId,
+//             method: 'GET',
+//             success: function(response) {
+//                 $('#attendeesTable tbody').empty(); // Clear existing rows
+//                 if (response.length > 0) {
+//                     response.forEach(function(attendee) {
+//                         if (attendee.status == status) {
+//                             $('#attendeesTable tbody').append('<tr><td>' + attendee.first_name + ' ' + attendee.last_name + '</td><td>' + attendee.email + '</td><td>' + attendee.barangay + '</td><td>' + attendee.status + '</td><td><input type="checkbox" class="attendee-checkbox" data-id="' + attendee.id + '"></td></tr>');
+//                         }
+//                     });
+//                 } else {
+//                     $('#attendeesTable tbody').append('<tr><td colspan="4">No attendees found for this event ID.</td></tr>');
+//                 }
+//             },
+//             error: function(xhr, status, error) {
+//                 console.error('Error fetching attendees:', error);
+//             }
+//         });
+//     }
 
-    // Click event handler for the filter options
-    $('.nav-link').click(function(e) {
-        e.preventDefault();
-        var status = $(this).data('status'); // Assuming data-status attribute is set in the HTML
-        fetchAttendees(eventId, status);
-    });
+//     // Click event handler for the filter options
+//     $('.nav-link').click(function(e) {
+//         e.preventDefault();
+//         var status = $(this).data('status'); // Assuming data-status attribute is set in the HTML
+//         fetchAttendees(eventId, status);
+//     });
 
     // Click event handler for the delete button
     $('#update-status-btn').click(function() {

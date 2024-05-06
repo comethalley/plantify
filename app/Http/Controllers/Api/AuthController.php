@@ -100,9 +100,8 @@ class AuthController extends Controller
             ->where('id', $id)
             ->select(
                 "role_id",
-
             )
-            ->get();
+            ->first();
 
         if ($role->role_id == 1 || $role->role_id == 2) {
             $farmLeaders = DB::table('farmers')
@@ -129,7 +128,7 @@ class AuthController extends Controller
                 ->get();
         }
 
-
+        // dd($farmLeaders);
         return response()->json(['farmLeaders' => $farmLeaders, 'role' => $role], 200);
     }
 

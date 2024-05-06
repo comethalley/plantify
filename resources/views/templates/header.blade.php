@@ -706,7 +706,7 @@
                                                 <a href="/schedules" class="nav-link" style="color:white"> Event Calendar </a>
                                             </li>
 
-                                            @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2)
+                                            @if(session('user') && session('user')->role_id == 1 || session('user') && session('user')->role_id == 2)
                                             <li class="nav-item">
 
                                                 <a href="/attendance" class="nav-link" style="color:white">Event Registration</a>
@@ -1026,7 +1026,7 @@
         });
     </script>
     <script>
-     
+
     </script>
 
     <div id="google_translate_element"></div>

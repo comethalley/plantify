@@ -104,21 +104,21 @@
 
                 <ul class="navbar-nav mx-auto mt-2 mt-lg-0" id="navbar-example">
                     <li class="nav-item">
-                        <a class="nav-link text-white fw-bold" href="javascript:void(0);" onclick="scrollToHome()">
+                        <a class="nav-link text-white fw-bold" href="/" onclick="scrollToHome()">
                             <i class="fas fa-home"></i> Home
                         </a>
                     </li>
                     
 
                     <li class="nav-item">
-                        <a class="nav-link text-white fw-bold" href="javascript:void(0);" onclick="scrollToFAQ()">
+                        <a class="nav-link text-white fw-bold" href="/" onclick="scrollToFAQ()">
                             <i class="fas fa-question-circle"></i> FAQs
                         </a>
                     </li>
                     
 
                     <li class="nav-item">
-                        <a class="nav-link text-white fw-bold" href="javascript:void(0);" onclick="scrollToContact()">
+                        <a class="nav-link text-white fw-bold" href="/" onclick="scrollToContact()">
                             <i class="fas fa-phone"></i> Contact Us
                         </a>
                     </li>

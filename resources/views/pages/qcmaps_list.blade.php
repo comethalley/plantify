@@ -54,12 +54,12 @@
                                                 <th scope="col">
 
                                                 </th>
-                                                <th data-sort="amount" width="25%">Farm Name:</th>
+                                                <th data-sort="amount" width="30%">Farm Name:</th>
                                                 <th data-sort="payment" width="30%">Complete Address:</th>
                                                 <th data-sort="customer_name" width="10%">Latitude:</th>
                                                 <th data-sort="date" width="10%">Longitude:</th>
-                                                <th data-sort="date" width="10%">Farm Leader:</th>
-                                                <th data-sort="date" width="14%">Email: </th>
+                                                <!-- <th data-sort="date" width="10%">Farm Leader:</th>
+                                                <th data-sort="date" width="14%">Email: </th> -->
                                                 
 
 
@@ -91,29 +91,29 @@
                                                 <td class="amount">{{ $event->address }}</td>
                                                 <td class="customer_name">{{ $event->latitude }}</td>
                                                 <td class="customer_name">{{ $event->longitude }}</td>
-                                                <td>  
-                                                @if ($event->farmLeader)
-                                                    @if (!empty($event->farmLeader->firstname) || !empty($event->farmLeader->lastname))
-                                                        @if (!empty($event->farmLeader->firstname) && !empty($event->farmLeader->lastname))
-                                                            <div>{{ $event->farmLeader->firstname }} {{ $event->farmLeader->lastname }}</div>
-                                                        @elseif (!empty($event->farmLeader->firstname))
-                                                            <div>{{ $event->farmLeader->firstname }}</div>
-                                                        @elseif (!empty($event->farmLeader->lastname))
-                                                            <div>{{ $event->farmLeader->lastname }}</div>
+                                                
+                                                <!-- <td data-sort="date">
+                                                    @if ($event->farmLeader)
+                                                        @if (!empty($event->farmLeader->firstname) || !empty($event->farmLeader->lastname))
+                                                            @if (!empty($event->farmLeader->firstname) && !empty($event->farmLeader->lastname))
+                                                                <div>{{ $event->farmLeader->firstname }} {{ $event->farmLeader->lastname }}</div>
+                                                            @elseif (!empty($event->farmLeader->firstname))
+                                                                <div>{{ $event->farmLeader->firstname }}</div>
+                                                            @elseif (!empty($event->farmLeader->lastname))
+                                                                <div>{{ $event->farmLeader->lastname }}</div>
+                                                            @endif
+                                                        @else
+                                                            <div class="text-muted">Unknown</div>
                                                         @endif
-                                                    @else
-                                                        <div class="text-muted">Unknown</div>
                                                     @endif
-                                                @endif
-                                            </td>
-
-
+                                                </td>
+                                            
 
                                                 <td>  
                                                     @if ($event->farmLeader)
                                                         <div>{{ $event->farmLeader->email }}</div>
                                                     @endif
-                                                </td>
+                                                </td> -->
 
                                                 @if(auth()->user()->role_id == 1)
                                                 {{-- Display only for role_id 1 (Admin) --}}

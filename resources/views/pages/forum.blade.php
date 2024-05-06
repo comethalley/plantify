@@ -27,7 +27,7 @@
             <div class="card" style="border-radius:13px; margin-bottom:20px; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1); max-width: 600px; width: 100%; margin: 0 auto;">
                         <div class="card-body">
                             <div class="mt-0 " style="display: flex;">
-                                <div style="display: inline-flex; align-items: center; ">
+           
                                 @if($profileSettings->profile_image)
                             <img style="width:40px; height:40px; padding: 2px; border: 3px solid #006400;" src="{{ asset('storage/images/' . $profileSettings->profile_image) }}" alt="Profile Image" class="rounded-circle avatar-xl img-thumbnail user-profile-image">
                             @else
@@ -36,106 +36,11 @@
                             </div>
 
                             @endif
-                                   <button type="button" class="btn btn-primary" style="width: 100%; max-width: 400px; border:0;border-radius:20px; text-align:left;background-color:#E6E6E6; color:black;" data-bs-toggle="modal" data-bs-target="#myModal">Ask and share your story!</button>
+                        
+                            <button type="button" class="btn btn-primary" style="width: 100%; max-width: 600px; border:0;border-radius:20px; text-align:left;background-color:#E6E6E6; color:black;" data-bs-toggle="modal" data-bs-target="#myModal">Ask and share your story!</button>
 
-                                    <div id="myModal" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content" style="width: 600px; height:500px;">
-                                                <div class="modal-header">
-
-                                                    <h5 class="modal-title" id="myModalLabel">Add Question</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
-
-                                                </div>
-
-                                                <img src="/assets/images/plantifeedpics/line.png" alt="line-img" style="width:570px; margin-left:15px; margin-top:10px;">
-
-                                                <div class="modal-body">
-                                                    <div style="background-color: #E1E1E1; padding:20px; border-radius:10px;">
-                                                        <h5 class="fs-15" style="margin-bottom: 20px;">
-                                                            Tips on getting good answers quickly
-                                                        </h5>
-                                                        <p class="text-muted">• Make sure your question has not been asked already </p>
-                                                        <p class="text-muted">• Keep your question short and to the point</p>
-                                                        <p class="text-muted">• Double-check grammar and spelling</p>
-                                                    </div>
-
-
-
-                                                    <div style="margin-top:20px;">
-                                                        <form id="forumForm" action="{{ route('forum.store') }}" method="POST">
-                                                            <img src="/assets/images/plantifeedpics/rounded.png" alt="Image Description" class="object-cover rounded-full" style="width: 40px; height: 40px; margin-left: 5px;">
-                                                            @csrf
-                                                            <div class="dropdown" style="position: relative; display: inline-block; width:100px; border-radius:30px;">
-                                                                <select name="language" id="language" style="border-radius:30px;padding:4px; outline: none;">
-                                                                    <option value="Public">Public</option>
-                                                                    <option value="Limited">Limited</option>
-                                                                </select>
-                                                            </div>
-                                                            <input style="margin-top:30px; width:100%; display: block; outline: none;  border-right: none; border-top: none;border-left: none; border-bottom: 1px solid black; " required type="text" name="askquestions" id="askquestions" placeholder="Start your questions with 'What', 'Why', 'How', etc." required>
-                                                            <div style="display: flex; justify-content:flex-end; margin-top:70px;">
-                                                                <button class="btn btn-light" style="margin-right:10px; border-radius:10px; border:none;" type="button" data-bs-dismiss="modal">Cancel</button>
-                                                                <button class="btn btn-light" style="border-radius:10px; border:none;" type="button" id="submitForm">Add Question</button>
-                                                            </div>
-                                                        </form>
-                                                        @if (Session::has('message'))
-                                                        <div class="alert alert-{{ Session::get('message_type') }}" id="sweetAlert">
-                                                            <script>
-                                                                // I-wrap ang code sa isang function para madaling tawagin
-                                                                function showSweetAlert() {
-                                                                    swal({
-                                                                        title: "Success",
-                                                                        text: "{{ Session::get('message') }}",
-                                                                        icon: "success",
-                                                                        button: "OK"
-                                                                    });
-                                                                }
-
-                                                                // I-check kung ang page ay nasa cache o hindi
-                                                                if (performance.navigation.type !== 2) {
-                                                                    // Ang performance.navigation.type === 2 ay nangangahulugang ang page ay nahiram mula sa cache
-                                                                    showSweetAlert();
-                                                                }
-                                                            </script>
-                                                        </div>
-                                                        @endif
-
-                                                        @if (Session::has('validationmessage'))
-                                                        <script>
-                                                            swal("Warning", "{{ Session::get('validationmessage') }}", 'warning', {
-                                                                button: true,
-                                                                button: "OK",
-                                                                dangerMode: true,
-                                                            });
-                                                        </script>
-                                                        @endif
-
-
-                                                        <!-- @if (Session::has('validationmessage'))
-                                                        <script>
-                                                            swal("Warning", "{{ Session::get('validationmessage') }}", 'warning', {
-                                                                button: true,
-                                                                button: "OK",
-                                                                dangerMode: true,
-                                                            });
-                                                        </script>
-                                                        @endif -->
-
-
-
-                                                    </div>
-                                                </div>
-
-
-                                            </div><!-- /.modal-content -->
-                                        </div><!-- /.modal-dialog -->
-                                    </div><!-- /.modal -->
-
-                                </div>
                             </div>
-
-
-
+                            
                             <div class="mt-2" style="display: flex; justify-content:space-evenly;">
 
                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal" style="width: 150px; border:none;">
@@ -242,7 +147,114 @@
                                     </div>
                                 </div>
                             </div>
+                            </div>
+                            </div>     
+
+                                    <div id="myModal" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content" style="width: 600px; height:500px;">
+                                                <div class="modal-header">
+
+                                                    <h5 class="modal-title" id="myModalLabel">Add Question</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+
+                                                </div>
+
+                                                <img src="/assets/images/plantifeedpics/line.png" alt="line-img" style="width:570px; margin-left:15px; margin-top:10px;">
+
+                                                <div class="modal-body">
+                                                    <div style="background-color: #E1E1E1; padding:20px; border-radius:10px;">
+                                                        <h5 class="fs-15" style="margin-bottom: 20px;">
+                                                            Tips on getting good answers quickly
+                                                        </h5>
+                                                        <p class="text-muted">• Make sure your question has not been asked already </p>
+                                                        <p class="text-muted">• Keep your question short and to the point</p>
+                                                        <p class="text-muted">• Double-check grammar and spelling</p>
+                                                    </div>
+
+
+
+                                                    <div style="margin-top:20px;">
+                                                        <form id="forumForm" action="{{ route('forum.store') }}" method="POST">
+                                                            <img src="/assets/images/plantifeedpics/rounded.png" alt="Image Description" class="object-cover rounded-full" style="width: 40px; height: 40px; margin-left: 5px;">
+                                                            @csrf
+                                                            <div class="dropdown" style="position: relative; display: inline-block; width:100px; border-radius:30px;">
+                                                                <select name="language" id="language" style="border-radius:30px;padding:4px; outline: none;">
+                                                                    <option value="Public">Public</option>
+                                                                    <option value="Limited">Limited</option>
+                                                                </select>
+                                                            </div>
+                                                            <input style="margin-top:30px; width:100%; display: block; outline: none;  border-right: none; border-top: none;border-left: none; border-bottom: 1px solid black; " required type="text" name="askquestions" id="askquestions" placeholder="Start your questions with 'What', 'Why', 'How', etc." required>
+                                                            <div style="display: flex; justify-content:flex-end; margin-top:70px;">
+                                                                <button class="btn btn-light" style="margin-right:10px; border-radius:10px; border:none;" type="button" data-bs-dismiss="modal">Cancel</button>
+                                                                <button class="btn btn-light" style="border-radius:10px; border:none;" type="button" id="submitForm">Add Question</button>
+                                                            </div>
+                                                        </form>
+                                                        @if (Session::has('message'))
+                                                        <div class="alert alert-{{ Session::get('message_type') }}" id="sweetAlert">
+                                                            <script>
+                                                                // I-wrap ang code sa isang function para madaling tawagin
+                                                                function showSweetAlert() {
+                                                                    swal({
+                                                                        title: "Success",
+                                                                        text: "{{ Session::get('message') }}",
+                                                                        icon: "success",
+                                                                        button: "OK"
+                                                                    });
+                                                                }
+
+                                                                // I-check kung ang page ay nasa cache o hindi
+                                                                if (performance.navigation.type !== 2) {
+                                                                    // Ang performance.navigation.type === 2 ay nangangahulugang ang page ay nahiram mula sa cache
+                                                                    showSweetAlert();
+                                                                }
+                                                            </script>
+                                                        </div>
+                                                        @endif
+
+                                                        @if (Session::has('validationmessage'))
+                                                        <script>
+                                                            swal("Warning", "{{ Session::get('validationmessage') }}", 'warning', {
+                                                                button: true,
+                                                                button: "OK",
+                                                                dangerMode: true,
+                                                            });
+                                                        </script>
+                                                        @endif
+
+
+                                                        <!-- @if (Session::has('validationmessage'))
+                                                        <script>
+                                                            swal("Warning", "{{ Session::get('validationmessage') }}", 'warning', {
+                                                                button: true,
+                                                                button: "OK",
+                                                                dangerMode: true,
+                                                            });
+                                                        </script>
+                                                        @endif -->
+
+
+
+                                                    </div>
+                                                </div>
+
+
+                                            </div><!-- /.modal-content -->
+                                        </div><!-- /.modal-dialog -->
+                                    </div><!-- /.modal -->
+
+
+                                    <div style="margin-top:20px;" id="post" >
+
+</div>
+                                </div>
+                            </div>
+
+
+
                         </div>
+
+                        
                     </div>    
 
 
@@ -257,9 +269,7 @@
 
 
 
-                    <div style="margin-top:20px;" id="post" >
-
-                    </div>
+    
 
 
 

@@ -647,6 +647,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                     </div>
                                         @elseif(session('user') && session('user')->role_id == 5)
                                             <!-- Do nothing, section will not be displayed -->
                                         @else
@@ -679,7 +680,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                        </div>
                                         @endif
                                         <div class="col-lg-9">
                                             <div class="text-muted">

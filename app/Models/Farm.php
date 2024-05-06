@@ -44,4 +44,9 @@ class Farm extends Model
     {
         return $this->hasMany(Farmer::class, 'farmleader_id');
     }
+
+    public function requests()
+    {
+        return $this->hasMany(RequestN::class, 'farm_id');
+    }
 }

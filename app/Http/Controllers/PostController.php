@@ -22,8 +22,10 @@ class PostController extends Controller
     {
         $posts = Post::orderBy('created_at', 'desc')->get();
         $questions = Forum::orderBy('created_at', 'desc')->get();
+        $profileSettings = ProfileSettings::where('user_id', auth()->id())->first();
 
-        return view('pages.forum', compact('questions', 'posts'));
+        
+        return view('pages.forum', compact('questions', 'posts', 'comments','profileSettings'));
     }
 
 

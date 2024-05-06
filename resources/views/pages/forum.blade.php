@@ -56,16 +56,16 @@
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
                                             </div>
                                             <div class="modal-body">
-                                                <div style="display: flex; align-items: center;">
+                                                <!-- <div style="display: flex; align-items: center;">
                                                     <img src="/assets/images/plantifeedpics/rounded.png" alt="Image Description" class="object-cover rounded-full" style="width: 40px; height: 40px; margin-right: 8px;">
 
 
-                                                </div>
+                                                </div> -->
 
 
 
                                                 <div class="hstack mt-3">
-                                                    <input class="form-control me-auto form-control mr-8" type="text" name="ask_text" placeholder="Start your questions with “What” , “Why” , “How” etc." value="" style="width: 413px;" fdprocessedid="cawh3q">
+                                                    <input class="form-control me-auto form-control mr-8" type="text" name="ask_text" placeholder="Start your questions with “What” , “Why” , “How” etc." value="" style="width: 100%;" fdprocessedid="cawh3q">
 
                                                 </div>
                                                 <!--  -->
@@ -245,6 +245,8 @@
 
 
                                     <div style="margin-top:20px;" id="post" >
+
+                                    
 
 </div>
                                 </div>

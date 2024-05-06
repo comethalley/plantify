@@ -10,15 +10,7 @@
 
     <div style="display: flex; justify-content:space-between;">
         <div style="display: flex; justify-content:space-between;">
-           
-        @if($profileSettings->profile_image)
-                            <img style="width:40px; height:40px; padding: 2px; border: 3px solid #006400;" src="{{ asset('storage/images/' . $profileSettings->profile_image) }}" alt="Profile Image" class="rounded-circle avatar-xl img-thumbnail user-profile-image">
-                            @else
-                            <div class="avatar-lg">
-                                <img style="padding: 2px; border: 3px solid #006400;" src="assets/images/plantifeedpics/profile-default.png" alt="user-img" class="img-thumbnail rounded-circle">
-                            </div>
-
-                            @endif
+            <img src="/assets/images/plantifeedpics/rounded.png" alt="Image Description" class="object-cover rounded-full" style="width: 40px; height: 40px; margin-right: 8px;">
             <p style="margin: 0;">
                 <strong>{{ $question->firstname }} {{ $question->lastname }}</strong> <span style="color: grey;"></span>
                 <br> <span style="color: grey;">{{ date('h:i:s A', strtotime($question->created_at)) }}</span>

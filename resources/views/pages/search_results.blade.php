@@ -220,7 +220,7 @@
                 <div style="margin-top: 10px; display:flex; justify-content:space-evenly;">
 
                     <button onclick="toggleLike('{{ $question->id }}')" style="border: none; background-color:transparent;">
-                        <img src="assets/images/plantifeedpics/like.png" alt="like" id="likeIcon{{ $question->id }}" style="padding:10px;" onmouseover="this.style.backgroundColor='lightgray';this.style.borderRadius='25px';" onmouseout="this.style.backgroundColor='transparent'; this.style.borderRadius='25px';">
+                        <img src="assets/images/plantifeedpics/unlike.png" alt="like" id="likeIcon{{ $question->id }}" style=" width:50px; height:50px;  padding:10px;" onmouseover="this.style.backgroundColor='lightgray';this.style.borderRadius='25px';" onmouseout="this.style.backgroundColor='transparent'; this.style.borderRadius='25px';">
                         <span id="likeCount{{ $question->id }}">0</span>
                     </button>
 

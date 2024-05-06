@@ -183,7 +183,7 @@ class RequestController extends Controller
 
             $request = RequestN::findOrFail($id);
 
-            $request->status = 'Ready';
+            $request->status = 'Picked';
 
             $request->save();
 
@@ -192,7 +192,37 @@ class RequestController extends Controller
             RemarkRequest::create([
                 'request_id' => $request->id,
                 'remarks' => 'For Request Picked Date',
-                'remark_status' => 'Ready',
+                'remark_status' => 'Picked',
+                'validated_by' => $user->firstname . ' ' . $user->lastname,
+                'select_picked' => $validatedData['select_picked'] 
+            ]);
+
+            return response()->json(['success' => true, 'message' => 'Farm status updated successfully']);
+        } catch (\Exception $e) {
+            \Log::error('Error updating farm status to "Cancel" for farm ID ' . $id . ': ' . $e->getMessage());
+            return response()->json(['success' => false, 'message' => 'Error updating farm status to "Set Date"']);
+        }
+    }
+
+    public function SetDateStatus1($id, Request $request)
+    {
+        try {
+            $validatedData = $request->validate([
+                'select_picked' => 'required|date', 
+            ]);
+
+            $request = RequestN::findOrFail($id);
+
+            $request->status = 'Waiting-for-Return';
+
+            $request->save();
+
+            $user = Auth::user();
+
+            RemarkRequest::create([
+                'request_id' => $request->id,
+                'remarks' => 'For Request Picked Date',
+                'remark_status' => 'Waiting-for-Return',
                 'validated_by' => $user->firstname . ' ' . $user->lastname,
                 'select_picked' => $validatedData['select_picked'] 
             ]);

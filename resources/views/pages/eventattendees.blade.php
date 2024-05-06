@@ -197,12 +197,14 @@
 
 <script>
 
-$.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
- $(document).ready(function() {
+$(document).ready(function() {
+    // Setting up CSRF token for AJAX requests
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
     var urlParams = new URLSearchParams(window.location.search);
     var eventId = urlParams.get('id');
     if (eventId) {
@@ -254,9 +256,8 @@ $.ajaxSetup({
             url: '/update-attendee-status',
             method: 'POST',
             data: {
-                attendeeIds: attendeeIds,
-                status: 2, // Assuming 2 represents the 'archived' status on the server
-                _token: '{{ csrf_token() }}' // Include the CSRF token
+                attendeeIds: attendeeIds, // Sending array of attendee IDs
+                status: 2 // Assuming 2 represents the 'archived' status on the server
             },
             success: function(response) {
                 // Refresh the attendees table after successful deletion
@@ -408,7 +409,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 </script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
+<!-- <script>
      $(document).ready(function() {
         $("#update-status-btn").click(function() {
             // Perform your update logic here
@@ -418,7 +419,7 @@ document.addEventListener('DOMContentLoaded', function() {
             location.reload();
         });
     });
-</script>
+</script> -->
  <!-- JAVASCRIPT -->
  <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="assets/libs/simplebar/simplebar.min.js"></script>

@@ -497,15 +497,15 @@ function handleEventDelete(eventId) {
  
     $.ajax({
         url: "/scheduledelete/" + eventId,
-        type: "DELETE",
+        type: "put",
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
                     calendar.refetchEvents();
                     $('#archiveModal1').modal('hide');
                     Swal.fire({
                     title: "Successfully archived",
-                    text: "Are you ready for the next level?",
-                    icon: "error"
+                    // text: "Are you ready for the next level?",
+                    icon: "success"
                     });
                     $('#planting-events-container').load(location.href + ' planting-events-container');
                 },
@@ -566,7 +566,7 @@ function handleEventDelete(eventId) {
                         $('#editexampleModal').modal('hide');
                         Swal.fire({
                         title: "Successfully Updated",
-                        text: "Are you ready for the next level?",
+                        // text: "Are you ready for the next level?",
                         icon: "success"
                         });
                         
@@ -621,12 +621,14 @@ filterCalendarEvents();
         });
 
         calendar.render();
+        document.addEventListener('DOMContentLoaded', function() {
 
-document.getElementById('searchButton').addEventListener('click', function () {
-    var searchKeywords = document.getElementById('searchInput').value.toLowerCase();
-    filterAndDisplayEvents(searchKeywords);
-});
-function filterAndDisplayEvents(searchKeywords) {
+
+        document.getElementById('searchButton').addEventListener('click', function () {
+            var searchKeywords = document.getElementById('searchInput').value.toLowerCase();
+            filterAndDisplayEvents(searchKeywords);
+        });
+            function filterAndDisplayEvents(searchKeywords) {
             $.ajax({
                 method: 'GET',
                 url: `/events/search?title=${searchKeywords}`,
@@ -640,7 +642,7 @@ function filterAndDisplayEvents(searchKeywords) {
             });
         }
 
-      
+        });
         
 </script>
        
@@ -724,76 +726,14 @@ $("#addEvent").click(function(){
     $('#showModalExample').modal('hide');
     Swal.fire({
         title: "Successfully added",
-        text: "Are you ready for the next level?", <br>
+        // text: "Are you ready for the next level?", <br>
         icon: "success",
         showConfirmButton: false // Remove the OK button
     });
 });
 
 </script>
-<script>
-calendar.render();
 
-document.getElementById('searchButton').addEventListener('click', function () {
-    var searchKeywords = document.getElementById('searchInput').value.toLowerCase();
-    filterAndDisplayEvents(searchKeywords);
-});
-function filterAndDisplayEvents(searchKeywords) {
-            $.ajax({
-                method: 'GET',
-                url: `/events/search?title=${searchKeywords}`,
-                success: function (response) {
-                    calendar.removeAllEvents();
-                    calendar.addEventSource(response);
-                },
-                error: function (error) {
-                    console.error('Error searching events:', error);
-                }
-            });
-        }
-</script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const searchInput = document.getElementById('searchInput');
-    const searchButton = document.getElementById('searchButton');
-    const eventsContainer = document.getElementById('eventsContainer');
-
-    function fetchEvents(searchTerm = '') {
-        fetch(`/getEvents?searchTerm=${encodeURIComponent(searchTerm)}`)
-            .then(response => response.json())
-            .then(events => renderEvents(events))
-            .catch(error => console.error('Error fetching events:', error));
-    }
-
-    function renderEvents(events) {
-        eventsContainer.innerHTML = ''; // Clear previous events
-
-        events.forEach(event => {
-            const eventElement = document.createElement('div');
-            eventElement.textContent = `${event.title} - ${event.date}`;
-            eventsContainer.appendChild(eventElement);
-        });
-    }
-
-    // Initial fetch of events (without search term)
-    fetchEvents();
-
-    searchButton.addEventListener('click', function() {
-        const searchTerm = searchInput.value.trim();
-        fetchEvents(searchTerm);
-    });
-
-    // Optionally, you can trigger the search on pressing Enter in the search input
-    searchInput.addEventListener('keypress', function(event) {
-        if (event.key === 'Enter') {
-            const searchTerm = searchInput.value.trim();
-            fetchEvents(searchTerm);
-        }
-    });
-});
-
-
-</script>
 
 </script>
  <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>

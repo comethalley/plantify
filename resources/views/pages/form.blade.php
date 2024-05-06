@@ -216,7 +216,7 @@
                                     <div class="col">
                                         <div>
                                             <label for="placeholderInput" class="form-label">Age</label>
-                                            <input type="text" class="form-control" id="placeholderInput" name="age" placeholder="18" required>
+                                            <input type="text" class="form-control" id="placeholderInput" name="age" placeholder="18" maxlength="3" required>
                                         </div>
                                     </div>
                                 </div>
@@ -271,30 +271,3 @@
 
 
 </html>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-    const submitButton = document.getElementById('submitButton');
-
-    submitButton.addEventListener('click', function() {
-        // Show SweetAlert confirmation dialog
-        Swal.fire({
-            title: 'Successful',
-            text: 'Successfully Registered',
-            icon: 'success',
-            showConfirmButton: false,
-            timer: 10000 // Adjust the duration as needed
-           
-            
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Reload the page if the user confirms
-                window.location.reload();
-            } else {
-                // Do nothing if the user cancels
-            }
-        });
-    });
-});
-    </script>
-    

@@ -21,6 +21,7 @@ class EventController extends Controller
         //dd($events);
         
         $data = DB::table('events')->where('status', '1')->orderBy('id', 'DESC')->get();
+        
         return view('pages.eventscalendar', ['events' => $events, 'data' => $data]);
 
     }
@@ -187,9 +188,9 @@ class EventController extends Controller
 
     public function search(Request $request)
     {
-        $ $searchKeywords = $request->input('title');
+        $searchKeywords = $request->input('title');
 
-        $matchingEvents = CalendarPlanting::where('title', 'like', '%' . $searchKeywords . '%')->get();
+        $matchingEvents = Event::where('title', 'like', '%' . $searchKeywords . '%')->get();
 
         return response()->json($matchingEvents);
     }

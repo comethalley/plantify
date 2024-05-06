@@ -7,6 +7,12 @@
     @include('templates.header')
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 
+    <style>
+    .form-control[disabled] {
+        background-color: #f8f9fa; /* Light gray background */
+        cursor: not-allowed; /* Change cursor to not-allowed */
+    }
+    </style>
 </head>
 
 <body>
@@ -110,7 +116,7 @@
                                 <h5 class="modal-title" id="exampleModalLabel">Add Planting</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
                             </div>
-                            <form method="post" action="{{ URL('/create-plantcalendar') }}" id="form-event">
+                            <form method="post" action="/create-plantcalendar" id="form-event">
                                 @csrf
                                 <div class="modal-body">
                                     <input type="hidden" id="id-field" />
@@ -127,8 +133,8 @@
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="seed" class="form-label">Enter Amount.</label>
-                                        <input type="text" name="seed" id="seed-input" class="form-control" placeholder="If the item is Seedlings the amount is in pieces otherwise it will be grams." required />
+                                        <label for="seed" class="form-label">Seed Weight (g)</label>
+                                        <input type="text" name="seed" id="seed-input" class="form-control" placeholder="Input Seed Weight by grams." required />
                                     </div>
 
                                     <!-- =================== -->
@@ -137,12 +143,11 @@
                                         <input type="text" name="harvested" id="customername-field" class="form-control" value="0" required />
                                         <input type="text" name="destroyed" id="customername-field" class="form-control" value="0" required />
                                     </div>
-
                                     <div class="mb-3">
                                         <label for="start-datepicker" class="form-label">Planting Date</label>
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="ri-calendar-event-line"></i></span>
-                                            <input type="text" name="start" id="start-datepicker" class="form-control" placeholder="Select Start Date" required />
+                                            <input type="date" name="start" id="start-datepicker" class="form-control" placeholder="Select Start Date" required />
                                         </div>
                                     </div>
 
@@ -150,9 +155,10 @@
                                         <label for="end-datepicker" class="form-label">Harvested Date</label>
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="ri-calendar-event-line"></i></span>
-                                            <input type="text" name="end" id="end-datepicker" class="form-control" placeholder="Select End Date" required />
+                                            <input type="date" name="end" id="end-datepicker" class="form-control" placeholder="Select End Date" required />
                                         </div>
                                     </div>
+
 
                                     <div class="mb-3">
                                         <label for="status" class="form-label">Status</label>
@@ -204,9 +210,12 @@
                                                 <i class="ri-scales-2-line text-muted fs-16"></i>
                                             </div>
                                             <div class="flex-grow-1 group">
-                                                <h6 class="d-block fw-semibold mb-0" for="typeLabel"> </h6><span id="eventseed"></span>
+                                                <h6 class="d-block fw-semibold mb-0" for="typeLabel">Seed Weight (g)</h6><span id="eventseed"></span>
                                             </div>
                                         </div>
+
+                                        @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 3 || auth()->user()->role_id == 4)
+                                        {{-- Display only for role_id 1 (Admin) --}}
                                         <div class="d-flex align-items-center mb-2">
                                             <div class="flex-shrink-0 me-3">
                                                 <i class="ri-map-pin-line text fs-16"></i>
@@ -215,6 +224,7 @@
                                                 <h6 class="d-block fw-semibold mb-0">Planting Type: </span></h6><span id="eventtype">
                                             </div>
                                         </div>
+                                        @endif
 
                                         <div class="d-flex align-items-center mb-2">
                                             <div class="flex-shrink-0 me-3">
@@ -312,15 +322,21 @@
                             </div>
 
                             <div class="form-group mb-3">
-                                <label for="typeLabel"></label>
+                                <label for="typeLabel">Seed Weight (g): </label>
                                 <input type="text" class="form-control" id="updateEventSeed" readonly>
                             </div>
-
+                            @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 3 || auth()->user()->role_id == 4)
+                            {{-- Display for role_id 1-4 (Admins) --}}
                             <div class="form-group mb-3">
                                 <label id="typeLabel" for="updateEventType">Planting Type:</label>
                                 <input type="text" class="form-control" id="updateEventType" readonly>
                             </div>
-
+                            @elseif(auth()->user()->role_id == 5)
+                            {{-- Set type to null for role_id 5 --}}
+                            <input type="hidden" id="updateEventType" value="">
+                            @else
+                            {{-- For other roles, exclude the field --}}
+                            @endif
 
                             <div class="form-group mb-3">
                                 <label for="updatestatus">Status:</label>
@@ -333,7 +349,7 @@
 
                             <div class="form-group mb-3">
                                 <label for="updateEventHarvested">Estimated Plants Harvested (kg):</label>
-                                <input type="text" class="form-control" id="updateEventHarvested" placeholder="Enter Seeds Harvested">
+                                <input type="text" class="form-control" id="updateEventHarvested" placeholder="Enter Seeds Harvested" >
                             </div>
 
                             <div class="form-group mb-3">
@@ -345,7 +361,7 @@
                                 <label for="updatestart-datepicker" class="form-label">Planting Date:</label>
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="ri-calendar-event-line"></i></span>
-                                    <input type="text" name="start" id="updatestart-datepicker" class="form-control" data-toggle="flatpickr" data-flatpickr-enable-time="true" data-flatpickr-date-format="Y-m-d" placeholder="Enter Start Date" required />
+                                    <input type="text" name="start" id="updatestart-datepicker" class="form-control" data-toggle="flatpickr" data-flatpickr-enable-time="true" data-flatpickr-date-format="Y-m-d" placeholder="Enter Start Date" readonly required disabled/>
                                 </div>
                             </div>
 
@@ -353,7 +369,7 @@
                                 <label for="updateend-datepicker" class="form-label">Harvested Date:</label>
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="ri-calendar-event-line"></i></span>
-                                    <input type="text" name="end" id="updateend-datepicker" class="form-control" data-toggle="flatpickr" data-flatpickr-enable-time="true" data-flatpickr-date-format="Y-m-d" placeholder="Enter End Date" required />
+                                    <input type="text" name="end" id="updateend-datepicker" class="form-control" data-toggle="flatpickr" data-flatpickr-enable-time="true" data-flatpickr-date-format="Y-m-d" placeholder="Enter End Date" readonly required disabled/>
                                 </div>
                             </div>
 
@@ -510,6 +526,7 @@
                 dateFormat: "Y-m-d",
                 minDate: "today",
             });
+            
             flatpickr("#datepicker", {
                 enableTime: false,
                 dateFormat: "Y-m-d",
@@ -619,7 +636,8 @@
                 filterAndDisplayEvents(searchKeywords);
             });
 
-            // Update Event Button Click
+            var authUserRole = <?php echo auth()->user()->role_id; ?>;
+
             $('#updateEventBtn').on('click', function() {
                 var eventId = $('#deleteEventBtn').data('event-id');
                 var title = $('#updateEventTitle').val();
@@ -630,71 +648,80 @@
                 var start = $('#updatestart-datepicker').val();
                 var end = $('#updateend-datepicker').val();
                 var status = $('#updatestatus').val();
+                
 
-
-                console.log("Data Sent:", {
-                    title: title,
-                    start: start,
-                    end: end,
-                    status: status,
-                    seed: seed,
-                    harvested: harvested,
-                    destroyed: destroyed,
-                });
-
-
-
-                if (title && start && end && status && seed && harvested && destroyed && type) {
-                    $.ajax({
-                        url: "/plantcalendar/" + eventId,
-                        type: "PUT",
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        data: {
-                            title: title,
-                            start: start,
-                            end: end,
-                            status: status,
-                            seed: seed,
-                            harvested: harvested,
-                            destroyed: destroyed,
-                            type: type,
-                        },
-
-
-                        success: function(data) {
-                            // Assuming your Laravel controller returns a JSON response with a success message
-                            console.log(data.message);
-                            $('#editexampleModal').modal('hide');
-                            calendar.refetchEvents();
-                            $('#updateEventBtn').modal('hide');
-                            Swal.fire({
-                                title: "Successfully Updated",
-                                text: "Are you ready for the next level?",
-                                icon: "success"
-                            });
-                        },
-                        error: function(error) {
-                            $('#updateEventBtn').modal('hide');
-                            Swal.fire({
-                                title: "Error",
-                                text: "Error updating event. Please try again.",
-                                icon: "error"
-                            });
-                        }
+                // Check if any required field is empty
+                if (!title || !start || !end || !status || !seed || !harvested || !destroyed) {
+                    // Display validation error message
+                    Swal.fire({
+                        title: "Error",
+                        text: "Cannot change the status to Planted.",
+                        icon: "error"
                     });
+                    return; // Stop execution if validation fails
                 }
+
+                // Check if the status is "Planted" and the event is already "Planted"
+                if (status === "Planted" && status === "Planted") {
+                    // Display validation error message
+                    Swal.fire({
+                        title: "Error",
+                        text: "Cannot save as 'Planted' if it's already 'Planted'.",
+                        icon: "error"
+                    });
+                    return; // Stop execution if validation fails
+                }
+
+
+                // If the user role is not admin and type is empty, set it to null
+                if (authUserRole !== 1 && !type) {
+                    type = null;
+                }
+
+                // Make AJAX request
+                $.ajax({
+                    url: "/plantcalendar/" + eventId,
+                    type: "PUT",
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    data: {
+                        title: title,
+                        start: start,
+                        end: end,
+                        status: status,
+                        seed: seed,
+                        harvested: harvested,
+                        destroyed: destroyed,
+                        type: type,
+                    },
+                    success: function(data) {
+                        console.log(data.message);
+                        $('#editexampleModal').modal('hide');
+                        calendar.refetchEvents();
+                        Swal.fire({
+                            title: "Success",
+                            text: "Planting Updated Successfully.",
+                            icon: "success"
+                        });
+                    },
+                    error: function(error) {
+                        console.error("Error updating event:", error);
+                        Swal.fire({
+                            title: "Error",
+                            text: "Error updating event. Please try again.",
+                            icon: "error"
+                        });
+                    }
+                });
             });
-
-
 
             // Delete Event Button Click
             $('#deleteEventBtn').on('click', function() {
                 handleEventDelete($(this).data('event-id'));
             });
 
-            function handleEventUpdate(eventId, start, end, status, seed, harvested, destroyed, type) {
+            function handleEventUpdate(eventId, start, end, status, seed, harvested, destroyed, type,) {
                 $.ajax({
                     url: "/plantcalendar/" + eventId,
                     type: "PUT",
@@ -708,117 +735,77 @@
                         type: type,
                     },
                     success: function(data) {
-            calendar.refetchEvents();
-            // SweetAlert success message
-            Swal.fire({
-                icon: 'success',
-                title: 'Success',
-                text: 'Planting Updated Successfully',
-                confirmButtonText: 'OK'
-            });
-        },
-        error: function(error) {
-            console.error("Error updating event:", error);
-            // SweetAlert error message
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Error updating planting. Please try again.',
-                confirmButtonText: 'OK'
-            });
-        }
-    });
-}
+                        calendar.refetchEvents();
+                        alert("Planting Updated Successfully");
+                    },
+                    error: function(error) {
+                        console.error("Error updating event:", error);
+                        alert("Error updating planting. Please try again.");
+                    }
+                });
+            }
 
-<<<<<<< HEAD
-function handleEventDeletion(eventId) {
-    // Show SweetAlert confirmation dialog
-    Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
-        confirmButtonText: 'Yes, delete it!'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            // User confirmed, proceed with deletion
-            $.ajax({
-                url: "/plantcalendardelete/" + eventId,
-                type: "DELETE",
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function(data) {
-                    calendar.refetchEvents();
-                    // SweetAlert success message
-                    Swal.fire(
-                        'Deleted!',
-                        'Planting has been deleted.',
-                        'success'
-                    );
-                },
-                error: function(error) {
-                    console.error("Error deleting event:", error);
-                    // SweetAlert error message
-                    Swal.fire(
-                        'Error!',
-                        'Error deleting planting. Please try again.',
-                        'error'
-                    );
-=======
 
             function handleEventDelete(eventId) {
                 // Close Update/Delete Event Modal
                 $('#editexampleModal').modal('hide');
                 $('#EventdetailModal').modal('hide');
 
-                if (confirm("Are you sure you want to delete this event?")) {
-                    $.ajax({
-                        url: "/plantcalendardelete/" + eventId,
-                        type: "DELETE",
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        success: function(data) {
-                            calendar.refetchEvents();
-                            alert("Planting Deleted Successfully");
-                        },
-                        error: function(error) {
-                            console.error("Error deleting event:", error);
-                            alert("Error deleting planting. Please try again.");
-                        }
-                    });
->>>>>>> adc6feefcc5fafacee9a51d341e88c48adb233c8
-                }
-            });
-        }
-    });
-}
+                // Display SweetAlert confirmation dialog
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'You are about to delete this event.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // User clicked the 'Yes, delete it!' button
+                        // Send AJAX request to delete the event
+                        $.ajax({
+                            url: "/plantcalendardelete/" + eventId,
+                            type: "DELETE",
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            success: function(data) {
+                                // Event deleted successfully
+                                calendar.refetchEvents();
+                                Swal.fire(
+                                    'Deleted!',
+                                    'Planting has been deleted successfully.',
+                                    'success'
+                                );
+                            },
+                            error: function(error) {
+                                // Error occurred while deleting event
+                                console.error("Error deleting event:", error);
+                                Swal.fire(
+                                    'Error!',
+                                    'An error occurred while deleting planting. Please try again.',
+                                    'error'
+                                );
+                            }
+                        });
+                    }
+                });
+            }
 
 
-function filterAndDisplayEvents(searchKeywords) {
-    $.ajax({
-        method: 'GET',
-        url: `/plantcalendar/search?title=${searchKeywords}`,
-        success: function(response) {
-            calendar.removeAllEvents();
-            calendar.addEventSource(response);
-        },
-        error: function(error) {
-            console.error('Error searching events:', error);
-            // SweetAlert error message
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Error searching events. Please try again.',
-                confirmButtonText: 'OK'
-            });
-        }
-    });
-}
-
+            function filterAndDisplayEvents(searchKeywords) {
+                $.ajax({
+                    method: 'GET',
+                    url: `/plantcalendar/search?title=${searchKeywords}`,
+                    success: function(response) {
+                        calendar.removeAllEvents();
+                        calendar.addEventSource(response);
+                    },
+                    error: function(error) {
+                        console.error('Error searching events:', error);
+                    }
+                });
+            }
 
             function getEventBackgroundColor(status) {
                 if (status === 'Harvested') {
@@ -870,6 +857,39 @@ function filterAndDisplayEvents(searchKeywords) {
                 var startDateObject = new Date(startDate);
                 var endDateObject = new Date(startDateObject.getTime() + (daysHarvest * 24 * 60 * 60 * 1000));
                 var endDate = endDateObject.toISOString().slice(0, 10);
+
+                // Check if any required field is empty
+                if (!seedName || !daysHarvest || !type || !amount) {
+                    // Display validation error message
+                    Swal.fire({
+                        title: "Error",
+                        text: "Please fill in all required fields.",
+                        icon: "error"
+                    });
+                    return; // Stop execution if validation fails
+                }
+
+                // Check if start date is a valid date
+                if (isNaN(startDateObject.getTime())) {
+                    Swal.fire({
+                        title: "Error",
+                        text: "Please provide a valid start date.",
+                        icon: "error"
+                    });
+                    return;
+                }
+
+                // Check if end date is a valid date
+                if (isNaN(endDateObject.getTime())) {
+                    Swal.fire({
+                        title: "Error",
+                        text: "Please provide a valid end date.",
+                        icon: "error"
+                    });
+                    return;
+                }
+
+                // If start date is provided, make the AJAX request
                 $.ajax({
                     type: 'POST',
                     url: '/create-plantcalendar',
@@ -889,13 +909,45 @@ function filterAndDisplayEvents(searchKeywords) {
                     success: function(response) {
                         calendar.refetchEvents();
                         console.log('Success:', response);
+                        Swal.fire({
+                            title: "Success",
+                            text: "Planting created successfully.",
+                            icon: "success"
+                        });
                     },
                     error: function(xhr, status, error) {
-
                         console.error('Error:', error);
+                        // Check if the response contains validation errors
+                        if (xhr.responseJSON && xhr.responseJSON.errors) {
+                            // Get the validation errors
+                            var errors = xhr.responseJSON.errors;
+                            // Prepare an array to store all error messages
+                            var errorMessages = [];
+                            // Loop through each validation error message and add it to the array
+                            Object.keys(errors).forEach(function(field) {
+                                errors[field].forEach(function(errorMessage) {
+                                    errorMessages.push(errorMessage);
+                                });
+                            });
+                            // Display all validation error messages using Swal
+                            Swal.fire({
+                                title: "Error",
+                                html: errorMessages.join("<br>"),
+                                icon: "error"
+                            });
+                        } else {
+                            // Display a generic error message using Swal
+                            Swal.fire({
+                                title: "Error",
+                                text: "Failed to create planting. Please try again later.",
+                                icon: "error"
+                            });
+                        }
                     }
                 });
             }
+
+
 
             $('.selecting').change(function() {
                 var selectedValue = $(this).val();
@@ -1043,6 +1095,20 @@ function filterAndDisplayEvents(searchKeywords) {
                     }
                 });
             });
+
+            $('#updatestatus').change(function() {
+            // Get the selected value
+            var selectedValue = $(this).val();
+
+            // Check if the selected value is Harvested or Destroyed
+            if (selectedValue === 'Harvested' || selectedValue === 'Destroyed') {
+                // Disable the select element
+                $(this).prop('disabled', true);
+            } else {
+                // Enable the select element
+                $(this).prop('disabled', false);
+            }
+        });
 
         });
 

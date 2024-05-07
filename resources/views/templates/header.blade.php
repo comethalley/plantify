@@ -1047,9 +1047,43 @@
         $('#notificationItemsTabContent').scrollTop($('#notificationItemsTabContent')[0].scrollHeight);
     });
     </script>
-    <script>
+   <script>
+    $(document).ready(function() {
+        function updateNotificationCount() {
+            $.ajax({
+                url: '{{ route("notifications.count") }}',
+                type: 'GET',
+                success: function(data) {
+                    $('#reload-section').text(data.count);
+                    if (data.count > 0) {
+                        $('#reload-section').addClass('bg-danger');
+                    } else {
+                        $('#reload-section').removeClass('bg-danger');
+                    }
+                }
+            });
+        }
 
-    </script>
+        // Call updateNotificationCount on document ready
+        updateNotificationCount();
+
+        // Set up event listener for marking notifications as read
+        $('#markasread').on('click', function() {
+            $.ajax({
+                url: '{{ route("notifications.markAsRead") }}',
+                type: 'GET',
+                success: function() {
+                    updateNotificationCount();
+                }
+            });
+        });
+
+        // Listen for new notifications using Laravel Echo or Pusher
+
+        // Scroll down to the bottom of the notification content
+        $('#notificationItemsTabContent').scrollTop($('#notificationItemsTabContent')[0].scrollHeight);
+    });
+</script>
 
     <div id="google_translate_element"></div>
     <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>

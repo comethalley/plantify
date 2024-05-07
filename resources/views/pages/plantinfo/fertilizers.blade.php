@@ -63,7 +63,7 @@
                                                 <th class="sort" data-sort="">#</th>
                                                 <th class="sort" data-sort="">Name</th>
                                                 <th class="sort" data-sort="">Image</th>
-                                                <th class="sort" data-sort="">Information</th>
+                                                
                                                 <th class="sort" data-sort="">Actions</th>
                                             </tr>
                                         </thead>
@@ -74,7 +74,7 @@
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $item->fer_name }}</td>
                                                 <td width="200px" height="100px"><img src="/images/{{ $item->fer_image }}" alt=""></td>
-                                                <td>{{ $item->fer_information }}</td>
+                                                
                                                 
                                                 
 
@@ -160,8 +160,10 @@
 
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Information</label>
-                                                    <textarea type="textarea" name="fer_information" id="fer_information" class="form-control" placeholder="Fertilizer Information" required> </textarea>
-                                                </div>  
+                                                    <div id="fer_information">
+
+                                                    </div>
+                                                </div>
 
 
 
@@ -171,7 +173,7 @@
                                             <div class="modal-footer">
                                                 <div class="hstack gap-2 justify-content-end">
                                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
-                                                    <button type="submit" class="btn btn-success add-fertilizer">Add Fertilizer</button>
+                                                    <button type="button" class="btn btn-success add-fertilizer">Add Fertilizer</button>
                                                     <!-- <button type="button" class="btn btn-success" id="edit-btn">Update</button> -->
                                                 </div>
                                             </div>
@@ -207,8 +209,10 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="edit_fer_information" class="form-label">Information</label>
-                        <textarea name="edit_fer_information" id="edit_fer_information" class="form-control" placeholder="Fertilizer Information" required></textarea>
+                    <label for="customername-field" class="form-label">Information</label>
+                    <div id="edit_fer_information">
+
+                                                    
                     </div>
                 </div>
                 <div class="modal-footer">

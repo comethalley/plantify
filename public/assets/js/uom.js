@@ -67,7 +67,7 @@ $(document).ready(function () {
                 $("#uomEditShowModal").modal("hide");
                 Swal.fire({
                     title: "Successfully Updated",
-                    text: "Are you ready for the next level?",
+                    // text: "Are you ready for the next level?",
                     icon: "success",
                 });
                 console.log(data);
@@ -98,7 +98,7 @@ $(document).ready(function () {
                 $("#uomArchiveShowModal").modal("hide");
                 Swal.fire({
                     title: "Successfully Archived",
-                    text: "Are you ready for the next level?",
+                    // text: "Are you ready for the next level?",
                     icon: "success",
                 });
                 console.log(data);
@@ -132,7 +132,7 @@ $(document).ready(function () {
                 $("#uomShowModal").modal("hide");
                 Swal.fire({
                     title: "Successfully Added",
-                    text: "Are you ready for the next level?",
+                    // text: "Are you ready for the next level?",
                     icon: "success",
                 });
 

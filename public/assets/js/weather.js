@@ -26,6 +26,11 @@ feelsLike = document.querySelector("#feels-like");
 
 
 
+
+
+
+
+
     let currentCity = "";
     let currentUnit = "c";
     let hourlyorWeek = "Week";
@@ -179,7 +184,7 @@ function updateWeatherUI(today, data, unit, hourlyorWeek) {
 
 
 function getWeatherData(city, unit, hourlyorWeek) {
-  const apiKey = "ZDDQHCH65WNK9UXXTBXG5KDU2";
+  const apiKey = "FDVCC7R4CKKFSU93Z5DKAJMBY";
   fetch(
     `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?unitGroup=metric&key=${apiKey}&contentType=json`,
     {

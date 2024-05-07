@@ -32,6 +32,7 @@ return new class extends Migration
             $table->binary('letter_content');
             $table->string('requested_by');
             $table->string('status');
+            $table->date('picked_date')->nullable();
             $table->date('date_return')->nullable();
             $table->timestamps();
         });

@@ -67,6 +67,10 @@ public function farm()
 {
     return $this->hasOne(Farm::class, 'farm_leader');
 }
+public function farms()
+{
+    return $this->hasMany(Farm::class, 'farm_leader', 'id');
+}
 public function tasks()
 {
     return $this->hasMany(Task::class);

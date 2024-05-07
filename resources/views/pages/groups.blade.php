@@ -42,7 +42,7 @@
                                                 $hasMessages = $user->messages->isNotEmpty();
                                             @endphp
 
-                                            @if($hasMessages)
+                                            @if($hasMessages && $user->status == 1)
                                                 <li class="mb-3">
                                                     <button type="button" class="btn member-button" data-member-id="{{ $user->id }}" data-thread-id="{{ $user->thread_id }}">
                                                         <!-- Your user display content -->
@@ -302,7 +302,7 @@
                 },
                 success: function (response) {
                     // Update the UI to remove or update the badge
-                    $('#unreadBadge_' + userId).remove();
+                    $('.topbar-badge[data-member-id="' + userId + '"]').remove();
                 },
                 error: function (xhr, status, error) {
                     console.error('Error:', error);
@@ -745,6 +745,10 @@ $(document).ready(function () {
     }
 });
 
+setInterval(function() {
+        // Reload the content
+        $('#userList').load(location.href + ' #userList');
+    }, 500); // 0.5 seconds
 
 
 </script>

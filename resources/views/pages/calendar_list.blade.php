@@ -51,15 +51,10 @@
                                     <table id="alternative-pagination" class="table table-nowrap align-middle">
                                         <thead class="text-muted table-light">
                                             <tr class="text-uppercase">
-                                                <th scope="col" style="width: 25px;">
-
-                                                </th>
+                                                <th scope="col" style="width: 25px;"></th>
                                                 <th data-sort="customer_name">Seed Name: </th>
-                                                @foreach ($createplantings as $event)
-                                                <th data-sort="date">{{ $event->type === 'Seeds' ? 'Seed Weight (g)' : 'Seed Quantity (pcs)' }}</th>
-                                                @endforeach
                                                 <th data-sort="date">Planting Type: </th>
-
+                                                <th data-sort="date"> Seeds Amount: </th>
                                                 <th data-sort="amount">Plants Harvested (kg): </th>
                                                 <th data-sort="payment">Plants Destroyed (kg): </th>
                                                 <th data-sort="payment">Planting Date: </th>
@@ -67,42 +62,40 @@
                                                 <th data-sort="city">Status: </th>
                                                 <th data-sort="city">Barangay: </th>
                                                 <th data-sort="city">Farm: </th>
-
                                             </tr>
                                         </thead>
                                         <tbody class="list form-check-all">
                                             @foreach ($createplantings as $event)
-
-                                            <tr>
-                                                <th scope="row">
-
-                                                </th>
-                                                <td class="customer_name">{{ $event->title }} </td>
-                                                <td class="customer_name">{{ $event->seed }}</td>
-                                                <td class="customer_name">{{ $event->type }}</td>
-                                                <td class="date">{{ $event->harvested }}</td>
-                                                <td class="amount">{{ $event->destroyed }}</td>
-                                                <td class="payment">
-                                                    {{ $event->start }}
-                                                </td>
-                                                <td class="payment">
-                                                    {{ $event->end }}
-                                                </td>
-                                                <td class="payment">{{ $event->status }}</td>
-                                                @if(property_exists($event, 'barangay_name') && property_exists($event, 'farm_name'))
-                                                    <td>{{ $event->barangay_name }}</td>
-                                                    <td>{{ $event->farm_name }}</td>
-                                                @else
-                                                    <td>Public Users</td>
-                                                    <td>Public Users</td>
-                                                @endif
-
-
-                                                
-                                            </tr>
+                                                <tr>
+                                                    <th scope="row"></th>
+                                                    <td class="customer_name">{{ $event->title }} </td>
+                                                    <td class="customer_name">{{ $event->type }}</td>
+                                                    <td class="customer_name">
+                                                        @if ($event->type === 'Seeds')
+                                                            {{ $event->seed }} (g)
+                                                        @elseif ($event->type === 'Seedlings')
+                                                            {{ $event->seed }} (pcs)
+                                                        @else
+                                                            {{ $event->seed }}
+                                                        @endif
+                                                    </td>
+                                                    <td class="date">{{ $event->harvested }}</td>
+                                                    <td class="amount">{{ $event->destroyed }}</td>
+                                                    <td class="payment">{{ $event->start }}</td>
+                                                    <td class="payment">{{ $event->end }}</td>
+                                                    <td class="payment">{{ $event->status }}</td>
+                                                    @if(property_exists($event, 'barangay_name') && property_exists($event, 'farm_name'))
+                                                        <td>{{ $event->barangay_name }}</td>
+                                                        <td>{{ $event->farm_name }}</td>
+                                                    @else
+                                                        <td>Public Users</td>
+                                                        <td>Public Users</td>
+                                                    @endif
+                                                </tr>
                                             @endforeach
                                         </tbody>
                                     </table>
+
 
                                 </div>
 

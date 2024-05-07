@@ -2,6 +2,8 @@
 
 <head>
 
+    
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -59,10 +61,10 @@
                                 @csrf
                                 <div class="profile-user position-relative d-inline-block mx-auto mb-4">
                                     @if($profileSettings?->profile_image)
-                                    <img src="{{ asset('storage/images/' . $profileSettings->profile_image) }}" class="rounded-circle avatar-xl img-thumbnail user-profile-image" alt="Profile Image">
+                                    <img style="padding: 2px; border: 3px solid #006400;" src="{{ asset('storage/images/' . $profileSettings->profile_image) }}" class="rounded-circle avatar-xl img-thumbnail user-profile-image" alt="Profile Image">
                                     @else
                                     <div class="avatar-lg">
-                                        <img style="padding:2px;" src="assets/images/plantifeedpics/profile-default.png" alt="user-img" class="img-thumbnail rounded-circle">
+                                        <img style="padding: 2px; border: 3px solid #006400;" src="assets/images/plantifeedpics/profile-default.png" alt="user-img" class="img-thumbnail rounded-circle">
                                     </div>
                                     @endif
                                     <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
@@ -136,20 +138,20 @@
                                                 <div class="col-lg-6">
                                                     <div class="form-group">
                                                         <label for="firstname">First Name</label>
-                                                        <input id="firstname" type="text" class="form-control" name="firstname" value="{{ old('firstname') }}" required autofocus>
+                                                        <input id="firstname" type="text" class="form-control" name="firstname" value="{{ old('firstname') }}" autofocus>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="form-group">
                                                         <label for="lastname">Last Name</label>
-                                                        <input id="lastname" type="text" class="form-control" name="lastname" value="{{ old('lastname') }}" required>
+                                                        <input id="lastname" type="text" class="form-control" name="lastname" value="{{ old('lastname') }}">
                                                     </div>
                                                 </div>
 
                                                 <div class="col-lg-6 mt-4">
                                                     <div class="form-group">
                                                         <label for="email">Email Address</label>
-                                                        <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required style="width: 100%;">
+                                                        <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" style="width: 100%;">
                                                     </div>
                                                 </div>
                                             </div>
@@ -158,6 +160,7 @@
                                                 <button id="updateButton" style="background-color: green; transition: background-color 0.3s;" type="submit" class="btn btn-primary" onmouseover="this.style.backgroundColor='darkgreen'" onmouseout="this.style.backgroundColor='green'" disabled>Update Profile</button>
                                             </div>
                                         </form>
+
                                     </div>
 
 
@@ -256,63 +259,49 @@
 
                         </div>
                     </div>
-                </div>
-            </div>
-            
 
-            <form method="POST" action="/save-profile-info">
+                </div>
+
+            </div>
+
+
+            <form id="profileForm" method="POST" action="/save-profile-info">
                 @csrf
 
                 <div class="card">
-                    <div class="card-body">
-                        <!-- Other Infos -->
-                        <h5 class="card-title mb-3">Other Infos</h5>
-                        <!-- Facebook -->
-                        <div class="row">
-                            <!-- City -->
-                            <div class="mb-3 d-flex">
-                                <div class="avatar-xs d-block flex-shrink-0 me-3"><span class="avatar-title rounded-circle fs-16 bg-info"><i class="ri-building-fill"></i></span></div>
-                                <input id="cityInput" class="form-control form-control" type="text" name="city" placeholder="City">
-                            </div>
-                            <!-- Age -->
-                            <div class="col-md-6 mb-3 d-flex">
-                                <div class="avatar-xs d-block flex-shrink-0 me-3"><span class="avatar-title rounded-circle fs-16 bg-warning text-dark"><i class="ri-user-fill"></i></span></div>
-                                <input id="ageInput" class="form-control form-control" type="text" name="age" placeholder="Age">
-                            </div>
+    <div class="card-body">
+        <!-- Other Infos -->
+        <h5 class="card-title mb-3">Other Infos</h5>
+        <!-- Facebook -->
+        <div class="row">
+            <!-- City -->
+            <div class="mb-3 d-flex">
+                <div class="avatar-xs d-block flex-shrink-0 me-3"><span class="avatar-title rounded-circle fs-16 bg-info"><i class="ri-building-fill"></i></span></div>
+                <input id="cityInput" class="form-control form-control" type="text" name="city" placeholder="City">
+            </div>
+            <!-- Age -->
+            <div style="width: 100%;" class="col-md-6 mb-3 d-flex">
+                <div class="avatar-xs d-block flex-shrink-0 me-3"><span class="avatar-title rounded-circle fs-16 bg-warning text-dark"><i class="ri-user-fill"></i></span></div>
+                <input id="ageInput" class="form-control form-control" type="text" name="age" placeholder="Age">
+            </div>
+           
 
+            <!-- Bio -->
+            <div style="display: grid; grid-template-columns: 49px 1fr; ">
+                <img src="assets/images/plantifeedpics/bio.png" alt="bio" class="me-2" style=" margin:0 !important; width: 32px; height: 32px; ">
+                <textarea style="width:100%; resize:none; " id="bioTextarea" class="form-control" name="bio" placeholder="Bio"></textarea>
+            </div>
+        </div>
 
-                            <!-- Sex -->
-                            <div class="col-md-6 mb-3 d-flex">
-                                <div class="avatar-xs d-block flex-shrink-0 me-3">
-                                    <span class="avatar-title rounded-circle fs-16 bg-white">
-                                        <img src="assets/images/plantifeedpics/sexicon.png" alt="Sex Icon">
-                                    </span>
-                                </div>
-                                <select id="sexSelect" class="form-select" name="sex">
-                                    <option selected>Select Sex</option>
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
-                                </select>
-                            </div>
-
-
-                            <!-- Bio -->
-                            <div style="display: grid; grid-template-columns: 49px 1fr; ">
-                                <img src="assets/images/plantifeedpics/bio.png" alt="bio" class="me-2" style=" margin:0 !important; width: 32px; height: 32px; ">
-                                <textarea style="width:100%; resize:none; " id="bioTextarea" class="form-control" name="bio" placeholder="Bio"></textarea>
-                            </div>
-                        </div>
-
-                        <!-- Submit button -->
-                        <div style="display: flex; align-items:flex-end; justify-content:flex-end; margin-top:10px;">
-                            <button id="saveButton" type="submit" class="btn btn-primary" style="background-color: green; transition: background-color 0.3s; ;" onmouseover="this.style.backgroundColor='darkgreen'" onmouseout="this.style.backgroundColor='green'" disabled>Save</button>
-                        </div>
-                    </div>
-                </div>
-
-
+        <!-- Submit button -->
+        <div style="display: flex; align-items:flex-end; justify-content:flex-end; margin-top:10px;">
+            <button id="saveButton" type="submit" class="btn btn-primary" style="background-color: green; transition: background-color 0.3s;" disabled>Save</button>
+        </div>
+    </div>
+</div>
 
             </form>
+
 
 
 
@@ -443,28 +432,22 @@
 </script>
 
 <script>
-    $('#saveButton').prop('disabled', true); // Initially disable the save button
+    $(document).ready(function() {
+        $('#saveButton').prop('disabled', true); // Initially disable the save button
 
-    // Enable the save button only if all fields are not empty and sex is not 'Select Sex'
-    $('#cityInput, #ageInput, #sexSelect, #bioTextarea').on('input', function() {
-        var city = $('#cityInput').val();
-        var age = $('#ageInput').val();
-        var sex = $('#sexSelect').val();
-        var bio = $('#bioTextarea').val();
+        // Enable the save button if at least one field is not empty
+        $('#cityInput, #ageInput, #bioTextarea, #birthdayInput').on('input', function() {
+            var city = $('#cityInput').val();
+            var age = $('#ageInput').val();
+            var birthday = $('#birthdayInput').val();
+            var bio = $('#bioTextarea').val();
 
-        var anyFieldNotEmpty = city || age || (sex !== 'Select Sex') || bio;
-        $('#saveButton').prop('disabled', !anyFieldNotEmpty);
-    });
-
-    // Disable form submission if sex is 'Select Sex'
-    $('#profileForm').on('submit', function(event) {
-        var sex = $('#sexSelect').val();
-        if (sex === 'Select Sex') {
-            event.preventDefault(); // Prevent form submission
-            alert('Please select a valid sex.'); // Show an alert message
-        }
+            var anyFieldNotEmpty = city || age || birthday || bio;
+            $('#saveButton').prop('disabled', !anyFieldNotEmpty);
+        });
     });
 </script>
+
 
 <script>
     $(document).ready(function() {
@@ -478,6 +461,57 @@
         });
     });
 </script>
+
+
+
+<script>
+    $(document).ready(function() {
+        $('#passwordForm').submit(function(e) {
+            e.preventDefault();
+
+            var form = $(this);
+            var url = form.attr('action');
+            var method = form.attr('method');
+            var formData = form.serialize();
+
+            $.ajax({
+                url: url,
+                type: method,
+                data: formData,
+                success: function(response) {
+                    // Kung successful ang pag-update ng password, mag-display ng success message
+                    Swal.fire({
+                        text: "Password updated successfully.",
+                        icon: 'success',
+                        showConfirmButton: true
+                    });
+
+                    // Clear ang mga field ng form
+                    form.trigger('reset');
+
+                    // Disable ang button
+                    $('#updatePasswordButton').prop('disabled', true);
+                },
+                error: function(xhr) {
+                    // Kung may error, ipakita ang error message
+                    var errors = xhr.responseJSON;
+                    var errorHtml = '<ul>';
+                    $.each(errors.errors, function(key, value) {
+                        errorHtml += value + '</li>';
+                    });
+                    errorHtml += '</ul>';
+
+                    Swal.fire({
+                        html: errorHtml,
+                        icon: 'error',
+                        showConfirmButton: true
+                    });
+                }
+            });
+        });
+    });
+</script>
+
 
 @if (Session::has('message'))
 <script>

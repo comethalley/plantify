@@ -22,7 +22,7 @@
     <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" />
     <!-- custom Css-->
     <link href="assets/css/custom.min.css" rel="stylesheet" type="text/css" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
     <style>
         body,
@@ -64,22 +64,22 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class=" card ">
-                        
-                        
-                        
+
+
+
                         <div class="row d-flex justify-content-center">
-                            
+
                             <div class="col-lg-6">
-                                
-                                    <div class="container-fluid">
-                                        <a href="/" class="btn btn-success waves-effect waves-light mt-2" style="background-color: darkgreen; border-color: darkgreen;">
-                                            <i class="ri-arrow-left-line" style="color: white;"></i>
-                                        </a>
-                                    </div>
-                                    <div class="d-flex justify-content-center">
-                                        <img src="assets/images/plantifeedpics/landing-page.png" alt="" class="img-fluid">
-                                    </div>
-                                
+
+                                <div class="container-fluid">
+                                    <a href="/" class="btn btn-success waves-effect waves-light mt-2" style="background-color: darkgreen; border-color: darkgreen;">
+                                        <i class="ri-arrow-left-line" style="color: white;"></i>
+                                    </a>
+                                </div>
+                                <div class="d-flex justify-content-center">
+                                    <img src="assets/images/plantifeedpics/landing-page.png" alt="" class="img-fluid">
+                                </div>
+
                             </div>
                             <!-- end col -->
 
@@ -116,7 +116,7 @@
                                                     <label class="form-label" for="password-input">Password</label>
                                                     <div class="position-relative auth-pass-inputgroup mb-3">
                                                         <input type="password" class="form-control pe-5 password-input" name="password" placeholder="Enter password" id="password-input">
-                                                        <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="ri-eye-off-fill align-middle"></i></button>
+                                                        <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
                                                     </div>
                                                 </div>
 

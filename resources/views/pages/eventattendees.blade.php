@@ -64,7 +64,7 @@
                     </div>
                     <div class="col-sm-auto">
                         <div class="d-flex gap-1 flex-wrap">
-                            <a href="/attendance" class="btn btn-primary bg-gradient waves-effect waves-light"><i class=" ri-arrow-left-line"></i> Back to Attendance</a>
+                            <a href="/attendance" class="btn btn-primary bg-gradient waves-effect waves-light"><i class=" ri-arrow-left-line"></i> Back to Event List</a>
                         </div>
                     </div>
                 </div>
@@ -89,15 +89,9 @@
                  
         </div>
                 <hr>
-                <div class="row mb-2">
+  <div class="row mb-2">
     <div class="col-md-12 mb-2">
         <div class="row align-items-center">
-            <div class="col-12 col-md-6 col-lg-4">
-                <div class="search-box">
-                    <input type="text" class="form-control search" placeholder="Search for order ID, customer, order status or something...">
-                    <i class="ri-search-line search-icon"></i>
-                </div>
-            </div>
             <div class="col-12 col-md-6 col-lg-4">
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
@@ -113,12 +107,6 @@
                     </li>
                 </ul>
             </div>
-            <div class="col-6 col-md-3 col-lg-2 mb-2">
-                <button class="btn btn-primary btn-block" id="downloadBtn"><i class="fas fa-download mr-1"></i>Download</button>
-            </div>
-            <div class="col-6 col-md-3 col-lg-2">
-                <button class="btn btn-primary btn-block" id="update-status-btn">Save</button>
-            </div>
         </div>
     </div>
 </div>
@@ -129,33 +117,40 @@
 
 <div class="row">
     <div class="col">
-        <div class="row">
-
+    <div class="row align-items-center">
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="search-box">
+                    <input type="text" class="form-control search" placeholder="Search for order Name, email, barangay or something...">
+                    <i class="ri-search-line search-icon"></i>
+                </div>
+            </div>
+            <div class="col-6 col-md-3 col-lg-2 mb-2 col-auto ms-auto">
+                <button class="btn btn-success btn-block m-2" id="downloadBtn"><i class="fas fa-download mr-1"></i>Download</button>
+            </div>
     <div class="tab-content text-muted">
         <div class="tab-pane fade show active" id="home" role="tabpanel">
             <div class="table-responsive">
             <table class="table" id="attendeesTable">
         <thead>
             <tr>
+                
                 <th>Name</th>
                 <th>Email</th>
                 <th>Barangay</th>
-                <th>Status</th>
                 <th>Action</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($attendeesWithStatus1 as $attendee)
             <tr>
-                <td>{{ $attendee->name }}</td>
+                
+                <td>{{ $attendee->first_name }} {{ $attendee->last_name }} </td>
                 <td>{{ $attendee->email }}</td>
                 <td>{{ $attendee->barangay }}</td>
-                <td>{{ $attendee->status }}</td>
                 <td>
-                <td>
-                <button class="btn btn-primary update-status-btn" data-id="{{ $attendee->id }}">Change Status</button>
+                <button class="btn btn-primary" id="update-status-btn" data-id="{{ $attendee->id }}">Set As Registered</button>
             </td>  <!-- Add action buttons here -->
-                </td>
+             
             </tr>
             @endforeach
         </tbody>
@@ -164,27 +159,24 @@
         </div>
         <div class="tab-pane fade" id="registered" role="tabpanel">
             <div class="table-responsive">
-                <table class="table" id="attendeesTable">
+                <table class="table" id="attendeesTable1">
                     <thead>
                         <tr>
                             
                             <th>Name</th>
                             <th>Email</th>
                             <th>Barangay</th>
-                            <th>Status</th>
+                           
                           
                         </tr>
                     </thead>
                     <tbody>
                     @foreach ($attendeesWithStatus2 as $attendee)
             <tr>
-                <td>{{ $attendee->name }}</td>
+                <td>{{ $attendee->first_name }} {{ $attendee->last_name }} </td>
                 <td>{{ $attendee->email }}</td>
                 <td>{{ $attendee->barangay }}</td>
-                <td>{{ $attendee->status }}</td>
-                <td>
-                    <!-- Add action buttons here -->
-                </td>
+                
             </tr>
             @endforeach
                     </tbody>
@@ -261,45 +253,37 @@
 //     });
 
     // Click event handler for the delete button
-    $('#update-status-btn').click(function() {
-        // Get all selected checkboxes
-        var selectedAttendees = $('.attendee-checkbox:checked');
-
-        // Create an array to store the selected attendee IDs
-        var attendeeIds = [];
-        selectedAttendees.each(function() {
-            attendeeIds.push($(this).data('id'));
-        });
-
-        // Send an AJAX request to update the status of selected attendees
-        $.ajax({
-            url: '/update-attendee-status',
-            method: 'POST',
-            data: {
-                attendeeIds: attendeeIds, // Sending array of attendee IDs
-                status: 2 // Assuming 2 represents the 'archived' status on the server
-            },
-            success: function(response) {
-                // Refresh the attendees table after successful deletion
-                fetchAttendees(eventId, 1);
-            },
-            error: function(xhr, status, error) {
-                console.error('Error updating status:', error);
+//    
+$(document).on('click', '#update-status-btn', function(){
+    var attendeeId = $(this).data('id');
+    console.log(attendeeId);
+    $.ajax({
+        url: "/update-status",
+        type: "POST",
+        data: {
+            _token: "{{ csrf_token() }}",
+            attendee_id: attendeeId
+        },
+        success:function(response){
+            if(response.success){
+                // Optionally, you can update the status value displayed in the table here
+                console.log('Status updated successfully');
+            } else {
+                console.log('Failed to update status: ' + response.message);
             }
-        });
+        },
+        error: function(xhr){
+            console.log('Error:', xhr);
+        }
     });
 });
-
-
-   
-
-
-      document.addEventListener('DOMContentLoaded', function() {
+    
+document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.querySelector('.search');
     const attendeesTable = document.getElementById('attendeesTable').getElementsByTagName('tbody')[0];
 
     searchInput.addEventListener('input', function() {
-        const searchText = this.value.toLowerCase();
+        const searchText = this.value.trim().toLowerCase(); // Trim whitespace and convert to lowercase
         filterAttendees(searchText);
     });
 
@@ -308,19 +292,56 @@
 
         for (let i = 0; i < rows.length; i++) {
             const row = rows[i];
+            // Get cell data from each row and convert to lowercase for comparison
             const name = row.cells[0].innerText.toLowerCase();
             const email = row.cells[1].innerText.toLowerCase();
             const barangay = row.cells[2].innerText.toLowerCase();
-            const status = row.cells[3].innerText.toLowerCase();
+            // Ensure the status cell exists before accessing its content
+            const status = row.cells[3] ? row.cells[3].innerText.toLowerCase() : '';
 
+            // Check if any of the cell data includes the search text
             if (name.includes(searchText) || email.includes(searchText) || barangay.includes(searchText) || status.includes(searchText)) {
-                row.style.display = '';
+                row.style.display = ''; // Display the row if it matches the search
             } else {
-                row.style.display = 'none';
+                row.style.display = 'none'; // Hide the row if it doesn't match the search
             }
         }
     }
 });
+
+   
+
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.querySelector('.search');
+    const attendeesTable = document.getElementById('attendeesTable1').getElementsByTagName('tbody')[0];
+
+    searchInput.addEventListener('input', function() {
+        const searchText = this.value.trim().toLowerCase(); // Trim whitespace and convert to lowercase
+        filterAttendees(searchText);
+    });
+
+    function filterAttendees(searchText) {
+        const rows = attendeesTable.getElementsByTagName('tr');
+
+        for (let i = 0; i < rows.length; i++) {
+            const row = rows[i];
+            // Get cell data from each row and convert to lowercase for comparison
+            const name = row.cells[0].innerText.toLowerCase();
+            const email = row.cells[1].innerText.toLowerCase();
+            const barangay = row.cells[2].innerText.toLowerCase();
+            // Since the status cell is missing in the provided code, I'll skip it for now
+
+            // Check if any of the cell data includes the search text
+            if (name.includes(searchText) || email.includes(searchText) || barangay.includes(searchText)) {
+                row.style.display = ''; // Display the row if it matches the search
+            } else {
+                row.style.display = 'none'; // Hide the row if it doesn't match the search
+            }
+        }
+    }
+});
+
+
 document.addEventListener('DOMContentLoaded', function() {
     const downloadBtn = document.getElementById('downloadBtn');
 
@@ -336,7 +357,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const rows = table.querySelectorAll('tbody tr');
 
         // Initialize data array with header row
-        const data = [['Name', 'Email', 'Barangay', 'Status']];
+        const data = [['Name', 'Email', 'Barangay']];
 
         // Loop through each row and extract cell data
         rows.forEach(row => {
@@ -356,7 +377,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const worksheet = XLSX.utils.aoa_to_sheet(data);
 
         // Add the worksheet to the workbook
-        XLSX.utils.book_append_sheet(workbook, worksheet, 'Attendees');
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Pre-Registration');
 
         // Generate Excel file
         const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
@@ -370,13 +391,114 @@ document.addEventListener('DOMContentLoaded', function() {
         // Create a link element and trigger the download
         const link = document.createElement('a');
         link.href = url;
-        link.setAttribute('download', 'Attendees.xlsx'); // Set the filename
+        link.setAttribute('download', 'Pre-registration.xlsx'); // Set the filename
         document.body.appendChild(link);
         link.click();
 
         // Clean up
         URL.revokeObjectURL(url);
         document.body.removeChild(link);
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const downloadBtn = document.getElementById('downloadBtn');
+
+    downloadBtn.addEventListener('click', function() {
+        downloadFile();
+    });
+
+    function downloadFile() {
+        // Get the table element
+        const table = document.getElementById('attendeesTable1');
+
+        // Get the table rows
+        const rows = table.querySelectorAll('tbody tr');
+
+        // Initialize data array with header row
+        const data = [['Name', 'Email', 'Barangay']];
+
+        // Loop through each row and extract cell data
+        rows.forEach(row => {
+            const rowData = [];
+            // Get cell data for each row
+            row.querySelectorAll('td').forEach(cell => {
+                rowData.push(cell.textContent.trim());
+            });
+            // Add row data to data array
+            data.push(rowData);
+        });
+
+        // Create a new workbook
+        const workbook = XLSX.utils.book_new();
+
+        // Convert data array to worksheet
+        const worksheet = XLSX.utils.aoa_to_sheet(data);
+
+        // Add the worksheet to the workbook
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Registered');
+
+        // Generate Excel file
+        const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+
+        // Convert Excel buffer to Blob
+        const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
+
+        // Create a download link
+        const url = URL.createObjectURL(blob);
+
+        // Create a link element and trigger the download
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'Registered.xlsx'); // Set the filename
+        document.body.appendChild(link);
+        link.click();
+
+        // Clean up
+        URL.revokeObjectURL(url);
+        document.body.removeChild(link);
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const updateStatusBtn = document.getElementById('update-status-btn');
+
+    updateStatusBtn.addEventListener('click', function() {
+        const attendeeId = this.getAttribute('data-id');
+
+        // Show SweetAlert confirmation dialog
+        Swal.fire({
+            title: 'Set as Registered',
+            text: 'Are you sure you want to set this attendee as registered?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, set as registered'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Perform action if user confirms
+                setAttendeeAsRegistered(attendeeId);
+            }
+        });
+    });
+
+    function setAttendeeAsRegistered(attendeeId) {
+        // Here you can perform the action to set the attendee as registered
+        // For example, you can make an AJAX request to update the status
+        // Once the action is completed, you can show a success message using SweetAlert
+        // Then reload the whole page
+        Swal.fire({
+            title: 'Success!',
+            text: 'Attendee has been set as registered.',
+            icon: 'success',
+            timer: 2000,
+            timerProgressBar: true,
+            showConfirmButton: false
+        }).then(() => {
+            // Reload the whole page
+            window.location.reload();
+        });
     }
 });
 
@@ -410,23 +532,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 </script>
 <script>
-    function filterAttendees(status) {
-        const rows = document.querySelectorAll("#attendance-table tbody tr");
-        rows.forEach(row => {
-            const rowStatus = row.querySelector("td[data-status]").getAttribute("data-status");
-            if (status === "all" || rowStatus === status) {
-                row.style.display = "table-row";
-            } else {
-                row.style.display = "none";
-            }
-        });
-    }
-    function redirectToAttendanceForm(event) {
-        event.preventDefault(); // Prevent the default action (e.g., following the link)
-
-        var link = event.target.dataset.link; // Get the data-link attribute value
-        window.location.href = link;
-    }
+   
 </script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- <script>

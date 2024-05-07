@@ -33,43 +33,31 @@ class AttendanceControler extends Controller
     
     return response()->json($attendees);
     }
-
+    
     public function updateStatus(Request $request)
     {
-        $request->validate([
-            'attendeeId' => 'required|integer' // Validate that 'attendeeId' is required and is an integer
-        ]);
+        // Validate the incoming request
+        $attendeeId = $request->input('attendee_id');
     
-        $attendeeId = $request->input('attendeeId');
-        
-        // Update the status of the attendee with the given ID
-        $attendee = EventAttendance::find($attendeeId);
-        if ($attendee) {
-            $attendee->status = 2; // Assuming 2 is the status for "Saved"
-            $attendee->save();
-            
-            // Return a response indicating success
-            return response()->json(['message' => 'Status updated successfully']);
-        }
-        
-        // Return a response indicating failure
-        return response()->json(['message' => 'Failed to update status'], 400);
-    }
-      
-    public function deleteAttendee($id)
-    {
-        $attendee = EventAttendance::find($id);
+    // Find the attendee by ID
+    $attendee = EventAttendance::find($attendeeId);
+    
+    // Check if attendee exists
     if (!$attendee) {
-        return response()->json(['message' => 'Attendee not found.'], 404);
+        return response()->json(['success' => false, 'message' => 'Attendee not found'], 404);
     }
-
-    $attendee->status = 0; // Change status to 0 (archived)
-    $attendee->save();
-
-    return response()->json(['message' => 'Attendee archived successfully.']);
-    }
-   
     
+    // Update the status
+    $attendee->status = 2; // Assuming 2 represents the new status value
+    
+    // Save the updated attendee
+    $attendee->save();
+    
+    return response()->json(['success' => true]);
+    
+    }
+    
+
     public function attendees(Request $request) {
         $eventId = $request->input('id');
     
@@ -79,7 +67,7 @@ class AttendanceControler extends Controller
         // Fetch attendees for the event with status value 1
         $attendeesWithStatus1 = EventAttendance::where('event_id', $eventId)
                             ->where('status', 1)
-                            ->select('first_name', 'last_name', 'email', 'barangay', 'status')
+                            ->select('id','first_name', 'last_name', 'email', 'barangay', 'status')
                             ->get();
     
         // Fetch attendees for the event with status value 2 (or any other value as needed)

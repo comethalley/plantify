@@ -179,7 +179,7 @@
                         <div class="dropdown topbar-head-dropdown ms-1 header-item" id="markasread">
                             <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" id="markasread" onclick="markNotificationAsRead()" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
                                 <i class="bx bx-bell fs-22"></i>
-                                <span id="reload-section" class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger" id="markasread">
+                                <span id="reload-section" class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill" id="markasread">
                                     @if(auth()->user())
                                     {{ count(auth()->user()->unreadNotifications) }}
                                     @else
@@ -214,10 +214,14 @@
                                             </li>
                                             <li class="nav-item waves-effect waves-light">
                                                 <a class="nav-link" data-bs-toggle="tab" href="#messages-tab" role="tab" aria-selected="false">
-                                                    Forum
+                                                Message
                                                 </a>
                                             </li>
-
+                                            <li class="nav-item waves-effect waves-light">
+                                                <a class="nav-link" data-bs-toggle="tab" href="#messages-tab" role="tab" aria-selected="false">
+                                                Forum
+                                                </a>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
@@ -978,12 +982,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
-        function markNotificationAsRead(notificationCount) {
-            if (notificationCount !== '0') {
-                $.get('/markAsRead');
-            }
-        }
-
+       
         function googleTranslateElementInit() {
             // Initialize Google Translate element
             new google.translate.TranslateElement({
@@ -1017,13 +1016,36 @@
         }
 
         $(document).ready(function() {
-            $('#markasread').on('click', function() {
-                $('#reload-section').load(location.href + ' #reload-section');
-            });
+        // Function to mark notifications as read
+        function markNotificationAsRead(notificationCount) {
+            if (notificationCount !== '0') {
+                $.get('/markAsRead');
+            }
+        }
 
-            // Scroll down to the bottom of the notification content
-            $('#notificationItemsTabContent').scrollTop($('#notificationItemsTabContent')[0].scrollHeight);
+        // Function to update badge color based on notification count
+        function updateBadgeColor() {
+            var notificationCount = $('#reload-section').text().trim();
+            if (notificationCount !== '0') {
+                $('#reload-section').addClass('bg-danger');
+            } else {
+                $('#reload-section').removeClass('bg-danger');
+            }
+        }
+
+        // Click event handler for marking notifications as read
+        $('#markasread').on('click', function() {
+            $('#reload-section').load(location.href + ' #reload-section', function() {
+                updateBadgeColor();
+            });
         });
+
+        // Call updateBadgeColor on document ready
+        updateBadgeColor();
+
+        // Scroll down to the bottom of the notification content
+        $('#notificationItemsTabContent').scrollTop($('#notificationItemsTabContent')[0].scrollHeight);
+    });
     </script>
     <script>
      

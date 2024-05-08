@@ -786,7 +786,7 @@
                         </li>
                         @endif
 
-                        @if(session('user') && session('user')->role_id == 1)
+                        @if(session('user') && session('user')->role_id == 1 || session('user')->role_id == 2)
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="/requests" role="button" style="color:white">
                                 <i class="ri-tools-fill"></i>

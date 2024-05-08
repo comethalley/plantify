@@ -8,12 +8,18 @@
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 
     <style>
-        .form-control[disabled] {
-            background-color: #f8f9fa;
-            /* Light gray background */
-            cursor: not-allowed;
-            /* Change cursor to not-allowed */
+       /* Styling for readonly input fields */
+        .form-control[readonly] {
+            background-color: #f8f9fa; /* Light gray background */
+            cursor: not-allowed; /* Change cursor to not-allowed */
         }
+
+        /* Styling for disabled input fields */
+        .form-control:disabled {
+            background-color: #f8f9fa; /* Light gray background */
+            cursor: not-allowed; /* Change cursor to not-allowed */
+        }
+
     </style>
 </head>
 
@@ -28,10 +34,10 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                            <h4 class="mb-sm-0">Planting Calendar</h4>
+                            <h4 class="mb-sm-0">Planting Monitoring</h4>
                             <div class="page-title-right">
                                 <ol class="breadcrumb m-0">
-                                    <li class="breadcrumb-item active">Planting Calendar</li>
+                                    <li class="breadcrumb-item active">Planting Monitoring</li>
                                 </ol>
                             </div>
                         </div>
@@ -76,7 +82,7 @@
                                         <i data-feather="calendar" class="text-info icon-dual-info"></i>
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                        <h6 class="fs-15">Welcome to your Planting Calendar!</h6>
+                                        <h6 class="fs-15">Welcome to your Planting Monitoring!</h6>
                                         <p class="text-muted mb-0">Scheduled Plantings will appear here.</p>
                                     </div>
                                 </div>
@@ -125,7 +131,7 @@
                                     <input type="text" id="orderId" class="form-control" placeholder="ID" readonly hidden />
 
                                     <div class="mb-3">
-                                        <label for="seed" class="form-label">Seed Name</label>
+                                        <label for="seed" class="form-label">Plant Name</label>
                                         <select name="title" id="seed-dropdown" class="form-select" required>
                                             <option value="">Select Seed Name</option>
                                             @foreach ($plantInfo as $name => $days)
@@ -145,6 +151,7 @@
                                         <input type="text" name="harvested" id="customername-field" class="form-control" value="0" required />
                                         <input type="text" name="destroyed" id="customername-field" class="form-control" value="0" required />
                                     </div>
+
                                     <div class="mb-3">
                                         <label for="start-datepicker" class="form-label">Planting Date</label>
                                         <div class="input-group">
@@ -194,20 +201,21 @@
                                 <form class="needs-validation view-event" name="event-form" id="form-event" novalidate="">
 
                                     <div class="event-details">
-                                        <div class="d-flex mb-2">
+                                    <div class="row">
+                                        <div class="col-md-6 d-flex mb-2">
                                             <div class="flex-grow-1 d-flex align-items-center">
                                                 <div class="flex-shrink-0 me-3">
                                                     <i class="ri-leaf-fill text-muted fs-16"></i>
                                                 </div>
 
                                                 <div class="flex-grow-1">
-                                                    <h6 class="d-block - fw-semibold semibold mb-0">Seed Name: </h6><span id="eventtitle"></span>
+                                                    <h6 class="d-block - fw-semibold semibold mb-0">Plant Name: </h6><span id="eventtitle"></span>
 
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="d-flex align-items-center mb-2">
+                                        <div class="col-md-6  d-flex align-items-center mb-2">
                                             <div class="flex-shrink-0 me-3">
                                                 <i class="ri-scales-2-line text-muted fs-16"></i>
                                             </div>
@@ -218,35 +226,44 @@
 
                                         @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 3 || auth()->user()->role_id == 4)
                                         {{-- Display only for role_id 1 (Admin) --}}
-                                        <div class="d-flex align-items-center mb-2">
+                                        <div class=" col-md-6 d-flex align-items-center mb-2">
                                             <div class="flex-shrink-0 me-3">
-                                                <i class="ri-map-pin-line text fs-16"></i>
+                                                <i class="ri-leaf-line text-muted fs-16"></i>
                                             </div>
                                             <div class="flex-grow-1">
                                                 <h6 class="d-block fw-semibold mb-0">Planting Type: </span></h6><span id="eventtype">
                                             </div>
                                         </div>
                                         @endif
-
-                                        <div class="d-flex align-items-center mb-2">
+                                        <div class=" col-md-6 d-flex align-items-center mb-2">
+                                            <div class="flex-shrink-0 me-3">
+                                                <i class="ri-road-map-line text-muted fs-16"></i>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                                <h6 class="d-block fw-semibold mb-0">Area Used: </span></h6><span id="eventarea">
+                                            </div>
+                                        </div>
+                                        
+                                        
+                                        <div class="d-flex align-items-center mb-2 hide-if-planted">
                                             <div class="flex-shrink-0 me-3">
                                                 <i class="ri-plant-line text-muted fs-16"></i>
                                             </div>
                                             <div class="flex-grow-1">
-                                                <h6 class="d-block fw-semibold mb-0">Estimated Plant Harvested (kg): </h6><span id="eventharvested"></span>
+                                                <h6 for="estimateh" class="d-block fw-semibold mb-0">Estimated Harvest (pcs): </h6><span id="eventharvested"></span>
                                             </div>
                                         </div>
 
-                                        <div class="d-flex align-items-center mb-2">
+                                        <div class="d-flex align-items-center mb-2 hide-if-planted">
                                             <div class="flex-shrink-0 me-3">
-                                                <i class=" ri-delete-bin-line text-muted fs-16"></i>
+                                                <i class="ri-delete-bin-line text-muted fs-16"></i>
                                             </div>
                                             <div class="flex-grow-1">
-                                                <h6 class="d-block fw-semibold mb-0">Estimated Plant Destroyed (kg): </h6><span id="eventdestroyed"></span>
+                                                <h6 for="estimated" class="d-block fw-semibold mb-0">Estimated Withered (pcs):</h6><span id="eventdestroyed"></span>
                                             </div>
                                         </div>
-
-                                        <div class="d-flex align-items-center mb-2">
+                                    
+                                        <div class="col-md-6 d-flex align-items-center mb-2">
                                             <div class="flex-shrink-0 me-3">
                                                 <i class="ri-calendar-check-fill text-muted fs-16"></i>
                                             </div>
@@ -255,46 +272,42 @@
                                             </div>
                                         </div>
 
-                                        <div class="d-flex align-items-center mb-2">
+                                        <div class="col-md-6 d-flex align-items-center mb-2">
                                             <div class="flex-shrink-0 me-3">
                                                 <i class="ri-calendar-event-fill text-muted fs-16"></i>
                                             </div>
                                             <div class="flex-grow-1">
-                                                <h6 class="d-block fw-semibold mb-0">Harvested Date: </h6><span id="eventend"></span>
+                                                <h6 class="d-block fw-semibold mb-0">Harvesting Date: </h6><span id="eventend"></span>
                                             </div>
                                         </div>
                                         <div class="d-flex align-items-center mb-2">
                                             <div class="flex-shrink-0 me-3">
-                                                <i class="ri-map-pin-line text fs-16"></i>
+                                                <i class="ri-map-pin-line text-muted fs-16"></i>
                                             </div>
                                             <div class="flex-grow-1">
                                                 <h6 class="d-block fw-semibold mb-0">Status: </h6><span id="eventstatus"></span>
                                             </div>
                                         </div>
-
+                                    </div>
                                     </div>
                                     <div class="modal-footer">
                                         <div class="hstack gap-2 justify-content-end">
                                             @if(auth()->user()->role_id == 1)
                                             {{-- Display only for role_id 1 (Admin) --}}
                                             <button type="button" class="btn btn-danger" id="deleteEventBtn" id="deleteEventBtn">Delete</button>
-                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editexampleModal">Edit</button>
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editexampleModal">Change Satus</button>
                                             @elseif(auth()->user()->role_id == 2)
                                             {{-- Display only for role_id 2 (Admin) --}}
                                             <button type="button" class="btn btn-danger" id="deleteEventBtn" id="deleteEventBtn">Delete</button>
-                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editexampleModal">Edit</button>
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editexampleModal">Change Satus</button>
                                             @elseif(auth()->user()->role_id == 3)
                                             {{-- Display for role_id 3 (Farm Leader) --}}
                                             <button type="button" class="btn btn-danger" id="deleteEventBtn" id="deleteEventBtn">Delete</button>
-                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editexampleModal">Edit</button>
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editexampleModal">Change Satus</button>
                                             @elseif(auth()->user()->role_id == 4)
                                             {{-- Display for role_id 4 (Farmers) --}}
                                             <button hidden type="button" class="btn btn-danger" id="deleteEventBtn" id="deleteEventBtn">Delete</button>
-                                            <button hidden type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editexampleModal">Edit</button>
-                                            @elseif(auth()->user()->role_id == 5)
-                                            {{-- Display for role_id 5 (Public Users) --}}
-                                            <button type="button" class="btn btn-danger" id="deleteEventBtn" id="deleteEventBtn">Delete</button>
-                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editexampleModal">Edit</button>
+                                            <button hidden type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editexampleModal">Change Satus</button>
                                             @endif
                                         </div>
                                     </div>
@@ -318,18 +331,19 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <div class="form-group mb-3">
-                                <label for="updateEventTitle">Seed Name:</label>
+                            <div class="row">
+                            <div class="col-md-6 form-group mb-3">
+                                <label for="updateEventTitle">Plant Name:</label>
                                 <input type="text" class="form-control" id="updateEventTitle" readonly>
                             </div>
 
-                            <div class="form-group mb-3">
+                            <div class="col-md-6 form-group mb-3">
                                 <label for="typeLabel">Seed Weight (g): </label>
                                 <input type="text" class="form-control" id="updateEventSeed" readonly>
                             </div>
                             @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 3 || auth()->user()->role_id == 4)
                             {{-- Display for role_id 1-4 (Admins) --}}
-                            <div class="form-group mb-3">
+                            <div class="col-md-6 form-group mb-3">
                                 <label id="typeLabel" for="updateEventType">Planting Type:</label>
                                 <input type="text" class="form-control" id="updateEventType" readonly>
                             </div>
@@ -339,27 +353,33 @@
                             @else
                             {{-- For other roles, exclude the field --}}
                             @endif
+                            <div class="col-md-6 form-group mb-3">
+                                <label for="updatearea">Area Used:</label>
+                                <input type="text" class="form-control" id="updatearea" readonly>
+                            </div>
 
                             <div class="form-group mb-3">
-                                <label for="updatestatus">Status:</label>
+                                <label for="updatestatus">Status: <span class="text-muted"> Status change allowed only on Harvesting Date.</span></label>
                                 <select name="updatestatus" id="updatestatus" class="form-control">
                                     <option id="updatestatus" readonly selected>Planted</option>
                                     <option value="Harvested">Harvested</option>
-                                    <option value="Destroyed">Destroyed</option>
+                                    <option value="Withered">Withered</option>
                                 </select>
                             </div>
+                           
 
-                            <div class="form-group mb-3">
-                                <label for="updateEventHarvested">Estimated Plants Harvested (kg):</label>
+
+                            <div class="col-md-6 form-group mb-3">
+                                <label id="typeLabela" for="updateEventHarvested">Estimated Harvest (pcs):</label>
                                 <input type="text" class="form-control" id="updateEventHarvested" placeholder="Enter Seeds Harvested">
                             </div>
 
-                            <div class="form-group mb-3">
-                                <label for="updateEventDestroyed">Estimated Plants Destroyed (kg):</label>
-                                <input type="text" class="form-control" id="updateEventDestroyed" placeholder="Enter Seeds Destroyed">
+                            <div class="col-md-6 form-group mb-3">
+                                <label id="typeLabelb" for="updateEventDestroyed">Estimated Withered (pcs):</label>
+                                <input type="text" class="form-control" id="updateEventDestroyed" placeholder="Enter Seeds Withered">
                             </div>
-
-                            <div class="mb-3">
+                           
+                            <div class="col-md-6 mb-3">
                                 <label for="updatestart-datepicker" class="form-label">Planting Date:</label>
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="ri-calendar-event-line"></i></span>
@@ -367,15 +387,15 @@
                                 </div>
                             </div>
 
-                            <div class="mb-3">
-                                <label for="updateend-datepicker" class="form-label">Harvested Date:</label>
+                            <div class="col-md-6 mb-3">
+                                <label for="updateend-datepicker" class="form-label">Harvesting Date:</label>
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="ri-calendar-event-line"></i></span>
                                     <input type="text" name="end" id="updateend-datepicker" class="form-control" data-toggle="flatpickr" data-flatpickr-enable-time="true" data-flatpickr-date-format="Y-m-d" placeholder="Enter End Date" readonly required disabled />
                                 </div>
                             </div>
 
-
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -425,12 +445,17 @@
                                     </select>
                                 </div>
                             </div>
-                        </div>
+                        
+                            <div class="col-md-6">
+                                <label for="status" class="form-label">Status</label>
+                                <input type="text" name="status" id="customername-field" class="form-control" value="Planted" required readonly />
+                            </div>
 
+                            <div class="col-md-6 mb-3">
+                                <label for="area" class="form-label">Area</label>
+                                <input type="text" name="area" id="area" class="form-control" value="1" required />
+                            </div>
 
-                        <div class="mb-3">
-                            <label for="status" class="form-label">Status</label>
-                            <input type="text" name="status" id="customername-field" class="form-control" value="Planted" required readonly />
                         </div>
                         <center>
                             <p class="text-muted">Scan the Seed's Qr Code Generated from the Inventory > Supplier</p>
@@ -482,21 +507,69 @@
             }
         });
 
+        
+
         document.addEventListener('DOMContentLoaded', function() {
 
-            var inputElement = document.getElementById("seed-input");
-
-
-            inputElement.addEventListener("input", function(event) {
-                // Get the value entered by the user
+            var seedInputElement = document.getElementById("seed-input");
+            var eventSeedElement = document.getElementById("eventseed");
+            var multipleUsedElement = document.getElementById("multiple-used");
+            var updateEventSeedElement = document.getElementById("updateEventSeed");
+            var updateEventDestroyedElement = document.getElementById("updateEventDestroyed");
+            var updateEventHarvestedElement = document.getElementById("updateEventHarvested");
+            var areaElement = document.getElementById("area");
+            var updateareaElement = document.getElementById("updatearea");
+            
+            
+            seedInputElement.addEventListener("input", function(event) {
                 var inputValue = event.target.value;
-
-                // Remove non-numeric characters from the input value
                 var numericValue = inputValue.replace(/\D/g, '');
-
-                // Update the input value with only numeric characters
                 event.target.value = numericValue;
             });
+
+            eventSeedElement.addEventListener("input", function(event) {
+                var inputValue = event.target.value;
+                var numericValue = inputValue.replace(/\D/g, '');
+                event.target.value = numericValue;
+            });
+
+            multipleUsedElement.addEventListener("input", function(event) {
+                var inputValue = event.target.value;
+                var numericValue = inputValue.replace(/\D/g, '');
+                event.target.value = numericValue;
+            });
+
+            updateEventSeedElement.addEventListener("input", function(event) {
+                var inputValue = event.target.value;
+                var numericValue = inputValue.replace(/\D/g, '');
+                event.target.value = numericValue;
+            });
+
+            updateEventDestroyedElement.addEventListener("input", function(event) {
+                var inputValue = event.target.value;
+                var numericValue = inputValue.replace(/\D/g, '');
+                event.target.value = numericValue;
+            });
+
+            updateEventHarvestedElement.addEventListener("input", function(event) {
+                var inputValue = event.target.value;
+                var numericValue = inputValue.replace(/\D/g, '');
+                event.target.value = numericValue;
+            });
+
+            areaElement.addEventListener("input", function(event) {
+                var inputValue = event.target.value;
+                var numericValue = inputValue.replace(/\D/g, '');
+                event.target.value = numericValue;
+            });
+
+            updateareaElement.addEventListener("input", function(event) {
+                var inputValue = event.target.value;
+                var numericValue = inputValue.replace(/\D/g, '');
+                event.target.value = numericValue;
+            });
+
+
 
             function calculateEndDate(startDate, daysToHarvest) {
                 var endDate = new Date(startDate);
@@ -576,6 +649,7 @@
                     var eventStart = info.event.start;
                     var eventEnd = info.event.end;
                     var eventStatus = info.event.extendedProps.status;
+                    var eventArea = info.event.extendedProps.area;
 
                     // Display event details in the Event Detail Modal
                     $('#eventtitle').text(eventTitle);
@@ -586,6 +660,7 @@
                     $('#eventstart').text(moment(eventStart).format("YYYY-MM-DD"));
                     $('#eventend').text(moment(eventEnd).format("YYYY-MM-DD"));
                     $('#eventstatus').text(eventStatus);
+                    $('#eventarea').text(eventArea);
 
 
                     // Store event ID for update and delete
@@ -600,12 +675,13 @@
                     $('#updatestart-datepicker').val(moment(eventStart).format("YYYY-MM-DD"));
                     $('#updateend-datepicker').val(moment(eventEnd).format("YYYY-MM-DD"));
                     $('#updatestatus').val(eventStatus);
+                    $('#updatearea').val(eventArea);
 
 
                     // Show the Event Detail Modal
                     $('#EventdetailModal').modal('show');
 
-                    console.log(eventHarvested)
+                    // console.log(eventHarvested)
                     console.log(info)
 
                 },
@@ -658,25 +734,50 @@
                 var start = $('#updatestart-datepicker').val();
                 var end = $('#updateend-datepicker').val();
                 var status = $('#updatestatus').val();
+                var area = $('#updatearea').val();
 
 
                 // Check if any required field is empty
-                if (!title || !start || !end || !status || !seed || !harvested || !destroyed) {
+                if (!title || !start || !end || !status || !seed || !harvested || !destroyed || !area) {
                     // Display validation error message
                     Swal.fire({
                         title: "Error",
-                        text: "Cannot change the status to Planted.",
+                        text: "Please fill in all required fields",
                         icon: "error"
                     });
                     return; // Stop execution if validation fails
                 }
 
                 // Check if the status is "Planted" and the event is already "Planted"
-                if (status === "Planted" && status === "Planted") {
+                
+
+                // if (status === "Harvested" && status === "Harvested") {
+                //     // Display validation error message
+                //     Swal.fire({
+                //         title: "Error",
+                //         text: "Cannot save if it is already 'Harvested'.",
+                //         icon: "error"
+                //     });
+                //     return; // Stop execution if validation fails
+                // }
+
+                // if (status === "Withered" && status === "Withered") {
+                //     // Display validation error message
+                //     Swal.fire({
+                //         title: "Error",
+                //         text: "Cannot save if it is already 'Withered'.",
+                //         icon: "error"
+                //     });
+                //     return; // Stop execution if validation fails
+                // }
+
+                var currentDate = new Date();
+                var endDate = new Date(end);
+                if (endDate.getTime() >= currentDate.getTime()) {
                     // Display validation error message
                     Swal.fire({
                         title: "Error",
-                        text: "Cannot save as 'Planted' if it's already 'Planted'.",
+                        text: "End date must be equal to current date",
                         icon: "error"
                     });
                     return; // Stop execution if validation fails
@@ -704,6 +805,7 @@
                         harvested: harvested,
                         destroyed: destroyed,
                         type: type,
+                        area: area,
                     },
                     success: function(data) {
                         console.log(data.message);
@@ -731,7 +833,7 @@
                 handleEventDelete($(this).data('event-id'));
             });
 
-            function handleEventUpdate(eventId, start, end, status, seed, harvested, destroyed, type, ) {
+            function handleEventUpdate(eventId, start, end, status, seed, harvested, destroyed, type, area, ) {
                 $.ajax({
                     url: "/plantcalendar/" + eventId,
                     type: "PUT",
@@ -743,6 +845,7 @@
                         harvested: harvested,
                         destroyed: destroyed,
                         type: type,
+                        area: area,
                     },
                     success: function(data) {
                         calendar.refetchEvents();
@@ -820,7 +923,7 @@
             function getEventBackgroundColor(status) {
                 if (status === 'Harvested') {
                     return '#009d88'; // Green background for Harvested
-                } else if (status === 'Destroyed') {
+                } else if (status === 'Withered') {
                     return '#d9534f'; // Red background for Destroyed
                 } else {
                     return; // Transparent background for Planted
@@ -862,7 +965,7 @@
                 endDateInput.value = endDateFormatted;
             });
 
-            function createPlanted(seedName, daysHarvest, type, amount) {
+            function createPlanted(seedName, daysHarvest, type, amount, area) {
                 var startDate = new Date().toISOString().slice(0, 10);
                 var startDateObject = new Date(startDate);
                 var endDateObject = new Date(startDateObject.getTime() + (daysHarvest * 24 * 60 * 60 * 1000));
@@ -914,7 +1017,8 @@
                         harvested: 0,
                         destroyed: 0,
                         seed: amount,
-                        type: type
+                        type: type,
+                        area: area,
                     },
                     success: function(response) {
                         calendar.refetchEvents();
@@ -926,36 +1030,19 @@
                         // });
                         var Kalabasa = "Kalabasa";
 
-                        getPrediction(amount, 30, 60, 10, Kalabasa)
+                        //getPrediction(amount, 30, 60, 10, Kalabasa)
                     },
                     error: function(xhr, status, error) {
                         console.error('Error:', error);
                         // Check if the response contains validation errors
-                        if (xhr.responseJSON && xhr.responseJSON.errors) {
-                            // Get the validation errors
-                            var errors = xhr.responseJSON.errors;
-                            // Prepare an array to store all error messages
-                            var errorMessages = [];
-                            // Loop through each validation error message and add it to the array
-                            Object.keys(errors).forEach(function(field) {
-                                errors[field].forEach(function(errorMessage) {
-                                    errorMessages.push(errorMessage);
-                                });
-                            });
-                            // Display all validation error messages using Swal
+
+                        var errorMessage = xhr.responseJSON.message
+                        
                             Swal.fire({
                                 title: "Error",
-                                html: errorMessages.join("<br>"),
+                                html: errorMessage,
                                 icon: "error"
                             });
-                        } else {
-                            // Display a generic error message using Swal
-                            Swal.fire({
-                                title: "Error",
-                                text: "Failed to create planting. Please try again later.",
-                                icon: "error"
-                            });
-                        }
                     }
                 });
             }
@@ -1053,7 +1140,7 @@
                                 timer: 2000,
                             });
                             startUsedScanner();
-                            createPlanted(data.seedName, data.daysHarvest, data.type, data.amount);
+                            createPlanted(data.seedName, data.daysHarvest, data.type, data.amount, area);
                         },
                         error: function(xhr, status, error) {
                             console.error("Error:", status, error);
@@ -1084,6 +1171,7 @@
                     var multipleUsed = $("#multiple-used").val();
                     var parsedMultipleUsed = parseInt(multipleUsed);
                     var mode = $("#mode").val();
+                    var area = $("#area").val();
                     usedItem(lastUsedScannedContent, parsedMultipleUsed, mode);
                 });
 
@@ -1134,6 +1222,18 @@
                 var qrcode = $('#use_manual-code').val()
                 var multiplier = $('#multiple-used').val();
                 var mode = $('#mode').val();
+                var area = $('#area').val();
+
+                // Check if the total area of the farm exceeds the farm area
+                var totalArea = parseFloat(area) * parseFloat(multiplier);
+                if (totalArea > parseFloat('{{ $farm->area }}')) {
+                    Swal.fire({
+                        title: "Error",
+                        text: "The area used exceeds the farm's area.",
+                        icon: "error"
+                    });
+                    return; // Stop execution if validation fails
+                }
 
                 $.ajax({
                     url: "/remove-stock",
@@ -1147,19 +1247,20 @@
                         qrcode: qrcode,
                         multiplier: multiplier,
                         mode: mode,
+                        area: area,
                     },
                     success: function(data) {
                         //getStocksList();
                         console.log(data);
-                        // Swal.fire({
-                        //     title: "Successfully Receive",
-                        //     text: "Item has been remove to inventory",
-                        //     icon: "success",
-                        //     showConfirmButton: false,
-                        //     timer: 2000,
-                        // });
-                        createPlanted(data.seedName, data.daysHarvest, data.type, data.amount);
-                        //location.reload()
+                        Swal.fire({
+                            title: "Successfully Receive",
+                            text: "Item has been remove to inventory",
+                            icon: "success",
+                            showConfirmButton: false,
+                            timer: 2000,
+                        });
+                        createPlanted(data.seedName, data.daysHarvest, data.type, data.amount, area,);
+                        location.reload()
                     },
                     error: function(xhr, status, error) {
                         console.error("Error:", status, error);
@@ -1180,60 +1281,109 @@
             var eventTypeSpan = document.getElementById("eventtype");
             var typeLabels = document.querySelectorAll("h6[for='typeLabel']");
             var typeLabelsFlex = document.querySelectorAll("label[for='typeLabel']");
+            
 
             eventTypeSpan.addEventListener("DOMSubtreeModified", function() {
                 var eventType = eventTypeSpan.textContent.trim();
 
                 typeLabels.forEach(function(label) {
-                    if (eventType === "Seeds") {
-                        label.textContent = "Seed Weight (g):";
-                    } else {
+                    if (eventType === "Seedlings") {
                         label.textContent = "Seed Quantity (pcs):";
+                    } else {
+                        label.textContent = "Seed Weight (g):";
                     }
                 });
                 typeLabelsFlex.forEach(function(label) {
-                    if (eventType === "Seeds") {
-                        label.textContent = "Seed Weight (g):";
+                    if (eventType === "Seedlings") {
+                        label.textContent = "Seed Quantity (pcs):";
                     } else {
-                        label.textContent = "Seed Quantity (pcs)";
+                        label.textContent = "Seed Weight (g):";
                     }
                 });
+
+
             });
 
-            $('#updatestatus').change(function() {
-                // Get the selected value
-                var selectedValue = $(this).val();
-
-                // Check if the selected value is Harvested or Destroyed
-                if (selectedValue === 'Harvested' || selectedValue === 'Destroyed') {
-                    // Disable the select element
-                    $(this).prop('disabled', true);
-                } else {
-                    // Enable the select element
-                    $(this).prop('disabled', false);
-                }
-            });
-
-        });
-
-        $(document).ready(function() {
             $('#updatestatus').change(function() {
                 var status = $(this).val();
+                var eventType = $('#eventtype').text().trim(); // Retrieve event type directly
+                console.log('Event Type:', eventType);
+
                 var seedAmount = parseFloat($('#updateEventSeed').val());
-                if (status === 'Harvested') {
-                    var harvested = (seedAmount * 4.5).toFixed(); // 70% of seed amount
-                    var destroyed = (seedAmount * 0.5).toFixed(); // 30% of seed amount
-                    $('#updateEventHarvested').val(harvested);
-                    $('#updateEventDestroyed').val(destroyed);
-                } else if (status === 'Destroyed') {
-                    $('#updateEventHarvested').val('0'); // Clear harvested value
-                    $('#updateEventDestroyed').val(seedAmount); // Entire seed amount is destroyed
+                var harvested, destroyed;
+
+                if (eventType === 'Seedlings') {
+                    if (status === 'Harvested') {
+                        harvested = seedAmount.toFixed(); 
+                        destroyed = '0';
+                    } else if (status === 'Withered') {
+                        harvested = '0';
+                        destroyed = seedAmount.toFixed(); // Entire seed amount is destroyed
+                    } else {
+                        harvested = ''; // Clear harvested value
+                        destroyed = ''; // Clear destroyed value
+                    }
                 } else {
-                    $('#updateEventHarvested').val(''); // Clear harvested value
-                    $('#updateEventDestroyed').val(''); // Clear destroyed value
+                    if (status === 'Harvested') {
+                        harvested = (seedAmount * 4.5).toFixed(); // 70% of seed amount
+                        destroyed = (seedAmount * 0.5).toFixed(); // 30% of seed amount
+                    } else if (status === 'Withered') {
+                        harvested = '0'; // Clear harvested value
+                        destroyed = seedAmount.toFixed(); // Entire seed amount is destroyed
+                    } else {
+                        harvested = ''; // Clear harvested value
+                        destroyed = ''; // Clear destroyed value
+                    }
                 }
+
+                $('#updateEventHarvested').val(harvested);
+                $('#updateEventDestroyed').val(destroyed);
             });
+
+               // Get the end date from the datepicker
+           // Function to disable updatestatus select element based on end date
+            function disableUpdateStatus() {
+            var endDateStr = $('#updateend-datepicker').val(); // Assuming the date is in YYYY-MM-DD format
+            console.log("endDateStr:", endDateStr);
+
+            var endDate = new Date(endDateStr);
+            var currentDate = new Date();
+            var status = $('#eventstatus').text().trim();
+            console.log("status:", status);
+
+            console.log("endDate:", endDate);
+            console.log("currentDate:", currentDate);
+
+            if (status === 'Harvested' || status === 'Withered' || endDate >= currentDate) {
+                console.log("Disabling estimated harvest and withered inputs...");
+                $('#updatestatus').prop('disabled', true);
+                $('#updateEventHarvested').prop('disabled', true);
+                $('#updateEventDestroyed').prop('disabled', true);
+            } else {
+                console.log("Enabling estimated harvest and withered inputs...");
+                $('#updatestatus').prop('disabled', false);
+                $('#updateEventHarvested').prop('disabled', false);
+                $('#updateEventDestroyed').prop('disabled', false);
+            }
+        }
+
+        // Call the function when the modal is shown and when the end date changes
+        $('#editexampleModal').on('show.bs.modal', function () {
+            disableUpdateStatus();
         });
+
+        $('#updateend-datepicker').on('change', function() {
+            disableUpdateStatus();
+        });
+
+
+                            
+
+
+        });
+
+       
+
 
         $(document).ready(function() {
             // Function to update visibility of harvested and destroyed input fields
@@ -1241,12 +1391,16 @@
                 if (status === 'Harvested') {
                     $('#updateEventHarvested').parent().show(); // Show harvested input field
                     $('#updateEventDestroyed').parent().show(); // Show destroyed input field
-                } else if (status === 'Destroyed') {
+                    // $('#eventharvested').parent().show();
+                } else if (status === 'Withered') {
                     $('#updateEventHarvested').parent().show(); // Hide harvested input field
                     $('#updateEventDestroyed').parent().show(); // Show destroyed input field
+                    // $('#eventdestroyed').parent().show();
                 } else {
                     $('#updateEventHarvested').parent().hide(); // Hide harvested input field
                     $('#updateEventDestroyed').parent().hide(); // Hide destroyed input field
+                    // $('#eventdestroyed').parent().hide();
+                    // $('#eventharvested').parent().hide();
                 }
             }
 
@@ -1255,10 +1409,24 @@
 
             // Event listener for status change
             $('#updatestatus').change(function() {
+                
                 var status = $(this).val();
                 updateVisibility(status); // Update visibility based on the new status
             });
         });
+
+        $(document).ready(function() {
+            var eventType = $('#eventtype').text().trim();// Example status, replace with actual value
+            if (eventStatus === 'Planted') {
+                $('.hide-if-planted').hide();
+            } else {
+                $('.hide-if-planted').show();
+            }
+        });
+
+
+
+      
     </script>
 
 

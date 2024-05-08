@@ -101,11 +101,35 @@
         #interestButton.interested #starIcon {
             color: #FFD700;
         }
+
+        #sloading {
+            display: none;
+            position: fixed;
+            height: 100%;
+            width: 100%;
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+        }
+
+        #sloading img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            /* Adjust width as needed */
+            height: 100px;
+            /* Adjust height as needed */
+        }
     </style>
 </head>
 
 <body onload="">
+    <div id='sloading'><!-- Add overlay here -->
+        <center><img src='/images/loading.gif'></center>
 
+    </div>
 
     <!-- Begin page -->
     <div id="layout-wrapper">
@@ -1026,6 +1050,7 @@
         });
     </script>
     <script>
+
 
     </script>
 

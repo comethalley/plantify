@@ -31,7 +31,7 @@
                 <td><img src="/images/{{$per_Seeds->image}}" alt="" style="max-width: 100px;max-height:100px;float: none;"></td>
                 <td>{{$per_Seeds->umoName}}</td>
                 <td><input class="form-control form-control-sm update-qty" type="text" name="quantity" data-supplierseed-id="{{$per_Seeds->suppliers_seedsID}}" id="quantity_{{$per_Seeds->suppliers_seedsID}}" value="{{$per_Seeds->qty}}"> </td>
-                <td><a href="{{ route('download.image', ['filename' => $per_Seeds->qr_code . '.png']) }}"><i class="ri-download-2-line"></i>&nbsp;Download</a></td>
+                <td><a href="{{ route('download.image', ['filename' => $per_Seeds->qr_code . '.png']) }}" id="downloadQrBtn" data-supplier-id="{{$per_Seeds->supplierID}}" target="_blank"><i class="ri-download-2-line"></i>&nbsp;Download</a></td>
                 <td>
                     <ul class="list-inline hstack gap-2 mb-0">
                         <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Remove">
@@ -78,6 +78,20 @@
 
 <script>
     $(document).ready(function() {
+        $("#downloadQrBtn").on("click", function(event) {
+            event.preventDefault();
+            console.log("Download initiated...");
+
+            var downloadUrl = $(this).attr('href'); // Get the download URL from the anchor tag
+            var supplierID = $(this).data('supplier-id');
+
+            window.location.href = downloadUrl;
+
+            // Optionally, you can still call getSupplierSeeds function if needed
+            getSupplierSeeds(supplierID);
+        });
+
+
         function getSupplierSeeds(supplierId) {
 
             $.ajax({

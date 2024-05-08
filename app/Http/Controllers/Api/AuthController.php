@@ -143,6 +143,7 @@ class AuthController extends Controller
                 'firstname',
                 "lastname",
                 "email",
+                "isOnline"
             )
             ->get();
         return response()->json(['admins' => $admins], 200);
@@ -484,9 +485,10 @@ class AuthController extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                //'firstname'  => 'required|string|max:55',
-                //'lastname'  => 'required|string|max:55',
+                'firstname'  => 'required|string|max:55',
+                'lastname'  => 'required|string|max:55',
                 'email' => 'required|email|unique:users,email',
+                'password' => 'required|string|confirmed|min:8',
             ]);
 
             if ($validator->fails()) {
@@ -504,23 +506,24 @@ class AuthController extends Controller
             // exit;
 
             $admins = User::create([
-                'firstname'  => '',
-                'lastname'  => '',
+                'firstname'  => $data['firstname'],
+                'lastname'  => $data['lastname'],
                 'email' => $data['email'],
-                'password' => Hash::make($generate_password),
+                'password' => Hash::make($data['password']),
                 'role_id' => 2,
                 'status' => 1
             ]);
 
 
             if ($admins) {
-                $id = $admins->id;
-                $hash = $this->plantifyLibrary->generatehash($id);
-                $emailInvitation = $this->emailInvitation($data['email'], $data['email'], $generate_password, $hash);
-                if ($emailInvitation) {
+                return response()->json(['message' => 'Admin Invited Successfully', 'data' => $admins], 200);
+                // $id = $admins->id;
+                // $hash = $this->plantifyLibrary->generatehash($id);
+                // $emailInvitation = $this->emailInvitation($data['email'], $data['email'], $generate_password, $hash);
+                // if ($emailInvitation) {
 
-                    return response()->json(['message' => 'Admin Invited Successfully', 'data' => $admins], 200);
-                }
+                //     return response()->json(['message' => 'Admin Invited Successfully', 'data' => $admins], 200);
+                // }
             } else {
                 return response()->json(['error' => 'Admin cant add Internal Server Error'], 500);
             }

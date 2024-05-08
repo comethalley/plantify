@@ -712,7 +712,7 @@
                                     <div class="menu-dropdown collapse" id="sidebarAccount">
                                         <ul class="nav nav-sm flex-column">
                                             <li class="nav-item">
-                                                <a href="/plantcalendar" class="nav-link" style="color:white">Calendar</a>
+                                                <a href="/plantcalendar" class="nav-link" style="color:white">Planting Monitoring</a>
                                             </li>
                                             <li class="nav-item">
                                                 <a href="/calendar_list" class="nav-link" style="color:white">Planting List</a>

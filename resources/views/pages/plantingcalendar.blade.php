@@ -34,10 +34,10 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                            <h4 class="mb-sm-0">Planting Calendar</h4>
+                            <h4 class="mb-sm-0">Planting Monitoring</h4>
                             <div class="page-title-right">
                                 <ol class="breadcrumb m-0">
-                                    <li class="breadcrumb-item active">Planting Calendar</li>
+                                    <li class="breadcrumb-item active">Planting Monitoring</li>
                                 </ol>
                             </div>
                         </div>
@@ -82,7 +82,7 @@
                                         <i data-feather="calendar" class="text-info icon-dual-info"></i>
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                        <h6 class="fs-15">Welcome to your Planting Calendar!</h6>
+                                        <h6 class="fs-15">Welcome to your Planting Monitoring!</h6>
                                         <p class="text-muted mb-0">Scheduled Plantings will appear here.</p>
                                     </div>
                                 </div>
@@ -131,7 +131,7 @@
                                     <input type="text" id="orderId" class="form-control" placeholder="ID" readonly hidden />
 
                                     <div class="mb-3">
-                                        <label for="seed" class="form-label">Seed Name</label>
+                                        <label for="seed" class="form-label">Plant Name</label>
                                         <select name="title" id="seed-dropdown" class="form-select" required>
                                             <option value="">Select Seed Name</option>
                                             @foreach ($plantInfo as $name => $days)
@@ -209,7 +209,7 @@
                                                 </div>
 
                                                 <div class="flex-grow-1">
-                                                    <h6 class="d-block - fw-semibold semibold mb-0">Seed Name: </h6><span id="eventtitle"></span>
+                                                    <h6 class="d-block - fw-semibold semibold mb-0">Plant Name: </h6><span id="eventtitle"></span>
 
                                                 </div>
                                             </div>
@@ -277,7 +277,7 @@
                                                 <i class="ri-calendar-event-fill text-muted fs-16"></i>
                                             </div>
                                             <div class="flex-grow-1">
-                                                <h6 class="d-block fw-semibold mb-0">Harvested Date: </h6><span id="eventend"></span>
+                                                <h6 class="d-block fw-semibold mb-0">Harvesting Date: </h6><span id="eventend"></span>
                                             </div>
                                         </div>
                                         <div class="d-flex align-items-center mb-2">
@@ -295,23 +295,19 @@
                                             @if(auth()->user()->role_id == 1)
                                             {{-- Display only for role_id 1 (Admin) --}}
                                             <button type="button" class="btn btn-danger" id="deleteEventBtn" id="deleteEventBtn">Delete</button>
-                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editexampleModal">Edit</button>
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editexampleModal">Change Satus</button>
                                             @elseif(auth()->user()->role_id == 2)
                                             {{-- Display only for role_id 2 (Admin) --}}
                                             <button type="button" class="btn btn-danger" id="deleteEventBtn" id="deleteEventBtn">Delete</button>
-                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editexampleModal">Edit</button>
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editexampleModal">Change Satus</button>
                                             @elseif(auth()->user()->role_id == 3)
                                             {{-- Display for role_id 3 (Farm Leader) --}}
                                             <button type="button" class="btn btn-danger" id="deleteEventBtn" id="deleteEventBtn">Delete</button>
-                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editexampleModal">Edit</button>
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editexampleModal">Change Satus</button>
                                             @elseif(auth()->user()->role_id == 4)
                                             {{-- Display for role_id 4 (Farmers) --}}
                                             <button hidden type="button" class="btn btn-danger" id="deleteEventBtn" id="deleteEventBtn">Delete</button>
-                                            <button hidden type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editexampleModal">Edit</button>
-                                            @elseif(auth()->user()->role_id == 5)
-                                            {{-- Display for role_id 5 (Public Users) --}}
-                                            <button type="button" class="btn btn-danger" id="deleteEventBtn" id="deleteEventBtn">Delete</button>
-                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editexampleModal">Edit</button>
+                                            <button hidden type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editexampleModal">Change Satus</button>
                                             @endif
                                         </div>
                                     </div>
@@ -363,7 +359,7 @@
                             </div>
 
                             <div class="form-group mb-3">
-                                <label for="updatestatus">Status:</label>
+                                <label for="updatestatus">Status: <span class="text-muted"> Status change allowed only on Harvesting Date.</span></label>
                                 <select name="updatestatus" id="updatestatus" class="form-control">
                                     <option id="updatestatus" readonly selected>Planted</option>
                                     <option value="Harvested">Harvested</option>
@@ -392,7 +388,7 @@
                             </div>
 
                             <div class="col-md-6 mb-3">
-                                <label for="updateend-datepicker" class="form-label">Harvested Date:</label>
+                                <label for="updateend-datepicker" class="form-label">Harvesting Date:</label>
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="ri-calendar-event-line"></i></span>
                                     <input type="text" name="end" id="updateend-datepicker" class="form-control" data-toggle="flatpickr" data-flatpickr-enable-time="true" data-flatpickr-date-format="Y-m-d" placeholder="Enter End Date" readonly required disabled />
@@ -457,7 +453,7 @@
 
                             <div class="col-md-6 mb-3">
                                 <label for="area" class="form-label">Area</label>
-                                <input type="text" name="area" id="area" class="form-control" value="0" required />
+                                <input type="text" name="area" id="area" class="form-control" value="1" required />
                             </div>
 
                         </div>
@@ -753,11 +749,35 @@
                 }
 
                 // Check if the status is "Planted" and the event is already "Planted"
-                if (status === "Planted" && status === "Planted") {
+                
+
+                // if (status === "Harvested" && status === "Harvested") {
+                //     // Display validation error message
+                //     Swal.fire({
+                //         title: "Error",
+                //         text: "Cannot save if it is already 'Harvested'.",
+                //         icon: "error"
+                //     });
+                //     return; // Stop execution if validation fails
+                // }
+
+                // if (status === "Withered" && status === "Withered") {
+                //     // Display validation error message
+                //     Swal.fire({
+                //         title: "Error",
+                //         text: "Cannot save if it is already 'Withered'.",
+                //         icon: "error"
+                //     });
+                //     return; // Stop execution if validation fails
+                // }
+
+                var currentDate = new Date();
+                var endDate = new Date(end);
+                if (endDate.getTime() >= currentDate.getTime()) {
                     // Display validation error message
                     Swal.fire({
                         title: "Error",
-                        text: "Cannot save as 'Planted' if it's already 'Planted'.",
+                        text: "End date must be equal to current date",
                         icon: "error"
                     });
                     return; // Stop execution if validation fails
@@ -1010,36 +1030,19 @@
                         // });
                         var Kalabasa = "Kalabasa";
 
-                        getPrediction(amount, 30, 60, 10, Kalabasa)
+                        //getPrediction(amount, 30, 60, 10, Kalabasa)
                     },
                     error: function(xhr, status, error) {
                         console.error('Error:', error);
                         // Check if the response contains validation errors
-                        if (xhr.responseJSON && xhr.responseJSON.errors) {
-                            // Get the validation errors
-                            var errors = xhr.responseJSON.errors;
-                            // Prepare an array to store all error messages
-                            var errorMessages = [];
-                            // Loop through each validation error message and add it to the array
-                            Object.keys(errors).forEach(function(field) {
-                                errors[field].forEach(function(errorMessage) {
-                                    errorMessages.push(errorMessage);
-                                });
-                            });
-                            // Display all validation error messages using Swal
+
+                        var errorMessage = xhr.responseJSON.message
+                        
                             Swal.fire({
                                 title: "Error",
-                                html: errorMessages.join("<br>"),
+                                html: errorMessage,
                                 icon: "error"
                             });
-                        } else {
-                            // Display a generic error message using Swal
-                            Swal.fire({
-                                title: "Error",
-                                text: "Failed to create planting. Please try again later.",
-                                icon: "error"
-                            });
-                        }
                     }
                 });
             }
@@ -1221,6 +1224,17 @@
                 var mode = $('#mode').val();
                 var area = $('#area').val();
 
+                // Check if the total area of the farm exceeds the farm area
+                var totalArea = parseFloat(area) * parseFloat(multiplier);
+                if (totalArea > parseFloat('{{ $farm->area }}')) {
+                    Swal.fire({
+                        title: "Error",
+                        text: "The area used exceeds the farm's area.",
+                        icon: "error"
+                    });
+                    return; // Stop execution if validation fails
+                }
+
                 $.ajax({
                     url: "/remove-stock",
                     method: "POST",
@@ -1261,6 +1275,7 @@
                     },
                 });
             });
+
 
 
             var eventTypeSpan = document.getElementById("eventtype");
@@ -1327,43 +1342,42 @@
 
                // Get the end date from the datepicker
            // Function to disable updatestatus select element based on end date
-           function disableUpdateStatus() {
-                var endDateStr = $('#updateend-datepicker').val(); // Assuming the date is in YYYY-MM-DD format
-                var endDate = new Date(endDateStr);
-                var currentDate = new Date();
+            function disableUpdateStatus() {
+            var endDateStr = $('#updateend-datepicker').val(); // Assuming the date is in YYYY-MM-DD format
+            console.log("endDateStr:", endDateStr);
 
-                if (endDate >= currentDate) {
-                    console.log("Disabling updatestatus select element...");
-                    $('#updatestatus').prop('disabled', true);
-                } else {
-                    console.log("Enabling updatestatus select element...");
-                    
-                }
+            var endDate = new Date(endDateStr);
+            var currentDate = new Date();
+            var status = $('#eventstatus').text().trim();
+            console.log("status:", status);
 
-                var status = $('#eventstatus').text().trim(); // Get the event status from the modal
-                if (status === 'Harvested' || status === 'Withered') {
-                    console.log("Disabling estimated harvest and withered inputs...");
-                    $('#updatestatus').prop('disabled', true);
-                    $('#updateEventHarvested').prop('disabled', true);
-                    $('#updateEventDestroyed').prop('disabled', true);
-                } else {
-                    console.log("Enabling estimated harvest and withered inputs...");
-                    $('#updatestatus').prop('disabled', false);
-                    $('#updateEventHarvested').prop('disabled', false);
-                    $('#updateEventDestroyed').prop('disabled', false);
-                }
+            console.log("endDate:", endDate);
+            console.log("currentDate:", currentDate);
+
+            if (status === 'Harvested' || status === 'Withered' || endDate >= currentDate) {
+                console.log("Disabling estimated harvest and withered inputs...");
+                $('#updatestatus').prop('disabled', true);
+                $('#updateEventHarvested').prop('disabled', true);
+                $('#updateEventDestroyed').prop('disabled', true);
+            } else {
+                console.log("Enabling estimated harvest and withered inputs...");
+                $('#updatestatus').prop('disabled', false);
+                $('#updateEventHarvested').prop('disabled', false);
+                $('#updateEventDestroyed').prop('disabled', false);
             }
+        }
 
-            // Call the function when the modal is shown and when the end date changes
-            $('#editexampleModal').on('show.bs.modal', function () {
-                disableUpdateStatus();
-            });
+        // Call the function when the modal is shown and when the end date changes
+        $('#editexampleModal').on('show.bs.modal', function () {
+            disableUpdateStatus();
+        });
 
-            $('#updateend-datepicker').on('change', function() {
-                disableUpdateStatus();
-            });
+        $('#updateend-datepicker').on('change', function() {
+            disableUpdateStatus();
+        });
 
-                    
+
+                            
 
 
         });

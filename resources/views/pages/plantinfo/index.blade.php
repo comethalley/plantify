@@ -163,7 +163,7 @@
                                                     <div class="form-group">
                                                         <label for="mode">Season</label>
                                                         <select class="form-select" id="seasons">
-                                                            <option value="January">January</option>
+                                                        <option value="January">January</option>
                                                             <option value="February">February</option>
                                                             <option value="March">March</option>
                                                             <option value="April">April</option>

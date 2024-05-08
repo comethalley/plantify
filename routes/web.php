@@ -186,8 +186,8 @@ Route::delete('/delete-message/{messageId}', [ThreadController::class, 'deleteMe
 Route::post('/mark-messages-as-read/{userId}', [ChatController::class, 'markMessagesAsRead']);
 Route::get('/search-users', [ChatController::class, 'searchUsers']);
 Route::get('/threads/{threadId}/messages', [ThreadController::class, 'fetchMessages']);
-
-// Group Chats
+Route::get('/thread/{threadId}',[ThreadController::class, 'show'])->name('thread.show');
+// Group Chats [ThreadController::class, 'show']
 // Route::get('/groups', [GroupController::class, 'index'])->name('groups.index');
 // Route::get('/groups/{groupId}', [GroupController::class, 'show'])->name('groups.show'); // Make the farmId parameter optional
 // Route::post('/groups/{group}/join', [GroupController::class, 'join'])->name('groups.join');
@@ -233,7 +233,7 @@ Route::delete('/deleteLocation/{id}', [qcmaps::class, 'deleteLocation']);
 Route::get('/schedules', [EventController::class, 'index']);
 Route::get('/schedulesget', [EventController::class, 'getEvents']);
 Route::get('/schedulesdata/{id}', [EventController::class, 'getdata']);
-Route::delete('/scheduledelete/{id}', [EventController::class, 'deleteEvent']);
+Route::put('/scheduledelete/{id}', [EventController::class, 'deleteEvent']);
 Route::put('/scheduleupdate/{id}', [EventController::class, 'update']);
 Route::get('/events/{id}', [EventController::class, 'show']);
 Route::get('/events/search', [EventController::class, 'search']);
@@ -251,12 +251,10 @@ Route::get('/attendees', [AttendanceControler::class, 'attendees'])->name('event
 Route::post('/event/attendance/submit/{event_id}', [AttendanceControler::class, 'submit'])->name('register');
 Route::get('/event/{eventId}/attendance', [AttendanceControler::class, 'showAttendanceList']);
 Route::get('/event/form/{id}', [AttendanceControler::class, 'attendanceForm'])->name('event.attendance.form');
-Route::put('/change-attendee-status/{id}', [AttendanceControler::class, 'changeStatus']);
-
-
+Route::post('/update-status', [AttendanceControler::class, 'updateStatus']);
 Route::get('/fetch-attendees/{event_id}', [AttendanceControler::class, 'fetchAttendees']);
 
-Route::get('/attendees/filterByStatus', [AttendanceController::class, 'filterBystatus']);
+
 // End Full Calender=================================================================
 
 Route::get('/plantcalendar', [PlantCalendar::class, 'index']);

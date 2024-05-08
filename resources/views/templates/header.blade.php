@@ -203,7 +203,7 @@
                         <div class="dropdown topbar-head-dropdown ms-1 header-item" id="markasread">
                             <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" id="markasread" onclick="markNotificationAsRead()" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
                                 <i class="bx bx-bell fs-22"></i>
-                                <span id="reload-section" class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger" id="markasread">
+                                <span id="reload-section" class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill" id="markasread">
                                     @if(auth()->user())
                                     {{ count(auth()->user()->unreadNotifications) }}
                                     @else
@@ -238,10 +238,14 @@
                                             </li>
                                             <li class="nav-item waves-effect waves-light">
                                                 <a class="nav-link" data-bs-toggle="tab" href="#messages-tab" role="tab" aria-selected="false">
-                                                    Forum
+                                                Message
                                                 </a>
                                             </li>
-
+                                            <li class="nav-item waves-effect waves-light">
+                                                <a class="nav-link" data-bs-toggle="tab" href="#messages-tab" role="tab" aria-selected="false">
+                                                Forum
+                                                </a>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
@@ -485,6 +489,24 @@
                                                         <span><i class="mdi mdi-clock-outline" id="notification-time"></i>{{ $notification->created_at->diffForHumans() }}</span>
                                                     </p>
                                                 </div>
+                                                @elseif ($notification->type === 'App\Notifications\NewRequestNotification')
+                                            <div class="d-flex">
+
+
+                                                <img src="../assets/images/notif/request.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+
+                                                <div class="flex-grow-1">
+                                                    <a href="/requests" class="stretched-link">
+                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">Request Tools and Seedlings</h6>
+                                                    </a>
+                                                    <div class="fs-13 text-muted">
+                                                        <p class="mb-1">{{ $notification->data['message']}}.</p>
+                                                    </div>
+                                                    <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+
+                                                        <span><i class="mdi mdi-clock-outline" id="notification-time"></i>{{ $notification->created_at->diffForHumans() }}</span>
+                                                    </p>
+                                                </div>
                                                 <!-- <div class="px-2 fs-15">
                                                     <div class="form-check notification-check">
                                                         <input class="form-check-input" type="checkbox" value="" id="all-notification-check02">
@@ -505,8 +527,31 @@
 
 
 
-                                    <div class="tab-pane fade py-2 ps-2" id="messages-tab" role="tabpanel" aria-labelledby="messages-tab">
 
+                                    <div class="tab-pane fade py-2 ps-2" id="messages-tab" role="tabpanel" aria-labelledby="messages-tab">
+                                    @if(auth()->user() && auth()->user()->notifications)
+                                                @foreach (auth()->user()->notifications as $notification)
+                                                    <div class="text-reset notification-item d-block dropdown-item position-relative">
+                                                        @if ($notification->type === 'App\Notifications\NewMessageNotification')
+                                                            <!-- Your existing event notification code -->
+                                                            <div class="d-flex">
+                                                                <img src="../assets/images/notif/Message.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                                                <div class="flex-grow-1">
+                                                                    <a href="/thread/1" class="stretched-link">
+                                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">New Message </h6>
+                                                                    </a>
+                                                                    <div class="fs-13 text-muted">
+                                                                        <p class="mb-1">You have received a new message.</p>
+                                                                    </div>
+                                                                    <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+                                                                        <span><i class="mdi mdi-clock-outline" id="notification-time"></i>{{ $notification->created_at->diffForHumans() }}</span>
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        @endif
+                                                    </div>
+                                                @endforeach
+                                            @endif
                                     </div>
                                     <div class="tab-pane fade p-4" id="alerts-tab" role="tabpanel" aria-labelledby="alerts-tab"></div>
 
@@ -1002,12 +1047,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
-        function markNotificationAsRead(notificationCount) {
-            if (notificationCount !== '0') {
-                $.get('/markAsRead');
-            }
-        }
-
+       
         function googleTranslateElementInit() {
             // Initialize Google Translate element
             new google.translate.TranslateElement({
@@ -1041,13 +1081,36 @@
         }
 
         $(document).ready(function() {
-            $('#markasread').on('click', function() {
-                $('#reload-section').load(location.href + ' #reload-section');
-            });
+        // Function to mark notifications as read
+        function markNotificationAsRead(notificationCount) {
+            if (notificationCount !== '0') {
+                $.get('/markAsRead');
+            }
+        }
 
-            // Scroll down to the bottom of the notification content
-            $('#notificationItemsTabContent').scrollTop($('#notificationItemsTabContent')[0].scrollHeight);
+        // Function to update badge color based on notification count
+        function updateBadgeColor() {
+            var notificationCount = $('#reload-section').text().trim();
+            if (notificationCount !== '0') {
+                $('#reload-section').addClass('bg-danger');
+            } else {
+                $('#reload-section').removeClass('bg-danger');
+            }
+        }
+
+        // Click event handler for marking notifications as read
+        $('#markasread').on('click', function() {
+            $('#reload-section').load(location.href + ' #reload-section', function() {
+                updateBadgeColor();
+            });
         });
+
+        // Call updateBadgeColor on document ready
+        updateBadgeColor();
+
+        // Scroll down to the bottom of the notification content
+        $('#notificationItemsTabContent').scrollTop($('#notificationItemsTabContent')[0].scrollHeight);
+    });
     </script>
     <script>
 

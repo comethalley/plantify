@@ -41,7 +41,7 @@
                                 </div>
                                 <div class="col-xxl-3 col-sm-6 d-flex justify-content-end">
                                     <div class="hstack flex-wrap gap-2 mb-3 mb-lg-0">
-                                        <button class="btn btn-danger addFarms-modal custom-width" data-bs-toggle="modal" data-bs-target="#addfarmModal">
+                                        <button class="btn btn-danger addFarms-modal custom-width" data-bs-toggle="modal" data-bs-target="#selectModal">
                                             <i class="ri-add-line align-bottom me-1"></i> Request
                                         </button>
                                         <button type="button" class="btn btn-soft-dark btn-border refresh-button custom-width" onclick="location.reload()">
@@ -265,6 +265,42 @@
         </div>
     </div>
 
+    <div class="modal fade" id="selectModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md modal-dialog-centered custom-modal">
+            <div class="modal-content">
+                <div class="modal-header bg-light text-light p-3">
+                    <h5 class="modal-title" id="exampleModalLabel">Request Supply &nbsp;</h5>
+                    <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+                </div>
+                <h5 class="mt-3 text-center text-dark">Select to Request</h5>
+                <div class="modal-body d-flex flex-column align-items-center">
+                    <div class="row mb-3">
+
+                        <button class="btn btn-secondary bg-gradient waves-effect waves-light  custom-width-request" data-bs-toggle="modal" data-bs-target="#addfarmModal">
+                            <i class="ri-tools-fill align-bottom me-1"></i> Request Tools
+                        </button>
+                    </div>
+                    <div class="text-center mb-3">
+                        <i style="font-size: 13px;">Click on 'Request Tools' to view how to request tools.</i>
+                    </div>
+                    <hr class="styled-hr" style="width: 100%;">
+                    <div class="row mb-3">
+                        <button class="btn btn-success bg-gradient waves-effect waves-light custom-width-request" data-bs-toggle="modal" data-bs-target="#addfarmModal1">
+                            <i class="ri-seedling-fill align-bottom me-1"></i> Request Seedlings
+                        </button>
+                    </div>
+                    <div class="text-center mb-3">
+                        <i style="font-size: 13px;">Click on 'Request Seedlings' to view how to request seedlings.</i>
+                    </div>
+                </div>
+                <div class="modal-footer bg-light">
+                    <div class="hstack gap-2 justify-content-center">
+                        <button type="button" class="btn btn-outline-dark waves-effect waves-light" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Modals -->
 
@@ -272,16 +308,16 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header bg-light p-3">
-                    <h5 class="modal-title" id="exampleModalLabel">Request Supply &nbsp;</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Request Tools &nbsp;</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
                 </div>
-                <form id="addFarmForm" action="" method="post">
+                <form id="addRequestForm" action="" method="post">
                     @csrf
                     <div class="modal-body">
                         <div class="row mb-3">
                             <div class="col-md-6" style="padding-top: 10px;">
                                 <label for="supply_tool" class="form-label">Tools &nbsp;<span class="required-asteroid red-asterisk">*</span></label>
-                                <select id="supply_tool" name="supply_tool" class="form-select" style="width: 95%; " required onchange="toggleFields()">
+                                <select id="supply_tool" name="supply_tool" class="form-select" style="width: 95%; " data-bs-toggle="tooltip" title="Please select a tools." required onchange="toggleFields()">
                                     <option value="">Select Tools</option>
                                     @foreach($supplyTools as $id => $type)
                                     <option value="{{ $id }}">{{ $type }}</option>
@@ -292,67 +328,114 @@
                                 <div class="d-flex align-items-end">
                                     <div class="me-2" style="padding-top: 10px;">
                                         <label for="count_tool" class="form-label">Quantity &nbsp;<span class="required-asteroid red-asterisk">*</span></label>
-                                        <input type="number" name="count_tool" id="count_tool" class="form-control" style="width: 109px;" title="This field is required to fill up" placeholder="Enter Quantity" required onchange="toggleFields()" />
+                                        <input type="number" name="count_tool" id="count_tool" class="form-control" style="width: 109px;" title="Please enter the quantity." placeholder="Enter Quantity" required onchange="toggleFields()" data-bs-toggle="tooltip" title="Please enter the quantity." />
                                     </div>
                                     <div>
                                         <button type="button" class="btn btn-primary add-btn">+</button>
                                     </div>
                                 </div>
+                                <small class="form-text text-muted">Quantity input is limited to maximum of 5.</small>
+
                             </div>
                         </div>
+                        <div class="file-input-container">
+                            <div class="file-input-container">
+                                <div class="file-input-wrapper">
+                                    <label for="letter_content" class="form-label">Request Letter (PDF only) &nbsp;<span class="required-asteroid">*</span></label>
+                                    <input type="file" name="letter_content" class="form-control file-input" accept="application/pdf" required data-bs-toggle="tooltip" title="Please upload a PDF file for the request letter." />
+                                    <button type="button" class="btn btn-danger cancel-btn" title="This field is required to fill up" onclick="cancelUpload('letter_content')">Remove</button>
+                                </div>
+                                <small class="form-text text-muted">Please upload a PDF file for the request letter.</small>
+                            </div>
+                            <br>
+                        </div>
+                        <div class="alert alert-danger" style="display:none" id="error-messages"></div>
+                        <div class="modal-footer">
+                            <div class="hstack gap-2 justify-content-end">
+                            <a href="#" class="btn btn-light" onclick="showSelectModal()" title="Back to Select Request">
+                                <i class="ri-arrow-left-line me-1"></i> Back
+                            </a>
+                                <button type="button" class="btn btn-success" onclick="submitForm()">Submit Request</button>
+                            </div>
+                        </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+    
+
+
+
+    <!-- Modals -->
+
+    <div class="modal fade" id="addfarmModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-light p-3">
+                    <h5 class="modal-title" id="exampleModalLabel">Request Seedlings &nbsp;</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+                </div>
+                <form id="addRequestForm1" action="" method="post">
+                    @csrf
+                    <div class="modal-body">
                         <div class="row mb-3">
                             <div class="col-md-6" style="padding-top: 10px;">
                                 <label for="supply_seedling" class="form-label">Seedlings &nbsp;<span class="required-asteroid red-asterisk">*</span></label>
-                                <select id="supply_seedling" name="supply_seedling" class="form-select" style="width: 95%; " required onchange="toggleFields()">
+                                <select id="supply_seedling" name="supply_seedling" class="form-select" style="width: 95%; " data-bs-toggle="tooltip" title="Please select a seedling." required onchange="toggleFields()">
                                     <option value="">Select Seedlings</option>
                                     @foreach($supplySeedlings as $id => $type)
                                     <option value="{{ $id }}">{{ $type }}</option>
                                     @endforeach
                                 </select>
+
                             </div>
                             <div class="col-md-6">
                                 <div class="d-flex align-items-end">
                                     <div class="me-2" style="padding-top: 10px;">
                                         <label for="count_seedling" class="form-label">Quantity &nbsp;<span class="required-asteroid red-asterisk">*</span></label>
-                                        <input type="number" name="count_seedling" id="count_seedling" class="form-control" style="width: 109px;" title="This field is required to fill up" placeholder="Enter Quantity" required onchange="toggleFields()" />
+                                        <input type="number" name="count_seedling" id="count_seedling" class="form-control" style="width: 109px;" title="Please enter the quantity." placeholder="Enter Quantity" required onchange="toggleFields()" data-bs-toggle="tooltip" title="Please enter the quantity." />
                                     </div>
                                     <div>
                                         <button type="button" class="btn btn-primary add-btn1">+</button>
                                     </div>
                                 </div>
+                                <small class="form-text text-muted">Quantity input is limited to maximum of 5.</small>
+
                             </div>
                         </div>
                         <div class="file-input-container">
-                            <div class="file-input-wrapper">
-                                <label for="letter_content" class="form-label">Request Letter &nbsp;<span class="required-asteroid">*</span></label>
-                                <input type="file" name="letter_content" class="form-control file-input" accept="application/pdf" required />
-                                <button type="button" class="btn btn-danger cancel-btn" title="This field is required to fill up" onclick="cancelUpload('letter_content')">Remove</button>
+                            <div class="file-input-container">
+                                <div class="file-input-wrapper">
+                                    <label for="letter_content" class="form-label">Request Letter (PDF only) &nbsp;<span class="required-asteroid">*</span></label>
+                                    <input type="file" name="letter_content" class="form-control file-input" accept="application/pdf" required data-bs-toggle="tooltip" title="Please upload a PDF file for the request letter." />
+                                    <button type="button" class="btn btn-danger cancel-btn" title="This field is required to fill up" onclick="cancelUpload('letter_content')">Remove</button>
+                                </div>
+                                <small class="form-text text-muted">Please upload a PDF file for the request letter.</small>
+                            </div>
+                            <br>
+                        </div>
+                        <div class="alert alert-danger" style="display:none" id="error-messages2"></div>
+                        <div class="modal-footer">
+                            <div class="hstack gap-2 justify-content-end">
+                            <a href="#" class="btn btn-light" onclick="showSelectModal1()" title="Back to Select Request">
+                                <i class="ri-arrow-left-line me-1"></i> Back
+                            </a>
+                                <button type="button" class="btn btn-success" onclick="submitForm1()">Submit Request</button>
                             </div>
                         </div>
-                        <br>
-                    </div>
-                    <div class="alert alert-danger" style="display:none" id="error-messages"></div>
-                    <div class="alert alert-danger" style="display:none" id="error-messages1"></div>
-
-                    <div class="modal-footer">
-                        <div class="hstack gap-2 justify-content-end">
-                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-success" onclick="submitForm()">Submit Farm</button>
-                        </div>
-                    </div>
                 </form>
             </div>
         </div>
     </div>
-
-    <style></style>
-
+    </div>
     <!-- Modals -->
+
 
     <div class="modal fade" id="statusModal" tabindex="-1" role="dialog" aria-labelledby="statusModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-header p-2">
+                <div class="modal-header p-4">
                     <h5 class="modal-title text-danger font-weight-bold" id="statusModalLabel" style="font-size: 20px;">Status Tags</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -1064,46 +1147,52 @@
             });
         });
 
+        
         function toggleFields() {
-            var supplyTool = document.getElementById('supply_tool');
-            var supplySeedling = document.getElementById('supply_seedling');
-            var countTool = document.getElementById('count_tool');
-            var countSeedling = document.getElementById('count_seedling');
+    var supplyTool = document.getElementById('supply_tool');
+    var supplySeedling = document.getElementById('supply_seedling');
+    var countTool = document.getElementById('count_tool');
+    var countSeedling = document.getElementById('count_seedling');
 
-            var supply_tool_value = supplyTool.value;
-            var supply_seedling_value = supplySeedling.value;
+    var supply_tool_value = supplyTool.value;
+    var supply_seedling_value = supplySeedling.value;
 
-            if (supply_tool_value !== '') {
-                supplySeedling.removeAttribute('required');
-                countSeedling.removeAttribute('required');
-                countTool.setAttribute('required', 'required');
+    if (supply_tool_value !== '') {
+        supplySeedling.removeAttribute('required');
+        countSeedling.removeAttribute('required');
+        countTool.setAttribute('required', 'required');
 
-                document.getElementById("error-messages1").style.display = "none";
-                supplySeedling.previousElementSibling.querySelector('.required-asteroid').style.display = "none";
-                countSeedling.previousElementSibling.querySelector('.required-asteroid').style.display = "none";
-            } else if (supply_seedling_value !== '') {
-                supplyTool.removeAttribute('required');
-                countTool.removeAttribute('required');
-                countSeedling.setAttribute('required', 'required');
+        document.getElementById("error-messages1").style.display = "none";
+        supplySeedling.previousElementSibling.querySelector('.required-asteroid').style.display = "none";
+        countSeedling.previousElementSibling.querySelector('.required-asteroid').style.display = "none";
+    } else {
+        countTool.removeAttribute('required');
+    }
 
-                document.getElementById("error-messages").style.display = "none";
-                supplyTool.previousElementSibling.querySelector('.required-asteroid').style.display = "none";
-                countTool.previousElementSibling.querySelector('.required-asteroid').style.display = "none";
-            } else {
-                supplyTool.setAttribute('required', 'required');
-                supplySeedling.setAttribute('required', 'required');
-                countTool.setAttribute('required', 'required');
-                countSeedling.setAttribute('required', 'required');
+    if (supply_seedling_value !== '') {
+        supplyTool.removeAttribute('required');
+        countTool.removeAttribute('required');
+        countSeedling.setAttribute('required', 'required');
 
-                document.querySelectorAll(".required-asteroid").forEach(function(element) {
-                    element.style.display = "inline";
-                });
-            }
-        }
+        document.getElementById("error-messages").style.display = "none";
+        supplyTool.previousElementSibling.querySelector('.required-asteroid').style.display = "none";
+        countTool.previousElementSibling.querySelector('.required-asteroid').style.display = "none";
+    } else {
+        supplyTool.setAttribute('required', 'required');
+        supplySeedling.setAttribute('required', 'required');
+    }
+
+    if (supply_tool_value === '' && supply_seedling_value === '') {
+        document.querySelectorAll(".required-asteroid").forEach(function(element) {
+            element.style.display = "inline";
+        });
+    }
+}
+
 
 
         function submitForm() {
-            var form = document.getElementById('addFarmForm');
+            var form = document.getElementById('addRequestForm');
             var requiredFields = form.querySelectorAll('[required]');
             var isValid = true;
 
@@ -1116,21 +1205,6 @@
                 }
             });
 
-            var supplyCountField = document.getElementsByName('count_tool')[0];
-            if (supplyCountField.value.trim() === '0') {
-                isValid = false;
-                supplyCountField.classList.add('is-invalid');
-                document.getElementById('error-messages1').style.display = 'block';
-                document.getElementById('error-messages1').innerHTML = '<p>Quantity cannot be 0.</p>';
-            }
-
-            var supplySeedlingField = document.getElementsByName('count_seedling')[0];
-            if (supplySeedlingField.value.trim() === '0') {
-                isValid = false;
-                supplySeedlingField.classList.add('is-invalid');
-                document.getElementById('error-messages1').style.display = 'block';
-                document.getElementById('error-messages1').innerHTML = '<p>Quantity cannot be 0.</p>';
-            }
 
             if (!isValid) {
                 document.getElementById('error-messages').style.display = 'block';
@@ -1150,8 +1224,7 @@
                 if (result.isConfirmed) {
                     document.getElementById('error-messages').style.display = 'none';
                     document.getElementById('error-messages').innerHTML = '';
-                    document.getElementById('error-messages1').style.display = 'none';
-                    document.getElementById('error-messages1').innerHTML = '';
+
 
                     var formData = new FormData(form);
 
@@ -1203,8 +1276,118 @@
             });
         }
 
+        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("input", function(event) {
+            var targetId = event.target.id;
+            if (targetId.startsWith("count_tool") || targetId.startsWith("count_seedling")) {
+                var value = parseInt(event.target.value);
+                if (isNaN(value) || value < 1 || value > 5) {
+                    event.target.value = "";
+                }
+            }
+        });
+    });
 
 
+        function submitForm1() {
+            var form = document.getElementById('addRequestForm1');
+            var requiredFields = form.querySelectorAll('[required]');
+            var isValid = true;
+
+            requiredFields.forEach(function(field) {
+                if (!field.value.trim()) {
+                    isValid = false;
+                    field.classList.add('is-invalid');
+                } else {
+                    field.classList.remove('is-invalid');
+                }
+            });
+
+
+            if (!isValid) {
+                document.getElementById('error-messages2').style.display = 'block';
+                document.getElementById('error-messages2').innerHTML = '<p>Please fill out all required fields.</p>';
+                return;
+            }
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'Do you want to submit this form?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, submit it!',
+                cancelButtonText: 'No, cancel!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('error-messages2').style.display = 'none';
+                    document.getElementById('error-messages2').innerHTML = '';
+
+
+                    var formData = new FormData(form);
+
+                    fetch('{{ route("add.tools1") }}', {
+                            method: 'POST',
+                            body: formData,
+                            headers: {
+                                'X-CSRF-Token': '{{ csrf_token() }}',
+                            },
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            if (data.success) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Success',
+                                    text: 'Your form has been submitted successfully!',
+                                }).then(() => {
+                                    location.reload();
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    html: data.errors ? Object.values(data.errors).join('<br>') : 'An error occurred while processing your request. Please try again later.',
+                                });
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'An error occurred while processing your request. Please try again later.',
+                            });
+                        });
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    Swal.fire({
+                        title: 'Cancelled',
+                        text: 'Your form submission has been cancelled.',
+                        icon: 'info'
+                    });
+                }
+            });
+        }
+
+
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+  return new bootstrap.Tooltip(tooltipTriggerEl);
+});
+
+        function showSelectModal() {
+        $('#addfarmModal').modal('hide');
+        $('#selectModal').modal('show');
+    }
+    function showSelectModal1() {
+        $('#addfarmModal1').modal('hide');
+        $('#selectModal').modal('show');
+    }
 
         function cancelUpload(inputName) {
             $('input[name="' + inputName + '"]').val(null);
@@ -1230,6 +1413,12 @@
     </script>
 
     <style>
+        .styled-hr {
+            border: 0;
+            height: 2px;
+            background: linear-gradient(to right, #ccc, #333, #ccc);
+        }
+
         .bg-blue {
             background-color: blue;
         }
@@ -1333,6 +1522,12 @@
 
         .custom-width {
             width: 150px;
+            height: 40px;
+            /* Adjust the width as per your requirement */
+        }
+
+        .custom-width-request {
+            width: 200px;
             height: 40px;
             /* Adjust the width as per your requirement */
         }

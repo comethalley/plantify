@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Notifications\NewRequestNotification;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\SupplyType;
@@ -110,12 +110,21 @@ class RequestController extends Controller
                 'letter_content' => $contentLetterPath,
                 'status' => $request->input('status', 'Requested'),
             ]);
+            $admins = User::whereIn('role_id', [1, 2])->get();
 
+            // Notify each admin
+            foreach ($admins as $admin) {
+                $admin->notify(new NewRequestNotification($admin));
+            }
             return response()->json(['success' => true]);
-        } catch (\Exception $e) {
+        } 
+        
+       
+        catch (\Exception $e) {
             Log::error($e);
             return response()->json(['success' => false, 'errors' => ['exception' => [$e->getMessage()]]], 500);
         }
+        
     }
 
     public function getRequestDetails($id)

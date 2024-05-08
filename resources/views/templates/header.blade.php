@@ -465,6 +465,24 @@
                                                         <span><i class="mdi mdi-clock-outline" id="notification-time"></i>{{ $notification->created_at->diffForHumans() }}</span>
                                                     </p>
                                                 </div>
+                                                @elseif ($notification->type === 'App\Notifications\NewRequestNotification')
+                                            <div class="d-flex">
+
+
+                                                <img src="../assets/images/notif/request.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+
+                                                <div class="flex-grow-1">
+                                                    <a href="/requests" class="stretched-link">
+                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">Request Tools and Seedlings</h6>
+                                                    </a>
+                                                    <div class="fs-13 text-muted">
+                                                        <p class="mb-1">{{ $notification->data['message']}}.</p>
+                                                    </div>
+                                                    <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+
+                                                        <span><i class="mdi mdi-clock-outline" id="notification-time"></i>{{ $notification->created_at->diffForHumans() }}</span>
+                                                    </p>
+                                                </div>
                                                 <!-- <div class="px-2 fs-15">
                                                     <div class="form-check notification-check">
                                                         <input class="form-check-input" type="checkbox" value="" id="all-notification-check02">
@@ -495,7 +513,7 @@
                                                             <div class="d-flex">
                                                                 <img src="../assets/images/notif/Message.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
                                                                 <div class="flex-grow-1">
-                                                                    <a href="/chat" class="stretched-link">
+                                                                    <a href="/thread/1" class="stretched-link">
                                                                         <h6 class="mt-0 mb-1 fs-13 fw-semibold">New Message </h6>
                                                                     </a>
                                                                     <div class="fs-13 text-muted">

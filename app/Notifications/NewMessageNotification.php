@@ -10,42 +10,26 @@ use App\Events\NewMessageReceived;
 
 class NewMessageNotification extends Notification
 {
-    use Queueable;
-    public $message;
+    protected $message;
+    protected $threadLink;
 
-    /**
-     * Create a new notification instance.
-     *
-     * @param $reply
-     */
-    public function __construct($message)
+    public function __construct($message, $threadLink)
     {
         $this->message = $message;
+        $this->threadLink = $threadLink;
     }
 
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @param mixed $notifiable
-     * @return array
-     */
     public function via($notifiable)
     {
-        return ['database']; // You can also use other channels like 'mail', 'broadcast', etc.
+        return ['database'];
     }
 
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param mixed $notifiable
-     * @return array
-     */
     public function toDatabase($notifiable)
     {
         return [
-            'message_id' => $this->message->id,
-            'message' => 'You have received a new message.'
-            // Add any other data you want to pass to the notification
+            'message' => $this->message,
+        'thread_link' => $this->threadLink,
+            // Add any other relevant data
         ];
     }
 }

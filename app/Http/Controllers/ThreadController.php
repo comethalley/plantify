@@ -128,8 +128,12 @@ public function storeMessage(Request $request, $threadId)
 $receiver = User::find($receiverId);
 
 // Trigger the notification
-$receiver->notify(new NewMessageNotification($message));
-    // Determine the receiver's user ID
+ // Generate the thread link
+    $threadLink = route('thread.show', ['threadId' => $threadId]);
+
+    // Trigger the notification with the thread link
+    $receiver->notify(new NewMessageNotification($message, $threadLink));
+
     
     $pusher = new Pusher(
         env('PUSHER_APP_KEY'),
@@ -148,7 +152,16 @@ $receiver->notify(new NewMessageNotification($message));
     return response()->json(['success' => true]);
 }
 
+public function show($threadId)
+    {
+        // Fetch the thread or conversation based on the ID
+        $thread = Thread::findOrFail($threadId);
 
+        // Add any additional logic you need here
+
+        // Redirect the user to the thread page
+        return view('pages.thread', compact('thread'));
+    }
 public function deleteMessage($messageId)
 {
     $message = Message::find($messageId);

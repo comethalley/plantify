@@ -356,8 +356,11 @@ document.addEventListener('DOMContentLoaded', function() {
         // Get the table rows
         const rows = table.querySelectorAll('tbody tr');
 
-        // Initialize data array with header row
-        const data = [['Name', 'Email', 'Barangay']];
+        // Initialize data array with title, header, and data rows
+        const data = [
+            ['Pre-Registration Report'], // Title row
+            ['Name', 'Email', 'Barangay'] // Header row
+        ];
 
         // Loop through each row and extract cell data
         rows.forEach(row => {
@@ -375,6 +378,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Convert data array to worksheet
         const worksheet = XLSX.utils.aoa_to_sheet(data);
+
+        // Set column widths to auto
+        const wscols = data[1].map((col, i) => ({ wch: Math.max(...data.slice(1).map(row => row[i].length)) }));
+        worksheet['!cols'] = wscols;
 
         // Add the worksheet to the workbook
         XLSX.utils.book_append_sheet(workbook, worksheet, 'Pre-Registration');
@@ -401,6 +408,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+
+
 document.addEventListener('DOMContentLoaded', function() {
     const downloadBtn = document.getElementById('downloadBtn');
 
@@ -412,12 +421,20 @@ document.addEventListener('DOMContentLoaded', function() {
         // Get the table element
         const table = document.getElementById('attendeesTable1');
 
+        // Get the table header row
+        const headerRow = table.querySelector('thead tr');
+
+        // Initialize data array with header row
+        const headerData = Array.from(headerRow.querySelectorAll('th')).map(th => th.textContent.trim());
+
         // Get the table rows
         const rows = table.querySelectorAll('tbody tr');
 
         // Initialize data array with header row
-        const data = [['Name', 'Email', 'Barangay']];
-
+        const data = [
+            
+            headerData // Include the header row in the data array
+        ];
         // Loop through each row and extract cell data
         rows.forEach(row => {
             const rowData = [];
@@ -434,6 +451,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Convert data array to worksheet
         const worksheet = XLSX.utils.aoa_to_sheet(data);
+
+        // Set column widths to auto
+        const wscols = data[0].map((col, i) => ({ wch: Math.max(...data.map(row => row[i].length)) }));
+        worksheet['!cols'] = wscols;
 
         // Add the worksheet to the workbook
         XLSX.utils.book_append_sheet(workbook, worksheet, 'Registered');
@@ -459,6 +480,8 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.removeChild(link);
     }
 });
+
+
 
 document.addEventListener('DOMContentLoaded', function() {
     const updateStatusBtn = document.getElementById('update-status-btn');

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Event;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -81,10 +82,20 @@ class AttendanceControler extends Controller
     
     
     public function attendanceForm($id) {
-        // Fetch event details based on the $id from the database
         $event = Event::find($id);
-        // Pass the event details to the blade view
-        return view('pages.form', ['event' => $event]);
+    
+    // Fetch user details based on the $id from the database
+    $user = User::find($id);
+
+    // Check if user exists
+    if (!$user) {
+        // Handle the case where user is not found
+        // For example, you can redirect back with an error message
+       
+    }
+
+    // Pass the event and user details to the blade view
+    return view('pages.form', ['event' => $event, 'user' => $user]);
     }
 
 

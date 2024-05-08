@@ -485,8 +485,31 @@
 
 
 
-                                    <div class="tab-pane fade py-2 ps-2" id="messages-tab" role="tabpanel" aria-labelledby="messages-tab">
 
+                                    <div class="tab-pane fade py-2 ps-2" id="messages-tab" role="tabpanel" aria-labelledby="messages-tab">
+                                    @if(auth()->user() && auth()->user()->notifications)
+                                                @foreach (auth()->user()->notifications as $notification)
+                                                    <div class="text-reset notification-item d-block dropdown-item position-relative">
+                                                        @if ($notification->type === 'App\Notifications\NewMessageNotification')
+                                                            <!-- Your existing event notification code -->
+                                                            <div class="d-flex">
+                                                                <img src="../assets/images/notif/Message.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                                                <div class="flex-grow-1">
+                                                                    <a href="/chat" class="stretched-link">
+                                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">New Message </h6>
+                                                                    </a>
+                                                                    <div class="fs-13 text-muted">
+                                                                        <p class="mb-1">You have received a new message.</p>
+                                                                    </div>
+                                                                    <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+                                                                        <span><i class="mdi mdi-clock-outline" id="notification-time"></i>{{ $notification->created_at->diffForHumans() }}</span>
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        @endif
+                                                    </div>
+                                                @endforeach
+                                            @endif
                                     </div>
                                     <div class="tab-pane fade p-4" id="alerts-tab" role="tabpanel" aria-labelledby="alerts-tab"></div>
 
@@ -1047,43 +1070,9 @@
         $('#notificationItemsTabContent').scrollTop($('#notificationItemsTabContent')[0].scrollHeight);
     });
     </script>
-   <script>
-    $(document).ready(function() {
-        function updateNotificationCount() {
-            $.ajax({
-                url: '{{ route("notifications.count") }}',
-                type: 'GET',
-                success: function(data) {
-                    $('#reload-section').text(data.count);
-                    if (data.count > 0) {
-                        $('#reload-section').addClass('bg-danger');
-                    } else {
-                        $('#reload-section').removeClass('bg-danger');
-                    }
-                }
-            });
-        }
+    <script>
 
-        // Call updateNotificationCount on document ready
-        updateNotificationCount();
-
-        // Set up event listener for marking notifications as read
-        $('#markasread').on('click', function() {
-            $.ajax({
-                url: '{{ route("notifications.markAsRead") }}',
-                type: 'GET',
-                success: function() {
-                    updateNotificationCount();
-                }
-            });
-        });
-
-        // Listen for new notifications using Laravel Echo or Pusher
-
-        // Scroll down to the bottom of the notification content
-        $('#notificationItemsTabContent').scrollTop($('#notificationItemsTabContent')[0].scrollHeight);
-    });
-</script>
+    </script>
 
     <div id="google_translate_element"></div>
     <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>

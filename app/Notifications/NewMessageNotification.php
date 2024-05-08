@@ -6,50 +6,46 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use App\Events\NewMessageReceived;
 
 class NewMessageNotification extends Notification
 {
     use Queueable;
+    public $message;
 
     /**
      * Create a new notification instance.
      *
-     * @return void
+     * @param $reply
      */
-    public function __construct()
+    public function __construct($message)
     {
-        //
+        $this->message = $message;
     }
 
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
      * @return array
      */
     public function via($notifiable)
     {
-        return ['database'];
-    }
-
-    public function toDatabase($notifiable)
-    {
-        return [
-            'message' => 'You have received a new message.',
-            'link' => '/chat' // Replace with your actual link
-        ];
+        return ['database']; // You can also use other channels like 'mail', 'broadcast', etc.
     }
 
     /**
      * Get the array representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
      * @return array
      */
-    public function toArray($notifiable)
+    public function toDatabase($notifiable)
     {
         return [
-            //
+            'message_id' => $this->message->id,
+            'message' => 'You have received a new message.'
+            // Add any other data you want to pass to the notification
         ];
     }
 }

@@ -14,6 +14,7 @@ use App\Models\ProfileSettings;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Pusher\Pusher;
+use App\Notifications\NewMessageNotification;
 
 class ThreadController extends Controller
 {
@@ -121,8 +122,15 @@ public function storeMessage(Request $request, $threadId)
             'create_date' => now(),
         ]);
     }
+    $thread = Thread::findOrFail($threadId);
 
-    // Broadcast the message using Pusher
+    $receiverId = $thread->user_id_1 === auth()->user()->id ? $thread->user_id_2 : $thread->user_id_1;
+$receiver = User::find($receiverId);
+
+// Trigger the notification
+$receiver->notify(new NewMessageNotification($message));
+    // Determine the receiver's user ID
+    
     $pusher = new Pusher(
         env('PUSHER_APP_KEY'),
         env('PUSHER_APP_SECRET'),
@@ -134,6 +142,7 @@ public function storeMessage(Request $request, $threadId)
     );
 
     $pusher->trigger('chat-channel', 'new-message', $message);
+ 
 
     // Return a success response
     return response()->json(['success' => true]);

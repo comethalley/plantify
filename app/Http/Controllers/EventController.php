@@ -30,20 +30,22 @@ class EventController extends Controller
     public function generateRegistrationForm($id) {
         // Fetch event details based on the $id from the database
         $event = Event::find($id);
-        // Pass the event details to the blade view
-        return view('pages.form', ['event' => $event]);
+    
+        // Fetch user details based on the $id from the database
+        $user = User::find($id);
+    
+        // Check if user exists
+        if (!$user) {
+            // Handle the case where user is not found
+            // For example, you can redirect back with an error message
+            return redirect()->back()->with('error', 'User not found');
+        }
+    
+        // Pass the event and user details to the blade view
+        return view('pages.form', ['event' => $event, 'user' => $user]);
     
     }
-    public function storeInterested(Request $request, $eventId)
-    {
-        // Get the event
-        $event = Event::findOrFail($eventId);
-        
-        // Store the interest
-        $event->interestedUsers()->attach(auth()->id());
-    
-        return response()->json(['message' => 'Interest stored successfully']);
-    }
+  
     public function show($id)
     {
         $event = Event::findOrFail($id); // Assuming Event is your model representing events

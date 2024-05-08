@@ -124,29 +124,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($completedTasks as $task)
-                            <tr>
-                                <td>#{{ $task->id }}</td>
-                                <td>{{ $task->title }}</td>
-                                <td class="description" style="max-width: 100px; overflow: hidden; text-overflow: ellipsis;" title="{{ $task->description }}">
-                                    {{ $task->description }}
-                                </td>
-                                <td class="user_id">
-                                    @if ($task->user)
-                                    {{ $task->user->firstname }} {{ $task->user->lastname }}
-                                    @else
-
-                                    @endif
-                                </td>
-                                <td>
-                                    <span class="priority priority-<?php echo strtolower($task->priority); ?>"><?php echo $task->priority; ?></span>
-                                </td>
-                                <td>
-                                    <span class="badge badge-<?php echo strtolower($task->status); ?>"><?php echo $task->status; ?></span>
-                                </td>
-                                <td>{{ $task->completed_at }}</td>
-                            </tr>
-                            @endforeach
                         </tbody>
                     </table>
                 </div>

@@ -14,7 +14,7 @@
     <div class="main-content">
         <div class="page-content" style="padding-bottom: 20px;">
             <form id="searchForm" method="GET" action="{{ route('pages.search_results') }}">
-                <div class="mb-0" style="display: flex; justify-content: center;">
+                <div class="mb-3" style="display: flex; justify-content: center;">
                     <input required type="text" id="searchInput" name="searchTerm" class="form-control form-control-lg bg-white border-white" placeholder="Search here.." style="font-size: 13px; width: 600px; border-radius:20px;  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1); ">
                 </div>
             </form>
@@ -24,69 +24,20 @@
 
             </div>
 
-
-        </div>
-    </div>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const searchInput = document.getElementById('searchInput');
-            const searchForm = document.getElementById('searchForm');
-            const searchResults = document.getElementById('searchResults');
-
-            searchInput.addEventListener('input', function() {
-                const searchTerm = searchInput.value.trim();
-                if (searchTerm.length === 0) {
-                    searchResults.innerHTML = ''; // Clear search results if input is empty
-                    return;
-                }
-                fetch(`/search?searchTerm=${encodeURIComponent(searchTerm)}`)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        if (data.length === 0) {
-                            searchResults.innerHTML = '<div style="margin-top:7px; font-weight:bold; font-size:14px;  text-align:center;" class="notFound">No results found.</div>';
-                        } else {
-                            let html = '';
-                            data.forEach(item => {
-                                html += `<div style="border-radius:13px;  max-width: 600px; margin:0; padding:10px; font-family: Poppins, sans-serif; font-size: 13px; cursor: pointer;" class="searchResultItem" onmouseover="this.style.backgroundColor='lightgray'" onmouseout="this.style.backgroundColor=''">${item}</div>`;
-                            });
-                            searchResults.innerHTML = html;
-                            // Add event listener to clickable search results
-                            document.querySelectorAll('.searchResultItem').forEach(item => {
-                                item.addEventListener('click', function() {
-                                    const searchTerm = item.innerText.trim();
-                                    window.location.href = "{{ route('pages.search_results') }}" + "?searchTerm=" + encodeURIComponent(searchTerm);
-                                });
-                            });
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error fetching search results:', error);
-                    });
-            });
-
-            // Prevent default form submission
-            searchForm.addEventListener('submit', function(event) {
-                event.preventDefault();
-            });
-        });
-    </script>
-
-
-    <div style="display:flex;justify-content:center;">
-        <div class="main-content">
-            <div class=" page-content" style="padding:0;">
-                <div class="row" style="width: 600px; margin-left:1px; border-radius:20px;">
-                    <div class=" card" style="border-radius:13px;  margin-bottom:20px; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1); ">
+            <div class="card" style="border-radius:13px; margin-bottom:20px; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1); max-width: 600px; width: 100%; margin: 0 auto;">
                         <div class="card-body">
                             <div class="mt-0 " style="display: flex;">
                                 <div style="display: inline-flex; align-items: center; ">
-                                    <img src="/assets/images/plantifeedpics/rounded.png" alt="Image Description" class="object-cover rounded-full" style="width: 40px; height: 40px; margin-right: 8px;">
-                                    <button type="button" class="btn btn-primary" style="width: 507px; border:0;border-radius:20px; text-align:left;background-color:#E6E6E6; color:black;" data-bs-toggle="modal" data-bs-target="#myModal">Ask and share your story!</button>
+                                @if($profileSettings->profile_image)
+                            <img style="width:40px; height:40px; padding: 2px; border: 3px solid #006400;" src="{{ asset('storage/images/' . $profileSettings->profile_image) }}" alt="Profile Image" class="rounded-circle avatar-xl img-thumbnail user-profile-image">
+                            @else
+                            <div class="avatar-lg">
+                                <img style="padding: 2px; border: 3px solid #006400;" src="assets/images/plantifeedpics/profile-default.png" alt="user-img" class="img-thumbnail rounded-circle">
+                            </div>
+
+                            @endif
+                                   <button type="button" class="btn btn-primary" style="width: 100%; max-width: 400px; border:0;border-radius:20px; text-align:left;background-color:#E6E6E6; color:black;" data-bs-toggle="modal" data-bs-target="#myModal">Ask and share your story!</button>
+
                                     <div id="myModal" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
                                         <div class="modal-dialog">
                                             <div class="modal-content" style="width: 600px; height:500px;">
@@ -292,23 +243,29 @@
                                 </div>
                             </div>
                         </div>
+                    </div>    
+
+
+
+
+                    
+                  
+
+         
+
+
+
+
+
+                    <div style="margin-top:20px;" id="post" >
+
                     </div>
-                </div>
-
-
-
-
-                <div class="grid-card" style=" display: flex; flex-direction:column; width: 600px; row-gap:20px;">
-
-                    <div id="post">
-
-                    </div>
 
 
 
 
 
-                    <div>
+                    <div class=" card" style="border-radius:13px;  margin-bottom:20px; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1); ">
 
                         @foreach($posts as $post)
                         <div style="margin-bottom:20px;  display:grid; background-color:white; padding:30px; border-radius:13px; position: relative; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);">
@@ -620,6 +577,58 @@
                     </div>
 
                 </div>
+
+
+                <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const searchInput = document.getElementById('searchInput');
+            const searchForm = document.getElementById('searchForm');
+            const searchResults = document.getElementById('searchResults');
+
+            searchInput.addEventListener('input', function() {
+                const searchTerm = searchInput.value.trim();
+                if (searchTerm.length === 0) {
+                    searchResults.innerHTML = ''; // Clear search results if input is empty
+                    return;
+                }
+                fetch(`/search?searchTerm=${encodeURIComponent(searchTerm)}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.length === 0) {
+                            searchResults.innerHTML = '<div style="margin-top:7px; font-weight:bold; font-size:14px;  text-align:center;" class="notFound">No results found.</div>';
+                        } else {
+                            let html = '';
+                            data.forEach(item => {
+                                html += `<div style="border-radius:13px;  max-width: 600px; margin:0; padding:10px; font-family: Poppins, sans-serif; font-size: 13px; cursor: pointer;" class="searchResultItem" onmouseover="this.style.backgroundColor='lightgray'" onmouseout="this.style.backgroundColor=''">${item}</div>`;
+                            });
+                            searchResults.innerHTML = html;
+                            // Add event listener to clickable search results
+                            document.querySelectorAll('.searchResultItem').forEach(item => {
+                                item.addEventListener('click', function() {
+                                    const searchTerm = item.innerText.trim();
+                                    window.location.href = "{{ route('pages.search_results') }}" + "?searchTerm=" + encodeURIComponent(searchTerm);
+                                });
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching search results:', error);
+                    });
+            });
+
+            // Prevent default form submission
+            searchForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+            });
+        });
+    </script>
+
+
 
 
                 <script>

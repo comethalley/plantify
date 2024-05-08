@@ -9,7 +9,6 @@
     padding: 0;
     box-sizing: border-box;
     font-family: "Poppins", sans-serif;
-  
 }
 body {
     display: flex;
@@ -18,11 +17,10 @@ body {
     min-width: 1000px;
     background: var(--primary-color);
     background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-        url("../weather-icon/images/cd.jpg");
+        url("../weather-icon/images/pc.jpg");
     background-size: cover;
     background-position: center;
     transition: background-image 0.3s ease;
- 
 }
 img {
     /* width: 100%; */
@@ -34,6 +32,8 @@ img {
     border-radius: 20px;
     overflow: hidden;
     height: 100%;
+    transform: translateY(-100px);
+    transform: translateY(-20px);
 }
 .sidebar {
     width: 30%;
@@ -45,65 +45,6 @@ img {
     justify-content: space-between;
 }
 
-.search {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 30px;
-    margin-top: 20px;
-    position: relative;
-}
-.search input {
-    width: 100%;
-    height: 40px;
-    border: 1px solid #ced4da;
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-    padding: 0 15px;
-    font-size: 14px;
-    color: #495057;
-}
-.search input:focus {
-    outline: none;
-    border: 1px solid var(--primary-color);
-}
-.search button {
-    min-width: 40px;
-    height: 40px;
-    border: none;
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
-    background: var(--primary-color);
-    color: #fff;
-    font-size: 14px;
-    cursor: pointer;
-}
-.search ul {
-    max-height: 300px;
-    overflow-y: auto;
-    position: absolute;
-    width: 100%;
-    top: 40px;
-    border-radius: 5px;
-    transition: all 0.3s ease;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
-}
-.search ul li {
-    padding: 10px 15px;
-    border-bottom: 1px solid #f1f1f1;
-    cursor: pointer;
-    text-transform: capitalize;
-}
-.search ul li:last-child {
-    border-bottom: none;
-}
-.search ul li:hover {
-    background-color: #f1f1f1;
-}
-.search ul li.active {
-    background-color: #f1f1f1;
-}
 .weather-icon {
     width: 100%;
     height: 150px;
@@ -126,6 +67,20 @@ img {
 .temperature span {
     font-size: 40px;
     margin-top: -10px;
+    display: block;
+}
+
+.feels-like {
+    display: flex;
+}
+.feels-like #feels-like{
+    font-size: 25px;
+    font-weight: 100;
+    line-height: 1;
+}
+.feels-like span{
+    font-size: 15px;
+    margin-top: -5px;
     display: block;
 }
 .divider {
@@ -246,7 +201,9 @@ img {
 }
 
 .card2 {
-    width: calc(33.333% - 40px); /* Subtract the total space taken by two gaps (20px each) */
+    width: calc(
+        33.333% - 40px
+    ); /* Subtract the total space taken by two gaps (20px each) */
     height: 150px;
     border-radius: 20px;
     color: #1a1a1a;
@@ -283,48 +240,51 @@ img {
     transform: translateX(-50%);
 }
 
-
 /* Mobile Styles */
-@media (max-width: 768px) { /* Adjust to your breakpoint preference */
+@media (max-width: 400px) {
+    /* Adjust to your breakpoint preference */
     .wrapper {
         flex-direction: column;
-        width: auto;
-        min-width: 0;
+        width: 70%;
+        min-width: 90%;
+
     }
     .sidebar,
     .main {
-        width: 100%;
+        width: 80%;
         min-width: 0;
-        max-width: 100%;
-        padding: 15px;
+        max-width: 47%;
+        padding: 50px;
+        border-radius: 20px;
+
     }
     .main .cards,
     .highlights .cards {
         justify-content: center;
+        width: 100%;
     }
     .card,
     .card2 {
-        width: calc(100% - 40px); /* Full width minus padding for small screens */
-        margin-bottom: 20px;
+        width: calc(
+            80% - 40px
+        ); /* Full width minus padding for small screens */
+        margin-bottom: 50px;
     }
-    .search input,
-    .search button {
-        width: 100%;
-    }
-    .search ul {
-        width: calc(100% - 30px); /* Full width minus padding for search results */
-        left: 15px; /* Align with the padding of the search input */
-    }
+  
     .weather-icon #icon,
     img {
         width: auto;
-        max-width: 100%;
+        max-width: 60%;
         height: auto;
     }
     .condition-rain div i,
     .location i {
         width: auto;
-        max-width: 100%;
+        max-width: 50%;
+    }
+    body {
+        background-size: 100% auto;
+        overflow-x: hidden;
     }
     /* Adjust font sizes and other properties as needed for smaller screens */
 }
@@ -336,10 +296,10 @@ img {
     background-color: white;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     z-index: 100; /* Ensure modal is above other content */
-  }
-  .sunrise-icon {
+}
+.sunrise-icon {
     width: 20px;
     height: 20px;
-  }  
+}

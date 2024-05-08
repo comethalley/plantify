@@ -9,7 +9,7 @@ use App\Models\Comment;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-
+use App\Models\ProfileSettings;
 use Illuminate\Validation\Rule;
 use App\Events\MyEvent;
 use Pusher\Pusher;
@@ -19,6 +19,7 @@ class ForumController extends Controller
     public function index()
     {
         $comments = Comment::all();
+        $profileSettings = ProfileSettings::where('user_id', auth()->id())->first();
 
         $questions = DB::table('forums')
             ->leftJoin('users', 'users.id', '=', 'forums.user_id')
@@ -33,7 +34,8 @@ class ForumController extends Controller
 
             ->get();
 
-        return view('pages.forum', compact('questions', 'posts', 'comments'));
+        return view('pages.forum', compact('questions', 'posts', 'comments','profileSettings'));
+        
     }
 
 

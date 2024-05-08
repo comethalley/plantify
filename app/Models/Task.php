@@ -10,7 +10,7 @@ use Illuminate\Notifications\Notifiable;
 class Task extends Model
 {
     use Notifiable;
-    protected $fillable = ['title', 'description', 'priority', 'due_date','status', 'completed', 'completed_at', 'user_id','archived','archived_at'];
+    protected $fillable = ['title', 'description', 'priority', 'due_date','status', 'completed', 'completed_at', 'user_id','archived','archived_at','image'];
     protected $dates = ['due_date']; // Cast due_date attribute to a date
     
     public function user()                                                        

@@ -13,14 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('tools', function (Blueprint $table) {
+        Schema::create('remarkrequests', function (Blueprint $table) {
             $table->id();
-            $table->string('farm_name');
-            $table->string('farm_leader');
-            $table->string('address');
-            $table->string('borrow_tool');
-            $table->string('status');
-            $table->binary('request_letter');
+            $table->bigInteger('request_id');
+            $table->string('remarks')->nullable();
+            $table->string('remark_status');
+            $table->string('validated_by');
+            $table->date('select_picked')->nullable();
             $table->timestamps();
         });
     }
@@ -32,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tools');
+        Schema::dropIfExists('remarkrequest');
     }
 };

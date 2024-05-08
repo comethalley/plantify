@@ -24,6 +24,10 @@ use App\Http\Controllers\Api\FarmController;
 use App\Http\Controllers\EmailVerification;
 use App\Http\Controllers\PiuController;
 use App\Http\Controllers\AnalyticsController;
+use App\Http\Controllers\RequestController;
+use App\Http\Controllers\ToolController;
+use App\Http\Controllers\ProfilefeedController;
+use App\Http\Controllers\ProfileSettingsController;
 use App\Http\Requests\PdfRequest;
 use Endroid\QrCode\Writer\Result\PdfResult;
 use Illuminate\Http\Request;
@@ -34,9 +38,8 @@ use App\Http\Controllers\SendMessageController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ReportController;
-
-
-
+use App\Http\Controllers\AttendanceControler;
+use Illuminate\Support\Facades\Artisan;
 
 /*
 |--------------------------------------------------------------------------
@@ -101,6 +104,7 @@ Route::get('/get-fertilizer', [InventoryController::class, 'getFertilizer']);
 Route::post('/edit-fertilizer/{id}', [InventoryController::class, 'updateFertilizer']);
 Route::post('/archive-fertilizer/{id}', [InventoryController::class, 'archiveFertilizer']);
 Route::get('/inventory/tools', [InventoryController::class, 'tools']);
+Route::post('/archiveSeed/{id}', [InventoryController::class, 'archiveSeed']);
 Route::get('/send-message', [SendMessageController::class, 'index']);
 
 
@@ -138,11 +142,26 @@ Route::put('/edit-question/{id}', [ForumController::class, 'editQuestion'])->nam
 Route::post('/edit-post/{id}', [PostController::class, 'editPost']);
 Route::put('/edit-post/{id}', [PostController::class, 'editPost'])->name('editPost');
 
-Route::get('/profilefeed', [UserPhotoController::class, 'index']);
-Route::get('pages/profilefeed', [UserPhotoController::class, 'index'])->name('profile');
 
-// Route for updating profile information
-Route::post('/update-profile', [UserPhotoController::class, 'updateProfile'])->name('update.profile');
+
+// Route for profile
+
+
+
+Route::get('/profile-feed', [ProfilefeedController::class, 'show'])->name('profile-feed');
+
+Route::get('/profilesettings', [ProfileSettingsController::class, 'show'])->name('profilesettings');
+
+Route::post('/upload-image', [ProfileSettingsController::class, 'uploadImage'])->name('upload-image');
+
+Route::put('/profile/update', [ProfileSettingsController::class, 'updateProfile'])->name('profile.update');
+
+Route::middleware(['auth'])->group(function () {
+    Route::post('/profile/update-password', [ProfileSettingsController::class, 'updatePassword'])
+        ->name('profile.updatePassword');
+});
+
+Route::post('/save-profile-info', [ProfileSettingsController::class, 'saveOrUpdate'])->name('save.profile.info');
 
 
 // routes/web.php
@@ -169,14 +188,14 @@ Route::get('/search-users', [ChatController::class, 'searchUsers']);
 Route::get('/threads/{threadId}/messages', [ThreadController::class, 'fetchMessages']);
 
 // Group Chats
-Route::get('/groups', [GroupController::class, 'index'])->name('groups.index');
-Route::get('/groups/{groupId}', [GroupController::class, 'show'])->name('groups.show'); // Make the farmId parameter optional
-Route::post('/groups/{group}/join', [GroupController::class, 'join'])->name('groups.join');
-Route::get('/groups/create', [GroupController::class, 'create'])->name('groups.create');
-Route::post('/store-group-message/{groupId}', [GroupController::class, 'storeGroupMessage'])->name('store.group.message');
-Route::delete('/delete-group-message/{messageId}', [GroupController::class, 'deleteMessage'])->name('delete.group.message');
-Route::post('/mark-group-messages-as-read/{groupId}', [GroupController::class, 'markGroupMessagesAsRead']);
-Route::get('/fetch-messages/{groupId}', [GroupController::class, 'fetchMessages'])->name('fetch.messages');
+// Route::get('/groups', [GroupController::class, 'index'])->name('groups.index');
+// Route::get('/groups/{groupId}', [GroupController::class, 'show'])->name('groups.show'); // Make the farmId parameter optional
+// Route::post('/groups/{group}/join', [GroupController::class, 'join'])->name('groups.join');
+// Route::get('/groups/create', [GroupController::class, 'create'])->name('groups.create');
+// Route::post('/store-group-message/{groupId}', [GroupController::class, 'storeGroupMessage'])->name('store.group.message');
+// Route::delete('/delete-group-message/{messageId}', [GroupController::class, 'deleteMessage'])->name('delete.group.message');
+// Route::post('/mark-group-messages-as-read/{groupId}', [GroupController::class, 'markGroupMessagesAsRead']);
+// Route::get('/fetch-messages/{groupId}', [GroupController::class, 'fetchMessages'])->name('fetch.messages');
 
 Route::get('/weather', [WeatherController::class, 'index']);
 Route::get('/pastweather', [WeatherController::class, 'pastweather']);
@@ -197,6 +216,10 @@ Route::post('/archiveFL/{id}', [AuthController::class, 'archiveFarmLeader']);
 Route::get('/users/farmers', [AuthController::class, 'getFarmers']);
 
 Route::post('/addFarmers', [AuthController::class, 'createFarmers']);
+Route::get('/users/archived', [AuthController::class, 'getArchived']);
+Route::get('/getAllArchiveUsers', [AuthController::class, 'getAllArchiveUsers']);
+Route::get('/getUsers/{id}', [AuthController::class, 'viewUsers']);
+Route::post('/restoreUser/{id}', [AuthController::class, 'restoreUser']);
 
 Route::get('/farm_locations', [qcmaps::class, 'index']);
 Route::get('/get_maps', [qcmaps::class, 'getMaps']);
@@ -215,9 +238,25 @@ Route::put('/scheduleupdate/{id}', [EventController::class, 'update']);
 Route::get('/events/{id}', [EventController::class, 'show']);
 Route::get('/events/search', [EventController::class, 'search']);
 Route::get('/upcomingevent', [EventController::class, 'notifyUpcomingEvents']);
-
+Route::get('/events/{eventId}/interested', [EventController::class, 'storeInterested']);
 Route::view('add-schedule', 'pages.add');
 Route::post('create-schedule', [EventController::class, 'create']);
+Route::get('/events/calendar', [EventController::class, 'getCalendarEvents'])->name('events.calendar');
+
+
+//FOR attendance ROUTES===========================================
+
+Route::get('/attendance', [AttendanceControler::class, 'index']);
+Route::get('/attendees', [AttendanceControler::class, 'attendees'])->name('event.details');
+Route::post('/event/attendance/submit/{event_id}', [AttendanceControler::class, 'submit'])->name('register');
+Route::get('/event/{eventId}/attendance', [AttendanceControler::class, 'showAttendanceList']);
+Route::get('/event/form/{id}', [AttendanceControler::class, 'attendanceForm'])->name('event.attendance.form');
+Route::put('/change-attendee-status/{id}', [AttendanceControler::class, 'changeStatus']);
+
+
+Route::get('/fetch-attendees/{event_id}', [AttendanceControler::class, 'fetchAttendees']);
+
+Route::get('/attendees/filterByStatus', [AttendanceController::class, 'filterBystatus']);
 // End Full Calender=================================================================
 
 Route::get('/plantcalendar', [PlantCalendar::class, 'index']);
@@ -231,6 +270,8 @@ Route::get('/calendar_list', [PlantCalendar::class, 'calendar_list']);
 
 Route::view('add-plantcalendar', 'pages.add');
 Route::post('create-plantcalendar', [PlantCalendar::class, 'create']);
+
+
 
 //FOR PLANT INFO ROUTES===========================================
 Route::get('/plant-info', [PlantInfoController::class, 'index']);
@@ -256,16 +297,15 @@ Route::post('/fertarchive/{id}', [PlantInfoController::class, 'fertarchive']);
 //For farm management =======================================================
 
 //index farm-mamangement//
-Route::get('/Tools-District-5', [FarmController::class, 'index1']);
-Route::get('/Farms-District-5', [FarmController::class, 'index']);
-Route::post('/add-farms', [FarmController::class, 'addFarms'])->name('add.farms');
-Route::get('/archive-farm/{id}', [FarmController::class, 'archiveFarm'])->name('archive.farm');
+// Route::get('/Farms-District-5', [FarmController::class, 'index']);
+// Route::post('/add-farms', [FarmController::class, 'addFarms'])->name('add.farms');
+// Route::get('/archive-farm/{id}', [FarmController::class, 'archiveFarm'])->name('archive.farm');
 
 //view farm-management//
-Route::get('/Farm-Management-High', [FarmController::class, 'viewFarms'])->name('farms.view');
-Route::get('/Farm-Management', [FarmController::class, 'viewFarms3'])->name('farms.view3');
-Route::get('/farms/filterByStatus', [FarmController::class, 'filterByStatus']);
-Route::post('/update-status/{id}', [FarmController::class, 'updateStatus'])->name('update.status');
+// Route::get('/Farm-Management-High', [FarmController::class, 'viewFarms'])->name('farms.view');
+// Route::get('/Farm-Management', [FarmController::class, 'viewFarms3'])->name('farms.view3');
+// Route::get('/farms/filterByStatus', [FarmController::class, 'filterByStatus']);
+// Route::post('/update-status/{id}', [FarmController::class, 'updateStatus'])->name('update.status');
 
 
 //view pdf/img farm-management//
@@ -275,12 +315,12 @@ Route::post('/update-status/{id}', [FarmController::class, 'updateStatus'])->nam
 // Route::get('/view-image2/{id}', [FarmController::class, 'viewImage2'])->name('view.image');
 
 //xfarms farm-management//
-Route::get('/view-archivefarms', [FarmController::class, 'viewArchiveFarms'])->name('archivefarms.xfarms');
-Route::get('/farms/filterByStatus1', [FarmController::class, 'filterByStatus1']);
-Route::get('/farm/{id}/details', [FarmController::class, 'getFarmDetails']);
-Route::post('/update-farm-status-cancel/{id}', [FarmController::class, 'updateStatusCancel']);
-Route::post('/update-farms/{id}', [FarmController::class, 'updateFarm'])->name('farms.update');
-Route::post('/set-date-farm/{id}', [FarmController::class, 'SetDateStatus'])->name('set.date.farm');
+// Route::get('/view-archivefarms', [FarmController::class, 'viewArchiveFarms'])->name('archivefarms.xfarms');
+// Route::get('/farms/filterByStatus1', [FarmController::class, 'filterByStatus1']);
+// Route::get('/farm/{id}/details', [FarmController::class, 'getFarmDetails']);
+// Route::post('/update-farm-status-cancel/{id}', [FarmController::class, 'updateStatusCancel']);
+// Route::post('/update-farms/{id}', [FarmController::class, 'updateFarm'])->name('farms.update');
+// Route::post('/set-date-farm/{id}', [FarmController::class, 'SetDateStatus'])->name('set.date.farm');
 
 
 
@@ -289,9 +329,7 @@ Route::post('/set-date-farm/{id}', [FarmController::class, 'SetDateStatus'])->na
 //TASK MANAGEMENT ============================================================================
 Route::get('/tasks', [TaskController::class, 'index'])->name('tasks.monitoring');
 Route::post('/tasks/store', [TaskController::class, 'store'])->name('tasks.store');
-Route::get('/tasks/{task}/edit', [TaskController::class, 'edit'])->name('tasks.edit');
 Route::post('/tasks/{task}', [TaskController::class, 'update']);
-Route::delete('/tasks/{task}', [TaskController::class, 'destroy'])->name('tasks.destroy');
 Route::post('/tasks/{task}/complete', [TaskController::class, 'complete'])->name('tasks.complete');
 Route::get('taskshow', [TaskController::class, 'showCompleted'])->name('taskshow');
 Route::get('/missingtasks', [TaskController::class, 'missingTasks']);
@@ -300,6 +338,8 @@ Route::get('/task/filterByStatus', [TaskController::class, 'filterBystatus']);
 Route::post('/tasks/{task}/archive', [TaskController::class, 'archive'])->name('tasks.archive');
 Route::get('/archived', [TaskController::class, 'showArchived'])->name('archived');
 Route::post('/tasks/{task}/restore', [TaskController::class, 'restore'])->name('tasks.restore');
+
+
 //============================================================================================
 
 //EXPENSES MANAGEMENT ====================================================================================
@@ -313,8 +353,33 @@ Route::get('/expenses/get-expenses-by-category', [ExpenseController::class, 'get
 // Route::get('/expenses', [ExpenseController::class, 'getExpenses']);
 //===========================================================================================================
 
+// TOOL REQUEST ======================================================================
+
+Route::get('/Tools-District-5', [RequestController::class, 'index1']);
+Route::post('/add-tools', [RequestController::class, 'addTools'])->name('add.tools');
+Route::get('/request/{id}/details', [RequestController::class, 'getRequestDetails']);
+Route::get('/view-pdf/{id}/{title?}', [RequestController::class, 'viewPdfRequest'])->name('view.pdf');
+
+
+Route::get('/requests', [ToolController::class, 'index']);
+Route::get('/getLetterContent', [ToolController::class, 'getLetterContent']);
+Route::post('/updateStatus', [ToolController::class, 'updateStatus']);
+Route::get('/availableList', [ToolController::class, 'availableList']);
+Route::get('/approvedList', [ToolController::class, 'approvedList']);
+Route::get('/pickedList', [ToolController::class, 'pickedList']);
+Route::get('/returnList', [ToolController::class, 'returnList']);
+Route::post('/set-picking-date', [ToolController::class, 'setPickingDate']);
+Route::post('/set-return-date', [ToolController::class, 'setReturnDate']);
+
+
+// ===================================================================================
+
+
+
 //Email Verification ===================================================
 Route::get('/verify-email', [EmailVerification::class, 'emailVerification']);
+Route::get('/verification-code', [EmailVerification::class, 'publicEmailVerification']);
+Route::post('/verification-confirm/{id}', [EmailVerification::class, 'publicEmailConfirm']);
 Route::get('/empty-code/{id}', [EmailVerification::class, 'emptyCode']);
 Route::get('/resend-code/{id}', [EmailVerification::class, 'resendCode']);
 Route::post('/confirm-code/{id}', [EmailVerification::class, 'verifyEmail']);
@@ -364,3 +429,7 @@ Route::get('/getPost', [ForumController::class, 'getPost']);
 Route::get('/getComment/{num}', [CommentController::class, 'getComment']);
 Route::get('/getReply/{num}', [CommentController::class, 'getReply']);
 Route::post('/reply/store', [CommentController::class, 'createReply']);
+
+Route::get('/linkstorage', function () {
+    Artisan::call('storage:link');
+});

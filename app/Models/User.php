@@ -67,6 +67,10 @@ public function farm()
 {
     return $this->hasOne(Farm::class, 'farm_leader');
 }
+public function farms()
+{
+    return $this->hasMany(Farm::class, 'farm_leader', 'id');
+}
 public function tasks()
 {
     return $this->hasMany(Task::class);
@@ -81,5 +85,8 @@ public function groupMembers()
     {
         return $this->belongsToMany(Group::class, 'group_members', 'user_id', 'group_id');
     }
-
+    public function interests()
+    {
+        return $this->hasMany(Interest::class);
+    }
 }

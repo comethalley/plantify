@@ -14,5 +14,11 @@ class FarmLocation extends Model
         "longitude",
         "location_name",
         "address",
+        "status",
     ];
+    public function farmLeader()
+    {
+        // Assuming 'farm_leader' is the foreign key in the farm_locations table
+        return $this->belongsTo(User::class, 'id');
+    }
 }

@@ -127,6 +127,21 @@ $(document).ready(function () {
         var supplierAddress = $("#supplier-address").val();
         var supplierContact = $("#supplier-contact").val();
         var supplierEmail = $("#supplier-email").val();
+          // Function to validate the contact number
+          function validateContact(contact) {
+            var contactRegex = /^\d{11}$/; // Allows only 11 digits
+            return contactRegex.test(contact);
+        }
+
+        // Validate contact number
+        if (!validateContact(supplierContact)) {
+            Swal.fire({
+                title: "Validation Error",
+                text: "Contact number should contain exactly 11 digits.",
+                icon: "error",
+            });
+            return; // Stop further execution
+        }
 
         $.ajax({
             url: "/add-supplier",
@@ -145,7 +160,9 @@ $(document).ready(function () {
                 $("#showModal").modal("hide");
                 Swal.fire({
                     title: "Successfully Supplier Added",
-                    text: "Are you ready for the next level?",
+
+                    // text: "Are you ready for the next level?",
+
                     icon: "success",
                 });
                 console.log(data);
@@ -187,7 +204,9 @@ $(document).ready(function () {
                 $("#editModal").modal("hide");
                 Swal.fire({
                     title: "Successfully Updated",
-                    text: "Are you ready for the next level?",
+
+                    // text: "Are you ready for the next level?",
+
                     icon: "success",
                 });
 
@@ -218,7 +237,9 @@ $(document).ready(function () {
                 $("#archiveModal").modal("hide");
                 Swal.fire({
                     title: "Successfully Archive",
-                    text: "Are you ready for the next level?",
+
+                    // text: "Are you ready for the next level?",
+
                     icon: "success",
                 });
                 console.log(data);
@@ -238,16 +259,18 @@ $(document).ready(function () {
     function addSeedSupplier() {
         var supplier_id = $("#supplier-id").val();
         var seedID = $("#seed").val();
-        var uomID = $("#uom").val();
         var quantity = $("#qty").val();
+
+        var type = $('#seed_type').val();
     
         // Create a FormData object to handle file uploads
         var formData = new FormData();
         formData.append('image', $('#image')[0].files[0]); // Append the image file
         formData.append('supplier_id', supplier_id);
         formData.append('seed_id', seedID);
-        formData.append('uom_id', uomID);
         formData.append('quantity', quantity);
+        formData.append('type', type);
+
     
         $.ajax({
             url: "/add-seed",
@@ -265,7 +288,7 @@ $(document).ready(function () {
                 $("#seed").val(0);
                 $("#uom").val(0);
                 $("#qty").val(0);
-    
+
                 if (xhr.status === 200) {
                     getSupplier(supplier_id);
                 } else if (xhr.status === 404) {
@@ -473,5 +496,74 @@ $(document).ready(function () {
         voidItem();
     });
 
-  
+    $("#no_camera").on("click", function () {
+        console.log("void-btn is clicked");
+
+        stopScanner()
+        $('#preview').hide()
+        $('.manual-form').show()
+        var Kalabasa = "Kalabasa";
+        getPrediction(1,1,1,1,Kalabasa)
+    });
+
+    function getPrediction() {
+
+        $.ajax({
+            url: "http://localhost/cropsprediction/?planted_quantity=20&temperature=30&humidity=60&precipitation=10&crop_name=Kalabasa",
+            method: "GET",
+            success: function(data) {
+                Swal.fire({
+                    title: "Predicted Data",
+                    text: data,
+                    icon: "success"
+                });
+            },
+            error: function(xhr, status, error) {
+                console.error("Error:", status, error);
+                var errorMessage = xhr.responseJSON.message; // Assuming error response contains a 'message' property
+                Swal.fire({
+                    title: "There is an error processing your request",
+                    text: errorMessage,
+                    icon: "error",
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+            },
+        });
+    }
+    
+
+    $(".manual_submit").on("click", function () {
+        console.log("manual_submit is clicked");
+        var qrcode = $('#manual-code').val()
+        var multiplier = $('#multiple-receive').val()
+
+        $.ajax({
+                url: "/add-stock",
+                method: "POST",
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                        "content"
+                    ),
+                },
+                data: {
+                    qrcode: qrcode,
+                    multiplier: multiplier,
+                },
+                success: function (data) {
+                    getStocksList();
+                    Swal.fire({
+                        title: "Successfully Added",
+                        text: "Item has been added to inventory",
+                        icon: "success",
+                        showConfirmButton: false,
+                        timer: 2000,
+                    });
+                    location.reload()
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error:", status, error);
+                },
+            });
+    });
 });

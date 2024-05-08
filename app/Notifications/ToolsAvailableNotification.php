@@ -10,24 +10,23 @@ use Illuminate\Notifications\Notification;
 class ToolsAvailableNotification extends Notification
 {
     use Queueable;
-    protected $admin;
+    protected $requestItem;
 
-
-    public function __construct($request)
+    public function __construct($requestItem)
     {
-        $this->request = $request;
+        $this->requestItem = $requestItem;
     }
+
     public function via($notifiable)
     {
         return ['database'];
     }
 
-    // Define the notification message and any additional data
-    public function toArray($notifiable)
+    public function toDatabase($notifiable)
     {
         return [
-            'message' => 'The tools you requested are now available.',
-            // Add any additional data you want to include in the notification
+            'request_id' => $this->requestItem->id,
+            'message' => 'The status of your request has been updated to ' . $this->requestItem->status,
         ];
     }
    

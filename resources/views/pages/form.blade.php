@@ -159,12 +159,12 @@
                 <div class="card-body">
                     <div class="card-title-container justify-text-center">
                         <h1 class="card-title text-center text-justify custom-title" style="font-size: 1.3rem; margin-bottom: 15px;"><strong>Pre-Registration Form</strong></h1>
-                        <h5 class="card-title text-center mb-2"><strong>Event Name: {{ $event->title }}{{ $user->password }}</strong></h5>
+                        <h5 class="card-title text-center mb-2"><strong>Event Name: {{ $event->title }}</strong></h5>
                         <p class="card-text text-center mb-2"><strong>Date: {{ date('F j, Y', strtotime($event->start)) }} to {{ date('F j, Y', strtotime($event->end)) }}</strong></p>
                         <p class="card-text text-center" style="border-bottom: 1px solid #000;"><strong>{{ date('g:i A', strtotime($event->starttime)) }} to {{ date('g:i A', strtotime($event->endtime)) }}</strong></p>
                         <hr>
 
-                        <form action="{{ route('register', ['event_id' => $event->id]) }}" method="POST">
+                        <form action="{{ route('register', ['event_id' => $event->id, 'user_id' => $user->id]) }}" method="POST">
                             @csrf
                             <div class="live-preview">
                                 <div class="row gy-4">
@@ -173,13 +173,13 @@
                                             <div class="col">
                                                 <div>
                                                     <label for="firstName" class="form-label">First Name</label>
-                                                    <input type="text" class="form-control" id="firstName" name="first_name" placeholder="First Name" value= "{{ $user->last_name ?? '' }}"required>
+                                                    <input type="text" class="form-control" id="firstName" name="first_name" value="{{ $user->firstname }}" placeholder="First Name" required>
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div>
                                                     <label for="lastName" class="form-label">Last Name</label>
-                                                    <input type="text" class="form-control" id="lastName" name="last_name" placeholder="Last Name" required>
+                                                    <input type="text" class="form-control" id="lastName" name="last_name" value="{{ $user->lastname }}" placeholder="Last Name"  required>
                                                 </div>
                                             </div>
                                             <div class="col-md-2">
@@ -192,12 +192,12 @@
                                     </div><!-- end col -->
                                 </div><!-- end row -->
                                 <!--end col-->
-                                <div class="row gy-4">
+                                <div class="row gy-4"> 
                                     <div class="col">
                                         <div>
                                             <label for="iconInput" class="form-label">Email Address</label>
                                             <div class="form-icon">
-                                                <input type="email" class="form-control form-control-icon" id="iconInput" name="email" placeholder="example@gmail.com" required>
+                                                <input type="email" class="form-control form-control-icon" id="iconInput" name="email" value="{{ $user->email }}" placeholder="example@gmail.com" required>
                                                 <i class="ri-mail-unread-line"></i>
                                             </div>
                                         </div>

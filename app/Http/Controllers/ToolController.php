@@ -45,21 +45,13 @@ class ToolController extends Controller
             $status = $request->input('status');
     
             $request = RequestN::findOrFail($id);
+            $user = $requestItem->user;
+            $user->notify(new ToolsAvailableNotification($requestItem));
+           
             $request->status = $status;
             $request->save();
     
-            if ($status === 'Available') {
-                $userToNotify = User::find($request->user_id);
-    
-                if ($userToNotify) {
-                    $request = new RequestN(); // Assuming you have a Task model and a new task object
-                    $userToNotify->notify(new ToolsAvailableNotification($request));
-                } else {
-                    // Handle the case where the user is not found
-                    // For example, log an error message
-                    Log::error('User not found for notification.');
-                }
-            }
+           
            
             return response()->json(['success' => true]);
         } catch (\Exception $e) {

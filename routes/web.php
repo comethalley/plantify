@@ -233,7 +233,7 @@ Route::delete('/deleteLocation/{id}', [qcmaps::class, 'deleteLocation']);
 Route::get('/schedules', [EventController::class, 'index']);
 Route::get('/schedulesget', [EventController::class, 'getEvents']);
 Route::get('/schedulesdata/{id}', [EventController::class, 'getdata']);
-Route::put('/scheduledelete/{id}', [EventController::class, 'deleteEvent']);
+Route::delete('/scheduledelete/{id}', [EventController::class, 'deleteEvent']);
 Route::put('/scheduleupdate/{id}', [EventController::class, 'update']);
 Route::get('/events/{id}', [EventController::class, 'show']);
 Route::get('/events/search', [EventController::class, 'search']);
@@ -248,7 +248,7 @@ Route::get('/events/calendar', [EventController::class, 'getCalendarEvents'])->n
 
 Route::get('/attendance', [AttendanceControler::class, 'index']);
 Route::get('/attendees', [AttendanceControler::class, 'attendees'])->name('event.details');
-Route::post('/event/attendance/submit/{event_id}', [AttendanceControler::class, 'submit'])->name('register');
+Route::post('/event/attendance/submit/{event_id}/{user_id}', [AttendanceControler::class, 'submit'])->name('register');
 Route::get('/event/{eventId}/attendance', [AttendanceControler::class, 'showAttendanceList']);
 Route::get('/event/form/{id}', [AttendanceControler::class, 'attendanceForm'])->name('event.attendance.form');
 Route::post('/update-status', [AttendanceControler::class, 'updateStatus']);

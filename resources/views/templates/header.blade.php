@@ -489,34 +489,23 @@
                                                         <span><i class="mdi mdi-clock-outline" id="notification-time"></i>{{ $notification->created_at->diffForHumans() }}</span>
                                                     </p>
                                                 </div>
-                                                @elseif ($notification->type === 'App\Notifications\NewRequestNotification')
-                                            <div class="d-flex">
-
-
-                                                <img src="../assets/images/notif/request.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
-
-                                                <div class="flex-grow-1">
-                                                    <a href="/requests" class="stretched-link">
-                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">Request Tools and Seedlings</h6>
-                                                    </a>
-                                                    <div class="fs-13 text-muted">
-                                                        <p class="mb-1">{{ $notification->data['message']}}.</p>
-                                                    </div>
-                                                    <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
-
-                                                        <span><i class="mdi mdi-clock-outline" id="notification-time"></i>{{ $notification->created_at->diffForHumans() }}</span>
-                                                    </p>
-                                                </div>
-                                                <!-- <div class="px-2 fs-15">
-                                                    <div class="form-check notification-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="all-notification-check02">
-                                                        <label class="form-check-label" for="all-notification-check02"></label>
-                                                    </div>
-                                                </div> -->
-
 
                                             </div>
                                             @endif
+                                            @if ($notification->type === 'App\Notifications\UserLoginNotification')
+                                                    <div class="d-flex">
+                                                        <img src="../assets/images/notif/request.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                                        <div class="flex-grow-1">
+                                                            <h6 class="mt-0 mb-1 fs-13 fw-semibold">User Login</h6>
+                                                            <div class="fs-13 text-muted">
+                                                                <p class="mb-1">{{ $notification->data['role_name'] }}  {{ $notification->data['lastname'] }} logged in.</p>
+                                                            </div>
+                                                            <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+                                                                <span><i class="mdi mdi-clock-outline" id="notification-time"></i>{{ $notification->created_at->diffForHumans() }}</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                @endif
                                         </div>
 
                                         @endforeach

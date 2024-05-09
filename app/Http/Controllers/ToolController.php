@@ -49,22 +49,15 @@ class ToolController extends Controller
             $request->save();
     
             if ($status === 'Available') {
-                $userToNotify = User::find($request->user_id);
-    
-                if ($userToNotify) {
-                    $request = new RequestN(); // Assuming you have a Task model and a new task object
-                    $userToNotify->notify(new ToolsAvailableNotification($request));
-                } else {
-                    // Handle the case where the user is not found
-                    // For example, log an error message
-                    Log::error('User not found for notification.');
-                }
+                $users = User::where('role_id', 3)->get();
+                Notification::send($users, new ToolsAvailableNotification($status));
             }
-           
+          
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
         }
+        
     }
     
     public function getLetterContent(Request $request)

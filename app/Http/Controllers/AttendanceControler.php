@@ -61,7 +61,7 @@ class AttendanceControler extends Controller
 
     public function attendees(Request $request) {
         $eventId = $request->input('id');
-    
+     
         // Fetch event details based on the $eventId from the database
         $event = Event::find($eventId);
     
@@ -99,7 +99,7 @@ class AttendanceControler extends Controller
     }
 
 
-public function submit(Request $request, $event_id)
+public function submit(Request $request, $event_id, $user_id)
 {
     // Validate the form data
     $validatedData = $request->validate([
@@ -115,7 +115,7 @@ public function submit(Request $request, $event_id)
 
     // Find the event
     $event = Event::find($event_id);
-
+    $user = User::find($user_id);
     // Create a new EventAttendance model instance and populate it with the form data
     $attendance = new EventAttendance();
     $attendance->first_name = $validatedData['first_name'];

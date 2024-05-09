@@ -5,7 +5,8 @@ namespace App\Listeners;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Logout;
 use Illuminate\Contracts\Queue\ShouldQueue;
-
+use App\Models\User;
+use App\Notifications\UserLoginNotification;
 class UserLoginLogoutListener implements ShouldQueue
 {
     /**
@@ -25,6 +26,14 @@ class UserLoginLogoutListener implements ShouldQueue
         \Log::info("User {$user->id} logged out.");  // Add this line
         $user->isOnline = false;
         $user->save();
+
+        if (in_array($user->role_id, [2, 3, 4])) {
+            $superAdmin = User::where('role_id', 1)->first();
+
+            if ($superAdmin) {
+                $superAdmin->notify(new UserLoginNotification($user));
+            }
+        }
     }
 
     /**

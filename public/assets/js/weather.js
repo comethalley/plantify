@@ -25,7 +25,6 @@ feelsLike = document.querySelector("#feels-like");
 
 
 
-
     let currentCity = "";
     let currentUnit = "c";
     let hourlyorWeek = "Week";
@@ -175,21 +174,91 @@ function updateWeatherUI(today, data, unit, hourlyorWeek) {
 // }
 
 // getPublicIp();
+const weatherThresholds = {
+  temp: 33,
+  precip: 20,
+  windspeed: 5,
+  uvindex: 5,
+};
 
+// Function to check weather conditions for alerts
+function checkWeatherConditionsForAlerts(data) {
+  const { temp, precip, windspeed, uvindex } = data.currentConditions;
+  console.log("Precipitation:", precip);
+  console.log("Wind Speed:", windspeed);
+  console.log("UV Index:", uvIndex);
+  let alerts = []; // Array to store all alerts
+
+  if (temp > weatherThresholds.temp) {
+    alerts.push("High temperature alert! Consider adjusting planting schedules.");
+  }
+  if (precip > weatherThresholds.precipitation) {
+    alerts.push("High precipitation alert! Ensure proper drainage for plants.");
+  }
+  if (windspeed > weatherThresholds.windspeed) {
+    alerts.push("Strong wind alert! Secure plants to prevent damage.");
+  }
+  if (uvindex > weatherThresholds.uvindex) {
+    alerts.push("High UV index alert! Provide shade or protect plants from sunburn.");
+  }
+
+  // If there are multiple alerts, concatenate them into one and show in a single alert
+  if (alerts.length > 1) {
+    const combinedAlert = alerts.join('\n'); // Concatenate alerts with new lines
+    showAlert(combinedAlert);
+    showModal(combinedAlert); // Show modal with combined alert message
+  } else if (alerts.length === 1) {
+    // If only one alert, show it normally
+    showAlert(alerts[0]);
+    showModal(alerts[0]); // Show modal with single alert message
+  }
+}
+
+function showModal(message) {
+  const modal = document.getElementById("customModal");
+  const modalMessage = document.getElementById("modalMessage");
+  modalMessage.textContent = message;
+  modal.style.display = "block";
+}
+
+// Function to hide the modal
+function closeModal() {
+  const modal = document.getElementById("customModal");
+  modal.style.display = "none";
+}
+
+// Close the modal when clicking on the close button or outside the modal
+window.onclick = function(event) {
+  const modal = document.getElementById("customModal");
+  if (event.target === modal) {
+    modal.style.display = "none";
+  }
+}
+// Function to display alerts
+function showAlert(message) {
+  console.log("Show alert");
+  showModal(message);
+}
 
 
 function getWeatherData(city, unit, hourlyorWeek) {
   const apiKey = "ZDDQHCH65WNK9UXXTBXG5KDU2";
+  
+  // Show modal before making the fetch request
+  showModal("Fetching weather data...");
+
   fetch(
     `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?unitGroup=metric&key=${apiKey}&contentType=json`,
     {
       method: "GET",
-      
     }
   )
     .then((response) => response.json())
     .then((data) => {
-      
+      console.log(data); // Log the entire data object to inspect its structure
+      checkWeatherConditionsForAlerts(data);
+      closeModal();
+
       let today = data.currentConditions;
       if (unit === "f") {
         temp.innerText = celciusToFahrenheit(today.temp);
@@ -223,6 +292,8 @@ function getWeatherData(city, unit, hourlyorWeek) {
     })
     .catch((err) => {
       console.error("Error fetching weather data:", err);
+      // Hide modal if there's an error
+      closeModal();
     });
 }
 
@@ -241,7 +312,7 @@ function updateForecast(data, unit, type) {
       card.style.cursor = "pointer"; // Add this line
 
       let dayName = type === "week" ? getDayName(data[index].datetime) : getHour(data[index].datetime);
-      let dayTemp = unit === "f" ? celciusToFahrenheit(data[index].temp) : data[index].temp;
+      let dayTemp = unit === "f" ? celciusToFahrenheit(data[index].tempmax) : data[index].tempmax;
       let iconSrc = getIcon(data[index].icon);
 
       card.innerHTML = `
@@ -271,6 +342,7 @@ function populateAndShowModal(detail) {
   document.getElementById("modalHumidity").innerText = detail.humidity || '--'; // Assuming 'humidity' is in your data
   document.getElementById("modalSunrise").innerText = covertTimeTo12HourFormat(detail.sunrise) || '--'; // Convert sunrise time as needed
   document.getElementById("modalSunset").innerText = covertTimeTo12HourFormat(detail.sunset) || '--'; // Convert sunset time as needed
+  document.getElementById("modalFeelsLike").innerText = detail.feelslikemax || '--'; // Assuming 'feelslike' is in your data for the feels like temperature
 
   // Show the modal
   document.getElementById("detailModal").style.display = 'block';

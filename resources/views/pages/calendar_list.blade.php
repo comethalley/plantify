@@ -56,7 +56,7 @@
                                                 <th data-sort="date">Planting Type:</th>
                                                 <th data-sort="date"> Seeds Amount:</th>
                                                 <th data-sort="amount">Plants Harvested (kg):</th>
-                                                <th data-sort="payment">Plants Destroyed (kg):</th>
+                                                <th data-sort="payment">Plants Withered (kg):</th>
                                                 <th data-sort="payment">Farm Area:</th>
                                                 <th data-sort="city">Area Used:</th>
                                                 <th data-sort="city">Status:</th>

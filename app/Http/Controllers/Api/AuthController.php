@@ -710,6 +710,10 @@ class AuthController extends Controller
         if ($user->status == 0) {
             return back()->withErrors(['email' => 'Your account is inactive. Please contact CUAI.']);
         }
+        // Check if user status is active
+        if ($user->status == 3) {
+            return back()->withErrors(['email' => 'Your account is deactivate. Please contact CUAI.']);
+        }
 
         if (Auth::attempt($validated)) {
             $request->session()->regenerate();

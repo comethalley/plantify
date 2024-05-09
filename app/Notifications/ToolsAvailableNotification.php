@@ -10,11 +10,11 @@ use Illuminate\Notifications\Notification;
 class ToolsAvailableNotification extends Notification
 {
     use Queueable;
-    protected $requestItem;
+    protected $status;
 
-    public function __construct($requestItem)
+    public function __construct($status)
     {
-        $this->requestItem = $requestItem;
+        $this->requestItem = $status;
     }
 
     public function via($notifiable)
@@ -25,7 +25,7 @@ class ToolsAvailableNotification extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            'request_id' => $this->requestItem->id,
+            
             'message' => 'The status of your request has been updated to ' . $this->requestItem->status,
         ];
     }

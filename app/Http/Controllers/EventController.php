@@ -135,20 +135,23 @@ class EventController extends Controller
     }
 
     public function deleteEvent(Request $request, $id)
-    {
-        $event = Event::findOrFail($id);
-        $updatedEvents = Event::all();
-        if (!$event) {
-            return response()->json(['message' => 'The supplier does not exist'], 422);
-        }
+{
+    $event = Event::findOrFail($id);
 
-        $event->update([
-            'status' => 0,
-        ]);
-        return response()->json([
-            'message' => 'Planting deleted successfully',
-            'events' => $updatedEvents,]);
+    if (!$event) {
+        return response()->json(['message' => 'The event does not exist'], 422);
     }
+
+    $event->delete();
+
+    // Optionally, you can retrieve updated events after deletion
+    $updatedEvents = Event::all();
+
+    return response()->json([
+        'message' => 'Event deleted successfully',
+        'events' => $updatedEvents,
+    ]);
+}
 
     public function update(Request $request, $id)
     {

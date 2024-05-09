@@ -179,7 +179,7 @@
                                             <div class="col">
                                                 <div>
                                                     <label for="lastName" class="form-label">Last Name</label>
-                                                    <input type="text" class="form-control" id="lastName" name="last_name" value="{{ $user->lastname }}" placeholder="Last Name"readonly required>
+                                                    <input type="text" class="form-control" id="lastName" name="last_name" value="{{ $user->lastname }}" placeholder="Last Name" readonly required>
                                                 </div>
                                             </div>
                                             <div class="col-md-2">

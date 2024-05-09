@@ -177,55 +177,60 @@
                                 </div> 
                             </div> <!-- end modal-->
 
-                <div class="modal fade" id="EventdetailModal" tabindex="-1" role="dialog" aria-labelledby="EventdetailModal" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered modal-lg"> <!-- Adjust modal size using Bootstrap classes -->
-                        <div class="modal-content">
-                            <div class="modal-header p-3 bg-success text-white">
-                                <h5 class="modal-title">Event Details</h5>
-                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+
+
+<div class="modal fade" id="EventdetailModal" tabindex="-1" role="dialog" aria-labelledby="EventdetailModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg"> <!-- Adjust modal size using Bootstrap classes -->
+        <div class="modal-content">
+            <div class="modal-header p-3 bg-success text-white">
+                <h5 class="modal-title" style="font-family: 'Arial', sans-serif; font-size: 1.25rem;">Event Details</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="row">
+                    <div class="col-md-6 mb-4"> <!-- Image Column -->
+                        <img src="" alt="Event Image" class="img-fluid rounded" id="eventimage" style="width: 100%;">
+                    </div>
+                    <div class="col-md-6"> <!-- Details Column -->
+                        <div class="text-center mb-4">
+                            <div class="event-details">
+                                <h5 class="fw-bold mb-4 fs-5" id="eventtitle" style="font-family: 'Arial', sans-serif; font-size: 1.1rem;">Title:</h5>
                             </div>
-                            <div class="modal-body p-4">
-                                <div class="row">
-                                    <div class="col-md-6 mb-4"> <!-- Image Column -->
-                                        <img src="" alt="Event Image" class="img-fluid rounded" id="eventimage" style="width: 100%; max-height: 250px;">
-                                    </div>
-                                    <div class="col-md-6"> <!-- Details Column -->
-                                        <div class="text-center mb-4">
-                                            <div class="event-details">
-                                                <h5 class="fw-bold mb-4 fs-5" id="eventtitle"></h5>
-                                            </div>
-                                        </div>
-                                        <div class="mb-3 fs-6">
-                                            <i class="ri-calendar-event-line text-muted me-2"></i>
-                                            <span id="eventstart"></span> - <span id="eventend"></span>
-                                        </div>
-                                        <div class="mb-3 fs-6">
-                                            <i class="ri-time-line text-muted me-2"></i>
-                                            <span id="eventstarttime"></span> - <span id="eventendtime"></span>
-                                        </div>
-                                        <div class="mb-3 fs-6">
-                                            <i class="ri-map-pin-line text-muted me-2"></i>
-                                            <span id="eventlocation"></span>
-                                        </div>
-                                        <div class="mb-3 fs-6 mb-5"> <!-- Added mb-4 class for bottom margin -->
-                                            <i class="ri-discuss-line text-muted me-2"></i>
-                                            <span id="eventdescription"></span>
-                                        </div>
-                                        <div class="hstack gap-2 justify-content-end">
-                                            @if(auth()->user()->role_id == 3 || auth()->user()->role_id == 4)
-                                                <a href="#" id="interested-btn" class="btn btn-primary" target="_blank">Interested</a>
-                                            @endif
-                                            @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2)
-                                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#archiveModal1">Delete</button>
-                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editexampleModal">Edit</button>
-                                            @endif
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        </div>
+                        <div class="mb-3 fs-6" style="font-family: 'Arial', sans-serif; font-size: 12px;">
+                            <i class="ri-calendar-event-line text-muted me-2" style="margin-right: 5px;">Start of event:</i>
+                            <span id="eventstart"></span> - <span id="eventend"></span>
+                        </div>
+                        <div class="mb-3 fs-6" style="font-family: 'Arial', sans-serif; font-size: 12px;">
+                            <i class="ri-time-line text-muted me-2 " style="margin-right: 5px;">End of event:</i>
+                            <span id="eventstarttime"></span> - <span id="eventendtime"></span>
+                        </div>
+                        <div class="mb-3 fs-6" style="font-family: 'Arial', sans-serif; font-size: 12px;">
+                            <i class="ri-map-pin-line text-muted me-2" style="margin-right: 5px;">Location at:</i>
+                            <span id="eventlocation"></span>
+                        </div>
+                        <div class="mb-3 fs-6 mb-5" style="font-family: 'Arial', sans-serif; font-size: 12px;"> <!-- Added mb-4 class for bottom margin -->
+                            <i class="ri-discuss-line text-muted me-2" style="margin-right: 5px;">About event:</i>
+                            <span id="eventdescription"></span>
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="modal-footer">
+                <div class="hstack gap-2 justify-content-end">
+                    @if(auth()->user()->role_id == 3 || auth()->user()->role_id == 4)
+                        <a href="#" id="interested-btn" class="btn btn-primary" target="_blank">Interested</a>
+                    @endif
+                    @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2)
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#archiveModal1" style="font-family: 'Arial', sans-serif; font-size: 12px;">Delete</button>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editexampleModal" style="font-family: 'Arial', sans-serif; font-size: 12px;">Edit</button>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 <!-- Update and Delete Event Modal -->
@@ -494,7 +499,7 @@ function handleEventDelete(eventId) {
  
     $.ajax({
         url: "/scheduledelete/" + eventId,
-        type: "put",
+        type: "delete",
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
                     calendar.refetchEvents();

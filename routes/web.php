@@ -359,8 +359,12 @@ Route::get('/expenses/get-expenses-by-category', [ExpenseController::class, 'get
 
 Route::get('/Tools-District-5', [RequestController::class, 'index1']);
 Route::post('/add-tools', [RequestController::class, 'addTools'])->name('add.tools');
+Route::post('/add-tools1', [RequestController::class, 'addTools1'])->name('add.tools1');
 Route::get('/request/{id}/details', [RequestController::class, 'getRequestDetails']);
 Route::get('/view-pdf/{id}/{title?}', [RequestController::class, 'viewPdfRequest'])->name('view.pdf');
+Route::post('/set-date-request/{id}', [RequestController::class, 'SetDateStatus'])->name('set.date.request');
+Route::post('/update-request/{id}', [RequestController::class, 'updateRequest'])->name('request.update');
+
 
 
 Route::get('/requests', [ToolController::class, 'index']);

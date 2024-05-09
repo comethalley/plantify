@@ -63,17 +63,9 @@ class RequestController extends Controller
                 'supply_tool1' => 'nullable|string|max:255',
                 'supply_tool2' => 'nullable|string|max:255',
 
-                'supply_seedling' => 'nullable|string|max:255',
-                'supply_seedling1' => 'nullable|string|max:255',
-                'supply_seedling2' => 'nullable|string|max:255',
-
                 'count_tool' => 'nullable|numeric',
                 'count_tool1' => 'nullable|numeric',
                 'count_tool2' => 'nullable|numeric',
-
-                'count_seedling' => 'nullable|numeric',
-                'count_seedling1' => 'nullable|numeric',
-                'count_seedling2' => 'nullable|numeric',
 
                 'letter_content' => 'nullable|file|mimes:pdf|max:2048',
                 'status' => 'string|max:255',
@@ -94,13 +86,53 @@ class RequestController extends Controller
                 'supply_tool1' => $request->input('supply_tool1'),
                 'supply_tool2' => $request->input('supply_tool2'),
 
-                'supply_seedling' => $request->input('supply_seedling'),
-                'supply_seedling1' => $request->input('supply_seedling1'),
-                'supply_seedling2' => $request->input('supply_seedling2'),
-
                 'count_tool' => $request->input('count_tool'),
                 'count_tool1' => $request->input('count_tool1'),
                 'count_tool2' => $request->input('count_tool2'),
+
+                'requested_by' => $loggedInUserId, // Store the user's ID
+                'letter_content' => $contentLetterPath,
+                'status' => $request->input('status', 'Requested'),
+            ]);
+
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            Log::error($e);
+            return response()->json(['success' => false, 'errors' => ['exception' => [$e->getMessage()]]], 500);
+        }
+    }
+    public function addTools1(Request $request)
+    {
+        try {
+            $request->validate([
+
+                'supply_seedling' => 'nullable|string|max:255',
+                'supply_seedling1' => 'nullable|string|max:255',
+                'supply_seedling2' => 'nullable|string|max:255',
+
+                'count_seedling' => 'nullable|numeric',
+                'count_seedling1' => 'nullable|numeric',
+                'count_seedling2' => 'nullable|numeric',
+
+                'letter_content' => 'nullable|file|mimes:pdf|max:2048',
+                'status' => 'string|max:255',
+            ]);
+
+            $loggedInUserId = Auth::id();
+
+            if (!$loggedInUserId) {
+                return response()->json(['success' => false, 'errors' => ['authentication' => ['User is not authenticated.']]], 401);
+            }
+
+            $loggedInUser = User::findOrFail($loggedInUserId);
+
+            $contentLetterPath = $request->file('letter_content')->store('pdfs', 'public');
+
+            RequestN::create([
+
+                'supply_seedling' => $request->input('supply_seedling'),
+                'supply_seedling1' => $request->input('supply_seedling1'),
+                'supply_seedling2' => $request->input('supply_seedling2'),
 
                 'count_seedling' => $request->input('count_seedling'),
                 'count_seedling1' => $request->input('count_seedling1'),
@@ -117,7 +149,6 @@ class RequestController extends Controller
             return response()->json(['success' => false, 'errors' => ['exception' => [$e->getMessage()]]], 500);
         }
     }
-
     public function getRequestDetails($id)
     {
         $request = RequestN::findOrFail($id);

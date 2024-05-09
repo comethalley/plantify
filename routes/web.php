@@ -361,7 +361,7 @@ Route::post('/add-tools1', [RequestController::class, 'addTools1'])->name('add.t
 Route::get('/request/{id}/details', [RequestController::class, 'getRequestDetails']);
 Route::get('/view-pdf/{id}/{title?}', [RequestController::class, 'viewPdfRequest'])->name('view.pdf');
 Route::post('/set-date-request/{id}', [RequestController::class, 'SetDateStatus'])->name('set.date.request');
-Route::post('/set-date-request1/{id}', [RequestController::class, 'SetDateStatus1'])->name('set.date.request1');
+Route::post('/update-request/{id}', [RequestController::class, 'updateRequest'])->name('request.update');
 
 
 

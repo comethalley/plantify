@@ -103,7 +103,8 @@ select:focus,
 }
 
 /* Style for the details section */
-#details-section {
+#details-section,
+#month-details {
     display: none;
 }
 .barangaySelector,

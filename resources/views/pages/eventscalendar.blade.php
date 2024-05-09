@@ -149,7 +149,6 @@
         <option value="all">all</option>
         <option value="3">farmleader</option>
         <option value="4">farmer</option>
-        <option value="5">publicuser</option>
     </select>
 </div>                                         
                                        <div class="mb-3">
@@ -398,9 +397,7 @@
             @elseif(auth()->user()->role_id == 4 )
                              {{-- Display only for role_id 4 ( Farmers) --}}
             selectable: false,
-            @elseif(auth()->user()->role_id == 5 )
-                             {{-- Display only for role_id 5 (Public Users) --}}
-            selectable: false,
+          
             @endif
             selectHelper: true,
             select: function (start, end, allDay) {

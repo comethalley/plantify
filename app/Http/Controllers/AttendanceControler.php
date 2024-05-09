@@ -88,10 +88,12 @@ class AttendanceControler extends Controller
     $user = User::find($id);
 
     // Check if user exists
+    $user = auth()->user();
+
+    // Check if user exists
     if (!$user) {
         // Handle the case where user is not found
         // For example, you can redirect back with an error message
-       
     }
 
     // Pass the event and user details to the blade view

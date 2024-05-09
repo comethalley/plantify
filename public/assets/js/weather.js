@@ -184,6 +184,18 @@ const weatherThresholds = {
 // Function to check weather conditions for alerts
 function checkWeatherConditionsForAlerts(data) {
   const { temp, precip, windspeed, uvindex } = data.currentConditions;
+  const currentTime = new Date();
+  const currentHour = currentTime.getHours();
+  console.log(currentHour)
+
+  // Check if it's evening (after 6 PM and before 5 AM)
+  if (currentHour >= 18 || currentHour < 5) {
+    showModal("It's evening. No information will be shown."); // Display evening message in the modal
+    closeModal(); // Close modal if it's evening
+    setTimeout(openModalAt6AM, getMillisecondsUntil6AM()); // Schedule modal to open at 6 AM
+    return; // Don't show modal in the evening
+  }
+
   console.log("Precipitation:", precip);
   console.log("Wind Speed:", windspeed);
   console.log("UV Index:", uvIndex);
@@ -192,7 +204,7 @@ function checkWeatherConditionsForAlerts(data) {
   if (temp > weatherThresholds.temp) {
     alerts.push("High temperature alert! Consider adjusting planting schedules.");
   }
-  if (precip > weatherThresholds.precipitation) {
+  if (precip > weatherThresholds.precip) {
     alerts.push("High precipitation alert! Ensure proper drainage for plants.");
   }
   if (windspeed > weatherThresholds.windspeed) {
@@ -212,6 +224,25 @@ function checkWeatherConditionsForAlerts(data) {
     showAlert(alerts[0]);
     showModal(alerts[0]); // Show modal with single alert message
   }
+}
+
+// Function to open the modal at 6 AM
+function openModalAt6AM() {
+  const currentTime = new Date();
+  const currentHour = currentTime.getHours();
+  if (currentHour === 6) {
+    console.log("Opening modal at 6 AM.");
+    showModal("Good morning!"); // Show modal at 6 AM
+  }
+}
+
+// Function to calculate the milliseconds until 6 AM
+function getMillisecondsUntil6AM() {
+  const currentTime = new Date();
+  const currentHour = currentTime.getHours();
+  const millisecondsInAnHour = 3600000; // 1 hour = 3600000 milliseconds
+  const hoursUntil6AM = currentHour < 6 ? 6 - currentHour : 24 - currentHour + 6; // Calculate hours until 6 AM
+  return hoursUntil6AM * millisecondsInAnHour;
 }
 
 function showModal(message) {
@@ -256,8 +287,9 @@ function getWeatherData(city, unit, hourlyorWeek) {
     .then((response) => response.json())
     .then((data) => {
       console.log(data); // Log the entire data object to inspect its structure
+
+      // Check weather conditions for alerts before showing the modal
       checkWeatherConditionsForAlerts(data);
-      closeModal();
 
       let today = data.currentConditions;
       if (unit === "f") {

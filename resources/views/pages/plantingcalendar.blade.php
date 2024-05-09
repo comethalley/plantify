@@ -91,9 +91,9 @@
                                 <div class="flex-grow-1 ms-3 text-center">
                                     <h6 class="fs-15"><strong>LEGEND</strong></h6>
                                     <td style="width: 180px;">
-                                        <div class="bg-primary p-2 mb-1">
+                                        <dciv class="bg-primary p-2 mb-1">
                                             <span class="text-white mb-0">Planted</span>
-                                        </div>
+                                        </dciv>
                                         <div class="bg-success p-2 mb-1">
                                             <span class="text-white mb-0">Harvested</span>
                                         </div>

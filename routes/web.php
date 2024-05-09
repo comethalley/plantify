@@ -419,7 +419,7 @@ Route::get('/analytics/pdf', [AnalyticsController::class, 'downloadPdf'])->name(
 
 Route::get('api/farms', [FarmController::class, 'fetchFarmsByBarangay'])->name('api.farms');
 Route::get('/farmsAnalytics/{slug}', [AnalyticsController::class, 'getFarms']);
-Route::get('/farmsAnalyticsData/{num}', [AnalyticsController::class, 'getFarmsData']);
+Route::get('/farmsAnalyticsData/{id}', [AnalyticsController::class, 'getFarmsData']);
 
 Route::get('/markAsRead', function () {
     auth()->user()->unreadNotifications->markAsRead();

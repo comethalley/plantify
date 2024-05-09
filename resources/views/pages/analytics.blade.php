@@ -623,29 +623,28 @@
                                     <h2 class="mb-4 text-center"><span style="color: #57AA2C;"><strong>Harvesting Metrics</strong></span></h2>
                                     <div class="row position-relative" style="height: 65vh;">
                                         @if(session('user') && (session('user')->role_id == 3))
-                                            <div class="col-md-3">
-                                                <div class="align-items-center justify-content-center ">
-                                                    <div class="col-xl-12 barangaySelector ">
-                                                        <label for="">Barangay:</label>
-                                                        <select id="barangaySelect" class="w-100" readonly>
-                                                            <option value="{{ $barangayName }}" selected>{{ $barangayName }}</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="mt-3 col-xl-12 barangaySelector ">
-                                                        <label for="">Farm:</label>
-                                                        <select id="farmSelect" class="w-100" readonly>
-                                                            <option value="{{ $farmName }}" selected>{{ $farmName }}</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="mt-3 col-xl-12 barangaySelector">
-                                                        <label for="">Year:</label>
-                                                        <select id="yearSelect" class="w-100">
-                                                            <option value="" disabled>Select Year</option>
-                                                            <option value="2024" selected>2024</option>
-                                                            <option value="2023">2023</option>
-                                                            <option value="2022">2022</option>
-                                                        </select>
-                                                    </div>
+                                        <div class="col-md-3">
+                                            <div class="align-items-center justify-content-center ">
+                                                <div class="col-xl-12 barangaySelector ">
+                                                    <label for="">Barangay:</label>
+                                                    <select id="barangaySelect" class="w-100" readonly>
+                                                        <option value="{{ $barangayName }}" selected>{{ $barangayName }}</option>
+                                                    </select>
+                                                </div>
+                                                <div class="mt-3 col-xl-12 barangaySelector ">
+                                                    <label for="">Farm:</label>
+                                                    <select id="farmSelect" class="w-100" readonly>
+                                                        <option value="{{ $farmName }}" selected>{{ $farmName }}</option>
+                                                    </select>
+                                                </div>
+                                                <div class="mt-3 col-xl-12 barangaySelector">
+                                                    <label for="">Year:</label>
+                                                    <select id="yearSelect" class="w-100">
+                                                        <option value="" disabled>Select Year</option>
+                                                        <option value="2024" selected>2024</option>
+                                                        <option value="2023">2023</option>
+                                                        <option value="2022">2022</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
@@ -678,16 +677,16 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                        </div>                                        @else
-                                           
-                                        
+                                        </div>
+                                        @else
+                                        <!-- Add else content here if needed -->
                                         @endif
                                         <div class="col-lg-8">
                                             <div class="text-muted">
                                                 @if(session('user') && session('user')->role_id != 5)
-                                                
                                                 <div id="farmChart"></div>
                                                 @endif
+                                                <!-- Insert month details here -->
                                                 <div id="month-details" style="display: none;"></div>
                                             </div>
                                         </div>
@@ -984,87 +983,87 @@ $(document).ready(function() {
 
 
 
-    // DONUT CHART  0
+    // // DONUT CHART  0
 
-        // Prepare the data for the expenses donut chart
-        var expensesSeries = expensesData.map(function(data) {
-            return parseFloat(data.amount);
-        });
+    //     // Prepare the data for the expenses donut chart
+    //     var expensesSeries = expensesData.map(function(data) {
+    //         return parseFloat(data.amount);
+    //     });
 
-        var expensesLabels = expensesData.map(function(data) {
-            return data.description;
-        });
+    //     var expensesLabels = expensesData.map(function(data) {
+    //         return data.description;
+    //     });
 
-    // Define the donut chart options
-    var donutOptions = {
-        series: expensesSeries,
-        chart: {
-            type: 'donut',
-            events: {
-                dataPointSelection: function(event, chartContext, config) {
-                    // Get the index of the clicked segment
-                    var clickedIndex = config.dataPointIndex;
-                    var clickedData = expensesData[clickedIndex];
+    // // Define the donut chart options
+    // var donutOptions = {
+    //     series: expensesSeries,
+    //     chart: {
+    //         type: 'donut',
+    //         events: {
+    //             dataPointSelection: function(event, chartContext, config) {
+    //                 // Get the index of the clicked segment
+    //                 var clickedIndex = config.dataPointIndex;
+    //                 var clickedData = expensesData[clickedIndex];
 
-                    // Format the date and time
-                    var dateCreated = new Date(clickedData.created_at);
-                    var formattedDate = (dateCreated.getMonth() + 1).toString().padStart(2, '0') + '/'
-                                        + dateCreated.getDate().toString().padStart(2, '0') + '/'
-                                        + dateCreated.getFullYear();
-                    var hours = dateCreated.getHours();
-                    var minutes = dateCreated.getMinutes().toString().padStart(2, '0');
-                    var ampm = hours >= 12 ? 'PM' : 'AM';
-                    hours = hours % 12;
-                    hours = hours ? hours : 12; 
-                    var formattedTime = hours.toString().padStart(2, '0') + ':' + minutes + ' ' + ampm;
+    //                 // Format the date and time
+    //                 var dateCreated = new Date(clickedData.created_at);
+    //                 var formattedDate = (dateCreated.getMonth() + 1).toString().padStart(2, '0') + '/'
+    //                                     + dateCreated.getDate().toString().padStart(2, '0') + '/'
+    //                                     + dateCreated.getFullYear();
+    //                 var hours = dateCreated.getHours();
+    //                 var minutes = dateCreated.getMinutes().toString().padStart(2, '0');
+    //                 var ampm = hours >= 12 ? 'PM' : 'AM';
+    //                 hours = hours % 12;
+    //                 hours = hours ? hours : 12; 
+    //                 var formattedTime = hours.toString().padStart(2, '0') + ':' + minutes + ' ' + ampm;
 
-                    var friendlyDateTime = formattedDate + ' | ' + formattedTime;
+    //                 var friendlyDateTime = formattedDate + ' | ' + formattedTime;
 
-                    document.getElementById('details-description').textContent = 'Description: ' + clickedData.description;
-                    document.getElementById('details-amount').textContent = 'Amount: ₱' + clickedData.amount;
-                    document.getElementById('details-created-at').textContent = 'Date: ' + friendlyDateTime;
+    //                 document.getElementById('details-description').textContent = 'Description: ' + clickedData.description;
+    //                 document.getElementById('details-amount').textContent = 'Amount: ₱' + clickedData.amount;
+    //                 document.getElementById('details-created-at').textContent = 'Date: ' + friendlyDateTime;
 
-                    // Make the details section visible
-                    var detailsSection = document.getElementById('details-section');
-                        detailsSection.style.display = 'block';
-                }
-            }
-        },
-        labels: expensesLabels,
-        responsive: [{
-            breakpoint: 480,
-            options: {
-                chart: {
-                    width: 200
-                }
-            }
-        }],
-        legend: {
-            position: 'bottom'
-        },
-        plotOptions: {
-            pie: {
-                donut: {
-                    labels: {
-                        show: true,
-                        total: {
-                            show: true,
-                            label: 'Total',
-                            formatter: function (w) {
+    //                 // Make the details section visible
+    //                 var detailsSection = document.getElementById('details-section');
+    //                     detailsSection.style.display = 'block';
+    //             }
+    //         }
+    //     },
+    //     labels: expensesLabels,
+    //     responsive: [{
+    //         breakpoint: 480,
+    //         options: {
+    //             chart: {
+    //                 width: 200
+    //             }
+    //         }
+    //     }],
+    //     legend: {
+    //         position: 'bottom'
+    //     },
+    //     plotOptions: {
+    //         pie: {
+    //             donut: {
+    //                 labels: {
+    //                     show: true,
+    //                     total: {
+    //                         show: true,
+    //                         label: 'Total',
+    //                         formatter: function (w) {
                                
-                                return w.globals.seriesTotals.reduce(function(a, b) {
-                                    return a + b;
-                                }, 0).toFixed(2); // Format to two decimal places
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    };
+    //                             return w.globals.seriesTotals.reduce(function(a, b) {
+    //                                 return a + b;
+    //                             }, 0).toFixed(2); // Format to two decimal places
+    //                         }
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
+    // };
 
-    var donutChart = new ApexCharts(document.querySelector("#donut-chart"), donutOptions);
-    donutChart.render();
+    // var donutChart = new ApexCharts(document.querySelector("#donut-chart"), donutOptions);
+    // donutChart.render();
     createPlantingBarChart();
 });
 

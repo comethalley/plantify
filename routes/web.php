@@ -375,6 +375,7 @@ Route::get('/pickedList', [ToolController::class, 'pickedList']);
 Route::get('/returnList', [ToolController::class, 'returnList']);
 Route::post('/set-picking-date', [ToolController::class, 'setPickingDate']);
 Route::post('/set-return-date', [ToolController::class, 'setReturnDate']);
+Route::post('/generatePdf', [ToolController::class, 'generatePdf'])->name('generatePdf');
 
 // ===================================================================================
 

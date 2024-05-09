@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Reply extends Model
 {
     use HasFactory;
+    use Notifiable;
     protected $fillable = ['message_id', 'sender_id', 'content', 'create_date'];
 
     public function message()

@@ -162,8 +162,10 @@
                                                     <!-- <label for="customername-field" class="form-label">Season</label> -->
                                                     <div class="form-group">
                                                         <label for="mode">Season</label>
-                                                        <select class="form-select" id="seasons" multiple="multiple">
-                                                            <option value="January">January</option>
+
+                                                        <select class="form-select" id="seasons">
+                                                        <option value="January">January</option>
+
                                                             <option value="February">February</option>
                                                             <option value="March">March</option>
                                                             <option value="April">April</option>
@@ -274,6 +276,15 @@
                                                     <label for="formFile" class="form-label"></label>
                                                     <input class="form-control" type="file" id="edit_image" name="edit_image">
                                                 </div>
+
+                                                $('#edit_image').on('change', function() {
+                                                    var file = this.files[0];
+                                                    var reader = new FileReader();
+                                                    reader.onload = function(e) {
+                                                        $('#edit_image_preview').attr('src', e.target.result);
+                                                    };
+                                                    reader.readAsDataURL(file);
+                                                });
 
 
                                                 <div class="mb-3">

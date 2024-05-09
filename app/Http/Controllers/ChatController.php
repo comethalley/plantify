@@ -11,6 +11,7 @@ use App\Models\ProfileSettings;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Notifications\NewChatNotification;
 
 class ChatController extends Controller
 {
@@ -98,6 +99,9 @@ class ChatController extends Controller
             'create_date' => now(),
         ]);
 
+        // Assuming message has a user relationship
+    
+        
         // Redirect back to the message or thread page
         // You might need to modify this based on your application flow
         return back();
@@ -146,10 +150,16 @@ class ChatController extends Controller
     public function searchUsers(Request $request)
     {
         $term = $request->input('term');
-
+    
         // Perform a case-insensitive search on the firstname and lastname columns
-        $users = User::where('firstname', 'LIKE', '%' . $term . '%')->orWhere('lastname', 'LIKE', '%' . $term . '%')->get();
-
+        $users = User::where('status', '!=', 0) // Exclude users with status 0
+                     ->where(function($query) use ($term) {
+                         $query->where('firstname', 'LIKE', '%' . $term . '%')
+                               ->orWhere('lastname', 'LIKE', '%' . $term . '%');
+                     })
+                     ->get();
+    
         return response()->json($users);
     }
+    
 }

@@ -25,6 +25,7 @@ use App\Http\Controllers\EmailVerification;
 use App\Http\Controllers\PiuController;
 use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\RequestController;
+use App\Http\Controllers\ToolController;
 use App\Http\Controllers\ProfilefeedController;
 use App\Http\Controllers\ProfileSettingsController;
 use App\Http\Requests\PdfRequest;
@@ -38,8 +39,7 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\AttendanceControler;
-
-
+use Illuminate\Support\Facades\Artisan;
 
 /*
 |--------------------------------------------------------------------------
@@ -104,6 +104,7 @@ Route::get('/get-fertilizer', [InventoryController::class, 'getFertilizer']);
 Route::post('/edit-fertilizer/{id}', [InventoryController::class, 'updateFertilizer']);
 Route::post('/archive-fertilizer/{id}', [InventoryController::class, 'archiveFertilizer']);
 Route::get('/inventory/tools', [InventoryController::class, 'tools']);
+Route::post('/archiveSeed/{id}', [InventoryController::class, 'archiveSeed']);
 Route::get('/send-message', [SendMessageController::class, 'index']);
 
 
@@ -185,16 +186,16 @@ Route::delete('/delete-message/{messageId}', [ThreadController::class, 'deleteMe
 Route::post('/mark-messages-as-read/{userId}', [ChatController::class, 'markMessagesAsRead']);
 Route::get('/search-users', [ChatController::class, 'searchUsers']);
 Route::get('/threads/{threadId}/messages', [ThreadController::class, 'fetchMessages']);
-
-// Group Chats
-Route::get('/groups', [GroupController::class, 'index'])->name('groups.index');
-Route::get('/groups/{groupId}', [GroupController::class, 'show'])->name('groups.show'); // Make the farmId parameter optional
-Route::post('/groups/{group}/join', [GroupController::class, 'join'])->name('groups.join');
-Route::get('/groups/create', [GroupController::class, 'create'])->name('groups.create');
-Route::post('/store-group-message/{groupId}', [GroupController::class, 'storeGroupMessage'])->name('store.group.message');
-Route::delete('/delete-group-message/{messageId}', [GroupController::class, 'deleteMessage'])->name('delete.group.message');
-Route::post('/mark-group-messages-as-read/{groupId}', [GroupController::class, 'markGroupMessagesAsRead']);
-Route::get('/fetch-messages/{groupId}', [GroupController::class, 'fetchMessages'])->name('fetch.messages');
+Route::get('/thread/{threadId}', [ThreadController::class, 'show'])->name('thread.show');
+// Group Chats [ThreadController::class, 'show']
+// Route::get('/groups', [GroupController::class, 'index'])->name('groups.index');
+// Route::get('/groups/{groupId}', [GroupController::class, 'show'])->name('groups.show'); // Make the farmId parameter optional
+// Route::post('/groups/{group}/join', [GroupController::class, 'join'])->name('groups.join');
+// Route::get('/groups/create', [GroupController::class, 'create'])->name('groups.create');
+// Route::post('/store-group-message/{groupId}', [GroupController::class, 'storeGroupMessage'])->name('store.group.message');
+// Route::delete('/delete-group-message/{messageId}', [GroupController::class, 'deleteMessage'])->name('delete.group.message');
+// Route::post('/mark-group-messages-as-read/{groupId}', [GroupController::class, 'markGroupMessagesAsRead']);
+// Route::get('/fetch-messages/{groupId}', [GroupController::class, 'fetchMessages'])->name('fetch.messages');
 
 Route::get('/weather', [WeatherController::class, 'index']);
 Route::get('/pastweather', [WeatherController::class, 'pastweather']);
@@ -247,12 +248,10 @@ Route::get('/events/calendar', [EventController::class, 'getCalendarEvents'])->n
 
 Route::get('/attendance', [AttendanceControler::class, 'index']);
 Route::get('/attendees', [AttendanceControler::class, 'attendees'])->name('event.details');
-Route::post('/event/attendance/submit/{event_id}', [AttendanceControler::class, 'submit'])->name('register');
+Route::post('/event/attendance/submit/{event_id}/{user_id}', [AttendanceControler::class, 'submit'])->name('register');
 Route::get('/event/{eventId}/attendance', [AttendanceControler::class, 'showAttendanceList']);
 Route::get('/event/form/{id}', [AttendanceControler::class, 'attendanceForm'])->name('event.attendance.form');
-Route::put('/change-attendee-status/{id}', [AttendanceControler::class, 'changeStatus']);
-
-
+Route::post('/update-status', [AttendanceControler::class, 'updateStatus']);
 Route::get('/fetch-attendees/{event_id}', [AttendanceControler::class, 'fetchAttendees']);
 
 
@@ -296,15 +295,15 @@ Route::post('/fertarchive/{id}', [PlantInfoController::class, 'fertarchive']);
 //For farm management =======================================================
 
 //index farm-mamangement//
-Route::get('/Farms-District-5', [FarmController::class, 'index']);
-Route::post('/add-farms', [FarmController::class, 'addFarms'])->name('add.farms');
-Route::get('/archive-farm/{id}', [FarmController::class, 'archiveFarm'])->name('archive.farm');
+// Route::get('/Farms-District-5', [FarmController::class, 'index']);
+// Route::post('/add-farms', [FarmController::class, 'addFarms'])->name('add.farms');
+// Route::get('/archive-farm/{id}', [FarmController::class, 'archiveFarm'])->name('archive.farm');
 
 //view farm-management//
-Route::get('/Farm-Management-High', [FarmController::class, 'viewFarms'])->name('farms.view');
-Route::get('/Farm-Management', [FarmController::class, 'viewFarms3'])->name('farms.view3');
-Route::get('/farms/filterByStatus', [FarmController::class, 'filterByStatus']);
-Route::post('/update-status/{id}', [FarmController::class, 'updateStatus'])->name('update.status');
+// Route::get('/Farm-Management-High', [FarmController::class, 'viewFarms'])->name('farms.view');
+// Route::get('/Farm-Management', [FarmController::class, 'viewFarms3'])->name('farms.view3');
+// Route::get('/farms/filterByStatus', [FarmController::class, 'filterByStatus']);
+// Route::post('/update-status/{id}', [FarmController::class, 'updateStatus'])->name('update.status');
 
 
 //view pdf/img farm-management//
@@ -314,12 +313,12 @@ Route::post('/update-status/{id}', [FarmController::class, 'updateStatus'])->nam
 // Route::get('/view-image2/{id}', [FarmController::class, 'viewImage2'])->name('view.image');
 
 //xfarms farm-management//
-Route::get('/view-archivefarms', [FarmController::class, 'viewArchiveFarms'])->name('archivefarms.xfarms');
-Route::get('/farms/filterByStatus1', [FarmController::class, 'filterByStatus1']);
-Route::get('/farm/{id}/details', [FarmController::class, 'getFarmDetails']);
-Route::post('/update-farm-status-cancel/{id}', [FarmController::class, 'updateStatusCancel']);
-Route::post('/update-farms/{id}', [FarmController::class, 'updateFarm'])->name('farms.update');
-Route::post('/set-date-farm/{id}', [FarmController::class, 'SetDateStatus'])->name('set.date.farm');
+// Route::get('/view-archivefarms', [FarmController::class, 'viewArchiveFarms'])->name('archivefarms.xfarms');
+// Route::get('/farms/filterByStatus1', [FarmController::class, 'filterByStatus1']);
+// Route::get('/farm/{id}/details', [FarmController::class, 'getFarmDetails']);
+// Route::post('/update-farm-status-cancel/{id}', [FarmController::class, 'updateStatusCancel']);
+// Route::post('/update-farms/{id}', [FarmController::class, 'updateFarm'])->name('farms.update');
+// Route::post('/set-date-farm/{id}', [FarmController::class, 'SetDateStatus'])->name('set.date.farm');
 
 
 
@@ -355,9 +354,20 @@ Route::get('/expenses/get-expenses-by-category', [ExpenseController::class, 'get
 // TOOL REQUEST ======================================================================
 
 Route::get('/Tools-District-5', [RequestController::class, 'index1']);
-Route::get('/requests', [RequestController::class, 'index']);
 Route::post('/add-tools', [RequestController::class, 'addTools'])->name('add.tools');
 Route::get('/request/{id}/details', [RequestController::class, 'getRequestDetails']);
+Route::get('/view-pdf/{id}/{title?}', [RequestController::class, 'viewPdfRequest'])->name('view.pdf');
+
+
+Route::get('/requests', [ToolController::class, 'index']);
+Route::get('/getLetterContent', [ToolController::class, 'getLetterContent']);
+Route::post('/updateStatus', [ToolController::class, 'updateStatus']);
+Route::get('/availableList', [ToolController::class, 'availableList']);
+Route::get('/approvedList', [ToolController::class, 'approvedList']);
+Route::get('/pickedList', [ToolController::class, 'pickedList']);
+Route::get('/returnList', [ToolController::class, 'returnList']);
+Route::post('/set-picking-date', [ToolController::class, 'setPickingDate']);
+Route::post('/set-return-date', [ToolController::class, 'setReturnDate']);
 
 
 // ===================================================================================
@@ -417,3 +427,11 @@ Route::get('/getPost', [ForumController::class, 'getPost']);
 Route::get('/getComment/{num}', [CommentController::class, 'getComment']);
 Route::get('/getReply/{num}', [CommentController::class, 'getReply']);
 Route::post('/reply/store', [CommentController::class, 'createReply']);
+
+Route::get('/linkstorage', function () {
+    Artisan::call('storage:link');
+});
+
+//Import function ==============================================
+Route::post('/import-farmleader', [AuthController::class, 'importFarmLeader']);
+Route::post('/import-farmer', [AuthController::class, 'importFarmers']);

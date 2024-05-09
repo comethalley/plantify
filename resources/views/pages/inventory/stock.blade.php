@@ -77,7 +77,6 @@
                                             <tr class="text-uppercase">
 
                                                 <th data-sort="id">ID</th>
-                                                <th data-sort="customer_name">Code</th>
                                                 <th data-sort="date">Seed Name</th>
                                                 <th data-sort="amount">Supplier</th>
                                                 <th data-sort="payment">Available</th>
@@ -126,9 +125,19 @@
                                                     <input type="text" id="multiple-receive" class="form-control" value="1" />
                                                 </div>
                                                 <video id="preview" style="width: 100%;"></video>
+
+                                                <div class="mb-3 manual-form" style="display: none;">
+                                                    <input type="text" id="manual-code" class="form-control" />
+                                                    <br>
+                                                    <button type="button" class="btn btn-primary manual_submit">Submit</button>
+                                                </div>
+
                                                 <center>
                                                     <p class="lead text-danger" id="received-qr"></p>
                                                 </center><br>
+                                                <center>
+                                                    <a href="#" id="no_camera">Camera not available?</a>
+                                                </center>
 
                                             </div>
                                             <div class="modal-footer">
@@ -143,6 +152,7 @@
                                 </div>
                             </div>
                             <!--End Receiving Modal-->
+
 
                             <!--Using Modal-->
                             <!-- <div class="modal fade" id="usingModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -292,6 +302,84 @@
 
 </div>
 <!-- END layout-wrapper -->
+
+<script>
+    $(document).ready(function() {
+        $(".download-btn").click(function() {
+            var table = $('#supplierTable').clone();
+
+            // Add user's first name, last name, and current date to the table
+            var userFirstName = "<?php echo Auth::user()->firstname; ?>";
+            var userLastName = "<?php echo Auth::user()->lastname; ?>";
+            var currentDate = new Date().toLocaleDateString();
+            var userRow = $('<tr><td colspan="6">Prepared by: ' + userFirstName + ' ' + userLastName + '</td></tr>');
+            var dateRow = $('<tr><td colspan="6">Date: ' + currentDate + '</td></tr>');
+            table.append(userRow); // Append at the bottom
+            table.append(dateRow); // Append at the bottom
+
+            exportTableToCSV(table);
+        });
+    });
+
+    function exportTableToCSV(table) {
+        var rows = table.find('tr').get();
+        var csvContent = '';
+
+        // Iterate over table rows
+        rows.forEach(function(row) {
+            var rowData = [];
+            $(row).find('td').each(function() {
+                rowData.push($(this).text());
+            });
+            csvContent += rowData.join(',') + '\n';
+        });
+
+        var currentDate = new Date().toLocaleDateString();
+        var userFirstName = "<?php echo Auth::user()->firstname; ?>";
+        var userLastName = "<?php echo Auth::user()->lastname; ?>";
+
+        csvContent += 'Date: ' + currentDate + '\n';
+        csvContent += 'Prepared by: ' + userFirstName + ' ' + userLastName + '\n';
+
+        var blob = new Blob([csvContent], {
+            type: 'text/csv;charset=utf-8;'
+        });
+
+        var currentDate = new Date();
+        var year = currentDate.getFullYear();
+        var month = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // Adding 1 to month as it's zero-based
+        var day = currentDate.getDate().toString().padStart(2, '0');
+        var formattedDate = year + '-' + month + '-' + day;
+
+        var filename = 'suppliers_' + formattedDate + '.csv';
+
+        if (navigator.msSaveBlob) { // IE 10+
+            navigator.msSaveBlob(blob, filename);
+        } else {
+            var link = document.createElement("a");
+            if (link.download !== undefined) { // Feature detection
+                var url = URL.createObjectURL(blob);
+                link.setAttribute("href", url);
+                link.setAttribute("download", filename);
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+        }
+    }
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('.search').on('keyup', function() {
+            var value = $(this).val().toLowerCase();
+            $('#stocksTable tbody tr').filter(function() { // Only target tbody rows
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
 
 
 @include('templates.footer')

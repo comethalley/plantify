@@ -13,7 +13,6 @@ class CreateProfileOtherInfoTable extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');;
             $table->string('city')->nullable();
             $table->integer('age')->nullable();
-            $table->enum('sex', ['male', 'female'])->nullable();
             $table->string('bio')->nullable();
             $table->timestamps();
         });

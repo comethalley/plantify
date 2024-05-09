@@ -11,7 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-
+    use Notifiable;
     /**
      * The attributes that are mass assignable.
      *
@@ -66,6 +66,10 @@ public function messages()
 public function farm()
 {
     return $this->hasOne(Farm::class, 'farm_leader');
+}
+public function farms()
+{
+    return $this->hasMany(Farm::class, 'farm_leader', 'id');
 }
 public function tasks()
 {

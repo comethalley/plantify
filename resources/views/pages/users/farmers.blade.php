@@ -52,6 +52,7 @@
                                 </div>
                                 <div class="col-sm-auto">
                                     <div class="d-flex gap-1 flex-wrap">
+                                        <button type="button" class="btn btn-outline-dark waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#csv"><i class="ri-upload-2-line "></i> Import Data </button>
                                         <button type="button" class="btn btn-secondary waves-effect waves-light" data-bs-toggle="modal" id="create-btn" data-bs-target="#csv"><i class="ri-add-line align-bottom me-1"></i> Download CSV </button>
                                         <button type="button" class="btn btn-success add-btn" data-bs-toggle="modal" id="create-btn" data-bs-target="#farmerShowModal"><i class="ri-add-line align-bottom me-1"></i> Invite Farmer</button>
                                         <button class="btn btn-soft-danger" id="remove-actions" onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button>
@@ -125,10 +126,10 @@
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header bg-light p-3">
-                                            <h5 class="modal-title" id="exampleModalLabel">Download</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">Import Farmers Data</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
                                         </div>
-                                        <form method="post" action="/add-supplier">
+                                        <form id="importFarmerForm" enctype="multipart/form-data">
                                             @csrf
                                             <div class="modal-body">
                                                 <input type="hidden" id="id-field" />
@@ -136,16 +137,15 @@
                                                 <div class="mb-3">
                                                     <!-- Default File Input Example -->
                                                     <div>
-                                                        <label for="formFile" class="form-label">Download File</label>
-                                                        <input class="form-control" type="file" id="formFile">
+                                                        <label for="formFile" class="form-label">Open a Spreadsheet File</label>
+                                                        <input class="form-control" type="file" id="formFile" name="excel_file" accept=".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
                                                     </div>
                                                 </div>
-
                                             </div>
                                             <div class="modal-footer">
                                                 <div class="hstack gap-2 justify-content-end">
                                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                                                    <button type="submit" class="btn btn-btn btn-secondary waves-effect waves-light">Add</button>
+                                                    <button type="button" id="importFarmerBtn" class="btn btn-btn btn-secondary waves-effect waves-light">Import Data</button>
                                                 </div>
                                             </div>
                                         </form>
@@ -295,6 +295,17 @@
 
 </div>
 <!-- END layout-wrapper -->
+
+<script>
+    $(document).ready(function() {
+        $('.search').on('keyup', function() {
+            var value = $(this).val().toLowerCase();
+            $('#farmers-tbl tbody tr').filter(function() { // Only target tbody rows
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
 
 
 @include('templates.footer')

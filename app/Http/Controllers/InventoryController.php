@@ -92,6 +92,8 @@ class InventoryController extends Controller
                 'plant_infos.plant_name as seedName',
             )
             ->where('suppliers.id', $id)
+            ->where('supplier_seeds.status', '1')
+            ->orWhere('supplier_seeds.status', '2')
             ->orderBy('supplier_seeds.id', 'DESC')
             ->get();
 
@@ -103,7 +105,9 @@ class InventoryController extends Controller
     {
         $randomNumber = mt_rand(100000, 999999);
 
-        while (SupplierSeed::where('qr_code', $randomNumber)->exists()) {
+        // Check if the generated code exists in the qr_codes table
+        while (DB::table('qrcodes')->where('qr_codes', $randomNumber)->exists()) {
+            // Regenerate if the code already exists
             $randomNumber = mt_rand(100000, 999999);
         }
 
@@ -342,7 +346,52 @@ class InventoryController extends Controller
         $path = public_path('qrcodes/' . $qrCode);
 
         if (file_exists($path)) {
-            return response()->download($path, $qrCode);
+
+            $filename = $qrCode;
+            $filenameWithoutExtension = pathinfo($filename, PATHINFO_FILENAME);
+            //echo $filenameWithoutExtension;
+
+            $supplierSeed = SupplierSeed::where('qr_code', $filenameWithoutExtension)->first();
+
+            if (!$supplierSeed) {
+                return response()->json(['error' => 'Qr Code not Found'], 200);
+            }
+
+            $qrText = $this->generateCode();
+
+            $supplierSeed->update([
+                "qr_code" => $qrText
+            ]);
+
+            $Seed = SupplierSeed::where('qr_code', $qrText)->first();
+
+            $mode = "";
+
+            if ($Seed->type == "Seedlings") {
+                $mode = " pcs";
+            } else {
+                $mode = "g";
+            }
+
+            $seedID = $Seed->seed_id;
+            $seed = DB::table('plant_infos')->where('id', $seedID)->first();
+
+            $seedName = $seed->plant_name;
+            $NewQrCode = $Seed->qr_code;
+            $quantity = $Seed->qty;
+
+            $qrLabel = $NewQrCode . "-" . $seedName . "(" . $quantity . $mode . ")(" . $supplierSeed->type . ")";
+
+            $wrappedLabel = wordwrap($qrLabel, 20, "\n", true);
+
+            $generate = $this->generateqr($qrLabel, $NewQrCode);
+            DB::table('qrcodes')->insert([
+                'supplier_seeds_id' => $Seed->id,
+                'qr_codes' => $filenameWithoutExtension,
+                'status' => '1',
+            ]);
+
+            return response()->download($path, $filename);
         } else {
             abort(404, 'Image not found');
         }
@@ -387,8 +436,26 @@ class InventoryController extends Controller
         $multiplier = $data['multiplier'];
 
         try {
+
+
+            $qrCodeID = DB::table('qrcodes')
+                ->where('qr_codes', $qrCode)
+                ->first();
+
+            //dd($qrCodeID);
+
+            if (!$qrCodeID) {
+                return response()->json(['message' => 'Qr Code not Found. Please make sure you downloaded the Qr Code'], 403);
+            }
+
+            if ($qrCodeID->status == '2') {
+                return response()->json(['message' => 'Qr Code is already received. Please generate new Qr Code'], 403);
+            }
+
+            $supplierSeedID = $qrCodeID->supplier_seeds_id;
+
             $supplierSeeds = DB::table('supplier_seeds')
-                ->where('qr_code', $qrCode)
+                ->where('id', $supplierSeedID)
                 ->where('status', '1')
                 ->first();
 
@@ -421,6 +488,10 @@ class InventoryController extends Controller
                     'status' => 1
                 ]);
 
+                DB::table('qrcodes')
+                    ->where('qr_codes', $qrCode)
+                    ->update(['status' => '2']);
+
                 return response()->json(['message' => 'Data updated successfully'], 200);
             } else {
 
@@ -441,6 +512,16 @@ class InventoryController extends Controller
                     'qty' => $quantity,
                     'status' => 1
                 ]);
+
+                DB::table('qrcodes')
+                    ->where('qr_codes', $qrCode)
+                    ->update(['status' => '2']);
+
+
+                // $removeQr = DB::table('supplier_seeds')
+                //     ->where('qr_code', $qrCode)
+                //     ->where('status', '1')
+                //     ->update(['status' => '2']);
 
                 return response()->json(['message' => 'Data created successfully'], 200);
             }
@@ -463,8 +544,25 @@ class InventoryController extends Controller
         $mode = $data['mode'];
 
         try {
+
+            $qrCodeID = DB::table('qrcodes')
+                ->where('qr_codes', $qrCode)
+                ->first();
+
+            //dd($qrCodeID);
+
+            if (!$qrCodeID) {
+                return response()->json(['message' => 'Qr Code not Found. Please make sure you downloaded the Qr Code'], 403);
+            }
+
+            if ($qrCodeID->status == '3') {
+                return response()->json(['message' => 'This Seed has already been plated. Please generate new Qr Code'], 403);
+            }
+
+            $supplierSeedID = $qrCodeID->supplier_seeds_id;
+
             $supplierSeeds = DB::table('supplier_seeds')
-                ->where('qr_code', $qrCode)
+                ->where('id', $supplierSeedID)
                 ->where('status', '1')
                 ->first();
 
@@ -482,10 +580,14 @@ class InventoryController extends Controller
             $record = Stock::where('supplier_seeds_id', $supplier_seedsID)->first();
 
             if ($record) {
-                $getStock = Stock::find($record->id);
+                // $getStock = Stock::find($record->id);
 
-                if ($quantity > $getStock->available_seed) {
-                    return response()->json(['message' => 'Insufficient stock.'], 403);
+                if ($quantity > $record->available_seed) {
+                    return response()->json(['message' => 'Insufficient stock. Go to the Inventory > Stocks and restock your inventory'], 403);
+                }
+
+                if ($record->available_seed <= 5) {
+                    return response()->json(['message' => 'Warning: Available stock is low. Consider restocking your inventory soon.'], 200);
                 }
 
                 $totalUsed = $quantity + $record->used_seed;
@@ -511,6 +613,10 @@ class InventoryController extends Controller
                     'qty' => $quantity,
                     'status' => 1
                 ]);
+
+                DB::table('qrcodes')
+                    ->where('qr_codes', $qrCode)
+                    ->update(['status' => '3']);
 
 
                 return response()->json(['message' => 'Data updated successfully', 'seedName' => $plant_name->plant_name, 'daysHarvest' => $plant_name->days_harvest, 'type' => $supplierSeeds->type, 'amount' => $quantity], 200);
@@ -864,5 +970,28 @@ class InventoryController extends Controller
     public function tools()
     {
         return view("pages.inventory.tools");
+    }
+
+    public function archiveSeed(Request $request, $id)
+    {
+        try {
+            $uoms = SupplierSeed::findOrFail($id);
+
+            $uoms->update([
+                'status' => 0
+            ]);
+
+            if ($uoms) {
+                return response()->json(['message' => 'Measurement Updated Successfully', 'supplier' => $uoms->supplier_id], 200);
+            } else {
+                return response()->json(['error' => 'Internal Server Error'], 500);
+            }
+        } catch (ModelNotFoundException $e) {
+
+            return response()->json(['error' => 'Item not found'], 404);
+        } catch (\Exception $e) {
+
+            return response()->json(['error' => 'Internal Server Error'], 500);
+        }
     }
 }

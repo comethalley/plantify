@@ -42,31 +42,32 @@
                                     
                                         <!-- Display the chat list -->
                                         <div class="chat-message-list">
-                                            <ul class="list-unstyled chat-list chat-user-list" id="userList">
-                                                @forelse($filteredUsers as $user) <!-- Change $users to $filteredUsers -->
+                                            <ul class="list-unstyled chat-list chat-user-list flex-column" id="userList">
+                                                @forelse($filteredUsers as $user)
                                                     @php
                                                         // Check if the user has any messages
                                                         $hasMessages = $user->messages->isNotEmpty();
                                                     @endphp
 
-                                                    @if($hasMessages)
-                                                        <button type="button" class="btn member-button" data-member-id="{{ $user->id }}" data-thread-id="{{ $user->thread_id }}">
-                                                            <!-- Your user display content -->
-                                                            <div class="d-flex align-items-center">
-                                                            @if($profileSettings)
-                                                                <img src="{{ $profileSettings->profile_image ? asset('storage/' . $profileSettings->profile_image) : asset('path_to_default_image') }}" alt="" >
-                                                            @else
-                                                                <img class="rounded-circle header-profile-user" src="{{asset('assets/images/plantifeedpics/rounded.png')}}" alt="Header Avatar">
-                                                            @endif
+                                                    @if($hasMessages && $user->status == 1)
+                                                        <li class="mb-3">
+                                                            <button type="button" class="btn member-button" data-member-id="{{ $user->id }}" data-thread-id="{{ $user->thread_id }}">
+                                                                <!-- Your user display content -->
+                                                                <div class="d-flex align-items-center">
+                                                                    @if($profileSettings)
+                                                                        <img src="{{ $profileSettings->profile_image ? asset('storage/' . $profileSettings->profile_image) : asset('path_to_default_image') }}" alt="" >
+                                                                    @else
+                                                                        <img class="rounded-circle header-profile-user" src="{{asset('assets/images/plantifeedpics/rounded.png')}}" alt="Header Avatar">
+                                                                    @endif
                                                                     @if ($user->unread_message_count > 0)
                                                                         <span class="position-absolute topbar-badge fs-10 translate-end badge rounded-pill bg-danger">{{ $user->unread_message_count }}</span>
                                                                     @endif
-                                                                
-                                                                <div class="ms-2">
-                                                                    <h6 class="mb-0">{{ $user->firstname }} {{ $user->lastname }}</h6>
+                                                                    <div class="ms-2">
+                                                                        <h6 class="mb-0">{{ $user->firstname }} {{ $user->lastname }}</h6>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        </button>
+                                                            </button>
+                                                        </li>
                                                     @endif
                                                 @empty
                                                     <p>No other users found.</p>
@@ -81,53 +82,53 @@
                                         </div>
         
                                         <div class="chat-message-list">
-                                            <ul class="list-unstyled chat-list chat-user-list mb-0" id="channelList">
-                                                @forelse($groups as $group)
-                                                @if(auth()->user()->role_id == 2 && $group->group_name == 'Admin and Farm Leaders')
-                                                {{-- Display only for role_id 2 (Admin and Farm Leaders) --}}
-                                                <button type="button" class="btn channel-button" data-group-id="{{ $group->id }}" data-farm-id="{{ optional($farmLeaders)->id }}">
-                                                    <div class="d-flex align-items-center">
-                                                    <img class="rounded-circle header-profile-user" src="{{asset('assets/images/plantifeedpics/rounded.png')}}" alt="Header Avatar">
-                                                        <div class="ms-2">
-                                                            <h6 class="mb-0">{{ $group->group_name }}</h6>
-                                                            @if ($group->unread_message_count > 0)
-                                                                <span class="position-absolute topbar-badge fs-10 translate-end badge rounded-pill bg-danger">{{ $group->unread_message_count }}</span>
-                                                            @endif
-                                                        </div>
+                                <ul class="list-unstyled chat-list chat-user-list mb-0" id="channelList">
+                                    @forelse($groups as $group)
+                                        @if(in_array(auth()->user()->role_id, [1, 2]) && $group->group_name == 'Admin and Farm Leaders')
+                                            {{-- Display only for role_id 1 or 2 (Admin and Farm Leaders) --}}
+                                            <button type="button" class="btn channel-button" data-group-id="{{ $group->id }}" data-farm-id="{{ optional($farmLeaders)->id }}">
+                                                <div class="d-flex align-items-center">
+                                                    <img class="rounded-circle header-profile-user" src="{{ asset('assets/images/plantifeedpics/rounded.png') }}" alt="Header Avatar">
+                                                    <div class="ms-2">
+                                                        <h6 class="mb-0">{{ $group->group_name }}</h6>
+                                                        @if ($group->unread_message_count > 0)
+                                                            <span class="position-absolute topbar-badge fs-10 translate-end badge rounded-pill bg-danger">{{ $group->unread_message_count }}</span>
+                                                        @endif
                                                     </div>
-                                                </button>
-                                                @elseif(auth()->user()->role_id == 3)
-                                                {{-- Display for role_id 3 (both Admin and Farm Leaders, Farm Leader and Farmers) --}}
-                                                <button type="button" class="btn channel-button" data-group-id="{{ $group->id }}" data-farm-id="{{ optional($farmLeaders)->id }}">
-                                                    <div class="d-flex align-items-center">
-                                                    <img class="rounded-circle header-profile-user" src="{{asset('assets/images/plantifeedpics/rounded.png')}}" alt="Header Avatar">
-                                                        <div class="ms-2">
-                                                            <h6 class="mb-0">{{ $group->group_name }}</h6>
-                                                            @if ($group->unread_message_count > 0)
-                                                                <span class="position-absolute topbar-badge fs-10 translate-end badge rounded-pill bg-danger">{{ $group->unread_message_count }}</span>
-                                                            @endif
-                                                        </div>
+                                                </div>
+                                            </button>
+                                        @elseif(auth()->user()->role_id == 3)
+                                            {{-- Display for role_id 3 (both Admin and Farm Leaders, Farm Leader and Farmers) --}}
+                                            <button type="button" class="btn channel-button" data-group-id="{{ $group->id }}" data-farm-id="{{ optional($farmLeaders)->id }}">
+                                                <div class="d-flex align-items-center">
+                                                <img class="rounded-circle header-profile-user" src="{{asset('assets/images/plantifeedpics/rounded.png')}}" alt="Header Avatar">
+                                                    <div class="ms-2">
+                                                        <h6 class="mb-0">{{ $group->group_name }}</h6>
+                                                        @if ($group->unread_message_count > 0)
+                                                            <span class="position-absolute topbar-badge fs-10 translate-end badge rounded-pill bg-danger">{{ $group->unread_message_count }}</span>
+                                                        @endif
                                                     </div>
-                                                </button>
-                                                @elseif(auth()->user()->role_id == 4 && $group->group_name == 'Farm Leader and Farmers')
-                                                {{-- Display only for role_id 4 (Farm Leader and Farmers) --}}
-                                                <button type="button" class="btn channel-button" data-group-id="{{ $group->id }}" data-farm-id="{{ optional($farmLeaders)->id }}">
-                                                    <div class="d-flex align-items-center">
-                                                    <img class="rounded-circle header-profile-user" src="{{asset('assets/images/plantifeedpics/rounded.png')}}" alt="Header Avatar">
-                                                        <div class="ms-2">
-                                                            <h6 class="mb-0">{{ $group->group_name }}</h6>
-                                                            @if ($group->unread_message_count > 0)
-                                                                <span class="position-absolute topbar-badge fs-10 translate-end badge rounded-pill bg-danger">{{ $group->unread_message_count }}</span>
-                                                            @endif
-                                                        </div>
+                                                </div>
+                                            </button>
+                                        @elseif(auth()->user()->role_id == 4 && $group->group_name == 'Farm Leader and Farmers')
+                                            {{-- Display only for role_id 4 (Farm Leader and Farmers) --}}
+                                            <button type="button" class="btn channel-button" data-group-id="{{ $group->id }}" data-farm-id="{{ optional($farmLeaders)->id }}">
+                                                <div class="d-flex align-items-center">
+                                                <img class="rounded-circle header-profile-user" src="{{asset('assets/images/plantifeedpics/rounded.png')}}" alt="Header Avatar">
+                                                    <div class="ms-2">
+                                                        <h6 class="mb-0">{{ $group->group_name }}</h6>
+                                                        @if ($group->unread_message_count > 0)
+                                                            <span class="position-absolute topbar-badge fs-10 translate-end badge rounded-pill bg-danger">{{ $group->unread_message_count }}</span>
+                                                        @endif
                                                     </div>
-                                                </button>
-                                                @endif
-                                                @empty
-                                                <p>No groups found.</p>
-                                                @endforelse
-                                            </ul>
-                                        </div>
+                                                </div>
+                                            </button>
+                                        @endif
+                                    @empty
+                                        <p>No groups found.</p>
+                                    @endforelse
+                                </ul>
+                            </div>
                                         <!-- End chat-message-list -->
                                     </div>
                                 </div>
@@ -163,7 +164,7 @@
                                                                 <div class="d-flex align-items-center">
                                                                     <div class="flex-shrink-0 chat-user-img online user-own-img align-self-center me-3 ms-0">
                                                                     @if($profileSettings)
-                                                                        <img src="{{ $profileSettings->profile_image ? asset('storage/' . $profileSettings->profile_image) : asset('path_to_default_image') }}" alt="" class="avatar-lg img-thumbnail rounded-circle mx-auto profile-img">
+                                                                        <img src="{{ $profileSettings->profile_image ? asset('storage/' . $profileSettings->profile_image) : asset('path_to_default_image') }}" alt="" class="rounded-circle header-profile-user">
                                                                     @else
                                                                         <img class="rounded-circle header-profile-user" src="{{asset('assets/images/plantifeedpics/rounded.png')}}" alt="Header Avatar">
                                                                     @endif
@@ -456,7 +457,7 @@ $(document).ready(function() {
 
     Pusher.logToConsole = true;
 
-var pusher = new Pusher('54f1c49cb67ee0620dac', {
+var pusher = new Pusher('ebad2ef1a296a8ac5320', {
     cluster: 'ap1'
 });
 
@@ -722,7 +723,7 @@ window.deleteMessage = function(element) {
 
     Pusher.logToConsole = true;
 
-    var pusher = new Pusher('d7630bf7a930051c0329', {
+    var pusher = new Pusher('ebad2ef1a296a8ac5320', {
         cluster: 'ap1'
     });
 
@@ -817,7 +818,7 @@ $(document).ready(function () {
                 },
                 success: function (response) {
                     // Update the UI to remove or update the badge
-                    $('#unreadBadge_' + userId).remove();
+                    $('.topbar-badge[data-member-id="' + userId + '"]').remove();
                 },
                 error: function (xhr, status, error) {
                     console.error('Error:', error);
@@ -948,7 +949,10 @@ $(document).ready(function () {
 });
 
 
-
+setInterval(function() {
+        // Reload the content
+        $('#userList').load(location.href + ' #userList');
+    }, 500); // 0.5 seconds
 
 
 

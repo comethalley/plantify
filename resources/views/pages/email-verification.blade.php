@@ -141,12 +141,13 @@
                                         </div>
 
                                         <div class="mt-5 text-center">
-                                            <p>The code is valid for 5 minutes. Do not share this code with anyone for security reasons </p>
+                                            <!-- <p>The code is valid for 5 minutes. Do not share this code with anyone for security reasons </p> -->
+                                            <p class="mb-0" id="available">Resend Code is Available in <span id="time-left"></span> </p>
                                         </div>
 
                                         <div class="mt-5 text-center">
                                             <p class="mb-0" id="resend-code">Didn't receive a code ? <a href="#" class="fw-semibold text-primary text-decoration-underline" id="resendCode">Resend</a> </p>
-                                            <p class="mb-0" id="available">Resend Code is Available in <span id="time-left"></span> </p>
+                                            <!-- <p class="mb-0" id="available">Resend Code is Available in <span id="time-left"></span> </p> -->
                                         </div>
                                     </div>
                                 </div>
@@ -215,6 +216,7 @@
                 if (remainingTime > 0) {
                     $("#available").show();
                     $("#time-left").text(minutes + "m " + seconds + "s");
+                    $("#resend-code").hide();
                 } else {
                     // Hide the countdown when time reaches zero
                     $("#available").hide();
@@ -281,6 +283,7 @@
                         $("#resend-code").hide();
                         $("#available").show();
                         localStorage.setItem('timerStartTime', Date.now());
+                        location.reload()
                     },
                     error: function(xhr, status, error) {
                         console.error("Error:", status, error);

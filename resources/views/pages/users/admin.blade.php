@@ -85,6 +85,7 @@
                                                 <th data-sort="payment">Email Address</th>
                                                 <!-- <th data-sort="address">Address</th> -->
                                                 <!-- <th data-sort="contact">Contact</th> -->
+                                                <th data-sort="city">Status</th>
                                                 <th data-sort="city">Action</th>
 
 
@@ -158,7 +159,7 @@
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header bg-light p-3">
-                                            <h5 class="modal-title" id="exampleModalLabel">Invite New Admin</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">Add New Admin</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
                                         </div>
                                         <form method="post" action="/add-supplier">
@@ -168,22 +169,22 @@
 
                                                 <input type="text" id="orderId" class="form-control" placeholder="ID" readonly hidden />
 
-                                                <!-- <div class="mb-3">
+                                                <div class="mb-3">
                                                     <label for="customername-field" class="form-label">First Name</label>
-                                                    <input type="text" name="supplier-name" id="firstname" class="form-control" placeholder="Enter name" required />
+                                                    <input type="text" name="supplier-name" id="firstname" class="form-control" placeholder="Enter Firstname" required />
                                                 </div>
 
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Last Name</label>
-                                                    <input type="text" name="description" id="lastname" class="form-control" placeholder="Enter Description" required />
-                                                </div> -->
+                                                    <input type="text" name="description" id="lastname" class="form-control" placeholder="Enter Lastname" required />
+                                                </div>
 
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Email Address</label>
                                                     <input type="email" name="email" id="email" class="form-control" placeholder="Enter Email" required />
                                                 </div>
 
-                                                <!-- <div class="mb-3">
+                                                <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Address</label>
                                                     <input type="address" name="address" id="address" class="form-control" placeholder="Enter Address" required />
                                                 </div>
@@ -191,7 +192,17 @@
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Contact</label>
                                                     <input type="contact" name="contact" id="contact" class="form-control" placeholder="Enter Contact" required />
-                                                </div> -->
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label for="customername-field" class="form-label">Password</label>
+                                                    <input type="password" name="contact" id="password" class="form-control" placeholder="Enter Password" required />
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label for="customername-field" class="form-label">Confirm Password</label>
+                                                    <input type="password" name="contact" id="confirm_password" class="form-control" placeholder="Confirm Password" required />
+                                                </div>
 
                                             </div>
                                             <div class="modal-footer">
@@ -305,32 +316,78 @@
 
 <script>
     $(document).ready(function() {
-        function downloadAdminTableAsExcel(tableId, filename) {
-            var table = document.getElementById(tableId);
-            if (!table) {
-                console.error("Table element with ID '" + tableId + "' not found.");
-                return;
+        $(".download-admin").click(function() {
+            var table = $('#admin-table').clone();
+
+            // Add user's first name, last name, and current date to the table
+            var userFirstName = "<?php echo Auth::user()->firstname; ?>";
+            var userLastName = "<?php echo Auth::user()->lastname; ?>";
+            var currentDate = new Date().toLocaleDateString();
+            var userRow = $('<tr><td colspan="6">Prepared by: ' + userFirstName + ' ' + userLastName + '</td></tr>');
+            var dateRow = $('<tr><td colspan="6">Date: ' + currentDate + '</td></tr>');
+            table.append(userRow); // Append at the bottom
+            table.append(dateRow); // Append at the bottom
+
+            exportTableToCSV(table);
+        });
+    });
+
+    function exportTableToCSV(table) {
+        var rows = table.find('tr').get();
+        var csvContent = '';
+
+        // Iterate over table rows
+        rows.forEach(function(row) {
+            var rowData = [];
+            $(row).find('td').each(function() {
+                rowData.push($(this).text());
+            });
+            csvContent += rowData.join(',') + '\n';
+        });
+
+        var currentDate = new Date().toLocaleDateString();
+        var userFirstName = "<?php echo Auth::user()->firstname; ?>";
+        var userLastName = "<?php echo Auth::user()->lastname; ?>";
+
+        csvContent += 'Date: ' + currentDate + '\n';
+        csvContent += 'Prepared by: ' + userFirstName + ' ' + userLastName + '\n';
+
+        var blob = new Blob([csvContent], {
+            type: 'text/csv;charset=utf-8;'
+        });
+
+        var currentDate = new Date();
+        var year = currentDate.getFullYear();
+        var month = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // Adding 1 to month as it's zero-based
+        var day = currentDate.getDate().toString().padStart(2, '0');
+        var formattedDate = year + '-' + month + '-' + day;
+
+        var filename = 'admins_' + formattedDate + '.csv';
+
+        if (navigator.msSaveBlob) { // IE 10+
+            navigator.msSaveBlob(blob, filename);
+        } else {
+            var link = document.createElement("a");
+            if (link.download !== undefined) { // Feature detection
+                var url = URL.createObjectURL(blob);
+                link.setAttribute("href", url);
+                link.setAttribute("download", filename);
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
             }
-
-            // Clone the table to manipulate without affecting the original table
-            var clonedTable = table.cloneNode(true);
-
-            // Remove the action column from the cloned table
-            $(clonedTable).find("th[data-sort='city'], td[data-column='city']").remove();
-
-            var ws = XLSX.utils.table_to_sheet(clonedTable);
-
-            // Create a workbook with a single worksheet
-            var wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-
-            // Convert the workbook to a binary Excel file and trigger the download
-            XLSX.writeFile(wb, filename + '.xlsx');
         }
+    }
+</script>
 
-        $(document).on("click", ".download-admin", function() {
-            //console.log("Download button clicked");
-            downloadAdminTableAsExcel('admin-table', 'admins_data');
+<script>
+    $(document).ready(function() {
+        $('.search').on('keyup', function() {
+            var value = $(this).val().toLowerCase();
+            $('#admin-table tbody tr').filter(function() { // Only target tbody rows
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
         });
     });
 </script>

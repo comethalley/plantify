@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <title>PlantiCUAI</title>
-    <link rel="shortcut icon" type="image/x-icon" href="assets/images/plantifeedpics/rounded.png" class="img-fluid" />
+    <link rel="shortcut icon" type="image/x-icon" href="../assets/images/plantifeedpics/rounded.png" class="img-fluid" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
@@ -101,11 +101,35 @@
         #interestButton.interested #starIcon {
             color: #FFD700;
         }
+
+        #sloading {
+            display: none;
+            position: fixed;
+            height: 100%;
+            width: 100%;
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+        }
+
+        #sloading img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            /* Adjust width as needed */
+            height: 100px;
+            /* Adjust height as needed */
+        }
     </style>
 </head>
 
 <body onload="">
+    <div id='sloading'><!-- Add overlay here -->
+        <center><img src='/images/loading.gif'></center>
 
+    </div>
 
     <!-- Begin page -->
     <div id="layout-wrapper">
@@ -179,7 +203,7 @@
                         <div class="dropdown topbar-head-dropdown ms-1 header-item" id="markasread">
                             <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" id="markasread" onclick="markNotificationAsRead()" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
                                 <i class="bx bx-bell fs-22"></i>
-                                <span id="reload-section" class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger" id="markasread">
+                                <span id="reload-section" class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill" id="markasread">
                                     @if(auth()->user())
                                     {{ count(auth()->user()->unreadNotifications) }}
                                     @else
@@ -214,10 +238,14 @@
                                             </li>
                                             <li class="nav-item waves-effect waves-light">
                                                 <a class="nav-link" data-bs-toggle="tab" href="#messages-tab" role="tab" aria-selected="false">
-                                                    Forum
+                                                Message
                                                 </a>
                                             </li>
-
+                                            <li class="nav-item waves-effect waves-light">
+                                                <a class="nav-link" data-bs-toggle="tab" href="#messages-tab" role="tab" aria-selected="false">
+                                                Forum
+                                                </a>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
@@ -231,7 +259,7 @@
                                             <div class="d-flex">
                                                 <img src="../assets/images/event/event.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
                                                 <div class="flex-grow-1">
-                                                    <a href="#" class="stretched-link event-notification" data-event-id="{{ $notification->event_id }}">
+                                                    <a href="/schedules" class="stretched-link event-notification" data-event-id="{{ $notification->event_id }}">
                                                         <h6 class="mt-0 mb-1 fs-13 fw-semibold">{{ $notification->data['title']}}</h6>
                                                     </a>
                                                     <div class="fs-13 text-muted">
@@ -461,16 +489,23 @@
                                                         <span><i class="mdi mdi-clock-outline" id="notification-time"></i>{{ $notification->created_at->diffForHumans() }}</span>
                                                     </p>
                                                 </div>
-                                                <!-- <div class="px-2 fs-15">
-                                                    <div class="form-check notification-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="all-notification-check02">
-                                                        <label class="form-check-label" for="all-notification-check02"></label>
-                                                    </div>
-                                                </div> -->
-
 
                                             </div>
                                             @endif
+                                            @if ($notification->type === 'App\Notifications\UserLoginNotification')
+                                                    <div class="d-flex">
+                                                        <img src="../assets/images/notif/request.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                                        <div class="flex-grow-1">
+                                                            <h6 class="mt-0 mb-1 fs-13 fw-semibold">User Login</h6>
+                                                            <div class="fs-13 text-muted">
+                                                                <p class="mb-1">{{ $notification->data['role_name'] }}  {{ $notification->data['lastname'] }} logged in.</p>
+                                                            </div>
+                                                            <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+                                                                <span><i class="mdi mdi-clock-outline" id="notification-time"></i>{{ $notification->created_at->diffForHumans() }}</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                @endif
                                         </div>
 
                                         @endforeach
@@ -481,8 +516,31 @@
 
 
 
-                                    <div class="tab-pane fade py-2 ps-2" id="messages-tab" role="tabpanel" aria-labelledby="messages-tab">
 
+                                    <div class="tab-pane fade py-2 ps-2" id="messages-tab" role="tabpanel" aria-labelledby="messages-tab">
+                                    @if(auth()->user() && auth()->user()->notifications)
+                                                @foreach (auth()->user()->notifications as $notification)
+                                                    <div class="text-reset notification-item d-block dropdown-item position-relative">
+                                                        @if ($notification->type === 'App\Notifications\NewMessageNotification')
+                                                            <!-- Your existing event notification code -->
+                                                            <div class="d-flex">
+                                                                <img src="../assets/images/notif/Message.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                                                <div class="flex-grow-1">
+                                                                    <a href="/thread/1" class="stretched-link">
+                                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">New Message </h6>
+                                                                    </a>
+                                                                    <div class="fs-13 text-muted">
+                                                                        <p class="mb-1">You have received a new message.</p>
+                                                                    </div>
+                                                                    <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+                                                                        <span><i class="mdi mdi-clock-outline" id="notification-time"></i>{{ $notification->created_at->diffForHumans() }}</span>
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        @endif
+                                                    </div>
+                                                @endforeach
+                                            @endif
                                     </div>
                                     <div class="tab-pane fade p-4" id="alerts-tab" role="tabpanel" aria-labelledby="alerts-tab"></div>
 
@@ -537,10 +595,13 @@
                                 <h6 class="dropdown-header">Welcome {{ Auth::user()->role }}</h6>
                                 @endif
 
-                                <a class="dropdown-item" href=""><i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i>
+                                <a class="dropdown-item" href="/profile-feed"><i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i>
                                     <span class="align-middle">Profile</span></a>
+                                @if(session('user') && session('user')->role_id != 5)
                                 <a class="dropdown-item" href="/tasks"><i class="mdi mdi-calendar-check-outline text-muted fs-16 align-middle me-1"></i>
-                                    <span class="align-middle">Taskboard</span></a>
+                                    <span class="align-middle">Taskboard</span>
+                                </a>
+                                @endif
 
                                 <div class="dropdown-divider"></div>
 
@@ -625,7 +686,7 @@
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="/dashboard/analytics" role="button" style="color:white">
                                 <i class="ri-dashboard-2-line"></i>
-                                <span data-key="t-dashboards">Dashboards</span>
+                                <span data-key="t-dashboards">Dashboard</span>
                             </a>
                         </li>
 
@@ -685,7 +746,7 @@
                                     <div class="menu-dropdown collapse" id="sidebarAccount">
                                         <ul class="nav nav-sm flex-column">
                                             <li class="nav-item">
-                                                <a href="/plantcalendar" class="nav-link" style="color:white">Calendar</a>
+                                                <a href="/plantcalendar" class="nav-link" style="color:white">Planting Monitoring</a>
                                             </li>
                                             <li class="nav-item">
                                                 <a href="/calendar_list" class="nav-link" style="color:white">Planting List</a>
@@ -703,7 +764,7 @@
                                                 <a href="/schedules" class="nav-link" style="color:white"> Event Calendar </a>
                                             </li>
 
-                                            @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2)
+                                            @if(session('user') && session('user')->role_id == 1 || session('user') && session('user')->role_id == 2)
                                             <li class="nav-item">
 
                                                 <a href="/attendance" class="nav-link" style="color:white">Event Registration</a>
@@ -774,19 +835,22 @@
                         </li> <!-- end Dashboard Menu -->
                         @endif
 
-                        @if(session('user') && session('user')->role_id == 3 || session('user') && session('user')->role_id == 1 )
+                        @if(session('user') && session('user')->role_id == 3)
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="/Tools-District-5" role="button" style="color:white">
                                 <i class="ri-tools-fill"></i>
-                                <span data-key="t-dashboards">Tools/Seedlings</span>
+                                <span data-key="t-dashboards">Tools and Seedlings Request</span>
                             </a>
                         </li>
-                        <!-- <li class="nav-item">
-                            <a class="nav-link menu-link" href="/request" role="button" style="color:white">
+                        @endif
+
+                        @if(session('user') && session('user')->role_id == 1)
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="/requests" role="button" style="color:white">
                                 <i class="ri-tools-fill"></i>
-                                <span data-key="t-dashboards">Tools/Seedlings</span>
+                                <span data-key="t-dashboards">Tools and Seedlings Request</span>
                             </a>
-                        </li> -->
+                        </li>
                         @endif
 
                         <!-- <li class="nav-item">
@@ -972,12 +1036,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
-        function markNotificationAsRead(notificationCount) {
-            if (notificationCount !== '0') {
-                $.get('/markAsRead');
-            }
-        }
-
+       
         function googleTranslateElementInit() {
             // Initialize Google Translate element
             new google.translate.TranslateElement({
@@ -1011,42 +1070,40 @@
         }
 
         $(document).ready(function() {
-            $('#markasread').on('click', function() {
-                $('#reload-section').load(location.href + ' #reload-section');
-            });
+        // Function to mark notifications as read
+        function markNotificationAsRead(notificationCount) {
+            if (notificationCount !== '0') {
+                $.get('/markAsRead');
+            }
+        }
 
-            // Scroll down to the bottom of the notification content
-            $('#notificationItemsTabContent').scrollTop($('#notificationItemsTabContent')[0].scrollHeight);
+        // Function to update badge color based on notification count
+        function updateBadgeColor() {
+            var notificationCount = $('#reload-section').text().trim();
+            if (notificationCount !== '0') {
+                $('#reload-section').addClass('bg-danger');
+            } else {
+                $('#reload-section').removeClass('bg-danger');
+            }
+        }
+
+        // Click event handler for marking notifications as read
+        $('#markasread').on('click', function() {
+            $('#reload-section').load(location.href + ' #reload-section', function() {
+                updateBadgeColor();
+            });
         });
+
+        // Call updateBadgeColor on document ready
+        updateBadgeColor();
+
+        // Scroll down to the bottom of the notification content
+        $('#notificationItemsTabContent').scrollTop($('#notificationItemsTabContent')[0].scrollHeight);
+    });
     </script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var eventNotificationLinks = document.querySelectorAll('.event-notification');
-            eventNotificationLinks.forEach(function(link) {
-                link.addEventListener('click', function(event) {
-                    event.preventDefault();
-                    var eventId = this.getAttribute('data-event-id');
 
-                    // Here you should fetch event details data from your server/database
-                    var eventData = {
-                        // Fetch event details based on eventId
-                        // For demonstration, I'm using dummy data
-                        title: "Event Title",
-                        description: "Event Description",
-                        // Add more details as needed
-                    };
 
-                    // Now populate the modal with event details
-                    document.getElementById('eventtitle').textContent = eventData.title;
-                    document.getElementById('eventdescription').textContent = eventData.description;
-                    // Populate other fields as needed
-
-                    // Show the modal
-                    var eventDetailsModal = new bootstrap.Modal(document.getElementById('EventdetailModal'));
-                    eventDetailsModal.show();
-                });
-            });
-        });
     </script>
 
     <div id="google_translate_element"></div>

@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
-
+use App\Notifications\ToolsAvailableNotification;
 class ToolController extends Controller
 {
     public function index()
@@ -71,6 +71,7 @@ class ToolController extends Controller
             $request->status = $status;
             $request->save();
 
+
             // Save status and remarks to remarkrequests table
             $remarkRequest = new RemarkRequest();
             $remarkRequest->request_id = $id;
@@ -90,10 +91,12 @@ class ToolController extends Controller
             }
             $user->save();
 
+
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
         }
+        
     }
     
     public function getLetterContent(Request $request)

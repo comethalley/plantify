@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Notifications\NewRequestNotification;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\SupplyType;
@@ -142,12 +142,21 @@ class RequestController extends Controller
                 'letter_content' => $contentLetterPath,
                 'status' => $request->input('status', 'Requested'),
             ]);
+            $admins = User::whereIn('role_id', [1, 2])->get();
 
+            // Notify each admin
+            foreach ($admins as $admin) {
+                $admin->notify(new NewRequestNotification($admin));
+            }
             return response()->json(['success' => true]);
-        } catch (\Exception $e) {
+        } 
+        
+       
+        catch (\Exception $e) {
             Log::error($e);
             return response()->json(['success' => false, 'errors' => ['exception' => [$e->getMessage()]]], 500);
         }
+        
     }
     public function getRequestDetails($id)
     {
@@ -214,7 +223,7 @@ class RequestController extends Controller
 
             $request = RequestN::findOrFail($id);
 
-            $request->status = 'Picked';
+            $request->status = 'Confirmed-pick-date';
 
             $request->save();
 
@@ -235,33 +244,39 @@ class RequestController extends Controller
         }
     }
 
-    public function SetDateStatus1($id, Request $request)
+    public function updateRequest($id, Request $request)
     {
-        try {
-            $validatedData = $request->validate([
-                'select_picked' => 'required|date', 
-            ]);
+        $request->validate([
 
-            $request = RequestN::findOrFail($id);
+            'letter_content' => 'nullable|file|mimes:pdf|max:2048',
 
-            $request->status = 'Waiting-for-Return';
+        ]);
 
-            $request->save();
+        $request = RequestN::findOrFail($id);
 
-            $user = Auth::user();
 
-            RemarkRequest::create([
-                'request_id' => $request->id,
-                'remarks' => 'For Request Picked Date',
-                'remark_status' => 'Waiting-for-Return',
-                'validated_by' => $user->firstname . ' ' . $user->lastname,
-                'select_picked' => $validatedData['select_picked'] 
-            ]);
-
-            return response()->json(['success' => true, 'message' => 'Farm status updated successfully']);
-        } catch (\Exception $e) {
-            \Log::error('Error updating farm status to "Cancel" for farm ID ' . $id . ': ' . $e->getMessage());
-            return response()->json(['success' => false, 'message' => 'Error updating farm status to "Set Date"']);
+        if ($request->hasFile('letter_content')) {
+            $contentLandContent = file_get_contents($request->file('letter_content')->getRealPath());
+            $contentLetterPath = $request->file('letter_content')->store('pdfs', 'public');
+        } else {
+            $contentLetterPath = $request->letter_content;
         }
+
+        $request->update([
+		        'supply_seedling' => $request->input('supply_seedling'),
+                'supply_seedling1' => $request->input('supply_seedling1'),
+                'supply_seedling2' => $request->input('supply_seedling2'),
+
+                'count_seedling' => $request->input('count_seedling'),
+                'count_seedling1' => $request->input('count_seedling1'),
+                'count_seedling2' => $request->input('count_seedling2'),
+
+                'letter_content' => $contentLetterPath,
+                'status' => $request->input('status', 'Requested'),
+        ]);
+
+        return response()->json(['message' => 'Request updated successfully', 'request' => $request]);
     }
+
+
 }

@@ -8,6 +8,7 @@ use App\Models\Expense;
 use App\Models\Farm;
 use App\Models\Harvest;
 use App\Models\Barangay;
+use App\Models\Farmer;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -134,19 +135,21 @@ class AnalyticsController extends Controller
         $farmName = null;
         
         // Fetch the user's associated farm if the user is a farm leader (role_id == 3 or 4)
-        if ($user->role_id == 3 || $user->role_id == 4) {
-            // Fetch the farm associated with the user (farm leader)
-            $userFarm = Farm::where('farm_leader', $user->id)->first();
-            if ($userFarm) {
-                // Retrieve the barangay_name and farm_name associated with the farm
-                $barangayName = $userFarm->barangay_name;
-                $farmName = $userFarm->farm_name;
-                
-                // Convert the farm data to JSON format
-                $farmsData = $userFarm->toJson();
+        if ($user) {
+            if ($user->role_id == 3) {
+                // If the user is a farm leader, fetch the farm associated with the farm leader
+                $userFarm = Farm::where('farm_leader', $user->id)->first();
+                if ($userFarm) {
+                    $farmName = $userFarm->farm_name;
+                }
+            } elseif ($user->role_id == 4) {
+                // If the user is a farmer, retrieve the farm associated with the farmer
+                $farmer = Farmer::where('farmleader_id', $user->id)->first();
+                if ($farmer && $farmer->farm) {
+                    $farmName = $farmer->farm->farm_name;
+                }
             }
         }
-        
         // Fetch barangay options for dropdown
         $barangays = Barangay::all(['id', 'barangay_name'])->toArray();
         foreach ($barangays as $barangay) {

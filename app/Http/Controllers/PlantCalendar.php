@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\PlantInfo;
+use App\Models\Farm;
 use App\Notifications\NewplantingNotification;
 
 
@@ -20,11 +21,22 @@ class PlantCalendar extends Controller
         // $user = Auth::user();
         // $user->farm.id
         $id = Auth::user()->id;
+
+        $role = User::where('id',$id)
+                ->where('status', 1)
+                ->firstOrFail();
+
+            if ($role->role_id == 2){
+                $id = 1;
+            }
+
         $plantInfo = PlantInfo::pluck('days_harvest', 'plant_name');
-        $user = User::select('users.*', 'farms.id AS farm_id')
-            ->leftJoin('farms', 'farms.farm_leader', '=', 'users.id')
-            ->where('users.id', $id)
-            ->first();
+        
+        $user = User::select('users.*', 'farms.id AS farm_id', 'farms.area AS farm_area')
+        ->leftJoin('farms', 'farms.farm_leader', '=', 'users.id')
+        ->where('users.id', $id)
+        ->first();
+        $farm = Farm::find($user->farm_id);
 
         // If the user is authenticated and is a farm leader
         if ($user->role_id === '3') {
@@ -39,7 +51,8 @@ class PlantCalendar extends Controller
 
         return view('pages.plantingcalendar', [
             'createplantings' => $events,
-            'plantInfo' => $plantInfo
+            'plantInfo' => $plantInfo,
+            'farm' => $farm, // Pass the $farm variable to the view
         ]);
     }
 
@@ -47,11 +60,19 @@ class PlantCalendar extends Controller
 
     {
         $id = Auth::user()->id;
-
-        $user = User::select('users.*', 'farms.id AS farm_id')
+        $user = User::select('users.*', 'farms.id AS farm_id', 'farms.area AS farm_area')
             ->leftJoin('farms', 'farms.farm_leader', '=', 'users.id')
             ->where('users.id', $id)
             ->first();
+
+        // Calculate the total area of all createplantings records for the farm
+        $totalArea = CalendarPlanting::where('farm_id', $user->farm_id)->sum('area');
+
+        // Check if the total area plus the new area exceeds the farm area
+        if ($totalArea + $request->area > $user->farm_area) {
+            // Display an alert indicating that the user has accumulated all the area on the farm
+            return response()->json(['message' => 'You have accumulated all the area on this farm.'],403);
+        }
 
         $farm_id = "";
 
@@ -73,6 +94,8 @@ class PlantCalendar extends Controller
         $item->harvested = $request->harvested;
         $item->destroyed = $request->destroyed;
         $item->type = $request->type;
+        $item->area = $request->area;
+        $item->reason = $request->reason;
         $item->is_deleted = 1;
         $item->save();
 
@@ -95,11 +118,12 @@ class PlantCalendar extends Controller
     public function getEvents()
     {
         $id = Auth::user()->id;
-
-        $user = User::select('users.*', 'farms.id AS farm_id')
-            ->leftJoin('farms', 'farms.farm_leader', '=', 'users.id')
-            ->where('users.id', $id)
-            ->first();
+        
+        $user = User::select('users.*', 'farms.id AS farm_id', 'farms.area AS farm_area')
+        ->leftJoin('farms', 'farms.farm_leader', '=', 'users.id')
+        ->where('users.id', $id)
+        ->first();
+        $farm = Farm::find($user->farm_id);
 
         // If the user is authenticated and is a farm leader
         if ($user->role_id === '3') {
@@ -134,6 +158,8 @@ class PlantCalendar extends Controller
                 'destroyed' => $event->destroyed,
                 'seed' => $event->seed,
                 'type' => $event->type,
+                'area' => $event->area,
+                'reason' => $event->reason,
                 // Add other fields as needed
 
             ];
@@ -203,6 +229,9 @@ class PlantCalendar extends Controller
             'destroyed' => $request->input('destroyed'),
             'seed' => $request->input('seed'),
             'type' => $request->input('type'),
+            'area' => $request->input('area'),
+            'reason' => $request->input('reason'),
+
         ]);
 
         $updatedEvents = CalendarPlanting::all();
@@ -257,9 +286,11 @@ class PlantCalendar extends Controller
                 ->select(
                     'createplantings.*',
                     'farms.farm_name',
-                    'farms.barangay_name'
+                    'farms.barangay_name',
+                    'farms.area as farm_area',
                 )
                 ->where('createplantings.farm_id', $user->farm_id)
+                ->where('createplantings.is_deleted', 1)
                 ->orderBy('createplantings.id', 'DESC')
                 ->get();
         } elseif ($user->role_id === '5') {
@@ -282,7 +313,8 @@ class PlantCalendar extends Controller
                 ->select(
                     'createplantings.*',
                     'farms.farm_name',
-                    'farms.barangay_name'
+                    'farms.barangay_name',
+                    'farms.area as farm_area',
                 )
                 ->orderBy('createplantings.id', 'DESC')
                 ->get();

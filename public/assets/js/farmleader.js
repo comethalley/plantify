@@ -292,4 +292,26 @@ $(document).ready(function () {
 
         $("#adminArchiveShowModal").modal("show");
     });
+
+    $('#importBtn').click(function(e) {
+        e.preventDefault();
+
+        var formData = new FormData($('#importForm')[0]);
+
+        $.ajax({
+            url: '/import-farmleader',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                // Handle success response
+                console.log(response);
+            },
+            error: function(xhr, status, error) {
+                // Handle error response
+                console.error(xhr.responseText);
+            }
+        });
+    });
 });

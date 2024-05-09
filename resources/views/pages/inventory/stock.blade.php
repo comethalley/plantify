@@ -77,7 +77,6 @@
                                             <tr class="text-uppercase">
 
                                                 <th data-sort="id">ID</th>
-                                                <th data-sort="customer_name">Code</th>
                                                 <th data-sort="date">Seed Name</th>
                                                 <th data-sort="amount">Supplier</th>
                                                 <th data-sort="payment">Available</th>

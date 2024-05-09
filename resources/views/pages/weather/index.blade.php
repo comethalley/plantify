@@ -9,7 +9,11 @@
   <link href="{{ asset('assets/css/weather.css') }}" rel="stylesheet" type="text/css" />
 </head>
 <body>
-  
+  <div id="customModal" class="modal">
+    <div class="modal-content">
+        <span id="modalMessage"></span>
+    </div>
+</div>
   <div class="page-content">
 
     <div class="wrapper">
@@ -66,6 +70,7 @@
         </nav>
         <div class="cards" id="weather-cards"></div>
         <div id="detailModal" style="display:none;">
+          <p>Feels Like: <span id="modalFeelsLike">--</span></p>
           <p>Chance of Rain: <span id="modalRainChance">--</span>%</p>
           <p>Humidity: <span id="modalHumidity">--</span>%</p>
           <p>Sunrise:  <span id="modalSunrise">--</span></p>

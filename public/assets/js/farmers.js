@@ -281,4 +281,26 @@ $(document).ready(function () {
 
         $("#adminArchiveShowModal").modal("show");
     });
+
+    $('#importFarmerBtn').click(function(e) {
+        e.preventDefault();
+
+        var formData = new FormData($('#importFarmerForm')[0]);
+
+        $.ajax({
+            url: '/import-farmer',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                // Handle success response
+                console.log(response);
+            },
+            error: function(xhr, status, error) {
+                // Handle error response
+                console.error(xhr.responseText);
+            }
+        });
+    });
 });

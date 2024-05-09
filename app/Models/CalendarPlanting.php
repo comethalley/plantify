@@ -23,5 +23,7 @@ class CalendarPlanting extends Model
         'seed',
         'type',
         'is_deleted',
+        'area',
+        'reason',
     ];
 }

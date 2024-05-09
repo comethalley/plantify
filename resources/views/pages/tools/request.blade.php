@@ -1239,9 +1239,11 @@ $('.change_stat').change(function() {
                 remarks: remarks // Include remarks in the data
             },
             success: function(response) {
-                console.log('Status updated successfully');
-                location.reload();
-            },
+                if (selectedStatus === 'Available') {
+                // Display success message or trigger additional actions if needed
+            }
+            location.reload();
+        },
             error: function(xhr, status, error) {
                 // Handle error response
                 console.error('Error updating status:', error);

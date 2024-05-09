@@ -8,6 +8,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Task;
+use App\Models\TaskType;
 use App\Models\User;
 use App\Models\CalendarPlanting;
 use App\Models\Farmer;
@@ -46,64 +47,66 @@ class TaskController extends Controller
     
     
     public function addTask(Request $request)
-{
-    // Check if there are existing tasks
-    $existingTasks = Task::count();
-
-    // If there are existing tasks, return a response indicating that a task already exists
-    if ($existingTasks > 0) {
-        return response()->json(['success' => false, 'message' => 'A task already exists'], 400);
+    {
+        // Fetch only the new data from createplantings table
+        $existingTitles = Task::pluck('crops');
+        $newPlantings = CalendarPlanting::whereNotIn('title', $existingTitles)->get();
+    
+        // Get the ID of the currently authenticated user (assumed to be a farm leader)
+        $userId = Auth::id();
+        
+        // Retrieve farmers associated with the farm leader
+        $farmers = DB::table('users')
+            ->join('farmers', 'farmers.farmer_id', '=', 'users.id')
+            ->where('users.status', 1)
+            ->where('farmers.farmleader_id', $userId)
+            ->select(
+                "farmers.farmer_id",
+                'users.firstname',
+                "users.lastname",
+                "users.email"
+            )
+            ->get();
+    
+        // Check if there are any farmers associated with the farm leader
+        $randomFarmer = $farmers->isEmpty() ? null : $farmers->first();
+    
+        foreach ($newPlantings as $planting) {
+            // Create a new instance of Task model
+            $task = new Task();
+            
+            // Set the 'crops' attribute to the value of $planting->title
+            $task->crops = $planting->title;
+            
+            // Set a default value for the task_type_id field or provide a value as per your requirement
+            $task->task_type_id = 1; // Example value, change as needed
+            
+            // Set the user_id to the randomly selected farmer's ID
+            $task->user_id = $randomFarmer ? $randomFarmer->farmer_id : null;
+            
+            // Save the Task model to persist the changes to the database
+            $task->save();
+        }
+    
+        return response()->json(['success' => true, 'message' => 'Tasks added successfully'], 200);
     }
-
-    // Fetch data from createplantings table
-    $plantings = CalendarPlanting::all();
-    $planting = $plantings->first();
-
-    // Get the ID of the currently authenticated user (assumed to be a farm leader)
-    $userId = Auth::id();
     
-    // Retrieve farmers associated with the farm leader
-    $farmers = DB::table('users')
-        ->join('farmers', 'farmers.farmer_id', '=', 'users.id')
-        ->where('users.status', 1)
-        ->where('farmers.farmleader_id', $userId)
-        ->select(
-            "farmers.farmer_id",
-            'users.firstname',
-            "users.lastname",
-            "users.email"
-        )
-        ->get();
 
-    // Check if there are any farmers associated with the farm leader
-    $randomFarmer = $farmers->isEmpty() ? null : $farmers->first();
 
-    // Create a new instance of Task model
-    $task = new Task();
+    public function view($id)
+    {
+        // Fetch task details based on the provided ID
+        $task = Task::findOrFail($id);
+        
+        // Fetch the day associated with the task
+        $day = $task->taskType->day;
     
-    // Set the 'crops' attribute to the value of $planting->title
-    $task->crops = $planting->title;
+        // Fetch tasks associated with the day
+        $tasks = TaskType::where('day', $day)->get();
     
-    // Set a default value for the task_type_id field or provide a value as per your requirement
-    $task->task_type_id = 1; // Example value, change as needed
+        // Pass the task details and tasks to the view
+        return view('pages.tasks.viewtask', compact('task', 'tasks'));
+    }
     
-    // Set the user_id to the randomly selected farmer's ID
-    $task->user_id = $randomFarmer ? $randomFarmer->farmer_id : null;
-    
-    // Save the Task model to persist the changes to the database
-    $task->save();
-
-    return response()->json(['success' => true, 'message' => 'Task added successfully'], 200);
-}
-
-
-public function view($id)
-{
-    // Fetch task details based on the provided ID
-    $task = Task::findOrFail($id);
-
-    // Pass the task details to the view
-    return view('pages.tasks.viewtask', compact('task'));
-}
 
 }

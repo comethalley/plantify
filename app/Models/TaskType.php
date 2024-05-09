@@ -8,5 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class TaskType extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'start', 'end'];
+
+    protected $table = 'task_type';
+    
+    protected $fillable = ['day', 'name', 'start', 'end'];
 }

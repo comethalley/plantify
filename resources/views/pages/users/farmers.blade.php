@@ -129,7 +129,7 @@
                                             <h5 class="modal-title" id="exampleModalLabel">Import Farmers Data</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
                                         </div>
-                                        <form method="post" action="/add-supplier">
+                                        <form id="importFarmerForm" enctype="multipart/form-data">
                                             @csrf
                                             <div class="modal-body">
                                                 <input type="hidden" id="id-field" />
@@ -138,15 +138,14 @@
                                                     <!-- Default File Input Example -->
                                                     <div>
                                                         <label for="formFile" class="form-label">Open a Spreadsheet File</label>
-                                                        <input class="form-control" type="file" id="formFile" accept=".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+                                                        <input class="form-control" type="file" id="formFile" name="excel_file" accept=".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
                                                     </div>
                                                 </div>
-
                                             </div>
                                             <div class="modal-footer">
                                                 <div class="hstack gap-2 justify-content-end">
                                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                                                    <button type="submit" class="btn btn-btn btn-secondary waves-effect waves-light">Add</button>
+                                                    <button type="button" id="importFarmerBtn" class="btn btn-btn btn-secondary waves-effect waves-light">Import Data</button>
                                                 </div>
                                             </div>
                                         </form>

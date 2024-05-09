@@ -186,7 +186,7 @@ Route::delete('/delete-message/{messageId}', [ThreadController::class, 'deleteMe
 Route::post('/mark-messages-as-read/{userId}', [ChatController::class, 'markMessagesAsRead']);
 Route::get('/search-users', [ChatController::class, 'searchUsers']);
 Route::get('/threads/{threadId}/messages', [ThreadController::class, 'fetchMessages']);
-Route::get('/thread/{threadId}',[ThreadController::class, 'show'])->name('thread.show');
+Route::get('/thread/{threadId}', [ThreadController::class, 'show'])->name('thread.show');
 // Group Chats [ThreadController::class, 'show']
 // Route::get('/groups', [GroupController::class, 'index'])->name('groups.index');
 // Route::get('/groups/{groupId}', [GroupController::class, 'show'])->name('groups.show'); // Make the farmId parameter optional
@@ -431,3 +431,7 @@ Route::post('/reply/store', [CommentController::class, 'createReply']);
 Route::get('/linkstorage', function () {
     Artisan::call('storage:link');
 });
+
+//Import function ==============================================
+Route::post('/import-farmleader', [AuthController::class, 'importFarmLeader']);
+Route::post('/import-farmer', [AuthController::class, 'importFarmers']);

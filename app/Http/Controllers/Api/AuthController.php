@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Imports\FarmersImport;
 use App\Libraries\PlantifyLibrary;
 use App\Mail\MailInvitation;
 use App\Models\Barangay;
@@ -23,6 +24,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Models\FarmLocation;
+use App\Imports\UsersImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 
 
@@ -804,5 +807,31 @@ class AuthController extends Controller
             return redirect()->route('dashboard.analytics');
         }
         return view('landingpage');
+    }
+
+    public function importFarmLeader(Request $request)
+    {
+        $request->validate([
+            'excel_file' => 'required|mimes:xlsx,xls'
+        ]);
+
+        $file = $request->file('excel_file');
+
+        Excel::import(new UsersImport, $file);
+
+        return redirect('/')->with('success', 'All good!');
+    }
+
+    public function importFarmers(Request $request)
+    {
+        $request->validate([
+            'excel_file' => 'required|mimes:xlsx,xls'
+        ]);
+
+        $file = $request->file('excel_file');
+
+        Excel::import(new FarmersImport, $file);
+
+        return redirect('/')->with('success', 'All good!');
     }
 }

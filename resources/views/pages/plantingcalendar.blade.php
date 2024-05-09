@@ -245,21 +245,21 @@
                                         </div>
                                         
                                         
-                                        <div class="d-flex align-items-center mb-2 hide-if-planted">
+                                        <div class="col-md-6 d-flex align-items-center mb-2 hide-if-planted">
                                             <div class="flex-shrink-0 me-3">
                                                 <i class="ri-plant-line text-muted fs-16"></i>
                                             </div>
                                             <div class="flex-grow-1">
-                                                <h6 for="estimateh" class="d-block fw-semibold mb-0">Estimated Harvest (pcs): </h6><span id="eventharvested"></span>
+                                                <h6 for="estimateh" class="d-block fw-semibold mb-0">Estimated Harvest (kg): </h6><span id="eventharvested"></span>
                                             </div>
                                         </div>
 
-                                        <div class="d-flex align-items-center mb-2 hide-if-planted">
+                                        <div class="col-md-6 d-flex align-items-center mb-2 hide-if-planted">
                                             <div class="flex-shrink-0 me-3">
                                                 <i class="ri-delete-bin-line text-muted fs-16"></i>
                                             </div>
                                             <div class="flex-grow-1">
-                                                <h6 for="estimated" class="d-block fw-semibold mb-0">Estimated Withered (pcs):</h6><span id="eventdestroyed"></span>
+                                                <h6 for="estimated" class="d-block fw-semibold mb-0">Estimated Withered (kg):</h6><span id="eventdestroyed"></span>
                                             </div>
                                         </div>
                                     
@@ -280,12 +280,20 @@
                                                 <h6 class="d-block fw-semibold mb-0">Harvesting Date: </h6><span id="eventend"></span>
                                             </div>
                                         </div>
-                                        <div class="d-flex align-items-center mb-2">
+                                        <div class="col-md-6 d-flex align-items-center mb-2">
                                             <div class="flex-shrink-0 me-3">
                                                 <i class="ri-map-pin-line text-muted fs-16"></i>
                                             </div>
                                             <div class="flex-grow-1">
                                                 <h6 class="d-block fw-semibold mb-0">Status: </h6><span id="eventstatus"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 d-flex align-items-center mb-2">
+                                            <div class="flex-shrink-0 me-3">
+                                                <i class="ri-map-pin-line text-muted fs-16"></i>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                                <h6 class="d-block fw-semibold mb-0">Reason: </h6><span id="eventreason"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -367,16 +375,25 @@
                                 </select>
                             </div>
                            
+    <center>
+                            <div class="col-md-12 form-group mb-3" id="approx">
+                                <label class="text-muted">Approximately 85% Germination Rate</label>
+                            </div>
 
-
+    </center>
                             <div class="col-md-6 form-group mb-3">
-                                <label id="typeLabela" for="updateEventHarvested">Estimated Harvest (pcs):</label>
+                                <label id="typeLabela" for="updateEventHarvested">Estimated Harvest (kg):</label>
                                 <input type="text" class="form-control" id="updateEventHarvested" placeholder="Enter Seeds Harvested">
                             </div>
 
                             <div class="col-md-6 form-group mb-3">
-                                <label id="typeLabelb" for="updateEventDestroyed">Estimated Withered (pcs):</label>
+                                <label id="typeLabelb" for="updateEventDestroyed">Estimated Withered (kg):</label>
                                 <input type="text" class="form-control" id="updateEventDestroyed" placeholder="Enter Seeds Withered">
+                            </div>
+
+                            <div class="col-md-12 form-group mb-3">
+                                <label for="updatereason">Reason:</label>
+                                <input type="text" class="form-control" id="updatereason" placeholder="Enter Reason">
                             </div>
                            
                             <div class="col-md-6 mb-3">
@@ -650,6 +667,8 @@
                     var eventEnd = info.event.end;
                     var eventStatus = info.event.extendedProps.status;
                     var eventArea = info.event.extendedProps.area;
+                    var eventReason = info.event.extendedProps.reason;
+
 
                     // Display event details in the Event Detail Modal
                     $('#eventtitle').text(eventTitle);
@@ -661,6 +680,8 @@
                     $('#eventend').text(moment(eventEnd).format("YYYY-MM-DD"));
                     $('#eventstatus').text(eventStatus);
                     $('#eventarea').text(eventArea);
+                    $('#eventreason').text(eventReason);
+
 
 
                     // Store event ID for update and delete
@@ -676,6 +697,8 @@
                     $('#updateend-datepicker').val(moment(eventEnd).format("YYYY-MM-DD"));
                     $('#updatestatus').val(eventStatus);
                     $('#updatearea').val(eventArea);
+                    $('#updatereason').val(eventReason);
+
 
 
                     // Show the Event Detail Modal
@@ -735,10 +758,12 @@
                 var end = $('#updateend-datepicker').val();
                 var status = $('#updatestatus').val();
                 var area = $('#updatearea').val();
+                var reason = $('#updatereason').val();
+
 
 
                 // Check if any required field is empty
-                if (!title || !start || !end || !status || !seed || !harvested || !destroyed || !area) {
+                if (!title || !start || !end || !status || !seed || !harvested || !destroyed || !area || !reason) {
                     // Display validation error message
                     Swal.fire({
                         title: "Error",
@@ -806,6 +831,7 @@
                         destroyed: destroyed,
                         type: type,
                         area: area,
+                        reason: reason,
                     },
                     success: function(data) {
                         console.log(data.message);
@@ -833,7 +859,7 @@
                 handleEventDelete($(this).data('event-id'));
             });
 
-            function handleEventUpdate(eventId, start, end, status, seed, harvested, destroyed, type, area, ) {
+            function handleEventUpdate(eventId, start, end, status, seed, harvested, destroyed, type, area, reason, ) {
                 $.ajax({
                     url: "/plantcalendar/" + eventId,
                     type: "PUT",
@@ -846,6 +872,7 @@
                         destroyed: destroyed,
                         type: type,
                         area: area,
+                        reason: reason,
                     },
                     success: function(data) {
                         calendar.refetchEvents();
@@ -1019,6 +1046,7 @@
                         seed: amount,
                         type: type,
                         area: area,
+                        reason: reason,
                     },
                     success: function(response) {
                         calendar.refetchEvents();
@@ -1172,7 +1200,7 @@
                     var parsedMultipleUsed = parseInt(multipleUsed);
                     var mode = $("#mode").val();
                     var area = $("#area").val();
-                    usedItem(lastUsedScannedContent, parsedMultipleUsed, mode);
+                    usedItem(lastUsedScannedContent, parsedMultipleUsed, mode, area);
                 });
 
                 // $('#using-scan').on('click', function () {
@@ -1310,6 +1338,7 @@
                 console.log('Event Type:', eventType);
 
                 var seedAmount = parseFloat($('#updateEventSeed').val());
+                var areasqm = parseFloat($('#updatearea').val());
                 var harvested, destroyed;
 
                 if (eventType === 'Seedlings') {
@@ -1325,11 +1354,11 @@
                     }
                 } else {
                     if (status === 'Harvested') {
-                        harvested = (seedAmount * 4.5).toFixed(); // 70% of seed amount
-                        destroyed = (seedAmount * 0.5).toFixed(); // 30% of seed amount
+                        harvested = (seedAmount * 8.5).toFixed(); //85% germination rate
+                        destroyed = (seedAmount * 1.5).toFixed(); //15% loss due to withering
                     } else if (status === 'Withered') {
                         harvested = '0'; // Clear harvested value
-                        destroyed = seedAmount.toFixed(); // Entire seed amount is destroyed
+                        destroyed = (seedAmount * 10).toFixed(); // Entire seed amount is destroyed
                     } else {
                         harvested = ''; // Clear harvested value
                         destroyed = ''; // Clear destroyed value
@@ -1359,11 +1388,13 @@
                 $('#updatestatus').prop('disabled', true);
                 $('#updateEventHarvested').prop('disabled', true);
                 $('#updateEventDestroyed').prop('disabled', true);
+                $('#updatereason').prop('disabled', true);
             } else {
                 console.log("Enabling estimated harvest and withered inputs...");
                 $('#updatestatus').prop('disabled', false);
                 $('#updateEventHarvested').prop('disabled', false);
                 $('#updateEventDestroyed').prop('disabled', false);
+                $('#updatereason').prop('disabled', false);
             }
         }
 
@@ -1387,22 +1418,27 @@
 
         $(document).ready(function() {
             // Function to update visibility of harvested and destroyed input fields
+            // Function to update visibility of harvested and destroyed input fields
             function updateVisibility(status) {
                 if (status === 'Harvested') {
                     $('#updateEventHarvested').parent().show(); // Show harvested input field
                     $('#updateEventDestroyed').parent().show(); // Show destroyed input field
-                    // $('#eventharvested').parent().show();
+                    $('#approx').show(); // Show germination rate label
+                    $('#updatereason').parent().hide(); // Hide destroyed input field
+
                 } else if (status === 'Withered') {
                     $('#updateEventHarvested').parent().show(); // Hide harvested input field
                     $('#updateEventDestroyed').parent().show(); // Show destroyed input field
-                    // $('#eventdestroyed').parent().show();
+                    $('#approx').hide(); // Hide germination rate label
+                    $('#updatereason').parent().show(); // Show destroyed input field
                 } else {
                     $('#updateEventHarvested').parent().hide(); // Hide harvested input field
                     $('#updateEventDestroyed').parent().hide(); // Hide destroyed input field
-                    // $('#eventdestroyed').parent().hide();
-                    // $('#eventharvested').parent().hide();
+                    $('#approx').hide(); // Hide germination rate label
+                    $('#updatereason').parent().hide(); // Hide destroyed input field
                 }
             }
+
 
             // Initial visibility based on the status value
             updateVisibility($('#updatestatus').val());

@@ -21,6 +21,15 @@ class PlantCalendar extends Controller
         // $user = Auth::user();
         // $user->farm.id
         $id = Auth::user()->id;
+
+        $role = User::where('id',$id)
+                ->where('status', 1)
+                ->firstOrFail();
+
+            if ($role->role_id == 2){
+                $id = 1;
+            }
+
         $plantInfo = PlantInfo::pluck('days_harvest', 'plant_name');
         
         $user = User::select('users.*', 'farms.id AS farm_id', 'farms.area AS farm_area')
@@ -28,7 +37,6 @@ class PlantCalendar extends Controller
         ->where('users.id', $id)
         ->first();
         $farm = Farm::find($user->farm_id);
-            
 
         // If the user is authenticated and is a farm leader
         if ($user->role_id === '3') {
@@ -87,6 +95,7 @@ class PlantCalendar extends Controller
         $item->destroyed = $request->destroyed;
         $item->type = $request->type;
         $item->area = $request->area;
+        $item->reason = $request->reason;
         $item->is_deleted = 1;
         $item->save();
 
@@ -150,6 +159,7 @@ class PlantCalendar extends Controller
                 'seed' => $event->seed,
                 'type' => $event->type,
                 'area' => $event->area,
+                'reason' => $event->reason,
                 // Add other fields as needed
 
             ];
@@ -220,6 +230,7 @@ class PlantCalendar extends Controller
             'seed' => $request->input('seed'),
             'type' => $request->input('type'),
             'area' => $request->input('area'),
+            'reason' => $request->input('reason'),
 
         ]);
 

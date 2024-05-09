@@ -154,3 +154,9 @@ select:focus,
   width: 50%;
   margin-left: 15px;
 }
+
+.farm-chart-container {
+    width: 100%; /* Set the width to 100% */
+    height: auto; /* Allow the height to adjust according to width */
+    max-width: 100%; /* Set maximum width */
+}

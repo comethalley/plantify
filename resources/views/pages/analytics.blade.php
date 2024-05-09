@@ -261,6 +261,7 @@
                             </div>
                         </div>
                     
+                        
                         <div class="col-xl-6">
                             <div class="card">
                                 <div class="card-body">
@@ -279,7 +280,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-xl-6 ">
+                                        <div class="col-xl-6" id="farmLeadersSection">
                                             <div class="">
                                                 <h5 class="text-muted text-uppercase fs-12">Number of Farm Leaders</h5>
                                                 <div class="d-flex align-items-center">
@@ -621,7 +622,7 @@
                                 <div class="card-body">
                                     <h2 class="mb-4 text-center"><span style="color: #57AA2C;"><strong>Harvesting Metrics</strong></span></h2>
                                     <div class="row position-relative" style="height: 65vh;">
-                                        @if(session('user') && (session('user')->role_id == 3 || session('user')->role_id == 4))
+                                        @if(session('user') && (session('user')->role_id == 3))
                                             <div class="col-md-3">
                                                 <div class="align-items-center justify-content-center ">
                                                     <div class="col-xl-12 barangaySelector ">
@@ -647,41 +648,41 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        @elseif(session('user') && session('user')->role_id == 5)
-                                            <!-- Do nothing, section will not be displayed -->
-                                        @else
-                                            <div class="col-md-3">
-                                                <div class="align-items-center justify-content-center ">
-                                                    <div class="col-xl-12 barangaySelector">
-                                                        <label for="">Barangay:</label>
-                                                        <select id="barangaySelect" class="w-100">
-                                                            <option value="" selected disabled>Select Barangay</option>
-                                                            @foreach($barangayOptions as $option)
-                                                            <option value="{{ $option['text'] }}">{{ $option['text'] }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    <div class="mt-3 col-xl-12 barangaySelector">
-                                                        <label for="">Farm:</label>
-                                                        <select id="farmSelect" class="w-100">
-                                                            <option value="" selected disabled>Select Farm</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="mt-3 col-xl-12 barangaySelector">
-                                                        <label for="">Year:</label>
-                                                        <select id="yearSelect" class="w-100">
-                                                            <option value="" disabled>Select Year</option>
-                                                            <option value="2024" selected>2024</option>
-                                                            <option value="2023">2023</option>
-                                                            <option value="2022">2022</option>
-                                                            <!-- Add more years as needed -->
-                                                        </select>
-                                                    </div>
+                                        </div>
+                                        @elseif(session('user') && session('user')->role_id == 1 || session('user')->role_id == 2 || session('user')->role_id == 4 )
+                                        <div class="col-md-3">
+                                            <div class="align-items-center justify-content-center ">
+                                                <div class="col-xl-12 barangaySelector">
+                                                    <label for="">Barangay:</label>
+                                                    <select id="barangaySelect" class="w-100">
+                                                        <option value="" selected disabled>Select Barangay</option>
+                                                        @foreach($barangayOptions as $option)
+                                                        <option value="{{ $option['text'] }}">{{ $option['text'] }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="mt-3 col-xl-12 barangaySelector">
+                                                    <label for="">Farm:</label>
+                                                    <select id="farmSelect" class="w-100">
+                                                        <option value="" selected disabled>Select Farm</option>
+                                                    </select>
+                                                </div>
+                                                <div class="mt-3 col-xl-12 barangaySelector">
+                                                    <label for="">Year:</label>
+                                                    <select id="yearSelect" class="w-100">
+                                                        <option value="" disabled>Select Year</option>
+                                                        <option value="2024" selected>2024</option>
+                                                        <option value="2023">2023</option>
+                                                        <option value="2022">2022</option>
+                                                        <!-- Add more years as needed -->
+                                                    </select>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div>                                        @else
+                                           
+                                        
                                         @endif
-                                        <div class="col-lg-9">
+                                        <div class="col-lg-8">
                                             <div class="text-muted">
                                                 @if(session('user') && session('user')->role_id != 5)
                                                 
@@ -760,6 +761,15 @@
 
 
 <script>
+
+// var role_id = 3;
+//     // Get the section element by its ID
+//     var farmLeadersSection = document.getElementById("farmLeadersSection");
+//     // Check if the role_id is 3 or 4
+//     if (role_id === 3 || role_id === 4) {
+//         farmLeadersSection.style.display = "none";
+//     }
+
     function downloadPDF() {
     window.location.href = '{{ route('analytics.pdf') }}';
 }

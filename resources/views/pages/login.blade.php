@@ -4,7 +4,7 @@
 <head>
 
     <meta charset="utf-8" />
-    <title>Login | Plantify</title>
+    <title>Login | CUAI</title>
     <link rel="shortcut icon" type="image/x-icon" href="assets/images/plantifeedpics/rounded.png" class="img-fluid" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
@@ -64,9 +64,6 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class=" card ">
-
-
-
                         <div class="row d-flex justify-content-center">
 
                             <div class="col-lg-6">

@@ -497,7 +497,7 @@ function handleEventDelete(eventId) {
  
     $.ajax({
         url: "/scheduledelete/" + eventId,
-        type: "put",
+        type: "delete",
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
                     calendar.refetchEvents();

@@ -61,7 +61,7 @@ class AttendanceControler extends Controller
 
     public function attendees(Request $request) {
         $eventId = $request->input('id');
-        $user = User::find($id);
+     
         // Fetch event details based on the $eventId from the database
         $event = Event::find($eventId);
     

@@ -45,18 +45,19 @@ class ToolController extends Controller
             $status = $request->input('status');
     
             $request = RequestN::findOrFail($id);
-            $user = $requestItem->user;
-            $user->notify(new ToolsAvailableNotification($requestItem));
-           
             $request->status = $status;
             $request->save();
     
-           
-           
+            if ($status === 'Available') {
+                $users = User::where('role_id', 3)->get();
+                Notification::send($users, new ToolsAvailableNotification($status));
+            }
+          
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
         }
+        
     }
     
     public function getLetterContent(Request $request)

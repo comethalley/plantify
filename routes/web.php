@@ -233,7 +233,7 @@ Route::delete('/deleteLocation/{id}', [qcmaps::class, 'deleteLocation']);
 Route::get('/schedules', [EventController::class, 'index']);
 Route::get('/schedulesget', [EventController::class, 'getEvents']);
 Route::get('/schedulesdata/{id}', [EventController::class, 'getdata']);
-Route::put('/scheduledelete/{id}', [EventController::class, 'deleteEvent']);
+Route::delete('/scheduledelete/{id}', [EventController::class, 'deleteEvent']);
 Route::put('/scheduleupdate/{id}', [EventController::class, 'update']);
 Route::get('/events/{id}', [EventController::class, 'show']);
 Route::get('/events/search', [EventController::class, 'search']);

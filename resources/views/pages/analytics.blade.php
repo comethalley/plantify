@@ -616,7 +616,7 @@
                             </div>
                         </div> --}}
 
-                        @if(session('user') && session('user')->role_id != 5)
+                        @if(session('user') && session('user')->role_id != 5 && session('user')->role_id != 4)
                         <div class="col-xl-12">
                             <div class="card">
                                 <div class="card-body">
@@ -648,7 +648,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        @elseif(session('user') && session('user')->role_id == 1 || session('user')->role_id == 2 || session('user')->role_id == 4 )
+                                        @elseif(session('user') && session('user')->role_id == 1 || session('user')->role_id == 2)
                                         <div class="col-md-3">
                                             <div class="align-items-center justify-content-center ">
                                                 <div class="col-xl-12 barangaySelector">
@@ -946,27 +946,7 @@ $(document).ready(function() {
                 categories: categories
             }
         });
-
-        // Generate the PDF with the chart data
-        var formData = new FormData();
-        formData.append('imageData', chart.exportChart({ format: 'png' }));
-        formData.append('monthlyData', JSON.stringify(response.monthlyData));
-        formData.append('farms', JSON.stringify(response.farms));
-
-        $.ajax({
-            url: '/generatePdf',
-            method: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function(pdfData) {
-                console.log("PDF response:", pdfData);
-                // Display or download the PDF as needed
-            },
-            error: function(xhr, status, error) {
-                console.error(xhr.responseText);
-            }
-        });
+    
     } else {
         console.error('Fetched data is not in the expected format', response);
     }

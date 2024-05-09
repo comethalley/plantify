@@ -131,9 +131,9 @@
                                             </form>
                                         </div>
 
-                                        <div class="mt-1 text-center">
+                                        <!-- <div class="mt-1 text-center">
                                             <p class="mb-0">Don't have an account ? <a href="/signup" class="fw-semibold text-decoration-underline" style="color:#066903;"> SignUp</a> </p>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
                                 <!-- end col -->

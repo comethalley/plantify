@@ -4,7 +4,7 @@
 <head>
 
     <meta charset="utf-8" />
-    <title>PlantiCUAI</title>
+    <title>Center for Urban Agriculture and Innovation</title>
     <link rel="shortcut icon" type="image/x-icon" href="assets/images/plantifeedpics/rounded.png" class="img-fluid" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
@@ -112,27 +112,27 @@
 
                     <li class="nav-item">
                         <a class="nav-link text-white fw-bold" href="javascript:void(0);" onclick="scrollToHome()">
-                            <i class="fas fa-home"></i> Home
+                            <i class=""></i> Home
                         </a>
                     </li>
                     
 
                     <li class="nav-item">
                         <a class="nav-link text-white fw-bold" href="javascript:void(0);" onclick="scrollToFAQ()">
-                            <i class="fas fa-question-circle"></i> FAQs
+                            <i class=""></i> FAQs
                         </a>
                     </li>
                     
 
                     <li class="nav-item">
                         <a class="nav-link text-white fw-bold" href="javascript:void(0);" onclick="scrollToContact()">
-                            <i class="fas fa-phone"></i> Contact Us
+                            <i class=""></i> Contact Us
                         </a>
                     </li>
                     
                     <li class="nav-item">
                         <a class="nav-link text-white fw-bold" href="/about-us">
-                            <i class="fas fa-info-circle"></i> About Us
+                            <i class=""></i> About Us
                         </a>
                     </li>
                     
@@ -141,15 +141,15 @@
 
                 <div>
 
-                    <a class="btn btn-link text-white fw-bold" href="/login">
+                    <a class="btn btn-link text-white fw-bold" style="background-color:#FFAB2D;" href="/login">
                         <i class="fas fa-user"></i> Login
                     </a>
                     
                     
-                    <a class="btn btn-link text-white fw-semibold" style="background-color:#FFAB2D;" href="/signup">
+                    <!-- <a class="btn btn-link text-white fw-semibold" style="background-color:#FFAB2D;" href="/signup">
                         <i class="fas fa-sign-in-alt"></i> Sign Up
                     </a>
-                    
+                     -->
                 </div>
                 <div>
                     <button id="translateButton">
@@ -270,7 +270,7 @@
                             </div>
                             <div class="card-body">
                               
-                                <h5 class="mb-1"><a href="/"style="color: #066903;">Inauguration of the CUAI</a></h5>
+                                <h5 class="mb-1"><a href="https://www.facebook.com/photo?fbid=385214114264231&set=pcb.385214697597506"style="color: #066903;">Inauguration of the Center for Urban Agriculture and Innovation</a></h5>
                                 <p class="text-muted mb-0">March 1, 2024</p>
                             </div>
 
@@ -284,11 +284,11 @@
                                 <button type="button" class="btn btn-icon active" data-bs-toggle="button" aria-pressed="true"><i class="mdi mdi-cards-heart fs-16"></i></button>
                             </div>
                             <div class="explore-place-bid-img">
-                                <img src="assets/images/plantifeedpics/news9.jpg" alt="" class="card-img-top explore-img" />
+                                <img src="assets/images/plantifeedpics/News9.jpg" alt="" class="card-img-top explore-img" />
                                 <div class="bg-overlay"></div>
                             </div>
                             <div class="card-body">
-                            <h5 class="mb-1"><a href="/" style="color: #066903;">Farm visit and assessment with DENR-NCR</a></h5>
+                            <h5 class="mb-1"><a href="https://www.facebook.com/photo/?fbid=215985871187057&set=pcb.215986914520286" style="color: #066903;">Farm visit and assessment<br>with DENR-NCR</a></h5>
                                 <p class="text-muted mb-0">March 1, 2024</p>
                             </div>
                          
@@ -305,7 +305,7 @@
                                 
                             </div>
                             <div class="card-body">
-                                <h5 class="mb-1"><a href="/"style="color: #066903;">Sagip Osy Products</a></h5>
+                                <h5 class="mb-1"><a href="https://www.facebook.com/photo?fbid=122123273762064611&set=pcb.122123274422064611"style="color: #066903;">Sagip Osy Products</a></h5>
                                 <p class="text-muted mb-0">November 8, 2023</p>
                             </div>
                         </div>
@@ -324,7 +324,7 @@
                                
                             </div>
                             <div class="card-body">
-                                <h5 class="mb-1"><a href="/" style="color: #066903;">Permaculture Workshop</a></h5>
+                                <h5 class="mb-1"><a href="https://www.facebook.com/photo/?fbid=305947135524263&set=pcb.305953625523614" style="color: #066903;">Permaculture Workshop</a></h5>
                                 <p class="text-muted mb-0">October 23, 2023</p>
                             </div>
 
@@ -343,7 +343,7 @@
                                 
                             </div>
                             <div class="card-body">
-                                <h5 class="mb-1"><a href="/" style="color: #066903;">Urban Farming Training Lecture 1</a></h5>
+                                <h5 class="mb-1"><a href="https://www.facebook.com/photo/?fbid=230700613048916&set=pcb.230700899715554" style="color: #066903;">Urban Farming Training Lecture 1</a></h5>
                                 <p class="text-muted mb-0">June 7, 2023</p>
                             </div>
                            
@@ -360,7 +360,7 @@
                                
                             </div>
                             <div class="card-body">
-                                <h5 class="mb-1"><a href="/" style="color: #066903;">Netafim-Netaphils Demo Farm</a></h5>
+                                <h5 class="mb-1"><a href="https://www.facebook.com/photo?fbid=229158409869803&set=pcb.229158829869761" style="color: #066903;">Netafim-Netaphils Demo Farm</a></h5>
                                 <p class="text-muted mb-0">June 5, 2023</p>
                             </div>
                            
@@ -398,7 +398,7 @@
             <div class="card-body p-4 m-2">
                 <div class="d-flex align-items-center justify-center">
                     <div class="flex-grow-1">
-                    <h5 class="mb-1"><a href="/" style="color: #066903;">Hydroponics at Urban<br>Gardening Livelihood Training</a></h5>
+                    <h5 class="mb-1"><a href="https://www.facebook.com/photo?fbid=446812367633408&set=pcb.446812420966736" style="color: #066903;">Hydroponics at Urban<br>Gardening Livelihood Training</a></h5>
                     <p class="text-muted mb-0">November 9, 2022</p>    
                 </div>
                 </div>
@@ -416,7 +416,7 @@
             <div class="card-body p-4 m-2">
                 <div class="d-flex align-items-center">
                     <div class="flex-grow-1">
-                    <h5 class="mb-1"><a href="/" style="color: #066903;">Hydroponics at Urban<br>Gardening Livelihood Training</a></h5>
+                    <h5 class="mb-1"><a href="https://www.facebook.com/photo?fbid=446812367633408&set=pcb.446812420966736" style="color: #066903;">Hydroponics at Urban<br>Gardening Livelihood Training</a></h5>
                         <p class="text-muted mb-0">November 9, 2022</p>
                     </div>
                 </div>
@@ -432,7 +432,7 @@
             <div class="card-body p-4 m-2">
                 <div class="d-flex align-items-center">
                     <div class="flex-grow-1">
-                    <h5 class="mb-1"><a href="/" style="color: #066903;">Hydroponics at Urban<br>Gardening Livelihood Training</a></h5>
+                    <h5 class="mb-1"><a href="https://www.facebook.com/photo?fbid=446812367633408&set=pcb.446812420966736" style="color: #066903;">Hydroponics at Urban<br>Gardening Livelihood Training</a></h5>
                         <p class="text-muted mb-0">November 9, 2022</p>
                     </div>
                 </div>
@@ -584,63 +584,65 @@
                 </div>
                 <!-- end row -->
 
-
+                <div class=" row justify-content-center">
+                    <div class="col-lg-10">
+                        <div class="d-flex align-items-center mb-8">
+                           
+                        </div>
+                        <div class="accordion custom-accordionwithicon custom-accordion-border accordion-border-box" id="genques-accordion">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="genques-headingOne">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#genques-collapseOne" aria-expanded="true" aria-controls="genques-collapseOne">
+                                    What is this Platform for ?
+                                    </button>
+                                </h2>
+                                <div id="genques-collapseOne" class="accordion-collapse collapse show" aria-labelledby="genques-headingOne" data-bs-parent="#genques-accordion">
+                                    <div class="accordion-body ff-secondary">
+                                    This is a platform designed to support the Center for Urban Agriculture and Innovation. It serves as a tool and guide for urban farmers to effectively manage their urban gardens.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="genques-headingTwo">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#genques-collapseTwo" aria-expanded="false" aria-controls="genques-collapseTwo">
+                                    Who are the people who can use this ?
+                                    </button>
+                                </h2>
+                                <div id="genques-collapseTwo" class="accordion-collapse collapse" aria-labelledby="genques-headingTwo" data-bs-parent="#genques-accordion">
+                                    <div class="accordion-body ff-secondary">
+                                    Anyone can use this platform to organize their urban gardens. It is designed for urban gardeners who aim to streamline their activities while gardening.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="genques-headingThree">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#genques-collapseThree" aria-expanded="false" aria-controls="genques-collapseThree">
+                                    Can this be used on a smartphone ?
+                                    </button>
+                                </h2>
+                                <div id="genques-collapseThree" class="accordion-collapse collapse" aria-labelledby="genques-headingThree" data-bs-parent="#genques-accordion">
+                                    <div class="accordion-body ff-secondary">
+                                    The platform can be accessed on mobile devices and web browsers. Whether you are outside or in your urban garden, you can use the platform.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="genques-headingFour">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#genques-collapseFour" aria-expanded="false" aria-controls="genques-collapseFour">
+                                    Can anyone share their story in the community forum ?
+                                    </button>
+                                </h2>
+                                <div id="genques-collapseFour" class="accordion-collapse collapse" aria-labelledby="genques-headingFour" data-bs-parent="#genques-accordion">
+                                    <div class="accordion-body ff-secondary">
+                                    Everyone can share their story in the community forum because it is designed to listen to the voices of every urban farmer. Whether you are a public user, farmer, or farmer leader, each of your posts is valuable to us.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--end accordion-->
           
 
-    <div class="accordion accordion-flush" id="accordionFlushExample">
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="flush-headingOne">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-      <h5>What is this Platform for?<h5>
-      </button>
-    </h2>
-    <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-      <div class="accordion-body"style="text-align: justify;">
-       
-            This is a platform designed to support the Center for Urban Agriculture and Innovation. It serves as a tool and guide for urban farmers to effectively manage their urban gardens.
-      </div>
-    </div>
-  </div>
-
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="flush-headingTwo">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-      <h5>Who are the people who can use this?</h5>
-      </button>
-    </h2>
-    <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
-      <div class="accordion-body"style="text-align: justify;">Anyone can use this platform to organize their urban gardens. It is designed for urban gardeners who aim to streamline their activities while gardening.
-</div>
-    </div>
-  </div>
-
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="flush-headingThree">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-      <h5>Can this be used on a smartphone?<h5>
-      </button>
-    </h2>
-    <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
-      <div class="accordion-body"style="text-align: justify;"> The platform can be accessed on mobile devices and web browsers. Whether you are outside or in your urban garden, you can use the platform.</div>
-    </div>
-  </div>
-
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="flush-headingFour">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
-      <h5>Can anyone share their story in the community forum?</h5>
-      </button>
-    </h2>
-    <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour" data-bs-parent="#accordionFlushExample">
-      <div class="accordion-body"style="text-align: justify;">Everyone can share their story in the community forum because it is designed to listen to the voices of every urban farmer. Whether you are a public user, farmer, or farmer leader, each of your posts is valuable to us.</div>
-       
-    </div>
-  </div>
-</div>
-</div>
-                        <!--end accordion-->
-                    </div>
-                </div>
+    
             </section>
             <br>
 
@@ -654,11 +656,11 @@
                             <div class="row justify-content-center g-0">
 
                                 <div class="col-lg-8 mt-3">
-                                    <div class="text-center mt-3">
+                                    <!-- <div class="text-center mt-3">
                                         <h3 style="vertical-align: middle; margin-right: 10px;"><i class="ri-phone-fill"></i> CONTACT US
                                         </h3>
 
-                                    </div>
+                                    </div> -->
                                 </div>
 
                                 <div class="col-lg-6">

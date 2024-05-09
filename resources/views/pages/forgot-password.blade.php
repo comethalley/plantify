@@ -45,7 +45,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            display: flex;
+            display: grid;
             justify-content: center;
             align-items: center;
         }
@@ -71,27 +71,32 @@
         
         <!-- auth-page content -->
 
+       
         <div class="auth-page-content overflow-hidden pt-lg-5">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
+                  
                         <div class="card overflow-hidden m-0">
                             <div class="row justify-content-center g-0">
-                                <div class="col-lg-6">
-                                    <div class="p-l-5 p-4 auth-one-bg h-100">
 
-                                        <div class="position-relative h-100 d-flex flex-column">
-                                            <div class="mb-0">
-                                                <a href="/" class="d-block">
+                            
+                            <div class="col-lg-6">
 
-                                                    <img src="assets/images/plantifeedpics/landing-page.png" alt="" class="img-fluid">
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="container-fluid">
+                                    <a href="login" class="btn btn-success waves-effect waves-light mt-2" style="background-color: darkgreen; border-color: darkgreen;">
+                                        <i class="ri-arrow-left-line" style="color: white;"></i>
+                                    </a>
+                                </div>
+                                <div class="d-flex justify-content-center">
+                                    <img src="assets/images/plantifeedpics/landing-page.png" alt="" class="img-fluid">
                                 </div>
 
-                                <div class="col-lg-5">
+                            </div>
+
+
+
+                                <div class="col-lg-6">
                                     <div class="p-lg-5 p-4">
                                         @if ($errors->any())
                                         <div class="alert alert-danger text-center">
@@ -108,9 +113,18 @@
                                             {{ Session::get('success') }}
                                         </div>
                                         @endif
+
                                         <div>
-                                            <h3 class="text-center mt-5"><strong>Forgot Password?</strong></h3>
-                                            <h5 class="justify-text-center mt-5">Please provide the email address linked to your account, and we'll send you a link to reset your password.</h5>
+                                        <h5 class="text-black">Forgot Password?</h5>
+                                            <div class="mt-2 text-center">
+                                            <lord-icon
+                                                src="https://cdn.lordicon.com/rhvddzym.json" trigger="loop" colors="primary: #066903" class="avatar-xl">
+                                            </lord-icon>
+                                        </div>
+                                            <div class="alert border-0 alert-warning text-center mb-0 mx-0" role="alert">
+                                            Enter your email and instructions will be sent to you!
+                                        </div>
+                                           
 
                                         </div><br>
                                         <form action="/forgot-password" method="POST">
@@ -125,16 +139,16 @@
 
 
 
-                                                <button type="submit" class="btn btn-success w-100" id="sendResetLinkButton" style="background-color: #025830;">
+                                                <button type="submit" class="btn btn-success w-100" id="sendResetLinkButton" style="background-color:#066903;">
                                                     <i class=""></i> Send Reset Link
                                                 </button>
 
                                             </div>
                                         </form>
 
-                                        <div class="mt-1 text-center">
-                                            <p class="mb-0">Don't have an account ? <a href="/signup" class="fw-semibold text-decoration-underline" style="color: #025830;"> SignUp</a> </p>
-                                        </div>
+                                        <!-- <div class="mt-1 text-center">
+                                            <p class="mb-0">Don't have an account ? <a href="/signup" class="fw-semibold text-decoration-underline" style="color:#066903;"> SignUp</a> </p>
+                                        </div> -->
 
                                     </div>
 
@@ -145,7 +159,6 @@
                     <!-- end card -->
                 </div>
                 <!-- end col -->
-
 
 
 
@@ -168,6 +181,7 @@
 
 <script src="assets/libs/particles.js/particles.js"></script>
     <script src="assets/js/pages/particles.app.js"></script>
+    <script src="assets/js/pages/plugins/lord-icon-2.1.0.js"></script>
 </body>
 
 </html>

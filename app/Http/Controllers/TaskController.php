@@ -87,17 +87,8 @@ class TaskController extends Controller
             // Save the Task model to persist the changes to the database
             $task->save();
         }
-    
-    // Fetch the day associated with the last added task
-    $lastAddedTask = Task::latest()->first();
-    $day = $lastAddedTask->taskType->day;
-
-    // Fetch tasks associated with the same day as the last added task
-    $tasks = TaskType::where('day', $day)->get();
-
-    return response()->json(['success' => true, 'message' => 'Tasks added successfully', 'day' => $day, 'tasks' => $tasks], 200);
-}
-
+        return response()->json(['success' => true, 'message' => 'Tasks added successfully'], 200);
+    }
 
     public function view($id)
     {

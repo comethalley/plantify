@@ -6,6 +6,9 @@
             <div class="container">
                 <header class="my-4">
                     <h1>{{ $task->taskType->day }}</h1>
+                    <a href="/tasks" class="btn btn-primary">
+                    <i class="ri-arrow-left-line"></i>
+                </a>
                 </header> 
                 <div class="card">
                     <div class="card-body">

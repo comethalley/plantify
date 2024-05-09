@@ -179,7 +179,8 @@
                             </div> <!-- end modal-->
 
 
-                            <div class="modal fade" id="EventdetailModal" tabindex="-1" role="dialog" aria-labelledby="EventdetailModal" aria-hidden="true">
+
+<div class="modal fade" id="EventdetailModal" tabindex="-1" role="dialog" aria-labelledby="EventdetailModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg"> <!-- Adjust modal size using Bootstrap classes -->
         <div class="modal-content">
             <div class="modal-header p-3 bg-success text-white">
@@ -218,6 +219,9 @@
             </div>
             <div class="modal-footer">
                 <div class="hstack gap-2 justify-content-end">
+                    @if(auth()->user()->role_id == 3 || auth()->user()->role_id == 4)
+                        <a href="#" id="interested-btn" class="btn btn-primary" target="_blank">Interested</a>
+                    @endif
                     @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2)
                         <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#archiveModal1" style="font-family: 'Arial', sans-serif; font-size: 12px;">Delete</button>
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editexampleModal" style="font-family: 'Arial', sans-serif; font-size: 12px;">Edit</button>
@@ -227,6 +231,7 @@
         </div>
     </div>
 </div>
+
 
 
 <!-- Update and Delete Event Modal -->

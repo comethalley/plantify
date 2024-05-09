@@ -61,6 +61,11 @@
                                         </a>
                                     </li>
                                     <li class="nav-item" role="presentation">
+                                        <a class="nav-link py-3 Pickups" data-bs-toggle="tab" id="Disapproved" href="#disapproved" role="tab" aria-selected="false" tabindex="-1">
+                                            <i class="ri-delete-bin-5-fill me-1 align-bottom"></i> Disapproved List
+                                        </a>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
                                         <a class="nav-link py-3 Cancelled" data-bs-toggle="tab" id="Picked" href="#picked" role="tab" aria-selected="false" tabindex="-1">
                                             <i class="ri-inbox-archive-line me-1 align-bottom"></i> Picking
                                         </a>
@@ -78,9 +83,10 @@
                                             <thead class="text-muted table-light">
                                                 <tr class="text-uppercase">
                                                     <th>ID</th>
-                                                    <th>Supply Type</th>
-                                                    <th>Supply Name</th>
-                                                    <th>Quantity</th>
+                                                    <th>Supply Tools</th>
+                                                    <th>Supply Seeds</th>
+                                                    <th>Tools Quantity</th>
+                                                    <th>Seeds Quantity</th>
                                                     <th>Requested By</th>
                                                     <!-- <th>Farm Name</th> -->
                                                     <th>Status</th>
@@ -92,9 +98,26 @@
                                                 @forelse($all_requests as $request)
                                                 <tr>
                                                     <td class="text-center">{{ $request->id }}</td>
-                                                    <td class="text-center">{{ $request->supply_tool }}</td>
-                                                    <td class="text-center">{{ $request->supply_seedling }}</td>
+                                                    <td class="text-center type">
+                                                        @if($request->supply_tool)
+                                                            {{ $request->supplyTool->type }}
+                                                        @elseif($request->supply_seedling)
+                                                            {{ $request->supplySeedling->type }}
+                                                        @else
+                                                            N/A
+                                                        @endif
+                                                    </td>
+                                                    <td class="text-center type">
+                                                        @if($request->supply_seed)
+                                                            {{ $request->supplyTool->type }}
+                                                        @elseif($request->supply_seedling)
+                                                            {{ $request->supplySeedling->type }}
+                                                        @else
+                                                            N/A
+                                                        @endif
+                                                    </td>
                                                     <td class="text-center">{{ strtoupper($request->count_tool) }}</td>
+                                                    <td class="text-center">{{ strtoupper($request->count_seedling) }}</td>
                                                     <td class="text-center">{{ $request->requestedBy->firstname }} {{ $request->requestedBy->lastname }}</td>
                                                     <!-- <td class="text-center">{{ $request->farm_name }}</td> -->
                                                     <td class="text-center">{{ $request->status }}</td>
@@ -118,13 +141,16 @@
                                 <!-- request list table -->
                                 <div id="requested" class="tab-pane fade">
                                     <div class="table-responsive table-card mb-1">
+                                        <!-- REQUEST TOOLS -->
                                         <table class="table table-nowrap align-middle">
                                             <thead class="text-muted table-light">
                                                 <tr class="text-uppercase">
                                                     <th data-sort="id">ID</th>
-                                                    <th data-sort="supply_id">Supply Type</th>
-                                                    <th data-sort="type">Supply Name</th>
-                                                    <th data-sort="count_tool">Quantity</th>
+                                                    <!-- <th data-sort="supply_id">Supply Type</th> -->
+                                                    <th data-sort="type">Supply Tools</th>
+                                                    <th data-sort="type">Supply Seeds</th>
+                                                    <th data-sort="count_tool">Tools Quantity</th>
+                                                    <th data-sort="count_seedling">Seeds Quantity</th>
                                                     <th data-sort="letter_content">Letter</th>
                                                     <th data-sort="farm_leader">Requested By</th>
                                                     <!-- <th data-sort="farm_name">Farm Name</th> -->
@@ -137,9 +163,27 @@
                                                 @forelse($request_tbl as $key => $request)
                                                 <tr>
                                                     <td class="id">{{ $request->id }}</td>
-                                                    <td class="supply_id">{{ $request->supply_tool }}</td>
-                                                    <td class="type">{{ $request->supply_seedling }}</td>
+                                                    <!-- <td class="supply_id">{{ $request->supply_tool }}</td> -->
+                                                    <td class="text-center type">
+                                                        @if($request->supply_tool)
+                                                            {{ $request->supplyTool->type }}
+                                                        @elseif($request->supply_seedling)
+                                                            {{ $request->supplySeedling->type }}
+                                                        @else
+                                                            N/A
+                                                        @endif
+                                                    </td>
+                                                    <td class="text-center type">
+                                                        @if($request->supply_seed)
+                                                            {{ $request->supplyTool->type }}
+                                                        @elseif($request->supply_seedling)
+                                                            {{ $request->supplySeedling->type }}
+                                                        @else
+                                                            N/A
+                                                        @endif
+                                                    </td>
                                                     <td class="count_tool">{{ strtoupper($request->count_tool) }}</td>
+                                                    <td class="count_seedling">{{ strtoupper($request->count_seedling) }}</td>
                                                     <td class="letter_content">
                                                         <button type="button" class="btn btn-success waves-effect waves-light" onclick="viewLetterContent({{ $request->id }})">
                                                             <i class="ri-eye-line align-bottom"></i>
@@ -152,7 +196,7 @@
                                                     </td>
                                                     <td>
                                                         <select class="form-select change_stat">
-                                                            <option selected disabled value="0">Set As</option>
+                                                            <option value="0" disabled selected>Set As</option>
                                                             <option value="Available">Available</option>
                                                             <option value="Unavailable">Unavailable</option>
                                                         </select>
@@ -185,9 +229,10 @@
                                             <thead class="text-muted table-light">
                                                 <tr class="text-uppercase">
                                                     <th data-sort="id">ID</th>
-                                                    <th data-sort="supply_id">Supply Type</th>
-                                                    <th data-sort="type">Supply Name</th>
-                                                    <th data-sort="count_tool">Quantity</th>
+                                                    <th data-sort="type">Supply Tools</th>
+                                                    <th data-sort="type">Supply Seeds</th>
+                                                    <th data-sort="count_tool">Tools Quantity</th>
+                                                    <th data-sort="count_seedling">Seeds Quantity</th>
                                                     <th data-sort="letter_content">Letter</th>
                                                     <th data-sort="farm_leader">Requested By</th>
                                                     <!-- <th data-sort="farm_name">Farm Name</th> -->
@@ -201,9 +246,26 @@
                                                 @forelse($available_requests as $request)
                                                 <tr>
                                                     <td class="id">{{ $request->id }}</td>
-                                                    <td class="text-center supply_id">{{ $request->supply_tool }}</td>
-                                                    <td class="text-center type">{{ $request->supply_seedling }}</td>
-                                                    <td class="text-center count_tool">{{ strtoupper($request->count_tool) }}</td>
+                                                    <td class="text-center type">
+                                                        @if($request->supply_tool)
+                                                            {{ $request->supplyTool->type }}
+                                                        @elseif($request->supply_seedling)
+                                                            {{ $request->supplySeedling->type }}
+                                                        @else
+                                                            N/A
+                                                        @endif
+                                                    </td>
+                                                    <td class="text-center type">
+                                                        @if($request->supply_seed)
+                                                            {{ $request->supplyTool->type }}
+                                                        @elseif($request->supply_seedling)
+                                                            {{ $request->supplySeedling->type }}
+                                                        @else
+                                                            N/A
+                                                        @endif
+                                                    </td>
+                                                    <td class="count_tool">{{ strtoupper($request->count_tool) }}</td>
+                                                    <td class="count_seedling">{{ strtoupper($request->count_seedling) }}</td>
                                                     <td class="letter_content">
                                                         <button type="button" class="btn btn-success waves-effect waves-light" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModal">
                                                             <i class="ri-eye-line align-bottom"></i>
@@ -216,12 +278,12 @@
                                                     </td>
                                                     <td>
                                                         @if($request->status === 'Available')
-                                                            <select class="form-select change_stat" onchange="onChangeSetAs(this)">
-                                                                <option selected="" value="0">Set As</option>
+                                                            <select class="form-select change_stat">
+                                                                <option selected="" value="0" disabled selected>Set As</option>
                                                                 <option value="Waiting for Approval">Waiting for Approval</option>
                                                             </select>
                                                         @elseif($request->status === 'Waiting for Approval')
-                                                            <select class="form-select change_stat" onchange="onChangeSetAs(this)">
+                                                            <select class="form-select change_stat">
                                                                 <option value="Approved">Approved</option>
                                                                 <option value="Disapproved">Disapproved</option>
                                                             </select>
@@ -256,9 +318,10 @@
                                             <thead class="text-muted table-light">
                                                 <tr class="text-uppercase">
                                                     <th data-sort="id">ID</th>
-                                                    <th data-sort="supply_id">Supply Type</th>
-                                                    <th data-sort="type">Supply Name</th>
-                                                    <th data-sort="count_tool">Quantity</th>
+                                                    <th data-sort="type">Supply Tools</th>
+                                                    <th data-sort="type">Supply Seeds</th>
+                                                    <th data-sort="count_tool">Tools Quantity</th>
+                                                    <th data-sort="count_seedling">Seeds Quantity</th>
                                                     <th data-sort="letter_content">Letter</th>
                                                     <th data-sort="farm_leader">Requested By</th>
                                                     <!-- <th data-sort="farm_name">Farm Name</th> -->
@@ -272,9 +335,26 @@
                                                 @forelse($approval_requests as $request)
                                                 <tr>
                                                     <td class="id">{{ $request->id }}</td>
-                                                    <td class="text-center supply_id">{{ $request->supply_tool }}</td>
-                                                    <td class="text-center type">{{ $request->supply_seedling }}</td>
-                                                    <td class="text-center count_tool">{{ strtoupper($request->count_tool) }}</td>
+                                                    <td class="text-center type">
+                                                        @if($request->supply_tool)
+                                                            {{ $request->supplyTool->type }}
+                                                        @elseif($request->supply_seedling)
+                                                            {{ $request->supplySeedling->type }}
+                                                        @else
+                                                            N/A
+                                                        @endif
+                                                    </td>
+                                                    <td class="text-center type">
+                                                        @if($request->supply_seed)
+                                                            {{ $request->supplyTool->type }}
+                                                        @elseif($request->supply_seedling)
+                                                            {{ $request->supplySeedling->type }}
+                                                        @else
+                                                            N/A
+                                                        @endif
+                                                    </td>
+                                                    <td class="count_tool">{{ strtoupper($request->count_tool) }}</td>
+                                                    <td class="count_seedling">{{ strtoupper($request->count_seedling) }}</td>
                                                     <td class="letter_content">
                                                         <button type="button" class="btn btn-success waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#showModal">
                                                             <i class="ri-eye-line align-bottom"></i>
@@ -290,11 +370,97 @@
                                                         Approved
                                                         @else
                                                         <select class="form-select change_stat">
-                                                            <option selected="" value="0">Set As</option>
+                                                            <option selected="" value="0" disabled selected>Set As</option>
                                                             <option value="Approved">Approved</option>
                                                             <option value="Disapproved">Disapproved</option>
                                                         </select>
                                                         @endif
+                                                    </td>
+                                                    <td>
+                                                        @if($request->status === 'Approved')
+                                                        <button type="button" class="btn btn-primary waves-effect waves-light setPickingDateButton" data-request-id="{{ $request->id }}" data-bs-toggle="modal" data-bs-target="#setPickingDateModal">Set Picking Date</button>
+                                                        @else
+                                                        <button type="button" class="btn btn-primary waves-effect waves-light" onclick="updateStatus(this)">Confirm</button>
+                                                        @endif
+                                                    </td>
+                                                </tr>
+                                                @empty
+                                                <!-- If no approval requests found, display a message -->
+                                                <tr>
+                                                    <td colspan="11">
+                                                        <div class="text-center">
+                                                            <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="loop" colors="primary:#405189,secondary:#0ab39c" style="width:75px;height:75px"></lord-icon>
+                                                            <h5 class="mt-2">Sorry! No Result Found</h5>
+                                                            <p class="text-muted">We've searched more than 150+ Request We did not find any orders for you search.</p>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                @endforelse
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <!-- Disapproved list -->
+                                <div id="disapproved" class="tab-pane fade">
+                                    <div class="table-responsive table-card mb-1">
+                                        <table class="table table-nowrap align-middle">
+                                            <thead class="text-muted table-light">
+                                                <tr class="text-uppercase">
+                                                    <th data-sort="id">ID</th>
+                                                    <th data-sort="type">Supply Tools</th>
+                                                    <th data-sort="type">Supply Seeds</th>
+                                                    <th data-sort="count_tool">Tools Quantity</th>
+                                                    <th data-sort="count_seedling">Seeds Quantity</th>
+                                                    <th data-sort="letter_content">Letter</th>
+                                                    <th data-sort="farm_leader">Requested By</th>
+                                                    <!-- <th data-sort="farm_name">Farm Name</th> -->
+                                                    <th data-sort="status">Status</th>
+                                                    <th data-sort="change_stat">Set As</th>
+                                                    <th data-sort="action">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="list form-check-all">
+                                                <!-- Loop through the approval requests and populate the table rows -->
+                                                @forelse($disapproved_requests as $request)
+                                                <tr>
+                                                    <td class="id">{{ $request->id }}</td>
+                                                    <td class="text-center type">
+                                                        @if($request->supply_tool)
+                                                            {{ $request->supplyTool->type }}
+                                                        @elseif($request->supply_seedling)
+                                                            {{ $request->supplySeedling->type }}
+                                                        @else
+                                                            N/A
+                                                        @endif
+                                                    </td>
+                                                    <td class="text-center type">
+                                                        @if($request->supply_seed)
+                                                            {{ $request->supplyTool->type }}
+                                                        @elseif($request->supply_seedling)
+                                                            {{ $request->supplySeedling->type }}
+                                                        @else
+                                                            N/A
+                                                        @endif
+                                                    </td>
+                                                    <td class="count_tool">{{ strtoupper($request->count_tool) }}</td>
+                                                    <td class="count_seedling">{{ strtoupper($request->count_seedling) }}</td>
+                                                    <td class="letter_content">
+                                                        <button type="button" class="btn btn-success waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#showModal">
+                                                            <i class="ri-eye-line align-bottom"></i>
+                                                        </button>
+                                                    </td>
+                                                    <td class="text-center farm_leader">{{ $request->requestedBy->firstname }} {{ $request->requestedBy->lastname }}</td>
+                                                    <!-- <td class="text-center farm_name">{{ optional($request->farm)->farm_name }}</td> -->
+                                                    <td class="status">
+                                                        <label class="badge text-wrap" style="font-size: 12px; margin-bottom: 10px; padding: 2px; background-color: #007BFF; color: #FFF;" onclick="return false;">{{ $request->status }}</label>
+                                                    </td>
+                                                    <td>
+                                                        <select class="form-select change_stat">
+                                                            <option selected="" value="0" disabled selected>Set As</option>
+                                                            <option value="Resubmit">Resubmit</option>
+                                                            <option value="Waiting for approval">Waiting for approval</option>
+                                                        </select>
                                                     </td>
                                                     <td>
                                                         @if($request->status === 'Approved')
@@ -328,9 +494,10 @@
                                             <thead class="text-muted table-light">
                                                 <tr class="text-uppercase">
                                                     <th data-sort="id">ID</th>
-                                                    <th data-sort="supply_id">SUPPLY TYPE</th>
-                                                    <th data-sort="type">SUPPLY NAME</th>
-                                                    <th data-sort="count_tool">QUANTITY</th>
+                                                    <th data-sort="type">Supply Tools</th>
+                                                    <th data-sort="type">Supply Seeds</th>
+                                                    <th data-sort="count_tool">Tools Quantity</th>
+                                                    <th data-sort="count_seedling">Seeds Quantity</th>
                                                     <th data-sort="letter_content">LETTER</th>
                                                     <th data-sort="farm_leader">REQUESTED BY</th>
                                                     <!-- <th data-sort="farm_name">FARM NAME</th> -->
@@ -345,9 +512,26 @@
                                                 @forelse($picked_requests as $request)
                                                 <tr>
                                                     <td class="id">{{ $request->id }}</td>
-                                                    <td class="text-center supply_id">{{ $request->supply_tool }}</td>
-                                                    <td class="text-center type">{{ $request->supply_seedling }}</td>
-                                                    <td class="text-center count_tool">{{ strtoupper($request->count_tool) }}</td>
+                                                    <td class="text-center type">
+                                                        @if($request->supply_tool)
+                                                            {{ $request->supplyTool->type }}
+                                                        @elseif($request->supply_seedling)
+                                                            {{ $request->supplySeedling->type }}
+                                                        @else
+                                                            N/A
+                                                        @endif
+                                                    </td>
+                                                    <td class="text-center type">
+                                                        @if($request->supply_seed)
+                                                            {{ $request->supplyTool->type }}
+                                                        @elseif($request->supply_seedling)
+                                                            {{ $request->supplySeedling->type }}
+                                                        @else
+                                                            N/A
+                                                        @endif
+                                                    </td>
+                                                    <td class="count_tool">{{ strtoupper($request->count_tool) }}</td>
+                                                    <td class="count_seedling">{{ strtoupper($request->count_seedling) }}</td>
                                                     <td class="letter_content">
                                                         <button type="button" class="btn btn-success waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#showModal">
                                                             <i class="ri-eye-line align-bottom"></i>
@@ -360,11 +544,11 @@
                                                     </td>
                                                     <td class="created_at">{{ \Carbon\Carbon::parse($request->picked_date)->format('Y-m-d / h:i A') }}</td>
                                                     <td>
-                                                        @if($request->status === 'Picked')
-                                                        Picked
+                                                        @if($request->status === 'Ready to be Pick')
+                                                        Ready to be Pick
                                                         @else
                                                         <select class="form-select change_stat">
-                                                            <option selected="" value="0">Set As</option>
+                                                            <option selected="" value="0" disabled selected>Set As</option>
                                                             <option value="Picked">Picked</option>
                                                             <option value="Failed to Pick">Failed to Pick</option>
                                                         </select>
@@ -402,9 +586,10 @@
                                             <thead class="text-muted table-light">
                                                 <tr class="text-uppercase">
                                                     <th data-sort="id">ID</th>
-                                                    <th data-sort="supply_id">SUPPLY TYPE</th>
-                                                    <th data-sort="type">SUPPLY NAME</th>
-                                                    <th data-sort="count_tool">QUANTITY</th>
+                                                    <th data-sort="type">Supply Tools</th>
+                                                    <th data-sort="type">Supply Seeds</th>
+                                                    <th data-sort="count_tool">Tools Quantity</th>
+                                                    <th data-sort="count_seedling">Seeds Quantity</th>
                                                     <th data-sort="letter_content">LETTER</th>
                                                     <th data-sort="farm_leader">REQUESTED BY</th>
                                                     <!-- <th data-sort="farm_name">FARM NAME</th> -->
@@ -419,9 +604,26 @@
                                                 @forelse($return_requests as $request)
                                                 <tr>
                                                     <td class="id">{{ $request->id }}</td>
-                                                    <td class="text-center supply_id">{{ $request->supply_tool }}</td>
-                                                    <td class="text-center type">{{ $request->supply_seedling }}</td>
-                                                    <td class="text-center count_tool">{{ strtoupper($request->count_tool) }}</td>
+                                                    <td class="text-center type">
+                                                        @if($request->supply_tool)
+                                                            {{ $request->supplyTool->type }}
+                                                        @elseif($request->supply_seedling)
+                                                            {{ $request->supplySeedling->type }}
+                                                        @else
+                                                            N/A
+                                                        @endif
+                                                    </td>
+                                                    <td class="text-center type">
+                                                        @if($request->supply_seed)
+                                                            {{ $request->supplyTool->type }}
+                                                        @elseif($request->supply_seedling)
+                                                            {{ $request->supplySeedling->type }}
+                                                        @else
+                                                            N/A
+                                                        @endif
+                                                    </td>
+                                                    <td class="count_tool">{{ strtoupper($request->count_tool) }}</td>
+                                                    <td class="count_seedling">{{ strtoupper($request->count_seedling) }}</td>
                                                     <td class="letter_content">
                                                         <button type="button" class="btn btn-success waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#showModal">
                                                             <i class="ri-eye-line align-bottom"></i>
@@ -434,15 +636,11 @@
                                                     </td>
                                                     <td class="created_at">{{ \Carbon\Carbon::parse($request->date_return)->format('Y-m-d / h:i A') }}</td>
                                                     <td>
-                                                        @if($request->status === 'Waiting for return')
-                                                        Waiting for return
-                                                        @else
                                                         <select class="form-select change_stat">
-                                                            <option selected="" value="0">Set As</option>
+                                                            <option selected="" value="0" disabled selected>Set As</option>
                                                             <option value="Returned">Returned</option>
                                                             <option value="Failed to Return">Failed to Return</option>
                                                         </select>
-                                                        @endif
                                                     </td>
                                                     <td>
                                                         <button type="button" class="btn btn-primary waves-effect waves-light" onclick="updateStatus(this)">Confirm</button>
@@ -666,7 +864,7 @@
             success: function(response) {
                 if (response.success) {
                     // If the request is successful, update the status to "Ready to be Picked"
-                    updateStatusInDatabase(requestId, 'Ready to be Picked');
+                    updateStatusInDatabase(requestId, 'Ready to be Pick');
                     // Close the modal and show a success message
                     $('#setPickingDateModal').modal('hide');
                     alert('Picking date set successfully!');
@@ -771,6 +969,27 @@
             });
         }
 
+        function fetchDisapprovedList() {
+            $.ajax({
+                url: '/disapprovedList', // Route to fetch approved list data
+                method: 'GET',
+                success: function(response) {
+                    // Clear the existing table rows
+                    $('#disapproved .list').empty();
+
+                    // Loop through the fetched data and populate the table
+                    $.each(response, function(index, request) {
+                        var row = createTableRow(request);
+                        $('#disapproved .list').append(row);
+                    });
+                },
+                error: function(xhr, status, error) {
+                    // Handle error response
+                    console.error('Error fetching disapproved list:', error);
+                }
+            });
+        }
+
         // Function to fetch and display picked list
         function fetchPickedList() {
             $.ajax({
@@ -817,6 +1036,7 @@
 
         fetchAvailableList();
         fetchApprovalList();
+        fetchDisapprovedList();
         fetchPickedList();
         fetchReturnedList();
     });

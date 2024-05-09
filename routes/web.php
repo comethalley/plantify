@@ -366,11 +366,11 @@ Route::get('/getLetterContent', [ToolController::class, 'getLetterContent']);
 Route::post('/updateStatus', [ToolController::class, 'updateStatus']);
 Route::get('/availableList', [ToolController::class, 'availableList']);
 Route::get('/approvedList', [ToolController::class, 'approvedList']);
+Route::get('/disapprovedList', [ToolController::class, 'disapprovedList']);
 Route::get('/pickedList', [ToolController::class, 'pickedList']);
 Route::get('/returnList', [ToolController::class, 'returnList']);
 Route::post('/set-picking-date', [ToolController::class, 'setPickingDate']);
 Route::post('/set-return-date', [ToolController::class, 'setReturnDate']);
-
 
 // ===================================================================================
 

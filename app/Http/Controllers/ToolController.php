@@ -23,19 +23,16 @@ class ToolController extends Controller
     {
         $user = Auth::user();
         // Fetch all requested statuses from the database
-        $request_tbl = RequestN::with('requestedBy', 'farm')->where('status', 'Requested')->get();
-        $all_requests = RequestN::with('requestedBy', 'farm')->get();
+        $request_tbl = RequestN::with('requestedBy', 'farm', 'supplyTool', 'supplySeedling')->where('status', 'Requested')->get();
+        $all_requests = RequestN::with('requestedBy', 'farm', 'supplyTool', 'supplySeedling')->get();
     
         $available_requests = $this->getAvailableRequests();
         $approval_requests = $this->getApprovalRequests();
+        $disapproved_requests = $this->getDisapprovedRequests();
         $picked_requests = $this->getPickingRequests();
         $return_requests = $this->getReturnedRequests();
     
-        // Fetch supply types if required by this view
-        $supplyTools = SupplyType::where('supply_id', 1)->pluck('type', 'id');
-        $supplySeedlings = SupplyType::where('supply_id', 2)->pluck('type', 'id');
-    
-        return view('pages.tools.request', compact('request_tbl', 'supplyTools', 'supplySeedlings', 'available_requests', 'approval_requests', 'picked_requests', 'return_requests', 'all_requests'));
+        return view('pages.tools.request', compact('request_tbl', 'available_requests', 'approval_requests', 'disapproved_requests', 'picked_requests', 'return_requests', 'all_requests'));
     }
 
     public function updateStatus(Request $request)
@@ -85,9 +82,21 @@ class ToolController extends Controller
     public function getApprovalRequests()
     {
         try {
-            $approval_requests = RequestN::whereIn('status', ['Approved', 'Waiting for Approval'])->get();
+            $approval_requests = RequestN::whereIn('status', ['Approved', 'Waiting for approval'])->get();
     
             return $approval_requests;
+        } catch (\Exception $e) {
+            Log::error($e);
+            return [];
+        }
+    }
+
+    public function getDisapprovedRequests()
+    {
+        try {
+            $disapproved_requests = RequestN::whereIn('status', ['Disapproved'])->get();
+    
+            return $disapproved_requests;
         } catch (\Exception $e) {
             Log::error($e);
             return [];
@@ -97,7 +106,7 @@ class ToolController extends Controller
     public function getPickingRequests()
     {
         try {
-            $picked_requests = RequestN::whereIn('status', ['Ready to be picked', 'Picked'])->get();
+            $picked_requests = RequestN::whereIn('status', ['Ready to be pick', 'Picked'])->get();
     
             return $picked_requests;
         } catch (\Exception $e) {
@@ -109,7 +118,7 @@ class ToolController extends Controller
     public function getReturnedRequests()
     {
         try {
-            $returned_requests = RequestN::whereIn('status', ['Waiting to return', 'Returned', 'Failed to Return'])->get();
+            $returned_requests = RequestN::whereIn('status', ['Waiting for return', 'Returned', 'Failed to return'])->get();
     
             return $returned_requests;
         } catch (\Exception $e) {
@@ -126,7 +135,7 @@ class ToolController extends Controller
         // Update the request record in the database with the picking date
         $request = RequestN::findOrFail($requestId);
         $request->picked_date = $pickingDate;
-        $request->status = 'Ready to be Picked';
+        $request->status = 'Ready to be pick';
         $request->save();
 
         return response()->json(['success' => true]);

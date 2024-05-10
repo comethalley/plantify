@@ -133,7 +133,7 @@ class PostController extends Controller
 
 
         Validator::extend('no_bad_words', function ($attribute, $value, $parameters, $validator) {
-            $badWords = ['badword1', 'badword2', 'badword3']; // Add your list of bad words here
+            $badWords = ['badword11', 'badword2', 'badword3']; // Add your list of bad words here
             foreach ($badWords as $badWord) {
                 if (stripos($value, $badWord) !== false) {
                     return false; // Return false if a bad word is found

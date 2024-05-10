@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\DB;
 use App\Models\ProfileSettings;
 use Illuminate\Validation\Rule;
 use App\Events\MyEvent;
-use Pusher\Pusher;
 
 class ForumController extends Controller
 {
@@ -20,7 +19,7 @@ class ForumController extends Controller
     {
         $comments = Comment::all();
         $profileSettings = ProfileSettings::where('user_id', auth()->id())->first();
-
+        session(['profileSettings' => $profileSettings]);
         $questions = DB::table('forums')
             ->leftJoin('users', 'users.id', '=', 'forums.user_id')
             ->select('users.*', 'forums.*', 'forums.created_at as question_created_at') // Ilagay ang 'created_at' sa forum table bilang 'question_created_at'
@@ -34,8 +33,7 @@ class ForumController extends Controller
 
             ->get();
 
-        return view('pages.forum', compact('questions', 'posts', 'comments','profileSettings'));
-        
+        return view('pages.forum', compact('questions', 'posts', 'comments', 'profileSettings'));
     }
 
 
@@ -43,6 +41,28 @@ class ForumController extends Controller
     {
         $this->middleware('auth');
     }
+
+    public function likeForum(Forum $forum)
+    {
+        $user = Auth::user();
+
+        if (!$forum->likes()->where('user_id', $user->id)->exists()) {
+            $forum->likes()->create(['user_id' => $user->id]);
+        }
+
+        return response()->json(['message' => 'Forum liked successfully']);
+    }
+
+    public function unlikeForum(Forum $forum)
+    {
+        $user = Auth::user();
+
+        $forum->likes()->where('user_id', $user->id)->delete();
+
+        return response()->json(['message' => 'Forum unliked successfully']);
+    }
+
+
 
 
     public function deleteQuestion($id)
@@ -77,15 +97,24 @@ class ForumController extends Controller
         ];
 
         // Gumawa ng custom validation rule para sa bad words
-        Validator::extend('bad_words', function ($attribute, $value, $parameters, $validator) {
-            $badWords = ['badword1', 'badword2', 'badword3']; // Ilagay dito ang mga bad words
-            foreach ($badWords as $word) {
-                if (stripos($value, $word) !== false) {
+        Validator::extend('no_bad_words', function ($attribute, $value, $parameters, $validator) {
+            $badWords = [
+                'puta', 'put@', 'gago', 'g@go', 'tang ina', 't4ng in4', 'bobo', 'obob', 'b0bo', 'b0b0', 'punyeta',
+                'tanga', 'kingina', 'kinginamo', 'inamo', 'namo', 'inaka', 'suso', 'puke', 'tite', 'kantot', 'pwet',
+                'puday', 'kipay', 'pekpek', 'pokpok', 'putangina', 'laspag', 'bulbol', 'bilat', 'tarantado', 'gaga',
+                'gagi', 'shet', 'pota', 'tangina', 'baliw', 'bwakanangina', 'kinanginamo', 'salsal', 'jakol', 'pingger',
+                'pakyu', 'tae', 'monggoloid', 'tamod', 'bayag', 'ulol', 'sintosinto', 'siraulo', 'animal', 'inutil',
+                'demonyo', 'kulangkulang', 'sayad', 'hayop', 'walangkwenta', 'pakshet', 'burat', 'utong', 'supot', 'hayop',
+                'p@t@', 'gaga', 'kiffy', 'deck'
+            ]; // Comprehensive list of bad words
+            foreach ($badWords as $badWord) {
+                if (stripos($value, $badWord) !== false) {
                     return false;
                 }
             }
             return true;
         });
+
 
         // Mag-validate ng request
         $validator = Validator::make($request->all(), $rules);
@@ -154,19 +183,19 @@ class ForumController extends Controller
         // print $hey;
         // exit;
 
-        $pusher = new Pusher(
-            env('PUSHER_APP_KEY'),
-            env('PUSHER_APP_SECRET'),
-            env('PUSHER_APP_ID'),
-            [
-                'cluster' => env('PUSHER_APP_CLUSTER'),
-                'useTLS' => true,
-            ]
-        );
+        // $pusher = new Pusher(
+        //     env('PUSHER_APP_KEY'),
+        //     env('PUSHER_APP_SECRET'),
+        //     env('PUSHER_APP_ID'),
+        //     [
+        //         'cluster' => env('PUSHER_APP_CLUSTER'),
+        //         'useTLS' => true,
+        //     ]
+        // );
 
-        $data['message'] = "Hell sa imong tanan";
+        // $data['message'] = "Hell sa imong tanan";
 
-        $pusher->trigger('my-channel', 'my-event', $data);
+        // $pusher->trigger('my-channel', 'my-event', $data);
 
 
         // If successful

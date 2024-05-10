@@ -91,43 +91,20 @@ class ForumController extends Controller
             return response()->json(['error' => 'Question not found'], 404);
         }
 
-        // Gumawa ng validation rules
+        // Validation rules
         $rules = [
             'question' => 'required|string',
         ];
 
-        // Gumawa ng custom validation rule para sa bad words
-        Validator::extend('no_bad_words', function ($attribute, $value, $parameters, $validator) {
-            $badWords = [
-                'puta', 'put@', 'gago', 'g@go', 'tang ina', 't4ng in4', 'bobo', 'obob', 'b0bo', 'b0b0', 'punyeta',
-                'tanga', 'kingina', 'kinginamo', 'inamo', 'namo', 'inaka', 'suso', 'puke', 'tite', 'kantot', 'pwet',
-                'puday', 'kipay', 'pekpek', 'pokpok', 'putangina', 'laspag', 'bulbol', 'bilat', 'tarantado', 'gaga',
-                'gagi', 'shet', 'pota', 'tangina', 'baliw', 'bwakanangina', 'kinanginamo', 'salsal', 'jakol', 'pingger',
-                'pakyu', 'tae', 'monggoloid', 'tamod', 'bayag', 'ulol', 'sintosinto', 'siraulo', 'animal', 'inutil',
-                'demonyo', 'kulangkulang', 'sayad', 'hayop', 'walangkwenta', 'pakshet', 'burat', 'utong', 'supot', 'hayop',
-                'p@t@', 'gaga', 'kiffy', 'deck'
-            ]; // Comprehensive list of bad words
-            foreach ($badWords as $badWord) {
-                if (stripos($value, $badWord) !== false) {
-                    return false;
-                }
-            }
-            return true;
-        });
-
-
-        // Mag-validate ng request
+        // Validate the request
         $validator = Validator::make($request->all(), $rules);
-        $validator->sometimes('question', 'bad_words', function ($input) {
-            return true; // Dito mo mase-set kung kailan mo gustong i-apply ang custom validation rule
-        });
 
         if ($validator->fails()) {
             $validationmessage = "The question contains inappropriate language. Please refrain from using offensive words.";
             return redirect()->back()->with('validationmessage', $validationmessage)->with('message_type', 'warning');
         }
 
-        // Update ang tanong mula sa request
+        // Update the question
         $question->question = $request->question;
         $question->save();
 
@@ -147,7 +124,8 @@ class ForumController extends Controller
 
 
         Validator::extend('no_bad_words', function ($attribute, $value, $parameters, $validator) {
-            $badWords = ['mura', 'badword2', 'badword3'];
+            $badWords = ['badword1', 'badword2', 'badword3'];
+
             foreach ($badWords as $badWord) {
                 if (stripos($value, $badWord) !== false) {
                     return false;

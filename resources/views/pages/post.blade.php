@@ -4,6 +4,9 @@
 
 </head>
 
+
+
+
 @foreach ($questions as $question)
 
     <div class="dropdown" style=" max-width: 600px; margin: 0 auto; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);   display: grid; background-color:white; margin-bottom:40px; padding:30px; border-radius:13px; ">
@@ -23,7 +26,7 @@
                     </div>
                 @endif
                 
-                <p style="margin: 0;">      
+                <p style="margin-left:10px;">      
                     <strong>{{ $question->firstname }} {{ $question->lastname }} </strong> <span style="color: grey;"></span>
                     <br> <span style="color: grey;">{{ date('h:i:s A', strtotime($question->created_at)) }} - @if (Auth::check())
                                 @if (Auth::user()->role_id == 1)
@@ -47,7 +50,7 @@
             <img src="/assets/images/plantifeedpics/edit.png" alt="Image" class="toggle-image" style="height:20px; width: 20px; cursor: pointer; margin-left: 10px;" onclick="toggleDropdown(this)">
 
 
-            <div class="dropdown-content" style=" display: none; position: absolute; background-color: white; width: 82,66px; box-shadow: 0px -8px 16px 0px rgba(0,0,0,0.2); z-index: 1; left: 97%;">
+            <div class="dropdown-content" style=" display: none; position: absolute; background-color: white; width:110px; box-shadow: 0px -8px 16px 0px rgba(0,0,0,0.2); z-index: 1; left: 70%;">
 
                 @if(Auth::check() && Auth::user()->id == $question->user_id)
 
@@ -56,6 +59,8 @@
         <img src="/assets/images/plantifeedpics/edits.png" alt="Edit" style="height: 20px; width: 20px; margin-right: 10px;">
         <p style="margin: 0;">Edit</p>
     </div>
+
+
 
             </button>
 
@@ -127,7 +132,7 @@
 
             <br>
 
-            <button class="delete-question" data-question-id="{{ $question->id }}" style="background-color: white; border: none; color: black; text-align: center; text-decoration: none; display: inline-flex; align-items: center; font-size: 13px; padding: 20px; cursor: pointer;" onmouseover="this.style.backgroundColor='lightgray'" onmouseout="this.style.backgroundColor='white'">
+            <button class="delete-question" data-question-id="{{ $question->id }}" style="  width:100%; background-color: white; border: none; color: black; text-align: center; text-decoration: none; display: inline-flex; align-items: center; font-size: 13px; padding: 20px; cursor: pointer;" onmouseover="this.style.backgroundColor='lightgray'" onmouseout="this.style.backgroundColor='white'">
     <i class="fas fa-trash-alt" style="margin-right: 5px;"></i>
     <span>Delete</span>
 </button>
@@ -536,3 +541,28 @@
             });
         });
     </script>
+
+          <script>
+                    $(document).ready(function() {
+                        $('.delete-question').click(function() {
+                            var questionId = $(this).data('question-id');
+
+                            $.ajax({
+                                url: '/forum/delete-question/' + questionId,
+                                type: 'DELETE',
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                },
+                                success: function(response) {
+                                    // Refresh the page
+                                    setTimeout(function() {
+                                        window.location.reload();
+                                    }, 500); // Delay for 1 second before refreshing
+                                },
+                                error: function(xhr, status, error) {
+                                    console.error(xhr.responseText);
+                                }
+                            });
+                        });
+                    });
+                </script>

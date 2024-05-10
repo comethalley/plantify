@@ -9,7 +9,46 @@
 
 </head>
 
+<style>
+/* CSS for mobile responsiveness */
+@media only screen and (max-width: 768px) {
+    .dropdown-content-pusy {
+        left: 50%;
+        transform: translateX(-50%);
+        width: auto;
+    }
+    .modal-content {
+        margin-top: 10%;
+        margin-left: 5%;
+        margin-right: 5%;
+        width: 90%;
+    }
+    .modal-title {
+        font-size: 18px;
+    }
+    .edit-textarea {
+        width: 90%;
+    }
+    .file-input {
+        width: 90%;
+    }
+    .modal-buttons {
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .modal-button {
+        width: 45%;
+    }
+    .submit-button {
+        margin-top: 10px;
+    }
+    .radio-container {
+        width: 90%;
+    }
+}
 
+</style>
 
 
 
@@ -44,7 +83,7 @@
 
     @if($profileSettings && $profileSettings->profile_image)
         <!-- Kung may profile image ang naka-login na user, ipakita ito -->
-        <img style="margin-right: 4px; width: 40px; height: 40px; padding: 2px; border: 3px solid #006400;" src="{{ asset('storage/images/' . $profileSettings->profile_image) }}" alt="Profile Image" class="rounded-circle avatar-xl img-thumbnail user-profile-image">
+        <img style="margin-right: 4px; width: 43px; height: 40px; padding: 2px; border: 3px solid #006400;" src="{{ asset('storage/images/' . $profileSettings->profile_image) }}" alt="Profile Image" class="rounded-circle avatar-xl img-thumbnail user-profile-image">
     @else
         <!-- Kung wala, gamitin ang default na larawan ng profile -->
 
@@ -65,7 +104,7 @@
                                             <div class="modal-content" style="width: 600px; height:500px;">
                                                 <div class="modal-header"
 
-                                                    <h5 class="modal-title" id="myModalLabel">Add Question</h5>
+                                                    <h5 style="margin-left:240px;" class="modal-title" id="myModalLabel">Add Question</h5>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
 
                                                 </div>
@@ -86,7 +125,26 @@
 
                                                     <div style="margin-top:20px;">
                                                         <form id="forumForm" action="{{ route('forum.store') }}" method="POST">
-                                                            <img src="/assets/images/plantifeedpics/rounded.png" alt="Image Description" class="object-cover rounded-full" style="width: 40px; height: 40px; margin-left: 5px;">
+                                                                                 
+        @auth
+    @php
+        // Kunin ang naka-login na user
+        $loggedInUser = auth()->user();
+        
+        // Tingnan kung may profile settings ang naka-login na user
+        $profileSettings = $loggedInUser->profileSettings;
+    @endphp
+
+    @if($profileSettings && $profileSettings->profile_image)
+        <!-- Kung may profile image ang naka-login na user, ipakita ito -->
+        <img style="margin-right: 4px; width: 43px; height: 40px; padding: 2px; border: 3px solid #006400;" src="{{ asset('storage/images/' . $profileSettings->profile_image) }}" alt="Profile Image" class="rounded-circle avatar-xl img-thumbnail user-profile-image">
+    @else
+        <!-- Kung wala, gamitin ang default na larawan ng profile -->
+
+            <img style="margin-right: 4px; width: 40px; height: 40px; padding: 2px; border: 3px solid #006400;" src="assets/images/plantifeedpics/profile-default.png" alt="Default Profile Image" class="img-thumbnail rounded-circle">
+
+    @endif
+@endauth
                                                             @csrf
                                                             <div class="dropdown" style="position: relative; display: inline-block; width:100px; border-radius:30px;">
                                                                 <select name="language" id="language" style="border-radius:30px;padding:4px; outline: none;">
@@ -225,7 +283,26 @@
 
                                                     <div>
                                                         <div>
-                                                            <img src="/assets/images/plantifeedpics/rounded.png" alt="Image Description" class="object-cover rounded-full" style="width: 40px; height: 40px; margin-right: 8px;">
+                                                                                  
+        @auth
+    @php
+        // Kunin ang naka-login na user
+        $loggedInUser = auth()->user();
+        
+        // Tingnan kung may profile settings ang naka-login na user
+        $profileSettings = $loggedInUser->profileSettings;
+    @endphp
+
+    @if($profileSettings && $profileSettings->profile_image)
+        <!-- Kung may profile image ang naka-login na user, ipakita ito -->
+        <img style="margin-right: 4px; width: 43px; height: 40px; padding: 2px; border: 3px solid #006400;" src="{{ asset('storage/images/' . $profileSettings->profile_image) }}" alt="Profile Image" class="rounded-circle avatar-xl img-thumbnail user-profile-image">
+    @else
+        <!-- Kung wala, gamitin ang default na larawan ng profile -->
+
+            <img style="margin-right: 4px; width: 40px; height: 40px; padding: 2px; border: 3px solid #006400;" src="assets/images/plantifeedpics/profile-default.png" alt="Default Profile Image" class="img-thumbnail rounded-circle">
+
+    @endif
+@endauth
                                                             <b>Center for Urban Agriculture and Innovation</b>
                                                         </div>
 
@@ -251,7 +328,7 @@
 
                                                             <div style="display: flex; justify-content:flex-end; margin-top:40px;">
                                                                 <button style="margin-right:10px;" type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
-                                                                <button class="btn btn-light" style="border-radius:10px; border:none;" type="submit">Add Question</button>
+                                                                <button class="btn btn-light" style="border-radius:10px; border:none;" type="submit">Add Post</button>
                                                             </div>
                                                         </form>
 
@@ -290,7 +367,7 @@
 
                   
                         @foreach($posts as $post)
-                        <div style=" max-width: 600px; margin: 0 auto; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);   display: grid; background-color:white; margin-bottom:40px; padding:30px; border-radius:13px; ">
+                        <div style=" max-width: 600px; margin: 0 auto; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);   display: grid; background-color:white; margin-bottom:60px; padding:30px; border-radius:13px; ">
 
                             <div style="display: flex; justify-content:space-between;">
 
@@ -332,8 +409,9 @@
                </div>
 
 
-                                <img src="/assets/images/plantifeedpics/edit.png" alt="Image" class="toggle-image" style="height:20px; width: 20px; cursor: pointer; margin-left: 10px;" onclick="toggleDropdownPost(this)">
+                                     <img src="/assets/images/plantifeedpics/edit.png" alt="Image" class="toggle-image" style="height:20px; width: 20px; cursor: pointer; margin-left: 10px;" onclick="toggleDropdownPost(this)">
                                 <div class="dropdown-content-pusy" style=" display: none; position: absolute; background-color: #f9f9f9; width: 110px; box-shadow: 0px -8px 16px 0px rgba(0,0,0,0.2); z-index: 1; left: 68%;">
+                                
 
                                     @if(Auth::check() && Auth::user()->id == $post->user_id)
 

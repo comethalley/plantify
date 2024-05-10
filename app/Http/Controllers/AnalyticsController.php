@@ -134,16 +134,22 @@ class AnalyticsController extends Controller
         $farmName = null;
         
         // Fetch the user's associated farm if the user is a farm leader (role_id == 3 or 4)
-        if ($user->role_id == 3 || $user->role_id == 4) {
-            // Fetch the farm associated with the user (farm leader)
-            $userFarm = Farm::where('farm_leader', $user->id)->first();
-            if ($userFarm) {
-                // Retrieve the barangay_name and farm_name associated with the farm
-                $barangayName = $userFarm->barangay_name;
-                $farmName = $userFarm->farm_name;
-                
-                // Convert the farm data to JSON format
-                $farmsData = $userFarm->toJson();
+        if ($user) {
+            if ($user->role_id == 3) {
+                // If the user is a farm leader, fetch the farm associated with the farm leader
+                $userFarm = Farm::where('farm_leader', $user->id)->first();
+                if ($userFarm) {
+                    $farmName = $userFarm->farm_name;
+                    $barangayName = $userFarm->barangay_name;
+                }
+            } elseif ($user->role_id == 4) {
+                // If the user is a farmer, retrieve the farm associated with the farmer
+                $farmer = Farmer::where('farmleader_id', $user->id)->first();
+                if ($farmer && $farmer->farm) {
+                    $farmName = $farmer->farm->farm_name;
+                    $barangayName = $farmer->farm->barangay_name;
+
+                }
             }
         }
         
@@ -157,7 +163,7 @@ class AnalyticsController extends Controller
         }
         
         // Fetch other data based on user's role
-        if ($user->role_id == 1 || $user->role_id == 2) {
+        if ($user->role_id == 1 || $user->role_id == 2 ) {
             $plantingData = CalendarPlanting::all(['title', 'start', 'harvested', 'destroyed', 'start'])->toJson();
             $farmsData = Farm::with('barangays')->get()->toJson();
         } elseif ($user->role_id == 3 || $user->role_id == 4) {

@@ -939,25 +939,7 @@ $(document).ready(function() {
         });
 
         // Generate the PDF with the chart data
-        var formData = new FormData();
-        formData.append('imageData', chart.exportChart({ format: 'png' }));
-        formData.append('monthlyData', JSON.stringify(response.monthlyData));
-        formData.append('farms', JSON.stringify(response.farms));
 
-        $.ajax({
-            url: '/generatePdf',
-            method: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function(pdfData) {
-                console.log("PDF response:", pdfData);
-                // Display or download the PDF as needed
-            },
-            error: function(xhr, status, error) {
-                console.error(xhr.responseText);
-            }
-        });
     } else {
         console.error('Fetched data is not in the expected format', response);
     }

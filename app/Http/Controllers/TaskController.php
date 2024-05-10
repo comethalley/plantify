@@ -25,14 +25,23 @@ class TaskController extends Controller
 {
     public function index()
     {
-        $id = Auth::id();
-        
-        $user = User::select('users.*', 'farms.id AS farm_id', 'farms.area AS farm_area')
+        $id = Auth::user()->id;
+
+        $user = User::select('users.*', 'farms.id AS farm_id')
         ->leftJoin('farms', 'farms.farm_leader', '=', 'users.id')
         ->where('users.id', $id)
         ->first();
 
-        $tasks = CalendarPlanting::where('farm_id', $user->farm_id)->orderBy('id', 'DESC')->get();
+        if ($user->role_id === '3' || $user->role_id === '2' || $user->role_id === '1') {
+            $tasks = CalendarPlanting::where('farm_id', $user->farm_id)->orderBy('id', 'DESC')->get();
+        }else{
+            // For farmers, retrieve tasks assigned to the specific farmer
+        $farmerId = $user->id; // Assuming the farmer's ID is the same as the user's ID
+        
+        // Retrieve tasks assigned to the specific farmer
+        $tasks = Task::where('assigned', $farmerId)->orderBy('id', 'ASC')->get();
+            
+        }
     
         return view('pages.tasks.monitoring', compact('tasks'));
     }

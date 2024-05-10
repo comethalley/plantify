@@ -22,20 +22,36 @@ class PlantCalendar extends Controller
         // $user->farm.id
         $id = Auth::user()->id;
 
-        $role = User::where('id',$id)
-                ->where('status', 1)
-                ->firstOrFail();
+        $role = User::where('id', $id)
+            ->where('status', 1)
+            ->firstOrFail();
 
-            if ($role->role_id == 2){
-                $id = 1;
-            }
+        $user = "";
+
+        if ($role->role_id == 2) {
+            $id = 1;
+        } elseif ($role->role_id == 4) {
+            $farmLeaders = DB::table('users')
+                ->where('users.status', 1)
+                ->where('farmers.farmer_id', $id)
+                ->leftJoin('farmers', 'farmers.farmer_id', '=', 'users.id')
+                ->select(
+                    "users.id",
+                    'users.firstname',
+                    "users.lastname",
+                    "users.email",
+                    "farmers.farmleader_id as farmleaderID"
+                )
+                ->first();
+            $id = $farmLeaders->farmleaderID;
+        }
 
         $plantInfo = PlantInfo::pluck('days_harvest', 'plant_name');
-        
+
         $user = User::select('users.*', 'farms.id AS farm_id', 'farms.area AS farm_area')
-        ->leftJoin('farms', 'farms.farm_leader', '=', 'users.id')
-        ->where('users.id', $id)
-        ->first();
+            ->leftJoin('farms', 'farms.farm_leader', '=', 'users.id')
+            ->where('users.id', $id)
+            ->first();
         $farm = Farm::find($user->farm_id);
 
         // If the user is authenticated and is a farm leader
@@ -71,7 +87,7 @@ class PlantCalendar extends Controller
         // Check if the total area plus the new area exceeds the farm area
         if ($totalArea + $request->area > $user->farm_area) {
             // Display an alert indicating that the user has accumulated all the area on the farm
-            return response()->json(['message' => 'You have accumulated all the area on this farm.'],403);
+            return response()->json(['message' => 'You have accumulated all the area on this farm.'], 403);
         }
 
         $farm_id = "";
@@ -118,11 +134,11 @@ class PlantCalendar extends Controller
     public function getEvents()
     {
         $id = Auth::user()->id;
-        
+
         $user = User::select('users.*', 'farms.id AS farm_id', 'farms.area AS farm_area')
-        ->leftJoin('farms', 'farms.farm_leader', '=', 'users.id')
-        ->where('users.id', $id)
-        ->first();
+            ->leftJoin('farms', 'farms.farm_leader', '=', 'users.id')
+            ->where('users.id', $id)
+            ->first();
         $farm = Farm::find($user->farm_id);
 
         // If the user is authenticated and is a farm leader
@@ -183,7 +199,7 @@ class PlantCalendar extends Controller
     public function deleteEvent(Request $request, $id)
     {
         $event = CalendarPlanting::find($id);
-        
+
         if ($event) {
             // Update the is_deleted field to 0 instead of deleting the event
             $event->is_deleted = 0;
@@ -203,7 +219,7 @@ class PlantCalendar extends Controller
         }
     }
 
-    
+
 
     public function update(Request $request, $id)
     {

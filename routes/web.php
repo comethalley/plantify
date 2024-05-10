@@ -186,8 +186,8 @@ Route::delete('/delete-message/{messageId}', [ThreadController::class, 'deleteMe
 Route::post('/mark-messages-as-read/{userId}', [ChatController::class, 'markMessagesAsRead']);
 Route::get('/search-users', [ChatController::class, 'searchUsers']);
 Route::get('/threads/{threadId}/messages', [ThreadController::class, 'fetchMessages']);
-
-// Group Chats
+Route::get('/thread/{threadId}', [ThreadController::class, 'show'])->name('thread.show');
+// Group Chats [ThreadController::class, 'show']
 // Route::get('/groups', [GroupController::class, 'index'])->name('groups.index');
 // Route::get('/groups/{groupId}', [GroupController::class, 'show'])->name('groups.show'); // Make the farmId parameter optional
 // Route::post('/groups/{group}/join', [GroupController::class, 'join'])->name('groups.join');
@@ -248,15 +248,13 @@ Route::get('/events/calendar', [EventController::class, 'getCalendarEvents'])->n
 
 Route::get('/attendance', [AttendanceControler::class, 'index']);
 Route::get('/attendees', [AttendanceControler::class, 'attendees'])->name('event.details');
-Route::post('/event/attendance/submit/{event_id}', [AttendanceControler::class, 'submit'])->name('register');
+Route::post('/event/attendance/submit/{event_id}/{user_id}', [AttendanceControler::class, 'submit'])->name('register');
 Route::get('/event/{eventId}/attendance', [AttendanceControler::class, 'showAttendanceList']);
 Route::get('/event/form/{id}', [AttendanceControler::class, 'attendanceForm'])->name('event.attendance.form');
-Route::put('/change-attendee-status/{id}', [AttendanceControler::class, 'changeStatus']);
-
-
+Route::post('/update-status', [AttendanceControler::class, 'updateStatus']);
 Route::get('/fetch-attendees/{event_id}', [AttendanceControler::class, 'fetchAttendees']);
 
-Route::get('/attendees/filterByStatus', [AttendanceController::class, 'filterBystatus']);
+
 // End Full Calender=================================================================
 
 Route::get('/plantcalendar', [PlantCalendar::class, 'index']);
@@ -338,6 +336,10 @@ Route::get('/task/filterByStatus', [TaskController::class, 'filterBystatus']);
 Route::post('/tasks/{task}/archive', [TaskController::class, 'archive'])->name('tasks.archive');
 Route::get('/archived', [TaskController::class, 'showArchived'])->name('archived');
 Route::post('/tasks/{task}/restore', [TaskController::class, 'restore'])->name('tasks.restore');
+Route::post('/add-task', [TaskController::class, 'addTask'])->name('tasks.save');
+Route::get('/tasks/view/{id}', [TaskController::class, 'view'])->name('tasks.view');
+
+
 
 
 //============================================================================================
@@ -361,22 +363,20 @@ Route::post('/add-tools1', [RequestController::class, 'addTools1'])->name('add.t
 Route::get('/request/{id}/details', [RequestController::class, 'getRequestDetails']);
 Route::get('/view-pdf/{id}/{title?}', [RequestController::class, 'viewPdfRequest'])->name('view.pdf');
 Route::post('/set-date-request/{id}', [RequestController::class, 'SetDateStatus'])->name('set.date.request');
-Route::post('/set-date-request1/{id}', [RequestController::class, 'SetDateStatus1'])->name('set.date.request1');
+Route::post('/update-request/{id}', [RequestController::class, 'updateRequest'])->name('request.update');
 
 
 
 Route::get('/requests', [ToolController::class, 'index']);
-// Route::get('/getLetterContent', [ToolController::class, 'getLetterContent']);
+Route::get('/getLetterContent', [ToolController::class, 'getLetterContent']);
 Route::post('/updateStatus', [ToolController::class, 'updateStatus']);
 Route::get('/availableList', [ToolController::class, 'availableList']);
 Route::get('/approvedList', [ToolController::class, 'approvedList']);
-Route::get('/disapprovedList', [ToolController::class, 'disapprovedList']);
 Route::get('/pickedList', [ToolController::class, 'pickedList']);
 Route::get('/returnList', [ToolController::class, 'returnList']);
 Route::post('/set-picking-date', [ToolController::class, 'setPickingDate']);
 Route::post('/set-return-date', [ToolController::class, 'setReturnDate']);
-// Route::post('/generatePdf', [ToolController::class, 'generatePdf'])->name('generatePdf');
-Route::get('/view-pdf/{id}/{title?}', [RequestController::class, 'viewPdfRequest'])->name('view.pdf.request');
+
 
 // ===================================================================================
 
@@ -423,7 +423,7 @@ Route::get('/analytics/pdf', [AnalyticsController::class, 'downloadPdf'])->name(
 
 Route::get('api/farms', [FarmController::class, 'fetchFarmsByBarangay'])->name('api.farms');
 Route::get('/farmsAnalytics/{slug}', [AnalyticsController::class, 'getFarms']);
-Route::get('/farmsAnalyticsData/{num}', [AnalyticsController::class, 'getFarmsData']);
+Route::get('/farmsAnalyticsData/{id}', [AnalyticsController::class, 'getFarmsData']);
 
 Route::get('/markAsRead', function () {
     auth()->user()->unreadNotifications->markAsRead();
@@ -439,3 +439,7 @@ Route::post('/reply/store', [CommentController::class, 'createReply']);
 Route::get('/linkstorage', function () {
     Artisan::call('storage:link');
 });
+
+//Import function ==============================================
+Route::post('/import-farmleader', [AuthController::class, 'importFarmLeader']);
+Route::post('/import-farmer', [AuthController::class, 'importFarmers']);

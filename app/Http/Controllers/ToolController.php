@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
-use App\Notifications\ToolsAvailableNotification;
+
 class ToolController extends Controller
 {
     public function index()
@@ -59,6 +59,40 @@ class ToolController extends Controller
         ));
     }
 
+    public function viewPdfRequest($id)
+    {
+        try {
+            $request = RequestN::findOrFail($id);
+
+            // Assuming the 'title_land' attribute contains the file path
+            $pdfPath = $request->letter_content;
+
+            // Construct the full path to the PDF file in your storage
+            $pdfFullPath = storage_path('app/public/' . $pdfPath);
+
+            // Check if the file exists in storage
+            if (file_exists($pdfFullPath)) {
+                // Read the content of the PDF file
+                $pdfData = file_get_contents($pdfFullPath);
+
+                // Set appropriate headers for PDF response
+                $headers = [
+                    'Content-Type' => 'application/pdf',
+                    'Content-Disposition' => 'inline; filename="request_document.pdf"',
+                ];
+
+                // Send the PDF data as a response using the response() helper function
+                return response($pdfData, 200, $headers);
+            } else {
+                // Handle the case where the PDF file is not found
+                return response()->json(['error' => 'PDF file not found'], 404);
+            }
+        } catch (\Exception $e) {
+            // Handle any other exceptions that might occur
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
     public function updateStatus(Request $request)
     {
         try {
@@ -70,7 +104,6 @@ class ToolController extends Controller
             $request = RequestN::findOrFail($id);
             $request->status = $status;
             $request->save();
-
 
             // Save status and remarks to remarkrequests table
             $remarkRequest = new RemarkRequest();
@@ -84,47 +117,19 @@ class ToolController extends Controller
             $user = $request->requestedBy;
             if ($status === 'Failed-to-return') {
                 // Set user's status to 0 if the request status is "Failed-to-return"
-                $user->status = 0;
+                $user->status = 3;
             } elseif ($status === 'Returned') {
                 // Set user's status to 1 if the request status is "Returned"
                 $user->status = 1;
             }
             $user->save();
 
-
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
         }
-        
     }
     
-    public function getLetterContent(Request $request)
-    {
-        try {
-            $id = $request->input('id');
-            $request = RequestN::findOrFail($id);
-            $letterContent = $request->letter_content;
-    
-            // Check if the letter content is not empty
-            if ($letterContent) {
-                // Set the appropriate Content-Type header
-                header('Content-Type: application/pdf');
-    
-                // Output the PDF content
-                echo base64_decode($letterContent);
-                exit;
-            } else {
-                // If the letter content is empty, return an error
-                return response()->json(['error' => 'Empty letter content'], 404);
-            }
-        } catch (\Exception $e) {
-            // Handle any errors
-            Log::error($e);
-            return response()->json(['error' => 'Error fetching letter content'], 500);
-        }
-    }      
-
     public function getAvailableRequests()
     {
         try {

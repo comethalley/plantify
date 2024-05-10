@@ -166,8 +166,16 @@
                                                     <!-- <td class="supply_id">{{ $request->supply_tool }}</td> -->
                                                     <td class="text-center tool_type">
                                                         {{ $request->supplyTool->type ?? '' }}
-                                                        {{ $request->supplyTool1 ? ', ' . $request->supplyTool1->type : '' }}
-                                                        {{ $request->supplyTool2 ? ', ' . $request->supplyTool2->type : '' }}
+                                                        @if($request->supply_tool1 || $request->supply_tool2)
+                                                        ,
+                                                        @endif
+                                                        <br>
+                                                        {{ $request->supplyTool1 ? '' . $request->supplyTool1->type : '' }}
+                                                        @if($request->supply_tool1 || $request->supply_tool2)
+                                                        ,
+                                                        @endif
+                                                        <br>
+                                                        {{ $request->supplyTool2 ? '' . $request->supplyTool2->type : '' }}
                                                     </td>
                                                     <td class="count_tool">
                                                         {{ strtoupper($request->count_tool) }}
@@ -185,9 +193,9 @@
                                                         {{ $request->count_seedling2 ? ', ' . strtoupper($request->count_seedling2) : '' }}
                                                     </td>
                                                     <td class="letter_content">
-                                                        <button type="button" class="btn btn-success waves-effect waves-light" onclick="viewLetterContent({{ $request->id }})">
+                                                        <a href="{{ route('view.pdf.request', ['id' => $request->id]) }}" class="btn btn-success waves-effect waves-light" target="_blank">
                                                             <i class="ri-eye-line align-bottom"></i> View PDF
-                                                        </button>
+                                                        </a>
                                                     </td>
                                                     <td class="farm_leader">{{ $request->requestedBy->firstname }} {{ $request->requestedBy->lastname }}</td>
                                                     <!-- <td class="farm_name">{{ optional($request->farm)->farm_name }}</td> -->
@@ -247,9 +255,17 @@
                                                 <tr>
                                                     <td class="id">{{ $request->id }}</td>
                                                     <td class="text-center tool_type">
-                                                        {{ $request->supplyTool->type ?? '' }}
-                                                        {{ $request->supplyTool1 ? ', ' . $request->supplyTool1->type : '' }}
-                                                        {{ $request->supplyTool2 ? ', ' . $request->supplyTool2->type : '' }}
+                                                        {{ $request->supplyTool->type ?? ' ' }}
+                                                        @if($request->supply_tool1 || $request->supply_tool2)
+                                                        ,
+                                                        @endif
+                                                        <br>
+                                                        {{ $request->supplyTool1 ? ' ' . $request->supplyTool1->type : '' }}
+                                                        @if($request->supply_tool1 || $request->supply_tool2)
+                                                        ,
+                                                        @endif
+                                                        <br>
+                                                        {{ $request->supplyTool2 ? ' ' . $request->supplyTool2->type : '' }}
                                                     </td>
                                                     <td class="count_tool">
                                                         {{ strtoupper($request->count_tool) }}
@@ -625,9 +641,9 @@
                                                         {{ $request->count_seedling2 ? ', ' . strtoupper($request->count_seedling2) : '' }}
                                                     </td>
                                                     <td class="letter_content">
-                                                        <button type="button" class="btn btn-success waves-effect waves-light" onclick="viewLetterContent({{ $request->id }})">
+                                                        <a href="{{ route('view.pdf.request', ['id' => $request->id]) }}" class="btn btn-success waves-effect waves-light" target="_blank">
                                                             <i class="ri-eye-line align-bottom"></i> View PDF
-                                                        </button>
+                                                        </a>
                                                     </td>
                                                     <td class="text-center farm_leader">{{ $request->requestedBy->firstname }} {{ $request->requestedBy->lastname }}</td>
                                                     <!-- <td class="text-center farm_name">{{ optional($request->farm)->farm_name }}</td> -->
@@ -754,7 +770,7 @@
                                 </div>
                             </div>
 
-                            <div class="modal fade" id="showModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <!-- <div class="modal fade" id="showModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header bg-light p-3">
@@ -762,7 +778,6 @@
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <!-- Display the letter content -->
                                             <img id="letterContent" class="img-fluid" alt="Letter Content">
                                         </div>
                                         <div class="modal-footer">
@@ -770,7 +785,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
 
                             <!-- Modal -->
                             <div class="modal fade flip" id="deleteOrder" tabindex="-1" aria-hidden="true">
@@ -801,6 +816,10 @@
 </div>
 
 <script>
+
+    function viewLetterContent(id) {
+        window.open("/view-pdf/" + id, '_blank');
+    }
 
     // Function to set return date
     function setReturnDate(requestId, returnDate) {
@@ -1056,37 +1075,6 @@
         fetchReturnedList();
     });
 
-    function viewLetterContent(rowId) {
-        $.ajax({
-            url: '/getLetterContent',
-            method: 'GET',
-            data: { id: rowId },
-            success: function(response) {
-                if (response && response.letter_content) {
-                    // Convert the base64 encoded PDF content to a blob
-                    var byteCharacters = atob(response.letter_content);
-                    var byteNumbers = new Array(byteCharacters.length);
-                    for (var i = 0; i < byteCharacters.length; i++) {
-                        byteNumbers[i] = byteCharacters.charCodeAt(i);
-                    }
-                    var byteArray = new Uint8Array(byteNumbers);
-                    var blob = new Blob([byteArray], { type: 'application/pdf' });
-
-                    // Create a URL for the blob
-                    var blobUrl = URL.createObjectURL(blob);
-
-                    // Open the PDF content in a new tab
-                    window.open(blobUrl, '_blank');
-                } else {
-                    console.error('Empty or invalid response received');
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error('Error fetching letter content:', error);
-            }
-        });
-    }
-
     // Function to set status badge color based on status
     function setStatusBadgeColor(status) {
         switch (status.toLowerCase().replace(' ', '-')) {
@@ -1099,7 +1087,7 @@
             case 'ready-to-be-pick':
                 return { backgroundColor: '#E65C19', color: '#FFF' };
             case 'picked':
-            case 'ready':
+            case 'resubmit':
                 return { backgroundColor: '#121481', color: '#FFF' };
             case 'failed-to-pick':
                 return { backgroundColor: '#FA7070', color: '#FFF' };
@@ -1174,41 +1162,47 @@
     }
 
     // Function to update status
-function updateStatus(buttonElement) {
-    var row = $(buttonElement).closest('tr');
-    var selectedStatus = row.find('.change_stat').val();
-    var rowId = row.find('.id').text();
+    function updateStatus(buttonElement) {
+        var row = $(buttonElement).closest('tr');
+        var selectedStatus = row.find('.change_stat').val();
+        var rowId = row.find('.id').text();
 
-    // Get the remarks from the modal textarea
-    var remarks = $('#confirmationModal textarea[name="remarks"]').val();
+        // Get the remarks from the modal textarea
+        var remarks = $('#confirmationModal textarea[name="remarks"]').val();
 
-    // Show the confirmation modal
-    $('#confirmationModal').modal('show');
+        // Show the confirmation modal
+        $('#confirmationModal').modal('show');
 
-    // Store the row ID, selected status, and remarks as data attributes on the confirm button
-    $('#confirmUpdateBtn').data('rowId', rowId);
-    $('#confirmUpdateBtn').data('selectedStatus', selectedStatus);
-    $('#confirmUpdateBtn').data('remarks', remarks);
+        // Store the row ID, selected status, and remarks as data attributes on the confirm button
+        $('#confirmUpdateBtn').data('rowId', rowId);
+        $('#confirmUpdateBtn').data('selectedStatus', selectedStatus);
+        $('#confirmUpdateBtn').data('remarks', remarks);
 
-    // Disable the date input if the selected status is "Failed-to-return"
-    if (selectedStatus === 'Failed-to-return') {
-        $('#dateInput').prop('disabled', true);
-    } else {
-        $('#dateInput').prop('disabled', false);
+        // Disable the date input if the selected status is "Failed-to-return"
+        if (selectedStatus === 'Failed-to-return' || selectedStatus === 'Returned' || selectedStatus === 'Requested' 
+        || selectedStatus === 'Available' || selectedStatus === 'Unavailable' || selectedStatus === 'Waiting-for-approval' 
+        || selectedStatus === 'Approved' || selectedStatus === 'Disapproved' || selectedStatus === 'Resubmit' 
+        || selectedStatus === 'Picked' || selectedStatus === 'Failed-to-pick') {
+            $('#dateInput').prop('disabled', true);
+        } else {
+            $('#dateInput').prop('disabled', false);
+        }
     }
-}
 
-// Event listener for status change
-$('.change_stat').change(function() {
-    var selectedStatus = $(this).val();
+    // Event listener for status change
+    $('.change_stat').change(function() {
+        var selectedStatus = $(this).val();
 
-    // Disable the date input if the selected status is "Failed-to-return"
-    if (selectedStatus === 'Failed-to-return') {
-        $('#dateInput').prop('disabled', true);
-    } else {
-        $('#dateInput').prop('disabled', false);
-    }
-});
+        // Disable the date input if the selected status is "Failed-to-return"
+        if (selectedStatus === 'Failed-to-return' || selectedStatus === 'Returned' || selectedStatus === 'Requested' 
+        || selectedStatus === 'Available' || selectedStatus === 'Unavailable' || selectedStatus === 'Waiting-for-approval' 
+        || selectedStatus === 'Approved' || selectedStatus === 'Disapproved' || selectedStatus === 'Resubmit' 
+        || selectedStatus === 'Picked' || selectedStatus === 'Failed-to-pick') {
+            $('#dateInput').prop('disabled', true);
+        } else {
+            $('#dateInput').prop('disabled', false);
+        }
+    });
 
     $('#confirmUpdateBtn').click(function() {
         // Get the stored row ID and selected status
@@ -1239,11 +1233,9 @@ $('.change_stat').change(function() {
                 remarks: remarks // Include remarks in the data
             },
             success: function(response) {
-                if (selectedStatus === 'Available') {
-                // Display success message or trigger additional actions if needed
-            }
-            location.reload();
-        },
+                console.log('Status updated successfully');
+                location.reload();
+            },
             error: function(xhr, status, error) {
                 // Handle error response
                 console.error('Error updating status:', error);

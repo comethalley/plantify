@@ -26,24 +26,8 @@ class PlantCalendar extends Controller
             ->where('status', 1)
             ->firstOrFail();
 
-        $user = "";
-
         if ($role->role_id == 2) {
             $id = 1;
-        } elseif ($role->role_id == 4) {
-            $farmLeaders = DB::table('users')
-                ->where('users.status', 1)
-                ->where('farmers.farmer_id', $id)
-                ->leftJoin('farmers', 'farmers.farmer_id', '=', 'users.id')
-                ->select(
-                    "users.id",
-                    'users.firstname',
-                    "users.lastname",
-                    "users.email",
-                    "farmers.farmleader_id as farmleaderID"
-                )
-                ->first();
-            $id = $farmLeaders->farmleaderID;
         }
 
         $plantInfo = PlantInfo::pluck('days_harvest', 'plant_name');

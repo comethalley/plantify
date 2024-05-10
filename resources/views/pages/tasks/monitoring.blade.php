@@ -21,7 +21,7 @@
                                     <table class="table align-middle table-nowrap mb-0">
                                         <thead>
                                             <tr>
-                                                <th width="40%" scope="col">ID</th>
+                                                
                                                 <th width="40%" scope="col">Crops</th>
                                                 <th width="40%" scope="col">Planted Date</th>
                                                 <th width="40%" scope="col">Harvested Date</th>
@@ -29,16 +29,15 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($tasks as $task)
-                                            <tr>
-                                                
-                                                <td><a href="/plantcalendar" class="fw-medium">{{ $task->id }}</a></td>
-                                                <td>{{ $task->title }}</td>
-                                                <td>{{ $task->start }}</td>
-                                                <td>{{ $task->end }}</td>
-                                                <td><a href="{{ route('tasks.view', ['id' => $task->id]) }}" class="link-success">View More <i class="ri-arrow-right-line align-middle"></i></a></td>
-                                            </tr>
-                                            @endforeach
+                                        @foreach ($tasks as $task)
+                                        <tr>
+                                            <td>{{ $task->title }}</td>
+                                            <td>{{ $task->start }}</td>
+                                            <td>{{ $task->end }}</td>
+                                            <td><a href="{{ route('tasks.view', ['id' => $task->id]) }}" class="link-success">View More <i class="ri-arrow-right-line align-middle"></i></a></td>
+                                        </tr>
+                                    @endforeach
+
                                         </tbody>
                                     </table>
                                 </div>

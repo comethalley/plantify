@@ -28,21 +28,26 @@ class TaskController extends Controller
         $id = Auth::user()->id;
 
         $user = User::select('users.*', 'farms.id AS farm_id')
-        ->leftJoin('farms', 'farms.farm_leader', '=', 'users.id')
-        ->where('users.id', $id)
-        ->first();
-
-        if ($user->role_id === '3' || $user->role_id === '2' || $user->role_id === '1') {
-            $tasks = CalendarPlanting::where('farm_id', $user->farm_id)->orderBy('id', 'DESC')->get();
-        }else{
-            // For farmers, retrieve tasks assigned to the specific farmer
-        $farmerId = $user->id; // Assuming the farmer's ID is the same as the user's ID
+            ->leftJoin('farms', 'farms.farm_leader', '=', 'users.id')
+            ->where('users.id', $id)
+            ->first();
         
-        // Retrieve tasks assigned to the specific farmer
-        $tasks = Task::where('assigned', $farmerId)->orderBy('id', 'ASC')->get();
-            
+
+        if ($user && in_array($user->role_id, ['1', '2', '3'])) {
+            // For roles 1, 2, and 3, retrieve tasks associated with the farm
+            $tasks = CalendarPlanting::where('farm_id', $user->farm_id)
+                ->orderBy('id', 'DESC')
+                ->get();
+        } elseif ($user && $user->role_id === '4') {
+            // For role 4 (farmer), retrieve tasks assigned to the specific farmer
+            $tasks = Task::where('assigned', $user->id)
+                ->orderBy('id', 'ASC')
+                ->get();
+        } else {
+            // Handle other roles or unauthorized users
+            $tasks = []; // No tasks for unauthorized users
         }
-    
+        
         return view('pages.tasks.monitoring', compact('tasks'));
     }
     

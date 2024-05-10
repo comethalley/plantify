@@ -25,22 +25,23 @@ class TaskController extends Controller
 {
     public function index()
     {
-        // Fetch tasks along with associated data from related tables
-        $tasks = DB::table('tasks')
-            ->join('createplantings', 'tasks.crops', '=', 'createplantings.title')
-            ->join('task_type', 'tasks.task_type_id', '=', 'task_type.id')
-            ->join('farmers', 'tasks.user_id', '=', 'farmers.farmer_id')
-            ->join('users', 'farmers.farmer_id', '=', 'users.id')
-            ->where('users.status', 1)
-            ->select(
-                'tasks.id as task_id',
-                'createplantings.title as crops',
-                'task_type.id as task_type_id',
-                'farmers.farmer_id as user_id',
-                'users.firstname',
-                'users.lastname'
-            )
-            ->get();
+        $id = Auth::user()->id;
+
+        $user = User::select('users.*', 'farms.id AS farm_id')
+        ->leftJoin('farms', 'farms.farm_leader', '=', 'users.id')
+        ->where('users.id', $id)
+        ->first();
+
+        if ($user->role_id === '3' || $user->role_id === '2' || $user->role_id === '1') {
+            $tasks = CalendarPlanting::where('farm_id', $user->farm_id)->orderBy('id', 'DESC')->get();
+        }else{
+            // For farmers, retrieve tasks assigned to the specific farmer
+        $farmerId = $user->id; // Assuming the farmer's ID is the same as the user's ID
+        
+        // Retrieve tasks assigned to the specific farmer
+        $tasks = Task::where('assigned', $farmerId)->orderBy('id', 'ASC')->get();
+            
+        }
     
         return view('pages.tasks.monitoring', compact('tasks'));
     }
@@ -48,71 +49,83 @@ class TaskController extends Controller
     
     public function addTask(Request $request)
     {
-        // Fetch only the new data from createplantings table
-        $existingTitles = Task::pluck('crops');
-        $newPlantings = CalendarPlanting::whereNotIn('title', $existingTitles)->get();
-    
-        // Get the ID of the currently authenticated user (assumed to be a farm leader)
         $userId = Auth::id();
         
-        // Retrieve farmers associated with the farm leader
+       
         $farmers = DB::table('users')
             ->join('farmers', 'farmers.farmer_id', '=', 'users.id')
             ->where('users.status', 1)
             ->where('farmers.farmleader_id', $userId)
             ->select(
-                "farmers.farmer_id",
+                "farmers.farmer_id as farmerID",
                 'users.firstname',
                 "users.lastname",
                 "users.email"
             )
             ->get();
-    
-        // Check if there are any farmers associated with the farm leader
-        $randomFarmer = $farmers->isEmpty() ? null : $farmers->first();
-    
-        foreach ($newPlantings as $planting) {
-            // Create a new instance of Task model
-            $task = new Task();
-            
-            // Set the 'crops' attribute to the value of $planting->title
-            $task->crops = $planting->title;
-            
-            // Set a default value for the task_type_id field or provide a value as per your requirement
-            $task->task_type_id = 1; // Example value, change as needed
-            
-            // Set the user_id to the randomly selected farmer's ID
-            $task->user_id = $randomFarmer ? $randomFarmer->farmer_id : null;
-            
-            // Save the Task model to persist the changes to the database
-            $task->save();
-        }
-    
-    // Fetch the day associated with the last added task
-    $lastAddedTask = Task::latest()->first();
-    $day = $lastAddedTask->taskType->day;
 
-    // Fetch tasks associated with the same day as the last added task
-    $tasks = TaskType::where('day', $day)->get();
+            $crops = DB::table('createplantings')
+            ->where('id', '72')
+            ->select(
+                '*'
+            )
+            ->first();
 
-    return response()->json(['success' => true, 'message' => 'Tasks added successfully', 'day' => $day, 'tasks' => $tasks], 200);
-}
-
+            $taskTypes = TaskType::all();
+            $currentDate = Carbon::parse($crops->start);
+            $harvestDate = Carbon::parse($crops->end);
+            $daysDifference = $currentDate->diffInDays($harvestDate);
+            $tasksRemaining = count($taskTypes);
+            $randomFarmer = $farmers->isEmpty() ? null : $farmers->first();
+            $dayNumber = 1;
+            while ($currentDate->lte(Carbon::parse($harvestDate))) {
+                foreach ($taskTypes as $taskType) {
+                    if ($tasksRemaining > 0) {
+                        Task::create([
+                            'crops_planted_id' => $crops->id,
+                            'task_type_id' => $taskType->id,
+                            'due_date' => $currentDate,
+                            'day_number' => $dayNumber, 
+                            'assigned' => $randomFarmer->farmerID,
+                            'start' => $taskType->start,
+                            'end' => $taskType->end,
+                        ]);
+                        $tasksRemaining--; // Decrease remaining tasks count for this type
+                    } else {
+                        // If all task types are consumed, move to the next day
+                        $dayNumber++;
+                        $tasksRemaining = count($taskTypes); // Reset remaining tasks count
+                        break; // Exit the loop to move to the next day
+                    }
+                }
+                $currentDate->addDay(); // Move to the next day
+            }
+        return response()->json(['success' => true, 'message' => $daysDifference], 200);
+    }
 
     public function view($id)
     {
-        // Fetch task details based on the provided ID
-        $task = Task::findOrFail($id);
         
-        // Fetch the day associated with the task
-        $day = $task->taskType->day;
-    
-        // Fetch tasks associated with the day
-        $tasks = TaskType::where('day', $day)->get();
-    
+        // Fetch task details based on the provided ID
+        $tasks = Task::select('*')
+        ->where('crops_planted_id', $id)
+        ->get();
+        
         // Pass the task details and tasks to the view
-        return view('pages.tasks.viewtask', compact('task', 'tasks'));
+        return view('pages.tasks.viewtask', compact('tasks'));
     }
     
+    public function updateTaskStatus(Request $request, $id)
+    {
+        // Find the task by ID
+        $task = Task::findOrFail($id);
+        
+        // Update the status
+        $task->status = $request->status;
+        $task->save();
+        
+        // Optionally, you can return a response
+        return response()->json(['message' => 'Task status updated successfully'], 200);
+    }
 
 }

@@ -348,6 +348,8 @@ Route::get('/archived', [TaskController::class, 'showArchived'])->name('archived
 Route::post('/tasks/{task}/restore', [TaskController::class, 'restore'])->name('tasks.restore');
 Route::post('/add-task', [TaskController::class, 'addTask'])->name('tasks.save');
 Route::get('/tasks/view/{id}', [TaskController::class, 'view'])->name('tasks.view');
+Route::post('/update-task-status/{id}', [TaskController::class, 'updateTaskStatus'])->name('tasks.update-status');
+
 
 
 

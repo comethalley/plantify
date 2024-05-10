@@ -15,19 +15,17 @@ class CreateTasksTable extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
-            $table->string('title', 255);
-            $table->text('description')->nullable();
-            $table->enum('priority', ['low', 'medium', 'high']);
-            $table->enum('status', ['New', 'Inprogress', 'Pending','Missing','Completed']);
-            $table->datetime('due_date')->nullable();
-            $table->boolean('completed')->default(false);
+            $table->string('crops_planted_id');
+            $table->string('task_type_id');
+            $table->string('farmer_id');
+            $table->string('day_number');
+            $table->string('assigned');
+            $table->date('start')->nullable();
+            $table->date('end')->nullable();
+            $table->string('status')->default(0);
             $table->timestamps();
-            $table->timestamp('completed_at')->nullable();
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->boolean('archived')->default(false);
-            $table->timestamp('archived_at')->nullable();
-            $table->string('image')->nullable();
         });
+
     }
 
     /**

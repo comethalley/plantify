@@ -10,7 +10,9 @@
                             <h4 class="card-title">Task List</h4>
                             <form method="POST" id="addTaskForm">
                                 @csrf
-                                <button class="btn btn-primary" type="button" id="addTaskButton">Add Task</button>
+                                @if(Auth::user()->role_id != 4) <!-- Check if the logged-in user is not a Farmer -->
+                                    <button class="btn btn-primary" type="button" id="addTaskButton">Add Task</button>
+                                @endif
                             </form>
                         </div><!-- end card header -->
                         <div class="card-body">
@@ -19,17 +21,22 @@
                                     <table class="table align-middle table-nowrap mb-0">
                                         <thead>
                                             <tr>
+                                                <th width="40%" scope="col">ID</th>
                                                 <th width="40%" scope="col">Crops</th>
-                                                <th width="40%" scope="col">Assigned To</th>
+                                                <th width="40%" scope="col">Planted Date</th>
+                                                <th width="40%" scope="col">Harvested Date</th>
                                                 <th width="20%" scope="col">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach ($tasks as $task)
                                             <tr>
-                                                <td><a href="/plantcalendar" class="fw-medium">{{ $task->crops }}</a></td>
-                                                <td>{{ $task->firstname }} {{ $task->lastname }}</td>
-                                                <td><a href="{{ route('tasks.view', ['id' => $task->task_id]) }}" class="link-success">View More <i class="ri-arrow-right-line align-middle"></i></a></td>
+                                                
+                                                <td><a href="/plantcalendar" class="fw-medium">{{ $task->id }}</a></td>
+                                                <td>{{ $task->title }}</td>
+                                                <td>{{ $task->start }}</td>
+                                                <td>{{ $task->end }}</td>
+                                                <td><a href="{{ route('tasks.view', ['id' => $task->id]) }}" class="link-success">View More <i class="ri-arrow-right-line align-middle"></i></a></td>
                                             </tr>
                                             @endforeach
                                         </tbody>
@@ -96,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // You can customize the text and appearance of the SweetAlert here
             });
             // Optionally, perform any additional actions here
-            location.reload(); // Refresh the page to display the updated task list
+            //location.reload(); // Refresh the page to display the updated task list
         })
         .catch(error => {
             console.error('Error:', error);

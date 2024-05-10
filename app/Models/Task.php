@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notifiable;
 
 class Task extends Model
 {
-    protected $fillable = ['crops', 'task_type_id', 'farmer_id'];
+    protected $fillable = ['crops_planted_id', 'task_type_id', 'farmer_id','day_number','assigned','start','end', 'status'];
 
     public function createPlanting()
     {

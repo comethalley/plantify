@@ -182,25 +182,17 @@ const weatherThresholds = {
 };
 
 // Function to check weather conditions for alerts
-let modalShown = false; // Flag to track whether the modal has been shown
-
-// Function to check weather conditions for alerts
 function checkWeatherConditionsForAlerts(data) {
-  // Check if the modal has already been shown
-  if (modalShown) {
-    return;
-  }
-
   const { temp, precip, windspeed, uvindex } = data.currentConditions;
   const currentTime = new Date();
   const currentHour = currentTime.getHours();
+  console.log(currentHour)
 
   // Check if it's evening (after 6 PM and before 5 AM)
   if (currentHour >= 18 || currentHour < 5) {
     showModal("It's evening. No information will be shown."); // Display evening message in the modal
     closeModal(); // Close modal if it's evening
     setTimeout(openModalAt6AM, getMillisecondsUntil6AM()); // Schedule modal to open at 6 AM
-    modalShown = true; // Update flag to indicate that modal has been shown
     return; // Don't show modal in the evening
   }
 
@@ -235,9 +227,8 @@ function checkWeatherConditionsForAlerts(data) {
     // If no alerts, show a generic message
     showModal("Good Conditions, you can plant!");
   }
-
-  modalShown = true; // Update flag to indicate that modal has been shown
 }
+
 // Function to open the modal at 6 AM
 function openModalAt6AM() {
   const currentTime = new Date();

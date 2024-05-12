@@ -8,6 +8,10 @@
                     <div class="card">
                         <div class="card-header d-flex align-items-center justify-content-between">
                             <h4 class="card-title">Task List</h4>
+                            <form method="POST" id="addTaskForm">
+                                @csrf
+                                <button class="btn btn-primary" type="button" id="addTaskButton">Add Task</button>
+                            </form>
                         </div><!-- end card header -->
                         <div class="card-body">
                             <div class="live-preview">
@@ -57,50 +61,51 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const addButton = document.querySelector('#addTaskButton');
-    const addTaskForm = document.querySelector('#addTaskForm'); // Added
-    
-    addButton.addEventListener('click', function() {
-        // Send AJAX request to add a new task
-        fetch('/add-task', {
+    const addTaskButton = document.getElementById('addTaskButton');
+
+    addTaskButton.addEventListener('click', function() {
+        // Send AJAX request to add tasks
+        fetch("{{ route('addTask') }}", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
             },
-            body: JSON.stringify({
-                crop_id: '72', // Specify the ID of the crop to add tasks for
-            })
+            body: JSON.stringify({})
         })
         .then(response => {
             if (response.ok) {
-                // Task added successfully
-                return response.json(); // Parse the JSON response
+                // Tasks added successfully
+                return response.json();
             } else {
-                // Handle error with SweetAlert
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Failed to add tasks!',
-                    // You can customize the text and appearance of the SweetAlert here
-                });
-                throw new Error('Failed to add tasks'); // Propagate error to catch block
+                // Handle error
+                throw new Error('Failed to add tasks');
             }
         })
         .then(data => {
-            // Display a success SweetAlert
+            // Display success message using SweetAlert2
             Swal.fire({
                 icon: 'success',
-                title: 'Success!',
+                title: 'Success',
                 text: data.message,
-                // You can customize the text and appearance of the SweetAlert here
+                showConfirmButton: false,
+                timer: 1500
             });
-            // Optionally, perform any additional actions here
-            //location.reload(); // Refresh the page to display the updated task list
         })
         .catch(error => {
+            // Display error message
             console.error('Error:', error);
+            // Display error message using SweetAlert2
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Failed to add tasks. Please try again later.',
+                showConfirmButton: false,
+                timer: 1500
+            });
         });
     });
 });
+
 </script>
+

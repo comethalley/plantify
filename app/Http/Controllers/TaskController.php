@@ -52,69 +52,68 @@ class TaskController extends Controller
     }
     
     
-    public function addTask(Request $request)
+    public function addTask()
     {
-        $userId = Auth::id();
-        
-        // Fetch farmers assigned to the farm leader
-        $farmers = DB::table('users')
-            ->join('farmers', 'farmers.farmer_id', '=', 'users.id')
-            ->where('users.status', 1)
-            ->where('farmers.farmleader_id', $userId)
-            ->select(
-                "farmers.farmer_id as farmerID",
-                'users.firstname',
-                "users.lastname",
-                "users.email"
-            )
-            ->get();
+        // Fetch the crops planted from the database
+        $cropsPlanted = CalendarPlanting::all();
     
-        // Fetch crop information from createplantings table
-        $crop = DB::table('createplantings')
-            ->where('id', $request->crop_id)
-            ->first();
-    
-        // Fetch task types
+        // Fetch the task types from the database
         $taskTypes = TaskType::all();
     
-        // Calculate the number of days between start and end dates
-        $currentDate = Carbon::parse($crop->start);
-        $harvestDate = Carbon::parse($crop->end);
-        $daysDifference = $currentDate->diffInDays($harvestDate);
+        // Get the logged-in farm leader
+        $farmLeaderId = auth()->id();
     
-        // Initialize variables
-        $tasksRemaining = count($taskTypes);
-        $randomFarmer = $farmers->isEmpty() ? null : $farmers->random(); // Randomly select a farmer
-        $dayNumber = 1;
+        // Iterate over each crops planted
+        foreach ($cropsPlanted as $crop) {
+            // Check if tasks for this crop already exist
+            $existingTasks = DB::table('tasks')
+                ->where('crops_planted_id', $crop->id)
+                ->count();
     
-        // Loop through each day between start and end dates
-        while ($currentDate->lte($harvestDate)) {
-            foreach ($taskTypes as $taskType) {
-                if ($tasksRemaining > 0) {
-                    // Create tasks
-                    Task::create([
-                        'crops_planted_id' => $crop->id,
-                        'task_type_id' => $taskType->id,
-                        'due_date' => $currentDate,
-                        'day_number' => $dayNumber, 
-                        'assigned' => $randomFarmer->farmerID, // Assign a random farmer
-                        'start' => $taskType->start,
-                        'end' => $taskType->end,
-                    ]);
-                    $tasksRemaining--; // Decrease remaining tasks count for this type
-                } else {
-                    // If all task types are consumed, move to the next day
-                    $dayNumber++;
-                    $tasksRemaining = count($taskTypes); // Reset remaining tasks count
-                    break; // Exit the loop to move to the next day
+            // If tasks for this crop don't exist, add new tasks
+            if ($existingTasks == 0) {
+                // Calculate the number of days until harvest
+                $startDate = Carbon::parse($crop->start);
+                $endDate = Carbon::parse($crop->end);
+                $daysUntilHarvest = $endDate->diffInDays($startDate);
+    
+                // Generate an array of unique random farmer IDs for each day
+                $assignedFarmers = Farmer::where('farmleader_id', $farmLeaderId)->pluck('farmer_id')->toArray();
+                $uniqueRandomFarmerIds = array_unique($assignedFarmers);
+                $randomFarmerIds = [];
+                foreach ($uniqueRandomFarmerIds as $farmerId) {
+                    $randomFarmerIds = array_merge($randomFarmerIds, array_fill(0, floor($daysUntilHarvest / count($uniqueRandomFarmerIds)), $farmerId));
+                }
+                $remainingDays = $daysUntilHarvest % count($uniqueRandomFarmerIds);
+                if ($remainingDays > 0) {
+                    $randomFarmerIds = array_merge($randomFarmerIds, array_slice($uniqueRandomFarmerIds, 0, $remainingDays));
+                }
+                shuffle($randomFarmerIds);
+
+                // Iterate over each day until harvest
+                for ($day = 1; $day <= $daysUntilHarvest; $day++) {
+                    // Get the random farmer ID for this day
+                    $farmerId = $randomFarmerIds[$day - 1];
+    
+                    // Iterate over each task type
+                    foreach ($taskTypes as $taskType) {
+                        // Create a new task
+                        Task::create([
+                            'crops_planted_id' => $crop->id,
+                            'task_type_id' => $taskType->id,
+                            'day_number' => $day,
+                            'assigned' => $farmerId,
+                            'start' => $taskType->start,
+                            'end' => $taskType->end,
+                        ]);
+                    }
                 }
             }
-            $currentDate->addDay(); // Move to the next day
         }
     
-        // Return success response
-        return response()->json(['success' => true, 'message' => 'Tasks added successfully'], 200);
+        return response()->json(['message' => 'Tasks added successfully.']);
     }
+    
     
 
     public function view($id)
@@ -136,11 +135,14 @@ class TaskController extends Controller
         // Fetch tasks for the provided crop ID
         $tasks = Task::where('crops_planted_id', $id)->get();
 
-        // Fetch predefined task types
-        $predefinedTasks = TaskType::all();
+        // Fetch all farmers of the logged-in farm leader
+        $farmLeaderId = auth()->id();
+        $farmers = User::whereHas('farmers', function ($query) use ($farmLeaderId) {
+            $query->where('farmleader_id', $farmLeaderId);
+        })->get();
     
         // Pass the crop details, days until harvest, and crop ID to the view
-        return view('pages.tasks.viewtask', compact('crop', 'days', 'id', 'tasks', 'predefinedTasks'));
+        return view('pages.tasks.viewtask', compact('crop', 'days', 'id', 'tasks', 'farmers'));
     }
     
     
@@ -156,5 +158,36 @@ class TaskController extends Controller
         // Optionally, you can return a response
         return response()->json(['message' => 'Task status updated successfully'], 200);
     }
+    
+    public function updateTaskFarmer($id, $day, Request $request)
+    {
+        // Validate the request data
+        $request->validate([
+            'farmer_id' => 'required|exists:App\Models\User,id', // Validate if the farmer exists
+        ]);
+
+        // Find and update the tasks for the specified day
+        Task::where('crops_planted_id', $id)
+            ->where('day_number', $day)
+            ->update(['assigned' => $request->farmer_id]);
+
+        return response()->json(['message' => 'Task farmer updated successfully.']);
+    }
+
+    public function updateTaskTime(Request $request, $id)
+{
+    // Find the task by ID
+    $task = Task::findOrFail($id);
+    
+    // Update the start and end times
+    $task->start = $request->start;
+    $task->end = $request->end;
+    $task->save();
+    
+    // Optionally, you can return a response
+    return response()->json(['message' => 'Task time updated successfully'], 200);
+}
+
+    
 
 }

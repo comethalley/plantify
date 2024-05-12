@@ -8,12 +8,6 @@
                     <div class="card">
                         <div class="card-header d-flex align-items-center justify-content-between">
                             <h4 class="card-title">Task List</h4>
-                            <form method="POST" id="addTaskForm">
-                                @csrf
-                                @if(Auth::user()->role_id != 4) <!-- Check if the logged-in user is not a Farmer -->
-                                    <button class="btn btn-primary" type="button" id="addTaskButton">Add Task</button>
-                                @endif
-                            </form>
                         </div><!-- end card header -->
                         <div class="card-body">
                             <div class="live-preview">
@@ -21,7 +15,6 @@
                                     <table class="table align-middle table-nowrap mb-0">
                                         <thead>
                                             <tr>
-                                                
                                                 <th width="40%" scope="col">Crops</th>
                                                 <th width="40%" scope="col">Planted Date</th>
                                                 <th width="40%" scope="col">Harvested Date</th>
@@ -29,22 +22,20 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                        @foreach ($tasks as $task)
-                                        <tr>
-                                            <td>{{ $task->title }}</td>
-                                            <td>{{ $task->start }}</td>
-                                            <td>{{ $task->end }}</td>
-                                            <td><a href="{{ route('tasks.view', ['id' => $task->id]) }}" class="link-success">View More <i class="ri-arrow-right-line align-middle"></i></a></td>
-                                        </tr>
-                                    @endforeach
-
+                                            @foreach ($tasks as $task)
+                                                <tr>
+                                                    <td>{{ $task->title }}</td>
+                                                    <td>{{ $task->start }}</td>
+                                                    <td>{{ $task->end }}</td>
+                                                    <td><a href="{{ route('tasks.view', ['id' => $task->id]) }}" class="link-success">View More <i class="ri-arrow-right-line align-middle"></i></a></td>
+                                                </tr>
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
             <!-- end page title -->
@@ -53,6 +44,7 @@
     </div>
     <!-- End Page-content -->
 </div>
+
 
 @include('templates.footer')
 
@@ -76,7 +68,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 'Content-Type': 'application/json',
                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
             },
-            body: JSON.stringify({})
+            body: JSON.stringify({
+                crop_id: '72', // Specify the ID of the crop to add tasks for
+            })
         })
         .then(response => {
             if (response.ok) {
@@ -87,10 +81,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
-                    text: 'Failed to add task!',
+                    text: 'Failed to add tasks!',
                     // You can customize the text and appearance of the SweetAlert here
                 });
-                throw new Error('Failed to add task'); // Propagate error to catch block
+                throw new Error('Failed to add tasks'); // Propagate error to catch block
             }
         })
         .then(data => {
@@ -109,5 +103,4 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
-
-</script>   
+</script>

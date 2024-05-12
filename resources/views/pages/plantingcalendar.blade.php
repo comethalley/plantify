@@ -8,18 +8,21 @@
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 
     <style>
-       /* Styling for readonly input fields */
+        /* Styling for readonly input fields */
         .form-control[readonly] {
-            background-color: #f8f9fa; /* Light gray background */
-            cursor: not-allowed; /* Change cursor to not-allowed */
+            background-color: #f8f9fa;
+            /* Light gray background */
+            cursor: not-allowed;
+            /* Change cursor to not-allowed */
         }
 
         /* Styling for disabled input fields */
         .form-control:disabled {
-            background-color: #f8f9fa; /* Light gray background */
-            cursor: not-allowed; /* Change cursor to not-allowed */
+            background-color: #f8f9fa;
+            /* Light gray background */
+            cursor: not-allowed;
+            /* Change cursor to not-allowed */
         }
-
     </style>
 </head>
 
@@ -201,94 +204,102 @@
                                 <form class="needs-validation view-event" name="event-form" id="form-event" novalidate="">
 
                                     <div class="event-details">
-                                    <div class="row">
-                                        <div class="col-md-6 d-flex mb-2">
-                                            <div class="flex-grow-1 d-flex align-items-center">
+                                        <div class="row">
+                                            <div class="col-md-6 d-flex mb-2">
+                                                <div class="flex-grow-1 d-flex align-items-center">
+                                                    <div class="flex-shrink-0 me-3">
+                                                        <i class="ri-leaf-fill text-muted fs-16"></i>
+                                                    </div>
+
+                                                    <div class="flex-grow-1">
+                                                        <h6 class="d-block - fw-semibold semibold mb-0">Plant Name: </h6><span id="eventtitle"></span>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6  d-flex align-items-center mb-2">
                                                 <div class="flex-shrink-0 me-3">
-                                                    <i class="ri-leaf-fill text-muted fs-16"></i>
+                                                    <i class="ri-scales-2-line text-muted fs-16"></i>
                                                 </div>
+                                                <div class="flex-grow-1 group">
+                                                    <h6 class="d-block fw-semibold mb-0" for="typeLabel">Seed Weight (g)</h6><span id="eventseed"></span>
+                                                </div>
+                                            </div>
 
+                                            @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 3 || auth()->user()->role_id == 4)
+                                            {{-- Display only for role_id 1 (Admin) --}}
+                                            <div class=" col-md-6 d-flex align-items-center mb-2">
+                                                <div class="flex-shrink-0 me-3">
+                                                    <i class="ri-leaf-line text-muted fs-16"></i>
+                                                </div>
                                                 <div class="flex-grow-1">
-                                                    <h6 class="d-block - fw-semibold semibold mb-0">Plant Name: </h6><span id="eventtitle"></span>
+                                                    <h6 class="d-block fw-semibold mb-0">Planting Type: </span></h6><span id="eventtype">
+                                                </div>
+                                            </div>
+                                            @endif
+                                            <div class=" col-md-6 d-flex align-items-center mb-2">
+                                                <div class="flex-shrink-0 me-3">
+                                                    <i class="ri-road-map-line text-muted fs-16"></i>
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <h6 class="d-block fw-semibold mb-0">Area Used: </span></h6><span id="eventarea">
+                                                </div>
+                                            </div>
 
+
+                                            <div class="col-md-6 d-flex align-items-center mb-2 hide-if-planted">
+                                                <div class="flex-shrink-0 me-3">
+                                                    <i class="ri-plant-line text-muted fs-16"></i>
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <h6 for="estimateh" class="d-block fw-semibold mb-0">Estimated Harvest (kg): </h6><span id="eventharvested"></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6 d-flex align-items-center mb-2 hide-if-planted">
+                                                <div class="flex-shrink-0 me-3">
+                                                    <i class="ri-delete-bin-line text-muted fs-16"></i>
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <h6 for="estimated" class="d-block fw-semibold mb-0">Estimated Withered (kg):</h6><span id="eventdestroyed"></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6 d-flex align-items-center mb-2">
+                                                <div class="flex-shrink-0 me-3">
+                                                    <i class="ri-calendar-check-fill text-muted fs-16"></i>
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <h6 class="d-block fw-semibold mb-0">Planting Date: </h6><span id="eventstart"></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6 d-flex align-items-center mb-2">
+                                                <div class="flex-shrink-0 me-3">
+                                                    <i class="ri-calendar-event-fill text-muted fs-16"></i>
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <h6 class="d-block fw-semibold mb-0">Harvesting Date: </h6><span id="eventend"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 d-flex align-items-center mb-2">
+                                                <div class="flex-shrink-0 me-3">
+                                                    <i class="ri-map-pin-line text-muted fs-16"></i>
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <h6 class="d-block fw-semibold mb-0">Status: </h6><span id="eventstatus"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 d-flex align-items-center mb-2">
+                                                <div class="flex-shrink-0 me-3">
+                                                    <i class="ri-map-pin-line text-muted fs-16"></i>
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <h6 class="d-block fw-semibold mb-0">Reason: </h6><span id="eventreason"></span>
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <div class="col-md-6  d-flex align-items-center mb-2">
-                                            <div class="flex-shrink-0 me-3">
-                                                <i class="ri-scales-2-line text-muted fs-16"></i>
-                                            </div>
-                                            <div class="flex-grow-1 group">
-                                                <h6 class="d-block fw-semibold mb-0" for="typeLabel">Seed Weight (g)</h6><span id="eventseed"></span>
-                                            </div>
-                                        </div>
-
-                                        @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 3 || auth()->user()->role_id == 4)
-                                        {{-- Display only for role_id 1 (Admin) --}}
-                                        <div class=" col-md-6 d-flex align-items-center mb-2">
-                                            <div class="flex-shrink-0 me-3">
-                                                <i class="ri-leaf-line text-muted fs-16"></i>
-                                            </div>
-                                            <div class="flex-grow-1">
-                                                <h6 class="d-block fw-semibold mb-0">Planting Type: </span></h6><span id="eventtype">
-                                            </div>
-                                        </div>
-                                        @endif
-                                        <div class=" col-md-6 d-flex align-items-center mb-2">
-                                            <div class="flex-shrink-0 me-3">
-                                                <i class="ri-road-map-line text-muted fs-16"></i>
-                                            </div>
-                                            <div class="flex-grow-1">
-                                                <h6 class="d-block fw-semibold mb-0">Area Used: </span></h6><span id="eventarea">
-                                            </div>
-                                        </div>
-                                        
-                                        
-                                        <div class="d-flex align-items-center mb-2 hide-if-planted">
-                                            <div class="flex-shrink-0 me-3">
-                                                <i class="ri-plant-line text-muted fs-16"></i>
-                                            </div>
-                                            <div class="flex-grow-1">
-                                                <h6 for="estimateh" class="d-block fw-semibold mb-0">Estimated Harvest (pcs): </h6><span id="eventharvested"></span>
-                                            </div>
-                                        </div>
-
-                                        <div class="d-flex align-items-center mb-2 hide-if-planted">
-                                            <div class="flex-shrink-0 me-3">
-                                                <i class="ri-delete-bin-line text-muted fs-16"></i>
-                                            </div>
-                                            <div class="flex-grow-1">
-                                                <h6 for="estimated" class="d-block fw-semibold mb-0">Estimated Withered (pcs):</h6><span id="eventdestroyed"></span>
-                                            </div>
-                                        </div>
-                                    
-                                        <div class="col-md-6 d-flex align-items-center mb-2">
-                                            <div class="flex-shrink-0 me-3">
-                                                <i class="ri-calendar-check-fill text-muted fs-16"></i>
-                                            </div>
-                                            <div class="flex-grow-1">
-                                                <h6 class="d-block fw-semibold mb-0">Planting Date: </h6><span id="eventstart"></span>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6 d-flex align-items-center mb-2">
-                                            <div class="flex-shrink-0 me-3">
-                                                <i class="ri-calendar-event-fill text-muted fs-16"></i>
-                                            </div>
-                                            <div class="flex-grow-1">
-                                                <h6 class="d-block fw-semibold mb-0">Harvesting Date: </h6><span id="eventend"></span>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex align-items-center mb-2">
-                                            <div class="flex-shrink-0 me-3">
-                                                <i class="ri-map-pin-line text-muted fs-16"></i>
-                                            </div>
-                                            <div class="flex-grow-1">
-                                                <h6 class="d-block fw-semibold mb-0">Status: </h6><span id="eventstatus"></span>
-                                            </div>
-                                        </div>
-                                    </div>
                                     </div>
                                     <div class="modal-footer">
                                         <div class="hstack gap-2 justify-content-end">
@@ -332,68 +343,77 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <div class="row">
-                            <div class="col-md-6 form-group mb-3">
-                                <label for="updateEventTitle">Plant Name:</label>
-                                <input type="text" class="form-control" id="updateEventTitle" readonly>
-                            </div>
-
-                            <div class="col-md-6 form-group mb-3">
-                                <label for="typeLabel">Seed Weight (g): </label>
-                                <input type="text" class="form-control" id="updateEventSeed" readonly>
-                            </div>
-                            @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 3 || auth()->user()->role_id == 4)
-                            {{-- Display for role_id 1-4 (Admins) --}}
-                            <div class="col-md-6 form-group mb-3">
-                                <label id="typeLabel" for="updateEventType">Planting Type:</label>
-                                <input type="text" class="form-control" id="updateEventType" readonly>
-                            </div>
-                            @elseif(auth()->user()->role_id == 5)
-                            {{-- Set type to null for role_id 5 --}}
-                            <input type="hidden" id="updateEventType" value="">
-                            @else
-                            {{-- For other roles, exclude the field --}}
-                            @endif
-                            <div class="col-md-6 form-group mb-3">
-                                <label for="updatearea">Area Used:</label>
-                                <input type="text" class="form-control" id="updatearea" readonly>
-                            </div>
-
-                            <div class="form-group mb-3">
-                                <label for="updatestatus">Status: <span class="text-muted"> Status change allowed only on Harvesting Date.</span></label>
-                                <select name="updatestatus" id="updatestatus" class="form-control">
-                                    <option id="updatestatus" readonly selected>Planted</option>
-                                    <option value="Harvested">Harvested</option>
-                                    <option value="Withered">Withered</option>
-                                </select>
-                            </div>
-                           
-
-
-                            <div class="col-md-6 form-group mb-3">
-                                <label id="typeLabela" for="updateEventHarvested">Estimated Harvest (pcs):</label>
-                                <input type="text" class="form-control" id="updateEventHarvested" placeholder="Enter Seeds Harvested">
-                            </div>
-
-                            <div class="col-md-6 form-group mb-3">
-                                <label id="typeLabelb" for="updateEventDestroyed">Estimated Withered (pcs):</label>
-                                <input type="text" class="form-control" id="updateEventDestroyed" placeholder="Enter Seeds Withered">
-                            </div>
-                           
-                            <div class="col-md-6 mb-3">
-                                <label for="updatestart-datepicker" class="form-label">Planting Date:</label>
-                                <div class="input-group">
-                                    <span class="input-group-text"><i class="ri-calendar-event-line"></i></span>
-                                    <input type="text" name="start" id="updatestart-datepicker" class="form-control" data-toggle="flatpickr" data-flatpickr-enable-time="true" data-flatpickr-date-format="Y-m-d" placeholder="Enter Start Date" readonly required disabled />
+                                <div class="col-md-6 form-group mb-3">
+                                    <label for="updateEventTitle">Plant Name:</label>
+                                    <input type="text" class="form-control" id="updateEventTitle" readonly>
                                 </div>
-                            </div>
 
-                            <div class="col-md-6 mb-3">
-                                <label for="updateend-datepicker" class="form-label">Harvesting Date:</label>
-                                <div class="input-group">
-                                    <span class="input-group-text"><i class="ri-calendar-event-line"></i></span>
-                                    <input type="text" name="end" id="updateend-datepicker" class="form-control" data-toggle="flatpickr" data-flatpickr-enable-time="true" data-flatpickr-date-format="Y-m-d" placeholder="Enter End Date" readonly required disabled />
+                                <div class="col-md-6 form-group mb-3">
+                                    <label for="typeLabel">Seed Weight (g): </label>
+                                    <input type="text" class="form-control" id="updateEventSeed" readonly>
                                 </div>
-                            </div>
+                                @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 3 || auth()->user()->role_id == 4)
+                                {{-- Display for role_id 1-4 (Admins) --}}
+                                <div class="col-md-6 form-group mb-3">
+                                    <label id="typeLabel" for="updateEventType">Planting Type:</label>
+                                    <input type="text" class="form-control" id="updateEventType" readonly>
+                                </div>
+                                @elseif(auth()->user()->role_id == 5)
+                                {{-- Set type to null for role_id 5 --}}
+                                <input type="hidden" id="updateEventType" value="">
+                                @else
+                                {{-- For other roles, exclude the field --}}
+                                @endif
+                                <div class="col-md-6 form-group mb-3">
+                                    <label for="updatearea">Area Used:</label>
+                                    <input type="text" class="form-control" id="updatearea" readonly>
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label for="updatestatus">Status: <span class="text-muted"> Status change allowed only on Harvesting Date.</span></label>
+                                    <select name="updatestatus" id="updatestatus" class="form-control">
+                                        <option id="updatestatus" readonly selected>Planted</option>
+                                        <option value="Harvested">Harvested</option>
+                                        <option value="Withered">Withered</option>
+                                    </select>
+                                </div>
+
+                                <center>
+                                    <div class="col-md-12 form-group mb-3" id="approx">
+                                        <label class="text-muted">Approximately 85% Germination Rate</label>
+                                    </div>
+
+                                </center>
+                                <div class="col-md-6 form-group mb-3">
+                                    <label id="typeLabela" for="updateEventHarvested">Estimated Harvest (kg):</label>
+                                    <input type="text" class="form-control" id="updateEventHarvested" placeholder="Enter Seeds Harvested">
+                                </div>
+
+                                <div class="col-md-6 form-group mb-3">
+                                    <label id="typeLabelb" for="updateEventDestroyed">Estimated Withered (kg):</label>
+                                    <input type="text" class="form-control" id="updateEventDestroyed" placeholder="Enter Seeds Withered">
+                                </div>
+
+                                <div class="col-md-12 form-group mb-3">
+                                    <label for="updatereason">Reason:</label>
+                                    <input type="text" class="form-control" id="updatereason" placeholder="Enter Reason">
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="updatestart-datepicker" class="form-label">Planting Date:</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="ri-calendar-event-line"></i></span>
+                                        <input type="text" name="start" id="updatestart-datepicker" class="form-control" data-toggle="flatpickr" data-flatpickr-enable-time="true" data-flatpickr-date-format="Y-m-d" placeholder="Enter Start Date" readonly required disabled />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="updateend-datepicker" class="form-label">Harvesting Date:</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="ri-calendar-event-line"></i></span>
+                                        <input type="text" name="end" id="updateend-datepicker" class="form-control" data-toggle="flatpickr" data-flatpickr-enable-time="true" data-flatpickr-date-format="Y-m-d" placeholder="Enter End Date" readonly required disabled />
+                                    </div>
+                                </div>
 
                             </div>
                         </div>
@@ -445,7 +465,7 @@
                                     </select>
                                 </div>
                             </div>
-                        
+
                             <div class="col-md-6">
                                 <label for="status" class="form-label">Status</label>
                                 <input type="text" name="status" id="customername-field" class="form-control" value="Planted" required readonly />
@@ -507,7 +527,7 @@
             }
         });
 
-        
+
 
         document.addEventListener('DOMContentLoaded', function() {
 
@@ -519,8 +539,8 @@
             var updateEventHarvestedElement = document.getElementById("updateEventHarvested");
             var areaElement = document.getElementById("area");
             var updateareaElement = document.getElementById("updatearea");
-            
-            
+
+
             seedInputElement.addEventListener("input", function(event) {
                 var inputValue = event.target.value;
                 var numericValue = inputValue.replace(/\D/g, '');
@@ -650,6 +670,8 @@
                     var eventEnd = info.event.end;
                     var eventStatus = info.event.extendedProps.status;
                     var eventArea = info.event.extendedProps.area;
+                    var eventReason = info.event.extendedProps.reason;
+
 
                     // Display event details in the Event Detail Modal
                     $('#eventtitle').text(eventTitle);
@@ -661,6 +683,8 @@
                     $('#eventend').text(moment(eventEnd).format("YYYY-MM-DD"));
                     $('#eventstatus').text(eventStatus);
                     $('#eventarea').text(eventArea);
+                    $('#eventreason').text(eventReason);
+
 
 
                     // Store event ID for update and delete
@@ -676,6 +700,8 @@
                     $('#updateend-datepicker').val(moment(eventEnd).format("YYYY-MM-DD"));
                     $('#updatestatus').val(eventStatus);
                     $('#updatearea').val(eventArea);
+                    $('#updatereason').val(eventReason);
+
 
 
                     // Show the Event Detail Modal
@@ -735,10 +761,12 @@
                 var end = $('#updateend-datepicker').val();
                 var status = $('#updatestatus').val();
                 var area = $('#updatearea').val();
+                var reason = $('#updatereason').val();
+
 
 
                 // Check if any required field is empty
-                if (!title || !start || !end || !status || !seed || !harvested || !destroyed || !area) {
+                if (!title || !start || !end || !status || !seed || !harvested || !destroyed || !area || !reason) {
                     // Display validation error message
                     Swal.fire({
                         title: "Error",
@@ -749,7 +777,7 @@
                 }
 
                 // Check if the status is "Planted" and the event is already "Planted"
-                
+
 
                 // if (status === "Harvested" && status === "Harvested") {
                 //     // Display validation error message
@@ -806,6 +834,7 @@
                         destroyed: destroyed,
                         type: type,
                         area: area,
+                        reason: reason,
                     },
                     success: function(data) {
                         console.log(data.message);
@@ -833,7 +862,7 @@
                 handleEventDelete($(this).data('event-id'));
             });
 
-            function handleEventUpdate(eventId, start, end, status, seed, harvested, destroyed, type, area, ) {
+            function handleEventUpdate(eventId, start, end, status, seed, harvested, destroyed, type, area, reason, ) {
                 $.ajax({
                     url: "/plantcalendar/" + eventId,
                     type: "PUT",
@@ -846,6 +875,7 @@
                         destroyed: destroyed,
                         type: type,
                         area: area,
+                        reason: reason,
                     },
                     success: function(data) {
                         calendar.refetchEvents();
@@ -1037,12 +1067,12 @@
                         // Check if the response contains validation errors
 
                         var errorMessage = xhr.responseJSON.message
-                        
-                            Swal.fire({
-                                title: "Error",
-                                html: errorMessage,
-                                icon: "error"
-                            });
+
+                        Swal.fire({
+                            title: "Error",
+                            html: errorMessage,
+                            icon: "error"
+                        });
                     }
                 });
             }
@@ -1172,7 +1202,7 @@
                     var parsedMultipleUsed = parseInt(multipleUsed);
                     var mode = $("#mode").val();
                     var area = $("#area").val();
-                    usedItem(lastUsedScannedContent, parsedMultipleUsed, mode);
+                    usedItem(lastUsedScannedContent, parsedMultipleUsed, mode, area);
                 });
 
                 // $('#using-scan').on('click', function () {
@@ -1259,7 +1289,7 @@
                             showConfirmButton: false,
                             timer: 2000,
                         });
-                        createPlanted(data.seedName, data.daysHarvest, data.type, data.amount, area,);
+                        createPlanted(data.seedName, data.daysHarvest, data.type, data.amount, area, );
                         location.reload()
                     },
                     error: function(xhr, status, error) {
@@ -1281,7 +1311,7 @@
             var eventTypeSpan = document.getElementById("eventtype");
             var typeLabels = document.querySelectorAll("h6[for='typeLabel']");
             var typeLabelsFlex = document.querySelectorAll("label[for='typeLabel']");
-            
+
 
             eventTypeSpan.addEventListener("DOMSubtreeModified", function() {
                 var eventType = eventTypeSpan.textContent.trim();
@@ -1310,11 +1340,12 @@
                 console.log('Event Type:', eventType);
 
                 var seedAmount = parseFloat($('#updateEventSeed').val());
+                var areasqm = parseFloat($('#updatearea').val());
                 var harvested, destroyed;
 
                 if (eventType === 'Seedlings') {
                     if (status === 'Harvested') {
-                        harvested = seedAmount.toFixed(); 
+                        harvested = seedAmount.toFixed();
                         destroyed = '0';
                     } else if (status === 'Withered') {
                         harvested = '0';
@@ -1325,11 +1356,11 @@
                     }
                 } else {
                     if (status === 'Harvested') {
-                        harvested = (seedAmount * 4.5).toFixed(); // 70% of seed amount
-                        destroyed = (seedAmount * 0.5).toFixed(); // 30% of seed amount
+                        harvested = (seedAmount * 8.5).toFixed(); //85% germination rate
+                        destroyed = (seedAmount * 1.5).toFixed(); //15% loss due to withering
                     } else if (status === 'Withered') {
                         harvested = '0'; // Clear harvested value
-                        destroyed = seedAmount.toFixed(); // Entire seed amount is destroyed
+                        destroyed = (seedAmount * 10).toFixed(); // Entire seed amount is destroyed
                     } else {
                         harvested = ''; // Clear harvested value
                         destroyed = ''; // Clear destroyed value
@@ -1340,93 +1371,96 @@
                 $('#updateEventDestroyed').val(destroyed);
             });
 
-               // Get the end date from the datepicker
-           // Function to disable updatestatus select element based on end date
+            // Get the end date from the datepicker
+            // Function to disable updatestatus select element based on end date
             function disableUpdateStatus() {
-            var endDateStr = $('#updateend-datepicker').val(); // Assuming the date is in YYYY-MM-DD format
-            console.log("endDateStr:", endDateStr);
+                var endDateStr = $('#updateend-datepicker').val(); // Assuming the date is in YYYY-MM-DD format
+                console.log("endDateStr:", endDateStr);
 
-            var endDate = new Date(endDateStr);
-            var currentDate = new Date();
-            var status = $('#eventstatus').text().trim();
-            console.log("status:", status);
+                var endDate = new Date(endDateStr);
+                var currentDate = new Date();
+                var status = $('#eventstatus').text().trim();
+                console.log("status:", status);
 
-            console.log("endDate:", endDate);
-            console.log("currentDate:", currentDate);
+                console.log("endDate:", endDate);
+                console.log("currentDate:", currentDate);
 
-            if (status === 'Harvested' || status === 'Withered' || endDate >= currentDate) {
-                console.log("Disabling estimated harvest and withered inputs...");
-                $('#updatestatus').prop('disabled', true);
-                $('#updateEventHarvested').prop('disabled', true);
-                $('#updateEventDestroyed').prop('disabled', true);
-            } else {
-                console.log("Enabling estimated harvest and withered inputs...");
-                $('#updatestatus').prop('disabled', false);
-                $('#updateEventHarvested').prop('disabled', false);
-                $('#updateEventDestroyed').prop('disabled', false);
+                if (status === 'Harvested' || status === 'Withered' || endDate >= currentDate) {
+                    console.log("Disabling estimated harvest and withered inputs...");
+                    $('#updatestatus').prop('disabled', true);
+                    $('#updateEventHarvested').prop('disabled', true);
+                    $('#updateEventDestroyed').prop('disabled', true);
+                    $('#updatereason').prop('disabled', true);
+                } else {
+                    console.log("Enabling estimated harvest and withered inputs...");
+                    $('#updatestatus').prop('disabled', false);
+                    $('#updateEventHarvested').prop('disabled', false);
+                    $('#updateEventDestroyed').prop('disabled', false);
+                    $('#updatereason').prop('disabled', false);
+                }
             }
-        }
 
-        // Call the function when the modal is shown and when the end date changes
-        $('#editexampleModal').on('show.bs.modal', function () {
-            disableUpdateStatus();
+            // Call the function when the modal is shown and when the end date changes
+            $('#editexampleModal').on('show.bs.modal', function() {
+                disableUpdateStatus();
+            });
+
+            $('#updateend-datepicker').on('change', function() {
+                disableUpdateStatus();
+            });
+
+
+
+
+
         });
 
-        $('#updateend-datepicker').on('change', function() {
-            disableUpdateStatus();
-        });
 
-
-                            
-
-
-        });
-
-       
 
 
         $(document).ready(function() {
+            // Function to update visibility of harvested and destroyed input fields
             // Function to update visibility of harvested and destroyed input fields
             function updateVisibility(status) {
                 if (status === 'Harvested') {
                     $('#updateEventHarvested').parent().show(); // Show harvested input field
                     $('#updateEventDestroyed').parent().show(); // Show destroyed input field
-                    // $('#eventharvested').parent().show();
+                    $('#approx').show(); // Show germination rate label
+                    $('#updatereason').parent().hide(); // Hide destroyed input field
+
                 } else if (status === 'Withered') {
                     $('#updateEventHarvested').parent().show(); // Hide harvested input field
                     $('#updateEventDestroyed').parent().show(); // Show destroyed input field
-                    // $('#eventdestroyed').parent().show();
+                    $('#approx').hide(); // Hide germination rate label
+                    $('#updatereason').parent().show(); // Show destroyed input field
                 } else {
                     $('#updateEventHarvested').parent().hide(); // Hide harvested input field
                     $('#updateEventDestroyed').parent().hide(); // Hide destroyed input field
-                    // $('#eventdestroyed').parent().hide();
-                    // $('#eventharvested').parent().hide();
+                    $('#approx').hide(); // Hide germination rate label
+                    $('#updatereason').parent().hide(); // Hide destroyed input field
                 }
             }
+
 
             // Initial visibility based on the status value
             updateVisibility($('#updatestatus').val());
 
             // Event listener for status change
             $('#updatestatus').change(function() {
-                
+
                 var status = $(this).val();
                 updateVisibility(status); // Update visibility based on the new status
             });
         });
 
         $(document).ready(function() {
-            var eventType = $('#eventtype').text().trim();// Example status, replace with actual value
+            var eventType = $('#eventtype').text().trim(); // Example status, replace with actual value
             if (eventStatus === 'Planted') {
                 $('.hide-if-planted').hide();
             } else {
                 $('.hide-if-planted').show();
             }
         });
-
-
-
-      
     </script>
 
 

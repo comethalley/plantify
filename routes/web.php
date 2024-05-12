@@ -338,8 +338,6 @@ Route::get('/archived', [TaskController::class, 'showArchived'])->name('archived
 Route::post('/tasks/{task}/restore', [TaskController::class, 'restore'])->name('tasks.restore');
 Route::post('/add-task', [TaskController::class, 'addTask'])->name('tasks.save');
 Route::get('/tasks/view/{id}', [TaskController::class, 'view'])->name('tasks.view');
-Route::post('/update-task-status/{id}', [TaskController::class, 'updateTaskStatus'])->name('tasks.update-status');
-
 
 
 
@@ -361,8 +359,12 @@ Route::get('/expenses/get-expenses-by-category', [ExpenseController::class, 'get
 
 Route::get('/Tools-District-5', [RequestController::class, 'index1']);
 Route::post('/add-tools', [RequestController::class, 'addTools'])->name('add.tools');
+Route::post('/add-tools1', [RequestController::class, 'addTools1'])->name('add.tools1');
 Route::get('/request/{id}/details', [RequestController::class, 'getRequestDetails']);
 Route::get('/view-pdf/{id}/{title?}', [RequestController::class, 'viewPdfRequest'])->name('view.pdf');
+Route::post('/set-date-request/{id}', [RequestController::class, 'SetDateStatus'])->name('set.date.request');
+Route::post('/update-request/{id}', [RequestController::class, 'updateRequest'])->name('request.update');
+
 
 
 Route::get('/requests', [ToolController::class, 'index']);
@@ -421,7 +423,7 @@ Route::get('/analytics/pdf', [AnalyticsController::class, 'downloadPdf'])->name(
 
 Route::get('api/farms', [FarmController::class, 'fetchFarmsByBarangay'])->name('api.farms');
 Route::get('/farmsAnalytics/{slug}', [AnalyticsController::class, 'getFarms']);
-Route::get('/farmsAnalyticsData/{num}', [AnalyticsController::class, 'getFarmsData']);
+Route::get('/farmsAnalyticsData/{id}', [AnalyticsController::class, 'getFarmsData']);
 
 Route::get('/markAsRead', function () {
     auth()->user()->unreadNotifications->markAsRead();

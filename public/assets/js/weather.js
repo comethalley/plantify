@@ -177,13 +177,25 @@ function updateWeatherUI(today, data, unit, hourlyorWeek) {
 const weatherThresholds = {
   temp: 33,
   precip: 20,
-  windspeed: 5,
-  uvindex: 5,
+  windspeed: 10,
+  uvindex: 8,
 };
 
 // Function to check weather conditions for alerts
 function checkWeatherConditionsForAlerts(data) {
   const { temp, precip, windspeed, uvindex } = data.currentConditions;
+  const currentTime = new Date();
+  const currentHour = currentTime.getHours();
+  console.log(currentHour)
+
+  // Check if it's evening (after 6 PM and before 5 AM)
+  if (currentHour >= 18 || currentHour < 5) {
+    showModal("It's evening. No information will be shown."); // Display evening message in the modal
+    closeModal(); // Close modal if it's evening
+    setTimeout(openModalAt6AM, getMillisecondsUntil6AM()); // Schedule modal to open at 6 AM
+    return; // Don't show modal in the evening
+  }
+
   console.log("Precipitation:", precip);
   console.log("Wind Speed:", windspeed);
   console.log("UV Index:", uvIndex);
@@ -192,7 +204,7 @@ function checkWeatherConditionsForAlerts(data) {
   if (temp > weatherThresholds.temp) {
     alerts.push("High temperature alert! Consider adjusting planting schedules.");
   }
-  if (precip > weatherThresholds.precipitation) {
+  if (precip > weatherThresholds.precip) {
     alerts.push("High precipitation alert! Ensure proper drainage for plants.");
   }
   if (windspeed > weatherThresholds.windspeed) {
@@ -211,7 +223,29 @@ function checkWeatherConditionsForAlerts(data) {
     // If only one alert, show it normally
     showAlert(alerts[0]);
     showModal(alerts[0]); // Show modal with single alert message
+  } else {
+    // If no alerts, show a generic message
+    showModal("Good Conditions, you can plant!");
   }
+}
+
+// Function to open the modal at 6 AM
+function openModalAt6AM() {
+  const currentTime = new Date();
+  const currentHour = currentTime.getHours();
+  if (currentHour === 6) {
+    console.log("Opening modal at 6 AM.");
+    showModal("Good morning!"); // Show modal at 6 AM
+  }
+}
+
+// Function to calculate the milliseconds until 6 AM
+function getMillisecondsUntil6AM() {
+  const currentTime = new Date();
+  const currentHour = currentTime.getHours();
+  const millisecondsInAnHour = 3600000; // 1 hour = 3600000 milliseconds
+  const hoursUntil6AM = currentHour < 6 ? 6 - currentHour : 24 - currentHour + 6; // Calculate hours until 6 AM
+  return hoursUntil6AM * millisecondsInAnHour;
 }
 
 function showModal(message) {
@@ -244,9 +278,6 @@ function showAlert(message) {
 function getWeatherData(city, unit, hourlyorWeek) {
   const apiKey = "ZDDQHCH65WNK9UXXTBXG5KDU2";
   
-  // Show modal before making the fetch request
-  showModal("Fetching weather data...");
-
   fetch(
     `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?unitGroup=metric&key=${apiKey}&contentType=json`,
     {
@@ -255,9 +286,7 @@ function getWeatherData(city, unit, hourlyorWeek) {
   )
     .then((response) => response.json())
     .then((data) => {
-      console.log(data); // Log the entire data object to inspect its structure
       checkWeatherConditionsForAlerts(data);
-      closeModal();
 
       let today = data.currentConditions;
       if (unit === "f") {
@@ -292,8 +321,6 @@ function getWeatherData(city, unit, hourlyorWeek) {
     })
     .catch((err) => {
       console.error("Error fetching weather data:", err);
-      // Hide modal if there's an error
-      closeModal();
     });
 }
 
@@ -301,19 +328,19 @@ function getWeatherData(city, unit, hourlyorWeek) {
 function updateForecast(data, unit, type) {
   weatherCards.innerHTML = ""; // Clear existing weather cards
 
-  let startIndex = 1;
+  let startIndex = 0; // Start index from 0
   let numCards = type === "day" ? 24 : 6; // Use 6 for weekly forecast
 
-  for (let i = startIndex; i < startIndex + numCards; i++) {
-    // Start from 1 to exclude the current day
-    (function (index) {
+  // Check if the data array has enough elements to populate the forecast
+  if (data.length >= startIndex + numCards) {
+    for (let i = startIndex; i < startIndex + numCards; i++) {
       let card = document.createElement("div");
       card.classList.add("card");
-      card.style.cursor = "pointer"; // Add this line
+      card.style.cursor = "pointer";
 
-      let dayName = type === "week" ? getDayName(data[index].datetime) : getHour(data[index].datetime);
-      let dayTemp = unit === "f" ? celciusToFahrenheit(data[index].tempmax) : data[index].tempmax;
-      let iconSrc = getIcon(data[index].icon);
+      let dayName = type === "week" ? getDayName(data[i].datetime) : getHour(data[i].datetime);
+      let dayTemp = unit === "f" ? celciusToFahrenheit(data[i].temp) : data[i].temp;
+      let iconSrc = getIcon(data[i].icon);
 
       card.innerHTML = `
         <h2 class="day-name">${dayName}</h2>
@@ -326,13 +353,18 @@ function updateForecast(data, unit, type) {
         </div>
       `;
 
-      // Add event listener to each card to show modal with details
-      card.addEventListener('click', () => {
-        populateAndShowModal(data[index]); // Use captured index
+      // Add event listener to the card itself
+      card.addEventListener('click', (event) => {
+        // Check if the click originated from the card itself, not its child elements
+        if (event.target === card) {
+          populateAndShowModal(data[i]);
+        }
       });
 
       weatherCards.appendChild(card);
-    })(i);
+    }
+  } else {
+    console.error("Insufficient data for forecast.");
   }
 }
 

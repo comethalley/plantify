@@ -61,6 +61,11 @@
                                         </a>
                                     </li>
                                     <li class="nav-item" role="presentation">
+                                        <a class="nav-link py-3 Pickups" data-bs-toggle="tab" id="Disapproved" href="#disapproved" role="tab" aria-selected="false" tabindex="-1">
+                                            <i class="ri-delete-bin-5-fill me-1 align-bottom"></i> Disapproved List
+                                        </a>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
                                         <a class="nav-link py-3 Cancelled" data-bs-toggle="tab" id="Picked" href="#picked" role="tab" aria-selected="false" tabindex="-1">
                                             <i class="ri-inbox-archive-line me-1 align-bottom"></i> Picking
                                         </a>
@@ -78,9 +83,10 @@
                                             <thead class="text-muted table-light">
                                                 <tr class="text-uppercase">
                                                     <th>ID</th>
-                                                    <th>Supply Type</th>
-                                                    <th>Supply Name</th>
-                                                    <th>Quantity</th>
+                                                    <th>Supply Tools</th>
+                                                    <th>Tools Quantity</th>
+                                                    <th>Supply Seeds</th>
+                                                    <th>Seeds Quantity</th>
                                                     <th>Requested By</th>
                                                     <!-- <th>Farm Name</th> -->
                                                     <th>Status</th>
@@ -92,9 +98,26 @@
                                                 @forelse($all_requests as $request)
                                                 <tr>
                                                     <td class="text-center">{{ $request->id }}</td>
-                                                    <td class="text-center">{{ $request->supply_tool }}</td>
-                                                    <td class="text-center">{{ $request->supply_seedling }}</td>
-                                                    <td class="text-center">{{ strtoupper($request->count_tool) }}</td>
+                                                    <td class="text-center tool_type">
+                                                        {{ $request->supplyTool->type ?? '' }}
+                                                        {{ $request->supplyTool1 ? ', ' . $request->supplyTool1->type : '' }}
+                                                        {{ $request->supplyTool2 ? ', ' . $request->supplyTool2->type : '' }}
+                                                    </td>
+                                                    <td class="count_tool">
+                                                        {{ strtoupper($request->count_tool) }}
+                                                        {{ $request->count_tool1 ? ', ' . strtoupper($request->count_tool1) : '' }}
+                                                        {{ $request->count_tool2 ? ', ' . strtoupper($request->count_tool2) : '' }}
+                                                    </td>
+                                                    <td class="text-center seedling_type">
+                                                        {{ $request->supplySeedling->type ?? '' }}
+                                                        {{ $request->supplySeedling1 ? ', ' . $request->supplySeedling1->type : '' }}
+                                                        {{ $request->supplySeedling2 ? ', ' .$request->supplySeedling2->type : '' }}
+                                                    </td>
+                                                    <td class="count_seedling">
+                                                        {{ strtoupper($request->count_seedling) }}
+                                                        {{ $request->count_seedling1 ? ', ' . strtoupper($request->count_seedling1) : '' }}
+                                                        {{ $request->count_seedling2 ? ', ' . strtoupper($request->count_seedling2) : '' }}
+                                                    </td>
                                                     <td class="text-center">{{ $request->requestedBy->firstname }} {{ $request->requestedBy->lastname }}</td>
                                                     <!-- <td class="text-center">{{ $request->farm_name }}</td> -->
                                                     <td class="text-center">{{ $request->status }}</td>
@@ -118,13 +141,16 @@
                                 <!-- request list table -->
                                 <div id="requested" class="tab-pane fade">
                                     <div class="table-responsive table-card mb-1">
+                                        <!-- REQUEST TOOLS -->
                                         <table class="table table-nowrap align-middle">
                                             <thead class="text-muted table-light">
                                                 <tr class="text-uppercase">
                                                     <th data-sort="id">ID</th>
-                                                    <th data-sort="supply_id">Supply Type</th>
-                                                    <th data-sort="type">Supply Name</th>
-                                                    <th data-sort="count_tool">Quantity</th>
+                                                    <!-- <th data-sort="supply_id">Supply Type</th> -->
+                                                    <th data-sort="tool_type">Supply Tools</th>
+                                                    <th data-sort="count_tool">Tools Quantity</th>
+                                                    <th data-sort="seedling_type">Supply Seeds</th>
+                                                    <th data-sort="count_seedling">Seeds Quantity</th>
                                                     <th data-sort="letter_content">Letter</th>
                                                     <th data-sort="farm_leader">Requested By</th>
                                                     <!-- <th data-sort="farm_name">Farm Name</th> -->
@@ -137,13 +163,39 @@
                                                 @forelse($request_tbl as $key => $request)
                                                 <tr>
                                                     <td class="id">{{ $request->id }}</td>
-                                                    <td class="supply_id">{{ $request->supply_tool }}</td>
-                                                    <td class="type">{{ $request->supply_seedling }}</td>
-                                                    <td class="count_tool">{{ strtoupper($request->count_tool) }}</td>
+                                                    <!-- <td class="supply_id">{{ $request->supply_tool }}</td> -->
+                                                    <td class="text-center tool_type">
+                                                        {{ $request->supplyTool->type ?? '' }}
+                                                        @if($request->supply_tool1 || $request->supply_tool2)
+                                                        ,
+                                                        @endif
+                                                        <br>
+                                                        {{ $request->supplyTool1 ? '' . $request->supplyTool1->type : '' }}
+                                                        @if($request->supply_tool1 || $request->supply_tool2)
+                                                        ,
+                                                        @endif
+                                                        <br>
+                                                        {{ $request->supplyTool2 ? '' . $request->supplyTool2->type : '' }}
+                                                    </td>
+                                                    <td class="count_tool">
+                                                        {{ strtoupper($request->count_tool) }}
+                                                        {{ $request->count_tool1 ? ', ' . strtoupper($request->count_tool1) : '' }}
+                                                        {{ $request->count_tool2 ? ', ' . strtoupper($request->count_tool2) : '' }}
+                                                    </td>
+                                                    <td class="text-center seedling_type">
+                                                        {{ $request->supplySeedling->type ?? '' }}
+                                                        {{ $request->supplySeedling1 ? ', ' . $request->supplySeedling1->type : '' }}
+                                                        {{ $request->supplySeedling2 ? ', ' .$request->supplySeedling2->type : '' }}
+                                                    </td>
+                                                    <td class="count_seedling">
+                                                        {{ strtoupper($request->count_seedling) }}
+                                                        {{ $request->count_seedling1 ? ', ' . strtoupper($request->count_seedling1) : '' }}
+                                                        {{ $request->count_seedling2 ? ', ' . strtoupper($request->count_seedling2) : '' }}
+                                                    </td>
                                                     <td class="letter_content">
-                                                        <button type="button" class="btn btn-success waves-effect waves-light" onclick="viewLetterContent({{ $request->id }})">
-                                                            <i class="ri-eye-line align-bottom"></i>
-                                                        </button>
+                                                        <a href="{{ route('view.pdf.request', ['id' => $request->id]) }}" class="btn btn-success waves-effect waves-light" target="_blank">
+                                                            <i class="ri-eye-line align-bottom"></i> View PDF
+                                                        </a>
                                                     </td>
                                                     <td class="farm_leader">{{ $request->requestedBy->firstname }} {{ $request->requestedBy->lastname }}</td>
                                                     <!-- <td class="farm_name">{{ optional($request->farm)->farm_name }}</td> -->
@@ -152,7 +204,7 @@
                                                     </td>
                                                     <td>
                                                         <select class="form-select change_stat">
-                                                            <option selected disabled value="0">Set As</option>
+                                                            <option value="0" disabled selected>Set As</option>
                                                             <option value="Available">Available</option>
                                                             <option value="Unavailable">Unavailable</option>
                                                         </select>
@@ -185,9 +237,10 @@
                                             <thead class="text-muted table-light">
                                                 <tr class="text-uppercase">
                                                     <th data-sort="id">ID</th>
-                                                    <th data-sort="supply_id">Supply Type</th>
-                                                    <th data-sort="type">Supply Name</th>
-                                                    <th data-sort="count_tool">Quantity</th>
+                                                    <th data-sort="tool_type">Supply Tools</th>
+                                                    <th data-sort="count_tool">Tools Quantity</th>
+                                                    <th data-sort="seedling_type">Supply Seeds</th>
+                                                    <th data-sort="count_seedling">Seeds Quantity</th>
                                                     <th data-sort="letter_content">Letter</th>
                                                     <th data-sort="farm_leader">Requested By</th>
                                                     <!-- <th data-sort="farm_name">Farm Name</th> -->
@@ -201,12 +254,37 @@
                                                 @forelse($available_requests as $request)
                                                 <tr>
                                                     <td class="id">{{ $request->id }}</td>
-                                                    <td class="text-center supply_id">{{ $request->supply_tool }}</td>
-                                                    <td class="text-center type">{{ $request->supply_seedling }}</td>
-                                                    <td class="text-center count_tool">{{ strtoupper($request->count_tool) }}</td>
+                                                    <td class="text-center tool_type">
+                                                        {{ $request->supplyTool->type ?? ' ' }}
+                                                        @if($request->supply_tool1 || $request->supply_tool2)
+                                                        ,
+                                                        @endif
+                                                        <br>
+                                                        {{ $request->supplyTool1 ? ' ' . $request->supplyTool1->type : '' }}
+                                                        @if($request->supply_tool1 || $request->supply_tool2)
+                                                        ,
+                                                        @endif
+                                                        <br>
+                                                        {{ $request->supplyTool2 ? ' ' . $request->supplyTool2->type : '' }}
+                                                    </td>
+                                                    <td class="count_tool">
+                                                        {{ strtoupper($request->count_tool) }}
+                                                        {{ $request->count_tool1 ? ', ' . strtoupper($request->count_tool1) : '' }}
+                                                        {{ $request->count_tool2 ? ', ' . strtoupper($request->count_tool2) : '' }}
+                                                    </td>
+                                                    <td class="text-center seedling_type">
+                                                        {{ $request->supplySeedling->type ?? '' }}
+                                                        {{ $request->supplySeedling1 ? ', ' . $request->supplySeedling1->type : '' }}
+                                                        {{ $request->supplySeedling2 ? ', ' .$request->supplySeedling2->type : '' }}
+                                                    </td>
+                                                    <td class="count_seedling">
+                                                        {{ strtoupper($request->count_seedling) }}
+                                                        {{ $request->count_seedling1 ? ', ' . strtoupper($request->count_seedling1) : '' }}
+                                                        {{ $request->count_seedling2 ? ', ' . strtoupper($request->count_seedling2) : '' }}
+                                                    </td>
                                                     <td class="letter_content">
-                                                        <button type="button" class="btn btn-success waves-effect waves-light" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModal">
-                                                            <i class="ri-eye-line align-bottom"></i>
+                                                        <button type="button" class="btn btn-success waves-effect waves-light" onclick="viewLetterContent({{ $request->id }})">
+                                                            <i class="ri-eye-line align-bottom"></i> View PDF
                                                         </button>
                                                     </td>
                                                     <td class="text-center farm_leader">{{ $request->requestedBy->firstname }} {{ $request->requestedBy->lastname }}</td>
@@ -216,12 +294,12 @@
                                                     </td>
                                                     <td>
                                                         @if($request->status === 'Available')
-                                                            <select class="form-select change_stat" onchange="onChangeSetAs(this)">
-                                                                <option selected="" value="0">Set As</option>
-                                                                <option value="Waiting for Approval">Waiting for Approval</option>
+                                                            <select class="form-select change_stat">
+                                                                <option selected="" value="0" disabled selected>Set As</option>
+                                                                <option value="Waiting-for-approval">Waiting for Approval</option>
                                                             </select>
                                                         @elseif($request->status === 'Waiting for Approval')
-                                                            <select class="form-select change_stat" onchange="onChangeSetAs(this)">
+                                                            <select class="form-select change_stat">
                                                                 <option value="Approved">Approved</option>
                                                                 <option value="Disapproved">Disapproved</option>
                                                             </select>
@@ -256,9 +334,10 @@
                                             <thead class="text-muted table-light">
                                                 <tr class="text-uppercase">
                                                     <th data-sort="id">ID</th>
-                                                    <th data-sort="supply_id">Supply Type</th>
-                                                    <th data-sort="type">Supply Name</th>
-                                                    <th data-sort="count_tool">Quantity</th>
+                                                    <th data-sort="tool_type">Supply Tools</th>
+                                                    <th data-sort="count_tool">Tools Quantity</th>
+                                                    <th data-sort="seedling_type">Supply Seeds</th>
+                                                    <th data-sort="count_seedling">Seeds Quantity</th>
                                                     <th data-sort="letter_content">Letter</th>
                                                     <th data-sort="farm_leader">Requested By</th>
                                                     <!-- <th data-sort="farm_name">Farm Name</th> -->
@@ -272,12 +351,29 @@
                                                 @forelse($approval_requests as $request)
                                                 <tr>
                                                     <td class="id">{{ $request->id }}</td>
-                                                    <td class="text-center supply_id">{{ $request->supply_tool }}</td>
-                                                    <td class="text-center type">{{ $request->supply_seedling }}</td>
-                                                    <td class="text-center count_tool">{{ strtoupper($request->count_tool) }}</td>
+                                                    <td class="text-center tool_type">
+                                                        {{ $request->supplyTool->type ?? '' }}
+                                                        {{ $request->supplyTool1 ? ', ' . $request->supplyTool1->type : '' }}
+                                                        {{ $request->supplyTool2 ? ', ' . $request->supplyTool2->type : '' }}
+                                                    </td>
+                                                    <td class="count_tool">
+                                                        {{ strtoupper($request->count_tool) }}
+                                                        {{ $request->count_tool1 ? ', ' . strtoupper($request->count_tool1) : '' }}
+                                                        {{ $request->count_tool2 ? ', ' . strtoupper($request->count_tool2) : '' }}
+                                                    </td>
+                                                    <td class="text-center seedling_type">
+                                                        {{ $request->supplySeedling->type ?? '' }}
+                                                        {{ $request->supplySeedling1 ? ', ' . $request->supplySeedling1->type : '' }}
+                                                        {{ $request->supplySeedling2 ? ', ' .$request->supplySeedling2->type : '' }}
+                                                    </td>
+                                                    <td class="count_seedling">
+                                                        {{ strtoupper($request->count_seedling) }}
+                                                        {{ $request->count_seedling1 ? ', ' . strtoupper($request->count_seedling1) : '' }}
+                                                        {{ $request->count_seedling2 ? ', ' . strtoupper($request->count_seedling2) : '' }}
+                                                    </td>
                                                     <td class="letter_content">
-                                                        <button type="button" class="btn btn-success waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#showModal">
-                                                            <i class="ri-eye-line align-bottom"></i>
+                                                        <button type="button" class="btn btn-success waves-effect waves-light" onclick="viewLetterContent({{ $request->id }})">
+                                                            <i class="ri-eye-line align-bottom"></i> View PDF
                                                         </button>
                                                     </td>
                                                     <td class="text-center farm_leader">{{ $request->requestedBy->firstname }} {{ $request->requestedBy->lastname }}</td>
@@ -290,11 +386,97 @@
                                                         Approved
                                                         @else
                                                         <select class="form-select change_stat">
-                                                            <option selected="" value="0">Set As</option>
+                                                            <option selected="" value="0" disabled selected>Set As</option>
                                                             <option value="Approved">Approved</option>
                                                             <option value="Disapproved">Disapproved</option>
                                                         </select>
                                                         @endif
+                                                    </td>
+                                                    <td>
+                                                        @if($request->status === 'Approved')
+                                                        <button type="button" class="btn btn-primary waves-effect waves-light setPickingDateButton" data-request-id="{{ $request->id }}" data-bs-toggle="modal" data-bs-target="#setPickingDateModal">Set Picking Date</button>
+                                                        @else
+                                                        <button type="button" class="btn btn-primary waves-effect waves-light" onclick="updateStatus(this)">Confirm</button>
+                                                        @endif
+                                                    </td>
+                                                </tr>
+                                                @empty
+                                                <!-- If no approval requests found, display a message -->
+                                                <tr>
+                                                    <td colspan="11">
+                                                        <div class="text-center">
+                                                            <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="loop" colors="primary:#405189,secondary:#0ab39c" style="width:75px;height:75px"></lord-icon>
+                                                            <h5 class="mt-2">Sorry! No Result Found</h5>
+                                                            <p class="text-muted">We've searched more than 150+ Request We did not find any orders for you search.</p>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                @endforelse
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <!-- Disapproved list -->
+                                <div id="disapproved" class="tab-pane fade">
+                                    <div class="table-responsive table-card mb-1">
+                                        <table class="table table-nowrap align-middle">
+                                            <thead class="text-muted table-light">
+                                                <tr class="text-uppercase">
+                                                    <th data-sort="id">ID</th>
+                                                    <th data-sort="tool_type">Supply Tools</th>
+                                                    <th data-sort="count_tool">Tools Quantity</th>
+                                                    <th data-sort="seedling_type">Supply Seeds</th>
+                                                    <th data-sort="count_seedling">Seeds Quantity</th>
+                                                    <th data-sort="letter_content">Letter</th>
+                                                    <th data-sort="farm_leader">Requested By</th>
+                                                    <!-- <th data-sort="farm_name">Farm Name</th> -->
+                                                    <th data-sort="status">Status</th>
+                                                    <th data-sort="change_stat">Set As</th>
+                                                    <th data-sort="action">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="list form-check-all">
+                                                <!-- Loop through the approval requests and populate the table rows -->
+                                                @forelse($disapproved_requests as $request)
+                                                <tr>
+                                                    <td class="id">{{ $request->id }}</td>
+                                                    <td class="text-center tool_type">
+                                                        {{ $request->supplyTool->type ?? '' }}
+                                                        {{ $request->supplyTool1 ? ', ' . $request->supplyTool1->type : '' }}
+                                                        {{ $request->supplyTool2 ? ', ' . $request->supplyTool2->type : '' }}
+                                                    </td>
+                                                    <td class="count_tool">
+                                                        {{ strtoupper($request->count_tool) }}
+                                                        {{ $request->count_tool1 ? ', ' . strtoupper($request->count_tool1) : '' }}
+                                                        {{ $request->count_tool2 ? ', ' . strtoupper($request->count_tool2) : '' }}
+                                                    </td>
+                                                    <td class="text-center seedling_type">
+                                                        {{ $request->supplySeedling->type ?? '' }}
+                                                        {{ $request->supplySeedling1 ? ', ' . $request->supplySeedling1->type : '' }}
+                                                        {{ $request->supplySeedling2 ? ', ' .$request->supplySeedling2->type : '' }}
+                                                    </td>
+                                                    <td class="count_seedling">
+                                                        {{ strtoupper($request->count_seedling) }}
+                                                        {{ $request->count_seedling1 ? ', ' . strtoupper($request->count_seedling1) : '' }}
+                                                        {{ $request->count_seedling2 ? ', ' . strtoupper($request->count_seedling2) : '' }}
+                                                    </td>
+                                                    <td class="letter_content">
+                                                        <button type="button" class="btn btn-success waves-effect waves-light" onclick="viewLetterContent({{ $request->id }})">
+                                                            <i class="ri-eye-line align-bottom"></i> View PDF
+                                                        </button>
+                                                    </td>
+                                                    <td class="text-center farm_leader">{{ $request->requestedBy->firstname }} {{ $request->requestedBy->lastname }}</td>
+                                                    <!-- <td class="text-center farm_name">{{ optional($request->farm)->farm_name }}</td> -->
+                                                    <td class="status">
+                                                        <label class="badge text-wrap" style="font-size: 12px; margin-bottom: 10px; padding: 2px; background-color: #007BFF; color: #FFF;" onclick="return false;">{{ $request->status }}</label>
+                                                    </td>
+                                                    <td>
+                                                        <select class="form-select change_stat">
+                                                            <option selected="" value="0" disabled selected>Set As</option>
+                                                            <option value="Resubmit">Resubmit</option>
+                                                            <option value="Waiting-for-approval">Waiting for approval</option>
+                                                        </select>
                                                     </td>
                                                     <td>
                                                         @if($request->status === 'Approved')
@@ -328,9 +510,10 @@
                                             <thead class="text-muted table-light">
                                                 <tr class="text-uppercase">
                                                     <th data-sort="id">ID</th>
-                                                    <th data-sort="supply_id">SUPPLY TYPE</th>
-                                                    <th data-sort="type">SUPPLY NAME</th>
-                                                    <th data-sort="count_tool">QUANTITY</th>
+                                                    <th data-sort="tool_type">Supply Tools</th>
+                                                    <th data-sort="count_tool">Tools Quantity</th>
+                                                    <th data-sort="seedling_type">Supply Seeds</th>
+                                                    <th data-sort="count_seedling">Seeds Quantity</th>
                                                     <th data-sort="letter_content">LETTER</th>
                                                     <th data-sort="farm_leader">REQUESTED BY</th>
                                                     <!-- <th data-sort="farm_name">FARM NAME</th> -->
@@ -345,12 +528,29 @@
                                                 @forelse($picked_requests as $request)
                                                 <tr>
                                                     <td class="id">{{ $request->id }}</td>
-                                                    <td class="text-center supply_id">{{ $request->supply_tool }}</td>
-                                                    <td class="text-center type">{{ $request->supply_seedling }}</td>
-                                                    <td class="text-center count_tool">{{ strtoupper($request->count_tool) }}</td>
+                                                    <td class="text-center tool_type">
+                                                        {{ $request->supplyTool->type ?? '' }}
+                                                        {{ $request->supplyTool1 ? ', ' . $request->supplyTool1->type : '' }}
+                                                        {{ $request->supplyTool2 ? ', ' . $request->supplyTool2->type : '' }}
+                                                    </td>
+                                                    <td class="count_tool">
+                                                        {{ strtoupper($request->count_tool) }}
+                                                        {{ $request->count_tool1 ? ', ' . strtoupper($request->count_tool1) : '' }}
+                                                        {{ $request->count_tool2 ? ', ' . strtoupper($request->count_tool2) : '' }}
+                                                    </td>
+                                                    <td class="text-center seedling_type">
+                                                        {{ $request->supplySeedling->type ?? '' }}
+                                                        {{ $request->supplySeedling1 ? ', ' . $request->supplySeedling1->type : '' }}
+                                                        {{ $request->supplySeedling2 ? ', ' .$request->supplySeedling2->type : '' }}
+                                                    </td>
+                                                    <td class="count_seedling">
+                                                        {{ strtoupper($request->count_seedling) }}
+                                                        {{ $request->count_seedling1 ? ', ' . strtoupper($request->count_seedling1) : '' }}
+                                                        {{ $request->count_seedling2 ? ', ' . strtoupper($request->count_seedling2) : '' }}
+                                                    </td>
                                                     <td class="letter_content">
-                                                        <button type="button" class="btn btn-success waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#showModal">
-                                                            <i class="ri-eye-line align-bottom"></i>
+                                                        <button type="button" class="btn btn-success waves-effect waves-light" onclick="viewLetterContent({{ $request->id }})">
+                                                            <i class="ri-eye-line align-bottom"></i> View PDF
                                                         </button>
                                                     </td>
                                                     <td class="text-center farm_leader">{{ $request->requestedBy->firstname }} {{ $request->requestedBy->lastname }}</td>
@@ -364,9 +564,9 @@
                                                         Picked
                                                         @else
                                                         <select class="form-select change_stat">
-                                                            <option selected="" value="0">Set As</option>
+                                                            <option selected="" value="0" disabled selected>Set As</option>
                                                             <option value="Picked">Picked</option>
-                                                            <option value="Failed to Pick">Failed to Pick</option>
+                                                            <option value="Failed-to-pick">Failed to pick</option>
                                                         </select>
                                                         @endif
                                                     </td>
@@ -402,9 +602,10 @@
                                             <thead class="text-muted table-light">
                                                 <tr class="text-uppercase">
                                                     <th data-sort="id">ID</th>
-                                                    <th data-sort="supply_id">SUPPLY TYPE</th>
-                                                    <th data-sort="type">SUPPLY NAME</th>
-                                                    <th data-sort="count_tool">QUANTITY</th>
+                                                    <th data-sort="tool_type">Supply Tools</th>
+                                                    <th data-sort="count_tool">Tools Quantity</th>
+                                                    <th data-sort="seedling_type">Supply Seeds</th>
+                                                    <th data-sort="count_seedling">Seeds Quantity</th>
                                                     <th data-sort="letter_content">LETTER</th>
                                                     <th data-sort="farm_leader">REQUESTED BY</th>
                                                     <!-- <th data-sort="farm_name">FARM NAME</th> -->
@@ -419,13 +620,30 @@
                                                 @forelse($return_requests as $request)
                                                 <tr>
                                                     <td class="id">{{ $request->id }}</td>
-                                                    <td class="text-center supply_id">{{ $request->supply_tool }}</td>
-                                                    <td class="text-center type">{{ $request->supply_seedling }}</td>
-                                                    <td class="text-center count_tool">{{ strtoupper($request->count_tool) }}</td>
+                                                    <td class="text-center tool_type">
+                                                        {{ $request->supplyTool->type ?? '' }}
+                                                        {{ $request->supplyTool1 ? ', ' . $request->supplyTool1->type : '' }}
+                                                        {{ $request->supplyTool2 ? ', ' . $request->supplyTool2->type : '' }}
+                                                    </td>
+                                                    <td class="count_tool">
+                                                        {{ strtoupper($request->count_tool) }}
+                                                        {{ $request->count_tool1 ? ', ' . strtoupper($request->count_tool1) : '' }}
+                                                        {{ $request->count_tool2 ? ', ' . strtoupper($request->count_tool2) : '' }}
+                                                    </td>
+                                                    <td class="text-center seedling_type">
+                                                        {{ $request->supplySeedling->type ?? '' }}
+                                                        {{ $request->supplySeedling1 ? ', ' . $request->supplySeedling1->type : '' }}
+                                                        {{ $request->supplySeedling2 ? ', ' .$request->supplySeedling2->type : '' }}
+                                                    </td>
+                                                    <td class="count_seedling">
+                                                        {{ strtoupper($request->count_seedling) }}
+                                                        {{ $request->count_seedling1 ? ', ' . strtoupper($request->count_seedling1) : '' }}
+                                                        {{ $request->count_seedling2 ? ', ' . strtoupper($request->count_seedling2) : '' }}
+                                                    </td>
                                                     <td class="letter_content">
-                                                        <button type="button" class="btn btn-success waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#showModal">
-                                                            <i class="ri-eye-line align-bottom"></i>
-                                                        </button>
+                                                        <a href="{{ route('view.pdf.request', ['id' => $request->id]) }}" class="btn btn-success waves-effect waves-light" target="_blank">
+                                                            <i class="ri-eye-line align-bottom"></i> View PDF
+                                                        </a>
                                                     </td>
                                                     <td class="text-center farm_leader">{{ $request->requestedBy->firstname }} {{ $request->requestedBy->lastname }}</td>
                                                     <!-- <td class="text-center farm_name">{{ optional($request->farm)->farm_name }}</td> -->
@@ -434,15 +652,11 @@
                                                     </td>
                                                     <td class="created_at">{{ \Carbon\Carbon::parse($request->date_return)->format('Y-m-d / h:i A') }}</td>
                                                     <td>
-                                                        @if($request->status === 'Waiting for return')
-                                                        Waiting for return
-                                                        @else
                                                         <select class="form-select change_stat">
-                                                            <option selected="" value="0">Set As</option>
+                                                            <option selected="" value="0" disabled selected>Set As</option>
                                                             <option value="Returned">Returned</option>
-                                                            <option value="Failed to Return">Failed to Return</option>
+                                                            <option value="Failed-to-return">Failed to return</option>
                                                         </select>
-                                                        @endif
                                                     </td>
                                                     <td>
                                                         <button type="button" class="btn btn-primary waves-effect waves-light" onclick="updateStatus(this)">Confirm</button>
@@ -504,6 +718,35 @@
                                 </div>
                             </div>
 
+                            <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="confirmationModalLabel">Confirmation Remarks</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h5>Type your remarks update below</h5>
+                                            <div class="form-floating">
+                                                <textarea class="form-control" name="remarks" rows="3" style="height: 150px;" placeholder="Enter your remarks..."></textarea>
+                                                <label for="remarkstext">-Optional-</label>
+                                            </div>
+                                            <br>
+                                            <div class="mb-3">
+                                                <label for="dateInput" class="form-label">Select Date:</label>
+                                                <input type="date" class="form-control" id="dateInput" min="<?php echo date('Y-m-d'); ?>">
+                                            </div>
+
+                                            <h5>Are you sure you want to update the status?</h5>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-primary wider-btn" id="confirmUpdateBtn">Confirm</button>
+                                            <button type="button" class="btn btn-outline-secondary wider-btn" data-bs-dismiss="modal">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <!-- Modal for setting return date -->
                             <div class="modal fade" id="setReturnDateModal" tabindex="-1" aria-labelledby="setReturnDateModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
@@ -527,7 +770,7 @@
                                 </div>
                             </div>
 
-                            <div class="modal fade" id="showModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <!-- <div class="modal fade" id="showModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header bg-light p-3">
@@ -535,7 +778,6 @@
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <!-- Display the letter content -->
                                             <img id="letterContent" class="img-fluid" alt="Letter Content">
                                         </div>
                                         <div class="modal-footer">
@@ -543,7 +785,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
 
                             <!-- Modal -->
                             <div class="modal fade flip" id="deleteOrder" tabindex="-1" aria-hidden="true">
@@ -574,19 +816,9 @@
 </div>
 
 <script>
-    function viewLetterContent(rowId) {
-        $.ajax({
-            url: '/getLetterContent', // Route to fetch letter content
-            method: 'GET',
-            data: { id: rowId },
-            success: function(response) {
-                $('#letterContent').attr('src', 'data:image/jpeg;base64,' + response.letter_content); // Assuming letter content is stored as base64 encoded image
-                $('#showModal').modal('show'); // Show the modal
-            },
-            error: function(xhr, status, error) {
-                console.error('Error fetching letter content:', error);
-            }
-        });
+
+    function viewLetterContent(id) {
+        window.open("/view-pdf/" + id, '_blank');
     }
 
     // Function to set return date
@@ -605,7 +837,7 @@
             success: function(response) {
                 if (response.success) {
                     // If the request is successful, update the status to "Returned"
-                    updateStatusInDatabase(requestId, 'Waiting for return');
+                    updateStatusInDatabase(requestId, 'Waiting-for-return');
                     // Close the modal and show a success message
                     $('#setReturnDateModal').modal('hide');
                     alert('Return date set successfully!');
@@ -666,7 +898,7 @@
             success: function(response) {
                 if (response.success) {
                     // If the request is successful, update the status to "Ready to be Picked"
-                    updateStatusInDatabase(requestId, 'Ready to be Picked');
+                    updateStatusInDatabase(requestId, 'Ready-to-be-pick');
                     // Close the modal and show a success message
                     $('#setPickingDateModal').modal('hide');
                     alert('Picking date set successfully!');
@@ -771,6 +1003,27 @@
             });
         }
 
+        function fetchDisapprovedList() {
+            $.ajax({
+                url: '/disapprovedList', // Route to fetch approved list data
+                method: 'GET',
+                success: function(response) {
+                    // Clear the existing table rows
+                    $('#disapproved .list').empty();
+
+                    // Loop through the fetched data and populate the table
+                    $.each(response, function(index, request) {
+                        var row = createTableRow(request);
+                        $('#disapproved .list').append(row);
+                    });
+                },
+                error: function(xhr, status, error) {
+                    // Handle error response
+                    console.error('Error fetching disapproved list:', error);
+                }
+            });
+        }
+
         // Function to fetch and display picked list
         function fetchPickedList() {
             $.ajax({
@@ -817,19 +1070,62 @@
 
         fetchAvailableList();
         fetchApprovalList();
+        fetchDisapprovedList();
         fetchPickedList();
         fetchReturnedList();
+    });
+
+    // Function to set status badge color based on status
+    function setStatusBadgeColor(status) {
+        switch (status.toLowerCase().replace(' ', '-')) {
+            case 'requested':
+                return { backgroundColor: '#007BFF', color: '#FFF' };
+            case 'available':
+                return { backgroundColor: '#A5DD9B', color: '#FFF' };
+            case 'unavailable':
+                return { backgroundColor: '#524C42', color: '#FFF' };
+            case 'ready-to-be-pick':
+                return { backgroundColor: '#E65C19', color: '#FFF' };
+            case 'picked':
+            case 'resubmit':
+                return { backgroundColor: '#121481', color: '#FFF' };
+            case 'failed-to-pick':
+                return { backgroundColor: '#FA7070', color: '#FFF' };
+            case 'failed-to-return':
+                return { backgroundColor: '#C08B5C', color: '#FFF' };
+            case 'waiting-for-approval':
+            case 'waiting-for-return':
+                return { backgroundColor: '#FFC107', color: '#000' };
+            case 'approved':
+                return { backgroundColor: '#28a745', color: '#FFF' };
+            case 'disapproved':
+                return { backgroundColor: '#990000', color: '#FFF' };
+            case 'returned':
+                return { backgroundColor: '#86469C', color: '#FFF' };
+            default:
+                return { backgroundColor: '', color: '' };
+        }
+    }
+
+    // Update status badge color
+    $(document).ready(function() {
+        $('.status').each(function() {
+            var statusText = $(this).text().trim();
+            var badgeColor = setStatusBadgeColor(statusText);
+            $(this).find('label').css({ backgroundColor: badgeColor.backgroundColor, color: badgeColor.color });
+        });
     });
 
     // Function to create a table row for a request object
     function createTableRow(request) {
         var row = '<tr>' +
             '<td class="id">' + request.id + '</td>' +
-            '<td class="text-center supply_id">' + request.supply_tool + '</td>' +
-            '<td class="text-center type">' + request.supply_seedling + '</td>' +
+            '<td class="text-center tool_type">' + (request.supply_tool ? request.supplyTool.type : 'N/A') + '</td>' +
+            '<td class="text-center seedling_type">' + (request.supply_seedling ? request.supplySeedling.type : 'N/A') + '</td>' +
             '<td class="text-center count_tool">' + request.count_tool + '</td>' +
+            '<td class="text-center count_seedling">' + request.count_seedling + '</td>' +
             '<td class="letter_content">' +
-            '<button type="button" class="btn btn-success waves-effect waves-light" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModal">' +
+            '<button type="button" class="btn btn-success waves-effect waves-light" onclick="viewLetterContent(' + request.id + ')">' +
             '<i class="ri-eye-line align-bottom"></i>' +
             '</button>' +
             '</td>' +
@@ -838,7 +1134,6 @@
             '<td class="status">' +
             '<label class="badge text-wrap" style="font-size: 12px; margin-bottom: 10px; padding: 2px; background-color: #007BFF; color: #FFF;" onclick="return false;">' + request.status + '</label>' +
             '</td>' +
-            '<td class="created_at">' + request.created_at + '</td>' +
             '<td>';
 
         // Add the dropdown menu based on the status
@@ -871,11 +1166,61 @@
         var row = $(buttonElement).closest('tr');
         var selectedStatus = row.find('.change_stat').val();
         var rowId = row.find('.id').text();
-        updateStatusInDatabase(rowId, selectedStatus);
+
+        // Get the remarks from the modal textarea
+        var remarks = $('#confirmationModal textarea[name="remarks"]').val();
+
+        // Show the confirmation modal
+        $('#confirmationModal').modal('show');
+
+        // Store the row ID, selected status, and remarks as data attributes on the confirm button
+        $('#confirmUpdateBtn').data('rowId', rowId);
+        $('#confirmUpdateBtn').data('selectedStatus', selectedStatus);
+        $('#confirmUpdateBtn').data('remarks', remarks);
+
+        // Disable the date input if the selected status is "Failed-to-return"
+        if (selectedStatus === 'Failed-to-return' || selectedStatus === 'Returned' || selectedStatus === 'Requested' 
+        || selectedStatus === 'Available' || selectedStatus === 'Unavailable' || selectedStatus === 'Waiting-for-approval' 
+        || selectedStatus === 'Approved' || selectedStatus === 'Disapproved' || selectedStatus === 'Resubmit' 
+        || selectedStatus === 'Picked' || selectedStatus === 'Failed-to-pick') {
+            $('#dateInput').prop('disabled', true);
+        } else {
+            $('#dateInput').prop('disabled', false);
+        }
     }
 
+    // Event listener for status change
+    $('.change_stat').change(function() {
+        var selectedStatus = $(this).val();
+
+        // Disable the date input if the selected status is "Failed-to-return"
+        if (selectedStatus === 'Failed-to-return' || selectedStatus === 'Returned' || selectedStatus === 'Requested' 
+        || selectedStatus === 'Available' || selectedStatus === 'Unavailable' || selectedStatus === 'Waiting-for-approval' 
+        || selectedStatus === 'Approved' || selectedStatus === 'Disapproved' || selectedStatus === 'Resubmit' 
+        || selectedStatus === 'Picked' || selectedStatus === 'Failed-to-pick') {
+            $('#dateInput').prop('disabled', true);
+        } else {
+            $('#dateInput').prop('disabled', false);
+        }
+    });
+
+    $('#confirmUpdateBtn').click(function() {
+        // Get the stored row ID and selected status
+        var rowId = $(this).data('rowId');
+        var selectedStatus = $(this).data('selectedStatus');
+
+        // Get the remarks from the modal textarea
+        var remarks = $('textarea[name="remarks"]').val();
+
+        // Perform the update with remarks
+        updateStatusInDatabase(rowId, selectedStatus, remarks);
+
+        // Close the modal
+        $('#confirmationModal').modal('hide');
+    });
+
     // Function to update status in the database
-    function updateStatusInDatabase(rowId, selectedStatus) {
+    function updateStatusInDatabase(rowId, selectedStatus, remarks) {
         $.ajax({
             url: '/updateStatus',
             method: 'POST',
@@ -884,14 +1229,13 @@
             },
             data: {
                 id: rowId,
-                status: selectedStatus
+                status: selectedStatus,
+                remarks: remarks // Include remarks in the data
             },
             success: function(response) {
-                if (selectedStatus === 'Available') {
-                // Display success message or trigger additional actions if needed
-            }
-            location.reload();
-        },
+                console.log('Status updated successfully');
+                location.reload();
+            },
             error: function(xhr, status, error) {
                 // Handle error response
                 console.error('Error updating status:', error);

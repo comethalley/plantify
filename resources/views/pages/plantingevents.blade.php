@@ -11,8 +11,8 @@
                     <p class="card-text"><strong>Seed Weight (g): </strong>{{ $event->seed }}</p>
                     <p class="card-text"><strong>Planting Type: </strong>{{ $event->type }}</p>
                     <p class="card-text"><strong>Area Used: </strong>{{ $event->area }}</p>
-                    <p class="card-text"><strong>Estimated Harvest (pcs): </strong>{{ $event->harvested }}</p>
-                    <p class="card-text"><strong>Estimated Withered (pcs): </strong>{{ $event->destroyed }}</p>
+                    <p class="card-text"><strong>Estimated Harvest (kg): </strong>{{ $event->harvested }}</p>
+                    <p class="card-text"><strong>Estimated Withered (kg): </strong>{{ $event->destroyed }}</p>
                     <p class="card-text"><strong>Planting Date: </strong>{{ $event->start }}</p>
                     <p class="card-text"><strong>Harvesting Date: </strong> {{ $event->end }}</p>
                     <p class="card-text">
@@ -65,8 +65,8 @@ function formatEvents(data) {
         html += '<p class="card-text"><strong>' + getSeedLabel(data[i].type) + ': </strong>' + data[i].seed + '</p>';
         html += '<p class="card-text"><strong>Planting Type: </strong>' + data[i].type + '</p>';
         html += '<p class="card-text"><strong>Area Used: </strong>' + data[i].area + '</p>';
-        html += '<p class="card-text"><strong>Estimated Harvest (pcs): </strong>' + data[i].harvested + '</p>';
-        html += '<p class="card-text"><strong>Estimated Withered (pcs) </strong>' + data[i].destroyed + '</p>';
+        html += '<p class="card-text"><strong>Estimated Harvest (kg): </strong>' + data[i].harvested + '</p>';
+        html += '<p class="card-text"><strong>Estimated Withered (kg) </strong>' + data[i].destroyed + '</p>';
         html += '<p class="card-text"><strong>Planting Date: </strong>' + data[i].start + '</p>';
         html += '<p class="card-text"><strong>Harvesting Date: </strong>' + data[i].end + '</p>';
         html += '<p class="card-text">';
@@ -104,10 +104,6 @@ function getSeedLabel(type) {
         return 'Seed Quantity (pcs)';
     }
 }
-
-// Fetch and update events every 10 seconds
-setInterval(fetchAndUpdateEvents, 1000);
-
 
     // Fetch and update events every 10 seconds
     setInterval(fetchAndUpdateEvents, 1000);

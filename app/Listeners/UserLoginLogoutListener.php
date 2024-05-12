@@ -27,7 +27,7 @@ class UserLoginLogoutListener implements ShouldQueue
         $user->isOnline = false;
         $user->save();
 
-        if (in_array($user->role_id, [2, 3, 4])) {
+        if (in_array($user->role_id, [2])) {
             $superAdmin = User::where('role_id', 1)->first();
 
             if ($superAdmin) {

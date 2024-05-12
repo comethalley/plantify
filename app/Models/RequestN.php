@@ -42,10 +42,26 @@ class RequestN extends Model
     {
         return $this->belongsTo(SupplyType::class, 'supply_tool');
     }
+    public function supplyTool1()
+    {
+        return $this->belongsTo(SupplyType::class, 'supply_tool1');
+    }
+    public function supplyTool2()
+    {
+        return $this->belongsTo(SupplyType::class, 'supply_tool2');
+    }
 
     public function supplySeedling()
     {
         return $this->belongsTo(SupplyType::class, 'supply_seedling');
+    }
+    public function supplySeedling1()
+    {
+        return $this->belongsTo(SupplyType::class, 'supply_seedling1');
+    }
+    public function supplySeedling2()
+    {
+        return $this->belongsTo(SupplyType::class, 'supply_seedling2');
     }
 
     public function requestedBy()

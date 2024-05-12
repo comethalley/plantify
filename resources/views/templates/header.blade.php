@@ -494,10 +494,10 @@
                                             @endif
                                             @if ($notification->type === 'App\Notifications\UserLoginNotification')
                                                     <div class="d-flex">
-                                                        <img src="../assets/images/notif/request.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                                        <img src="../assets/images/notif/user.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
                                                         <div class="flex-grow-1">
                                                             <h6 class="mt-0 mb-1 fs-13 fw-semibold">User Login</h6>
-                                                            <div class="fs-13 text-muted">
+                                                            <div class="fs-13">
                                                                 <p class="mb-1">{{ $notification->data['role_name'] }}  {{ $notification->data['lastname'] }} logged in.</p>
                                                             </div>
                                                             <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
@@ -844,7 +844,7 @@
                         </li>
                         @endif
 
-                        @if(session('user') && session('user')->role_id == 1)
+                        @if(session('user') && session('user')->role_id == 1 || session('user')->role_id == 2)
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="/requests" role="button" style="color:white">
                                 <i class="ri-tools-fill"></i>

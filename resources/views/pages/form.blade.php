@@ -173,13 +173,13 @@
                                             <div class="col">
                                                 <div>
                                                     <label for="firstName" class="form-label">First Name</label>
-                                                    <input type="text" class="form-control" id="firstName" name="first_name" value="{{ $user->firstname }}" placeholder="First Name" required>
+                                                    <input type="text" class="form-control" id="firstName" name="first_name" value="{{ $user->firstname }}" placeholder="First Name" readonly required>
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div>
                                                     <label for="lastName" class="form-label">Last Name</label>
-                                                    <input type="text" class="form-control" id="lastName" name="last_name" value="{{ $user->lastname }}" placeholder="Last Name"  required>
+                                                    <input type="text" class="form-control" id="lastName" name="last_name" value="{{ $user->lastname }}" placeholder="Last Name" readonly required>
                                                 </div>
                                             </div>
                                             <div class="col-md-2">
@@ -197,7 +197,7 @@
                                         <div>
                                             <label for="iconInput" class="form-label">Email Address</label>
                                             <div class="form-icon">
-                                                <input type="email" class="form-control form-control-icon" id="iconInput" name="email" value="{{ $user->email }}" placeholder="example@gmail.com" required>
+                                                <input type="email" class="form-control form-control-icon" id="iconInput" name="email" value="{{ $user->email }}" placeholder="example@gmail.com" readonly required>
                                                 <i class="ri-mail-unread-line"></i>
                                             </div>
                                         </div>

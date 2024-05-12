@@ -11,7 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-    use Notifiable;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -88,5 +88,10 @@ public function groupMembers()
     public function interests()
     {
         return $this->hasMany(Interest::class);
+    }
+
+    public function requests()
+    {
+        return $this->hasMany(RequestN::class, 'requested_by');
     }
 }

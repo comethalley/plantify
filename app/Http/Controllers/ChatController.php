@@ -11,7 +11,7 @@ use App\Models\ProfileSettings;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use App\Notifications\NewChatNotification;
+use App\Notifications\NewChat\ication;
 
 class ChatController extends Controller
 {

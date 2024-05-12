@@ -48,11 +48,15 @@ class AnalyticsController extends Controller
         // General information
         $pdf->SetFont('Arial', '', 12);
         $pdf->Cell(0, 10, 'This report shows analytics for our farms.', 0, 1);
-        $pdf->Cell(0, 10, 
-            $data['farmLeaderCount'] . ' farm leaders. ' . 
-            $data['farmerCount'] . ' total farmers. ' . 
-            $data['totalUserCount'] . ' users. ' . 
-            $data['farmCount'] . ' farms accounted for.', 0, 1);
+        
+        // Check if the user's role is not 4
+        if (Auth::user()->role_id != 4) {
+            $pdf->Cell(0, 10, 
+                $data['farmLeaderCount'] . ' farm leaders. ' . 
+                $data['farmerCount'] . ' total farmers. ' . 
+                $data['totalUserCount'] . ' users. ' . 
+                $data['farmCount'] . ' farms accounted for.', 0, 1);
+        }
         $pdf->Ln(); 
     
         // Monthly farm data
@@ -78,7 +82,7 @@ class AnalyticsController extends Controller
         // Output the PDF to the browser
         $pdf->Output('D');
     }
-
+    
     public function getFarmsData(Request $request, $id)
     {
         $year = $request->has('year') ? $request->year : now()->year;

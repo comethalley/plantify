@@ -94,9 +94,4 @@ public function groupMembers()
     {
         return $this->hasMany(RequestN::class, 'requested_by');
     }
-
-    public function farmers()
-    {
-        return $this->hasMany(Farmer::class, 'farmer_id');
-    }
 }

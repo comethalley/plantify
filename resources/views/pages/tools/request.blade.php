@@ -1234,7 +1234,7 @@
             },
             success: function(response) {
                 console.log('Status updated successfully');
-                location.reload();
+                location.reload(); // Reload the page after successful update
             },
             error: function(xhr, status, error) {
                 // Handle error response

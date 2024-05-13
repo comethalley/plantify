@@ -4,12 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Notifications\Notifiable;
-use App\Models\User;
+
 class RequestN extends Model
 {
     use HasFactory;
-    use Notifiable;
+
     protected $table = 'request_tbl';
     protected $fillable = [
         'id',
@@ -68,9 +67,5 @@ class RequestN extends Model
     {
         return $this->belongsTo(User::class, 'requested_by');
     }
-    public function user()
-    {
-        // Assuming the foreign key is user_id in the requests table
-        return $this->belongsTo(User::class, 'user_id');
-    }
+
 }

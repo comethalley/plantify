@@ -745,10 +745,10 @@ $(document).ready(function () {
     }
 });
 
-setInterval(function() {
-        // Reload the content
-        $('#userList').load(location.href + ' #userList');
-    }, 500); // 0.5 seconds
+// setInterval(function() {
+//         // Reload the content
+//         $('#userList').load(location.href + ' #userList');
+//     }, 500); // 0.5 seconds
 
 
 </script>

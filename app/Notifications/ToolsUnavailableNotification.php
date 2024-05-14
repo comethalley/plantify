@@ -7,11 +7,16 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class ToolsAvailableNotification extends Notification
+class ToolsUnavailableNotification extends Notification
 {
     use Queueable;
 
-   public function __construct()
+    /**
+     * Create a new notification instance.
+     *
+     * @return void
+     */
+    public function __construct()
     {
         //
     }
@@ -24,9 +29,8 @@ class ToolsAvailableNotification extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            'message' => 'The tools and Seeds are now available.',
+            'message' => 'The tools and Seeds you requested are currently unavailable.',
             'link' => '/tools',
         ];
     }
-   
 }

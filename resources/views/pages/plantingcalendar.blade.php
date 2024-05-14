@@ -101,7 +101,7 @@
                                             <span class="text-white mb-0">Harvested</span>
                                         </div>
                                         <div class="bg-danger p-2 mb-1">
-                                            <span class="text-white mb-0">Destroyed</span>
+                                            <span class="text-white mb-0">Withered</span>
                                         </div>
                                     </td>
 

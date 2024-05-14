@@ -94,7 +94,13 @@ class RequestController extends Controller
                 'letter_content' => $contentLetterPath,
                 'status' => $request->input('status', 'Requested'),
             ]);
+            $admins = User::whereIn('role_id', [1, 2])->get();
 
+            // Notify each admin
+            foreach ($admins as $admin) {
+                $admin->notify(new NewRequestNotification($admin));
+            }
+            
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
             Log::error($e);

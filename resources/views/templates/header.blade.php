@@ -493,7 +493,26 @@
                                             </div>
 
 <!--  new notif  code -->
+                                            @elseif ($notification->type === 'App\Notifications\NewRequestNotification')
+                                            <div class="d-flex">
 
+
+                                                <img src="../assets/images/event/missing.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+
+                                                <div class="flex-grow-1">
+                                                    <a href="/Tools-District-5" class="stretched-link">
+                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">Tools and Seeds Request</h6>
+                                                    </a>
+                                                    <div class="fs-13 text-muted">
+                                                        <p class="mb-1">{{ $notification->data['message']}}.</p>
+                                                    </div>
+                                                    <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+
+                                                        <span><i class="mdi mdi-clock-outline" id="notification-time"></i>{{ $notification->created_at->diffForHumans() }}</span>
+                                                    </p>
+                                                </div>
+
+                                            </div>
                                             @elseif ($notification->type === 'App\Notifications\WaitingForApprovalNotification')
                                             <div class="d-flex">
 

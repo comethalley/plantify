@@ -7,26 +7,29 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class ToolsAvailableNotification extends Notification
+class RequestDisapprovedNotification extends Notification
 {
     use Queueable;
 
-   public function __construct()
+    /**
+     * Create a new notification instance.
+     *
+     * @return void
+     */
+    public function __construct()
     {
         //
     }
-
     public function via($notifiable)
     {
         return ['database'];
     }
-
+    
     public function toDatabase($notifiable)
     {
         return [
-            'message' => 'The tools and Seeds are now available.',
-            'link' => '/tools',
+            'message' => 'Your request has been disapproved.',
+            'action_url' => '/instructions',
         ];
     }
-   
 }

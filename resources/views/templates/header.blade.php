@@ -502,7 +502,7 @@
 
                                                 <div class="flex-grow-1">
                                                     <a href="/Tools-District-5" class="stretched-link">
-                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">Tools Request</h6>
+                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">Tools and Seeds Request</h6>
                                                     </a>
                                                     <div class="fs-13 text-muted">
                                                         <p class="mb-1">{{ $notification->data['message']}}.</p>
@@ -522,7 +522,7 @@
 
                                                 <div class="flex-grow-1">
                                                     <a href="/Tools-District-5" class="stretched-link">
-                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">Tools Request</h6>
+                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">Tools and Seeds Request</h6>
                                                     </a>
                                                     <div class="fs-13 text-muted">
                                                         <p class="mb-1">{{ $notification->data['message']}}.</p>
@@ -542,7 +542,7 @@
 
                                                 <div class="flex-grow-1">
                                                     <a href="/Tools-District-5" class="stretched-link">
-                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">Tools Request</h6>
+                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">Tools and Seeds Request</h6>
                                                     </a>
                                                     <div class="fs-13 text-muted">
                                                         <p class="mb-1">{{ $notification->data['message']}}.</p>
@@ -562,7 +562,7 @@
 
                                                 <div class="flex-grow-1">
                                                     <a href="/Tools-District-5" class="stretched-link">
-                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">Tools Request</h6>
+                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">Tools and Seeds Request</h6>
                                                     </a>
                                                     <div class="fs-13 text-muted">
                                                         <p class="mb-1">{{ $notification->data['message']}}.</p>
@@ -582,7 +582,7 @@
 
                                                 <div class="flex-grow-1">
                                                     <a href="/Tools-District-5" class="stretched-link">
-                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">Tools Request</h6>
+                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">Tools and Seeds Request</h6>
                                                     </a>
                                                     <div class="fs-13 text-muted">
                                                         <p class="mb-1">{{ $notification->data['message']}}.</p>
@@ -602,7 +602,7 @@
 
                                                 <div class="flex-grow-1">
                                                     <a href="/Tools-District-5" class="stretched-link">
-                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">Tools Request</h6>
+                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">Tools and Seeds Request</h6>
                                                     </a>
                                                     <div class="fs-13 text-muted">
                                                         <p class="mb-1">{{ $notification->data['message']}}.</p>
@@ -622,7 +622,7 @@
 
                                                 <div class="flex-grow-1">
                                                     <a href="/Tools-District-5" class="stretched-link">
-                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">Tools Request</h6>
+                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">Tools and Seeds Request</h6>
                                                     </a>
                                                     <div class="fs-13 text-muted">
                                                         <p class="mb-1">{{ $notification->data['message']}}.</p>
@@ -642,7 +642,7 @@
 
                                                 <div class="flex-grow-1">
                                                     <a href="/Tools-District-5" class="stretched-link">
-                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">Tools Request</h6>
+                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">Tools and Seeds Request</h6>
                                                     </a>
                                                     <div class="fs-13 text-muted">
                                                         <p class="mb-1">{{ $notification->data['message']}}.</p>
@@ -662,7 +662,7 @@
 
                                                 <div class="flex-grow-1">
                                                     <a href="/Tools-District-5" class="stretched-link">
-                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">Tools Request</h6>
+                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">Tools and Seeds Request</h6>
                                                     </a>
                                                     <div class="fs-13 text-muted">
                                                         <p class="mb-1">{{ $notification->data['message']}}.</p>
@@ -682,7 +682,7 @@
 
                                                 <div class="flex-grow-1">
                                                     <a href="/Tools-District-5" class="stretched-link">
-                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">Tools Request</h6>
+                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">Tools and Seeds Request</h6>
                                                     </a>
                                                     <div class="fs-13 text-muted">
                                                         <p class="mb-1">{{ $notification->data['message']}}.</p>
@@ -702,7 +702,7 @@
 
                                                 <div class="flex-grow-1">
                                                     <a href="/Tools-District-5" class="stretched-link">
-                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">Tools Request</h6>
+                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">Tools and Seeds Request</h6>
                                                     </a>
                                                     <div class="fs-13 text-muted">
                                                         <p class="mb-1">{{ $notification->data['message']}}.</p>

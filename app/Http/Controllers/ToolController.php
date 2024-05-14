@@ -17,7 +17,18 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
+use App\Notifications\ToolsAvailableNotification;
+use App\Notifications\ToolsUnavailableNotification;
+use App\Notifications\WaitingForApprovalNotification;
+use App\Notifications\RequestApprovedNotification;
+use App\Notifications\RequestDisapprovedNotification;
 
+use App\Notifications\ReadyToBePickedNotification;
+use App\Notifications\PickedNotification;
+use App\Notifications\WaitingForReturnNotification;
+use App\Notifications\ReturnedNotification;
+use App\Notifications\FailedToReturnNotification;
+use App\Notifications\ResubmitNotification;
 class ToolController extends Controller
 {
     public function index()
@@ -116,8 +127,45 @@ class ToolController extends Controller
         $remarkRequest->validated_by = Auth::user()->id; // Assuming you have authentication and need to track who validated
         $remarkRequest->save();
 
-        // Update user's status based on the request status (if needed)
-        // ...
+            // Update user's status based on the request status
+            $user = $request->requestedBy;
+            if ($status === 'Failed-to-return') {
+                // Set user's status to 0 if the request status is "Failed-to-return"
+                $user->status = 3;
+            } elseif ($status === 'Returned') {
+                // Set user's status to 1 if the request status is "Returned"
+                $user->status = 1;
+            }
+            $user->save();
+
+              // Check if the tools are available and send notification
+              if ($status === 'Available') {
+                // Assuming you have a $user variable representing the user to notify
+                $user->notify(new ToolsAvailableNotification());
+            } elseif ($status === 'Unavailable') {
+                // Assuming you have a $user variable representing the user to notify
+                $user->notify(new ToolsUnavailableNotification());
+            } elseif ($status === 'Waiting-for-approval') {
+                // Assuming you have a $user variable representing the user to notify
+                $user->notify(new WaitingForApprovalNotification());
+            } elseif ($status === 'Approved') {
+                // Assuming you have a $user variable representing the user to notify
+                $user->notify(new RequestApprovedNotification());
+            } elseif ($status === 'Disapproved') {
+                $user->notify(new RequestDisapprovedNotification());
+            } elseif ($status === 'Ready-to-be-pick') {
+                $user->notify(new ReadyToBePickedNotification());
+            } elseif ($status === 'Picked') {
+                $user->notify(new PickedNotification());
+            } elseif ($status === 'Waiting-for-return') {
+                $user->notify(new WaitingForReturnNotification());
+            } elseif ($status === 'Returned') {
+                $user->notify(new ReturnedNotification());
+            } elseif ($status === 'Failed-to-return') {
+                $user->notify(new FailedToReturnNotification());
+            } elseif ($status === 'Resubmit') {
+                $user->notify(new ResubmitNotification());
+            }
 
         return response()->json(['success' => true]);
     } catch (\Exception $e) {
@@ -195,7 +243,7 @@ class ToolController extends Controller
         // Update the request record in the database with the picking date
         $request = RequestN::findOrFail($requestId);
         $request->picked_date = $pickingDate;
-        $request->status = 'Ready to be pick';
+        $request->status = 'Ready-to-be-pick';
         $request->save();
 
         return response()->json(['success' => true]);

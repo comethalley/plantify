@@ -500,7 +500,7 @@
                                                 <img src="../assets/images/event/missing.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
 
                                                 <div class="flex-grow-1">
-                                                    <a href="/Tools-District-5" class="stretched-link">
+                                                    <a href="/requests" class="stretched-link">
                                                         <h6 class="mt-0 mb-1 fs-13 fw-semibold">Tools and Seeds Request</h6>
                                                     </a>
                                                     <div class="fs-13 text-muted">

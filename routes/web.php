@@ -256,7 +256,7 @@ Route::put('/change-attendee-status/{id}', [AttendanceControler::class, 'changeS
 
 Route::get('/fetch-attendees/{event_id}', [AttendanceControler::class, 'fetchAttendees']);
 
-Route::get('/attendees/filterByStatus', [AttendanceController::class, 'filterBystatus']);
+Route::get('/attendees/filterByStatus', [AttendanceControler::class, 'filterBystatus']);
 // End Full Calender=================================================================
 
 Route::get('/plantcalendar', [PlantCalendar::class, 'index']);
@@ -338,6 +338,7 @@ Route::get('/task/filterByStatus', [TaskController::class, 'filterBystatus']);
 Route::post('/tasks/{task}/archive', [TaskController::class, 'archive'])->name('tasks.archive');
 Route::get('/archived', [TaskController::class, 'showArchived'])->name('archived');
 Route::post('/tasks/{task}/restore', [TaskController::class, 'restore'])->name('tasks.restore');
+Route::get('/tasks/view/{id}', [TaskController::class, 'view'])->name('tasks.view');
 
 
 //============================================================================================

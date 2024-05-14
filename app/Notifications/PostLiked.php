@@ -6,16 +6,18 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-
-class ToolsAvailableNotification extends Notification
+use App\Models\Forum;
+class PostLiked extends Notification
 {
     use Queueable;
 
-    protected $tool;
+    protected $forum;
+    protected $liker;
 
-    public function __construct($tool)
+    public function __construct(Forum $forum, $liker)
     {
-        $this->tool = $tool;
+        $this->forum = $forum;
+        $this->liker = $liker;
     }
 
     public function via($notifiable)
@@ -26,9 +28,8 @@ class ToolsAvailableNotification extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            'tool_id' => $this->tool->id,
-            'message' => 'The tool ' . $this->tool->name . ' is now available.',
+            'forum_id' => $this->forum->id,
+            'liker_id' => $this->liker->id,
         ];
     }
-   
 }

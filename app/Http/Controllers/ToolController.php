@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
-
+use App\Notifications\ToolsAvailableNotification;
 class ToolController extends Controller
 {
     public function index()
@@ -123,6 +123,11 @@ class ToolController extends Controller
                 $user->status = 1;
             }
             $user->save();
+            $tool->update(['available' => true]);
+
+            // Notify the user
+            $user = Auth::user();
+            $user->notify(new ToolsAvailableNotification($tool));
 
             return response()->json(['success' => true]);
         } catch (\Exception $e) {

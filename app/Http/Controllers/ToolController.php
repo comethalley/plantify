@@ -23,7 +23,10 @@ class ToolController extends Controller
     public function index()
     {
         // Fetch all requested statuses from the database
-        $request_tbl = RequestN::with('requestedBy', 'farm', 'supplyTool', 'supplyTool1', 'supplyTool2', 'supplySeedling', 'supplySeedling1', 'supplySeedling2',)->where('status', 'Requested')->get();
+        $request_tbl = RequestN::with('requestedBy', 'farm', 'supplyTool', 'supplyTool1', 'supplyTool2', 'supplySeedling', 'supplySeedling1', 'supplySeedling2')
+                        ->where('status', 'Requested')
+                        ->orWhere('status', 'Unavailable')
+                        ->get();
         $all_requests = RequestN::with('requestedBy', 'farm', 'supplyTool', 'supplyTool1', 'supplyTool2', 'supplySeedling', 'supplySeedling1', 'supplySeedling2',)->get();
 
         // Fetch tool requests
@@ -94,24 +97,24 @@ class ToolController extends Controller
     }
 
     public function updateStatus(Request $request)
-    {
-        try {
-            $id = $request->input('id');
-            $status = $request->input('status');
-            $remarks = $request->input('remarks');
+{
+    try {
+        $id = $request->input('id');
+        $status = $request->input('status');
+        $remarks = $request->input('remarks');
 
-            // Update status in request_tbl
-            $request = RequestN::findOrFail($id);
-            $request->status = $status;
-            $request->save();
+        // Update status in request_tbl
+        $request = RequestN::findOrFail($id);
+        $request->status = $status;
+        $request->save();
 
-            // Save status and remarks to remarkrequests table
-            $remarkRequest = new RemarkRequest();
-            $remarkRequest->request_id = $id;
-            $remarkRequest->remarks = $remarks;
-            $remarkRequest->remark_status = $status; // You can adjust this as needed
-            $remarkRequest->validated_by = Auth::user()->id; // Assuming you have authentication and need to track who validated
-            $remarkRequest->save();
+        // Save status and remarks to remarkrequests table
+        $remarkRequest = new RemarkRequest();
+        $remarkRequest->request_id = $id;
+        $remarkRequest->remarks = $remarks;
+        $remarkRequest->remark_status = $status; // You can adjust this as needed
+        $remarkRequest->validated_by = Auth::user()->id; // Assuming you have authentication and need to track who validated
+        $remarkRequest->save();
 
             // Update user's status based on the request status
             $user = $request->requestedBy;
@@ -123,17 +126,13 @@ class ToolController extends Controller
                 $user->status = 1;
             }
             $user->save();
-            $tool->update(['available' => true]);
 
-            // Notify the user
-            $user = Auth::user();
-            $user->notify(new ToolsAvailableNotification($tool));
-
-            return response()->json(['success' => true]);
-        } catch (\Exception $e) {
-            return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
-        }
+        return response()->json(['success' => true]);
+    } catch (\Exception $e) {
+        return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
     }
+}
+
     
     public function getAvailableRequests()
     {

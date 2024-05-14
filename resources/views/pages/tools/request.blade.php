@@ -815,6 +815,7 @@
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
 
     function viewLetterContent(id) {
@@ -882,37 +883,49 @@
         openSetReturnDateModal(requestId);
     });
 
-    // Function to set picking date
     function setPickingDate(requestId, pickingDate) {
-        // Send an AJAX request to set the picking date
-        $.ajax({
-            url: "/set-picking-date",
-            type: "POST",
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            data: {
-                requestId: requestId,
-                picked_date: pickingDate // Change pickingDate to picked_date
-            },
-            success: function(response) {
-                if (response.success) {
-                    // If the request is successful, update the status to "Ready to be Picked"
-                    updateStatusInDatabase(requestId, 'Ready-to-be-pick');
-                    // Close the modal and show a success message
-                    $('#setPickingDateModal').modal('hide');
-                    alert('Picking date set successfully!');
-                } else {
-                    // If there's an error, show the error message
-                    alert(response.error);
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error(xhr.responseText);
-                alert('An error occurred while processing your request. Please try again.');
+    // Send an AJAX request to set the picking date
+    $.ajax({
+        url: "/set-picking-date",
+        type: "POST",
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        data: {
+            requestId: requestId,
+            picked_date: pickingDate // Change pickingDate to picked_date
+        },
+        success: function(response) {
+            if (response.success) {
+                // If the request is successful, update the status to "Ready to be Picked"
+                updateStatusInDatabase(requestId, 'Ready-to-be-pick');
+                // Close the modal and show a success message
+                $('#setPickingDateModal').modal('hide');
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: 'Picking date set successfully!',
+                    showConfirmButton: false
+                });
+            } else {
+                // If there's an error, show the error message
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: response.error
+                });
             }
-        });
-    }
+        },
+        error: function(xhr, status, error) {
+            console.error(xhr.responseText);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: 'An error occurred while processing your request. Please try again.'
+            });
+        }
+    });
+}
 
     // Event listener for submitting picking date
     $('#setPickingDateForm').submit(function(event) {
@@ -1205,19 +1218,48 @@
     });
 
     $('#confirmUpdateBtn').click(function() {
-        // Get the stored row ID and selected status
-        var rowId = $(this).data('rowId');
-        var selectedStatus = $(this).data('selectedStatus');
+    // Get the stored row ID and selected status
+    var rowId = $(this).data('rowId');
+    var selectedStatus = $(this).data('selectedStatus');
 
-        // Get the remarks from the modal textarea
-        var remarks = $('textarea[name="remarks"]').val();
+    // Get the remarks from the modal textarea
+    var remarks = $('textarea[name="remarks"]').val();
 
-        // Perform the update with remarks
-        updateStatusInDatabase(rowId, selectedStatus, remarks);
+    // Show a SweetAlert2 confirmation dialog
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "Do you want to confirm this status?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, confirm it!',
+        cancelButtonText: 'No, cancel!',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Perform the update with remarks
+            updateStatusInDatabase(rowId, selectedStatus, remarks);
 
-        // Close the modal
-        $('#confirmationModal').modal('hide');
+            // Show success message
+            Swal.fire({
+                icon: 'success',
+                title: 'Confirmation',
+                text: 'Status has been set successfully.',
+                showConfirmButton: false
+                
+            });
+
+            // Close the modal
+            $('#confirmationModal').modal('hide');
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Confimation',
+                text: 'Confirmation was cancelled.',
+                
+            });
+        }
     });
+});
+
 
     // Function to update status in the database
     function updateStatusInDatabase(rowId, selectedStatus, remarks) {

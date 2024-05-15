@@ -199,7 +199,7 @@
                                                 <i style="font-size: 13px;">Click "Validation Remarks" for more specific updates</i>
                                             </td>
                                             <td class="actions vertical-line ">
-                                                @if($request->status == 'Requested' || $request->status == 'Available' || $request->status == 'Waiting-for-Approval' || $request->status == 'Waiting-for-Return'|| $request->status == 'Approved' || $request->status == 'Disapproved' || $request->status == 'Picked' || $request->status == 'Failed-to-Pick' || $request->status == 'Returned' || $request->status == 'Failed-to-Return' || $request->status == 'Confirmed-pick-date' )
+                                                @if($request->status == 'Requested' || $request->status == 'Available' || $request->status == 'Waiting-for-approval' || $request->status == 'Waiting-for-return'|| $request->status == 'Approved' || $request->status == 'Disapproved' || $request->status == 'Picked' || $request->status == 'Failed-to-pick' || $request->status == 'Returned' || $request->status == 'Failed-to-return' || $request->status == 'Confirmed-pick-date' )
                                                 <div class="centered-container times-new-roman-bold">
                                                     <ul class="list-inline hstack gap-2 mb-0">
                                                         <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="View Application">

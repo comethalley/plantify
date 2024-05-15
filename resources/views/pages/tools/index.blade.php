@@ -203,7 +203,7 @@
                                                 <div class="centered-container times-new-roman-bold">
                                                     <ul class="list-inline hstack gap-2 mb-0">
                                                         <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="View Application">
-                                                            <a href="#" data-bs-toggle="modal" data-bs-target="#viewModals" class="btn btn-outline-secondary text-primary d-inline-block edit-item-btn d-flex align-items-center justify-content-center custom-btn mt-2" onclick="showRequestDetails('{{ $request->id }}', '{{ $request->supply_tool }}', '{{ $request->supply_tool1 }}', '{{ $request->supply_tool2 }}', '{{ $request->supply_seedling }}', '{{ $request->supply_seedling1 }}', '{{ $request->supply_seedling2 }}', '{{ $request->count_tool }}', '{{ $request->count_tool1 }}', '{{ $request->count_tool2 }}', '{{ $request->count_seedling }}', '{{ $request->count_seedling1 }}', '{{ $request->count_seedling2 }}', '{{ $request->letter_content }}', '{{ $request->requested_by }}', '{{ $request->status }}', '{{ $request->date_return }}', '{{ $request->requested_by_firstname }}', '{{ $request->requested_by_lastname }}');">
+                                                            <a href="#" data-bs-toggle="modal" data-bs-target="#viewModals" class="btn btn-outline-secondary text-primary d-inline-block edit-item-btn d-flex align-items-center justify-content-center custom-btn mt-2" onclick="showRequestDetails('{{ $request->id }}', '{{ $request->supply_tool }}', '{{ $request->supply_tool1 }}', '{{ $request->supply_tool2 }}', '{{ $request->supply_seedling }}', '{{ $request->supply_seedling1 }}', '{{ $request->supply_seedling2 }}', '{{ $request->count_tool }}', '{{ $request->count_tool1 }}', '{{ $request->count_tool2 }}', '{{ $request->count_seedling }}', '{{ $request->count_seedling1 }}', '{{ $request->count_seedling2 }}', '{{ $request->letter_content }}', '{{ $request->requested_by }}', '{{ $request->status }}', '{{ $request->date_return }}', '{{ $request->requested_by_firstname }}', '{{ $request->requested_by_lastname }}'); updateButtonVisibility('{{ $request->status }}');">
                                                                 <div class="d-flex align-items-center">
                                                                     <i class="ri-profile-line fs-3 me-2 black"></i>
                                                                     <span class="black">View Request Form</span>
@@ -225,7 +225,7 @@
                                                         <div class="centered-container times-new-roman-bold">
                                                             <ul class="list-inline hstack gap-2 mb-0">
                                                                 <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Resubmit Application">
-                                                                    <a href="#" data-bs-toggle="modal" data-bs-target="#viewModals1" class="btn btn-outline-info text-primary d-inline-block edit-item-btn d-flex align-items-center justify-content-center custom-btn mt-2" onclick="showRequestDetails('{{ $request->id }}', '{{ $request->supply_tool }}', '{{ $request->supply_tool1 }}', '{{ $request->supply_tool2 }}', '{{ $request->supply_seedling }}', '{{ $request->supply_seedling1 }}', '{{ $request->supply_seedling2 }}', '{{ $request->count_tool }}', '{{ $request->count_tool1 }}', '{{ $request->count_tool2 }}', '{{ $request->count_seedling }}', '{{ $request->count_seedling1 }}', '{{ $request->count_seedling2 }}', '{{ $request->letter_content }}', '{{ $request->requested_by }}', '{{ $request->status }}', '{{ $request->date_return }}', '{{ $request->requested_by_firstname }}', '{{ $request->requested_by_lastname }}');" style="border-color: #747264;">
+                                                                    <a href="#" data-bs-toggle="modal" data-bs-target="#viewModals" class="btn btn-outline-info text-primary d-inline-block edit-item-btn d-flex align-items-center justify-content-center custom-btn mt-2" onclick="showRequestDetails('{{ $request->id }}', '{{ $request->supply_tool }}', '{{ $request->supply_tool1 }}', '{{ $request->supply_tool2 }}', '{{ $request->supply_seedling }}', '{{ $request->supply_seedling1 }}', '{{ $request->supply_seedling2 }}', '{{ $request->count_tool }}', '{{ $request->count_tool1 }}', '{{ $request->count_tool2 }}', '{{ $request->count_seedling }}', '{{ $request->count_seedling1 }}', '{{ $request->count_seedling2 }}', '{{ $request->letter_content }}', '{{ $request->requested_by }}', '{{ $request->status }}', '{{ $request->date_return }}', '{{ $request->requested_by_firstname }}', '{{ $request->requested_by_lastname }}'); updateButtonVisibility('{{ $request->status }}');">
                                                                         <div class="d-flex align-items-center">
                                                                             <i class="ri-profile-line fs-3 me-2 black"></i>
                                                                             <span class="black">Resubmit Application</span>
@@ -253,7 +253,7 @@
                     <tr>
                         <td colspan="7">
                             <div id="lordIconContainer1" style="text-align: center;"></div>
-                            <p id="noFarmsMessage" style="text-align: center; font-size: 21px;">No Farms found.</p>
+                            <p id="noFarmsMessage" style="text-align: center; font-size: 21px;">No Request found.</p>
                         </td>
                     </tr>
                     @endif
@@ -265,7 +265,7 @@
             <div id="noFarmsMessageContainer" style="display: none;">
                 <td colspan="7">
                     <div id="lordIconContainer" style="text-align: center;"></div>
-                    <p id="noFarmsMessage" style="text-align: center; font-size: 21px;">No Barangays Farms found.</p>
+                    <p id="noFarmsMessage" style="text-align: center; font-size: 21px;">No Request found.</p>
                 </td>
             </div>
             <div class="row">
@@ -516,6 +516,11 @@
                     <span class="badge" style="background-color: #747264; font-size: 13px; padding-left: 5px; padding-right: 5px; ">Resubmit</span> -
                     To revise and submit the necessary compilation.
                 </p>
+                <p class="text-left">
+                    <span class="badge badge-dark" style="background-color: #000; color: #fff; font-size: 13px; padding-left: 5px; padding-right: 5px;">13</span>
+                    <span class="badge" style="background-color: #747264; font-size: 13px; padding-left: 5px; padding-right: 5px; ">Confirmed to be pick date</span> -
+                    waiting to be confirmed the date.
+                </p>
                 <hr>
                 <a role="button" class="btn btn-outline-dark btn-block" style="width: 30%; float: right" data-bs-dismiss="modal" aria-label="Close">Close</a>
             </div>
@@ -542,189 +547,6 @@
 </div>
 
 <!-- Modals -->
-<div class="modal fade" id="viewModals1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header bg-light p-3">
-                <h5 class="modal-title" id="exampleModalLabel">Request Seedlings &nbsp;</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
-            </div>
-            <form id="updateRequestForm" action="" method="post">
-                @csrf
-                <div class="modal-body">
-                    <div class="row mb-3">
-                        <div class="col-md-6" id="supply_tool_container" style="padding-top: 10px;">
-                            <label for="supply_tool_modal" class="form-label">Tools &nbsp;<span class="required-asteroid red-asterisk">*</span></label>
-                            <select id="supply_tool" name="supply_tool" class="form-select" style="width: 95%; " data-bs-toggle="tooltip" title="Please select a seedling." required onchange="toggleFields()">
-                                <option id="supply_tool_modal" value="supply_tool_modal"></option>
-                                @foreach($supplyTools as $id => $type)
-                                <option value="{{ $id }}">{{ $type }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-md-6" id="count_tool_container">
-                            <div class="d-flex align-items-end">
-                                <div class="me-2" style="padding-top: 10px;">
-                                    <label for="count_tool_modal" class="form-label">Quantity &nbsp;<span class="required-asteroid red-asterisk">*</span></label>
-                                    <input type="number" name="count_tool" id="count_tool_modal" class="form-control" style="width: 109px;" title="Please enter the quantity." placeholder="Enter Quantity" required onchange="toggleFields()" data-bs-toggle="tooltip" title="Please enter the quantity." />
-                                </div>
-                            </div>
-                            <small class="form-text text-muted">Quantity input is limited to maximum of 5.</small>
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <div class="col-md-6" id="supply_tool_container1">
-                            <select id="supply_tool1" name="supply_tool1" class="form-select" style="width: 95%;" data-bs-toggle="tooltip" title="Please select a tool.">
-                                @if(empty($supply_tool1))
-                                <option id="supply_tool_modal1" value="supply_tool_modal1"></option>
-                                @foreach($supplyTools as $id => $type)
-                                <option value="{{ $id }}">{{ $type }}</option>
-                                @endforeach
-                                @else
-                                <option value="">Select Tools</option>
-                                @foreach($supplyTools as $id => $type)
-                                <option value="{{ $id }}">{{ $type }}</option>
-                                @endforeach
-                                @endif
-                            </select>
-
-
-                        </div>
-                        <div class="col-md-6" id="count_tool_container1">
-                            <div class="d-flex align-items-end">
-                                <div class="me-2">
-                                    <input type="number" name="count_tool1" id="count_tool_modal1" class="form-control" style="width: 109px;" title="Please enter the quantity." placeholder="Enter Quantity" data-bs-toggle="tooltip" title="Please enter the quantity." />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6" id="supply_tool_container2">
-                            <select id="supply_tool2" name="supply_tool2" class="form-select" style="width: 95%;" data-bs-toggle="tooltip" title="Please select a seedling.">
-                                @if(empty($supply_tool2))
-                                <option id="supply_tool_modal2" value="supply_tool_modal2"></option>
-                                @foreach($supplyTools as $id => $type)
-                                <option value="{{ $id }}">{{ $type }}</option>
-                                @endforeach
-                                @else
-                                <option value="">Select Tools</option>
-                                @foreach($supplyTools as $id => $type)
-                                <option value="{{ $id }}">{{ $type }}</option>
-                                @endforeach
-                                @endif
-                            </select>
-                        </div>
-                        <div class="col-md-6" id="count_tool_container2">
-                            <div class="d-flex align-items-end">
-                                <div class="me-2">
-                                    <input type="number" name="count_tool2" id="count_tool_modal2" class="form-control" style="width: 109px;" title="Please enter the quantity." placeholder="Enter Quantity" required onchange="toggleFields()" data-bs-toggle="tooltip" title="Please enter the quantity." />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6" id="supply_seedling_container" style="padding-top: 5px;">
-                            <label for="supply_seedling_modal" class="form-label">Seedlings &nbsp;<span class="required-asteroid red-asterisk">*</span></label>
-                            <select id="supply_seedling" name="supply_seedling" class="form-select" style="width: 95%; " data-bs-toggle="tooltip" title="Please select a seedling." required onchange="toggleFields()">
-                                <option id="supply_seedling_modal" value="supply_seedling_modal"></option>
-                                @foreach($supplySeedlings as $id => $type)
-                                <option value="{{ $id }}">{{ $type }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-md-6" id="count_seedling_container">
-                            <div class="d-flex align-items-end">
-                                <div class="me-2" style="padding-top: 5px;">
-                                    <label for="count_seedling_modal" class="form-label">Quantity &nbsp;<span class="required-asteroid red-asterisk">*</span></label>
-                                    <input type="number" name="count_seedling" id="count_seedling_modal" class="form-control" style="width: 109px;" title="Please enter the quantity." placeholder="Enter Quantity" required onchange="toggleFields()" data-bs-toggle="tooltip" title="Please enter the quantity." />
-                                </div>
-                            </div>
-                            <small class="form-text text-muted">Quantity input is limited to maximum of 5.</small>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6" id="supply_seedling_container1">
-                            <select id="supply_seedling1" name="supply_seedling1" class="form-select" style="width: 95%;" data-bs-toggle="tooltip" title="Please select a seedling.">
-                                @if(empty($supply_seedling1))
-                                <option id="supply_seedling_modal1" value="supply_seedling_modal1"></option>
-                                @foreach($supplySeedlings as $id => $type)
-                                <option value="{{ $id }}">{{ $type }}</option>
-                                @endforeach
-                                @else
-                                <option value="">Select Seedlings</option>
-                                @foreach($supplySeedlings as $id => $type)
-                                <option value="{{ $id }}">{{ $type }}</option>
-                                @endforeach
-                                @endif
-                            </select>
-                        </div>
-                        <div class="col-md-6" id="count_seedling_container1">
-                            <div class="d-flex align-items-end">
-                                <div class="me-2">
-                                    <input type="number" name="count_seedling1" id="count_seedling_modal1" class="form-control" style="width: 109px;" title="Please enter the quantity." placeholder="Enter Quantity" data-bs-toggle="tooltip" title="Please enter the quantity." />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <div class="col-md-6" id="supply_seedling_container2">
-                            <select id="supply_seedling2" name="supply_seedling2" class="form-select" style="width: 95%;" data-bs-toggle="tooltip" title="Please select a seedling." >
-                                @if(empty($supply_seedling2))
-                                <option id="supply_seedling_modal2" value="supply_seedling_modal2"></option>
-                                @foreach($supplySeedlings as $id => $type)
-                                <option value="{{ $id }}">{{ $type }}</option>
-                                @endforeach
-                                @else
-                                <option value="">Select Seedlings</option>
-                                @foreach($supplySeedlings as $id => $type)
-                                <option value="{{ $id }}">{{ $type }}</option>
-                                @endforeach
-                                @endif
-                            </select>
-                        </div>
-                        <div class="col-md-6" id="count_seedling_container2">
-                            <div class="d-flex align-items-end">
-                                <div class="me-2">
-                                    <input type="number" name="count_seedling2" id="count_seedling_modal2" class="form-control" style="width: 109px;" title="Please enter the quantity." placeholder="Enter Quantity" data-bs-toggle="tooltip" title="Please enter the quantity." />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="list-group-item nested-2">
-                        <i class="mdi mdi-folder fs-16 align-middle text-warning me-2"></i> Request Letter (PDF) &nbsp;<span class="required-asteroid">*</span>
-                        <div class="list-group nested-list nested-sortable">
-                            <div class="list-group-item nested-3" style="position: relative;">
-                                <i class="bx bxs-file-pdf fs-16 align-middle text-danger me-2"></i>
-                                <a id="letter_content_modal" href="#" target="_blank" class="pdf-link" data-name="letter_content">
-                                    View PDF for Request <span id="request_id_placeholder"></span> - <span id="letter_content_placeholder"></span>
-                                </a>
-                                <button type="button" id='CancelBtnTitleLand' class="btn btn-primary" style="position: absolute; top: 2px; right: 1px; background-color: transparent; border: 1px solid transparent; color: #000; border-radius: 50%;">X</button>
-
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="alert alert-danger" style="display:none" id="error-messages2"></div>
-                    <div class="modal-footer">
-                        <br>
-                        <div class="hstack gap-2 justify-content-end">
-                            <a role="button" class="btn btn-outline-dark btn-block" style="width: 50%; float: right" data-bs-dismiss="modal" aria-label="Close">Close</a>
-
-                            <button type="button"  class="btn btn-danger" onclick="submitUpdateForm()">Update</button>
-                        </div>
-                    </div>
-            </form>
-        </div>
-    </div>
-</div>
-</div>
-
-<!-- Modals -->
-
-<!-- Modals -->
 <div class="modal fade modal-lg" id="viewModals" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -735,7 +557,7 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <form id="addFarmForm" action="" method="post">
+                    <form id="updateRequestForm" action="" method="post">
                         @csrf
                         <div class="row">
                             <input type="hidden" name="" id="request_id_modal">
@@ -801,7 +623,6 @@
                                 </div>
                             </div>
                         </div>
-                    </form>
                 </div>
                 <div class="list-group-item nested-2">
                     <i class="mdi mdi-folder fs-16 align-middle text-warning me-2"></i> Content Letter (PDF)
@@ -814,8 +635,17 @@
                         </div>
                     </div>
                 </div>
+                <div class="row mt-3 ">
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-link link-success fw-medium text-decoration-none" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i>Close</button>
+                                                <button type="button" id="updateConfirmButton" class="btn btn-danger" onclick="submitUpdateForm()">Update</button>
+
+                                            </div>
+                                        </div>
             </div>
         </div>
+        </form>
+
     </div>
 </div>
 
@@ -1017,10 +847,47 @@
         });
     });
 
+    function updateButtonVisibility(status) {
+                        console.log('Updating button visibility for status:', status);
 
+                        if (typeof status !== 'undefined') {
+                            $(' #updateConfirmButton, #CancelBtnTitleLand').show();
+
+                            switch (status.toLowerCase().replace(/\s+/g, '-')) {
+                                case 'confirmed-pick-date':
+                                case 'available':
+                                case 'requested':
+                                case 'unavailable':
+                                case 'disapproved':
+                                case 'waiting-for-return':
+                                case 'waiting-for-approval':
+                                case 'submitted':
+                                case 'ready-to-be-pick':
+                                case 'picked':
+                                case 'failed-to-pick':
+                                case 'failed-to-return':
+                                case 'returned':
+                                    $(' #updateConfirmButton, #CancelBtnTitleLand').hide();
+                                break
+                                case 'resubmit':
+                                    $(' #updateConfirmButton, #CancelBtnTitleLand').show();
+                                break;
+                                
+                            }
+                        } else {
+                            console.error('Status is undefined.');
+                        }
+                    }
 
     function showRequestDetails(id, supplyTool, supplyTool1, supplyTool2, supplySeedling, supplySeedling1, supplySeedling2, countTool, countTool1, countTool2, countSeedling, countSeedling1, countSeedling2, requestedBy, status, letterContent, requestLeaderFirstName, requestLeaderLastName) {
 
+        switch (status.toLowerCase().replace(/\s+/g, '-')) {
+        case 'resubmit':
+            $('#count_tool_modal').prop('disabled', false);
+            break;
+        default:
+            $('#count_tool_modal').prop('disabled', true);
+    }
 
         $('#request_id_modal').val(id);
         $('#supply_tool_modal').val(supplyTool);
@@ -1041,8 +908,6 @@
         $('#count_seedling_modal').val(countSeedling);
         $('#count_seedling_modal1').val(countSeedling1);
         $('#count_seedling_modal2').val(countSeedling2);
-
-        $('#request_id_modal').val(id);
 
         if (supplyTool.trim() === '') {
             $('#supply_tool_container').hide();
@@ -1133,6 +998,10 @@
             .attr('href', "/view-pdf/" + id)
             .attr('target', '_blank')
             .text('View PDF for Request ' + id);
+
+            $('#updateConfirmButton').data('request-id', id);
+
+            updateButtonVisibility(status);
 
     }
 

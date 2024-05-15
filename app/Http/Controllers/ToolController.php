@@ -97,17 +97,23 @@ class ToolController extends Controller
         $pdf->Cell(0, 10, 'This report shows all requests for tools and seeds.', 0, 1);
         $pdf->Ln();
 
-        // Request details
+        // Narrative content
         $pdf->SetFont('Arial', '', 12);
         foreach ($all_requests as $request) {
-            $pdf->Cell(0, 10, 'Request ID: ' . $request->id, 0, 1);
-            $pdf->Cell(0, 10, 'Supply Tools: ' . $this->formatTools($request), 0, 1);
-            $pdf->Cell(0, 10, 'Tools Quantity: ' . $this->formatToolQty($request), 0, 1);
-            $pdf->Cell(0, 10, 'Supply Seeds: ' . $this->formatSeeds($request), 0, 1);
-            $pdf->Cell(0, 10, 'Seeds Quantity: ' . $this->formatSeedQty($request), 0, 1);
-            $pdf->Cell(0, 10, 'Requested By: ' . $request->requestedBy->firstname . ' ' . $request->requestedBy->lastname, 0, 1);
-            $pdf->Cell(0, 10, 'Status: ' . $request->status, 0, 1);
-            $pdf->Cell(0, 10, 'Date Requested: ' . \Carbon\Carbon::parse($request->created_at)->format('Y-m-d H:i:s'), 0, 1);
+            $tools = $this->formatTools($request);
+            $toolsQty = $this->formatToolQty($request);
+            $seeds = $this->formatSeeds($request);
+            $seedsQty = $this->formatSeedQty($request);
+            $requestedBy = $request->requestedBy->firstname . ' ' . $request->requestedBy->lastname;
+            $status = $request->status;
+            $dateCreated = \Carbon\Carbon::parse($request->created_at)->format('Y-m-d H:i:s');
+
+            $narrative = "Request ID {$request->id} was made by {$requestedBy} on {$dateCreated}. "
+                        . "The request includes the following tools: {$tools} with quantities: {$toolsQty}. "
+                        . "Additionally, the following seeds were requested: {$seeds} with quantities: {$seedsQty}. "
+                        . "The current status of this request is {$status}.";
+
+            $pdf->MultiCell(0, 10, $narrative);
             $pdf->Ln();
         }
 

@@ -41,44 +41,44 @@
                             <div class="text-center">
                                 <ul class="nav nav-tabs nav-tabs-custom nav-success mb-3" role="tablist">
                                     <li class="nav-item" role="presentation">
-                                        <a class="nav-link All py-3" data-bs-toggle="tab" id="All" href="#all" role="tab" aria-selected="true" tabindex="-1">
+                                        <a class="nav-link All py-3 active" data-bs-toggle="tab" id="All" href="#all" role="tab" aria-selected="true" tabindex="0">
                                             <i class="ri-store-2-fill me-1 align-bottom"></i> All
                                         </a>
                                     </li>
                                     <li class="nav-item" role="presentation">
-                                        <a class="nav-link py-3 Delivered" data-bs-toggle="tab" id="Requested" href="#requested" role="tab" aria-selected="false" tabindex="-1">
+                                        <a class="nav-link py-3" data-bs-toggle="tab" id="Requested" href="#requested" role="tab" aria-selected="false" tabindex="-1">
                                             <i class="ri-checkbox-circle-line me-1 align-bottom"></i> Request List
                                         </a>
                                     </li>
                                     <li class="nav-item" role="presentation">
-                                        <a class="nav-link py-3 Delivered" data-bs-toggle="tab" id="Available" href="#available" role="tab" aria-selected="false" tabindex="-1">
+                                        <a class="nav-link py-3" data-bs-toggle="tab" id="Available" href="#available" role="tab" aria-selected="false" tabindex="-1">
                                             <i class="ri-checkbox-circle-line me-1 align-bottom"></i> Available List
                                         </a>
                                     </li>
                                     <li class="nav-item" role="presentation">
-                                        <a class="nav-link py-3 Pickups" data-bs-toggle="tab" id="Approval" href="#approval" role="tab" aria-selected="false" tabindex="-1">
+                                        <a class="nav-link py-3" data-bs-toggle="tab" id="Approval" href="#approval" role="tab" aria-selected="false" tabindex="-1">
                                             <i class="ri-truck-line me-1 align-bottom"></i> Approval List
                                         </a>
                                     </li>
                                     <li class="nav-item" role="presentation">
-                                        <a class="nav-link py-3 Pickups" data-bs-toggle="tab" id="Disapproved" href="#disapproved" role="tab" aria-selected="false" tabindex="-1">
+                                        <a class="nav-link py-3" data-bs-toggle="tab" id="Disapproved" href="#disapproved" role="tab" aria-selected="false" tabindex="-1">
                                             <i class="ri-delete-bin-5-fill me-1 align-bottom"></i> Disapproved List
                                         </a>
                                     </li>
                                     <li class="nav-item" role="presentation">
-                                        <a class="nav-link py-3 Cancelled" data-bs-toggle="tab" id="Picked" href="#picked" role="tab" aria-selected="false" tabindex="-1">
+                                        <a class="nav-link py-3" data-bs-toggle="tab" id="Picked" href="#picked" role="tab" aria-selected="false" tabindex="-1">
                                             <i class="ri-inbox-archive-line me-1 align-bottom"></i> Picking
                                         </a>
                                     </li>
                                     <li class="nav-item" role="presentation">
-                                        <a class="nav-link py-3 Returns" data-bs-toggle="tab" id="Returned" href="#returned" role="tab" aria-selected="false" tabindex="-1">
+                                        <a class="nav-link py-3" data-bs-toggle="tab" id="Returned" href="#returned" role="tab" aria-selected="false" tabindex="-1">
                                             <i class="ri-arrow-left-right-fill me-1 align-bottom"></i> Returnees
                                         </a>
                                     </li>
                                 </ul>
 
                                 <div id="all" class="tab-pane">
-                                    <div class="table-responsive">
+                                    <div class="table-responsive mb-1">
                                         <table class="table nowrap dt-responsive align-middle table-hover" style="width:100%">
                                             <thead class="text-muted table-light">
                                                 <tr class="text-uppercase">
@@ -192,9 +192,9 @@
                                                         {{ $request->count_seedling2 ? ', ' . strtoupper($request->count_seedling2) : '' }}
                                                     </td>
                                                     <td class="letter_content">
-                                                        <a href="{{ route('view.pdf.request', ['id' => $request->id]) }}" class="btn btn-success waves-effect waves-light" target="_blank">
+                                                        <button type="button" class="btn btn-success waves-effect waves-light" onclick="viewLetterContent({{ $request->id }})">
                                                             <i class="ri-eye-line align-bottom"></i>
-                                                        </a>
+                                                        </button>
                                                     </td>
                                                     <td class="farm_leader">{{ $request->requestedBy->firstname }} {{ $request->requestedBy->lastname }}</td>
                                                     <!-- <td class="farm_name">{{ optional($request->farm)->farm_name }}</td> -->
@@ -645,9 +645,9 @@
                                                         {{ $request->count_seedling2 ? ', ' . strtoupper($request->count_seedling2) : '' }}
                                                     </td>
                                                     <td class="letter_content">
-                                                        <a href="{{ route('view.pdf.request', ['id' => $request->id]) }}" class="btn btn-success waves-effect waves-light" target="_blank">
+                                                        <button type="button" class="btn btn-success waves-effect waves-light" onclick="viewLetterContent({{ $request->id }})">
                                                             <i class="ri-eye-line align-bottom"></i>
-                                                        </a>
+                                                        </button>
                                                     </td>
                                                     <td class="text-center farm_leader">{{ $request->requestedBy->firstname }} {{ $request->requestedBy->lastname }}</td>
                                                     <!-- <td class="text-center farm_name">{{ optional($request->farm)->farm_name }}</td> -->
@@ -689,8 +689,8 @@
                                             Previous
                                         </a>
                                         <ul class="pagination listjs-pagination mb-0">
-                                            <li class="active"><a class="page" href="#" data-i="1" data-page="8">1</a></li>
-                                            <li><a class="page" href="#" data-i="2" data-page="8">2</a></li>
+                                            <li class="active"><a class="page" href="#" data-i="1" data-page="10">1</a></li>
+                                            <li><a class="page" href="#" data-i="2" data-page="10">2</a></li>
                                         </ul>
                                         <a class="page-item pagination-next" href="#">
                                             Next

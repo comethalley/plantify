@@ -255,7 +255,7 @@
                                         </div>
                                         </div>
                                     </div>
-                                    <script src="{{ asset('assets/js/weather.js') }}"></script>
+                                    <script src="{{ asset('assets/js/weather2.js') }}"></script>
                                     <script src="https://cdn.db-ip.com/js/dbip.js" data-api-key="p6bcac47ae71f0285cb6343d9697e56e41a2cb92"></script>
                                 </div>
                             </div>

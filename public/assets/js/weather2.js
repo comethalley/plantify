@@ -174,112 +174,6 @@ function updateWeatherUI(today, data, unit, hourlyorWeek) {
 // }
 
 // getPublicIp();
-const weatherThresholds = {
-    temp: 33,
-    precip: 20,
-    windspeed: 10,
-    uvindex: 8,
-};
-
-// Function to check weather conditions for alerts
-function checkWeatherConditionsForAlerts(data) {
-    const { temp, precip, windspeed, uvindex } = data.currentConditions;
-    const currentTime = new Date();
-    const currentHour = currentTime.getHours();
-    console.log(currentHour);
-
-    // Check if it's evening (after 6 PM and before 5 AM)
-    if (currentHour >= 18 || currentHour < 5) {
-        showModal("It's evening. No information will be shown."); // Display evening message in the modal
-        closeModal(); // Close modal if it's evening
-        setTimeout(openModalAt6AM, getMillisecondsUntil6AM()); // Schedule modal to open at 6 AM
-        return; // Don't show modal in the evening
-    }
-
-    console.log("Precipitation:", precip);
-    console.log("Wind Speed:", windspeed);
-    console.log("UV Index:", uvIndex);
-    let alerts = []; // Array to store all alerts
-
-    if (temp > weatherThresholds.temp) {
-        alerts.push(
-            "High temperature alert! Consider adjusting planting schedules."
-        );
-    }
-    if (precip > weatherThresholds.precip) {
-        alerts.push(
-            "High precipitation alert! Ensure proper drainage for plants."
-        );
-    }
-    if (windspeed > weatherThresholds.windspeed) {
-        alerts.push("Strong wind alert! Secure plants to prevent damage.");
-    }
-    if (uvindex > weatherThresholds.uvindex) {
-        alerts.push(
-            "High UV index alert! Provide shade or protect plants from sunburn."
-        );
-    }
-
-    // If there are multiple alerts, concatenate them into one and show in a single alert
-    if (alerts.length > 1) {
-        const combinedAlert = alerts.join("\n"); // Concatenate alerts with new lines
-        showAlert(combinedAlert);
-        showModal(combinedAlert); // Show modal with combined alert message
-    } else if (alerts.length === 1) {
-        // If only one alert, show it normally
-        showAlert(alerts[0]);
-        showModal(alerts[0]); // Show modal with single alert message
-    } else {
-        // If no alerts, show a generic message
-        showModal("Good Conditions, you can plant!");
-    }
-}
-
-// Function to open the modal at 6 AM
-function openModalAt6AM() {
-    const currentTime = new Date();
-    const currentHour = currentTime.getHours();
-    if (currentHour === 6) {
-        console.log("Opening modal at 6 AM.");
-        showModal("Good morning!"); // Show modal at 6 AM
-    }
-}
-
-// Function to calculate the milliseconds until 6 AM
-function getMillisecondsUntil6AM() {
-    const currentTime = new Date();
-    const currentHour = currentTime.getHours();
-    const millisecondsInAnHour = 3600000; // 1 hour = 3600000 milliseconds
-    const hoursUntil6AM =
-        currentHour < 6 ? 6 - currentHour : 24 - currentHour + 6; // Calculate hours until 6 AM
-    return hoursUntil6AM * millisecondsInAnHour;
-}
-
-function showModal(message) {
-    const modal = document.getElementById("customModal");
-    const modalMessage = document.getElementById("modalMessage");
-    modalMessage.textContent = message;
-    modal.style.display = "block";
-}
-
-// Function to hide the modal
-function closeModal() {
-    const modal = document.getElementById("customModal");
-    modal.style.display = "none";
-}
-
-// Close the modal when clicking on the close button or outside the modal
-window.onclick = function (event) {
-    const modal = document.getElementById("customModal");
-    if (event.target === modal) {
-        modal.style.display = "none";
-    }
-};
-// Function to display alerts
-function showAlert(message) {
-    console.log("Show alert");
-    showModal(message);
-}
 
 function getWeatherData(city, unit, hourlyorWeek) {
     const apiKey = "ZDDQHCH65WNK9UXXTBXG5KDU2";
@@ -292,8 +186,6 @@ function getWeatherData(city, unit, hourlyorWeek) {
     )
         .then((response) => response.json())
         .then((data) => {
-            checkWeatherConditionsForAlerts(data);
-
             let today = data.currentConditions;
             if (unit === "f") {
                 temp.innerText = celciusToFahrenheit(today.temp);
@@ -376,36 +268,6 @@ function updateForecast(data, unit, type) {
     } else {
         console.error("Insufficient data for forecast.");
     }
-}
-
-function populateAndShowModal(detail) {
-    // Populate the modal with details
-    document.getElementById("modalRainChance").innerText = detail.precip || "0"; // Assuming 'precip' is your chance of rain
-    document.getElementById("modalHumidity").innerText =
-        detail.humidity || "--"; // Assuming 'humidity' is in your data
-    document.getElementById("modalSunrise").innerText =
-        covertTimeTo12HourFormat(detail.sunrise) || "--"; // Convert sunrise time as needed
-    document.getElementById("modalSunset").innerText =
-        covertTimeTo12HourFormat(detail.sunset) || "--"; // Convert sunset time as needed
-    document.getElementById("modalFeelsLike").innerText =
-        detail.feelslikemax || "--"; // Assuming 'feelslike' is in your data for the feels like temperature
-
-    // Show the modal
-    document.getElementById("detailModal").style.display = "block";
-
-    // Add event listener to close the modal when clicking outside of it
-    document.addEventListener("click", function (event) {
-        if (
-            event.target.id === "detailModal" ||
-            event.target.id === "modalClose"
-        ) {
-            document.getElementById("detailModal").style.display = "none";
-        }
-    });
-}
-
-function closeModal() {
-    document.getElementById("detailModal").style.display = "none";
 }
 
 // function to change weather icons

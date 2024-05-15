@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
+use Codedge\Fpdf\Fpdf\Fpdf;
 
 class ToolController extends Controller
 {
@@ -62,6 +63,98 @@ class ToolController extends Controller
         ));
     }
 
+    public function downloadPdf()
+    {
+        $all_requests = RequestN::with('requestedBy', 'supplyTool', 'supplyTool1', 'supplyTool2', 'supplySeedling', 'supplySeedling1', 'supplySeedling2')->get();
+        $userFirstName = Auth::user()->firstname;
+        $userLastName = Auth::user()->lastname;
+
+        $pdf = new Fpdf();
+        $pdf->AddPage('P'); // Portrait orientation
+        $pdf->SetFont('Arial', 'B', 16);
+
+        // Add Image above the title
+        $imagePath = 'assets/images/plantifeedpics/center1.png';
+        $imageWidth = 70;
+        $pageWidth = $pdf->GetPageWidth();
+        $x = ($pageWidth - $imageWidth) / 2;
+        $pdf->Image($imagePath, $x, 10, $imageWidth);
+        $pdf->Ln();
+        $pdf->SetY(40);
+
+        // Title
+        $pdf->Cell(0, 10, 'Supply and Seed Requests Report', 0, 1, 'C');
+        $pdf->Ln();
+
+        // Add user's first name and last name
+        $pdf->SetFont('Arial', '', 12);
+        $pdf->Cell(0, 10, 'Prepared by: ' . $userFirstName . ' ' . $userLastName, 0, 1);
+        $pdf->Cell(0, 10, 'Date: ' . date('Y-m-d'), 0, 1);
+        $pdf->Ln();
+
+        // General information
+        $pdf->SetFont('Arial', '', 12);
+        $pdf->Cell(0, 10, 'This report shows all requests for tools and seeds.', 0, 1);
+        $pdf->Ln();
+
+        // Request details
+        $pdf->SetFont('Arial', '', 12);
+        foreach ($all_requests as $request) {
+            $pdf->Cell(0, 10, 'Request ID: ' . $request->id, 0, 1);
+            $pdf->Cell(0, 10, 'Supply Tools: ' . $this->formatTools($request), 0, 1);
+            $pdf->Cell(0, 10, 'Tools Quantity: ' . $this->formatToolQty($request), 0, 1);
+            $pdf->Cell(0, 10, 'Supply Seeds: ' . $this->formatSeeds($request), 0, 1);
+            $pdf->Cell(0, 10, 'Seeds Quantity: ' . $this->formatSeedQty($request), 0, 1);
+            $pdf->Cell(0, 10, 'Requested By: ' . $request->requestedBy->firstname . ' ' . $request->requestedBy->lastname, 0, 1);
+            $pdf->Cell(0, 10, 'Status: ' . $request->status, 0, 1);
+            $pdf->Cell(0, 10, 'Date Requested: ' . \Carbon\Carbon::parse($request->created_at)->format('Y-m-d H:i:s'), 0, 1);
+            $pdf->Ln();
+        }
+
+        // Set the header to indicate that the content is a PDF file
+        header('Content-Type: application/pdf');
+        header('Content-Disposition: attachment; filename="requests_report.pdf"');
+
+        // Output the PDF to the browser
+        $pdf->Output('D');
+    }
+
+    private function formatTools($request)
+    {
+        $tools = [];
+        if ($request->supplyTool) $tools[] = $request->supplyTool->type;
+        if ($request->supplyTool1) $tools[] = $request->supplyTool1->type;
+        if ($request->supplyTool2) $tools[] = $request->supplyTool2->type;
+        return implode(', ', $tools);
+    }
+
+    private function formatToolQty($request)
+    {
+        $qty = [];
+        if ($request->count_tool) $qty[] = strtoupper($request->count_tool);
+        if ($request->count_tool1) $qty[] = strtoupper($request->count_tool1);
+        if ($request->count_tool2) $qty[] = strtoupper($request->count_tool2);
+        return implode(', ', $qty);
+    }
+
+    private function formatSeeds($request)
+    {
+        $seeds = [];
+        if ($request->supplySeedling) $seeds[] = $request->supplySeedling->type;
+        if ($request->supplySeedling1) $seeds[] = $request->supplySeedling1->type;
+        if ($request->supplySeedling2) $seeds[] = $request->supplySeedling2->type;
+        return implode(', ', $seeds);
+    }
+
+    private function formatSeedQty($request)
+    {
+        $qty = [];
+        if ($request->count_seedling) $qty[] = strtoupper($request->count_seedling);
+        if ($request->count_seedling1) $qty[] = strtoupper($request->count_seedling1);
+        if ($request->count_seedling2) $qty[] = strtoupper($request->count_seedling2);
+        return implode(', ', $qty);
+    }
+
     public function viewPdfRequest($id)
     {
         try {
@@ -97,33 +190,33 @@ class ToolController extends Controller
     }
 
     public function updateStatus(Request $request)
-{
-    try {
-        $id = $request->input('id');
-        $status = $request->input('status');
-        $remarks = $request->input('remarks');
+    {
+        try {
+            $id = $request->input('id');
+            $status = $request->input('status');
+            $remarks = $request->input('remarks');
 
-        // Update status in request_tbl
-        $request = RequestN::findOrFail($id);
-        $request->status = $status;
-        $request->save();
+            // Update status in request_tbl
+            $request = RequestN::findOrFail($id);
+            $request->status = $status;
+            $request->save();
 
-        // Save status and remarks to remarkrequests table
-        $remarkRequest = new RemarkRequest();
-        $remarkRequest->request_id = $id;
-        $remarkRequest->remarks = $remarks;
-        $remarkRequest->remark_status = $status; // You can adjust this as needed
-        $remarkRequest->validated_by = Auth::user()->id; // Assuming you have authentication and need to track who validated
-        $remarkRequest->save();
+            // Save status and remarks to remarkrequests table
+            $remarkRequest = new RemarkRequest();
+            $remarkRequest->request_id = $id;
+            $remarkRequest->remarks = $remarks;
+            $remarkRequest->remark_status = $status; // You can adjust this as needed
+            $remarkRequest->validated_by = Auth::user()->id; // Assuming you have authentication and need to track who validated
+            $remarkRequest->save();
 
-        // Update user's status based on the request status (if needed)
-        // ...
+            // Update user's status based on the request status (if needed)
+            // ...
 
-        return response()->json(['success' => true]);
-    } catch (\Exception $e) {
-        return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
+        }
     }
-}
 
     
     public function getAvailableRequests()
@@ -166,7 +259,7 @@ class ToolController extends Controller
     public function getPickingRequests()
     {
         try {
-            $picked_requests = RequestN::whereIn('status', ['Ready-to-be-pick', 'Picked'])->get();
+            $picked_requests = RequestN::whereIn('status', ['Confirmed-pick-date', 'Picked'])->get();
     
             return $picked_requests;
         } catch (\Exception $e) {
@@ -195,7 +288,7 @@ class ToolController extends Controller
         // Update the request record in the database with the picking date
         $request = RequestN::findOrFail($requestId);
         $request->picked_date = $pickingDate;
-        $request->status = 'Ready to be pick';
+        $request->status = 'Confirmed-pick-date';
         $request->save();
 
         return response()->json(['success' => true]);

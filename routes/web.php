@@ -375,6 +375,7 @@ Route::get('/returnList', [ToolController::class, 'returnList']);
 Route::post('/set-picking-date', [ToolController::class, 'setPickingDate']);
 Route::post('/set-return-date', [ToolController::class, 'setReturnDate']);
 Route::get('/view-pdf/{id}/{title?}', [RequestController::class, 'viewPdfRequest'])->name('view.pdf.request');
+Route::get('/download-pdf', [ToolController::class, 'downloadPdf'])->name('downloadPdf');
 
 // ===================================================================================
 

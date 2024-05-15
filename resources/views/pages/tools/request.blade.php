@@ -16,6 +16,11 @@
                                 <div class="col-sm">
                                     <h5 class="card-title mb-0">Request List</h5>
                                 </div>
+                                <div class="col-auto">
+                                    <button type="button" class="btn btn-soft-success material-shadow-none" onclick="downloadPDF()">
+                                        <i class="ri-add-circle-line align-middle"></i>Download Report
+                                    </button>
+                                </div>
                                 <!-- <div class="col-sm-auto">
                                     <div class="d-flex gap-1 flex-wrap">
                                         <button type="button" class="btn btn-success add-btn" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModal"><i class="ri-add-line align-bottom me-1"></i> Create Order</button>
@@ -37,6 +42,7 @@
                                 </div>
                             </form>
                         </div>
+
                         <div class="card-body pt-0">
                             <div class="text-center">
                                 <ul class="nav nav-tabs nav-tabs-custom nav-success mb-3" role="tablist">
@@ -820,6 +826,10 @@
 </div>
 
 <script>
+
+    function downloadPDF() {
+        window.location.href = "{{ route('downloadPdf') }}";
+    }
 
     function viewLetterContent(id) {
         window.open("/view-pdf/" + id, '_blank');

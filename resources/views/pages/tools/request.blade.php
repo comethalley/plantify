@@ -41,7 +41,7 @@
                             <div class="text-center">
                                 <ul class="nav nav-tabs nav-tabs-custom nav-success mb-3" role="tablist">
                                     <li class="nav-item" role="presentation">
-                                        <a class="nav-link All py-3 active" data-bs-toggle="tab" id="All" href="#all" role="tab" aria-selected="true">
+                                        <a class="nav-link All py-3" data-bs-toggle="tab" id="All" href="#all" role="tab" aria-selected="true" tabindex="-1">
                                             <i class="ri-store-2-fill me-1 align-bottom"></i> All
                                         </a>
                                     </li>
@@ -77,8 +77,8 @@
                                     </li>
                                 </ul>
 
-                                <div id="all" class="tab-pane fade">
-                                    <div class="table-responsive mb-1">
+                                <div id="all" class="tab-pane">
+                                    <div class="table-responsive">
                                         <table class="table nowrap dt-responsive align-middle table-hover" style="width:100%">
                                             <thead class="text-muted table-light">
                                                 <tr class="text-uppercase">
@@ -902,7 +902,7 @@
             success: function(response) {
                 if (response.success) {
                     // If the request is successful, update the status to "Ready to be Picked"
-                    updateStatusInDatabase(requestId, 'Ready-to-be-pick');
+                    updateStatusInDatabase(requestId, 'Confirmed-pick-date');
                     // Close the modal and show a success message
                     $('#setPickingDateModal').modal('hide');
                     alert('Picking date set successfully!');
@@ -1088,7 +1088,7 @@
                 return { backgroundColor: '#A5DD9B', color: '#FFF' };
             case 'unavailable':
                 return { backgroundColor: '#524C42', color: '#FFF' };
-            case 'ready-to-be-pick':
+            case 'confirmed-pick-date':
                 return { backgroundColor: '#E65C19', color: '#FFF' };
             case 'picked':
             case 'resubmit':
@@ -1186,7 +1186,7 @@
         if (selectedStatus === 'Failed-to-return' || selectedStatus === 'Returned' || selectedStatus === 'Requested' 
         || selectedStatus === 'Available' || selectedStatus === 'Unavailable' || selectedStatus === 'Waiting-for-approval' 
         || selectedStatus === 'Approved' || selectedStatus === 'Disapproved' || selectedStatus === 'Resubmit' 
-        || selectedStatus === 'Picked' || selectedStatus === 'Failed-to-pick') {
+        || selectedStatus === 'Picked' || selectedStatus === 'Failed-to-pick' || selectedStatus === 'Confirmed-pick-date') {
             $('#dateInput').prop('disabled', true);
         } else {
             $('#dateInput').prop('disabled', false);
@@ -1201,7 +1201,7 @@
         if (selectedStatus === 'Failed-to-return' || selectedStatus === 'Returned' || selectedStatus === 'Requested' 
         || selectedStatus === 'Available' || selectedStatus === 'Unavailable' || selectedStatus === 'Waiting-for-approval' 
         || selectedStatus === 'Approved' || selectedStatus === 'Disapproved' || selectedStatus === 'Resubmit' 
-        || selectedStatus === 'Picked' || selectedStatus === 'Failed-to-pick') {
+        || selectedStatus === 'Picked' || selectedStatus === 'Failed-to-pick' || selectedStatus === 'Confirmed-pick-date') {
             $('#dateInput').prop('disabled', true);
         } else {
             $('#dateInput').prop('disabled', false);

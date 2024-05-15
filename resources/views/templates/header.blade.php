@@ -494,10 +494,12 @@
 
 <!--  new notif  code -->
                                             @elseif ($notification->type === 'App\Notifications\NewRequestNotification')
+                                            
+                                            <!-- new request tools and seedlings -->
                                             <div class="d-flex">
 
 
-                                                <img src="../assets/images/event/missing.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                                <img src="../assets/images/Tools/request.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
 
                                                 <div class="flex-grow-1">
                                                     <a href="/requests" class="stretched-link">
@@ -514,10 +516,13 @@
 
                                             </div>
                                             @elseif ($notification->type === 'App\Notifications\WaitingForApprovalNotification')
+                                            
+                                            <!-- Waiting for approval -->
+                                            
                                             <div class="d-flex">
 
-
-                                                <img src="../assets/images/event/missing.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                
+                                                <img src="../assets/images/Tools/waiting.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
 
                                                 <div class="flex-grow-1">
                                                     <a href="/Tools-District-5" class="stretched-link">
@@ -536,8 +541,9 @@
                                             @elseif ($notification->type === 'App\Notifications\ToolsAvailableNotification')
                                             <div class="d-flex">
 
+                                            <!-- available -->
 
-                                                <img src="../assets/images/event/missing.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                                <img src="../assets/images/Tools/available.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
 
                                                 <div class="flex-grow-1">
                                                     <a href="/Tools-District-5" class="stretched-link">
@@ -556,8 +562,9 @@
                                             @elseif ($notification->type === 'App\Notifications\ToolsUnavailableNotification')
                                             <div class="d-flex">
 
+                                            <!-- unavailable -->
 
-                                                <img src="../assets/images/event/missing.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                                <img src="../assets/images/Tools/na.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
 
                                                 <div class="flex-grow-1">
                                                     <a href="/Tools-District-5" class="stretched-link">
@@ -574,10 +581,13 @@
 
                                             </div>
                                             @elseif ($notification->type === 'App\Notifications\RequestApprovedNotification')
+                                            
+                                          <!-- Approved -->
+                                            
                                             <div class="d-flex">
 
 
-                                                <img src="../assets/images/event/missing.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                                <img src="../assets/images/Tools/approved.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
 
                                                 <div class="flex-grow-1">
                                                     <a href="/Tools-District-5" class="stretched-link">
@@ -594,10 +604,13 @@
 
                                             </div>
                                             @elseif ($notification->type === 'App\Notifications\RequestDisapprovedNotification')
+                                            
+                                          <!-- disapproved -->
+                                            
                                             <div class="d-flex">
 
 
-                                                <img src="../assets/images/event/missing.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                                <img src="../assets/images/Tools/reject.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
 
                                                 <div class="flex-grow-1">
                                                     <a href="/Tools-District-5" class="stretched-link">
@@ -614,10 +627,13 @@
 
                                             </div>
                                             @elseif ($notification->type === 'App\Notifications\ReadyToBePickedNotification')
+                                            
+                                            <!-- ready for pick up  -->
+                                            
                                             <div class="d-flex">
 
 
-                                                <img src="../assets/images/event/missing.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                                <img src="../assets/images/Tools/rfp.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
 
                                                 <div class="flex-grow-1">
                                                     <a href="/Tools-District-5" class="stretched-link">
@@ -634,10 +650,12 @@
 
                                             </div>
                                             @elseif ($notification->type === 'App\Notifications\PickedNotification')
+                                            
+                                            <!-- already claim the item -->
                                             <div class="d-flex">
 
 
-                                                <img src="../assets/images/event/missing.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                                <img src="../assets/images/Tools/pick.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
 
                                                 <div class="flex-grow-1">
                                                     <a href="/Tools-District-5" class="stretched-link">
@@ -656,8 +674,8 @@
                                             @elseif ($notification->type === 'App\Notifications\WaitingForReturnNotification')
                                             <div class="d-flex">
 
-
-                                                <img src="../assets/images/event/missing.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                                <!-- failed to return item -->
+                                                <img src="../assets/images/Tools/return.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
 
                                                 <div class="flex-grow-1">
                                                     <a href="/Tools-District-5" class="stretched-link">
@@ -677,7 +695,7 @@
                                             <div class="d-flex">
 
 
-                                                <img src="../assets/images/event/missing.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                                <img src="../assets/images/Tools/pick.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
 
                                                 <div class="flex-grow-1">
                                                     <a href="/Tools-District-5" class="stretched-link">
@@ -697,7 +715,7 @@
                                             <div class="d-flex">
 
 
-                                                <img src="../assets/images/event/missing.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                                <img src="../assets/images/Tools/decline.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
 
                                                 <div class="flex-grow-1">
                                                     <a href="/Tools-District-5" class="stretched-link">
@@ -714,10 +732,13 @@
 
                                             </div>
                                             @elseif ($notification->type === 'App\Notifications\ResubmitNotification')
+
+                                            <!-- Resubmit -->
+                                           
                                             <div class="d-flex">
 
 
-                                                <img src="../assets/images/event/missing.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                                <img src="../assets/images/Tools/resubmit.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
 
                                                 <div class="flex-grow-1">
                                                     <a href="/Tools-District-5" class="stretched-link">

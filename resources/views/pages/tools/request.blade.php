@@ -736,10 +736,10 @@
                                                 <label for="remarkstext">-Optional-</label>
                                             </div>
                                             <br>
-                                            <div class="mb-3">
+                                            <!-- <div class="mb-3">
                                                 <label for="dateInput" class="form-label">Select Date:</label>
                                                 <input type="date" class="form-control" id="dateInput" min="<?php echo date('Y-m-d'); ?>">
-                                            </div>
+                                            </div> -->
 
                                             <h5>Are you sure you want to update the status?</h5>
                                         </div>

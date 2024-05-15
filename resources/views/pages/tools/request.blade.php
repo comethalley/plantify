@@ -132,9 +132,11 @@
                                                 @empty
                                                 <!-- If no requests found, display a message -->
                                                 <tr>
-                                                    <td colspan="8">
+                                                    <td colspan="11">
                                                         <div class="text-center">
-                                                            <h5>No Requests Found</h5>
+                                                            <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="loop" colors="primary:#405189,secondary:#0ab39c" style="width:75px;height:75px"></lord-icon>
+                                                            <h5 class="mt-2">No Request Found</h5>
+                                                            <p class="text-muted">We've searched more than 150+ Request We did not find any orders for you search.</p>
                                                         </div>
                                                     </td>
                                                 </tr>

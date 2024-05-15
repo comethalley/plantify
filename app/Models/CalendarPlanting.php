@@ -24,5 +24,11 @@ class CalendarPlanting extends Model
         'type',
         'is_deleted',
         'area',
+        'reason',
     ];
+
+    public function farm()
+    {
+        return $this->belongsTo(Farm::class, 'farm_id', 'id');
+    }
 }

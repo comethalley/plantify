@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Post;
 use Intervention\Image\Facades\Image;
 use App\Models\Forum;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+
+
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
 
@@ -26,9 +29,25 @@ class PostController extends Controller
         return view('pages.forum', compact('questions', 'posts'));
     }
 
+    public function like(Post $post)
+    {
+        $user = Auth::user();
 
+        if (!$post->likes()->where('user_id', $user->id)->exists()) {
+            $post->likes()->attach($user->id);
+        }
 
+        return response()->json(['message' => 'Post liked successfully']);
+    }
 
+    public function unlike(Post $post)
+    {
+        $user = Auth::user();
+
+        $post->likes()->detach($user->id);
+
+        return response()->json(['message' => 'Post unliked successfully']);
+    }
 
 
 
@@ -114,7 +133,7 @@ class PostController extends Controller
 
 
         Validator::extend('no_bad_words', function ($attribute, $value, $parameters, $validator) {
-            $badWords = ['badword1', 'badword2', 'badword3']; // Add your list of bad words here
+            $badWords = ['badword11', 'badword2', 'badword3']; // Add your list of bad words here
             foreach ($badWords as $badWord) {
                 if (stripos($value, $badWord) !== false) {
                     return false; // Return false if a bad word is found

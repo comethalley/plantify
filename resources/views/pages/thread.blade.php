@@ -723,7 +723,7 @@ window.deleteMessage = function(element) {
 
     Pusher.logToConsole = true;
 
-    var pusher = new Pusher('d7630bf7a930051c0329', {
+    var pusher = new Pusher('ebad2ef1a296a8ac5320', {
         cluster: 'ap1'
     });
 

@@ -9,6 +9,49 @@
 
 </head>
 
+<style>
+/* CSS for mobile responsiveness */
+@media only screen and (max-width: 768px) {
+    .dropdown-content-pusy {
+        left: 50%;
+        transform: translateX(-50%);
+        width: auto;
+    }
+    .modal-content {
+        margin-top: 10%;
+        margin-left: 5%;
+        margin-right: 5%;
+        width: 90%;
+    }
+    .modal-title {
+        font-size: 18px;
+    }
+    .edit-textarea {
+        width: 90%;
+    }
+    .file-input {
+        width: 90%;
+    }
+    .modal-buttons {
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .modal-button {
+        width: 45%;
+    }
+    .submit-button {
+        margin-top: 10px;
+    }
+    .radio-container {
+        width: 90%;
+    }
+}
+
+</style>
+
+
+
 <body>
 
     <div class="main-content">
@@ -27,23 +70,41 @@
             <div class="card" style="border-radius:13px; margin-bottom:20px; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1); max-width: 600px; width: 100%; margin: 0 auto;">
                         <div class="card-body">
                             <div class="mt-0 " style="display: flex;">
-                                <div style="display: inline-flex; align-items: center; ">
-                                @if($profileSettings->profile_image)
-                            <img style="width:40px; height:40px; padding: 2px; border: 3px solid #006400;" src="{{ asset('storage/images/' . $profileSettings->profile_image) }}" alt="Profile Image" class="rounded-circle avatar-xl img-thumbnail user-profile-image">
-                            @else
-                            <div class="avatar-lg">
-                                <img style="padding: 2px; border: 3px solid #006400;" src="assets/images/plantifeedpics/profile-default.png" alt="user-img" class="img-thumbnail rounded-circle">
-                            </div>
 
-                            @endif
-                                   <button type="button" class="btn btn-primary" style="width: 100%; max-width: 400px; border:0;border-radius:20px; text-align:left;background-color:#E6E6E6; color:black;" data-bs-toggle="modal" data-bs-target="#myModal">Ask and share your story!</button>
+                            
+        @auth
+    @php
+        // Kunin ang naka-login na user
+        $loggedInUser = auth()->user();
+        
+        // Tingnan kung may profile settings ang naka-login na user
+        $profileSettings = $loggedInUser->profileSettings;
+    @endphp
+
+    @if($profileSettings && $profileSettings->profile_image)
+        <!-- Kung may profile image ang naka-login na user, ipakita ito -->
+        <img style="margin-right: 4px; width: 43px; height: 40px; padding: 2px; border: 3px solid #006400;" src="{{ asset('storage/images/' . $profileSettings->profile_image) }}" alt="Profile Image" class="rounded-circle avatar-xl img-thumbnail user-profile-image">
+    @else
+        <!-- Kung wala, gamitin ang default na larawan ng profile -->
+
+            <img style="margin-right: 4px; width: 40px; height: 40px; padding: 2px; border: 3px solid #006400;" src="assets/images/plantifeedpics/profile-default.png" alt="Default Profile Image" class="img-thumbnail rounded-circle">
+
+    @endif
+@endauth
+
+
+                             <button type="button" class="btn btn-primary" style=" margin-left:4px; border: 0; border-radius: 20px; text-align: left; background-color: #E6E6E6; color: black; width: 100%;" data-bs-toggle="modal" data-bs-target="#myModal">Ask and share your story!</button>
+
+                                <div style="display: inline-flex; align-items: center; ">
+                             
+                                 
 
                                     <div id="myModal" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
                                         <div class="modal-dialog">
                                             <div class="modal-content" style="width: 600px; height:500px;">
-                                                <div class="modal-header">
+                                                <div class="modal-header"
 
-                                                    <h5 class="modal-title" id="myModalLabel">Add Question</h5>
+                                                    <h5 style="margin-left:240px;" class="modal-title" id="myModalLabel">Add Question</h5>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
 
                                                 </div>
@@ -64,7 +125,26 @@
 
                                                     <div style="margin-top:20px;">
                                                         <form id="forumForm" action="{{ route('forum.store') }}" method="POST">
-                                                            <img src="/assets/images/plantifeedpics/rounded.png" alt="Image Description" class="object-cover rounded-full" style="width: 40px; height: 40px; margin-left: 5px;">
+                                                                                 
+        @auth
+    @php
+        // Kunin ang naka-login na user
+        $loggedInUser = auth()->user();
+        
+        // Tingnan kung may profile settings ang naka-login na user
+        $profileSettings = $loggedInUser->profileSettings;
+    @endphp
+
+    @if($profileSettings && $profileSettings->profile_image)
+        <!-- Kung may profile image ang naka-login na user, ipakita ito -->
+        <img style="margin-right: 4px; width: 43px; height: 40px; padding: 2px; border: 3px solid #006400;" src="{{ asset('storage/images/' . $profileSettings->profile_image) }}" alt="Profile Image" class="rounded-circle avatar-xl img-thumbnail user-profile-image">
+    @else
+        <!-- Kung wala, gamitin ang default na larawan ng profile -->
+
+            <img style="margin-right: 4px; width: 40px; height: 40px; padding: 2px; border: 3px solid #006400;" src="assets/images/plantifeedpics/profile-default.png" alt="Default Profile Image" class="img-thumbnail rounded-circle">
+
+    @endif
+@endauth
                                                             @csrf
                                                             <div class="dropdown" style="position: relative; display: inline-block; width:100px; border-radius:30px;">
                                                                 <select name="language" id="language" style="border-radius:30px;padding:4px; outline: none;">
@@ -203,7 +283,26 @@
 
                                                     <div>
                                                         <div>
-                                                            <img src="/assets/images/plantifeedpics/rounded.png" alt="Image Description" class="object-cover rounded-full" style="width: 40px; height: 40px; margin-right: 8px;">
+                                                                                  
+        @auth
+    @php
+        // Kunin ang naka-login na user
+        $loggedInUser = auth()->user();
+        
+        // Tingnan kung may profile settings ang naka-login na user
+        $profileSettings = $loggedInUser->profileSettings;
+    @endphp
+
+    @if($profileSettings && $profileSettings->profile_image)
+        <!-- Kung may profile image ang naka-login na user, ipakita ito -->
+        <img style="margin-right: 4px; width: 43px; height: 40px; padding: 2px; border: 3px solid #006400;" src="{{ asset('storage/images/' . $profileSettings->profile_image) }}" alt="Profile Image" class="rounded-circle avatar-xl img-thumbnail user-profile-image">
+    @else
+        <!-- Kung wala, gamitin ang default na larawan ng profile -->
+
+            <img style="margin-right: 4px; width: 40px; height: 40px; padding: 2px; border: 3px solid #006400;" src="assets/images/plantifeedpics/profile-default.png" alt="Default Profile Image" class="img-thumbnail rounded-circle">
+
+    @endif
+@endauth
                                                             <b>Center for Urban Agriculture and Innovation</b>
                                                         </div>
 
@@ -229,7 +328,7 @@
 
                                                             <div style="display: flex; justify-content:flex-end; margin-top:40px;">
                                                                 <button style="margin-right:10px;" type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
-                                                                <button class="btn btn-light" style="border-radius:10px; border:none;" type="submit">Add Question</button>
+                                                                <button class="btn btn-light" style="border-radius:10px; border:none;" type="submit">Add Post</button>
                                                             </div>
                                                         </form>
 
@@ -258,6 +357,7 @@
 
 
                     <div style="margin-top:20px;" id="post" >
+ 
 
                     </div>
 
@@ -265,22 +365,53 @@
 
 
 
-                    <div class=" card" style="border-radius:13px;  margin-bottom:20px; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1); ">
-
+                  
                         @foreach($posts as $post)
-                        <div style="margin-bottom:20px;  display:grid; background-color:white; padding:30px; border-radius:13px; position: relative; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);">
+                        <div style=" max-width: 600px; margin: 0 auto; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);   display: grid; background-color:white; margin-bottom:60px; padding:30px; border-radius:13px; ">
 
                             <div style="display: flex; justify-content:space-between;">
 
+<div style="display:flex;">
+
+@php
+    // Kunin ang profile settings ng user na nag-post ng tanong
+    $userProfile = \App\Models\ProfileSettings::where('user_id', $post->user_id)->first();
+@endphp
+
+@if($userProfile && $userProfile->profile_image)
+    <!-- Kung mayroong profile image ang user, ipakita ito -->
+    <img style="width: 40px; height: 40px; padding: 2px; border: 3px solid #006400;" src="{{ asset('storage/images/' . $userProfile->profile_image) }}" alt="Profile Image" class="img-thumbnail rounded-circle">
+@else
+    <!-- Kung wala, ipakita ang default na larawan ng profile -->
+    <img style="width: 40px; height: 40px; padding: 2px; border: 3px solid #006400;" src="assets/images/plantifeedpics/profile-default.png" alt="Default Profile Image" class="img-thumbnail rounded-circle">
+@endif
+
+
+<div style="margin-left:10px;">
                                 <p> <strong>{{ $post->firstname }} {{ $post->lastname }}</strong>
                                     <br>
-                                    <span style="color: grey;">{{ date('h:i:s A', strtotime($post->created_at)) }}</span>
+                                    <span style="color: grey;">{{ date('h:i:s A', strtotime($post->created_at)) }} -@if (Auth::check())
+                                @if (Auth::user()->role_id == 1)
+                                Super Admin
+                                @elseif (Auth::user()->role_id == 2)
+                                Admin
+                                @elseif (Auth::user()->role_id == 3)
+                                Farm Leader
+                                @elseif (Auth::user()->role_id == 4)
+                                Farmer
+                                @elseif (Auth::user()->role_id == 5)
+                                User
+                                @endif
+                                @endif</span>
                                 </p>
+                                         </div>
+
+               </div>
 
 
-
-                                <img src="/assets/images/plantifeedpics/edit.png" alt="Image" class="toggle-image" style="height:20px; width: 20px; cursor: pointer; margin-left: 10px;" onclick="toggleDropdownPost(this)">
-                                <div class="dropdown-content-pusy" style=" display: none; position: absolute; background-color: #f9f9f9; width: 110px; box-shadow: 0px -8px 16px 0px rgba(0,0,0,0.2); z-index: 1; left: 97%;">
+                                     <img src="/assets/images/plantifeedpics/edit.png" alt="Image" class="toggle-image" style="height:20px; width: 20px; cursor: pointer; margin-left: 10px;" onclick="toggleDropdownPost(this)">
+                                <div class="dropdown-content-pusy" style=" display: none; position: absolute; background-color: #f9f9f9; width: 110px; box-shadow: 0px -8px 16px 0px rgba(0,0,0,0.2); z-index: 1; left: 68%;">
+                                
 
                                     @if(Auth::check() && Auth::user()->id == $post->user_id)
 
@@ -516,48 +647,80 @@
 
                             <div style="margin-top: 10px; display:flex; justify-content:space-evenly;">
 
-                                <button onclick="togglePostLike('{{ $post->id }}')" style="border: none; background-color: transparent; cursor: pointer;">
-                                    <img src="assets/images/plantifeedpics/unlike.png" alt="like" id="postLikeIcon{{ $post->id }}" style="padding: 10px;" onmouseover="this.style.backgroundColor='lightgray';this.style.borderRadius='25px';" onmouseout="this.style.backgroundColor='transparent'; this.style.borderRadius='25px';">
-                                    <span id="postLikeCount{{ $post->id }}">0</span>
-                                </button>
+<button onclick="togglePostLike('{{ $post->id }}')" style="border: none; background-color: transparent; cursor: pointer;">
+    <img style="width:30px; height:30px;" src="assets/images/plantifeedpics/unlike.png" alt="like" id="postLikeIcon{{ $post->id }}" style="padding: 10px;" onmouseover="this.style.backgroundColor='lightgray';this.style.borderRadius='25px';" onmouseout="this.style.backgroundColor='transparent'; this.style.borderRadius='25px';">
+    <span id="postLikeText{{ $post->id }}">Like</span>
+</button>
+
+<script>
+    var postLikeStatus = {};
+
+    function togglePostLike(postId) {
+        // Check if the user has already liked the post
+        if (postLikeStatus[postId]) {
+            // User already liked the post, so unlike it
+            unlikePost(postId);
+            postLikeStatus[postId] = false;
+            updatePostLikeStatus(postId, 'Like'); // Change like status text
+            updatePostLikeIcon(postId, 'assets/images/plantifeedpics/unlike.png'); // Change icon to like
+        } else {
+            // User hasn't liked the post yet, so like it
+            likePost(postId);
+            postLikeStatus[postId] = true;
+            updatePostLikeStatus(postId, 'Unlike'); // Change like status text
+            updatePostLikeIcon(postId, 'assets/images/plantifeedpics/like.png'); // Change icon to unlike
+        }
+    }
+
+    // Like a post
+    function likePost(postId) {
+        fetch(`/posts/${postId}/like`, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            // You can handle success response if needed
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+    // Unlike a post
+    function unlikePost(postId) {
+        fetch(`/posts/${postId}/unlike`, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            // You can handle success response if needed
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+    // Update the like status text
+    function updatePostLikeStatus(postId, statusText) {
+        var likeTextElement = document.getElementById('postLikeText' + postId);
+        likeTextElement.innerText = statusText;
+    }
+
+    // Update the like icon
+    function updatePostLikeIcon(postId, iconSrc) {
+        var likeIconElement = document.getElementById('postLikeIcon' + postId);
+        likeIconElement.src = iconSrc;
+    }
+</script>
 
 
 
-                                <script>
-                                    // Initialize like status and counters for each post
-                                    var postLikeStatus = {};
-                                    var postLikeCounters = {};
-
-                                    function togglePostLike(postId) {
-                                        // Initialize like counter and status for the current post if not already set
-                                        if (!postLikeCounters[postId]) {
-                                            postLikeCounters[postId] = 0;
-                                            postLikeStatus[postId] = false;
-                                        }
-
-                                        // Increment or decrement like counter and toggle like status for the current post
-                                        if (!postLikeStatus[postId]) {
-                                            postLikeCounters[postId]++;
-                                            postLikeStatus[postId] = true;
-                                        } else {
-                                            postLikeCounters[postId]--;
-                                            postLikeStatus[postId] = false;
-                                        }
-
-                                        // Update like count display for the current post
-                                        document.getElementById('postLikeCount' + postId).innerText = postLikeCounters[postId];
-
-                                        // Add 'liked' class to trigger animation for the current post
-                                        document.getElementById('postLikeIcon' + postId).classList.add('liked');
-
-                                        // Remove 'liked' class after animation ends for the current post
-                                        setTimeout(function() {
-                                            document.getElementById('postLikeIcon' + postId).classList.remove('liked');
-                                        }, 500);
-
-                                        // You can include AJAX request here to send like status to the server
-                                    }
-                                </script>
 
 
                                 <button onclick="openPostModal('{{ $post->selection }}', '{{ $post->selectiontwo }}', '{{ $post->createpost }}')" style="display: flex; align-items:center; padding: 10px 20px; background-color: white; color: black; border: none; border-radius: 5px; cursor: pointer;" onmouseover="this.style.backgroundColor='lightgray';" onmouseout="this.style.backgroundColor='white';">
@@ -576,7 +739,7 @@
                         @endforeach
                     </div>
 
-                </div>
+               
 
 
                 <script>

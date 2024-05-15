@@ -6,11 +6,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Notifications\Notifiable;
 class Thread extends Model
 {
     use HasFactory;
-    
+    use Notifiable;
     protected $fillable = ['user_id_1', 'user_id_2', 'create_date'];
 
     public function user1()

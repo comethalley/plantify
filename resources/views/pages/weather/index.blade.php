@@ -9,7 +9,11 @@
   <link href="{{ asset('assets/css/weather.css') }}" rel="stylesheet" type="text/css" />
 </head>
 <body>
-  
+  <div id="customModal" class="modal">
+    <div class="modal-content">
+        <span id="modalMessage"></span>
+    </div>
+</div>
   <div class="page-content">
 
     <div class="wrapper">
@@ -66,6 +70,7 @@
         </nav>
         <div class="cards" id="weather-cards"></div>
         <div id="detailModal" style="display:none;">
+          <p>Feels Like: <span id="modalFeelsLike">--</span></p>
           <p>Chance of Rain: <span id="modalRainChance">--</span>%</p>
           <p>Humidity: <span id="modalHumidity">--</span>%</p>
           <p>Sunrise:  <span id="modalSunrise">--</span></p>
@@ -127,4 +132,46 @@
   </div>
 </body>
 </html>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+  // Function to display SweetAlert alerts
+  function showSweetAlert(message) {
+    Swal.fire({
+      title: 'Plantify remind you that',
+      text: message,
+      icon: 'warning',
+      confirmButtonText: 'OK'
+    });
+  }
+
+  // Function to check weather conditions for alerts
+  function checkWeatherConditionsForAlerts(data) {
+    const { temp, precip, windspeed, uvindex } = data.currentConditions;
+    
+    let alerts = []; // Array to store all alerts
+
+    if (temp > weatherThresholds.temp) {
+      alerts.push("High temperature alert! Consider adjusting planting schedules.");
+    }
+    if (precip > weatherThresholds.precip) {
+      alerts.push("High precipitation alert! Ensure proper drainage for plants.");
+    }
+    if (windspeed > weatherThresholds.windspeed) {
+      alerts.push("Strong wind alert! Secure plants to prevent damage.");
+    }
+    if (uvindex > weatherThresholds.uvindex) {
+      alerts.push("High UV index alert! Provide shade or protect plants from sunburn.");
+    }
+
+    // If there are alerts, show them using SweetAlert
+    if (alerts.length > 0) {
+      const combinedAlert = alerts.join('\n'); // Concatenate alerts with new lines
+      showSweetAlert(combinedAlert); // Show SweetAlert with combined alert message
+    } else {
+      // If no alerts, show a generic message using SweetAlert
+      showSweetAlert("Good Conditions, you can start planting now!");
+    }
+  }
+</script>
 @include('templates.footer')

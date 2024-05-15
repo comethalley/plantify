@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Notifications\Notifiable;
+use App\Models\User;
 class RequestN extends Model
 {
     use HasFactory;
-
+    use Notifiable;
     protected $table = 'request_tbl';
     protected $fillable = [
         'id',
@@ -41,15 +42,35 @@ class RequestN extends Model
     {
         return $this->belongsTo(SupplyType::class, 'supply_tool');
     }
+    public function supplyTool1()
+    {
+        return $this->belongsTo(SupplyType::class, 'supply_tool1');
+    }
+    public function supplyTool2()
+    {
+        return $this->belongsTo(SupplyType::class, 'supply_tool2');
+    }
 
     public function supplySeedling()
     {
         return $this->belongsTo(SupplyType::class, 'supply_seedling');
+    }
+    public function supplySeedling1()
+    {
+        return $this->belongsTo(SupplyType::class, 'supply_seedling1');
+    }
+    public function supplySeedling2()
+    {
+        return $this->belongsTo(SupplyType::class, 'supply_seedling2');
     }
 
     public function requestedBy()
     {
         return $this->belongsTo(User::class, 'requested_by');
     }
-
+    public function user()
+    {
+        // Assuming the foreign key is user_id in the requests table
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

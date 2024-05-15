@@ -4,33 +4,63 @@
 
 </head>
 
+
+
+
 @foreach ($questions as $question)
 
-<div class="dropdown" style=" max-width: 600px; margin: 0 auto; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);   display: grid; background-color:white; margin-bottom:20px; padding:30px; border-radius:13px; ">
+    <div class="dropdown" style=" max-width: 600px; margin: 0 auto; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);   display: grid; background-color:white; margin-bottom:40px; padding:30px; border-radius:13px; ">
 
-    <div style="display: flex; justify-content:space-between;">
-        <div style="display: flex; justify-content:space-between;">
-            <img src="/assets/images/plantifeedpics/rounded.png" alt="Image Description" class="object-cover rounded-full" style="width: 40px; height: 40px; margin-right: 8px;">
-            <p style="margin: 0;">
-                <strong>{{ $question->firstname }} {{ $question->lastname }}</strong> <span style="color: grey;"></span>
-                <br> <span style="color: grey;">{{ date('h:i:s A', strtotime($question->created_at)) }}</span>
-            </p>
-        </div>
+        <div style="display: flex; justify-content:space-between; height:55px">
+            <div style="display: flex; justify-content:space-between;">
+
+            @php
+                    // Get the profile settings of the user who posted the question
+                    $userProfile = \App\Models\ProfileSettings::where('user_id', $question->user_id)->first();
+                @endphp
+                @if($userProfile && $userProfile->profile_image)
+                    <img style="width:40px; height:40px; padding: 2px; border: 3px solid #006400;" src="{{ asset('storage/images/' . $userProfile->profile_image) }}" alt="Profile Image" class="rounded-circle avatar-xl img-thumbnail user-profile-image">
+                @else
+                    <div class="avatar-lg" style="width: 50px;">
+                        <img style="width: 40px; height: 40px; padding: 2px; border: 3px solid #006400;" src="assets/images/plantifeedpics/profile-default.png" alt="user-img" class="img-thumbnail rounded-circle">
+                    </div>
+                @endif
+                
+                <p style="margin-left:10px;">      
+                    <strong>{{ $question->firstname }} {{ $question->lastname }} </strong> <span style="color: grey;"></span>
+                    <br> <span style="color: grey;">{{ date('h:i:s A', strtotime($question->created_at)) }} - @if (Auth::check())
+                                @if (Auth::user()->role_id == 1)
+                                Super Admin
+                                @elseif (Auth::user()->role_id == 2)
+                                Admin
+                                @elseif (Auth::user()->role_id == 3)
+                                Farm Leader
+                                @elseif (Auth::user()->role_id == 4)
+                                Farmer
+                                @elseif (Auth::user()->role_id == 5)
+                                User
+                                @endif
+                                @endif</span>
+                </p>
+            </div>
 
 
 
-        <img src="/assets/images/plantifeedpics/edit.png" alt="Image" class="toggle-image" style="height:20px; width: 20px; cursor: pointer; margin-left: 10px;" onclick="toggleDropdown(this)">
+
+            <img src="/assets/images/plantifeedpics/edit.png" alt="Image" class="toggle-image" style="height:20px; width: 20px; cursor: pointer; margin-left: 10px;" onclick="toggleDropdown(this)">
 
 
-        <div class="dropdown-content" style=" display: none; position: absolute; background-color: white; width: 82,66px; box-shadow: 0px -8px 16px 0px rgba(0,0,0,0.2); z-index: 1; left: 97%;">
+            <div class="dropdown-content" style=" display: none; position: absolute; background-color: white; width:110px; box-shadow: 0px -8px 16px 0px rgba(0,0,0,0.2); z-index: 1; left: 70%;">
 
-            @if(Auth::check() && Auth::user()->id == $question->user_id)
+                @if(Auth::check() && Auth::user()->id == $question->user_id)
 
-            <button onclick="openEditModal('{{ $question->id }}')" style="width:100%; background-color:white; border:none; color:black; text-align:center; text-decoration:none; display:inline-block; font-size:13px; padding:20px; cursor:pointer;" onmouseover="this.style.backgroundColor='lightgray'" onmouseout="this.style.backgroundColor='white'">
-            <div style="display: flex; align-items: center;">
-    <img src="/assets/images/plantifeedpics/edits.png" alt="Edit" style="height: 20px; width: 20px; margin-right: 10px;">
-    <p style="margin: 0;">Edit</p>
-</div>
+                <button onclick="openEditModal('{{ $question->id }}')" style="width:100%; background-color:white; border:none; color:black; text-align:center; text-decoration:none; display:inline-block; font-size:13px; padding:20px; cursor:pointer;" onmouseover="this.style.backgroundColor='lightgray'" onmouseout="this.style.backgroundColor='white'">
+                <div style="display: flex; align-items: center;">
+        <img src="/assets/images/plantifeedpics/edits.png" alt="Edit" style="height: 20px; width: 20px; margin-right: 10px;">
+        <p style="margin: 0;">Edit</p>
+    </div>
+
+
 
             </button>
 
@@ -102,7 +132,7 @@
 
             <br>
 
-            <button class="delete-question" data-question-id="{{ $question->id }}" style="background-color: white; border: none; color: black; text-align: center; text-decoration: none; display: inline-flex; align-items: center; font-size: 13px; padding: 20px; cursor: pointer;" onmouseover="this.style.backgroundColor='lightgray'" onmouseout="this.style.backgroundColor='white'">
+            <button class="delete-question" data-question-id="{{ $question->id }}" style="  width:100%; background-color: white; border: none; color: black; text-align: center; text-decoration: none; display: inline-flex; align-items: center; font-size: 13px; padding: 20px; cursor: pointer;" onmouseover="this.style.backgroundColor='lightgray'" onmouseout="this.style.backgroundColor='white'">
     <i class="fas fa-trash-alt" style="margin-right: 5px;"></i>
     <span>Delete</span>
 </button>
@@ -226,71 +256,77 @@
 
     <div style="margin-top: 10px; display:flex; justify-content:space-evenly;">
 
-        <button onclick="toggleLike('{{ $question->id }}')" style="border: none; background-color:transparent;">
-            <img src="assets/images/plantifeedpics/unlike.png" alt="like" id="likeIcon{{ $question->id }}" style="padding:10px;width:50px;height:50px;" onmouseover="this.style.backgroundColor='lightgray';this.style.borderRadius='25px';" onmouseout="this.style.backgroundColor='transparent'; this.style.borderRadius='25px';">
-            <span id="likeCount{{ $question->id }}">0</span>
-        </button>
+    <button onclick="toggleQuestionLike('{{ $question->id }}')" style="border: none; background-color: transparent; cursor: pointer;">
+    <img style="width:30px; height:30px;" src="assets/images/plantifeedpics/unlike.png" alt="like" id="questionLikeIcon{{ $question->id }}" style="padding: 10px;" onmouseover="this.style.backgroundColor='lightgray';this.style.borderRadius='25px';" onmouseout="this.style.backgroundColor='transparent'; this.style.borderRadius='25px';">
+    <span id="questionLikeText{{ $question->id }}">Like</span>
+</button>
 
+<script>
+    var questionLikeStatus = {};
 
-        <style>
-            /* Define animation keyframes */
-            @keyframes pulse {
-                0% {
-                    transform: scale(1);
-                }
+    function toggleQuestionLike(questionId) {
+        // Check if the user has already liked the question
+        if (questionLikeStatus[questionId]) {
+            // User already liked the question, so unlike it
+            unlikeQuestion(questionId);
+            questionLikeStatus[questionId] = false;
+            updateQuestionLikeStatus(questionId, 'Like'); // Change like status text
+            updateQuestionLikeIcon(questionId, 'assets/images/plantifeedpics/unlike.png'); // Change icon to like
+        } else {
+            // User hasn't liked the question yet, so like it
+            likeQuestion(questionId);
+            questionLikeStatus[questionId] = true;
+            updateQuestionLikeStatus(questionId, 'Unlike'); // Change like status text
+            updateQuestionLikeIcon(questionId, 'assets/images/plantifeedpics/like.png'); // Change icon to unlike
+        }
+    }
 
-                50% {
-                    transform: scale(1.2);
-                }
-
-                100% {
-                    transform: scale(1);
-                }
+    // Like a question
+    function likeQuestion(questionId) {
+        fetch(`/questions/${questionId}/like`, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
             }
-
-            /* Apply animation to the like icon */
-            .liked {
-                animation: pulse 0.5s ease-in-out;
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
             }
-        </style>
+            // You can handle success response if needed
+        })
+        .catch(error => console.error('Error:', error));
+    }
 
-        <script>
-            // Initialize like status and counters for each question
-            var likeStatus = {}; // Object to store like status for each question
-            var likeCounters = {}; // Object to store like counters for each question
-
-            function toggleLike(questionId) {
-                // Initialize like counter and status for the current question if not already set
-                if (!likeCounters[questionId]) {
-                    likeCounters[questionId] = 0;
-                    likeStatus[questionId] = false;
-                }
-
-                // Increment or decrement like counter and toggle like status for the current question
-                if (!likeStatus[questionId]) {
-                    likeCounters[questionId]++;
-                    likeStatus[questionId] = true;
-                } else {
-                    likeCounters[questionId]--;
-                    likeStatus[questionId] = false;
-                }
-
-                // Update like count display for the current question
-                document.getElementById('likeCount' + questionId).innerText = likeCounters[questionId];
-
-                // Add 'liked' class to trigger animation for the current question
-                document.getElementById('likeIcon' + questionId).classList.add('liked');
-
-                // Remove 'liked' class after animation ends for the current question
-                setTimeout(function() {
-                    document.getElementById('likeIcon' + questionId).classList.remove('liked');
-                }, 500);
-
-                // You can include AJAX request here to send like status to the server
+    // Unlike a question
+    function unlikeQuestion(questionId) {
+        fetch(`/questions/${questionId}/unlike`, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
             }
-        </script>
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            // You can handle success response if needed
+        })
+        .catch(error => console.error('Error:', error));
+    }
 
+    // Update the like status text
+    function updateQuestionLikeStatus(questionId, statusText) {
+        var likeTextElement = document.getElementById('questionLikeText' + questionId);
+        likeTextElement.innerText = statusText;
+    }
 
+    // Update the like icon
+    function updateQuestionLikeIcon(questionId, iconSrc) {
+        var likeIconElement = document.getElementById('questionLikeIcon' + questionId);
+        likeIconElement.src = iconSrc;
+    }
+</script>
 
 
 
@@ -505,3 +541,28 @@
             });
         });
     </script>
+
+          <script>
+                    $(document).ready(function() {
+                        $('.delete-question').click(function() {
+                            var questionId = $(this).data('question-id');
+
+                            $.ajax({
+                                url: '/forum/delete-question/' + questionId,
+                                type: 'DELETE',
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                },
+                                success: function(response) {
+                                    // Refresh the page
+                                    setTimeout(function() {
+                                        window.location.reload();
+                                    }, 500); // Delay for 1 second before refreshing
+                                },
+                                error: function(xhr, status, error) {
+                                    console.error(xhr.responseText);
+                                }
+                            });
+                        });
+                    });
+                </script>

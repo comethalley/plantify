@@ -105,7 +105,7 @@
 
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Contact</label>
-                                                    <input type="text" name="contact" id="supplier-contact" class="form-control" placeholder="Enter Contact" required />
+                                                    <input type="text" name="contact" id="supplier-contact" class="form-control" placeholder="Enter Contact" required pattern="[0-9]{11}" maxlength="11" />
                                                 </div>
 
                                                 <div class="mb-3">

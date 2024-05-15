@@ -7,8 +7,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 use App\Models\Task;
+use App\Models\TaskType;
 use App\Models\User;
+use App\Models\CalendarPlanting;
+use App\Models\Farmer;
+use App\Models\Farm;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -21,318 +26,169 @@ class TaskController extends Controller
 {
     public function index()
     {
-        // Retrieve users with their task counts
-        $users = User::select('id', 'firstname', 'lastname')
-            ->where('role_id', 4) // Filter by role_id == 4
-            ->withCount([
-                'tasks as tasks_count' => function ($query) {
-                    $query->where('completed', '!=', 1)
-                        ->where('archived', '!=', 1)
-                        ->where(function ($query) {
-                            $query->where('status', '!=', 'missing')
-                                ->orWhereNull('status');
-                        });
-                }
-            ])
-            ->orderBy('tasks_count', 'asc')
-            ->get();
+        $id = Auth::user()->id;
 
+        $user = User::select('users.*', 'farms.id AS farm_id')
+            ->leftJoin('farms', 'farms.farm_leader', '=', 'users.id')
+            ->where('users.id', $id)
+            ->first();
+        
 
-        // Fetch tasks for monitoring
-        $role_id = auth()->user()->role_id;
-
-        if ($role_id == 4) {
-            // Fetch tasks for role ID 4
-            $tasksQuery = Task::with('user')->where('user_id', auth()->id());
+        if ($user && in_array($user->role_id, ['1', '2', '3'])) {
+            // For roles 1, 2, and 3, retrieve tasks associated with the farm
+            $tasks = CalendarPlanting::where('farm_id', $user->farm_id)
+                ->orderBy('id', 'DESC')
+                ->get();
+        } elseif ($user && $user->role_id === '4') {
+            // For role 4 (farmer), retrieve tasks assigned to the specific farmer
+            $tasks = Task::where('assigned', $user->id)
+                ->orderBy('id', 'ASC')
+                ->get();
         } else {
-            // Fetch all tasks
-            $tasksQuery = Task::with('user');
+            // Handle other roles or unauthorized users
+            $tasks = []; // No tasks for unauthorized users
         }
+        
+        return view('pages.tasks.monitoring', compact('tasks'));
+    }
+    
+    
+    public function addTask()
+    {
+        // Fetch the crops planted from the database
+        $cropsPlanted = CalendarPlanting::all();
+    
+        // Fetch the task types from the database
+        $taskTypes = TaskType::all();
+    
+        // Get the logged-in farm leader
+        $farmLeaderId = auth()->id();
+    
+        // Iterate over each crops planted
+        foreach ($cropsPlanted as $crop) {
+            // Check if tasks for this crop already exist
+            $existingTasks = DB::table('tasks')
+                ->where('crops_planted_id', $crop->id)
+                ->count();
+    
+            // If tasks for this crop don't exist, add new tasks
+            if ($existingTasks == 0) {
+                // Calculate the number of days until harvest
+                $startDate = Carbon::parse($crop->start);
+                $endDate = Carbon::parse($crop->end);
+                $daysUntilHarvest = $endDate->diffInDays($startDate);
+    
+                // Generate an array of unique random farmer IDs for each day
+                $assignedFarmers = Farmer::where('farmleader_id', $farmLeaderId)->pluck('farmer_id')->toArray();
+                $uniqueRandomFarmerIds = array_unique($assignedFarmers);
+                $randomFarmerIds = [];
+                foreach ($uniqueRandomFarmerIds as $farmerId) {
+                    $randomFarmerIds = array_merge($randomFarmerIds, array_fill(0, floor($daysUntilHarvest / count($uniqueRandomFarmerIds)), $farmerId));
+                }
+                $remainingDays = $daysUntilHarvest % count($uniqueRandomFarmerIds);
+                if ($remainingDays > 0) {
+                    $randomFarmerIds = array_merge($randomFarmerIds, array_slice($uniqueRandomFarmerIds, 0, $remainingDays));
+                }
+                shuffle($randomFarmerIds);
 
-        $tasks = $tasksQuery->where('status', '!=', 'missing')
-            ->where('archived', false)
-            ->where('completed', false)
-            ->orderByDesc('priority')
-            ->orderBy('due_date', 'asc')
-            ->get();
-
-        date_default_timezone_set('Asia/Manila');
-
-        foreach ($tasks as $task) {
-            // Convert the task's due date to a Carbon instance in PH timezone
-            $dueDate = Carbon::parse($task->due_date)->setTimezone('Asia/Manila');
-
-            // Get the current date and time in PH timezone
-            $currentDateTime = Carbon::now()->setTimezone('Asia/Manila');
-
-            // Check if the due date is in the past
-            if ($dueDate < $currentDateTime) {
-                // Update the status of the task to 'missing'
-                $task->update([
-                    "status" => "missing"
-                ]);
-
-                // Notify the user about the missing task
-                $task->user->notify(new MissingTaskNotification($task));
+                // Iterate over each day until harvest
+                for ($day = 1; $day <= $daysUntilHarvest; $day++) {
+                    // Get the random farmer ID for this day
+                    $farmerId = $randomFarmerIds[$day - 1];
+    
+                    // Iterate over each task type
+                    foreach ($taskTypes as $taskType) {
+                        // Create a new task
+                        Task::create([
+                            'crops_planted_id' => $crop->id,
+                            'task_type_id' => $taskType->id,
+                            'day_number' => $day,
+                            'assigned' => $farmerId,
+                            'start' => $taskType->start,
+                            'end' => $taskType->end,
+                        ]);
+                    }
+                }
             }
         }
-
-
-        return view('pages.tasks.monitoring', compact('tasks', 'users'));
+    
+        return response()->json(['message' => 'Tasks added successfully.']);
     }
+    
+    
 
-
-
-
-
-    public function store(Request $request)
+    public function view($id)
     {
-        // Fixed the syntax for the 'redirect' method
-        $request->validate([
-            'title' => 'required|max:255',
-            'description' => 'nullable',
-            'priority' => 'required|string|max:255',
-            'due_date' => 'required|date_format:Y-m-d\TH:i',
-            'status' => 'nullable|string|max:11',
-            'user_id' => 'nullable|exists:users,id',
-        ]);
-
-        Task::create([
-            'title' => $request->input('title'),
-            'description' => $request->input('description'),
-            'priority' => $request->input('priority'),
-            'due_date' => $request->input('due_date'),
-            'status' => $request->input('status'),
-            'user_id' => $request->input('user_id'), // Fixed the input field name
-        ]);
-
-        $user_id = $request->user_id;
-
-        $users = auth()->user();
-        $userToNotify = User::find($user_id); // Replace $userId with the ID of the user you want to notify
-
-        if ($userToNotify) {
-            // Assuming you have created a new task and want to notify the user about it.
-            $task = new Task(); // Assuming you have created a new task object here
-
-            // Notify the user about the new task assignment
-            $userToNotify->notify(new NewTaskAssignNotification($task));
-        } else {
-            // Handle the case where the user is not found
-            // You can log an error, show a message, or take any other appropriate action.
+        // Fetch crop details based on the provided ID
+        $crop = CalendarPlanting::findOrFail($id);
+    
+        // Calculate the number of days until harvest
+        $startDate = Carbon::parse($crop->start);
+        $endDate = Carbon::parse($crop->end);
+        $daysUntilHarvest = $endDate->diffInDays($startDate);
+    
+        // Generate an array of days until harvest
+        $days = [];
+        for ($i = 1; $i <= $daysUntilHarvest; $i++) {
+            $days[] = $i;
         }
-        // Fixed the syntax for the 'redirect' method
-        return redirect()->route('tasks.monitoring')->with('success', 'Task Created Successfully');
-    }
 
-    public function edit(Task $task)
+        // Fetch tasks for the provided crop ID
+        $tasks = Task::where('crops_planted_id', $id)->get();
+
+        // Fetch all farmers of the logged-in farm leader
+        $farmLeaderId = auth()->id();
+        $farmers = User::whereHas('farmers', function ($query) use ($farmLeaderId) {
+            $query->where('farmleader_id', $farmLeaderId);
+        })->get();
+    
+        // Pass the crop details, days until harvest, and crop ID to the view
+        return view('pages.tasks.viewtask', compact('crop', 'days', 'id', 'tasks', 'farmers'));
+    }
+    
+    
+    public function updateTaskStatus(Request $request, $id)
     {
-        $minimumTasks = 6; // Adjust as needed
-        $usersMeetingMinimumTasks = User::withCount('tasks')->having('tasks_count', '>=', $minimumTasks)->get();
-
-        $activeUsers = User::where('status', '1')->orderBy('id', 'DESC')->get();
-
-        return view('pages.tasks.edit', compact('task', 'usersMeetingMinimumTasks', 'activeUsers'));
+        // Find the task by ID
+        $task = Task::findOrFail($id);
+        
+        // Update the status
+        $task->status = $request->status;
+        $task->save();
+        
+        // Optionally, you can return a response
+        return response()->json(['message' => 'Task status updated successfully'], 200);
     }
-
-    public function update(Request $request, Task $task)
+    
+    public function updateTaskFarmer($id, $day, Request $request)
     {
         // Validate the request data
         $request->validate([
-            'title' => 'required|max:255',
-            'description' => 'nullable',
-            'priority' => 'required|string|max:255',
-            'due_date' => 'required|date_format:Y-m-d\TH:i',
-            'status' => 'nullable|string|max:255',
-            'user_id' => 'nullable|exists:users,id',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust max file size as needed
+            'farmer_id' => 'required|exists:App\Models\User,id', // Validate if the farmer exists
         ]);
 
-        // Update the task with validated data
-        $task->update([
-            'title' => $request->input('title'),
-            'description' => $request->input('description'),
-            'priority' => $request->input('priority'),
-            'due_date' => $request->input('due_date'),
-            'status' => $request->input('status'),
-            'user_id' => $request->input('user_id'), // Fixed the input field name
-        ]);
+        // Find and update the tasks for the specified day
+        Task::where('crops_planted_id', $id)
+            ->where('day_number', $day)
+            ->update(['assigned' => $request->farmer_id]);
 
-        // Check if the status has been changed
-        if ($task->isDirty('status')) {
-            // Set image to null if the status is updated
-            $task->image = null;
-            $task->save();
-        }
-
-        // Handle image upload if provided
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-
-            // Get the file extension
-            $extension = $image->getClientOriginalExtension();
-
-            // Generate a unique filename using task ID, a unique identifier (e.g., timestamp), and file extension
-            $filename = $task->id . '_' . time() . '.' . $extension;
-
-            // Store the image with the generated filename
-            $image->storeAs('public/images', $filename);
-
-            // Save the filename to the task record in the database
-            $task->image = $filename;
-            $task->save();
-        }
-
-
-
-
-        // Retrieve the updated task with the image data
-        $updatedTask = Task::with('user')->findOrFail($task->id);
-
-        // Redirect back with the updated task data
-        return redirect()->route('tasks.monitoring')->with('success', 'Task Updated Successfully')->with('task', $updatedTask);
+        return response()->json(['message' => 'Task farmer updated successfully.']);
     }
 
+    public function updateTaskTime(Request $request, $id)
+{
+    // Find the task by ID
+    $task = Task::findOrFail($id);
+    
+    // Update the start and end times
+    $task->start = $request->start;
+    $task->end = $request->end;
+    $task->save();
+    
+    // Optionally, you can return a response
+    return response()->json(['message' => 'Task time updated successfully'], 200);
+}
 
-    public function complete(Task $task)
-    {
-        $task->update([
-            'completed' => true,
-            'completed_at' => now(),
-        ]);
-        $users = auth()->user();
-        $users = User::all();
+    
 
-        foreach ($users as $user) {
-            $tasks = new Task();
-            $user->notify(new CompleteTaskNotification($tasks));
-        }
-        return redirect()->route('tasks.monitoring')->with('success', 'Task Completed Successfully');
-    }
-
-    public function showCompleted()
-    {
-        $role_id = auth()->user()->role_id;
-
-        // Initialize tasks query
-        if ($role_id == 4) {
-            // Fetch tasks for role ID 4
-            $tasksQuery = Task::with('user')->where('user_id', auth()->id());
-        } else {
-            // Fetch all tasks
-            $tasksQuery = Task::with('user');
-        }
-
-        // Fetch completed tasks
-        $completedTasks = $tasksQuery->where('completed', true)->orderBy('completed_at', 'desc')->get();
-
-        // Update status for completed tasks
-        foreach ($completedTasks as $task) {
-            $task->update(['status' => 'completed']);
-        }
-
-
-        return view('pages.tasks.taskshow', compact('completedTasks'));
-    }
-
-    // app/Http/Controllers/TaskController.php
-
-
-    public function missingTasks()
-    {
-        // Find tasks that are either past their due date, not completed yet, or marked as missing
-        $role_id = auth()->user()->role_id;
-
-        if ($role_id == 4) {
-            // Fetch tasks for role ID 4
-            $tasksQuery = Task::with('user')->where('user_id', auth()->id());
-        } else {
-            // Fetch all tasks
-            $tasksQuery = Task::with('user');
-        }
-
-        $missingTasksQuery = Task::where(function ($query) {
-            $query->where('due_date', '<', Carbon::now())
-                ->orWhere(function ($subQuery) {
-                    $subQuery->whereNull('due_date')
-                        ->where('completed', false);
-                })
-                ->orWhere('status', 'missing');
-        });
-
-        // Fetch missing tasks based on user role
-        if ($role_id == 4) {
-            $missingTasksQuery->where('user_id', auth()->id());
-        }
-
-        $missingTasks = $missingTasksQuery->get();
-
-        // Merge missing tasks with other tasks based on the role
-        $tasks = $tasksQuery->where('status', '!=', 'missing')
-            ->where('archived', false)
-            ->where('completed', false)
-            ->orderByDesc('priority')
-            ->orderBy('due_date', 'asc')
-            ->get();
-
-        // Merge missing tasks with other tasks
-        $tasks = $tasks->merge($missingTasks);
-
-        // Update status of fetched tasks to 'missing'
-        foreach ($missingTasks as $task) {
-            $task->update(['status' => 'missing']);
-        }
-
-        // Pass missing tasks to the view
-        return view('pages.tasks.missingtask', ['tasks' => $missingTasks]);
-    }
-
-    // app/Http/Controllers/TaskController.php                                              
-
-    public function tasksAssignedToMe()
-    {
-        $tasks = Task::with('user')->where('user_id', auth()->id())->get();
-
-        return view('pages.tasks.taskassign', ['tasks' => $tasks]);
-    }
-
-    public function filterByStatus(Request $request)
-    {
-        $status = $request->input('status');
-
-        if (strtolower($status) == 'all') {
-            $tasks = Task::all();
-        } else {
-            $tasks = Task::Where('status', $status)->get();
-        }
-        return response()->json(['tasks' => $tasks]);
-    }
-
-    public function archive(Task $task)
-    {
-        $task->update([
-            'archived' => true,
-            'archived_at' => now(),
-        ]);
-
-        return redirect()->route('tasks.monitoring')->with('success', 'Task Archived Successfully');
-    }
-
-    public function showArchived()
-    {
-        $archivedTasks = Task::where('archived', true)
-            ->orderBy('archived_at', 'desc')
-            ->get();
-        return view('pages.tasks.archived', compact('archivedTasks'));
-    }
-
-    public function restore(Task $task)
-    {
-        $task->update([
-            'archived' => false,
-            'archived_at' => null, // Optionally, you can reset the archived_at timestamp
-        ]);
-
-        return redirect()->route('archived')->with('success', 'Task Restored Successfully');
-    }
 }

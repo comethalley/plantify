@@ -2,6 +2,8 @@ console.log("Hello admin js is here");
 $(document).ready(function () {
     getAdmins();
 
+    // setInterval(getAdmins, 500);
+
     function getAdmins() {
         $.ajax({
             url: "/getAllAdmin",
@@ -20,8 +22,18 @@ $(document).ready(function () {
     function populateUomTable(data) {
         var tableBody = $("#admin-table tbody");
         tableBody.empty();
-
+    
         $.each(data.admins, function (index, admin) {
+            var status = "";
+            var statusClass = ""; // Define class for status
+    
+            if (admin.isOnline == "1") {
+                status = "Online";
+                statusClass = "badge bg-success-subtle text-success text-uppercase"; // Class for online status (green text)
+            } else {
+                status = "Offline";
+                statusClass = "badge bg-danger-subtle text-danger text-uppercase"; // Class for offline status (red text)
+            }
             var row =
                 "<tr>" +
                 "<td class='id'># " +
@@ -36,16 +48,23 @@ $(document).ready(function () {
                 "<td class='customer_name'>" +
                 admin.email +
                 "</td>" +
+                "<td>" +
+                "<span class='" + statusClass + "'>" + // Add class for status
+                status +
+                "</span>" +
+                "</td>" +
                 "<td><ul class='list-inline gap-2 mb-0'><li class='list-inline-item edit' data-bs-toggle='tooltip' data-bs-trigger='hover' data-bs-placement='top' title='Edit'><a href='' class='text-primary d-inline-block edit_admin_btn' data-admin-id='" +
                 admin.id +
                 "'><i class='ri-pencil-fill fs-16'></i></a></li><li class='list-inline-item' data-bs-toggle='tooltip' data-bs-trigger='hover' data-bs-placement='top' title='Remove'><a class='text-danger d-inline-block archive_admin_btn' href='' data-admin-id='" +
                 admin.id +
                 "'><i class='ri-delete-bin-5-fill fs-16'></i></a></li></ul></td>" +
                 "</tr>";
-
+    
             tableBody.append(row);
         });
     }
+    
+    
 
     function updateAdmin() {
         var adminID = $("#adminID").val();
@@ -148,6 +167,10 @@ $(document).ready(function () {
         var firstname = $("#firstname").val();
         var lastname = $("#lastname").val();
         var email = $("#email").val();
+        var password = $("#password").val();
+        var confirm_password = $("#confirm_password").val();
+
+
 
         $.ajax({
             url: "/addAdmin",
@@ -159,6 +182,8 @@ $(document).ready(function () {
                 firstname: firstname,
                 lastname: lastname,
                 email: email,
+                password: password,
+                password_confirmation: confirm_password
             },
             success: function (data) {
                 console.log(data);

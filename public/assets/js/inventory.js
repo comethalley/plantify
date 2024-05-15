@@ -95,9 +95,6 @@ $(document).ready(function () {
                 uom.stocksID +
                 "</td>" +
                 "<td class='customer_name'>" +
-                uom.qr_code +
-                "</td>" +
-                "<td class='customer_name'>" +
                 uom.seedName +
                 "</td>" +
                 "<td class='customer_name'>" +
@@ -271,7 +268,7 @@ $(document).ready(function () {
         formData.append('quantity', quantity);
         formData.append('type', type);
 
-    
+        $('#sloading').toggle();
         $.ajax({
             url: "/add-seed",
             method: "POST",
@@ -291,12 +288,15 @@ $(document).ready(function () {
 
                 if (xhr.status === 200) {
                     getSupplier(supplier_id);
+                    $('#sloading').toggle();
                 } else if (xhr.status === 404) {
                     console.error("Seed not found");
+                    $('#sloading').toggle();
                 }
             },
             error: function (xhr, status, error) {
                 console.error("Error:", status, error);
+                $('#sloading').toggle();
             },
         });
     }
@@ -325,6 +325,7 @@ $(document).ready(function () {
     $("#delete-record").on("click", function () {
         archiveSupplier();
     });
+    
 
     // var supplier = $('#supplier_description').text();
     // console.log("Supplier is " + supplier);
@@ -503,7 +504,6 @@ $(document).ready(function () {
         $('#preview').hide()
         $('.manual-form').show()
         var Kalabasa = "Kalabasa";
-        getPrediction(1,1,1,1,Kalabasa)
     });
 
     function getPrediction() {
@@ -562,7 +562,14 @@ $(document).ready(function () {
                     location.reload()
                 },
                 error: function (xhr, status, error) {
-                    console.error("Error:", status, error);
+                    console.error("Error:", status, error, xhr);
+                    getStocksList();
+                    Swal.fire({
+                        title: xhr.responseJSON.message,
+                        icon: "error",
+                        showConfirmButton: false,
+                        timer: 2000,
+                    });
                 },
             });
     });

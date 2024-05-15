@@ -89,4 +89,14 @@ public function groupMembers()
     {
         return $this->hasMany(Interest::class);
     }
+
+    public function requests()
+    {
+        return $this->hasMany(RequestN::class, 'requested_by');
+    }
+
+    public function farmers()
+    {
+        return $this->hasMany(Farmer::class, 'farmer_id');
+    }
 }

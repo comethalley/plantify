@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Notifications\NewRequestNotification;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\SupplyType;
@@ -63,17 +63,9 @@ class RequestController extends Controller
                 'supply_tool1' => 'nullable|string|max:255',
                 'supply_tool2' => 'nullable|string|max:255',
 
-                'supply_seedling' => 'nullable|string|max:255',
-                'supply_seedling1' => 'nullable|string|max:255',
-                'supply_seedling2' => 'nullable|string|max:255',
-
                 'count_tool' => 'nullable|numeric',
                 'count_tool1' => 'nullable|numeric',
                 'count_tool2' => 'nullable|numeric',
-
-                'count_seedling' => 'nullable|numeric',
-                'count_seedling1' => 'nullable|numeric',
-                'count_seedling2' => 'nullable|numeric',
 
                 'letter_content' => 'nullable|file|mimes:pdf|max:2048',
                 'status' => 'string|max:255',
@@ -94,13 +86,59 @@ class RequestController extends Controller
                 'supply_tool1' => $request->input('supply_tool1'),
                 'supply_tool2' => $request->input('supply_tool2'),
 
-                'supply_seedling' => $request->input('supply_seedling'),
-                'supply_seedling1' => $request->input('supply_seedling1'),
-                'supply_seedling2' => $request->input('supply_seedling2'),
-
                 'count_tool' => $request->input('count_tool'),
                 'count_tool1' => $request->input('count_tool1'),
                 'count_tool2' => $request->input('count_tool2'),
+
+                'requested_by' => $loggedInUserId, // Store the user's ID
+                'letter_content' => $contentLetterPath,
+                'status' => $request->input('status', 'Requested'),
+            ]);
+            $admins = User::whereIn('role_id', [1, 2])->get();
+
+            // Notify each admin
+            foreach ($admins as $admin) {
+                $admin->notify(new NewRequestNotification($admin));
+            }
+            
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            Log::error($e);
+            return response()->json(['success' => false, 'errors' => ['exception' => [$e->getMessage()]]], 500);
+        }
+    }
+    public function addTools1(Request $request)
+    {
+        try {
+            $request->validate([
+
+                'supply_seedling' => 'nullable|string|max:255',
+                'supply_seedling1' => 'nullable|string|max:255',
+                'supply_seedling2' => 'nullable|string|max:255',
+
+                'count_seedling' => 'nullable|numeric',
+                'count_seedling1' => 'nullable|numeric',
+                'count_seedling2' => 'nullable|numeric',
+
+                'letter_content' => 'nullable|file|mimes:pdf|max:2048',
+                'status' => 'string|max:255',
+            ]);
+
+            $loggedInUserId = Auth::id();
+
+            if (!$loggedInUserId) {
+                return response()->json(['success' => false, 'errors' => ['authentication' => ['User is not authenticated.']]], 401);
+            }
+
+            $loggedInUser = User::findOrFail($loggedInUserId);
+
+            $contentLetterPath = $request->file('letter_content')->store('pdfs', 'public');
+
+            RequestN::create([
+
+                'supply_seedling' => $request->input('supply_seedling'),
+                'supply_seedling1' => $request->input('supply_seedling1'),
+                'supply_seedling2' => $request->input('supply_seedling2'),
 
                 'count_seedling' => $request->input('count_seedling'),
                 'count_seedling1' => $request->input('count_seedling1'),
@@ -110,14 +148,22 @@ class RequestController extends Controller
                 'letter_content' => $contentLetterPath,
                 'status' => $request->input('status', 'Requested'),
             ]);
+            $admins = User::whereIn('role_id', [1, 2])->get();
 
+            // Notify each admin
+            foreach ($admins as $admin) {
+                $admin->notify(new NewRequestNotification($admin));
+            }
             return response()->json(['success' => true]);
-        } catch (\Exception $e) {
+        } 
+        
+       
+        catch (\Exception $e) {
             Log::error($e);
             return response()->json(['success' => false, 'errors' => ['exception' => [$e->getMessage()]]], 500);
         }
+        
     }
-
     public function getRequestDetails($id)
     {
         $request = RequestN::findOrFail($id);
@@ -183,7 +229,7 @@ class RequestController extends Controller
 
             $request = RequestN::findOrFail($id);
 
-            $request->status = 'Picked';
+            $request->status = 'Confirmed-pick-date';
 
             $request->save();
 
@@ -203,34 +249,35 @@ class RequestController extends Controller
             return response()->json(['success' => false, 'message' => 'Error updating farm status to "Set Date"']);
         }
     }
-
-    public function SetDateStatus1($id, Request $request)
+    public function updateRequest(Request $request, $id)
     {
-        try {
-            $validatedData = $request->validate([
-                'select_picked' => 'required|date', 
-            ]);
-
-            $request = RequestN::findOrFail($id);
-
-            $request->status = 'Waiting-for-Return';
-
-            $request->save();
-
-            $user = Auth::user();
-
-            RemarkRequest::create([
-                'request_id' => $request->id,
-                'remarks' => 'For Request Picked Date',
-                'remark_status' => 'Waiting-for-Return',
-                'validated_by' => $user->firstname . ' ' . $user->lastname,
-                'select_picked' => $validatedData['select_picked'] 
-            ]);
-
-            return response()->json(['success' => true, 'message' => 'Farm status updated successfully']);
-        } catch (\Exception $e) {
-            \Log::error('Error updating farm status to "Cancel" for farm ID ' . $id . ': ' . $e->getMessage());
-            return response()->json(['success' => false, 'message' => 'Error updating farm status to "Set Date"']);
+        $request->validate([
+            'letter_content' => 'nullable|file|mimes:pdf|max:2048',
+        ]);
+    
+        $request = RequestN::findOrFail($id);
+    
+        if (!$request) {
+            return response()->json(['error' => 'Request not found'], 404);
         }
+    
+        if ($request->hasFile('letter_content')) {
+            $contentLandContent = file_get_contents($request->file('letter_content')->getRealPath());
+            $contentLetterPath = $request->file('letter_content')->store('pdfs', 'public');
+        } else {
+            $contentLetterPath = $request->input('letter_content');
+        }
+    
+        $request->update([
+            'supply_tool' => $request->input('supply_tool'),
+            'count_tool' => $request->input('count_tool'),
+            'letter_content' => $contentLetterPath,
+            'status' => $request->input('status', 'Requested'),
+        ]);
+    
+        return response()->json(['message' => 'Request updated successfully', 'request' => $request]);
     }
+    
+
+
 }

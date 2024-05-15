@@ -59,7 +59,7 @@ use Illuminate\Support\Facades\Artisan;
 Route::get('/', [AuthController::class, 'landingpage']);
 Route::get('/dashboard/analytics', [AnalyticsController::class, 'index'])->name('dashboard.analytics')->middleware('auth');
 Route::get('/login', [AuthController::class, 'viewLogin'])->name('login')->middleware('guest');
-Route::get('/signup', [AuthController::class, 'viewSignup']);
+// Route::get('/signup', [AuthController::class, 'viewSignup']);
 Route::post('/login/process', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
 Route::post('/register', [AuthController::class, 'signup']);

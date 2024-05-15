@@ -78,19 +78,19 @@
                                 </ul>
 
                                 <div id="all" class="tab-pane fade">
-                                    <div class="table-responsive table-card mb-1">
-                                        <table class="table table-nowrap align-middle">
+                                    <div class="table-responsive mb-1">
+                                        <table class="table nowrap dt-responsive align-middle table-hover" style="width:100%">
                                             <thead class="text-muted table-light">
                                                 <tr class="text-uppercase">
-                                                    <th>ID</th>
-                                                    <th>Supply Tools</th>
-                                                    <th>Tools Quantity</th>
-                                                    <th>Supply Seeds</th>
-                                                    <th>Seeds Quantity</th>
-                                                    <th>Requested By</th>
+                                                    <th width="">ID</th>
+                                                    <th width="15%">Supply Tools</th>
+                                                    <th width="10%">Tools Qty</th>
+                                                    <th width="15%">Supply Seeds</th>
+                                                    <th width="10%">Seeds Qty</th>
+                                                    <th width="15%">Requested By</th>
                                                     <!-- <th>Farm Name</th> -->
-                                                    <th>Status</th>
-                                                    <th>Date Created</th>
+                                                    <th width="15%">Status</th>
+                                                    <th width="20%">Date Created</th>
                                                 </tr>
                                             </thead>
                                             <tbody class="list form-check-all">
@@ -140,23 +140,22 @@
 
                                 <!-- request list table -->
                                 <div id="requested" class="tab-pane fade">
-                                    <div class="table-responsive table-card mb-1">
-                                        <!-- REQUEST TOOLS -->
-                                        <table class="table table-nowrap align-middle">
+                                    <div class="table-responsive mb-1">
+                                        <table class="table nowrap dt-responsive align-middle table-hover" style="width:100%">
                                             <thead class="text-muted table-light">
                                                 <tr class="text-uppercase">
-                                                    <th data-sort="id">ID</th>
+                                                    <th width="" data-sort="id">ID</th>
                                                     <!-- <th data-sort="supply_id">Supply Type</th> -->
-                                                    <th data-sort="tool_type">Supply Tools</th>
-                                                    <th data-sort="count_tool">Tools Quantity</th>
-                                                    <th data-sort="seedling_type">Supply Seeds</th>
-                                                    <th data-sort="count_seedling">Seeds Quantity</th>
-                                                    <th data-sort="letter_content">Letter</th>
-                                                    <th data-sort="farm_leader">Requested By</th>
+                                                    <th width="15%" data-sort="tool_type">Supply Tools</th>
+                                                    <th width="5%" data-sort="count_tool">Tools Qty</th>
+                                                    <th width="15%" data-sort="seedling_type">Supply Seeds</th>
+                                                    <th width="5%" data-sort="count_seedling">Seeds Qty</th>
+                                                    <th width="5%" data-sort="letter_content">Letter</th>
+                                                    <th width="15%" data-sort="farm_leader">Requested By</th>
                                                     <!-- <th data-sort="farm_name">Farm Name</th> -->
-                                                    <th data-sort="status">Status</th>
-                                                    <th data-sort="change_stat">Set As</th>
-                                                    <th data-sort="action">Action</th>
+                                                    <th width="10%" data-sort="status">Status</th>
+                                                    <th width="15%" data-sort="change_stat">Set As</th>
+                                                    <th width="10%" data-sort="action">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody class="list form-check-all">
@@ -194,7 +193,7 @@
                                                     </td>
                                                     <td class="letter_content">
                                                         <a href="{{ route('view.pdf.request', ['id' => $request->id]) }}" class="btn btn-success waves-effect waves-light" target="_blank">
-                                                            <i class="ri-eye-line align-bottom"></i> View PDF
+                                                            <i class="ri-eye-line align-bottom"></i>
                                                         </a>
                                                     </td>
                                                     <td class="farm_leader">{{ $request->requestedBy->firstname }} {{ $request->requestedBy->lastname }}</td>
@@ -232,21 +231,22 @@
 
                                 <!-- available list -->
                                 <div id="available" class="tab-pane fade">
-                                    <div class="table-responsive table-card mb-1">
-                                        <table class="table table-nowrap align-middle">
+                                    <div class="table-responsive mb-1">
+                                        <table class="table nowrap dt-responsive align-middle table-hover" style="width:100%">
                                             <thead class="text-muted table-light">
                                                 <tr class="text-uppercase">
-                                                    <th data-sort="id">ID</th>
-                                                    <th data-sort="tool_type">Supply Tools</th>
-                                                    <th data-sort="count_tool">Tools Quantity</th>
-                                                    <th data-sort="seedling_type">Supply Seeds</th>
-                                                    <th data-sort="count_seedling">Seeds Quantity</th>
-                                                    <th data-sort="letter_content">Letter</th>
-                                                    <th data-sort="farm_leader">Requested By</th>
+                                                    <th width="" data-sort="id">ID</th>
+                                                    <!-- <th data-sort="supply_id">Supply Type</th> -->
+                                                    <th width="15%" data-sort="tool_type">Supply Tools</th>
+                                                    <th width="5%" data-sort="count_tool">Tools Qty</th>
+                                                    <th width="15%" data-sort="seedling_type">Supply Seeds</th>
+                                                    <th width="5%" data-sort="count_seedling">Seeds Qty</th>
+                                                    <th width="5%" data-sort="letter_content">Letter</th>
+                                                    <th width="15%" data-sort="farm_leader">Requested By</th>
                                                     <!-- <th data-sort="farm_name">Farm Name</th> -->
-                                                    <th data-sort="status">Status</th>
-                                                    <th data-sort="change_stat">Set As</th>
-                                                    <th data-sort="action">Action</th>
+                                                    <th width="10%" data-sort="status">Status</th>
+                                                    <th width="15%" data-sort="change_stat">Set As</th>
+                                                    <th width="10%" data-sort="action">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody class="list form-check-all">
@@ -284,7 +284,7 @@
                                                     </td>
                                                     <td class="letter_content">
                                                         <button type="button" class="btn btn-success waves-effect waves-light" onclick="viewLetterContent({{ $request->id }})">
-                                                            <i class="ri-eye-line align-bottom"></i> View PDF
+                                                            <i class="ri-eye-line align-bottom"></i>
                                                         </button>
                                                     </td>
                                                     <td class="text-center farm_leader">{{ $request->requestedBy->firstname }} {{ $request->requestedBy->lastname }}</td>
@@ -329,21 +329,22 @@
 
                                 <!-- Approval list -->
                                 <div id="approval" class="tab-pane fade">
-                                    <div class="table-responsive table-card mb-1">
-                                        <table class="table table-nowrap align-middle">
+                                    <div class="table-responsive mb-1">
+                                        <table class="table nowrap dt-responsive align-middle table-hover" style="width:100%">
                                             <thead class="text-muted table-light">
                                                 <tr class="text-uppercase">
-                                                    <th data-sort="id">ID</th>
-                                                    <th data-sort="tool_type">Supply Tools</th>
-                                                    <th data-sort="count_tool">Tools Quantity</th>
-                                                    <th data-sort="seedling_type">Supply Seeds</th>
-                                                    <th data-sort="count_seedling">Seeds Quantity</th>
-                                                    <th data-sort="letter_content">Letter</th>
-                                                    <th data-sort="farm_leader">Requested By</th>
+                                                    <th width="" data-sort="id">ID</th>
+                                                    <!-- <th data-sort="supply_id">Supply Type</th> -->
+                                                    <th width="15%" data-sort="tool_type">Supply Tools</th>
+                                                    <th width="5%" data-sort="count_tool">Tools Qty</th>
+                                                    <th width="15%" data-sort="seedling_type">Supply Seeds</th>
+                                                    <th width="5%" data-sort="count_seedling">Seeds Qty</th>
+                                                    <th width="5%" data-sort="letter_content">Letter</th>
+                                                    <th width="15%" data-sort="farm_leader">Requested By</th>
                                                     <!-- <th data-sort="farm_name">Farm Name</th> -->
-                                                    <th data-sort="status">Status</th>
-                                                    <th data-sort="change_stat">Set As</th>
-                                                    <th data-sort="action">Action</th>
+                                                    <th width="10%" data-sort="status">Status</th>
+                                                    <th width="15%" data-sort="change_stat">Set As</th>
+                                                    <th width="10%" data-sort="action">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody class="list form-check-all">
@@ -373,7 +374,7 @@
                                                     </td>
                                                     <td class="letter_content">
                                                         <button type="button" class="btn btn-success waves-effect waves-light" onclick="viewLetterContent({{ $request->id }})">
-                                                            <i class="ri-eye-line align-bottom"></i> View PDF
+                                                            <i class="ri-eye-line align-bottom"></i>
                                                         </button>
                                                     </td>
                                                     <td class="text-center farm_leader">{{ $request->requestedBy->firstname }} {{ $request->requestedBy->lastname }}</td>
@@ -419,21 +420,22 @@
 
                                 <!-- Disapproved list -->
                                 <div id="disapproved" class="tab-pane fade">
-                                    <div class="table-responsive table-card mb-1">
-                                        <table class="table table-nowrap align-middle">
+                                    <div class="table-responsive mb-1">
+                                        <table class="table nowrap dt-responsive align-middle table-hover" style="width:100%">
                                             <thead class="text-muted table-light">
                                                 <tr class="text-uppercase">
-                                                    <th data-sort="id">ID</th>
-                                                    <th data-sort="tool_type">Supply Tools</th>
-                                                    <th data-sort="count_tool">Tools Quantity</th>
-                                                    <th data-sort="seedling_type">Supply Seeds</th>
-                                                    <th data-sort="count_seedling">Seeds Quantity</th>
-                                                    <th data-sort="letter_content">Letter</th>
-                                                    <th data-sort="farm_leader">Requested By</th>
+                                                    <th width="" data-sort="id">ID</th>
+                                                    <!-- <th data-sort="supply_id">Supply Type</th> -->
+                                                    <th width="15%" data-sort="tool_type">Supply Tools</th>
+                                                    <th width="5%" data-sort="count_tool">Tools Qty</th>
+                                                    <th width="15%" data-sort="seedling_type">Supply Seeds</th>
+                                                    <th width="5%" data-sort="count_seedling">Seeds Qty</th>
+                                                    <th width="5%" data-sort="letter_content">Letter</th>
+                                                    <th width="15%" data-sort="farm_leader">Requested By</th>
                                                     <!-- <th data-sort="farm_name">Farm Name</th> -->
-                                                    <th data-sort="status">Status</th>
-                                                    <th data-sort="change_stat">Set As</th>
-                                                    <th data-sort="action">Action</th>
+                                                    <th width="10%" data-sort="status">Status</th>
+                                                    <th width="15%" data-sort="change_stat">Set As</th>
+                                                    <th width="10%" data-sort="action">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody class="list form-check-all">
@@ -463,7 +465,7 @@
                                                     </td>
                                                     <td class="letter_content">
                                                         <button type="button" class="btn btn-success waves-effect waves-light" onclick="viewLetterContent({{ $request->id }})">
-                                                            <i class="ri-eye-line align-bottom"></i> View PDF
+                                                            <i class="ri-eye-line align-bottom"></i>
                                                         </button>
                                                     </td>
                                                     <td class="text-center farm_leader">{{ $request->requestedBy->firstname }} {{ $request->requestedBy->lastname }}</td>
@@ -505,22 +507,23 @@
 
                                 <!-- Picked list -->
                                 <div id="picked" class="tab-pane fade">
-                                    <div class="table-responsive table-card mb-1">
-                                        <table class="table table-nowrap align-middle">
+                                    <div class="table-responsive mb-1">
+                                        <table class="table nowrap dt-responsive align-middle table-hover" style="width:100%">
                                             <thead class="text-muted table-light">
                                                 <tr class="text-uppercase">
-                                                    <th data-sort="id">ID</th>
-                                                    <th data-sort="tool_type">Supply Tools</th>
-                                                    <th data-sort="count_tool">Tools Quantity</th>
-                                                    <th data-sort="seedling_type">Supply Seeds</th>
-                                                    <th data-sort="count_seedling">Seeds Quantity</th>
-                                                    <th data-sort="letter_content">LETTER</th>
-                                                    <th data-sort="farm_leader">REQUESTED BY</th>
-                                                    <!-- <th data-sort="farm_name">FARM NAME</th> -->
-                                                    <th data-sort="status">STATUS</th>
-                                                    <th data-sort="created_at">DATE MUST BE PICK UP</th>
-                                                    <th data-sort="change_stat">SET AS</th>
-                                                    <th data-sort="action">ACTION</th>
+                                                    <th width="" data-sort="id">ID</th>
+                                                    <!-- <th data-sort="supply_id">Supply Type</th> -->
+                                                    <th width="15%" data-sort="tool_type">Supply Tools</th>
+                                                    <th width="5%" data-sort="count_tool">Tools Qty</th>
+                                                    <th width="15%" data-sort="seedling_type">Supply Seeds</th>
+                                                    <th width="5%" data-sort="count_seedling">Seeds Qty</th>
+                                                    <th width="5%" data-sort="letter_content">Letter</th>
+                                                    <th width="15%" data-sort="farm_leader">Requested By</th>
+                                                    <!-- <th data-sort="farm_name">Farm Name</th> -->
+                                                    <th width="10%" data-sort="status">Status</th>
+                                                    <th width="15%" data-sort="created_at">Pick up date</th>
+                                                    <th width="20%" data-sort="change_stat">Set As</th>
+                                                    <th width="10%" data-sort="action">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody class="list form-check-all">
@@ -550,7 +553,7 @@
                                                     </td>
                                                     <td class="letter_content">
                                                         <button type="button" class="btn btn-success waves-effect waves-light" onclick="viewLetterContent({{ $request->id }})">
-                                                            <i class="ri-eye-line align-bottom"></i> View PDF
+                                                            <i class="ri-eye-line align-bottom"></i>
                                                         </button>
                                                     </td>
                                                     <td class="text-center farm_leader">{{ $request->requestedBy->firstname }} {{ $request->requestedBy->lastname }}</td>
@@ -597,22 +600,23 @@
 
                                 <!-- Return list -->
                                 <div id="returned" class="tab-pane fade">
-                                    <div class="table-responsive table-card mb-1">
-                                        <table class="table table-nowrap align-middle">
+                                    <div class="table-responsive mb-1">
+                                        <table class="table nowrap dt-responsive align-middle table-hover" style="width:100%">
                                             <thead class="text-muted table-light">
                                                 <tr class="text-uppercase">
-                                                    <th data-sort="id">ID</th>
-                                                    <th data-sort="tool_type">Supply Tools</th>
-                                                    <th data-sort="count_tool">Tools Quantity</th>
-                                                    <th data-sort="seedling_type">Supply Seeds</th>
-                                                    <th data-sort="count_seedling">Seeds Quantity</th>
-                                                    <th data-sort="letter_content">LETTER</th>
-                                                    <th data-sort="farm_leader">REQUESTED BY</th>
-                                                    <!-- <th data-sort="farm_name">FARM NAME</th> -->
-                                                    <th data-sort="status">STATUS</th>
-                                                    <th data-sort="created_at">DATE MUST BE RETURNED</th>
-                                                    <th data-sort="change_stat">SET AS</th>
-                                                    <th data-sort="action">ACTION</th>
+                                                    <th width="" data-sort="id">ID</th>
+                                                    <!-- <th data-sort="supply_id">Supply Type</th> -->
+                                                    <th width="15%" data-sort="tool_type">Supply Tools</th>
+                                                    <th width="5%" data-sort="count_tool">Tools Qty</th>
+                                                    <th width="15%" data-sort="seedling_type">Supply Seeds</th>
+                                                    <th width="5%" data-sort="count_seedling">Seeds Qty</th>
+                                                    <th width="5%" data-sort="letter_content">Letter</th>
+                                                    <th width="15%" data-sort="farm_leader">Requested By</th>
+                                                    <!-- <th data-sort="farm_name">Farm Name</th> -->
+                                                    <th width="10%" data-sort="status">Status</th>
+                                                    <th width="15%" data-sort="created_at">Return Date</th>
+                                                    <th width="20%" data-sort="change_stat">Set As</th>
+                                                    <th width="" data-sort="action">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody class="list form-check-all">
@@ -642,7 +646,7 @@
                                                     </td>
                                                     <td class="letter_content">
                                                         <a href="{{ route('view.pdf.request', ['id' => $request->id]) }}" class="btn btn-success waves-effect waves-light" target="_blank">
-                                                            <i class="ri-eye-line align-bottom"></i> View PDF
+                                                            <i class="ri-eye-line align-bottom"></i>
                                                         </a>
                                                     </td>
                                                     <td class="text-center farm_leader">{{ $request->requestedBy->firstname }} {{ $request->requestedBy->lastname }}</td>
@@ -815,7 +819,6 @@
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
 
     function viewLetterContent(id) {
@@ -883,49 +886,37 @@
         openSetReturnDateModal(requestId);
     });
 
+    // Function to set picking date
     function setPickingDate(requestId, pickingDate) {
-    // Send an AJAX request to set the picking date
-    $.ajax({
-        url: "/set-picking-date",
-        type: "POST",
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        data: {
-            requestId: requestId,
-            picked_date: pickingDate // Change pickingDate to picked_date
-        },
-        success: function(response) {
-            if (response.success) {
-                // If the request is successful, update the status to "Ready to be Picked"
-                updateStatusInDatabase(requestId, 'Ready-to-be-pick');
-                // Close the modal and show a success message
-                $('#setPickingDateModal').modal('hide');
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Success!',
-                    text: 'Picking date set successfully!',
-                    showConfirmButton: false
-                });
-            } else {
-                // If there's an error, show the error message
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error!',
-                    text: response.error
-                });
+        // Send an AJAX request to set the picking date
+        $.ajax({
+            url: "/set-picking-date",
+            type: "POST",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: {
+                requestId: requestId,
+                picked_date: pickingDate // Change pickingDate to picked_date
+            },
+            success: function(response) {
+                if (response.success) {
+                    // If the request is successful, update the status to "Ready to be Picked"
+                    updateStatusInDatabase(requestId, 'Ready-to-be-pick');
+                    // Close the modal and show a success message
+                    $('#setPickingDateModal').modal('hide');
+                    alert('Picking date set successfully!');
+                } else {
+                    // If there's an error, show the error message
+                    alert(response.error);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+                alert('An error occurred while processing your request. Please try again.');
             }
-        },
-        error: function(xhr, status, error) {
-            console.error(xhr.responseText);
-            Swal.fire({
-                icon: 'error',
-                title: 'Error!',
-                text: 'An error occurred while processing your request. Please try again.'
-            });
-        }
-    });
-}
+        });
+    }
 
     // Event listener for submitting picking date
     $('#setPickingDateForm').submit(function(event) {
@@ -1218,48 +1209,19 @@
     });
 
     $('#confirmUpdateBtn').click(function() {
-    // Get the stored row ID and selected status
-    var rowId = $(this).data('rowId');
-    var selectedStatus = $(this).data('selectedStatus');
+        // Get the stored row ID and selected status
+        var rowId = $(this).data('rowId');
+        var selectedStatus = $(this).data('selectedStatus');
 
-    // Get the remarks from the modal textarea
-    var remarks = $('textarea[name="remarks"]').val();
+        // Get the remarks from the modal textarea
+        var remarks = $('textarea[name="remarks"]').val();
 
-    // Show a SweetAlert2 confirmation dialog
-    Swal.fire({
-        title: 'Are you sure?',
-        text: "Do you want to confirm this status?",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Yes, confirm it!',
-        cancelButtonText: 'No, cancel!',
-    }).then((result) => {
-        if (result.isConfirmed) {
-            // Perform the update with remarks
-            updateStatusInDatabase(rowId, selectedStatus, remarks);
+        // Perform the update with remarks
+        updateStatusInDatabase(rowId, selectedStatus, remarks);
 
-            // Show success message
-            Swal.fire({
-                icon: 'success',
-                title: 'Confirmation',
-                text: 'Status has been set successfully.',
-                showConfirmButton: false
-                
-            });
-
-            // Close the modal
-            $('#confirmationModal').modal('hide');
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Confimation',
-                text: 'Confirmation was cancelled.',
-                
-            });
-        }
+        // Close the modal
+        $('#confirmationModal').modal('hide');
     });
-});
-
 
     // Function to update status in the database
     function updateStatusInDatabase(rowId, selectedStatus, remarks) {
@@ -1276,7 +1238,7 @@
             },
             success: function(response) {
                 console.log('Status updated successfully');
-                location.reload();
+                location.reload(); // Reload the page after successful update
             },
             error: function(xhr, status, error) {
                 // Handle error response

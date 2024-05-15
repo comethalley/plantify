@@ -18,7 +18,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('check:out-of-stock-items')->daily();
         $schedule->command('harvests:check')->daily();
         $schedule->command('notify:upcoming-events')->daily();
-        $schedule->command('notify:events-today')->daily();
+        $schedule->command('notify:events-today')->everyminute();
         $schedule->command('notify:harvest-today')->daily();
         
 

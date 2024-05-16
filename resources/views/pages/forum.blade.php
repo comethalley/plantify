@@ -66,283 +66,137 @@
                 <div id="searchResults" style="width:600px; display: flex; justify-content:center; flex-direction:column; margin-top:5px;"></div>
 
             </div>
+<div class="card" style="border-radius: 13px; margin-bottom: 20px; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1); max-width: 600px; margin: 0 auto;">
+    <div class="card-body">
+        <div class="mt-0" style="display: flex; justify-content: space-between; align-items: center;">
 
-            <div class="card" style="border-radius:13px; margin-bottom:20px; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1); max-width: 600px; width: 100%; margin: 0 auto;">
-                        <div class="card-body">
-                            <div class="mt-0 " style="display: flex;">
+            @auth
+            @php
+            // Kunin ang naka-login na user
+            $loggedInUser = auth()->user();
 
-                            
-        @auth
-    @php
-        // Kunin ang naka-login na user
-        $loggedInUser = auth()->user();
-        
-        // Tingnan kung may profile settings ang naka-login na user
-        $profileSettings = $loggedInUser->profileSettings;
-    @endphp
+            // Tingnan kung may profile settings ang naka-login na user
+            $profileSettings = $loggedInUser->profileSettings;
+            @endphp
 
-    @if($profileSettings && $profileSettings->profile_image)
-        <!-- Kung may profile image ang naka-login na user, ipakita ito -->
-        <img style="margin-right: 4px; width: 43px; height: 40px; padding: 2px; border: 3px solid #006400;" src="{{ asset('storage/images/' . $profileSettings->profile_image) }}" alt="Profile Image" class="rounded-circle avatar-xl img-thumbnail user-profile-image">
-    @else
-        <!-- Kung wala, gamitin ang default na larawan ng profile -->
-
+            @if($profileSettings && $profileSettings->profile_image)
+            <!-- Kung may profile image ang naka-login na user, ipakita ito -->
+            <img style="margin-right: 4px; width: 43px; height: 40px; padding: 2px; border: 3px solid #006400;" src="{{ asset('storage/images/' . $profileSettings->profile_image) }}" alt="Profile Image" class="rounded-circle avatar-xl img-thumbnail user-profile-image">
+            @else
+            <!-- Kung wala, gamitin ang default na larawan ng profile -->
             <img style="margin-right: 4px; width: 40px; height: 40px; padding: 2px; border: 3px solid #006400;" src="assets/images/plantifeedpics/profile-default.png" alt="Default Profile Image" class="img-thumbnail rounded-circle">
-
-    @endif
-@endauth
-
-
-                             <button type="button" class="btn btn-primary" style=" margin-left:4px; border: 0; border-radius: 20px; text-align: left; background-color: #E6E6E6; color: black; width: 100%;" data-bs-toggle="modal" data-bs-target="#myModal">Ask and share your story!</button>
-
-                                <div style="display: inline-flex; align-items: center; ">
-                             
-                                 
-
-                                    <div id="myModal" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content" style="width: 600px; height:500px;">
-                                                <div class="modal-header"
-
-                                                    <h5 style="margin-left:240px;" class="modal-title" id="myModalLabel">Add Question</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
-
-                                                </div>
-
-                                                <img src="/assets/images/plantifeedpics/line.png" alt="line-img" style="width:570px; margin-left:15px; margin-top:10px;">
-
-                                                <div class="modal-body">
-                                                    <div style="background-color: #E1E1E1; padding:20px; border-radius:10px;">
-                                                        <h5 class="fs-15" style="margin-bottom: 20px;">
-                                                            Tips on getting good answers quickly
-                                                        </h5>
-                                                        <p class="text-muted">• Make sure your question has not been asked already </p>
-                                                        <p class="text-muted">• Keep your question short and to the point</p>
-                                                        <p class="text-muted">• Double-check grammar and spelling</p>
-                                                    </div>
-
-
-
-                                                    <div style="margin-top:20px;">
-                                                        <form id="forumForm" action="{{ route('forum.store') }}" method="POST">
-                                                                                 
-        @auth
-    @php
-        // Kunin ang naka-login na user
-        $loggedInUser = auth()->user();
-        
-        // Tingnan kung may profile settings ang naka-login na user
-        $profileSettings = $loggedInUser->profileSettings;
-    @endphp
-
-    @if($profileSettings && $profileSettings->profile_image)
-        <!-- Kung may profile image ang naka-login na user, ipakita ito -->
-        <img style="margin-right: 4px; width: 43px; height: 40px; padding: 2px; border: 3px solid #006400;" src="{{ asset('storage/images/' . $profileSettings->profile_image) }}" alt="Profile Image" class="rounded-circle avatar-xl img-thumbnail user-profile-image">
-    @else
-        <!-- Kung wala, gamitin ang default na larawan ng profile -->
-
-            <img style="margin-right: 4px; width: 40px; height: 40px; padding: 2px; border: 3px solid #006400;" src="assets/images/plantifeedpics/profile-default.png" alt="Default Profile Image" class="img-thumbnail rounded-circle">
-
-    @endif
-@endauth
-                                                            @csrf
-                                                            <div class="dropdown" style="position: relative; display: inline-block; width:100px; border-radius:30px;">
-                                                                <select name="language" id="language" style="border-radius:30px;padding:4px; outline: none;">
-                                                                    <option value="Public">Public</option>
-                                                                    <option value="Limited">Limited</option>
-                                                                </select>
-                                                            </div>
-                                                            <input style="margin-top:30px; width:100%; display: block; outline: none;  border-right: none; border-top: none;border-left: none; border-bottom: 1px solid black; " required type="text" name="askquestions" id="askquestions" placeholder="Start your questions with 'What', 'Why', 'How', etc." required>
-                                                            <div style="display: flex; justify-content:flex-end; margin-top:70px;">
-                                                                <button class="btn btn-light" style="margin-right:10px; border-radius:10px; border:none;" type="button" data-bs-dismiss="modal">Cancel</button>
-                                                                <button class="btn btn-light" style="border-radius:10px; border:none;" type="button" id="submitForm">Add Question</button>
-                                                            </div>
-                                                        </form>
-                                                        @if (Session::has('message'))
-                                                        <div class="alert alert-{{ Session::get('message_type') }}" id="sweetAlert">
-                                                            <script>
-                                                                // I-wrap ang code sa isang function para madaling tawagin
-                                                                function showSweetAlert() {
-                                                                    swal({
-                                                                        title: "Success",
-                                                                        text: "{{ Session::get('message') }}",
-                                                                        icon: "success",
-                                                                        button: "OK"
-                                                                    });
-                                                                }
-
-                                                                // I-check kung ang page ay nasa cache o hindi
-                                                                if (performance.navigation.type !== 2) {
-                                                                    // Ang performance.navigation.type === 2 ay nangangahulugang ang page ay nahiram mula sa cache
-                                                                    showSweetAlert();
-                                                                }
-                                                            </script>
-                                                        </div>
-                                                        @endif
-
-                                                        @if (Session::has('validationmessage'))
-                                                        <script>
-                                                            swal("Warning", "{{ Session::get('validationmessage') }}", 'warning', {
-                                                                button: true,
-                                                                button: "OK",
-                                                                dangerMode: true,
-                                                            });
-                                                        </script>
-                                                        @endif
-
-
-                                                        <!-- @if (Session::has('validationmessage'))
-                                                        <script>
-                                                            swal("Warning", "{{ Session::get('validationmessage') }}", 'warning', {
-                                                                button: true,
-                                                                button: "OK",
-                                                                dangerMode: true,
-                                                            });
-                                                        </script>
-                                                        @endif -->
-
-
-
-                                                    </div>
-                                                </div>
-
-
-                                            </div><!-- /.modal-content -->
-                                        </div><!-- /.modal-dialog -->
-                                    </div><!-- /.modal -->
-
-                                </div>
-                            </div>
-
-
-
-                            <div class="mt-2" style="display: flex; justify-content:space-evenly;">
-
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal" style="width: 150px; border:none;">
-                                    <img src="/assets/images/plantifeedpics/asked.png" alt="ask" style="width:20px; height:20px;">
-                                    Ask
-                                </button>
-
-                                <div id="myModal" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content" style="width: 600px; height:500px;">
-                                            <div class="modal-header" style="text-align: center;">
-                                                <h5 style="text-align: center;" class="modal-title" id="myModalLabel">Add Question</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div style="display: flex; align-items: center;">
-                                                    <img src="/assets/images/plantifeedpics/rounded.png" alt="Image Description" class="object-cover rounded-full" style="width: 40px; height: 40px; margin-right: 8px;">
-
-
-                                                </div>
-
-
-
-                                                <div class="hstack mt-3">
-                                                    <input class="form-control me-auto form-control mr-8" type="text" name="ask_text" placeholder="Start your questions with “What” , “Why” , “How” etc." value="" style="width: 413px;" fdprocessedid="cawh3q">
-
-                                                </div>
-                                                <!--  -->
-                                            </div>
-
-
-
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
-                                                <button type="button" class="btn btn-primary ">Add Question</button>
-                                            </div>
-
-                                        </div><!-- /.modal-content -->
-                                    </div><!-- /.modal-dialog -->
-                                </div><!-- /.modal -->
-
-
-
-
-
-
-                                <div class="live-preview">
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalgrid" fdprocessedid="54dc1a" style="width: 150px; border:none;">
-                                        <img src="/assets/images/plantifeedpics/posting.png"" alt=" posting" style="width: 20px; height: 20px; margin-right: 5px;"> Post
-                                    </button>
-
-                                    <div class="modal fade" id="exampleModalgrid" tabindex="-1" aria-labelledby="exampleModalgridLabel" style="display: none;" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content" style="width: 600px; height:500px;">
-                                                <div class="modal-header" style="margin-left:230px; ">
-                                                    <h5 class="modal-title" id="exampleModalgridLabel">Create Post</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-
-
-                                                <img src="/assets/images/plantifeedpics/line.png" alt="line-img" style="width:570px; margin-left:15px; margin-top:10px;">
-
-
-                                                <div class="modal-body">
-
-                                                    <div>
-                                                        <div>
-                                                                                  
-        @auth
-    @php
-        // Kunin ang naka-login na user
-        $loggedInUser = auth()->user();
-        
-        // Tingnan kung may profile settings ang naka-login na user
-        $profileSettings = $loggedInUser->profileSettings;
-    @endphp
-
-    @if($profileSettings && $profileSettings->profile_image)
-        <!-- Kung may profile image ang naka-login na user, ipakita ito -->
-        <img style="margin-right: 4px; width: 43px; height: 40px; padding: 2px; border: 3px solid #006400;" src="{{ asset('storage/images/' . $profileSettings->profile_image) }}" alt="Profile Image" class="rounded-circle avatar-xl img-thumbnail user-profile-image">
-    @else
-        <!-- Kung wala, gamitin ang default na larawan ng profile -->
-
-            <img style="margin-right: 4px; width: 40px; height: 40px; padding: 2px; border: 3px solid #006400;" src="assets/images/plantifeedpics/profile-default.png" alt="Default Profile Image" class="img-thumbnail rounded-circle">
-
-    @endif
-@endauth
-                                                            <b>Center for Urban Agriculture and Innovation</b>
-                                                        </div>
-
-
-
-                                                        <form action="{{ route('post.store') }}" method="POST" enctype="multipart/form-data">
-                                                            @csrf
-
-                                                            <select name="selection" id="selection" style=" width:78px; margin-left: 52px; border:solid 1px; border-radius: 20px; padding:4px">
-                                                                <option value="Public">Public</option>
-                                                                <option value="Limited">Limited</option>
-                                                            </select>
-                                                            <select name="selectiontwo" id="selectiontwo" style=" width:78px; margin-left: 10px; border:solid 1px; border-radius: 20px; padding:4px">
-                                                                <option value="Farmer">Farmer</option>
-                                                                <option value="Admin">Admin</option>
-                                                            </select>
-
-
-                                                            <input required type="file" name="image" id="image" style=" width:90px;margin-left: 10px;">
-
-
-                                                            <textarea name="createpost" id="createpost" placeholder="Say something..." required style="display: block; margin-top:20px; width:100%; border:none; outline:none; resize:none;" rows="12" cols="50"></textarea>
-
-                                                            <div style="display: flex; justify-content:flex-end; margin-top:40px;">
-                                                                <button style="margin-right:10px;" type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
-                                                                <button class="btn btn-light" style="border-radius:10px; border:none;" type="submit">Add Post</button>
-                                                            </div>
-                                                        </form>
-
-
-                                                    </div>
-
-                                                </div><!-- /.modal-content -->
-                                            </div><!-- /.modal-dialog -->
-                                        </div><!-- /.modal -->
-                                    </div>
-                                </div>
-                            </div>
+            @endif
+            @endauth
+
+            <button type="button" class="btn btn-primary" style="margin-left: 4px; border: 0; border-radius: 20px; text-align: left; background-color: #E6E6E6; color: black; width: 100%;" data-bs-toggle="modal" data-bs-target="#myModal">Ask and share your story!</button>
+
+        </div>
+
+        <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="myModalLabel">Add Question</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div style="background-color: #E1E1E1; padding: 20px; border-radius: 10px;">
+                            <h5 class="fs-15" style="margin-bottom: 20px;">Tips on getting good answers quickly</h5>
+                            <p class="text-muted">• Make sure your question has not been asked already</p>
+                            <p class="text-muted">• Keep your question short and to the point</p>
+                            <p class="text-muted">• Double-check grammar and spelling</p>
                         </div>
-                    </div>    
+                        <div style="margin-top: 20px;">
+                            <form id="forumForm" action="{{ route('forum.store') }}" method="POST">
+                                @csrf
+                                <select name="language" id="language" style="border-radius: 30px; padding: 4px; outline: none;">
+                                    <option value="Public">Public</option>
+                                    <option value="Limited">Limited</option>
+                                </select>
+                                <input style="margin-top: 10px; width: 100%; display: block; outline: none; border: 1px solid black; border-radius: 10px; padding: 8px;" required type="text" name="askquestions" id="askquestions" placeholder="Start your questions with 'What', 'Why', 'How', etc." required>
+                                <div style="display: flex; justify-content: flex-end; margin-top: 20px;">
+                                    <button class="btn btn-light" style="margin-right: 10px; border-radius: 10px; border: none;" type="button" data-bs-dismiss="modal">Cancel</button>
+                                    <button class="btn btn-light" style="border-radius: 10px; border: none;" type="button" id="submitForm">Add Question</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-2" style="display: flex; justify-content: space-evenly; align-items: center;">
+
+            <!-- First modal button -->
+            <button
+            type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal" style="width: 150px; border:none;">
+                <img src="/assets/images/plantifeedpics/asked.png" alt="ask" style="width:20px; height:20px;">
+                Ask
+            </button>
+
+            <!-- Second modal button -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalgrid" style="width: 150px; border:none;">
+                <img src="/assets/images/plantifeedpics/posting.png" alt="posting" style="width: 20px; height: 20px; margin-right: 5px;"> Post
+            </button>
+
+            <!-- Second modal -->
+        <div class="modal fade" id="exampleModalgrid" tabindex="-1" aria-labelledby="exampleModalgridLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalgridLabel">Create Post</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div>
+                        @auth
+                        @php
+                        // Kunin ang naka-login na user
+                        $loggedInUser = auth()->user();
+
+                        // Tingnan kung may profile settings ang naka-login na user
+                        $profileSettings = $loggedInUser->profileSettings;
+                        @endphp
+
+                        @if($profileSettings && $profileSettings->profile_image)
+                        <!-- Kung may profile image ang naka-login na user, ipakita ito -->
+                        <img style="margin-right: 4px; width: 43px; height: 40px; padding: 2px; border: 3px solid #006400;" src="{{ asset('storage/images/' . $profileSettings->profile_image) }}" alt="Profile Image" class="rounded-circle avatar-xl img-thumbnail user-profile-image">
+                        @else
+                        <!-- Kung wala, gamitin ang default na larawan ng profile -->
+                        <img style="margin-right: 4px; width: 40px; height: 40px; padding: 2px; border: 3px solid #006400;" src="assets/images/plantifeedpics/profile-default.png" alt="Default Profile Image" class="img-thumbnail rounded-circle">
+                        @endif
+                        @endauth
+                        <b>Center for Urban Agriculture and Innovation</b>
+                    </div>
+                    <form action="{{ route('post.store') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <select name="selection" id="selection" style=" width:78px; margin-left: 52px; border:solid 1px; border-radius: 20px; padding:4px">
+                            <option value="Public">Public</option>
+                            <option value="Limited">Limited</option>
+                        </select>
+                        <select name="selectiontwo" id="selectiontwo" style=" width:78px; margin-left: 10px; border:solid 1px; border-radius: 20px; padding:4px">
+                            <option value="Farmer">Farmer</option>
+                            <option value="Admin">Admin</option>
+                        </select>
+                        <input required type="file" name="image" id="image" style=" width:90px;margin-left: 10px;">
+                        <textarea name="createpost" id="createpost" placeholder="Say something..." required style="display: block; margin-top:20px; width:100%; border:none; outline:none; resize:none;" rows="12" cols="50"></textarea>
+                        <div style="display: flex; justify-content:flex-end; margin-top:40px;">
+                            <button style="margin-right:10px;" type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                            <button class="btn btn-light" style="border-radius:10px; border:none;" type="submit">Add Post</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+        </div>
+    </div>
+</div>
+
 
 
 
@@ -409,6 +263,38 @@
                </div>
 
 
+                         <div id="postEditModal{{ $post->id }}" style="display:none; position:fixed; z-index:1; left:0; top:0; width:100%; height:100%; overflow:auto; background-color:rgba(0,0,0,0.4);">
+    <!-- Modal content -->
+    <div style="position:relative; margin-top:20vh; margin-left:auto; margin-right:auto; background-color:#fefefe; padding:20px; border:1px solid #888; width: 45%;">
+
+        <form id="editPostForm{{ $post->id }}" action="{{ route('editPost', ['id' => $post->id]) }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
+
+            <p style="text-align:center; font-weight:bold; font-size:20px;">Edit Post</p>
+
+            <textarea required placeholder="What's on your mind?" id="editPostInput{{ $post->id }}" name="post" style="font-size:15px; resize:none; width: 100%; border:none; outline:none;" rows="8"></textarea>
+
+            <!-- Display error message if there's a validation error for 'post' field -->
+            @error('post')
+            <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
+
+            <input type="file" name="image"> <!-- Additional input field for image -->
+
+            <div style="display: flex; justify-content: space-between;">
+                <button type="button" onclick="closePostEditModal('{{ $post->id }}')" style="background-color:#F6F6F6; border:none; color:black; padding:10px 20px; text-align:center; text-decoration:none; display:inline-block; font-size:13px; margin:4px 2px; cursor:pointer; width:48%;" onmouseover="this.style.backgroundColor='lightgray'" onmouseout="this.style.backgroundColor='#F6F6F6'">
+                    Close
+                </button>
+
+                <button type="submit" style="background-color:#364574; border:none; color:white; padding:10px 20px; text-align:center; text-decoration:none; display:inline-block; font-size:13px; margin:4px 2px; cursor:pointer; width:48%;" onmouseover="this.style.backgroundColor='#364574'" onmouseout="this.style.backgroundColor='#405189'">Save</button>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+
                                      <img src="/assets/images/plantifeedpics/edit.png" alt="Image" class="toggle-image" style="height:20px; width: 20px; cursor: pointer; margin-left: 10px;" onclick="toggleDropdownPost(this)">
                                 <div class="dropdown-content-pusy" style=" display: none; position: absolute; background-color: #f9f9f9; width: 110px; box-shadow: 0px -8px 16px 0px rgba(0,0,0,0.2); z-index: 1; left: 68%;">
                                 
@@ -423,36 +309,17 @@
                                         </div>
                                     </button>
 
-                                    <div id="postEditModal{{ $post->id }}" style="display:none; position:fixed; z-index:1; left:50px; top:0; width:100%; height:100%; overflow:auto; background-color:rgba(0,0,0,0.4);">
-                                        <!-- Modal content -->
-                                        <div style="margin-top:10%; margin-left:30%; background-color:#fefefe; padding:20px; border:1px solid #888; width:40%;">
-                                            <form id="editPostForm{{ $post->id }}" action="{{ route('editPost', ['id' => $post->id]) }}" method="POST" enctype="multipart/form-data">
-                                                @csrf
-                                                @method('PUT')
-
-                                                <p style="text-align:center; font-weight:bold; font-size:20px;">Edit Post</p>
-
-                                                <textarea required placeholder="What's on your mind?" id="editPostInput{{ $post->id }}" name="post" style="font-size:15px; resize:none; width: 100%; border:none; outline:none;" rows="8"></textarea>
-
-                                                <!-- Display error message if there's a validation error for 'post' field -->
-                                                @error('post')
-                                                <div class="alert alert-danger">{{ $message }}</div>
-                                                @enderror
-
-                                                <input type="file" name="image"> <!-- Additional input field for image -->
-
-                                                <div style="display: flex;">
-                                                    <button type="button" onclick="closePostEditModal('{{ $post->id }}')" style="background-color:#F6F6F6; border:none; color:black; padding:10px 20px; text-align:center; text-decoration:none; display:inline-block; font-size:13px; margin:4px 2px; cursor:pointer; width:100%;" onmouseover="this.style.backgroundColor='lightgray'" onmouseout="this.style.backgroundColor='#F6F6F6'">
-                                                        Close
-                                                    </button>
-
-                                                    <button type="submit" style="width:100%; background-color:#364574; border:none; color:white; padding:10px 20px; text-align:center; text-decoration:none; display:inline-block; font-size:13px; margin:4px 2px; cursor:pointer;" onmouseover="this.style.backgroundColor='#364574'" onmouseout="this.style.backgroundColor='#405189'">Save</button>
-                                                </div>
-                                            </form>
+           
 
 
-                                        </div>
-                                    </div>
+
+
+<script>
+    function closePostEditModal(postId) {
+        document.getElementById('postEditModal' + postId).style.display = 'none';
+    }
+</script>
+
 
 
                                     <script>
@@ -505,7 +372,7 @@
 
                                     @else
 
-                                    <button onclick="openReportModal('{{ $post->id }}')" style="display:flex; align-items:center; padding: 10px 20px; background-color: white; color: black; border: none; border-radius: 5px; cursor: pointer;" onmouseover="this.style.backgroundColor='lightgray'" onmouseout="this.style.backgroundColor='white'">
+                                    <button onclick="openReportModal('{{ $post->id }}')" style="display:flex; align-items:center; padding: 20px 20px; background-color: white; color: black; border: none; border-radius: 5px; cursor: pointer;" onmouseover="this.style.backgroundColor='lightgray'" onmouseout="this.style.backgroundColor='white'">
 
                                         <img src=" /assets/images/plantifeedpics/report.png" alt="Report" style="height: 20px; width: 20px; margin-right: 10px;">
                                         Report

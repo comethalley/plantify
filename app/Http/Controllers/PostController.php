@@ -23,7 +23,7 @@ class PostController extends Controller
 
     public function index()
     {
-        $posts = Post::orderBy('created_at', 'desc')->get();
+        $posts = Post::with('likes')->orderBy('created_at', 'desc')->get();
         $questions = Forum::orderBy('created_at', 'desc')->get();
 
         return view('pages.forum', compact('questions', 'posts'));
@@ -49,6 +49,11 @@ class PostController extends Controller
         return response()->json(['message' => 'Post unliked successfully']);
     }
 
+    public function getPostLikes(Post $post)
+    {
+        $likes = $post->likes()->get(['firstname', 'lastname']);
+        return response()->json(['likes' => $likes]);
+    }
 
 
     public function deletePost($id)
@@ -82,7 +87,17 @@ class PostController extends Controller
 
         // Define custom validation rule for bad words
         Validator::extend('bad_words', function ($attribute, $value, $parameters, $validator) {
-            $badWords = ['badword1', 'badword2', 'badword3']; // Add your bad words here
+            $badWords = [
+                'puta', 'put@', 'gago', 'g@go', 'tang ina', 't4ng in4', 'bobo', 'obob', 'b0bo', 'b0b0',
+                'punyeta', 'tanga', 'kingina', 'kinginamo', 'inamo', 'namo', 'inaka', 'suso', 'puke',
+                'tite', 'kantot', 'pwet', 'puday', 'kipay', 'pekpek', 'pokpok', 'putangina', 'laspag',
+                'bulbol', 'bilat', 'tarantado', 'gaga', 'gagi', 'shet', 'pota', 'tangina', 'baliw',
+                'bwakanangina', 'kinanginamo', 'salsal', 'jakol', 'pingger', 'pakyu', 'tae', 'monggoloid',
+                'tamod', 'bayag', 'ulol', 'sintosinto', 'siraulo', 'animal', 'inutil', 'demonyo', 'kulangkulang',
+                'sayad', 'hayop', 'walangkwenta', 'pakshet', 'burat', 'utong', 'supot', 'hayop', 'p@t@',
+                'gaga', 'kiffy', 'deck'
+            ];
+            // Add your bad words here
             foreach ($badWords as $word) {
                 if (stripos($value, $word) !== false) {
                     return false;
@@ -133,7 +148,17 @@ class PostController extends Controller
 
 
         Validator::extend('no_bad_words', function ($attribute, $value, $parameters, $validator) {
-            $badWords = ['badword11', 'badword2', 'badword3']; // Add your list of bad words here
+            $badWords = [
+                'puta', 'put@', 'gago', 'g@go', 'tang ina', 't4ng in4', 'bobo', 'obob', 'b0bo', 'b0b0',
+                'punyeta', 'tanga', 'kingina', 'kinginamo', 'inamo', 'namo', 'inaka', 'suso', 'puke',
+                'tite', 'kantot', 'pwet', 'puday', 'kipay', 'pekpek', 'pokpok', 'putangina', 'laspag',
+                'bulbol', 'bilat', 'tarantado', 'gaga', 'gagi', 'shet', 'pota', 'tangina', 'baliw',
+                'bwakanangina', 'kinanginamo', 'salsal', 'jakol', 'pingger', 'pakyu', 'tae', 'monggoloid',
+                'tamod', 'bayag', 'ulol', 'sintosinto', 'siraulo', 'animal', 'inutil', 'demonyo', 'kulangkulang',
+                'sayad', 'hayop', 'walangkwenta', 'pakshet', 'burat', 'utong', 'supot', 'hayop', 'p@t@',
+                'gaga', 'kiffy', 'deck'
+            ];
+            // Add your list of bad words here
             foreach ($badWords as $badWord) {
                 if (stripos($value, $badWord) !== false) {
                     return false; // Return false if a bad word is found

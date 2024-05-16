@@ -58,8 +58,6 @@ use Illuminate\Support\Facades\Artisan;
 
 
 
-Route::post('/forums/{forum}/like', [ForumController::class, 'likeForum'])->name('forums.like');
-Route::post('/forums/{forum}/unlike', [ForumController::class, 'unlikeForum'])->name('forums.unlike');
 
 
 Route::post('posts/{post}/like', [PostController::class, 'like'])->name('posts.like');

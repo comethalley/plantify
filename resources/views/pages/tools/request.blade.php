@@ -744,10 +744,10 @@
                                                 <label for="remarkstext">-Optional-</label>
                                             </div>
                                             <br>
-                                            <!-- <div class="mb-3">
-                                                <label for="dateInput" class="form-label">Select Date:</label>
+                                            <div class="mb-3">
+                                                <label for="dateInput" id="dateInputLabel" class="form-label">Select Date:</label>
                                                 <input type="date" class="form-control" id="dateInput" min="<?php echo date('Y-m-d'); ?>">
-                                            </div> -->
+                                            </div>
 
                                             <h5>Are you sure you want to update the status?</h5>
                                         </div>
@@ -1195,13 +1195,14 @@
         $('#confirmUpdateBtn').data('remarks', remarks);
 
         // Disable the date input if the selected status is "Failed-to-return"
-        if (selectedStatus === 'Failed-to-return' || selectedStatus === 'Returned' || selectedStatus === 'Requested' 
-        || selectedStatus === 'Available' || selectedStatus === 'Unavailable' || selectedStatus === 'Waiting-for-approval' 
+        if (selectedStatus === 'Failed-to-return' || selectedStatus === 'Requested' || selectedStatus === 'Available' || selectedStatus === 'Unavailable' || selectedStatus === 'Waiting-for-approval' 
         || selectedStatus === 'Approved' || selectedStatus === 'Disapproved' || selectedStatus === 'Resubmit' 
         || selectedStatus === 'Picked' || selectedStatus === 'Failed-to-pick' || selectedStatus === 'Confirmed-pick-date') {
-            $('#dateInput').prop('disabled', true);
+            $('#dateInput').prop('hidden', true);
+            $('#dateInputLabel').prop('hidden', true);
         } else {
-            $('#dateInput').prop('disabled', false);
+            $('#dateInput').prop('hidden', false);
+            $('#dateInputLabel').prop('hidden', false);
         }
     }
 
@@ -1214,9 +1215,11 @@
         || selectedStatus === 'Available' || selectedStatus === 'Unavailable' || selectedStatus === 'Waiting-for-approval' 
         || selectedStatus === 'Approved' || selectedStatus === 'Disapproved' || selectedStatus === 'Resubmit' 
         || selectedStatus === 'Picked' || selectedStatus === 'Failed-to-pick' || selectedStatus === 'Confirmed-pick-date') {
-            $('#dateInput').prop('disabled', true);
+            $('#dateInput').prop('hidden', true);
+            $('#dateInputLabel').prop('hidden', true);
         } else {
-            $('#dateInput').prop('disabled', false);
+            $('#dateInput').prop('hidden', false);
+            $('#dateInputLabel').prop('hidden', false);
         }
     });
 
@@ -1228,15 +1231,25 @@
         // Get the remarks from the modal textarea
         var remarks = $('textarea[name="remarks"]').val();
 
-        // Perform the update with remarks
-        updateStatusInDatabase(rowId, selectedStatus, remarks);
+        // Get the selected date
+        var selectedDate = $('#dateInput').val();
+
+        // Perform the update with remarks and date
+        updateStatusInDatabase(rowId, selectedStatus, remarks, selectedDate);
+
+        // Clear the remarks textarea and date input
+        $('#confirmationModal textarea[name="remarks"]').val('');
+        $('#dateInput').val('');
 
         // Close the modal
         $('#confirmationModal').modal('hide');
+
+        // Show a confirmation message
+        toastr.success('Status updated successfully');
     });
 
     // Function to update status in the database
-    function updateStatusInDatabase(rowId, selectedStatus, remarks) {
+    function updateStatusInDatabase(rowId, selectedStatus, remarks, selectedDate) {
         $.ajax({
             url: '/updateStatus',
             method: 'POST',
@@ -1246,7 +1259,8 @@
             data: {
                 id: rowId,
                 status: selectedStatus,
-                remarks: remarks // Include remarks in the data
+                remarks: remarks, // Include remarks in the data
+                selectedDate: selectedDate // Include selected date in the data
             },
             success: function(response) {
                 console.log('Status updated successfully');

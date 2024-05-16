@@ -244,28 +244,30 @@ class ToolController extends Controller
             $id = $request->input('id');
             $status = $request->input('status');
             $remarks = $request->input('remarks');
-
+            $selectedDate = $request->input('selectedDate'); // Get the selected date
+    
             // Update status in request_tbl
             $request = RequestN::findOrFail($id);
             $request->status = $status;
             $request->save();
-
-            // Save status and remarks to remarkrequests table
+    
+            // Save status, remarks, and selected date to remarkrequests table
             $remarkRequest = new RemarkRequest();
             $remarkRequest->request_id = $id;
             $remarkRequest->remarks = $remarks;
-            $remarkRequest->remark_status = $status; // You can adjust this as needed
-            $remarkRequest->validated_by = Auth::user()->id; // Assuming you have authentication and need to track who validated
+            $remarkRequest->remark_status = $status;
+            $remarkRequest->date_return = $selectedDate; // Save selected date
+            $remarkRequest->validated_by = Auth::user()->id;
             $remarkRequest->save();
-
+    
             // Update user's status based on the request status (if needed)
             // ...
-
+    
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
         }
-    }
+    }    
 
     
     public function getAvailableRequests()

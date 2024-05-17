@@ -59,7 +59,7 @@ use Illuminate\Support\Facades\Artisan;
 Route::get('/', [AuthController::class, 'landingpage']);
 Route::get('/dashboard/analytics', [AnalyticsController::class, 'index'])->name('dashboard.analytics')->middleware('auth');
 Route::get('/login', [AuthController::class, 'viewLogin'])->name('login')->middleware('guest');
-Route::get('/signup', [AuthController::class, 'viewSignup']);
+// Route::get('/signup', [AuthController::class, 'viewSignup']);
 Route::post('/login/process', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
 Route::post('/register', [AuthController::class, 'signup']);
@@ -256,7 +256,7 @@ Route::put('/change-attendee-status/{id}', [AttendanceControler::class, 'changeS
 
 Route::get('/fetch-attendees/{event_id}', [AttendanceControler::class, 'fetchAttendees']);
 
-Route::get('/attendees/filterByStatus', [AttendanceControler::class, 'filterBystatus']);
+Route::get('/attendees/filterByStatus', [AttendanceController::class, 'filterBystatus']);
 // End Full Calender=================================================================
 
 Route::get('/plantcalendar', [PlantCalendar::class, 'index']);
@@ -338,7 +338,6 @@ Route::get('/task/filterByStatus', [TaskController::class, 'filterBystatus']);
 Route::post('/tasks/{task}/archive', [TaskController::class, 'archive'])->name('tasks.archive');
 Route::get('/archived', [TaskController::class, 'showArchived'])->name('archived');
 Route::post('/tasks/{task}/restore', [TaskController::class, 'restore'])->name('tasks.restore');
-Route::get('/tasks/view/{id}', [TaskController::class, 'view'])->name('tasks.view');
 
 
 //============================================================================================
@@ -376,6 +375,7 @@ Route::get('/returnList', [ToolController::class, 'returnList']);
 Route::post('/set-picking-date', [ToolController::class, 'setPickingDate']);
 Route::post('/set-return-date', [ToolController::class, 'setReturnDate']);
 Route::get('/view-pdf/{id}/{title?}', [RequestController::class, 'viewPdfRequest'])->name('view.pdf.request');
+Route::get('/download-pdf', [ToolController::class, 'downloadPdf'])->name('downloadPdf');
 
 // ===================================================================================
 

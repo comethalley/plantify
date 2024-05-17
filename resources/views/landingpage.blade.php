@@ -685,40 +685,42 @@
                                         </div>
 
                                         <div class="mt-4">
-                                            <form class="needs-validation" novalidate action="/">
+                                            <form class="needs-validation" novalidate action="index.html">
 
-                                    <div class="mb-3">
-                                        <label for="username" class="form-label">Name</label>
-                                        <input type="text" class="form-control" id="username" placeholder="Enter your name" required>
-                                        <div class="invalid-feedback">
-                                            Please enter your name.
-                                        </div>
-                                    </div>
 
-                                    <div class="mb-3">
-                                        <label for="useremail" class="form-label">Email</label>
-                                        <input type="email" class="form-control" id="useremail" placeholder="Enter email address" required>
-                                        <div class="invalid-feedback">
-                                            Please enter a valid email address.
-                                        </div>
-                                    </div>
+                                                <div class="mb-3">
+                                                    <label for="useremail" class="form-label">Name</label>
+                                                    <input type="email" class="form-control" id="useremail" placeholder="Enter your name" required>
+                                                    <div class="invalid-feedback">
+                                                        Please enter email
+                                                    </div>
+                                                </div>
 
-                                    <div class="mb-3">
-                                        <label for="subject" class="form-label">Subject</label>
-                                        <input type="text" class="form-control" id="subject" placeholder="Enter subject" required>
-                                        <div class="invalid-feedback">
-                                            Please enter a subject.
-                                        </div>
-                                    </div>
+                                                <div class="mb-3">
+                                                    <label for="useremail" class="form-label">Email</label>
+                                                    <input type="email" class="form-control" id="useremail" placeholder="Enter email address" required>
+                                                    <div class="invalid-feedback">
+                                                        Please enter email
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="username" class="form-label">Subject</label>
+                                                    <input type="text" class="form-control" id="username" placeholder="Enter subject" required>
+                                                    <div class="invalid-feedback">
+                                                        Please enter username
+                                                    </div>
+                                                </div>
 
-                                    <div class="mb-3">
-                                        <label for="message" class="form-label">Message</label>
-                                        <textarea class="form-control" id="message" placeholder="Enter your message" required></textarea>
-                                        <div class="invalid-feedback">
-                                            Please enter a message.
-                                        </div>
-                                    </div>
-                                                                                    <button class="btn btn-success w-100" id="sendMessageBtn" type="submit" style="background-color: #066903">
+                                                <div class="mb-3">
+                                                    <label for="message" class="form-label">Message</label>
+                                                    <textarea class="form-control" id="message" placeholder="Enter your message" required></textarea>
+                                                    <div class="invalid-feedback">
+                                                        Please enter a message
+                                                    </div>
+                                                </div>
+
+
+                                                <button class="btn btn-success w-100" type="submit" style="background-color: #066903">
                                                     <i class="fas fa-paper-plane"></i> Send message
                                                 </button>
 
@@ -875,29 +877,6 @@
 </body>
 
 </html>
-
- <!-- Include SweetAlert JS -->
- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
- <script>
-  // Add event listener to the button
-  document.getElementById("sendMessageBtn").addEventListener("click", function() {
-    // Show SweetAlert with success message
-    Swal.fire({
-      icon: 'success',
-      title: 'Your message Sent Successfully',
-      showConfirmButton: false,
-      timer: 6000 // Automatically close after 6 seconds
-    }).then(() => {
-      // Reload the page after 6 seconds
-      setTimeout(() => {
-        location.reload();
-      }, 6000);
-    });
-  });
-</script>
-
-
 
 <script type="text/javascript">
     function googleTranslateElementInit() {

@@ -16,6 +16,11 @@
                                 <div class="col-sm">
                                     <h5 class="card-title mb-0">Request List</h5>
                                 </div>
+                                <div class="col-auto">
+                                    <button type="button" class="btn btn-soft-success material-shadow-none" onclick="downloadPDF()">
+                                        <i class="ri-add-circle-line align-middle"></i>Download Report
+                                    </button>
+                                </div>
                                 <!-- <div class="col-sm-auto">
                                     <div class="d-flex gap-1 flex-wrap">
                                         <button type="button" class="btn btn-success add-btn" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModal"><i class="ri-add-line align-bottom me-1"></i> Create Order</button>
@@ -37,60 +42,61 @@
                                 </div>
                             </form>
                         </div>
+
                         <div class="card-body pt-0">
                             <div class="text-center">
                                 <ul class="nav nav-tabs nav-tabs-custom nav-success mb-3" role="tablist">
                                     <li class="nav-item" role="presentation">
-                                        <a class="nav-link All py-3 active" data-bs-toggle="tab" id="All" href="#all" role="tab" aria-selected="true">
+                                        <a class="nav-link All py-3 active" data-bs-toggle="tab" id="All" href="#all" role="tab" aria-selected="true" tabindex="0">
                                             <i class="ri-store-2-fill me-1 align-bottom"></i> All
                                         </a>
                                     </li>
                                     <li class="nav-item" role="presentation">
-                                        <a class="nav-link py-3 Delivered" data-bs-toggle="tab" id="Requested" href="#requested" role="tab" aria-selected="false" tabindex="-1">
+                                        <a class="nav-link py-3" data-bs-toggle="tab" id="Requested" href="#requested" role="tab" aria-selected="false" tabindex="-1">
                                             <i class="ri-checkbox-circle-line me-1 align-bottom"></i> Request List
                                         </a>
                                     </li>
                                     <li class="nav-item" role="presentation">
-                                        <a class="nav-link py-3 Delivered" data-bs-toggle="tab" id="Available" href="#available" role="tab" aria-selected="false" tabindex="-1">
+                                        <a class="nav-link py-3" data-bs-toggle="tab" id="Available" href="#available" role="tab" aria-selected="false" tabindex="-1">
                                             <i class="ri-checkbox-circle-line me-1 align-bottom"></i> Available List
                                         </a>
                                     </li>
                                     <li class="nav-item" role="presentation">
-                                        <a class="nav-link py-3 Pickups" data-bs-toggle="tab" id="Approval" href="#approval" role="tab" aria-selected="false" tabindex="-1">
+                                        <a class="nav-link py-3" data-bs-toggle="tab" id="Approval" href="#approval" role="tab" aria-selected="false" tabindex="-1">
                                             <i class="ri-truck-line me-1 align-bottom"></i> Approval List
                                         </a>
                                     </li>
                                     <li class="nav-item" role="presentation">
-                                        <a class="nav-link py-3 Pickups" data-bs-toggle="tab" id="Disapproved" href="#disapproved" role="tab" aria-selected="false" tabindex="-1">
+                                        <a class="nav-link py-3" data-bs-toggle="tab" id="Disapproved" href="#disapproved" role="tab" aria-selected="false" tabindex="-1">
                                             <i class="ri-delete-bin-5-fill me-1 align-bottom"></i> Disapproved List
                                         </a>
                                     </li>
                                     <li class="nav-item" role="presentation">
-                                        <a class="nav-link py-3 Cancelled" data-bs-toggle="tab" id="Picked" href="#picked" role="tab" aria-selected="false" tabindex="-1">
+                                        <a class="nav-link py-3" data-bs-toggle="tab" id="Picked" href="#picked" role="tab" aria-selected="false" tabindex="-1">
                                             <i class="ri-inbox-archive-line me-1 align-bottom"></i> Picking
                                         </a>
                                     </li>
                                     <li class="nav-item" role="presentation">
-                                        <a class="nav-link py-3 Returns" data-bs-toggle="tab" id="Returned" href="#returned" role="tab" aria-selected="false" tabindex="-1">
+                                        <a class="nav-link py-3" data-bs-toggle="tab" id="Returned" href="#returned" role="tab" aria-selected="false" tabindex="-1">
                                             <i class="ri-arrow-left-right-fill me-1 align-bottom"></i> Returnees
                                         </a>
                                     </li>
                                 </ul>
 
-                                <div id="all" class="tab-pane fade">
-                                    <div class="table-responsive table-card mb-1">
-                                        <table class="table table-nowrap align-middle">
+                                <div id="all" class="tab-pane">
+                                    <div class="table-responsive mb-1">
+                                        <table class="table nowrap dt-responsive align-middle table-hover" style="width:100%">
                                             <thead class="text-muted table-light">
                                                 <tr class="text-uppercase">
-                                                    <th>ID</th>
-                                                    <th>Supply Tools</th>
-                                                    <th>Tools Quantity</th>
-                                                    <th>Supply Seeds</th>
-                                                    <th>Seeds Quantity</th>
-                                                    <th>Requested By</th>
+                                                    <th width="">ID</th>
+                                                    <th width="15%">Supply Tools</th>
+                                                    <th width="10%">Tools Qty</th>
+                                                    <th width="15%">Supply Seeds</th>
+                                                    <th width="10%">Seeds Qty</th>
+                                                    <th width="15%">Requested By</th>
                                                     <!-- <th>Farm Name</th> -->
-                                                    <th>Status</th>
-                                                    <th>Date Created</th>
+                                                    <th width="15%">Status</th>
+                                                    <th width="20%">Date Created</th>
                                                 </tr>
                                             </thead>
                                             <tbody class="list form-check-all">
@@ -126,9 +132,11 @@
                                                 @empty
                                                 <!-- If no requests found, display a message -->
                                                 <tr>
-                                                    <td colspan="8">
+                                                    <td colspan="11">
                                                         <div class="text-center">
-                                                            <h5>No Requests Found</h5>
+                                                            <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="loop" colors="primary:#405189,secondary:#0ab39c" style="width:75px;height:75px"></lord-icon>
+                                                            <h5 class="mt-2">No Request Found</h5>
+                                                            <p class="text-muted">We've searched more than 150+ Request We did not find any orders for you search.</p>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -140,23 +148,22 @@
 
                                 <!-- request list table -->
                                 <div id="requested" class="tab-pane fade">
-                                    <div class="table-responsive table-card mb-1">
-                                        <!-- REQUEST TOOLS -->
-                                        <table class="table table-nowrap align-middle">
+                                    <div class="table-responsive mb-1">
+                                        <table class="table nowrap dt-responsive align-middle table-hover" style="width:100%">
                                             <thead class="text-muted table-light">
                                                 <tr class="text-uppercase">
-                                                    <th data-sort="id">ID</th>
+                                                    <th width="" data-sort="id">ID</th>
                                                     <!-- <th data-sort="supply_id">Supply Type</th> -->
-                                                    <th data-sort="tool_type">Supply Tools</th>
-                                                    <th data-sort="count_tool">Tools Quantity</th>
-                                                    <th data-sort="seedling_type">Supply Seeds</th>
-                                                    <th data-sort="count_seedling">Seeds Quantity</th>
-                                                    <th data-sort="letter_content">Letter</th>
-                                                    <th data-sort="farm_leader">Requested By</th>
+                                                    <th width="15%" data-sort="tool_type">Supply Tools</th>
+                                                    <th width="5%" data-sort="count_tool">Tools Qty</th>
+                                                    <th width="15%" data-sort="seedling_type">Supply Seeds</th>
+                                                    <th width="5%" data-sort="count_seedling">Seeds Qty</th>
+                                                    <th width="5%" data-sort="letter_content">Letter</th>
+                                                    <th width="15%" data-sort="farm_leader">Requested By</th>
                                                     <!-- <th data-sort="farm_name">Farm Name</th> -->
-                                                    <th data-sort="status">Status</th>
-                                                    <th data-sort="change_stat">Set As</th>
-                                                    <th data-sort="action">Action</th>
+                                                    <th width="10%" data-sort="status">Status</th>
+                                                    <th width="15%" data-sort="change_stat">Set As</th>
+                                                    <th width="10%" data-sort="action">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody class="list form-check-all">
@@ -193,9 +200,9 @@
                                                         {{ $request->count_seedling2 ? ', ' . strtoupper($request->count_seedling2) : '' }}
                                                     </td>
                                                     <td class="letter_content">
-                                                        <a href="{{ route('view.pdf.request', ['id' => $request->id]) }}" class="btn btn-success waves-effect waves-light" target="_blank">
-                                                            <i class="ri-eye-line align-bottom"></i> View PDF
-                                                        </a>
+                                                        <button type="button" class="btn btn-success waves-effect waves-light" onclick="viewLetterContent({{ $request->id }})">
+                                                            <i class="ri-eye-line align-bottom"></i>
+                                                        </button>
                                                     </td>
                                                     <td class="farm_leader">{{ $request->requestedBy->firstname }} {{ $request->requestedBy->lastname }}</td>
                                                     <!-- <td class="farm_name">{{ optional($request->farm)->farm_name }}</td> -->
@@ -232,21 +239,22 @@
 
                                 <!-- available list -->
                                 <div id="available" class="tab-pane fade">
-                                    <div class="table-responsive table-card mb-1">
-                                        <table class="table table-nowrap align-middle">
+                                    <div class="table-responsive mb-1">
+                                        <table class="table nowrap dt-responsive align-middle table-hover" style="width:100%">
                                             <thead class="text-muted table-light">
                                                 <tr class="text-uppercase">
-                                                    <th data-sort="id">ID</th>
-                                                    <th data-sort="tool_type">Supply Tools</th>
-                                                    <th data-sort="count_tool">Tools Quantity</th>
-                                                    <th data-sort="seedling_type">Supply Seeds</th>
-                                                    <th data-sort="count_seedling">Seeds Quantity</th>
-                                                    <th data-sort="letter_content">Letter</th>
-                                                    <th data-sort="farm_leader">Requested By</th>
+                                                    <th width="" data-sort="id">ID</th>
+                                                    <!-- <th data-sort="supply_id">Supply Type</th> -->
+                                                    <th width="15%" data-sort="tool_type">Supply Tools</th>
+                                                    <th width="5%" data-sort="count_tool">Tools Qty</th>
+                                                    <th width="15%" data-sort="seedling_type">Supply Seeds</th>
+                                                    <th width="5%" data-sort="count_seedling">Seeds Qty</th>
+                                                    <th width="5%" data-sort="letter_content">Letter</th>
+                                                    <th width="15%" data-sort="farm_leader">Requested By</th>
                                                     <!-- <th data-sort="farm_name">Farm Name</th> -->
-                                                    <th data-sort="status">Status</th>
-                                                    <th data-sort="change_stat">Set As</th>
-                                                    <th data-sort="action">Action</th>
+                                                    <th width="10%" data-sort="status">Status</th>
+                                                    <th width="15%" data-sort="change_stat">Set As</th>
+                                                    <th width="10%" data-sort="action">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody class="list form-check-all">
@@ -284,7 +292,7 @@
                                                     </td>
                                                     <td class="letter_content">
                                                         <button type="button" class="btn btn-success waves-effect waves-light" onclick="viewLetterContent({{ $request->id }})">
-                                                            <i class="ri-eye-line align-bottom"></i> View PDF
+                                                            <i class="ri-eye-line align-bottom"></i>
                                                         </button>
                                                     </td>
                                                     <td class="text-center farm_leader">{{ $request->requestedBy->firstname }} {{ $request->requestedBy->lastname }}</td>
@@ -329,21 +337,22 @@
 
                                 <!-- Approval list -->
                                 <div id="approval" class="tab-pane fade">
-                                    <div class="table-responsive table-card mb-1">
-                                        <table class="table table-nowrap align-middle">
+                                    <div class="table-responsive mb-1">
+                                        <table class="table nowrap dt-responsive align-middle table-hover" style="width:100%">
                                             <thead class="text-muted table-light">
                                                 <tr class="text-uppercase">
-                                                    <th data-sort="id">ID</th>
-                                                    <th data-sort="tool_type">Supply Tools</th>
-                                                    <th data-sort="count_tool">Tools Quantity</th>
-                                                    <th data-sort="seedling_type">Supply Seeds</th>
-                                                    <th data-sort="count_seedling">Seeds Quantity</th>
-                                                    <th data-sort="letter_content">Letter</th>
-                                                    <th data-sort="farm_leader">Requested By</th>
+                                                    <th width="" data-sort="id">ID</th>
+                                                    <!-- <th data-sort="supply_id">Supply Type</th> -->
+                                                    <th width="15%" data-sort="tool_type">Supply Tools</th>
+                                                    <th width="5%" data-sort="count_tool">Tools Qty</th>
+                                                    <th width="15%" data-sort="seedling_type">Supply Seeds</th>
+                                                    <th width="5%" data-sort="count_seedling">Seeds Qty</th>
+                                                    <th width="5%" data-sort="letter_content">Letter</th>
+                                                    <th width="15%" data-sort="farm_leader">Requested By</th>
                                                     <!-- <th data-sort="farm_name">Farm Name</th> -->
-                                                    <th data-sort="status">Status</th>
-                                                    <th data-sort="change_stat">Set As</th>
-                                                    <th data-sort="action">Action</th>
+                                                    <th width="10%" data-sort="status">Status</th>
+                                                    <th width="15%" data-sort="change_stat">Set As</th>
+                                                    <th width="10%" data-sort="action">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody class="list form-check-all">
@@ -373,7 +382,7 @@
                                                     </td>
                                                     <td class="letter_content">
                                                         <button type="button" class="btn btn-success waves-effect waves-light" onclick="viewLetterContent({{ $request->id }})">
-                                                            <i class="ri-eye-line align-bottom"></i> View PDF
+                                                            <i class="ri-eye-line align-bottom"></i>
                                                         </button>
                                                     </td>
                                                     <td class="text-center farm_leader">{{ $request->requestedBy->firstname }} {{ $request->requestedBy->lastname }}</td>
@@ -419,21 +428,22 @@
 
                                 <!-- Disapproved list -->
                                 <div id="disapproved" class="tab-pane fade">
-                                    <div class="table-responsive table-card mb-1">
-                                        <table class="table table-nowrap align-middle">
+                                    <div class="table-responsive mb-1">
+                                        <table class="table nowrap dt-responsive align-middle table-hover" style="width:100%">
                                             <thead class="text-muted table-light">
                                                 <tr class="text-uppercase">
-                                                    <th data-sort="id">ID</th>
-                                                    <th data-sort="tool_type">Supply Tools</th>
-                                                    <th data-sort="count_tool">Tools Quantity</th>
-                                                    <th data-sort="seedling_type">Supply Seeds</th>
-                                                    <th data-sort="count_seedling">Seeds Quantity</th>
-                                                    <th data-sort="letter_content">Letter</th>
-                                                    <th data-sort="farm_leader">Requested By</th>
+                                                    <th width="" data-sort="id">ID</th>
+                                                    <!-- <th data-sort="supply_id">Supply Type</th> -->
+                                                    <th width="15%" data-sort="tool_type">Supply Tools</th>
+                                                    <th width="5%" data-sort="count_tool">Tools Qty</th>
+                                                    <th width="15%" data-sort="seedling_type">Supply Seeds</th>
+                                                    <th width="5%" data-sort="count_seedling">Seeds Qty</th>
+                                                    <th width="5%" data-sort="letter_content">Letter</th>
+                                                    <th width="15%" data-sort="farm_leader">Requested By</th>
                                                     <!-- <th data-sort="farm_name">Farm Name</th> -->
-                                                    <th data-sort="status">Status</th>
-                                                    <th data-sort="change_stat">Set As</th>
-                                                    <th data-sort="action">Action</th>
+                                                    <th width="10%" data-sort="status">Status</th>
+                                                    <th width="15%" data-sort="change_stat">Set As</th>
+                                                    <th width="10%" data-sort="action">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody class="list form-check-all">
@@ -463,7 +473,7 @@
                                                     </td>
                                                     <td class="letter_content">
                                                         <button type="button" class="btn btn-success waves-effect waves-light" onclick="viewLetterContent({{ $request->id }})">
-                                                            <i class="ri-eye-line align-bottom"></i> View PDF
+                                                            <i class="ri-eye-line align-bottom"></i>
                                                         </button>
                                                     </td>
                                                     <td class="text-center farm_leader">{{ $request->requestedBy->firstname }} {{ $request->requestedBy->lastname }}</td>
@@ -505,22 +515,23 @@
 
                                 <!-- Picked list -->
                                 <div id="picked" class="tab-pane fade">
-                                    <div class="table-responsive table-card mb-1">
-                                        <table class="table table-nowrap align-middle">
+                                    <div class="table-responsive mb-1">
+                                        <table class="table nowrap dt-responsive align-middle table-hover" style="width:100%">
                                             <thead class="text-muted table-light">
                                                 <tr class="text-uppercase">
-                                                    <th data-sort="id">ID</th>
-                                                    <th data-sort="tool_type">Supply Tools</th>
-                                                    <th data-sort="count_tool">Tools Quantity</th>
-                                                    <th data-sort="seedling_type">Supply Seeds</th>
-                                                    <th data-sort="count_seedling">Seeds Quantity</th>
-                                                    <th data-sort="letter_content">LETTER</th>
-                                                    <th data-sort="farm_leader">REQUESTED BY</th>
-                                                    <!-- <th data-sort="farm_name">FARM NAME</th> -->
-                                                    <th data-sort="status">STATUS</th>
-                                                    <th data-sort="created_at">DATE MUST BE PICK UP</th>
-                                                    <th data-sort="change_stat">SET AS</th>
-                                                    <th data-sort="action">ACTION</th>
+                                                    <th width="" data-sort="id">ID</th>
+                                                    <!-- <th data-sort="supply_id">Supply Type</th> -->
+                                                    <th width="15%" data-sort="tool_type">Supply Tools</th>
+                                                    <th width="5%" data-sort="count_tool">Tools Qty</th>
+                                                    <th width="15%" data-sort="seedling_type">Supply Seeds</th>
+                                                    <th width="5%" data-sort="count_seedling">Seeds Qty</th>
+                                                    <th width="5%" data-sort="letter_content">Letter</th>
+                                                    <th width="15%" data-sort="farm_leader">Requested By</th>
+                                                    <!-- <th data-sort="farm_name">Farm Name</th> -->
+                                                    <th width="10%" data-sort="status">Status</th>
+                                                    <th width="15%" data-sort="created_at">Pick up date</th>
+                                                    <th width="20%" data-sort="change_stat">Set As</th>
+                                                    <th width="10%" data-sort="action">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody class="list form-check-all">
@@ -550,7 +561,7 @@
                                                     </td>
                                                     <td class="letter_content">
                                                         <button type="button" class="btn btn-success waves-effect waves-light" onclick="viewLetterContent({{ $request->id }})">
-                                                            <i class="ri-eye-line align-bottom"></i> View PDF
+                                                            <i class="ri-eye-line align-bottom"></i>
                                                         </button>
                                                     </td>
                                                     <td class="text-center farm_leader">{{ $request->requestedBy->firstname }} {{ $request->requestedBy->lastname }}</td>
@@ -597,22 +608,23 @@
 
                                 <!-- Return list -->
                                 <div id="returned" class="tab-pane fade">
-                                    <div class="table-responsive table-card mb-1">
-                                        <table class="table table-nowrap align-middle">
+                                    <div class="table-responsive mb-1">
+                                        <table class="table nowrap dt-responsive align-middle table-hover" style="width:100%">
                                             <thead class="text-muted table-light">
                                                 <tr class="text-uppercase">
-                                                    <th data-sort="id">ID</th>
-                                                    <th data-sort="tool_type">Supply Tools</th>
-                                                    <th data-sort="count_tool">Tools Quantity</th>
-                                                    <th data-sort="seedling_type">Supply Seeds</th>
-                                                    <th data-sort="count_seedling">Seeds Quantity</th>
-                                                    <th data-sort="letter_content">LETTER</th>
-                                                    <th data-sort="farm_leader">REQUESTED BY</th>
-                                                    <!-- <th data-sort="farm_name">FARM NAME</th> -->
-                                                    <th data-sort="status">STATUS</th>
-                                                    <th data-sort="created_at">DATE MUST BE RETURNED</th>
-                                                    <th data-sort="change_stat">SET AS</th>
-                                                    <th data-sort="action">ACTION</th>
+                                                    <th width="" data-sort="id">ID</th>
+                                                    <!-- <th data-sort="supply_id">Supply Type</th> -->
+                                                    <th width="15%" data-sort="tool_type">Supply Tools</th>
+                                                    <th width="5%" data-sort="count_tool">Tools Qty</th>
+                                                    <th width="15%" data-sort="seedling_type">Supply Seeds</th>
+                                                    <th width="5%" data-sort="count_seedling">Seeds Qty</th>
+                                                    <th width="5%" data-sort="letter_content">Letter</th>
+                                                    <th width="15%" data-sort="farm_leader">Requested By</th>
+                                                    <!-- <th data-sort="farm_name">Farm Name</th> -->
+                                                    <th width="10%" data-sort="status">Status</th>
+                                                    <th width="15%" data-sort="created_at">Return Date</th>
+                                                    <th width="20%" data-sort="change_stat">Set As</th>
+                                                    <th width="" data-sort="action">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody class="list form-check-all">
@@ -641,9 +653,9 @@
                                                         {{ $request->count_seedling2 ? ', ' . strtoupper($request->count_seedling2) : '' }}
                                                     </td>
                                                     <td class="letter_content">
-                                                        <a href="{{ route('view.pdf.request', ['id' => $request->id]) }}" class="btn btn-success waves-effect waves-light" target="_blank">
-                                                            <i class="ri-eye-line align-bottom"></i> View PDF
-                                                        </a>
+                                                        <button type="button" class="btn btn-success waves-effect waves-light" onclick="viewLetterContent({{ $request->id }})">
+                                                            <i class="ri-eye-line align-bottom"></i>
+                                                        </button>
                                                     </td>
                                                     <td class="text-center farm_leader">{{ $request->requestedBy->firstname }} {{ $request->requestedBy->lastname }}</td>
                                                     <!-- <td class="text-center farm_name">{{ optional($request->farm)->farm_name }}</td> -->
@@ -685,8 +697,8 @@
                                             Previous
                                         </a>
                                         <ul class="pagination listjs-pagination mb-0">
-                                            <li class="active"><a class="page" href="#" data-i="1" data-page="8">1</a></li>
-                                            <li><a class="page" href="#" data-i="2" data-page="8">2</a></li>
+                                            <li class="active"><a class="page" href="#" data-i="1" data-page="10">1</a></li>
+                                            <li><a class="page" href="#" data-i="2" data-page="10">2</a></li>
                                         </ul>
                                         <a class="page-item pagination-next" href="#">
                                             Next
@@ -733,7 +745,7 @@
                                             </div>
                                             <br>
                                             <div class="mb-3">
-                                                <label for="dateInput" class="form-label">Select Date:</label>
+                                                <label for="dateInput" id="dateInputLabel" class="form-label">Select Date:</label>
                                                 <input type="date" class="form-control" id="dateInput" min="<?php echo date('Y-m-d'); ?>">
                                             </div>
 
@@ -817,6 +829,10 @@
 
 <script>
 
+    function downloadPDF() {
+        window.location.href = "{{ route('downloadPdf') }}";
+    }
+
     function viewLetterContent(id) {
         window.open("/view-pdf/" + id, '_blank');
     }
@@ -898,7 +914,7 @@
             success: function(response) {
                 if (response.success) {
                     // If the request is successful, update the status to "Ready to be Picked"
-                    updateStatusInDatabase(requestId, 'Ready-to-be-pick');
+                    updateStatusInDatabase(requestId, 'Confirmed-pick-date');
                     // Close the modal and show a success message
                     $('#setPickingDateModal').modal('hide');
                     alert('Picking date set successfully!');
@@ -1084,7 +1100,7 @@
                 return { backgroundColor: '#A5DD9B', color: '#FFF' };
             case 'unavailable':
                 return { backgroundColor: '#524C42', color: '#FFF' };
-            case 'ready-to-be-pick':
+            case 'confirmed-pick-date':
                 return { backgroundColor: '#E65C19', color: '#FFF' };
             case 'picked':
             case 'resubmit':
@@ -1179,13 +1195,14 @@
         $('#confirmUpdateBtn').data('remarks', remarks);
 
         // Disable the date input if the selected status is "Failed-to-return"
-        if (selectedStatus === 'Failed-to-return' || selectedStatus === 'Returned' || selectedStatus === 'Requested' 
-        || selectedStatus === 'Available' || selectedStatus === 'Unavailable' || selectedStatus === 'Waiting-for-approval' 
+        if (selectedStatus === 'Failed-to-return' || selectedStatus === 'Requested' || selectedStatus === 'Available' || selectedStatus === 'Unavailable' || selectedStatus === 'Waiting-for-approval' 
         || selectedStatus === 'Approved' || selectedStatus === 'Disapproved' || selectedStatus === 'Resubmit' 
-        || selectedStatus === 'Picked' || selectedStatus === 'Failed-to-pick') {
-            $('#dateInput').prop('disabled', true);
+        || selectedStatus === 'Picked' || selectedStatus === 'Failed-to-pick' || selectedStatus === 'Confirmed-pick-date') {
+            $('#dateInput').prop('hidden', true);
+            $('#dateInputLabel').prop('hidden', true);
         } else {
-            $('#dateInput').prop('disabled', false);
+            $('#dateInput').prop('hidden', false);
+            $('#dateInputLabel').prop('hidden', false);
         }
     }
 
@@ -1197,10 +1214,12 @@
         if (selectedStatus === 'Failed-to-return' || selectedStatus === 'Returned' || selectedStatus === 'Requested' 
         || selectedStatus === 'Available' || selectedStatus === 'Unavailable' || selectedStatus === 'Waiting-for-approval' 
         || selectedStatus === 'Approved' || selectedStatus === 'Disapproved' || selectedStatus === 'Resubmit' 
-        || selectedStatus === 'Picked' || selectedStatus === 'Failed-to-pick') {
-            $('#dateInput').prop('disabled', true);
+        || selectedStatus === 'Picked' || selectedStatus === 'Failed-to-pick' || selectedStatus === 'Confirmed-pick-date') {
+            $('#dateInput').prop('hidden', true);
+            $('#dateInputLabel').prop('hidden', true);
         } else {
-            $('#dateInput').prop('disabled', false);
+            $('#dateInput').prop('hidden', false);
+            $('#dateInputLabel').prop('hidden', false);
         }
     });
 
@@ -1212,15 +1231,25 @@
         // Get the remarks from the modal textarea
         var remarks = $('textarea[name="remarks"]').val();
 
-        // Perform the update with remarks
-        updateStatusInDatabase(rowId, selectedStatus, remarks);
+        // Get the selected date
+        var selectedDate = $('#dateInput').val();
+
+        // Perform the update with remarks and date
+        updateStatusInDatabase(rowId, selectedStatus, remarks, selectedDate);
+
+        // Clear the remarks textarea and date input
+        $('#confirmationModal textarea[name="remarks"]').val('');
+        $('#dateInput').val('');
 
         // Close the modal
         $('#confirmationModal').modal('hide');
+
+        // Show a confirmation message
+        toastr.success('Status updated successfully');
     });
 
     // Function to update status in the database
-    function updateStatusInDatabase(rowId, selectedStatus, remarks) {
+    function updateStatusInDatabase(rowId, selectedStatus, remarks, selectedDate) {
         $.ajax({
             url: '/updateStatus',
             method: 'POST',
@@ -1230,7 +1259,8 @@
             data: {
                 id: rowId,
                 status: selectedStatus,
-                remarks: remarks // Include remarks in the data
+                remarks: remarks, // Include remarks in the data
+                selectedDate: selectedDate // Include selected date in the data
             },
             success: function(response) {
                 console.log('Status updated successfully');

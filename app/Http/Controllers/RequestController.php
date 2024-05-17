@@ -249,40 +249,35 @@ class RequestController extends Controller
             return response()->json(['success' => false, 'message' => 'Error updating farm status to "Set Date"']);
         }
     }
-
-    public function updateRequest($id, Request $request)
+    public function updateRequest(Request $request, $id)
     {
         $request->validate([
-
             'letter_content' => 'nullable|file|mimes:pdf|max:2048',
-
         ]);
-
+    
         $request = RequestN::findOrFail($id);
-
-
+    
+        if (!$request) {
+            return response()->json(['error' => 'Request not found'], 404);
+        }
+    
         if ($request->hasFile('letter_content')) {
             $contentLandContent = file_get_contents($request->file('letter_content')->getRealPath());
             $contentLetterPath = $request->file('letter_content')->store('pdfs', 'public');
         } else {
-            $contentLetterPath = $request->letter_content;
+            $contentLetterPath = $request->input('letter_content');
         }
-
+    
         $request->update([
-		        'supply_seedling' => $request->input('supply_seedling'),
-                'supply_seedling1' => $request->input('supply_seedling1'),
-                'supply_seedling2' => $request->input('supply_seedling2'),
-
-                'count_seedling' => $request->input('count_seedling'),
-                'count_seedling1' => $request->input('count_seedling1'),
-                'count_seedling2' => $request->input('count_seedling2'),
-
-                'letter_content' => $contentLetterPath,
-                'status' => $request->input('status', 'Requested'),
+            'supply_tool' => $request->input('supply_tool'),
+            'count_tool' => $request->input('count_tool'),
+            'letter_content' => $contentLetterPath,
+            'status' => $request->input('status', 'Requested'),
         ]);
-
+    
         return response()->json(['message' => 'Request updated successfully', 'request' => $request]);
     }
+    
 
 
 }

@@ -282,52 +282,53 @@ function showAlert(message) {
 }
 
 function getWeatherData(city, unit, hourlyorWeek) {
-    const apiKey = "ZDDQHCH65WNK9UXXTBXG5KDU2";
 
-    fetch(
-        `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?unitGroup=metric&key=${apiKey}&contentType=json`,
-        {
-            method: "GET",
-        }
-    )
-        .then((response) => response.json())
-        .then((data) => {
-            checkWeatherConditionsForAlerts(data);
+  const apiKey = "ERJGP7JJK2SVVZEAC4G7ZZ6F4";
 
-            let today = data.currentConditions;
-            if (unit === "f") {
-                temp.innerText = celciusToFahrenheit(today.temp);
-                feelsLikeTemp = celciusToFahrenheit(today.feelslike);
-            } else {
-                temp.innerText = today.temp;
-                feelsLikeTemp = today.feelslike;
-            }
-            feelsLike.innerText = "Feels Like: " + feelsLikeTemp;
-            currentLocation.innerText = data.resolvedAddress;
-            condition.innerText = today.conditions;
-            rain.innerText = "Perc - " + today.precip + "%";
-            uvIndex.innerText = today.uvindex;
-            windSpeed.innerText = today.windspeed;
-            measureUvIndex(today.uvindex);
-            mainIcon.src = getIcon(today.icon);
-            // changeBackground(today.icon);
-            humidity.innerText = today.humidity + "%";
-            updateHumidityStatus(today.humidity);
-            visibilty.innerText = today.visibility;
-            updateVisibiltyStatus(today.visibility);
-            airQuality.innerText = today.winddir;
-            updateAirQualityStatus(today.winddir);
-            if (hourlyorWeek === "hourly") {
-                updateForecast(data.days[0].hours, unit, "day");
-            } else {
-                updateForecast(data.days, unit, "week");
-            }
-            sunRise.innerText = covertTimeTo12HourFormat(today.sunrise);
-            sunSet.innerText = covertTimeTo12HourFormat(today.sunset);
-        })
-        .catch((err) => {
-            console.error("Error fetching weather data:", err);
-        });
+  fetch(
+    `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?unitGroup=metric&key=${apiKey}&contentType=json`,
+    {
+      method: "GET",
+    }
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      checkWeatherConditionsForAlerts(data);
+
+      let today = data.currentConditions;
+      if (unit === "f") {
+        temp.innerText = celciusToFahrenheit(today.temp);
+        feelsLikeTemp = celciusToFahrenheit(today.feelslike); 
+      } else {
+        temp.innerText = today.temp;
+        feelsLikeTemp = today.feelslike;
+      }
+      feelsLike.innerText = "Feels Like: " + feelsLikeTemp;
+      currentLocation.innerText = data.resolvedAddress;
+      condition.innerText = today.conditions;
+      rain.innerText = "Perc - " + today.precip + "%";
+      uvIndex.innerText = today.uvindex;
+      windSpeed.innerText = today.windspeed;
+      measureUvIndex(today.uvindex);
+      mainIcon.src = getIcon(today.icon);
+      // changeBackground(today.icon);
+      humidity.innerText = today.humidity + "%";
+      updateHumidityStatus(today.humidity);
+      visibilty.innerText = today.visibility;
+      updateVisibiltyStatus(today.visibility);
+      airQuality.innerText = today.winddir;
+      updateAirQualityStatus(today.winddir);
+      if (hourlyorWeek === "hourly") {
+        updateForecast(data.days[0].hours, unit, "day");
+      } else {
+        updateForecast(data.days, unit, "week");
+      }
+      sunRise.innerText = covertTimeTo12HourFormat(today.sunrise);
+      sunSet.innerText = covertTimeTo12HourFormat(today.sunset);
+    })
+    .catch((err) => {
+      console.error("Error fetching weather data:", err);
+    });
 }
 
 //function to update Forecast

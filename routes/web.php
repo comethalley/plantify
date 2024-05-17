@@ -60,6 +60,7 @@ use Illuminate\Support\Facades\Artisan;
 
 
 
+
 Route::post('posts/{post}/like', [PostController::class, 'like'])->name('posts.like');
 Route::post('posts/{post}/unlike', [PostController::class, 'unlike'])->name('posts.unlike');
 
@@ -67,7 +68,7 @@ Route::post('posts/{post}/unlike', [PostController::class, 'unlike'])->name('pos
 Route::get('/', [AuthController::class, 'landingpage']);
 Route::get('/dashboard/analytics', [AnalyticsController::class, 'index'])->name('dashboard.analytics')->middleware('auth');
 Route::get('/login', [AuthController::class, 'viewLogin'])->name('login')->middleware('guest');
-Route::get('/signup', [AuthController::class, 'viewSignup']);
+// Route::get('/signup', [AuthController::class, 'viewSignup']);
 Route::post('/login/process', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
 Route::post('/register', [AuthController::class, 'signup']);
@@ -365,20 +366,25 @@ Route::get('/expenses/get-expenses-by-category', [ExpenseController::class, 'get
 
 Route::get('/Tools-District-5', [RequestController::class, 'index1']);
 Route::post('/add-tools', [RequestController::class, 'addTools'])->name('add.tools');
+Route::post('/add-tools1', [RequestController::class, 'addTools1'])->name('add.tools1');
 Route::get('/request/{id}/details', [RequestController::class, 'getRequestDetails']);
 Route::get('/view-pdf/{id}/{title?}', [RequestController::class, 'viewPdfRequest'])->name('view.pdf');
+Route::post('/set-date-request/{id}', [RequestController::class, 'SetDateStatus'])->name('set.date.request');
+Route::post('/set-date-request1/{id}', [RequestController::class, 'SetDateStatus1'])->name('set.date.request1');
+
 
 
 Route::get('/requests', [ToolController::class, 'index']);
-Route::get('/getLetterContent', [ToolController::class, 'getLetterContent']);
 Route::post('/updateStatus', [ToolController::class, 'updateStatus']);
 Route::get('/availableList', [ToolController::class, 'availableList']);
 Route::get('/approvedList', [ToolController::class, 'approvedList']);
+Route::get('/disapprovedList', [ToolController::class, 'disapprovedList']);
 Route::get('/pickedList', [ToolController::class, 'pickedList']);
 Route::get('/returnList', [ToolController::class, 'returnList']);
 Route::post('/set-picking-date', [ToolController::class, 'setPickingDate']);
 Route::post('/set-return-date', [ToolController::class, 'setReturnDate']);
-
+Route::get('/view-pdf/{id}/{title?}', [RequestController::class, 'viewPdfRequest'])->name('view.pdf.request');
+Route::get('/download-pdf', [ToolController::class, 'downloadPdf'])->name('downloadPdf');
 
 // ===================================================================================
 

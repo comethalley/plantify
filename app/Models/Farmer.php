@@ -14,6 +14,11 @@ class Farmer extends Model
         "status",
     ];
 
+    public function farm()
+    {
+        return $this->belongsTo(Farm::class, 'farm_id');
+    }
+
     public function farmLeader()
     {
         return $this->belongsTo(User::class, 'farmleader_id');

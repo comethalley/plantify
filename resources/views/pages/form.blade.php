@@ -158,13 +158,13 @@
 
                 <div class="card-body">
                     <div class="card-title-container justify-text-center">
-                        <h1 class="card-title text-center text-justify custom-title" style="font-size: 1.3rem; margin-bottom: 15px;"><strong>Pre-Registration Form</strong></h1>
+                        <h1 class="card-title text-center text-justify custom-title" style="font-size: 1.3rem; margin-bottom: 15px;"><strong>Attendees Form</strong></h1>
                         <h5 class="card-title text-center mb-2"><strong>Event Name: {{ $event->title }}</strong></h5>
                         <p class="card-text text-center mb-2"><strong>Date: {{ date('F j, Y', strtotime($event->start)) }} to {{ date('F j, Y', strtotime($event->end)) }}</strong></p>
                         <p class="card-text text-center" style="border-bottom: 1px solid #000;"><strong>{{ date('g:i A', strtotime($event->starttime)) }} to {{ date('g:i A', strtotime($event->endtime)) }}</strong></p>
                         <hr>
 
-                        <form action="{{ route('register', ['event_id' => $event->id]) }}" method="POST">
+                        <form action="{{ route('register', ['event_id' => $event->id, 'user_id' => $user->id]) }}" method="POST">
                             @csrf
                             <div class="live-preview">
                                 <div class="row gy-4">
@@ -173,31 +173,31 @@
                                             <div class="col">
                                                 <div>
                                                     <label for="firstName" class="form-label">First Name</label>
-                                                    <input type="text" class="form-control" id="firstName" name="first_name" placeholder="First Name" required>
+                                                    <input type="text" class="form-control" id="firstName" name="first_name" value="{{ $user->firstname }}" placeholder="First Name" readonly required>
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div>
                                                     <label for="lastName" class="form-label">Last Name</label>
-                                                    <input type="text" class="form-control" id="lastName" name="last_name" placeholder="Last Name" required>
+                                                    <input type="text" class="form-control" id="lastName" name="last_name" value="{{ $user->lastname }}" placeholder="Last Name" readonly required>
                                                 </div>
                                             </div>
                                             <div class="col-md-2">
                                                 <div>
                                                     <label for="middleInitial" class="form-label">M.I</label>
-                                                    <input type="text" class="form-control" id="middleInitial" name="middle_initial" placeholder="M.I" maxlength="3" required>
+                                                    <input type="text" class="form-control" id="middleInitial" name="middle_initial" placeholder="M.I" maxlength="3" >
                                                 </div>
                                             </div>
                                         </div><!-- end row -->
                                     </div><!-- end col -->
                                 </div><!-- end row -->
                                 <!--end col-->
-                                <div class="row gy-4">
+                                <div class="row gy-4"> 
                                     <div class="col">
                                         <div>
                                             <label for="iconInput" class="form-label">Email Address</label>
                                             <div class="form-icon">
-                                                <input type="email" class="form-control form-control-icon" id="iconInput" name="email" placeholder="example@gmail.com" required>
+                                                <input type="email" class="form-control form-control-icon" id="iconInput" name="email" value="{{ $user->email }}" placeholder="example@gmail.com" readonly required>
                                                 <i class="ri-mail-unread-line"></i>
                                             </div>
                                         </div>
@@ -216,7 +216,7 @@
                                     <div class="col">
                                         <div>
                                             <label for="placeholderInput" class="form-label">Age</label>
-                                            <input type="text" class="form-control" id="placeholderInput" name="age" placeholder="18" required>
+                                            <input type="text" class="form-control" id="placeholderInput" name="age" placeholder="18" maxlength="3" required>
                                         </div>
                                     </div>
                                 </div>
@@ -271,30 +271,3 @@
 
 
 </html>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-    const submitButton = document.getElementById('submitButton');
-
-    submitButton.addEventListener('click', function() {
-        // Show SweetAlert confirmation dialog
-        Swal.fire({
-            title: 'Successful',
-            text: 'Successfully Registered',
-            icon: 'success',
-            showConfirmButton: false,
-            timer: 10000 // Adjust the duration as needed
-           
-            
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Reload the page if the user confirms
-                window.location.reload();
-            } else {
-                // Do nothing if the user cancels
-            }
-        });
-    });
-});
-    </script>
-    

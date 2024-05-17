@@ -109,7 +109,7 @@
                         </div>
                     </div>
                     <div class="col-sm-auto">
-                        <div class="dropdown d-grid justify-content-end mt-1">
+                        <!-- <div class="dropdown d-grid justify-content-end mt-1">
                             <button class="btn btn-success dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                 Filter Status
                             </button>
@@ -118,9 +118,9 @@
                                 <li><a class="dropdown-item filter-option" href="javascript:void(0);" data-status="1">Upcoming Event</a></li>
                                 <li><a class="dropdown-item filter-option" href="javascript:void(0);" data-status="2">Ongoing Event</a></li>
                                 <li><a class="dropdown-item filter-option" href="javascript:void(0);" data-status="3">Finished Event</a></li>
-                                <!-- Add more options as needed -->
+                            
                             </ul>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>

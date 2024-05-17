@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\ProfileSettings;
 use Illuminate\Validation\Rule;
 use App\Events\MyEvent;
-
+use App\Notifications\PostLiked;
 class ForumController extends Controller
 {
     public function index()
@@ -42,6 +42,30 @@ class ForumController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+    }
+
+
+    public function likeForum(Forum $forum)
+    {
+        $user = Auth::user();
+
+        if (!$forum->likes()->where('user_id', $user->id)->exists()) {
+            $forum->likes()->create(['user_id' => $user->id]);
+             // Notify the forum owner
+               // Notify the post author
+        $forum->user->notify(new PostLiked($forum, $user));
+        }
+
+        return response()->json(['message' => 'Forum liked successfully']);
+    }
+
+    public function unlikeForum(Forum $forum)
+    {
+        $user = Auth::user();
+
+        $forum->likes()->where('user_id', $user->id)->delete();
+
+        return response()->json(['message' => 'Forum unliked successfully']);
     }
 
 

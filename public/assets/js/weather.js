@@ -1,47 +1,39 @@
 const temp = document.getElementById("temp"),
-date = document.getElementById("date-time"),
-currentLocation = document.getElementById("location"),
-condition = document.getElementById("condition"),
-rain = document.getElementById("rain"),
-mainIcon = document.getElementById("icon"),
-uvIndex = document.querySelector(".uv-index"),
-uvText = document.querySelector(".uv-text"),
-windSpeed = document.querySelector(".wind-speed"),
-sunRise = document.querySelector(".sun-rise"),
-sunSet = document.querySelector(".sun-set"),
-humidity = document.querySelector(".humidity"),
-visibilty = document.querySelector(".visibilty"),
-humidityStatus = document.querySelector(".humidity-status"),
-airQuality = document.querySelector(".air-quality"),
-airQualityStatus = document.querySelector(".air-quality-status"),
-visibilityStatus = document.querySelector(".visibilty-status"),
-weatherCards = document.querySelector("#weather-cards"),
-celciusBtn = document.querySelector(".celcius"),
-fahrenheitBtn = document.querySelector(".fahrenheit"),
-hourlyBtn = document.querySelector(".hourly"),
-weekBtn = document.querySelector(".week"),
-tempUnit = document.querySelectorAll(".temp-unit"),
-feelsLike = document.querySelector("#feels-like");
+    date = document.getElementById("date-time"),
+    currentLocation = document.getElementById("location"),
+    condition = document.getElementById("condition"),
+    rain = document.getElementById("rain"),
+    mainIcon = document.getElementById("icon"),
+    uvIndex = document.querySelector(".uv-index"),
+    uvText = document.querySelector(".uv-text"),
+    windSpeed = document.querySelector(".wind-speed"),
+    sunRise = document.querySelector(".sun-rise"),
+    sunSet = document.querySelector(".sun-set"),
+    humidity = document.querySelector(".humidity"),
+    visibilty = document.querySelector(".visibilty"),
+    humidityStatus = document.querySelector(".humidity-status"),
+    airQuality = document.querySelector(".air-quality"),
+    airQualityStatus = document.querySelector(".air-quality-status"),
+    visibilityStatus = document.querySelector(".visibilty-status"),
+    weatherCards = document.querySelector("#weather-cards"),
+    celciusBtn = document.querySelector(".celcius"),
+    fahrenheitBtn = document.querySelector(".fahrenheit"),
+    hourlyBtn = document.querySelector(".hourly"),
+    weekBtn = document.querySelector(".week"),
+    tempUnit = document.querySelectorAll(".temp-unit"),
+    feelsLike = document.querySelector("#feels-like");
 
+let currentCity = "";
+let currentUnit = "c";
+let hourlyorWeek = "Week";
 
-
-
-
-
-
-
-
-    let currentCity = "";
-    let currentUnit = "c";
-    let hourlyorWeek = "Week";
-
-    // function to get date and time
-    function getDateTime() {
-      let now = new Date(),
+// function to get date and time
+function getDateTime() {
+    let now = new Date(),
         hour = now.getHours(),
         minute = now.getMinutes();
 
-      let days = [
+    let days = [
         "Sunday",
         "Monday",
         "Tuesday",
@@ -49,84 +41,86 @@ feelsLike = document.querySelector("#feels-like");
         "Thursday",
         "Friday",
         "Saturday",
-      ];
-      // 12 hours format
-      hour = hour % 12;
-      if (hour < 10) {
+    ];
+    // 12 hours format
+    hour = hour % 12;
+    if (hour < 10) {
         hour = "0" + hour;
-      }
-      if (minute < 10) {
-        minute = "0" + minute;
-      }
-      let dayString = days[now.getDay()];
-      return `${dayString}, ${hour}:${minute}`;
     }
-    date.innerText = getDateTime();
+    if (minute < 10) {
+        minute = "0" + minute;
+    }
+    let dayString = days[now.getDay()];
+    return `${dayString}, ${hour}:${minute}`;
+}
+date.innerText = getDateTime();
 
-    // Updating date and time
+// Updating date and time
+date.innerText = getDateTime();
+setInterval(() => {
     date.innerText = getDateTime();
-    setInterval(() => {
-      date.innerText = getDateTime();
-    }, 1000);
-
+}, 1000);
 
 // function to get public ip address
-document.addEventListener("DOMContentLoaded", function() {
-  currentUnit = "c"; // Set the default unit to Celsius
-  getLocation();
-  changeUnit(currentUnit); // This will set up the UI for Celsius
+document.addEventListener("DOMContentLoaded", function () {
+    currentUnit = "c"; // Set the default unit to Celsius
+    getLocation();
+    changeUnit(currentUnit); // This will set up the UI for Celsius
 });
 
 function getLocation() {
-  const latitude = 14.6760;
-  const longitude = 121.0437;
+    const latitude = 14.676;
+    const longitude = 121.0437;
 
-  getLocationDetails({
-    coords: {
-      latitude: latitude,
-      longitude: longitude
-    }
-  });
+    getLocationDetails({
+        coords: {
+            latitude: latitude,
+            longitude: longitude,
+        },
+    });
 }
 
 function getLocationDetails(position) {
-  const latitude = position.coords.latitude;
-  const longitude = position.coords.longitude;
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
 
-  // Use OpenCage Geocoding API to get location details
-  const apiKey = '64a339cd7d3748e38976be505208ecb7';
-  const apiUrl = `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${apiKey}`;
+    // Use OpenCage Geocoding API to get location details
+    const apiKey = "64a339cd7d3748e38976be505208ecb7";
+    const apiUrl = `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${apiKey}`;
 
-  fetch(apiUrl)
-  fetch(apiUrl)
-  .then(response => response.json())
-  .then(data => {
-    const city = "Quezon City"; // Manually setting the city
-    const country = "Philippines"; // Manually setting the country
+    fetch(apiUrl);
+    fetch(apiUrl)
+        .then((response) => response.json())
+        .then((data) => {
+            const city = "Quezon City"; // Manually setting the city
+            const country = "Philippines"; // Manually setting the country
 
-      // Assuming you have the getWeatherData function defined somewhere
-      currentCity = city;
-      getWeatherData(city);
-       
-       document.getElementById("location").innerHTML = `${city}, ${country}`;
-     })
-     .catch(error => {
-       console.error('Error fetching location details:', error);
-       document.getElementById("location").innerHTML = "Error fetching location details.";
-     });
+            // Assuming you have the getWeatherData function defined somewhere
+            currentCity = city;
+            getWeatherData(city);
+
+            document.getElementById(
+                "location"
+            ).innerHTML = `${city}, ${country}`;
+        })
+        .catch((error) => {
+            console.error("Error fetching location details:", error);
+            document.getElementById("location").innerHTML =
+                "Error fetching location details.";
+        });
 }
 
 function showError(error) {
-  const errorMessage = {
-    1: "User denied the request for Geolocation.",
-    2: "Location information is unavailable.",
-    3: "The request to get user location timed out.",
-    default: "An unknown error occurred."
-  };
+    const errorMessage = {
+        1: "User denied the request for Geolocation.",
+        2: "Location information is unavailable.",
+        3: "The request to get user location timed out.",
+        default: "An unknown error occurred.",
+    };
 
-  document.getElementById("location").innerHTML = errorMessage[error.code] || errorMessage.default;
+    document.getElementById("location").innerHTML =
+        errorMessage[error.code] || errorMessage.default;
 }
-
 
 // function getWeatherData(city, unit, hourlyorWeek) {
 //   const apiKey = "UQCDAHREW2AP33F6RGNT3X2Z9";
@@ -162,14 +156,14 @@ function showError(error) {
 // }
 
 function updateWeatherUI(today, data, unit, hourlyorWeek) {
-  tempUnit.forEach((elem) => {
-    elem.innerText = `°${unit.toUpperCase()}`;
-  });
+    tempUnit.forEach((elem) => {
+        elem.innerText = `°${unit.toUpperCase()}`;
+    });
 }
 // function getPublicIp() {
 //   fetch("https://geolocation-db.com/json/", {
 //     method: "GET",
- 
+
 //   })
 //     .then((response) => response.json())
 //     .then((data) => {
@@ -180,21 +174,127 @@ function updateWeatherUI(today, data, unit, hourlyorWeek) {
 // }
 
 // getPublicIp();
+const weatherThresholds = {
+    temp: 33,
+    precip: 20,
+    windspeed: 10,
+    uvindex: 8,
+};
 
+// Function to check weather conditions for alerts
+function checkWeatherConditionsForAlerts(data) {
+    const { temp, precip, windspeed, uvindex } = data.currentConditions;
+    const currentTime = new Date();
+    const currentHour = currentTime.getHours();
+    console.log(currentHour);
 
+    // Check if it's evening (after 6 PM and before 5 AM)
+    if (currentHour >= 18 || currentHour < 5) {
+        showModal("It's evening. No information will be shown."); // Display evening message in the modal
+        closeModal(); // Close modal if it's evening
+        setTimeout(openModalAt6AM, getMillisecondsUntil6AM()); // Schedule modal to open at 6 AM
+        return; // Don't show modal in the evening
+    }
+
+    console.log("Precipitation:", precip);
+    console.log("Wind Speed:", windspeed);
+    console.log("UV Index:", uvIndex);
+    let alerts = []; // Array to store all alerts
+
+    if (temp > weatherThresholds.temp) {
+        alerts.push(
+            "High temperature alert! Consider adjusting planting schedules."
+        );
+    }
+    if (precip > weatherThresholds.precip) {
+        alerts.push(
+            "High precipitation alert! Ensure proper drainage for plants."
+        );
+    }
+    if (windspeed > weatherThresholds.windspeed) {
+        alerts.push("Strong wind alert! Secure plants to prevent damage.");
+    }
+    if (uvindex > weatherThresholds.uvindex) {
+        alerts.push(
+            "High UV index alert! Provide shade or protect plants from sunburn."
+        );
+    }
+
+    // If there are multiple alerts, concatenate them into one and show in a single alert
+    if (alerts.length > 1) {
+        const combinedAlert = alerts.join("\n"); // Concatenate alerts with new lines
+        showAlert(combinedAlert);
+        showModal(combinedAlert); // Show modal with combined alert message
+    } else if (alerts.length === 1) {
+        // If only one alert, show it normally
+        showAlert(alerts[0]);
+        showModal(alerts[0]); // Show modal with single alert message
+    } else {
+        // If no alerts, show a generic message
+        showModal("Good Conditions, you can plant!");
+    }
+}
+
+// Function to open the modal at 6 AM
+function openModalAt6AM() {
+    const currentTime = new Date();
+    const currentHour = currentTime.getHours();
+    if (currentHour === 6) {
+        console.log("Opening modal at 6 AM.");
+        showModal("Good morning!"); // Show modal at 6 AM
+    }
+}
+
+// Function to calculate the milliseconds until 6 AM
+function getMillisecondsUntil6AM() {
+    const currentTime = new Date();
+    const currentHour = currentTime.getHours();
+    const millisecondsInAnHour = 3600000; // 1 hour = 3600000 milliseconds
+    const hoursUntil6AM =
+        currentHour < 6 ? 6 - currentHour : 24 - currentHour + 6; // Calculate hours until 6 AM
+    return hoursUntil6AM * millisecondsInAnHour;
+}
+
+function showModal(message) {
+    const modal = document.getElementById("customModal");
+    const modalMessage = document.getElementById("modalMessage");
+    modalMessage.textContent = message;
+    modal.style.display = "block";
+}
+
+// Function to hide the modal
+function closeModal() {
+    const modal = document.getElementById("customModal");
+    modal.style.display = "none";
+}
+
+// Close the modal when clicking on the close button or outside the modal
+window.onclick = function (event) {
+    const modal = document.getElementById("customModal");
+    if (event.target === modal) {
+        modal.style.display = "none";
+    }
+};
+// Function to display alerts
+function showAlert(message) {
+    console.log("Show alert");
+    showModal(message);
+}
 
 function getWeatherData(city, unit, hourlyorWeek) {
-  const apiKey = "FDVCC7R4CKKFSU93Z5DKAJMBY";
+
+  const apiKey = "ERJGP7JJK2SVVZEAC4G7ZZ6F4";
+
   fetch(
     `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?unitGroup=metric&key=${apiKey}&contentType=json`,
     {
       method: "GET",
-      
     }
   )
     .then((response) => response.json())
     .then((data) => {
-      
+      checkWeatherConditionsForAlerts(data);
+
       let today = data.currentConditions;
       if (unit === "f") {
         temp.innerText = celciusToFahrenheit(today.temp);
@@ -233,23 +333,27 @@ function getWeatherData(city, unit, hourlyorWeek) {
 
 //function to update Forecast
 function updateForecast(data, unit, type) {
-  weatherCards.innerHTML = ""; // Clear existing weather cards
+    weatherCards.innerHTML = ""; // Clear existing weather cards
 
-  let startIndex = 1;
-  let numCards = type === "day" ? 24 : 6; // Use 6 for weekly forecast
+    let startIndex = 0; // Start index from 0
+    let numCards = type === "day" ? 24 : 6; // Use 6 for weekly forecast
 
-  for (let i = startIndex; i < startIndex + numCards; i++) {
-    // Start from 1 to exclude the current day
-    (function (index) {
-      let card = document.createElement("div");
-      card.classList.add("card");
-      card.style.cursor = "pointer"; // Add this line
+    // Check if the data array has enough elements to populate the forecast
+    if (data.length >= startIndex + numCards) {
+        for (let i = startIndex; i < startIndex + numCards; i++) {
+            let card = document.createElement("div");
+            card.classList.add("card");
+            card.style.cursor = "pointer";
 
-      let dayName = type === "week" ? getDayName(data[index].datetime) : getHour(data[index].datetime);
-      let dayTemp = unit === "f" ? celciusToFahrenheit(data[index].temp) : data[index].temp;
-      let iconSrc = getIcon(data[index].icon);
+            let dayName =
+                type === "week"
+                    ? getDayName(data[i].datetime)
+                    : getHour(data[i].datetime);
+            let dayTemp =
+                unit === "f" ? celciusToFahrenheit(data[i].temp) : data[i].temp;
+            let iconSrc = getIcon(data[i].icon);
 
-      card.innerHTML = `
+            card.innerHTML = `
         <h2 class="day-name">${dayName}</h2>
         <div class="card-icon">
           <img src="${iconSrc}" class="day-icon" alt="Weather Icon" />
@@ -260,186 +364,196 @@ function updateForecast(data, unit, type) {
         </div>
       `;
 
-      // Add event listener to each card to show modal with details
-      card.addEventListener('click', () => {
-        populateAndShowModal(data[index]); // Use captured index
-      });
+            // Add event listener to the card itself
+            card.addEventListener("click", (event) => {
+                // Check if the click originated from the card itself, not its child elements
+                if (event.target === card) {
+                    populateAndShowModal(data[i]);
+                }
+            });
 
-      weatherCards.appendChild(card);
-    })(i);
-  }
+            weatherCards.appendChild(card);
+        }
+    } else {
+        console.error("Insufficient data for forecast.");
+    }
 }
 
 function populateAndShowModal(detail) {
-  // Populate the modal with details
-  document.getElementById("modalRainChance").innerText = detail.precip || '0'; // Assuming 'precip' is your chance of rain
-  document.getElementById("modalHumidity").innerText = detail.humidity || '--'; // Assuming 'humidity' is in your data
-  document.getElementById("modalSunrise").innerText = covertTimeTo12HourFormat(detail.sunrise) || '--'; // Convert sunrise time as needed
-  document.getElementById("modalSunset").innerText = covertTimeTo12HourFormat(detail.sunset) || '--'; // Convert sunset time as needed
+    // Populate the modal with details
+    document.getElementById("modalRainChance").innerText = detail.precip || "0"; // Assuming 'precip' is your chance of rain
+    document.getElementById("modalHumidity").innerText =
+        detail.humidity || "--"; // Assuming 'humidity' is in your data
+    document.getElementById("modalSunrise").innerText =
+        covertTimeTo12HourFormat(detail.sunrise) || "--"; // Convert sunrise time as needed
+    document.getElementById("modalSunset").innerText =
+        covertTimeTo12HourFormat(detail.sunset) || "--"; // Convert sunset time as needed
+    document.getElementById("modalFeelsLike").innerText =
+        detail.feelslikemax || "--"; // Assuming 'feelslike' is in your data for the feels like temperature
 
-  // Show the modal
-  document.getElementById("detailModal").style.display = 'block';
+    // Show the modal
+    document.getElementById("detailModal").style.display = "block";
 
-  // Add event listener to close the modal when clicking outside of it
-  document.addEventListener('click', function(event) {
-    if (event.target.id === 'detailModal' || event.target.id === 'modalClose') {
-      document.getElementById("detailModal").style.display = 'none';
-    }
-  });
+    // Add event listener to close the modal when clicking outside of it
+    document.addEventListener("click", function (event) {
+        if (
+            event.target.id === "detailModal" ||
+            event.target.id === "modalClose"
+        ) {
+            document.getElementById("detailModal").style.display = "none";
+        }
+    });
 }
 
 function closeModal() {
-  document.getElementById("detailModal").style.display = 'none';
+    document.getElementById("detailModal").style.display = "none";
 }
 
-  
 // function to change weather icons
 function getIcon(condition) {
-  if (condition === "partly-cloudy-day") {
-    return "https://i.ibb.co/PZQXH8V/27.png";
-  } else if (condition === "partly-cloudy-night") {
-    return "https://i.ibb.co/Kzkk59k/15.png";
-  } else if (condition === "rain") {
-    return "https://i.ibb.co/vqBCT93/rain-removebg-preview.png";
-  } else if (condition === "clear-day") {
-    return "https://i.ibb.co/rb4rrJL/26.png";
-  } else if (condition === "clear-night") {
-    return "https://i.ibb.co/1nxNGHL/10.png";
-  } else {
-    return "https://i.ibb.co/rb4rrJL/26.png";
-  }
+    if (condition === "partly-cloudy-day") {
+        return "https://i.ibb.co/PZQXH8V/27.png";
+    } else if (condition === "partly-cloudy-night") {
+        return "https://i.ibb.co/Kzkk59k/15.png";
+    } else if (condition === "rain") {
+        return "https://i.ibb.co/vqBCT93/rain-removebg-preview.png";
+    } else if (condition === "clear-day") {
+        return "https://i.ibb.co/rb4rrJL/26.png";
+    } else if (condition === "clear-night") {
+        return "https://i.ibb.co/1nxNGHL/10.png";
+    } else {
+        return "https://i.ibb.co/rb4rrJL/26.png";
+    }
 }
 
 // function to change background depending on weather conditions
 function changeBackground(condition) {
-  const body = document.querySelector("body");
-  let bg = "";
-  if (condition === "partly-cloudy-day") {
-    bg = "https://i.ibb.co/qNv7NxZ/pc.webp";
-  } else if (condition === "partly-cloudy-night") {
-    bg = "https://i.ibb.co/RDfPqXz/pcn.jpg";
-  } else if (condition === "rain") {
-    bg = "https://i.ibb.co/h2p6Yhd/rain.webp";
-  } else if (condition === "clear-day") {
-    bg = "https://i.ibb.co/WGry01m/cd.jpg";
-  } else if (condition === "clear-night") {
-    bg = "https://i.ibb.co/kqtZ1Gx/cn.jpg";
-  } else {
-    bg = "https://i.ibb.co/qNv7NxZ/pc.webp";
-  }
-  body.style.backgroundImage = `linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ),url(${bg})`;
+    const body = document.querySelector("body");
+    let bg = "";
+    if (condition === "partly-cloudy-day") {
+        bg = "https://i.ibb.co/qNv7NxZ/pc.webp";
+    } else if (condition === "partly-cloudy-night") {
+        bg = "https://i.ibb.co/RDfPqXz/pcn.jpg";
+    } else if (condition === "rain") {
+        bg = "https://i.ibb.co/h2p6Yhd/rain.webp";
+    } else if (condition === "clear-day") {
+        bg = "https://i.ibb.co/WGry01m/cd.jpg";
+    } else if (condition === "clear-night") {
+        bg = "https://i.ibb.co/kqtZ1Gx/cn.jpg";
+    } else {
+        bg = "https://i.ibb.co/qNv7NxZ/pc.webp";
+    }
+    body.style.backgroundImage = `linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ),url(${bg})`;
 }
 
 //get hours from hh:mm:ss
 function getHour(time) {
-  let hour = time.split(":")[0];
-  let min = time.split(":")[1];
-  if (hour > 12) {
-    hour = hour - 12;
-    return `${hour}:${min} PM`;
-  } else {
-    return `${hour}:${min} AM`;
-  }
+    let hour = time.split(":")[0];
+    let min = time.split(":")[1];
+    if (hour > 12) {
+        hour = hour - 12;
+        return `${hour}:${min} PM`;
+    } else {
+        return `${hour}:${min} AM`;
+    }
 }
 
 // convert time to 12 hour format
 function covertTimeTo12HourFormat(time) {
-  let hour = time.split(":")[0];
-  let minute = time.split(":")[1];
-  let ampm = hour >= 12 ? "pm" : "am";
-  hour = hour % 12;
-  hour = hour ? hour : 12; // the hour '0' should be '12'
-  minute = Number(minute); // Convert minutes to a number
-  minute = minute < 10 ? "0" + minute : minute; // Pad minutes with a leading zero if needed
-  let strTime = hour + ":" + minute + " " + ampm;
-  return strTime;
+    let hour = time.split(":")[0];
+    let minute = time.split(":")[1];
+    let ampm = hour >= 12 ? "pm" : "am";
+    hour = hour % 12;
+    hour = hour ? hour : 12; // the hour '0' should be '12'
+    minute = Number(minute); // Convert minutes to a number
+    minute = minute < 10 ? "0" + minute : minute; // Pad minutes with a leading zero if needed
+    let strTime = hour + ":" + minute + " " + ampm;
+    return strTime;
 }
 
 // function to get day name from date
 function getDayName(date) {
-  let day = new Date(date);
-  let days = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
-  return days[day.getDay()];
+    let day = new Date(date);
+    let days = [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+    ];
+    return days[day.getDay()];
 }
 
 // function to get uv index status
 function measureUvIndex(uvIndex) {
-  if (uvIndex <= 2) {
-    uvText.innerText = "Low";
-  } else if (uvIndex <= 5) {
-    uvText.innerText = "Moderate";
-  } else if (uvIndex <= 7) {
-    uvText.innerText = "High";
-  } else if (uvIndex <= 10) {
-    uvText.innerText = "Very High";
-  } else {
-    uvText.innerText = "Extreme";
-  }
+    if (uvIndex <= 2) {
+        uvText.innerText = "Low";
+    } else if (uvIndex <= 5) {
+        uvText.innerText = "Moderate";
+    } else if (uvIndex <= 7) {
+        uvText.innerText = "High";
+    } else if (uvIndex <= 10) {
+        uvText.innerText = "Very High";
+    } else {
+        uvText.innerText = "Extreme";
+    }
 }
 
 // function to get humidity status
 function updateHumidityStatus(humidity) {
-  if (humidity <= 30) {
-    humidityStatus.innerText = "Low";
-  } else if (humidity <= 60) {
-    humidityStatus.innerText = "Moderate";
-  } else {
-    humidityStatus.innerText = "High";
-  }
+    if (humidity <= 30) {
+        humidityStatus.innerText = "Low";
+    } else if (humidity <= 60) {
+        humidityStatus.innerText = "Moderate";
+    } else {
+        humidityStatus.innerText = "High";
+    }
 }
 
 // function to get visibility status
 function updateVisibiltyStatus(visibility) {
-  if (visibility <= 0.03) {
-    visibilityStatus.innerText = "Dense Fog";
-  } else if (visibility <= 0.16) {
-    visibilityStatus.innerText = "Moderate Fog";
-  } else if (visibility <= 0.35) {
-    visibilityStatus.innerText = "Light Fog";
-  } else if (visibility <= 1.13) {
-    visibilityStatus.innerText = "Very Light Fog";
-  } else if (visibility <= 2.16) {
-    visibilityStatus.innerText = "Light Mist";
-  } else if (visibility <= 5.4) {
-    visibilityStatus.innerText = "Very Light Mist";
-  } else if (visibility <= 10.8) {
-    visibilityStatus.innerText = "Clear Air";
-  } else {
-    visibilityStatus.innerText = "Very Clear Air";
-  }
+    if (visibility <= 0.03) {
+        visibilityStatus.innerText = "Dense Fog";
+    } else if (visibility <= 0.16) {
+        visibilityStatus.innerText = "Moderate Fog";
+    } else if (visibility <= 0.35) {
+        visibilityStatus.innerText = "Light Fog";
+    } else if (visibility <= 1.13) {
+        visibilityStatus.innerText = "Very Light Fog";
+    } else if (visibility <= 2.16) {
+        visibilityStatus.innerText = "Light Mist";
+    } else if (visibility <= 5.4) {
+        visibilityStatus.innerText = "Very Light Mist";
+    } else if (visibility <= 10.8) {
+        visibilityStatus.innerText = "Clear Air";
+    } else {
+        visibilityStatus.innerText = "Very Clear Air";
+    }
 }
 
 // function to get air quality status
 function updateAirQualityStatus(airquality) {
-  if (airquality <= 50) {
-    airQualityStatus.innerText = "Good";
-  } else if (airquality <= 100) {
-    airQualityStatus.innerText = "Moderate";
-  } else if (airquality <= 150) {
-    airQualityStatus.innerText = "Unhealthy";
-  } else if (airquality <= 200) {
-    airQualityStatus.innerText = "Unhealthy";
-  } else if (airquality <= 250) {
-    airQualityStatus.innerText = "Very Unhealthy";
-  } else {
-    airQualityStatus.innerText = "Hazardous";
-  }
+    if (airquality <= 50) {
+        airQualityStatus.innerText = "Good";
+    } else if (airquality <= 100) {
+        airQualityStatus.innerText = "Moderate";
+    } else if (airquality <= 150) {
+        airQualityStatus.innerText = "Unhealthy";
+    } else if (airquality <= 200) {
+        airQualityStatus.innerText = "Unhealthy";
+    } else if (airquality <= 250) {
+        airQualityStatus.innerText = "Very Unhealthy";
+    } else {
+        airQualityStatus.innerText = "Hazardous";
+    }
 }
-
 
 // function to conver celcius to fahrenheit
 function celciusToFahrenheit(temp) {
-  return ((temp * 9) / 5 + 32).toFixed(1);
+    return ((temp * 9) / 5 + 32).toFixed(1);
 }
-
 
 // var currentFocus;
 // search.addEventListener("input", function (e) {
@@ -532,59 +646,54 @@ function celciusToFahrenheit(temp) {
 //   if (x) x.parentNode.removeChild(x);
 // }
 
-
 celciusBtn.addEventListener("click", () => {
-  changeUnit("c");
+    changeUnit("c");
 });
 
 fahrenheitBtn.addEventListener("click", () => {
-  changeUnit("f");
+    changeUnit("f");
 });
-
 
 // // function to change unit
 function changeUnit(unit) {
-  if (currentUnit !== unit) {
-    currentUnit = unit;
-    tempUnit.forEach((elem) => {
-      elem.innerText = `°${unit.toUpperCase()}`;
-    });
-    // Set the active class based on the current unit
-    if (unit === "c") {
-      celciusBtn.classList.add("active");
-      fahrenheitBtn.classList.remove("active");
-    } else {
-      celciusBtn.classList.remove("active");
-      fahrenheitBtn.classList.add("active");
+    if (currentUnit !== unit) {
+        currentUnit = unit;
+        tempUnit.forEach((elem) => {
+            elem.innerText = `°${unit.toUpperCase()}`;
+        });
+        // Set the active class based on the current unit
+        if (unit === "c") {
+            celciusBtn.classList.add("active");
+            fahrenheitBtn.classList.remove("active");
+        } else {
+            celciusBtn.classList.remove("active");
+            fahrenheitBtn.classList.add("active");
+        }
+        // Fetch new weather data if the city is set
+        if (currentCity) {
+            getWeatherData(currentCity, currentUnit, hourlyorWeek);
+        }
     }
-    // Fetch new weather data if the city is set
-    if (currentCity) {
-      getWeatherData(currentCity, currentUnit, hourlyorWeek);
-    }
-  }
 }
 
-
 hourlyBtn.addEventListener("click", () => {
-  changeTimeSpan("hourly");
+    changeTimeSpan("hourly");
 });
 weekBtn.addEventListener("click", () => {
-  changeTimeSpan("week");
+    changeTimeSpan("week");
 });
 
 // // function to change hourly to weekly or vice versa
 function changeTimeSpan(unit) {
-  if (hourlyorWeek !== unit) {
-    hourlyorWeek = unit;
-    if (unit === "hourly") {
-      hourlyBtn.classList.add("active");
-      weekBtn.classList.remove("active");
-    } else {
-      hourlyBtn.classList.remove("active");
-      weekBtn.classList.add("active");
+    if (hourlyorWeek !== unit) {
+        hourlyorWeek = unit;
+        if (unit === "hourly") {
+            hourlyBtn.classList.add("active");
+            weekBtn.classList.remove("active");
+        } else {
+            hourlyBtn.classList.remove("active");
+            weekBtn.classList.add("active");
+        }
+        getWeatherData(currentCity, currentUnit, hourlyorWeek);
     }
-    getWeatherData(currentCity, currentUnit, hourlyorWeek);
-  }
 }
-
-

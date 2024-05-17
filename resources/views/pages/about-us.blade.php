@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
 
     <title>About-us</title>
-    <link rel="icon" type="image/png" href="assets/images/plantifeedpics/plants.png" sizes="any" class="img-fluid" />
+    <link rel="shortcut icon" type="image/x-icon" href="assets/images/plantifeedpics/rounded.png" class="img-fluid" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
@@ -105,27 +105,27 @@
                 <ul class="navbar-nav mx-auto mt-2 mt-lg-0" id="navbar-example">
                     <li class="nav-item">
                         <a class="nav-link text-white fw-bold" href="/" onclick="scrollToHome()">
-                            <i class="fas fa-home"></i> Home
+                            <i class=""></i> Home
                         </a>
                     </li>
                     
 
                     <li class="nav-item">
                         <a class="nav-link text-white fw-bold" href="/" onclick="scrollToFAQ()">
-                            <i class="fas fa-question-circle"></i> FAQs
+                            <i class=""></i> FAQs
                         </a>
                     </li>
                     
 
                     <li class="nav-item">
                         <a class="nav-link text-white fw-bold" href="/" onclick="scrollToContact()">
-                            <i class="fas fa-phone"></i> Contact Us
+                            <i class=""></i> Contact Us
                         </a>
                     </li>
                     
                     <li class="nav-item">
                         <a class="nav-link text-white fw-bold" href="/about-us">
-                            <i class="fas fa-info-circle"></i> About Us
+                            <i class=""></i> About Us
                         </a>
                     </li>
                     
@@ -134,14 +134,14 @@
 
                 <div>
 
-                    <a class="btn btn-link text-white fw-bold" href="/login">
+                    <a class="btn btn-link text-white fw-bold" style="background-color:#FFAB2D;" href="/login">
                         <i class="fas fa-user"></i> Login
                     </a>
                     
                     
-                    <a class="btn btn-link text-white fw-semibold" style="background-color:#FFAB2D;" href="/signup">
+                    <!-- <a class="btn btn-link text-white fw-semibold" style="background-color:#FFAB2D;" href="/signup">
                         <i class="fas fa-sign-in-alt"></i> Sign Up
-                    </a>
+                    </a> -->
 
                 </div>
             </div>

@@ -42,13 +42,19 @@
                         </div>
                         <div class="card-body border border-dashed border-end-0 border-start-0">
                             <form>
+                            <div class="card-body border border-dashed border-end-0 border-start-0">
+                            <form>
                                 <div class="row g-3">
                                     <div class="col-xxl-5 col-sm-6">
                                         <div class="search-box">
-
+                                            <input type="text" class="form-control search" placeholder="Search for order ID, customer, order status or something...">
+                                            <i class="ri-search-line search-icon"></i>
                                         </div>
                                     </div>
                                 </div>
+                                <!--end row-->
+                            </form>
+                        </div>
                                 <!--end row-->
                             </form>
                         </div>
@@ -82,12 +88,7 @@
                                                 <td>{{ $item->companion }}</td>
                                                 <td>{{ $item->days_harvest }}</td>
                                                 <td>
-                                                    <ul class="list-inline hstack gap-2 mb-0">
-                                                        <!-- <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="View">
-                                                            <a href="" class="text-primary d-inline-block supplier_btn" data-bs-target="#viewModal" data-bs-toggle="modal" data-supplier-id="">
-                                                                <i class="ri-eye-fill fs-16"></i>
-                                                            </a>
-                                                        </li> -->
+                                                    <ul class="list-inline hstack gap-2 mb-0">                                       
                                                         <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Edit">
                                                             <a href="" class="text-primary d-inline-block edit-item-btn" data-plantinfo-id="{{$item->id}}">
                                                                 <i class="ri-pencil-fill fs-16"></i>
@@ -162,8 +163,10 @@
                                                     <!-- <label for="customername-field" class="form-label">Season</label> -->
                                                     <div class="form-group">
                                                         <label for="mode">Season</label>
-                                                        <select class="form-select" id="seasons" multiple="multiple">
-                                                            <option value="January">January</option>
+
+                                                        <select class="form-select" id="seasons">
+                                                        <option value="January">January</option>
+
                                                             <option value="February">February</option>
                                                             <option value="March">March</option>
                                                             <option value="April">April</option>
@@ -275,16 +278,7 @@
                                                     <input class="form-control" type="file" id="edit_image" name="edit_image">
                                                 </div>
 
-                                                $('#edit_image').on('change', function() {
-                                                    var file = this.files[0];
-                                                    var reader = new FileReader();
-                                                    reader.onload = function(e) {
-                                                        $('#edit_image_preview').attr('src', e.target.result);
-                                                    };
-                                                    reader.readAsDataURL(file);
-                                                });
-
-
+                        
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Companion</label>
                                                     <input type="text" name="address" id="edit_companion" class="form-control" placeholder="Companion" required />

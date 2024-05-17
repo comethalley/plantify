@@ -85,6 +85,7 @@
                                                 <th data-sort="payment">Email Address</th>
                                                 <!-- <th data-sort="address">Address</th> -->
                                                 <!-- <th data-sort="contact">Contact</th> -->
+                                                <th data-sort="city">Status</th>
                                                 <th data-sort="city">Action</th>
 
 
@@ -158,7 +159,7 @@
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header bg-light p-3">
-                                            <h5 class="modal-title" id="exampleModalLabel">Invite New Admin</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">Add New Admin</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
                                         </div>
                                         <form method="post" action="/add-supplier">
@@ -168,22 +169,22 @@
 
                                                 <input type="text" id="orderId" class="form-control" placeholder="ID" readonly hidden />
 
-                                                <!-- <div class="mb-3">
+                                                <div class="mb-3">
                                                     <label for="customername-field" class="form-label">First Name</label>
-                                                    <input type="text" name="supplier-name" id="firstname" class="form-control" placeholder="Enter name" required />
+                                                    <input type="text" name="supplier-name" id="firstname" class="form-control" placeholder="Enter Firstname" required />
                                                 </div>
 
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Last Name</label>
-                                                    <input type="text" name="description" id="lastname" class="form-control" placeholder="Enter Description" required />
-                                                </div> -->
+                                                    <input type="text" name="description" id="lastname" class="form-control" placeholder="Enter Lastname" required />
+                                                </div>
 
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Email Address</label>
                                                     <input type="email" name="email" id="email" class="form-control" placeholder="Enter Email" required />
                                                 </div>
 
-                                                <!-- <div class="mb-3">
+                                                <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Address</label>
                                                     <input type="address" name="address" id="address" class="form-control" placeholder="Enter Address" required />
                                                 </div>
@@ -191,7 +192,17 @@
                                                 <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Contact</label>
                                                     <input type="contact" name="contact" id="contact" class="form-control" placeholder="Enter Contact" required />
-                                                </div> -->
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label for="customername-field" class="form-label">Password</label>
+                                                    <input type="password" name="contact" id="password" class="form-control" placeholder="Enter Password" required />
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label for="customername-field" class="form-label">Confirm Password</label>
+                                                    <input type="password" name="contact" id="confirm_password" class="form-control" placeholder="Confirm Password" required />
+                                                </div>
 
                                             </div>
                                             <div class="modal-footer">

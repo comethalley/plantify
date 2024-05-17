@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Event;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -33,65 +34,80 @@ class AttendanceControler extends Controller
     
     return response()->json($attendees);
     }
-
+    
     public function updateStatus(Request $request)
     {
-        $request->validate([
-            'attendeeId' => 'required|integer' // Validate that 'attendeeId' is required and is an integer
-        ]);
+        // Validate the incoming request
+        $attendeeId = $request->input('attendee_id');
     
-        $attendeeId = $request->input('attendeeId');
-        
-        // Update the status of the attendee with the given ID
-        $attendee = EventAttendance::find($attendeeId);
-        if ($attendee) {
-            $attendee->status = 2; // Assuming 2 is the status for "Saved"
-            $attendee->save();
-            
-            // Return a response indicating success
-            return response()->json(['message' => 'Status updated successfully']);
-        }
-        
-        // Return a response indicating failure
-        return response()->json(['message' => 'Failed to update status'], 400);
-    }
-      
-    public function deleteAttendee($id)
-    {
-        $attendee = EventAttendance::find($id);
+    // Find the attendee by ID
+    $attendee = EventAttendance::find($attendeeId);
+    
+    // Check if attendee exists
     if (!$attendee) {
-        return response()->json(['message' => 'Attendee not found.'], 404);
+        return response()->json(['success' => false, 'message' => 'Attendee not found'], 404);
     }
-
-    $attendee->status = 0; // Change status to 0 (archived)
-    $attendee->save();
-
-    return response()->json(['message' => 'Attendee archived successfully.']);
-    }
-   
     
+    // Update the status
+    $attendee->status = 2; // Assuming 2 represents the new status value
+    
+    // Save the updated attendee
+    $attendee->save();
+    
+    return response()->json(['success' => true]);
+    
+    }
+    
+
     public function attendees(Request $request) {
         $eventId = $request->input('id');
+     
         // Fetch event details based on the $eventId from the database
         $event = Event::find($eventId);
-        // Pass the event details to the blade view
-        return view('pages.eventattendees', ['event' => $event]);
+    
+        // Fetch attendees for the event with status value 1
+        $attendeesWithStatus1 = EventAttendance::where('event_id', $eventId)
+                            ->where('status', 1)
+                            ->select('id','first_name', 'last_name', 'email', 'barangay', 'status')
+                            ->get();
+    
+        // Fetch attendees for the event with status value 2 (or any other value as needed)
+        $attendeesWithStatus2 = EventAttendance::where('event_id', $eventId)
+                            ->where('status', 2)
+                            ->select('first_name', 'last_name', 'email', 'barangay', 'status')
+                            ->get();
+    
+        return view('pages.eventattendees', ['event' => $event, 'attendeesWithStatus1' => $attendeesWithStatus1, 'attendeesWithStatus2' => $attendeesWithStatus2]);
     }
+    
+    
     public function attendanceForm($id) {
-        // Fetch event details based on the $id from the database
         $event = Event::find($id);
-        // Pass the event details to the blade view
-        return view('pages.form', ['event' => $event]);
+    
+    // Fetch user details based on the $id from the database
+    $user = User::find($id);
+
+    // Check if user exists
+    $user = auth()->user();
+
+    // Check if user exists
+    if (!$user) {
+        // Handle the case where user is not found
+        // For example, you can redirect back with an error message
+    }
+
+    // Pass the event and user details to the blade view
+    return view('pages.form', ['event' => $event, 'user' => $user]);
     }
 
 
-public function submit(Request $request, $event_id)
+public function submit(Request $request, $event_id, $user_id)
 {
     // Validate the form data
     $validatedData = $request->validate([
         'first_name' => 'required|string',
         'last_name' => 'required|string',
-        'middle_initial' => 'nullable|string|max:1',
+        'middle_initial' => 'nullable|string|max:3',
         'email' => 'required|email',
         'contact' => 'required|string',
         'age' => 'required|integer',
@@ -101,7 +117,7 @@ public function submit(Request $request, $event_id)
 
     // Find the event
     $event = Event::find($event_id);
-
+    $user = User::find($user_id);
     // Create a new EventAttendance model instance and populate it with the form data
     $attendance = new EventAttendance();
     $attendance->first_name = $validatedData['first_name'];

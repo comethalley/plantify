@@ -255,12 +255,13 @@
                                         </div>
                                         </div>
                                     </div>
-                                    <script src="{{ asset('assets/js/weather.js') }}"></script>
+                                    <script src="{{ asset('assets/js/weather2.js') }}"></script>
                                     <script src="https://cdn.db-ip.com/js/dbip.js" data-api-key="p6bcac47ae71f0285cb6343d9697e56e41a2cb92"></script>
                                 </div>
                             </div>
                         </div>
                     
+                        
                         <div class="col-xl-6">
                             <div class="card">
                                 <div class="card-body">
@@ -279,7 +280,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-xl-6 ">
+                                        <div class="col-xl-6" id="farmLeadersSection">
                                             <div class="">
                                                 <h5 class="text-muted text-uppercase fs-12">Number of Farm Leaders</h5>
                                                 <div class="d-flex align-items-center">
@@ -615,78 +616,77 @@
                             </div>
                         </div> --}}
 
-                        @if(session('user') && session('user')->role_id != 5)
+                        @if(session('user') && session('user')->role_id != 5 && session('user')->role_id != 4)
                         <div class="col-xl-12">
                             <div class="card">
                                 <div class="card-body">
                                     <h2 class="mb-4 text-center"><span style="color: #57AA2C;"><strong>Harvesting Metrics</strong></span></h2>
                                     <div class="row position-relative" style="height: 65vh;">
-                                        @if(session('user') && (session('user')->role_id == 3 || session('user')->role_id == 4))
-                                            <div class="col-md-3">
-                                                <div class="align-items-center justify-content-center ">
-                                                    <div class="col-xl-12 barangaySelector ">
-                                                        <label for="">Barangay:</label>
-                                                        <select id="barangaySelect" class="w-100" readonly>
-                                                            <option value="{{ $barangayName }}" selected>{{ $barangayName }}</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="mt-3 col-xl-12 barangaySelector ">
-                                                        <label for="">Farm:</label>
-                                                        <select id="farmSelect" class="w-100" readonly>
-                                                            <option value="{{ $farmName }}" selected>{{ $farmName }}</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="mt-3 col-xl-12 barangaySelector">
-                                                        <label for="">Year:</label>
-                                                        <select id="yearSelect" class="w-100">
-                                                            <option value="" disabled>Select Year</option>
-                                                            <option value="2024" selected>2024</option>
-                                                            <option value="2023">2023</option>
-                                                            <option value="2022">2022</option>
-                                                        </select>
-                                                    </div>
+                                        @if(session('user') && (session('user')->role_id == 3))
+                                        <div class="col-md-3">
+                                            <div class="align-items-center justify-content-center ">
+                                                <div class="col-xl-12 barangaySelector ">
+                                                    <label for="">Barangay:</label>
+                                                    <select id="barangaySelect" class="w-100" readonly>
+                                                        <option value="{{ $barangayName }}" selected>{{ $barangayName }}</option>
+                                                    </select>
                                                 </div>
-                                            </div>
-                                        @elseif(session('user') && session('user')->role_id == 5)
-                                            <!-- Do nothing, section will not be displayed -->
-                                        @else
-                                            <div class="col-md-3">
-                                                <div class="align-items-center justify-content-center ">
-                                                    <div class="col-xl-12 barangaySelector">
-                                                        <label for="">Barangay:</label>
-                                                        <select id="barangaySelect" class="w-100">
-                                                            <option value="" selected disabled>Select Barangay</option>
-                                                            @foreach($barangayOptions as $option)
-                                                            <option value="{{ $option['text'] }}">{{ $option['text'] }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    <div class="mt-3 col-xl-12 barangaySelector">
-                                                        <label for="">Farm:</label>
-                                                        <select id="farmSelect" class="w-100">
-                                                            <option value="" selected disabled>Select Farm</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="mt-3 col-xl-12 barangaySelector">
-                                                        <label for="">Year:</label>
-                                                        <select id="yearSelect" class="w-100">
-                                                            <option value="" disabled>Select Year</option>
-                                                            <option value="2024" selected>2024</option>
-                                                            <option value="2023">2023</option>
-                                                            <option value="2022">2022</option>
-                                                            <!-- Add more years as needed -->
-                                                        </select>
-                                                    </div>
+                                                <div class="mt-3 col-xl-12 barangaySelector ">
+                                                    <label for="">Farm:</label>
+                                                    <select id="farmSelect" class="w-100" readonly>
+                                                        <option value="{{ $farmName }}" selected>{{ $farmName }}</option>
+                                                    </select>
+                                                </div>
+                                                <div class="mt-3 col-xl-12 barangaySelector">
+                                                    <label for="">Year:</label>
+                                                    <select id="yearSelect" class="w-100">
+                                                        <option value="" disabled>Select Year</option>
+                                                        <option value="2024" selected>2024</option>
+                                                        <option value="2023">2023</option>
+                                                        <option value="2022">2022</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
+                                        @elseif(session('user') && session('user')->role_id == 1 || session('user')->role_id == 2)
+                                        <div class="col-md-3">
+                                            <div class="align-items-center justify-content-center ">
+                                                <div class="col-xl-12 barangaySelector">
+                                                    <label for="">Barangay:</label>
+                                                    <select id="barangaySelect" class="w-100">
+                                                        <option value="" selected disabled>Select Barangay</option>
+                                                        @foreach($barangayOptions as $option)
+                                                        <option value="{{ $option['text'] }}">{{ $option['text'] }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="mt-3 col-xl-12 barangaySelector">
+                                                    <label for="">Farm:</label>
+                                                    <select id="farmSelect" class="w-100">
+                                                        <option value="" selected disabled>Select Farm</option>
+                                                    </select>
+                                                </div>
+                                                <div class="mt-3 col-xl-12 barangaySelector">
+                                                    <label for="">Year:</label>
+                                                    <select id="yearSelect" class="w-100">
+                                                        <option value="" disabled>Select Year</option>
+                                                        <option value="2024" selected>2024</option>
+                                                        <option value="2023">2023</option>
+                                                        <option value="2022">2022</option>
+                                                        <!-- Add more years as needed -->
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @else
+                                        <!-- Add else content here if needed -->
                                         @endif
-                                        <div class="col-lg-9">
+                                        <div class="col-lg-8">
                                             <div class="text-muted">
                                                 @if(session('user') && session('user')->role_id != 5)
-                                                
                                                 <div id="farmChart"></div>
                                                 @endif
+                                                <!-- Insert month details here -->
                                                 <div id="month-details" style="display: none;"></div>
                                             </div>
                                         </div>
@@ -760,6 +760,15 @@
 
 
 <script>
+
+// var role_id = 3;
+//     // Get the section element by its ID
+//     var farmLeadersSection = document.getElementById("farmLeadersSection");
+//     // Check if the role_id is 3 or 4
+//     if (role_id === 3 || role_id === 4) {
+//         farmLeadersSection.style.display = "none";
+//     }
+
     function downloadPDF() {
     window.location.href = '{{ route('analytics.pdf') }}';
 }
@@ -937,27 +946,7 @@ $(document).ready(function() {
                 categories: categories
             }
         });
-
-        // Generate the PDF with the chart data
-        var formData = new FormData();
-        formData.append('imageData', chart.exportChart({ format: 'png' }));
-        formData.append('monthlyData', JSON.stringify(response.monthlyData));
-        formData.append('farms', JSON.stringify(response.farms));
-
-        $.ajax({
-            url: '/generatePdf',
-            method: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function(pdfData) {
-                console.log("PDF response:", pdfData);
-                // Display or download the PDF as needed
-            },
-            error: function(xhr, status, error) {
-                console.error(xhr.responseText);
-            }
-        });
+    
     } else {
         console.error('Fetched data is not in the expected format', response);
     }
@@ -974,87 +963,87 @@ $(document).ready(function() {
 
 
 
-    // DONUT CHART  0
+    // // DONUT CHART  0
 
-        // Prepare the data for the expenses donut chart
-        var expensesSeries = expensesData.map(function(data) {
-            return parseFloat(data.amount);
-        });
+    //     // Prepare the data for the expenses donut chart
+    //     var expensesSeries = expensesData.map(function(data) {
+    //         return parseFloat(data.amount);
+    //     });
 
-        var expensesLabels = expensesData.map(function(data) {
-            return data.description;
-        });
+    //     var expensesLabels = expensesData.map(function(data) {
+    //         return data.description;
+    //     });
 
-    // Define the donut chart options
-    var donutOptions = {
-        series: expensesSeries,
-        chart: {
-            type: 'donut',
-            events: {
-                dataPointSelection: function(event, chartContext, config) {
-                    // Get the index of the clicked segment
-                    var clickedIndex = config.dataPointIndex;
-                    var clickedData = expensesData[clickedIndex];
+    // // Define the donut chart options
+    // var donutOptions = {
+    //     series: expensesSeries,
+    //     chart: {
+    //         type: 'donut',
+    //         events: {
+    //             dataPointSelection: function(event, chartContext, config) {
+    //                 // Get the index of the clicked segment
+    //                 var clickedIndex = config.dataPointIndex;
+    //                 var clickedData = expensesData[clickedIndex];
 
-                    // Format the date and time
-                    var dateCreated = new Date(clickedData.created_at);
-                    var formattedDate = (dateCreated.getMonth() + 1).toString().padStart(2, '0') + '/'
-                                        + dateCreated.getDate().toString().padStart(2, '0') + '/'
-                                        + dateCreated.getFullYear();
-                    var hours = dateCreated.getHours();
-                    var minutes = dateCreated.getMinutes().toString().padStart(2, '0');
-                    var ampm = hours >= 12 ? 'PM' : 'AM';
-                    hours = hours % 12;
-                    hours = hours ? hours : 12; 
-                    var formattedTime = hours.toString().padStart(2, '0') + ':' + minutes + ' ' + ampm;
+    //                 // Format the date and time
+    //                 var dateCreated = new Date(clickedData.created_at);
+    //                 var formattedDate = (dateCreated.getMonth() + 1).toString().padStart(2, '0') + '/'
+    //                                     + dateCreated.getDate().toString().padStart(2, '0') + '/'
+    //                                     + dateCreated.getFullYear();
+    //                 var hours = dateCreated.getHours();
+    //                 var minutes = dateCreated.getMinutes().toString().padStart(2, '0');
+    //                 var ampm = hours >= 12 ? 'PM' : 'AM';
+    //                 hours = hours % 12;
+    //                 hours = hours ? hours : 12; 
+    //                 var formattedTime = hours.toString().padStart(2, '0') + ':' + minutes + ' ' + ampm;
 
-                    var friendlyDateTime = formattedDate + ' | ' + formattedTime;
+    //                 var friendlyDateTime = formattedDate + ' | ' + formattedTime;
 
-                    document.getElementById('details-description').textContent = 'Description: ' + clickedData.description;
-                    document.getElementById('details-amount').textContent = 'Amount: ₱' + clickedData.amount;
-                    document.getElementById('details-created-at').textContent = 'Date: ' + friendlyDateTime;
+    //                 document.getElementById('details-description').textContent = 'Description: ' + clickedData.description;
+    //                 document.getElementById('details-amount').textContent = 'Amount: ₱' + clickedData.amount;
+    //                 document.getElementById('details-created-at').textContent = 'Date: ' + friendlyDateTime;
 
-                    // Make the details section visible
-                    var detailsSection = document.getElementById('details-section');
-                        detailsSection.style.display = 'block';
-                }
-            }
-        },
-        labels: expensesLabels,
-        responsive: [{
-            breakpoint: 480,
-            options: {
-                chart: {
-                    width: 200
-                }
-            }
-        }],
-        legend: {
-            position: 'bottom'
-        },
-        plotOptions: {
-            pie: {
-                donut: {
-                    labels: {
-                        show: true,
-                        total: {
-                            show: true,
-                            label: 'Total',
-                            formatter: function (w) {
+    //                 // Make the details section visible
+    //                 var detailsSection = document.getElementById('details-section');
+    //                     detailsSection.style.display = 'block';
+    //             }
+    //         }
+    //     },
+    //     labels: expensesLabels,
+    //     responsive: [{
+    //         breakpoint: 480,
+    //         options: {
+    //             chart: {
+    //                 width: 200
+    //             }
+    //         }
+    //     }],
+    //     legend: {
+    //         position: 'bottom'
+    //     },
+    //     plotOptions: {
+    //         pie: {
+    //             donut: {
+    //                 labels: {
+    //                     show: true,
+    //                     total: {
+    //                         show: true,
+    //                         label: 'Total',
+    //                         formatter: function (w) {
                                
-                                return w.globals.seriesTotals.reduce(function(a, b) {
-                                    return a + b;
-                                }, 0).toFixed(2); // Format to two decimal places
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    };
+    //                             return w.globals.seriesTotals.reduce(function(a, b) {
+    //                                 return a + b;
+    //                             }, 0).toFixed(2); // Format to two decimal places
+    //                         }
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
+    // };
 
-    var donutChart = new ApexCharts(document.querySelector("#donut-chart"), donutOptions);
-    donutChart.render();
+    // var donutChart = new ApexCharts(document.querySelector("#donut-chart"), donutOptions);
+    // donutChart.render();
     createPlantingBarChart();
 });
 

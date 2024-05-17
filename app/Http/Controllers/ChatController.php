@@ -11,6 +11,7 @@ use App\Models\ProfileSettings;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Notifications\NewChat\ication;
 
 class ChatController extends Controller
 {
@@ -98,6 +99,9 @@ class ChatController extends Controller
             'create_date' => now(),
         ]);
 
+        // Assuming message has a user relationship
+    
+        
         // Redirect back to the message or thread page
         // You might need to modify this based on your application flow
         return back();

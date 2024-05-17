@@ -24,8 +24,6 @@ class User extends Authenticatable
         'password',
         'role_id',
         'status',
-        'cover_image', // Add cover_image to the $fillable array
-        'profile_image', // Add profile_image to the $fillable array
         'isOnline'
     ];
 
@@ -48,44 +46,36 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function profileSettings()
-    {
-        return $this->hasOne(ProfileSettings::class);
-    }
-
-
-
-
     public function threads()
-    {
-        return $this->belongsToMany(Thread::class, 'threads', 'user_id_1', 'user_id_2')
-            ->withTimestamps()
-            ->withPivot('id', 'create_date');
-    }
+{
+    return $this->belongsToMany(Thread::class, 'threads', 'user_id_1', 'user_id_2')
+        ->withTimestamps()
+        ->withPivot('id', 'create_date');
+}
 
-    public function getUnreadMessageCountAttribute()
-    {
-        return $this->messages()->where('isRead', false)->count();
-    }
+public function getUnreadMessageCountAttribute()
+{
+    return $this->messages()->where('isRead', false)->count();
+}
 
-    // Add this relationship to define the messages relation
-    public function messages()
-    {
-        return $this->hasMany(Message::class, 'sender_id');
-    }
-    public function farm()
-    {
-        return $this->hasOne(Farm::class, 'farm_leader');
-    }
-    public function farms()
-    {
-        return $this->hasMany(Farm::class, 'farm_leader', 'id');
-    }
-    public function tasks()
-    {
-        return $this->hasMany(Task::class);
-    }
-    public function groupMembers()
+// Add this relationship to define the messages relation
+public function messages()
+{
+    return $this->hasMany(Message::class, 'sender_id');
+}
+public function farm()
+{
+    return $this->hasOne(Farm::class, 'farm_leader');
+}
+public function farms()
+{
+    return $this->hasMany(Farm::class, 'farm_leader', 'id');
+}
+public function tasks()
+{
+    return $this->hasMany(Task::class);
+}
+public function groupMembers()
     {
         return $this->hasMany(GroupMember::class, 'user_id');
     }
@@ -98,5 +88,15 @@ class User extends Authenticatable
     public function interests()
     {
         return $this->hasMany(Interest::class);
+    }
+
+    public function requests()
+    {
+        return $this->hasMany(RequestN::class, 'requested_by');
+    }
+
+    public function farmers()
+    {
+        return $this->hasMany(Farmer::class, 'farmer_id');
     }
 }

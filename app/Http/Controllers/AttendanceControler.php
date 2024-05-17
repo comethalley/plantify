@@ -107,7 +107,7 @@ public function submit(Request $request, $event_id, $user_id)
     $validatedData = $request->validate([
         'first_name' => 'required|string',
         'last_name' => 'required|string',
-        'middle_initial' => 'nullable|string|max:1',
+        'middle_initial' => 'nullable|string|max:3',
         'email' => 'required|email',
         'contact' => 'required|string',
         'age' => 'required|integer',

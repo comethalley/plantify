@@ -1,39 +1,39 @@
-const temperaturePlaceholder = document.getElementById("temperature-placeholder");
+const temperaturePlaceholder = document.getElementById(
+    "temperature-placeholder"
+);
 const weatherButton = document.getElementById("weather-button");
 const weatherIcon = document.getElementById("weather-icon");
 
-
 function getDateTime() {
-  let now = new Date();
-  let days = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
-  return days[now.getDay()];
+    let now = new Date();
+    let days = [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+    ];
+    return days[now.getDay()];
 }
 
 function getDateTime() {
-  let now = new Date();
-  let days = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
-  return days[now.getDay()];
+    let now = new Date();
+    let days = [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+    ];
+    return days[now.getDay()];
 }
 
 // Set the text content of the <p> tag to display the current day name and time
 document.getElementById("current-day").textContent = getDateTime();
-
 
 function updateTemperature(temperature) {
     temperaturePlaceholder.textContent = temperature + "°C";
@@ -45,18 +45,18 @@ function getTemperatureData(city) {
         `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?unitGroup=metric&include=current&key=${apiKey}&contentType=json`,
         { method: "GET" }
     )
-    .then(response => response.json())
-    .then(data => {
-        const currentTemperature = data.currentConditions.temp;
-        updateTemperature(currentTemperature);
-        updateWeatherIcon(data.currentConditions.icon);
-        // let iconCondition = data[day].icon;
-        // updateWeatherIcon(iconCondition);
-    })
-    .catch(err => {
-        console.error('Error fetching temperature data:', err);
-        // alert("Temperature data for Quezon City is unavailable.");
-    });
+        .then((response) => response.json())
+        .then((data) => {
+            const currentTemperature = data.currentConditions.temp;
+            updateTemperature(currentTemperature);
+            updateWeatherIcon(data.currentConditions.icon);
+            // let iconCondition = data[day].icon;
+            // updateWeatherIcon(iconCondition);
+        })
+        .catch((err) => {
+            console.error("Error fetching temperature data:", err);
+            // alert("Temperature data for Quezon City is unavailable.");
+        });
 }
 
 function updateWeatherIcon(condition) {

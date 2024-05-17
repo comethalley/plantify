@@ -15,11 +15,12 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('check:out-of-stock-items')->everyMinute();
-        $schedule->command('harvests:check')->everyMinute();
-        $schedule->command('notify:upcoming-events')->everyMinute();
-        $schedule->command('notify:events-today')->everyMinute();
-        $schedule->command('notify:harvest-today')->everyMinute();
+        $schedule->command('check:out-of-stock-items')->daily();
+        $schedule->command('harvests:check')->daily();
+        $schedule->command('notify:upcoming-events')->daily();
+        $schedule->command('notify:events-today')->everyminute();
+        $schedule->command('notify:harvest-today')->daily();
+        
 
     }
     

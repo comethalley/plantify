@@ -1,7 +1,7 @@
 
 <head>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 
 
@@ -64,32 +64,46 @@
 
             </button>
 
-            <div id="questionModal{{ $question->id }}" style="display:none; position:fixed; z-index:1; left:50px; top:0px; width:100%; height:100%; overflow:auto; background-color:rgba(0,0,0,0.4);">
-                <!-- Modal content -->
-                <div style="margin-top:10%; margin-left:30%; background-color:#fefefe; padding:20px; border:1px solid #888; width:40%; ">
-                    <form id="editQuestionForm{{ $question->id }}" action="{{ route('editQuestion', ['id' => $question->id]) }}" method="POST">
-                        @csrf
-                        @method('PUT')
+          <div id="questionModal{{ $question->id }}" style="display:none; position:fixed; z-index:1; left:0; top:0; width:100%; height:100%; overflow:auto; background-color:rgba(0,0,0,0.4);">
+    <!-- Modal content -->
+    <div style="position:relative; margin-top:25vh; margin-left:auto; margin-right:auto; background-color:#fefefe; padding:20px; border:1px solid #888; max-width:90%; width: 600px;">
+        <form id="editQuestionForm{{ $question->id }}" action="{{ route('editQuestion', ['id' => $question->id]) }}" method="POST">
+            @csrf
+            @method('PUT')
 
-                        <p style="text-align:center; font-weight:bold; font-size:20px;">Edit Question</p>
+            <p style="text-align:center; font-weight:bold; font-size:20px;">Edit Question</p>
 
-                        <textarea required placeholder="What's on your mind?" id="editQuestionInput{{ $question->id }}" name="question" style="font-size:15px; resize: none; width: 100%; border: none; outline: none;" rows="8"></textarea>
+            <textarea required placeholder="What's on your mind?" id="editQuestionInput{{ $question->id }}" name="question" style="font-size:15px; resize: none; width: 100%; border: none; outline: none;" rows="8"></textarea>
 
-                        @error('question')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                        @enderror
+            @error('question')
+            <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
 
-                        <div style="display: flex;">
-                            <button type="button" onclick="closeEditModal('{{ $question->id }}')" style="background-color:#F6F6F6; border:none; color:black; padding:10px 20px; text-align:center; text-decoration:none; display:inline-block; font-size:13px; margin:4px 2px; cursor:pointer; width:100%;" onmouseover="this.style.backgroundColor='lightgray'" onmouseout="this.style.backgroundColor='#F6F6F6'">
-                                Close
-                            </button>
+            <div style="display: flex; justify-content: space-between;">
+                <button type="button" onclick="closeEditModal('{{ $question->id }}')" style="background-color:#F6F6F6; border:none; color:black; padding:10px 20px; text-align:center; text-decoration:none; display:inline-block; font-size:13px; margin:4px 2px; cursor:pointer; width:48%;" onmouseover="this.style.backgroundColor='lightgray'" onmouseout="this.style.backgroundColor='#F6F6F6'">
+                    Close
+                </button>
 
-                            <button type="submit" style="width:100%; background-color:#364574; border:none; color:white; padding:10px 20px; text-align:center; text-decoration:none; display:inline-block; font-size:13px; margin:4px 2px; cursor:pointer;" onmouseover="this.style.backgroundColor='#364574'" onmouseout="this.style.backgroundColor='#405189'">Save</button>
-                        </div>
-                    </form>
-
-                </div>
+                <button type="submit" style="background-color:#364574; border:none; color:white; padding:10px 20px; text-align:center; text-decoration:none; display:inline-block; font-size:13px; margin:4px 2px; cursor:pointer; width:48%;" onmouseover="this.style.backgroundColor='#364574'" onmouseout="this.style.backgroundColor='#405189'">Save</button>
             </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    @media screen and (max-width: 600px) {
+        /* Styles for mobile devices */
+        #questionModal{{ $question->id }} div {
+            margin-top: 20vh;
+            max-width: 90%;
+            width: 90%;
+        }
+
+        #questionModal{{ $question->id }} button {
+            width: 100%;
+        }
+    }
+</style>
             <script>
                 function openEditModal(questionId) {
                     document.getElementById('questionModal' + questionId).style.display = 'block';
@@ -150,7 +164,7 @@
     }
 </style>
 
-<button onclick="openReportModalQuestion('{{ $question->id }}')" style="padding: 20px; display: flex; align-items: center; color: black; border: none; cursor: pointer;">
+<button onclick="openReportModalQuestion('{{ $question->id }}')" style="width:100%; padding: 20px; display: flex; align-items: center; color: black; border: none; cursor: pointer;" onmouseover="this.style.backgroundColor='lightgray'" onmouseout="this.style.backgroundColor='white'">
     <i class="fas fa-exclamation-triangle" style="margin-right: 5px;"></i>
     <span style="flex: 1; text-align: left;">Report</span>
 </button>

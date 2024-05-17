@@ -56,6 +56,15 @@ use Illuminate\Support\Facades\Artisan;
 //     return view('email.email');
 // });
 
+
+
+
+
+
+Route::post('posts/{post}/like', [PostController::class, 'like'])->name('posts.like');
+Route::post('posts/{post}/unlike', [PostController::class, 'unlike'])->name('posts.unlike');
+
+
 Route::get('/', [AuthController::class, 'landingpage']);
 Route::get('/dashboard/analytics', [AnalyticsController::class, 'index'])->name('dashboard.analytics')->middleware('auth');
 Route::get('/login', [AuthController::class, 'viewLogin'])->name('login')->middleware('guest');

@@ -17,6 +17,8 @@ class ForumController extends Controller
 {
     public function index()
     {
+
+
         $comments = Comment::all();
         $profileSettings = ProfileSettings::where('user_id', auth()->id())->first();
         session(['profileSettings' => $profileSettings]);
@@ -41,6 +43,7 @@ class ForumController extends Controller
     {
         $this->middleware('auth');
     }
+
 
     public function likeForum(Forum $forum)
     {
@@ -127,7 +130,17 @@ class ForumController extends Controller
 
 
         Validator::extend('no_bad_words', function ($attribute, $value, $parameters, $validator) {
-            $badWords = ['badword1', 'badword2', 'badword3'];
+            $badWords = [
+                'puta', 'put@', 'gago', 'g@go', 'tang ina', 't4ng in4', 'bobo', 'obob', 'b0bo', 'b0b0',
+                'punyeta', 'tanga', 'kingina', 'kinginamo', 'inamo', 'namo', 'inaka', 'suso', 'puke',
+                'tite', 'kantot', 'pwet', 'puday', 'kipay', 'pekpek', 'pokpok', 'putangina', 'laspag',
+                'bulbol', 'bilat', 'tarantado', 'gaga', 'gagi', 'shet', 'pota', 'tangina', 'baliw',
+                'bwakanangina', 'kinanginamo', 'salsal', 'jakol', 'pingger', 'pakyu', 'tae', 'monggoloid',
+                'tamod', 'bayag', 'ulol', 'sintosinto', 'siraulo', 'animal', 'inutil', 'demonyo', 'kulangkulang',
+                'sayad', 'hayop', 'walangkwenta', 'pakshet', 'burat', 'utong', 'supot', 'hayop', 'p@t@',
+                'gaga', 'kiffy', 'deck'
+            ];
+
 
             foreach ($badWords as $badWord) {
                 if (stripos($value, $badWord) !== false) {

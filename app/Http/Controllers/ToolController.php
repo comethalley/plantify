@@ -310,7 +310,7 @@ class ToolController extends Controller
     public function getPickingRequests()
     {
         try {
-            $picked_requests = RequestN::whereIn('status', ['Confirmed-pick-date', 'Picked'])->get();
+            $picked_requests = RequestN::whereIn('status', ['Ready-to-be-pick', 'Confirmed-pick-date', 'Picked'])->get();
     
             return $picked_requests;
         } catch (\Exception $e) {

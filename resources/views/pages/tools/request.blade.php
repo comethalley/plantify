@@ -914,7 +914,7 @@
             success: function(response) {
                 if (response.success) {
                     // If the request is successful, update the status to "Ready to be Picked"
-                    updateStatusInDatabase(requestId, 'Confirmed-pick-date');
+                    updateStatusInDatabase(requestId, 'Ready-to-be-pick');
                     // Close the modal and show a success message
                     $('#setPickingDateModal').modal('hide');
                     alert('Picking date set successfully!');
@@ -1102,6 +1102,8 @@
                 return { backgroundColor: '#524C42', color: '#FFF' };
             case 'confirmed-pick-date':
                 return { backgroundColor: '#E65C19', color: '#FFF' };
+            case 'ready-to-be-pick':
+                return { backgroundColor: '#FFBF00', color: '#FFF' };
             case 'picked':
             case 'resubmit':
                 return { backgroundColor: '#121481', color: '#FFF' };

@@ -18,18 +18,12 @@ class Farm extends Model
         'farm_leader',
         'status'
     ];
-    public function barangays()
+
+    public function barangay()
     {
-        return $this->hasMany(Barangay::class, 'farm_id', 'id');
+        return $this->belongsTo(Barangay::class, 'barangay_name', 'barangay_name');
     }
 
-    public function scopeWithBarangayName($query, $barangayId = null)
-    {
-        $query->select(['id', 'farm_name'])
-            ->when($barangayId, function ($query, $barangayId) {
-                $query->where('barangay_id', $barangayId);
-            });
-    }
     public function users()
     {
         return $this->hasMany(User::class, 'farm_leader');

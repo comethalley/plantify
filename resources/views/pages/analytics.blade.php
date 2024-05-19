@@ -616,7 +616,7 @@
                             </div>
                         </div> --}}
 
-                        @if(session('user') && session('user')->role_id != 5 && session('user')->role_id != 4)
+                        @if(session('user') && session('user')->role_id != 5)
                             <div class="col-xl-12">
                                 <div class="card">
                                     <div class="card-body">
@@ -634,7 +634,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            @if(session('user') && (session('user')->role_id == 3))
+                                            @if(session('user') && (session('user')->role_id == 3 || session('user')->role_id == 4))
                                             <div class="col-md-3">
                                                 <div class="align-items-center justify-content-center ">
                                                     <div class="col-xl-12 barangaySelector ">
@@ -868,29 +868,30 @@ $(document).ready(function() {
         var previouslySelectedYear = null;
 
         var harvestingTips = [
-            'Regularly test the soil and amend with compost and fertilizers as needed.',
-            'Mulch to retain moisture and suppress weeds.',
-            'Water efficiently to conserve resources.',
-            'Choose high-yield and disease-resistant crop varieties.',
-            'Plant cover crops to enrich soil.',
-            'Use vertical gardening and mixed planting.',
-            'Ensure plenty of sunlight and extend growing season.',
-            'Start seeds indoors to extend growing season.'
+            'Change the types of crops grown in each area throughout the year to use the growing season fully and keep the soil healthy.',
+            'Ensure plants receive adequate sunlight by situating them in the sunniest spots.',
+            'Plant crops closer together to maximize space. Manage water and nutrients carefully to ensure plants do not compete too much and stay healthy.',
+            'Add organic materials like compost and practice no-till farming to keep the soil rich and healthy without disrupting its structure.',
+            'Regularly inspect plants for signs of stress, pests, or disease. Promptly address any issues to prevent them from spreading and affecting yields.',
+            'Grow different crops together to save space and increase variety.',
+            'Test the soil regularly to monitor nutrient levels and pH, and amend the soil as needed to maintain optimal growing conditions.'
+            
+
         ];
 
-        var otherReasons = [
-            'Monitor and control pest infestations to prevent damage.',
-            'Proper watering.',
-            'Use fungicides.',
-            'Weather protection.',
-            'Balance soil pH.',
-            'Rotate crops.',
-            'Weed removal.',
-            'Gentle handling.'
-        ];
+        var selectedHarvestingTips = {};
+      
 
-        var selectedHarvestingTips = [];
-        var selectedOtherReasons = [];
+        function getRandomItems(array, numItems) {
+            var shuffled = array.slice();
+            var selectedItems = [];
+            for (var i = 0; i < numItems; i++) {
+                var randomIndex = Math.floor(Math.random() * shuffled.length);
+                selectedItems.push(shuffled[randomIndex]);
+                shuffled.splice(randomIndex, 1);
+            }
+            return selectedItems;
+        }
 
         var options = {
             chart: {
@@ -935,33 +936,30 @@ $(document).ready(function() {
                             }) + ' | ' + createdDate.toLocaleTimeString('en-US', {
                                 hour: '2-digit', minute: '2-digit', hour12: true
                             });
-                            detailsHtml += `<div><h4>${item.title}</h4><p>Created At: ${formattedCreatedDate}</p><p>Harvested: ${item.harvested}</p><p>Withered: ${item.destroyed}</p><p>Withered Main Reason: ${item.reason}</p></div>`;
+                            detailsHtml += `<div><h4>${item.title}</h4><p>Created At: ${formattedCreatedDate}</p><p>Harvested: ${item.harvested}</p><p>Withered: ${item.destroyed}</p><p>Withered Reason: ${item.reason}</p></div>`;
                         });
 
                         if (timeframe === 'per-year' && selectedCategory !== previouslySelectedYear) {
-                            selectedHarvestingTips = shuffleArray(harvestingTips).slice(0, 5);
-                            selectedOtherReasons = shuffleArray(otherReasons).slice(0, 5);
+                            if (!selectedHarvestingTips[selectedCategory]) {
+                                selectedHarvestingTips[selectedCategory] = getRandomItems(harvestingTips, 5);
+                            }
                             previouslySelectedYear = selectedCategory;
                         } else if (timeframe !== 'per-year' && selectedCategory !== previouslySelectedMonth) {
-                            selectedHarvestingTips = shuffleArray(harvestingTips).slice(0, 5);
-                            selectedOtherReasons = shuffleArray(otherReasons).slice(0, 5);
+                            if (!selectedHarvestingTips[selectedCategory]) {
+                                selectedHarvestingTips[selectedCategory] = getRandomItems(harvestingTips, 5);
+                            }          
                             previouslySelectedMonth = selectedCategory;
                         }
 
-                        var harvestingTipsHtml = '<div><h3>Harvesting Tips</h3><ul>';
-                        selectedHarvestingTips.forEach(function(tip) {
+                        var harvestingTipsHtml = '<div><h3>Recommendation To Increase Crops Harvest</h3><ul>';
+                        selectedHarvestingTips[selectedCategory].forEach(function(tip) {
                             harvestingTipsHtml += `<li>${tip}</li>`;
                         });
                         harvestingTipsHtml += `</ul></div>`;
 
-                        var otherReasonsHtml = '<div><h3>Other Withered Causes</h3><ul>';
-                        selectedOtherReasons.forEach(function(reason) {
-                            otherReasonsHtml += `<li>${reason}</li>`;
-                        });
-                        otherReasonsHtml += `</ul></div>`;
 
                         var monthDetailsElement = document.getElementById('month-details');
-                        monthDetailsElement.innerHTML = detailsHtml + harvestingTipsHtml + otherReasonsHtml;
+                        monthDetailsElement.innerHTML = detailsHtml + harvestingTipsHtml;
                         monthDetailsElement.style.display = 'block';
                     }
                 }

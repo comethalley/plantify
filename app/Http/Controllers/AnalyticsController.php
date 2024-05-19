@@ -87,6 +87,11 @@ class AnalyticsController extends Controller
     {
         $year = $request->has('year') ? $request->year : now()->year;
     
+        if ($request->has('yearRange')) {
+            // Handle the year range request for annual data
+            return $this->getAnnualFarmsData($request, $id);
+        }
+    
         $months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
         $monthlyData = array_fill_keys($months, ['harvested' => 0, 'destroyed' => 0]);
     
@@ -105,6 +110,11 @@ class AnalyticsController extends Controller
             }
         }
     
+        // Remove months with both harvested and destroyed values equal to zero
+        $monthlyData = array_filter($monthlyData, function ($data) {
+            return $data['harvested'] != 0 || $data['destroyed'] != 0;
+        });
+    
         // Sum the 'harvested' and 'destroyed' columns for the selected year
         $totalHarvested = array_sum(array_column($monthlyData, 'harvested'));
         $totalDestroyed = array_sum(array_column($monthlyData, 'destroyed'));
@@ -116,6 +126,42 @@ class AnalyticsController extends Controller
             'monthlyData' => $monthlyData
         ]);
     }
+    
+    private function getAnnualFarmsData(Request $request, $id)
+    {
+        $startYear = 2024; // Adjust as necessary
+        $endYear = 2028; // Adjust as necessary
+    
+        $annualData = [];
+    
+        // Fetch the farm data for the range of years
+        $farms = DB::table('createplantings')
+                   ->where('farm_id', $id)
+                   ->whereBetween(DB::raw('YEAR(start)'), [$startYear, $endYear])
+                   ->get();
+    
+        // Aggregate harvested and destroyed data for each year
+        foreach ($farms as $farm) {
+            $year = Carbon::parse($farm->start)->year;
+            if (!isset($annualData[$year])) {
+                $annualData[$year] = ['harvested' => 0, 'destroyed' => 0];
+            }
+            $annualData[$year]['harvested'] += $farm->harvested;
+            $annualData[$year]['destroyed'] += $farm->destroyed;
+        }
+    
+        // Remove years with both harvested and destroyed values equal to zero
+        $annualData = array_filter($annualData, function ($data) {
+            return $data['harvested'] != 0 || $data['destroyed'] != 0;
+        });
+    
+        return response()->json([
+            'farms' => $farms,
+            'annualData' => $annualData
+        ]);
+    }
+    
+
 
 
     public function index()

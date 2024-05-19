@@ -283,7 +283,7 @@ function showAlert(message) {
 
 function getWeatherData(city, unit, hourlyorWeek) {
 
-  const apiKey = "ERJGP7JJK2SVVZEAC4G7ZZ6F4";
+  const apiKey = "Y425EKTTQPY9NXU3P8SUQNTMW";
 
   fetch(
     `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?unitGroup=metric&key=${apiKey}&contentType=json`,

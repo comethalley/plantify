@@ -176,7 +176,7 @@ function updateWeatherUI(today, data, unit, hourlyorWeek) {
 // getPublicIp();
 
 function getWeatherData(city, unit, hourlyorWeek) {
-    const apiKey = "ZDDQHCH65WNK9UXXTBXG5KDU2";
+    const apiKey = "Y425EKTTQPY9NXU3P8SUQNTMW";
 
     fetch(
         `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?unitGroup=metric&key=${apiKey}&contentType=json`,

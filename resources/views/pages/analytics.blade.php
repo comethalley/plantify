@@ -617,84 +617,96 @@
                         </div> --}}
 
                         @if(session('user') && session('user')->role_id != 5 && session('user')->role_id != 4)
-                        <div class="col-xl-12">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h2 class="mb-4 text-center"><span style="color: #57AA2C;"><strong>Harvesting Metrics</strong></span></h2>
-                                    <div class="row position-relative" style="height: 65vh;">
-                                        @if(session('user') && (session('user')->role_id == 3))
-                                        <div class="col-md-3">
-                                            <div class="align-items-center justify-content-center ">
-                                                <div class="col-xl-12 barangaySelector ">
-                                                    <label for="">Barangay:</label>
-                                                    <select id="barangaySelect" class="w-100" readonly>
-                                                        <option value="{{ $barangayName }}" selected>{{ $barangayName }}</option>
-                                                    </select>
+                            <div class="col-xl-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h2 class="mb-4 text-center"><span style="color: #57AA2C;"><strong>Harvesting Metrics</strong></span></h2>
+                                        <div class="row position-relative" style="height: 65vh;">
+                                        <div class="flex-shrink-0">
+                                                <div class="dropdown card-header-dropdown" id="timeFrameDropdown">
+                                                    <a class="text-reset dropdown-btn" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <span class="fw-semibold text-uppercase fs-12">Sort by: </span>
+                                                        <span id="timeFrameLabel" class="text-muted">Current Year<i class="mdi mdi-chevron-down ms-1"></i></span>
+                                                    </a>
+                                                    <div class="dropdown-menu dropdown-menu-end">
+                                                        <a class="dropdown-item" data-timeframe="current-year">Current Year</a>
+                                                        <a class="dropdown-item" data-timeframe="per-year">Per Year</a>
+                                                    </div>
                                                 </div>
-                                                <div class="mt-3 col-xl-12 barangaySelector ">
-                                                    <label for="">Farm:</label>
-                                                    <select id="farmSelect" class="w-100" readonly>
-                                                        <option value="{{ $farmName }}" selected>{{ $farmName }}</option>
-                                                    </select>
+                                            </div>
+                                            @if(session('user') && (session('user')->role_id == 3))
+                                            <div class="col-md-3">
+                                                <div class="align-items-center justify-content-center ">
+                                                    <div class="col-xl-12 barangaySelector ">
+                                                        <label for="">Barangay:</label>
+                                                        <select id="barangaySelect" class="w-100" readonly>
+                                                            <option value="{{ $barangayName }}" selected>{{ $barangayName }}</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="mt-3 col-xl-12 barangaySelector ">
+                                                        <label for="">Farm:</label>
+                                                        <select id="farmSelect" class="w-100" readonly>
+                                                            <option value="{{ $farmName }}" selected>{{ $farmName }}</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="mt-3 col-xl-12 barangaySelector">
+                                                        <label for="">Year:</label>
+                                                        <select id="yearSelect" class="w-100">
+                                                            <option value="" disabled>Select Year</option>
+                                                            <option value="2024" selected>2024</option>
+                                                            <option value="2023">2023</option>
+                                                            <option value="2022">2022</option>
+                                                        </select>
+                                                    </div>
                                                 </div>
-                                                <div class="mt-3 col-xl-12 barangaySelector">
-                                                    <label for="">Year:</label>
-                                                    <select id="yearSelect" class="w-100">
-                                                        <option value="" disabled>Select Year</option>
-                                                        <option value="2024" selected>2024</option>
-                                                        <option value="2023">2023</option>
-                                                        <option value="2022">2022</option>
-                                                    </select>
+                                            </div>
+                                            @elseif(session('user') && session('user')->role_id == 1 || session('user')->role_id == 2)
+                                            <div class="col-md-3">
+                                                <div class="align-items-center justify-content-center ">
+                                                    <div class="col-xl-12 barangaySelector">
+                                                        <label for="">Barangay:</label>
+                                                        <select id="barangaySelect" class="w-100">
+                                                            <option value="" selected disabled>Select Barangay</option>
+                                                            @foreach($barangayOptions as $option)
+                                                            <option value="{{ $option['text'] }}">{{ $option['text'] }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <div class="mt-3 col-xl-12 barangaySelector">
+                                                        <label for="">Farm:</label>
+                                                        <select id="farmSelect" class="w-100">
+                                                            <option value="" selected disabled>Select Farm</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="mt-3 col-xl-12 barangaySelector">
+                                                        <label for="">Year:</label>
+                                                        <select id="yearSelect" class="w-100">
+                                                            <option value="" disabled>Select Year</option>
+                                                            <option value="2024" selected>2024</option>
+                                                            <option value="2023">2023</option>
+                                                            <option value="2022">2022</option>
+                                                            <!-- Add more years as needed -->
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @else
+                                            <!-- Add else content here if needed -->
+                                            @endif
+                                            <div class="col-lg-8">
+                                                <div class="text-muted">
+                                                    @if(session('user') && session('user')->role_id != 5)
+                                                    <div id="farmChart"></div>
+                                                    @endif
+                                                    <!-- Insert month details here -->
                                                 </div>
                                             </div>
                                         </div>
-                                        @elseif(session('user') && session('user')->role_id == 1 || session('user')->role_id == 2)
-                                        <div class="col-md-3">
-                                            <div class="align-items-center justify-content-center ">
-                                                <div class="col-xl-12 barangaySelector">
-                                                    <label for="">Barangay:</label>
-                                                    <select id="barangaySelect" class="w-100">
-                                                        <option value="" selected disabled>Select Barangay</option>
-                                                        @foreach($barangayOptions as $option)
-                                                        <option value="{{ $option['text'] }}">{{ $option['text'] }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                                <div class="mt-3 col-xl-12 barangaySelector">
-                                                    <label for="">Farm:</label>
-                                                    <select id="farmSelect" class="w-100">
-                                                        <option value="" selected disabled>Select Farm</option>
-                                                    </select>
-                                                </div>
-                                                <div class="mt-3 col-xl-12 barangaySelector">
-                                                    <label for="">Year:</label>
-                                                    <select id="yearSelect" class="w-100">
-                                                        <option value="" disabled>Select Year</option>
-                                                        <option value="2024" selected>2024</option>
-                                                        <option value="2023">2023</option>
-                                                        <option value="2022">2022</option>
-                                                        <!-- Add more years as needed -->
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        @else
-                                        <!-- Add else content here if needed -->
-                                        @endif
-                                        <div class="col-lg-8">
-                                            <div class="text-muted">
-                                                @if(session('user') && session('user')->role_id != 5)
-                                                <div id="farmChart"></div>
-                                                @endif
-                                                <!-- Insert month details here -->
-                                                <div id="month-details" style="display: none;"></div>
-                                            </div>
-                                        </div>
+                                        <div id="month-details" style="display: none;"></div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        @endif
+                            @endif
                         
                 
                             <!-- INSERT HERE NEW ROW  -->
@@ -852,24 +864,69 @@
 
 $(document).ready(function() {
     if (typeof ApexCharts !== 'undefined') {
+        var previouslySelectedMonth = null;
+        var previouslySelectedYear = null;
+
+        var harvestingTips = [
+            'Regularly test the soil and amend with compost and fertilizers as needed.',
+            'Mulch to retain moisture and suppress weeds.',
+            'Water efficiently to conserve resources.',
+            'Choose high-yield and disease-resistant crop varieties.',
+            'Plant cover crops to enrich soil.',
+            'Use vertical gardening and mixed planting.',
+            'Ensure plenty of sunlight and extend growing season.',
+            'Start seeds indoors to extend growing season.'
+        ];
+
+        var otherReasons = [
+            'Monitor and control pest infestations to prevent damage.',
+            'Proper watering.',
+            'Use fungicides.',
+            'Weather protection.',
+            'Balance soil pH.',
+            'Rotate crops.',
+            'Weed removal.',
+            'Gentle handling.'
+        ];
+
+        var selectedHarvestingTips = [];
+        var selectedOtherReasons = [];
+
         var options = {
             chart: {
                 type: 'bar',
                 height: 350,
                 events: {
                     dataPointSelection: function(event, chartContext, config) {
-                        var selectedMonth = chartContext.w.config.xaxis.categories[config.dataPointIndex];
+                        var selectedCategory = chartContext.w.config.xaxis.categories[config.dataPointIndex];
                         var detailsHtml = '';
                         if (!window.farmData) {
                             console.error('Farm data is not available.');
                             return;
                         }
+
                         var selectedYear = $('#yearSelect').val();
-                        var details = window.farmData.filter(function(item) {
-                            var itemMonth = new Date(item.start).toLocaleString('default', { month: 'long' });
-                            var itemYear = new Date(item.start).getFullYear().toString();
-                            return itemMonth === selectedMonth && itemYear === selectedYear;
-                        });
+                        var timeframe = $('#timeFrameDropdown .dropdown-item.active').data('timeframe');
+
+                        var details;
+                        if (timeframe === 'per-year') {
+                            details = window.farmData.filter(function(item) {
+                                var itemYear = new Date(item.start).getFullYear().toString();
+                                return itemYear === selectedCategory && (item.harvested != 0 || item.destroyed != 0);
+                            });
+                        } else {
+                            var selectedMonth = selectedCategory;
+                            details = window.farmData.filter(function(item) {
+                                var itemMonth = new Date(item.start).toLocaleString('default', { month: 'long' });
+                                var itemYear = new Date(item.start).getFullYear().toString();
+                                return itemMonth === selectedMonth && itemYear === selectedYear && (item.harvested != 0 || item.destroyed != 0);
+                            });
+                        }
+
+                        if (details.length === 0) {
+                            document.getElementById('month-details').style.display = 'none';
+                            return;
+                        }
 
                         details.forEach(function(item) {
                             var createdDate = new Date(item.start);
@@ -878,12 +935,34 @@ $(document).ready(function() {
                             }) + ' | ' + createdDate.toLocaleTimeString('en-US', {
                                 hour: '2-digit', minute: '2-digit', hour12: true
                             });
-                            detailsHtml += `<div><h4>${item.title}</h4><p>Created At: ${formattedCreatedDate}</p><p>Harvested: ${item.harvested}</p><p>Destroyed: ${item.destroyed}</p></div>`;
+                            detailsHtml += `<div><h4>${item.title}</h4><p>Created At: ${formattedCreatedDate}</p><p>Harvested: ${item.harvested}</p><p>Withered: ${item.destroyed}</p><p>Withered Main Reason: ${item.reason}</p></div>`;
                         });
 
+                        if (timeframe === 'per-year' && selectedCategory !== previouslySelectedYear) {
+                            selectedHarvestingTips = shuffleArray(harvestingTips).slice(0, 5);
+                            selectedOtherReasons = shuffleArray(otherReasons).slice(0, 5);
+                            previouslySelectedYear = selectedCategory;
+                        } else if (timeframe !== 'per-year' && selectedCategory !== previouslySelectedMonth) {
+                            selectedHarvestingTips = shuffleArray(harvestingTips).slice(0, 5);
+                            selectedOtherReasons = shuffleArray(otherReasons).slice(0, 5);
+                            previouslySelectedMonth = selectedCategory;
+                        }
+
+                        var harvestingTipsHtml = '<div><h3>Harvesting Tips</h3><ul>';
+                        selectedHarvestingTips.forEach(function(tip) {
+                            harvestingTipsHtml += `<li>${tip}</li>`;
+                        });
+                        harvestingTipsHtml += `</ul></div>`;
+
+                        var otherReasonsHtml = '<div><h3>Other Withered Causes</h3><ul>';
+                        selectedOtherReasons.forEach(function(reason) {
+                            otherReasonsHtml += `<li>${reason}</li>`;
+                        });
+                        otherReasonsHtml += `</ul></div>`;
+
                         var monthDetailsElement = document.getElementById('month-details');
-                        monthDetailsElement.innerHTML = detailsHtml;
-                        monthDetailsElement.style.display = details.length > 0 ? 'block' : 'none';
+                        monthDetailsElement.innerHTML = detailsHtml + harvestingTipsHtml + otherReasonsHtml;
+                        monthDetailsElement.style.display = 'block';
                     }
                 }
             },
@@ -893,75 +972,128 @@ $(document).ready(function() {
                     data: []
                 },
                 {
-                    name: 'Destroyed',
+                    name: 'Withered',
                     data: []
                 }
             ],
             xaxis: {
-                categories: [] // This will be updated dynamically
+                categories: [] 
             }
         };
 
         var farmChart = new ApexCharts(document.querySelector("#farmChart"), options);
         farmChart.render();
 
-        // Trigger the chart update when the year or farm selection changes
-        $('#farmSelect, #yearSelect').change(function() {
-            var selectedOption = $('#farmSelect').val();
-            var selectedYear = $('#yearSelect').val();
-
-            // Perform AJAX request
+        function updateChartData(url) {
             $.ajax({
-                url: `/farmsAnalyticsData/${selectedOption}?year=${selectedYear}`,
+                url: url,
                 method: 'GET',
                 success: function(response) {
                     console.log("AJAX response:", response);
 
                     if (response && response.monthlyData) {
-        var harvestedData = [];
-        var destroyedData = [];
-        var categories = Object.keys(response.monthlyData);
+                        var harvestedData = [];
+                        var destroyedData = [];
+                        var categories = Object.keys(response.monthlyData);
 
-        categories.forEach(function(month) {
-            harvestedData.push(parseFloat(response.monthlyData[month].harvested));
-            destroyedData.push(parseFloat(response.monthlyData[month].destroyed));
-        });
+                        categories.forEach(function(month) {
+                            harvestedData.push(parseFloat(response.monthlyData[month].harvested));
+                            destroyedData.push(parseFloat(response.monthlyData[month].destroyed));
+                        });
 
-        // Store the farms data in a global variable for access in the dataPointSelection event
-        window.farmData = response.farms;
+                        window.farmData = response.farms;
 
-        // Update the chart with new data and months
-        farmChart.updateOptions({
-            series: [
-                {
-                    name: 'Harvested',
-                    data: harvestedData
-                },
-                {
-                    name: 'Destroyed',
-                    data: destroyedData
-                }
-            ],
-            xaxis: {
-                categories: categories
-            }
-        });
-    
-    } else {
-        console.error('Fetched data is not in the expected format', response);
-    }
+                        farmChart.updateOptions({
+                            series: [
+                                {
+                                    name: 'Harvested',
+                                    data: harvestedData
+                                },
+                                {
+                                    name: 'Withered',
+                                    data: destroyedData
+                                }
+                            ],
+                            xaxis: {
+                                categories: categories
+                            }
+                        });
+                    } else if (response && response.annualData) {
+                        var harvestedData = [];
+                        var destroyedData = [];
+                        var categories = Object.keys(response.annualData);
+
+                        categories.forEach(function(year) {
+                            harvestedData.push(parseFloat(response.annualData[year].harvested));
+                            destroyedData.push(parseFloat(response.annualData[year].destroyed));
+                        });
+
+                        window.farmData = response.farms;
+
+                        farmChart.updateOptions({
+                            series: [
+                                {
+                                    name: 'Harvested',
+                                    data: harvestedData
+                                },
+                                {
+                                    name: 'Withered',
+                                    data: destroyedData
+                                }
+                            ],
+                            xaxis: {
+                                categories: categories
+                            }
+                        });
+                    } else {
+                        console.error('Fetched data is not in the expected format', response);
+                    }
                 },
                 error: function(xhr, status, error) {
                     console.error(xhr.responseText);
                 }
             });
+        }
+
+        $('#farmSelect, #yearSelect').change(function() {
+            var selectedOption = $('#farmSelect').val();
+            var selectedYear = $('#yearSelect').val();
+            var url = `/farmsAnalyticsData/${selectedOption}?year=${selectedYear}`;
+            updateChartData(url);
+        });
+
+        $('#timeFrameDropdown .dropdown-item').click(function() {
+            $('#timeFrameDropdown .dropdown-item').removeClass('active');
+            $(this).addClass('active');
+
+            var timeframe = $(this).data('timeframe');
+            var selectedOption = $('#farmSelect').val();
+            var selectedYear = $('#yearSelect').val();
+            var url;
+
+            $('#timeFrameLabel').text($(this).text());
+
+            if (selectedOption && selectedYear) {
+                if (timeframe === 'per-year') {
+                    url = `/farmsAnalyticsData/${selectedOption}?yearRange=true`;
+                } else {
+                    url = `/farmsAnalyticsData/${selectedOption}?year=${selectedYear}`;
+                }
+                updateChartData(url);
+            }
         });
     } else {
         console.error('ApexCharts library is not loaded.');
     }
 });
 
-
+function shuffleArray(array) {
+    for (var i = array.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
 
     // // DONUT CHART  0
 

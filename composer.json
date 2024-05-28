@@ -9,7 +9,10 @@
         "barryvdh/laravel-dompdf": "^2.1",
         "codedge/laravel-fpdf": "^1.12",
         "endroid/qr-code": "^4.8",
-        "guzzlehttp/guzzle": "^7.2",
+        "gemini-api-php/client": "^1.4",
+        "gemini-api-php/laravel": "^0.3.0",
+        "google-gemini-php/laravel": "^1.0",
+        "guzzlehttp/guzzle": "^7.8",
         "intervention/image": "^2.7",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
@@ -67,7 +70,8 @@
         "preferred-install": "dist",
         "sort-packages": true,
         "allow-plugins": {
-            "pestphp/pest-plugin": true
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": true
         }
     },
     "minimum-stability": "stable",

@@ -869,6 +869,7 @@ class InventoryController extends Controller
     {
         $data = $request->validate([
             'fertilizerName' => 'required',
+            'fertilizerQuantity' => 'required',
             'fertilizerImage' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
@@ -892,7 +893,9 @@ class InventoryController extends Controller
         $fertilizer = InventoryFertilizer::create([
             'farm_id' => $user->farm_id,
             'fertilizer_name' => $data['fertilizerName'],
+            'quantity' => $data['fertilizerQuantity'],
             'image' => $imageName,
+            'borrowed' => "",
             'status' => 1,
         ]);
 

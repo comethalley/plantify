@@ -12,6 +12,8 @@ class InventoryFertilizer extends Model
         "farm_id",
         "image",
         "fertilizer_name",
+        "quantity",
+        "borrowed_by",
         "status"
     ];
 }

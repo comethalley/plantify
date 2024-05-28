@@ -314,4 +314,99 @@ $(document).ready(function () {
             }
         });
     });
+
+    // Initialize mini map
+    var miniMap = L.map('mini-map').setView([14.717499241909843, 121.04829782475622], 14);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(miniMap);
+
+    var marker;
+
+    // Add click event to mini map
+    miniMap.on('click', function(e) {
+        var lat = e.latlng.lat;
+        var lng = e.latlng.lng;
+    
+        // Using OpenStreetMap Nominatim API for reverse geocoding
+        var apiUrl = 'https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=' + lat + '&lon=' + lng;
+    
+        // Making a GET request to fetch the address
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                var address = data.display_name;
+    
+                if (marker) {
+                    marker.setLatLng(e.latlng);
+                } else {
+                    marker = L.marker(e.latlng).addTo(miniMap);
+                }
+    
+                // Save location coordinates and address in input fields
+                $('#latitude').val(lat);
+                $('#longitude').val(lng);
+                $('#address').val(address);
+            })
+            .catch(error => {
+                console.error('Error fetching address:', error);
+            });
+    });
+    
+
+    // Initialize geocoder control
+    var geocoder = L.Control.geocoder({
+        collapsed: true,  // Collapsed by default
+        defaultMarkGeocode: false,
+        placeholder: "Search for an address...",  // Custom placeholder text
+        position: 'topright'  // Position control at top-right
+    }).addTo(miniMap);
+
+    // Handle geocode event
+    geocoder.on('markgeocode', function(e) {
+        var latlng = e.geocode.center;
+        var address = e.geocode.name;
+
+        // Set marker and center map
+        if (marker) {
+            marker.setLatLng(latlng);
+        } else {
+            marker = L.marker(latlng).addTo(miniMap);
+        }
+        miniMap.setView(latlng);
+
+        // Save location coordinates in input fields
+        $('#latitude').val(latlng.lat);
+        $('#longitude').val(latlng.lng);
+
+        // Display address
+        $('#address').val(address);
+    });
+
+    $('#address').on('change', function() {
+        var address = $(this).val();
+        if (address) {
+            geocoder.geocode(address, function(results) {
+                var latlng = results[0].center;
+                if (marker) {
+                    marker.setLatLng(latlng);
+                } else {
+                    marker = L.marker(latlng).addTo(miniMap);
+                }
+                miniMap.setView(latlng);
+    
+                // Save location coordinates in input fields
+                $('#latitude').val(latlng.lat);
+                $('#longitude').val(latlng.lng);
+            });
+        }
+    });
+
+    // Refresh mini map on modal shown
+    $('#farmLeadershowModal').on('shown.bs.modal', function () {
+        setTimeout(function() {
+            miniMap.invalidateSize();
+        }, 10);
+    });
 });

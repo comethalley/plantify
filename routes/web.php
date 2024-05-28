@@ -449,3 +449,10 @@ Route::post('/reply/store', [CommentController::class, 'createReply']);
 Route::get('/linkstorage', function () {
     Artisan::call('storage:link');
 });
+
+//Analytics ==========================================
+Route::get('/harvestedCrops', [AnalyticsController::class, 'harvestedCrops']);
+Route::get('/witheredCrops', [AnalyticsController::class, 'witheredCrops']);
+Route::get('/highestYield', [AnalyticsController::class, 'highestYield']);
+Route::get('/harvestingMetrics', [AnalyticsController::class, 'harvestingMetrics']);
+Route::get('/getSuggestion', [PlantCalendar::class, 'getSuggestion']);

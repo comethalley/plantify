@@ -11,7 +11,7 @@ use App\Models\User;
 use App\Models\PlantInfo;
 use App\Models\Farm;
 use App\Notifications\NewplantingNotification;
-
+use Gemini\Laravel\Facades\Gemini;
 
 class PlantCalendar extends Controller
 {
@@ -218,6 +218,12 @@ class PlantCalendar extends Controller
 
         $start = $request->input('start') ? Carbon::parse($request->input('start'))->format('Y-m-d') : null;
         $end = $request->input('end') ? Carbon::parse($request->input('end'))->format('Y-m-d') : null;
+        $reason = $request->input('reason');
+        $suggestion = "";
+
+        if ($reason) {
+            $suggestion = $this->getSuggestion($reason);
+        }
 
         $event->update([
             'title' => $request->input('title'),
@@ -231,7 +237,7 @@ class PlantCalendar extends Controller
             'type' => $request->input('type'),
             'area' => $request->input('area'),
             'reason' => $request->input('reason'),
-
+            'suggestions' => $suggestion,
         ]);
 
         $updatedEvents = CalendarPlanting::all();
@@ -243,6 +249,19 @@ class PlantCalendar extends Controller
 
         return response()->json(['message' => 'Planting updated successfully']);
     }
+
+
+
+    public function getSuggestion($reason)
+    {
+        $prompt = "Could you provide tips and suggestions on how I can improve my harvest? Here are the reasons my crops have withered:" . $reason . ". Make it direct to the point and in sentence form. Atleast 2 sentences only.";
+        $result = Gemini::geminiPro()->generateContent($prompt);
+
+        $generatedText = $result->text();
+        $generatedText = str_replace('- ', '', $generatedText);
+        return $generatedText;
+    }
+
 
 
     public function resize(Request $request, $id)

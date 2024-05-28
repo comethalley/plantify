@@ -49,7 +49,6 @@
                                 <div class="col-sm-auto">
                                     <div class="d-flex gap-1 flex-wrap">
                                         <button type="button" class="btn btn-success add-btn" data-bs-toggle="modal" id="create-btn" data-bs-target="#uomShowModal"><i class="ri-add-line align-bottom me-1"></i> Add Tools</button>
-                                        <button type="button" class="btn btn-primary use-tools-btn" data-bs-toggle="modal" id="create-btn" data-bs-target="#uomShowModal"><i class="ri-add-line align-bottom me-1"></i> Use Tools</button>
                                         <button class="btn btn-soft-danger" id="remove-actions" onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button>
                                     </div>
                                 </div>
@@ -60,7 +59,7 @@
                                 <div class="row g-3">
                                     <div class="col-xxl-5 col-sm-6">
                                         <div class="search-box">
-                                            <input type="text" class="form-control search" placeholder="Search for order ID, customer, order status or something...">
+                                            <input type="text" class="form-control search" placeholder="Search">
                                             <i class="ri-search-line search-icon"></i>
                                         </div>
                                     </div>
@@ -80,10 +79,11 @@
                                                         <input class="form-check-input" type="checkbox" id="checkAll" value="option">
                                                     </div>
                                                 </th> -->
-                                                <th class="sort" data-sort="id">ID</th>
-                                                <th class="sort" data-sort="customer_name">Fertilizer Name</th>
-                                                <th class="sort" data-sort="customer_name">Image</th>
-                                                <th class="sort" data-sort="city">Action</th>
+                                                <th data-sort="id">ID</th>
+                                                <th data-sort="customer_name">Tool Name</th>
+                                                <th data-sort="customer_name">Image</th>
+                                                <th data-sort="customer_name">Quantity</th>
+                                                <th data-sort="city">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody class="list form-check-all" id="fertilizer-table">
@@ -116,7 +116,7 @@
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header bg-light p-3">
-                                            <h5 class="modal-title" id="exampleModalLabel">Add Fertilizer</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">Add Tools</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
                                         </div>
                                         @csrf
@@ -126,15 +126,18 @@
                                             <input type="text" id="orderId" class="form-control" placeholder="ID" readonly hidden />
 
                                             <div class="mb-3">
-                                                <label for="customername-field" class="form-label">Enter Fertilizer Name</label>
-                                                <input type="text" name="measurementname" id="fertilizer-name" class="form-control" placeholder="Ex. Bone Meal" required />
+                                                <label for="customername-field" class="form-label">Enter Tools Name</label>
+                                                <input type="text" name="measurementname" id="fertilizer-name" class="form-control" placeholder="Enter Tools Name" required />
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="customername-field" class="form-label">Enter Quantity</label>
+                                                <input type="text" name="measurementname" id="fertilizer-quantity" class="form-control" placeholder="Enter Quantity" required />
                                             </div>
 
                                             <div class="mb-3">
-                                                <label for="customername-field" class="form-label">Upload Fertilizer Image</label>
-                                                <input type="file" name="measurementname" id="fertilizer-image" class="form-control" placeholder="Ex. Per Pack" accept=".jpeg, .jpg, .png" required />
+                                                <label for="customername-field" class="form-label">Upload Tools Image</label>
+                                                <input type="file" name="measurementname" id="fertilizer-image" class="form-control" placeholder="Browse Tools Image" accept=".jpeg, .jpg, .png" required />
                                             </div>
-
                                         </div>
                                         <div class="modal-footer">
                                             <div class="hstack gap-2 justify-content-end">
@@ -270,7 +273,10 @@
                     "{{ asset('') }}" +
                     "images/" +
                     uom.image +
-                    "' alt='Fertilizer Image' style='width: 100px;'></td>" + // Adjust width as needed
+                    "' alt='Fertilizer Image' style='width: 100px;'></td>" +
+                    "<td class='customer_name'>" +
+                    uom.quantity +
+                    "</td>" +
                     "<td><ul class='list-inline gap-2 mb-0'><li class='list-inline-item edit' data-bs-toggle='tooltip' data-bs-trigger='hover' data-bs-placement='top' title='Edit'><a href='' class='text-primary d-inline-block edit_uom_btn' data-uom-id='" +
                     uom.id +
                     "' data-uom-name='" +
@@ -364,11 +370,14 @@
         $("#add-fertilizer-btn").on("click", function() {
             console.log("add-fertilizer-btn is clicked");
             var fertilizerName = $("#fertilizer-name").val();
+            var fertilizerQuantity = $("#fertilizer-quantity").val();
             var fertilizerImage = $("#fertilizer-image")[0].files[0]; // Get the image file
 
             var formData = new FormData(); // Create FormData object
             formData.append("fertilizerName", fertilizerName);
             formData.append("fertilizerImage", fertilizerImage);
+            formData.append("fertilizerQuantity", fertilizerQuantity);
+
 
             $.ajax({
                 url: "/add-fertilizer",

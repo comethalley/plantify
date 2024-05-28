@@ -1063,7 +1063,7 @@
                         //getPrediction(amount, 30, 60, 10, Kalabasa)
                     },
                     error: function(xhr, status, error) {
-                        console.error('Error:', error);
+                        //console.error('Error:', error);
                         // Check if the response contains validation errors
 
                         var errorMessage = xhr.responseJSON.message
@@ -1076,41 +1076,6 @@
                     }
                 });
             }
-
-            function getPrediction(quantity, temp, humidity, precipitation, cropname) {
-                const url = `http://localhost/cropsprediction/?planted_quantity=${quantity}&temperature=${temp}&humidity=${humidity}&precipitation=${precipitation}&crop_name=${cropname}`;
-
-                fetch(url)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log(data);
-                        var destroyed = data.predicted_destroyed
-                        var harvested = data.predicted_harvested
-                        Swal.fire({
-                            title: "Predicted Data",
-                            text: "Predicted Harvest: " + harvested + "kg, Predicted Destroyed: " + destroyed + "kg", // Convert data to string for displaying
-                            icon: "success"
-                        });
-                    })
-                    .catch(error => {
-                        console.error("Error:", error);
-                        Swal.fire({
-                            title: "There is an error processing your request",
-                            text: error.message,
-                            icon: "error",
-                            showConfirmButton: false,
-                            timer: 3000
-                        });
-                    });
-            }
-
-
-
 
             $('.selecting').change(function() {
                 var selectedValue = $(this).val();

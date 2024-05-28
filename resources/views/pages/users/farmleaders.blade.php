@@ -16,6 +16,44 @@
 
     <button type="submit">Submit</button>
 </form> -->
+<style>
+    #mini-map {
+        height: 300px;
+        position: relative;
+    }
+
+    .leaflet-control-geocoder {
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .leaflet-control-geocoder-form {
+        width: 100%;
+    }
+
+    .leaflet-control-geocoder-alternatives {
+        max-height: 200px;
+        overflow-y: auto;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        background: white;
+        border: 1px solid #ddd;
+    }
+
+    .leaflet-control-geocoder-alternative {
+        padding: 5px;
+        cursor: pointer;
+    }
+
+    .leaflet-control-geocoder-alternative:hover {
+        background-color: #f0f0f0;
+    }
+
+    .custom-geocoder {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 1000;
+    }
+</style>
 
 <div class="main-content">
 
@@ -155,7 +193,7 @@
 
                             <!--Create Admin Modal-->
                             <div class="modal fade" id="farmLeadershowModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-dialog modal-dialog-centered modal-xl">
                                     <div class="modal-content">
                                         <div class="modal-header bg-light p-3">
                                             <h5 class="modal-title" id="exampleModalLabel">Invite New Farm Leaders</h5>
@@ -210,20 +248,26 @@
                                                         <input type="text" name="address" id="address" class="form-control" placeholder="Enter Complete Address" required />
                                                     </div>
 
+                                                    <div id="mini-map" style="height: 300px;"></div>
+
                                                     <div class="mb-3">
-                                                        <label for="latitude">Latitude:</label>
-                                                        <input type="text" class="form-control" id="latitude" name="latitude" placeholder="e.g. 14.745692064170463" required>
+                                                        <!-- <label for="latitude">Latitude:</label> -->
+                                                        <input type="hidden" class="form-control" id="latitude" name="latitude" placeholder="e.g. 14.745692064170463" required>
                                                     </div>
 
                                                     <div class="mb-3">
-                                                        <label for="longitude">Longitude:</label>
-                                                        <input type="text" class="form-control" id="longitude" name="longitude" placeholder="e.g. 121.05243279106442" required>
+                                                        <!-- <label for="longitude">Longitude:</label> -->
+                                                        <input type="hidden" class="form-control" id="longitude" name="longitude" placeholder="e.g. 121.05243279106442" required>
                                                     </div>
-                                                    <center>
+
+
+                                                    <!-- <center>
                                                         <div class="">
                                                             <label for="latitude" class="text-muted">Get your Latitude and Longitude in Google Maps</label>
                                                         </div>
-                                                    </center>
+                                                    </center> -->
+
+
 
                                                     <!-- <div class="mb-3">
                                                     <label for="customername-field" class="form-label">Address</label>

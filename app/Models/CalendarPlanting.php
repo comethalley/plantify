@@ -25,6 +25,7 @@ class CalendarPlanting extends Model
         'is_deleted',
         'area',
         'reason',
+        'suggestions',
     ];
 
     public function farm()

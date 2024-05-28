@@ -74,6 +74,15 @@
 
     <!--Pusher JS-->
     <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+
+    <!--Leaflet JS-->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <script src="https://unpkg.com/leaflet-gl@0.6.0/dist/leaflet-gl.js"></script>
+    <link href="https://unpkg.com/leaflet-gl@0.6.0/dist/leaflet-gl.css" rel="stylesheet">
+
     <style>
         .tab-content {
             max-height: 400px;
@@ -238,12 +247,12 @@
                                             </li>
                                             <li class="nav-item waves-effect waves-light">
                                                 <a class="nav-link" data-bs-toggle="tab" href="#messages-tab" role="tab" aria-selected="false">
-                                                Message
+                                                    Message
                                                 </a>
                                             </li>
                                             <li class="nav-item waves-effect waves-light">
                                                 <a class="nav-link" data-bs-toggle="tab" href="#messages-tab" role="tab" aria-selected="false">
-                                                Forum
+                                                    Forum
                                                 </a>
                                             </li>
                                         </ul>
@@ -492,9 +501,9 @@
 
                                             </div>
 
-<!--  new notif  code -->
+                                            <!--  new notif  code -->
                                             @elseif ($notification->type === 'App\Notifications\NewRequestNotification')
-                                            
+
                                             <!-- new request tools and seedlings -->
                                             <div class="d-flex">
 
@@ -516,12 +525,12 @@
 
                                             </div>
                                             @elseif ($notification->type === 'App\Notifications\WaitingForApprovalNotification')
-                                            
+
                                             <!-- Waiting for approval -->
-                                            
+
                                             <div class="d-flex">
 
-                                
+
                                                 <img src="../assets/images/Tools/waiting.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
 
                                                 <div class="flex-grow-1">
@@ -541,7 +550,7 @@
                                             @elseif ($notification->type === 'App\Notifications\ToolsAvailableNotification')
                                             <div class="d-flex">
 
-                                            <!-- available -->
+                                                <!-- available -->
 
                                                 <img src="../assets/images/Tools/available.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
 
@@ -562,7 +571,7 @@
                                             @elseif ($notification->type === 'App\Notifications\ToolsUnavailableNotification')
                                             <div class="d-flex">
 
-                                            <!-- unavailable -->
+                                                <!-- unavailable -->
 
                                                 <img src="../assets/images/Tools/na.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
 
@@ -581,9 +590,9 @@
 
                                             </div>
                                             @elseif ($notification->type === 'App\Notifications\RequestApprovedNotification')
-                                            
-                                          <!-- Approved -->
-                                            
+
+                                            <!-- Approved -->
+
                                             <div class="d-flex">
 
 
@@ -604,9 +613,9 @@
 
                                             </div>
                                             @elseif ($notification->type === 'App\Notifications\RequestDisapprovedNotification')
-                                            
-                                          <!-- disapproved -->
-                                            
+
+                                            <!-- disapproved -->
+
                                             <div class="d-flex">
 
 
@@ -627,9 +636,9 @@
 
                                             </div>
                                             @elseif ($notification->type === 'App\Notifications\ReadyToBePickedNotification')
-                                            
+
                                             <!-- ready for pick up  -->
-                                            
+
                                             <div class="d-flex">
 
 
@@ -650,7 +659,7 @@
 
                                             </div>
                                             @elseif ($notification->type === 'App\Notifications\PickedNotification')
-                                            
+
                                             <!-- already claim the item -->
                                             <div class="d-flex">
 
@@ -734,7 +743,7 @@
                                             @elseif ($notification->type === 'App\Notifications\ResubmitNotification')
 
                                             <!-- Resubmit -->
-                                           
+
                                             <div class="d-flex">
 
 
@@ -755,23 +764,23 @@
 
                                             </div>
 
- <!-- end of new notif  code -->
+                                            <!-- end of new notif  code -->
 
                                             @endif
                                             @if ($notification->type === 'App\Notifications\UserLoginNotification')
-                                                    <div class="d-flex">
-                                                        <img src="../assets/images/notif/user.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
-                                                        <div class="flex-grow-1">
-                                                            <h6 class="mt-0 mb-1 fs-13 fw-semibold">User Login</h6>
-                                                            <div class="fs-13">
-                                                                <p class="mb-1">{{ $notification->data['role_name'] }}  {{ $notification->data['lastname'] }} logged in.</p>
-                                                            </div>
-                                                            <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
-                                                                <span><i class="mdi mdi-clock-outline" id="notification-time"></i>{{ $notification->created_at->diffForHumans() }}</span>
-                                                            </p>
-                                                        </div>
+                                            <div class="d-flex">
+                                                <img src="../assets/images/notif/user.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                                <div class="flex-grow-1">
+                                                    <h6 class="mt-0 mb-1 fs-13 fw-semibold">User Login</h6>
+                                                    <div class="fs-13">
+                                                        <p class="mb-1">{{ $notification->data['role_name'] }} {{ $notification->data['lastname'] }} logged in.</p>
                                                     </div>
-                                                @endif
+                                                    <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+                                                        <span><i class="mdi mdi-clock-outline" id="notification-time"></i>{{ $notification->created_at->diffForHumans() }}</span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            @endif
                                         </div>
 
                                         @endforeach
@@ -784,29 +793,29 @@
 
 
                                     <div class="tab-pane fade py-2 ps-2" id="messages-tab" role="tabpanel" aria-labelledby="messages-tab">
-                                    @if(auth()->user() && auth()->user()->notifications)
-                                                @foreach (auth()->user()->notifications as $notification)
-                                                    <div class="text-reset notification-item d-block dropdown-item position-relative">
-                                                        @if ($notification->type === 'App\Notifications\NewMessageNotification')
-                                                            <!-- Your existing event notification code -->
-                                                            <div class="d-flex">
-                                                                <img src="../assets/images/notif/Message.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
-                                                                <div class="flex-grow-1">
-                                                                    <a href="/thread/1" class="stretched-link">
-                                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">New Message </h6>
-                                                                    </a>
-                                                                    <div class="fs-13 text-muted">
-                                                                        <p class="mb-1">You have received a new message.</p>
-                                                                    </div>
-                                                                    <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
-                                                                        <span><i class="mdi mdi-clock-outline" id="notification-time"></i>{{ $notification->created_at->diffForHumans() }}</span>
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                        @endif
+                                        @if(auth()->user() && auth()->user()->notifications)
+                                        @foreach (auth()->user()->notifications as $notification)
+                                        <div class="text-reset notification-item d-block dropdown-item position-relative">
+                                            @if ($notification->type === 'App\Notifications\NewMessageNotification')
+                                            <!-- Your existing event notification code -->
+                                            <div class="d-flex">
+                                                <img src="../assets/images/notif/Message.png" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                                <div class="flex-grow-1">
+                                                    <a href="/thread/1" class="stretched-link">
+                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">New Message </h6>
+                                                    </a>
+                                                    <div class="fs-13 text-muted">
+                                                        <p class="mb-1">You have received a new message.</p>
                                                     </div>
-                                                @endforeach
+                                                    <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+                                                        <span><i class="mdi mdi-clock-outline" id="notification-time"></i>{{ $notification->created_at->diffForHumans() }}</span>
+                                                    </p>
+                                                </div>
+                                            </div>
                                             @endif
+                                        </div>
+                                        @endforeach
+                                        @endif
                                     </div>
                                     <div class="tab-pane fade p-4" id="alerts-tab" role="tabpanel" aria-labelledby="alerts-tab"></div>
 
@@ -1302,7 +1311,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
-       
         function googleTranslateElementInit() {
             // Initialize Google Translate element
             new google.translate.TranslateElement({
@@ -1336,36 +1344,36 @@
         }
 
         $(document).ready(function() {
-        // Function to mark notifications as read
-        function markNotificationAsRead(notificationCount) {
-            if (notificationCount !== '0') {
-                $.get('/markAsRead');
+            // Function to mark notifications as read
+            function markNotificationAsRead(notificationCount) {
+                if (notificationCount !== '0') {
+                    $.get('/markAsRead');
+                }
             }
-        }
 
-        // Function to update badge color based on notification count
-        function updateBadgeColor() {
-            var notificationCount = $('#reload-section').text().trim();
-            if (notificationCount !== '0') {
-                $('#reload-section').addClass('bg-danger');
-            } else {
-                $('#reload-section').removeClass('bg-danger');
+            // Function to update badge color based on notification count
+            function updateBadgeColor() {
+                var notificationCount = $('#reload-section').text().trim();
+                if (notificationCount !== '0') {
+                    $('#reload-section').addClass('bg-danger');
+                } else {
+                    $('#reload-section').removeClass('bg-danger');
+                }
             }
-        }
 
-        // Click event handler for marking notifications as read
-        $('#markasread').on('click', function() {
-            $('#reload-section').load(location.href + ' #reload-section', function() {
-                updateBadgeColor();
+            // Click event handler for marking notifications as read
+            $('#markasread').on('click', function() {
+                $('#reload-section').load(location.href + ' #reload-section', function() {
+                    updateBadgeColor();
+                });
             });
+
+            // Call updateBadgeColor on document ready
+            updateBadgeColor();
+
+            // Scroll down to the bottom of the notification content
+            $('#notificationItemsTabContent').scrollTop($('#notificationItemsTabContent')[0].scrollHeight);
         });
-
-        // Call updateBadgeColor on document ready
-        updateBadgeColor();
-
-        // Scroll down to the bottom of the notification content
-        $('#notificationItemsTabContent').scrollTop($('#notificationItemsTabContent')[0].scrollHeight);
-    });
     </script>
     <script>
 
